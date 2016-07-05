@@ -129,6 +129,66 @@
 	<article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
 		<div class="meta">
 			<div class="date">
+				<time datetime="2016-07-05T10:36:45+08:00" itemprop="datePublished">2016/7/5</time>
+			</div>
+			<div class="tags">posted in 
+			
+			    <a class='category' href='tips.html'>tips</a>&nbsp;
+			 
+			</div>
+		</div>
+		<h1 class="title" itemprop="name"><a href="14676862053982.html" itemprop="url">
+		如何解决json字符串中包含制表符</a></h1>
+		<div class="entry-content" itemprop="articleBody">
+			
+			<p>错误信息:</p>
+
+<pre><code>Error Domain=NSCocoaErrorDomain Code=3840 &quot;The operation couldn’t be completed. (Cocoa error 3840.)&quot; (Unescaped control character around character 135.) UserInfo=0x170e79d00 {NSDebugDescription=Unescaped control character around character 135.}
+</code></pre>
+
+<p>如何处理:<br/>
+最关键的地方:</p>
+
+<pre><code>-(NSString *)removeUnescapedCharacter:(NSString *)inputStr
+{
+    NSCharacterSet *controlChars = [NSCharacterSet controlCharacterSet];//获取那些特殊字符
+    NSRange range = [inputStr rangeOfCharacterFromSet:controlChars];//寻找字符串中有没有这些特殊字符
+    if (range.location != NSNotFound)
+        {
+        NSMutableString *mutable = [NSMutableString stringWithString:inputStr];
+        while (range.location != NSNotFound)
+            {
+            [mutable deleteCharactersInRange:range];//去掉这些特殊字符
+            range = [mutable rangeOfCharacterFromSet:controlChars];
+            }
+        return mutable;
+        }
+    return inputStr;
+}
+
+</code></pre>
+
+<p>举例:</p>
+
+<pre><code>
+    NSString *responseString = [NSMutableString stringWithString:[request responseString]];
+    responseString =[self removeUnescapedCharacter:responseString];
+    NSData *jsonData = [responseString dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *error;
+    NSDictionary * dic = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&amp;error];
+    
+</code></pre>
+
+
+			
+			
+		</div>
+
+	</article>
+ 
+	<article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+		<div class="meta">
+			<div class="date">
 				<time datetime="2016-07-04T13:45:12+08:00" itemprop="datePublished">2016/7/4</time>
 			</div>
 			<div class="tags">posted in 

@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<title>  
 	  
-  	Archives - 
+  	如何解决json字符串中包含制表符 - 
   	
 	</title>
 
@@ -123,90 +123,52 @@
 		</div>	
 		<div class="mid-col">
 			<div class="mid-col-container"> <div id="content" class="inner">
-	<div itemscope itemtype="http://schema.org/Blog">
-		<section class="archives">
 
-		
-			 
-			  	<h1 style="top: auto;" class="year">2016</h1>
-			
-			
+	<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+		<h1 class="title" itemprop="name">如何解决json字符串中包含制表符</h1>
+		<div class="entry-content" itemprop="articleBody">
+			<p>错误信息:</p>
 
-				<article itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-					<div class="meta">
-						<span class="date"><time datetime="2016-07-05T10:36:45+08:00" itemprop="datePublished">7月 05</time></span>
-						<br>
-						 
-						<span class="tags">posted in 
-						
-						    <a class='category' href='tips.html'>tips</a>&nbsp;
-						 
-						</span>
-					    
-					</div>
-					<h1 class="title" itemprop="name"><a href="14676862053982.html">
-					如何解决json字符串中包含制表符</a></h1>
-				</article>
-	 	
-			
-			
+<pre><code>Error Domain=NSCocoaErrorDomain Code=3840 &quot;The operation couldn’t be completed. (Cocoa error 3840.)&quot; (Unescaped control character around character 135.) UserInfo=0x170e79d00 {NSDebugDescription=Unescaped control character around character 135.}
+</code></pre>
 
-				<article itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-					<div class="meta">
-						<span class="date"><time datetime="2016-07-04T13:45:12+08:00" itemprop="datePublished">7月 04</time></span>
-						<br>
-						 
-						<span class="tags">posted in 
-						
-						    <a class='category' href='tips.html'>tips</a>&nbsp;
-						 
-						</span>
-					    
-					</div>
-					<h1 class="title" itemprop="name"><a href="14676111126987.html">
-					Coding中检测系统授权状态，关闭提示用户去隐私设置中打开</a></h1>
-				</article>
-	 	
-			
-			
+<p>如何处理:<br/>
+最关键的地方:</p>
 
-				<article itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-					<div class="meta">
-						<span class="date"><time datetime="2016-07-04T13:36:10+08:00" itemprop="datePublished">7月 04</time></span>
-						<br>
-						 
-						<span class="tags">posted in 
-						
-						    <a class='category' href='tips.html'>tips</a>&nbsp;
-						 
-						</span>
-					    
-					</div>
-					<h1 class="title" itemprop="name"><a href="14676105703423.html">
-					忽略编译器警告</a></h1>
-				</article>
-	 	
-			
-			
+<pre><code>-(NSString *)removeUnescapedCharacter:(NSString *)inputStr
+{
+    NSCharacterSet *controlChars = [NSCharacterSet controlCharacterSet];//获取那些特殊字符
+    NSRange range = [inputStr rangeOfCharacterFromSet:controlChars];//寻找字符串中有没有这些特殊字符
+    if (range.location != NSNotFound)
+        {
+        NSMutableString *mutable = [NSMutableString stringWithString:inputStr];
+        while (range.location != NSNotFound)
+            {
+            [mutable deleteCharactersInRange:range];//去掉这些特殊字符
+            range = [mutable rangeOfCharacterFromSet:controlChars];
+            }
+        return mutable;
+        }
+    return inputStr;
+}
 
-				<article itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-					<div class="meta">
-						<span class="date"><time datetime="2016-07-04T13:29:59+08:00" itemprop="datePublished">7月 04</time></span>
-						<br>
-						 
-						<span class="tags">posted in 
-						
-						    <a class='category' href='tips.html'>tips</a>&nbsp;
-						 
-						</span>
-					    
-					</div>
-					<h1 class="title" itemprop="name"><a href="14676101998537.html">
-					百度坐标&火星坐标转换</a></h1>
-				</article>
-	 	
+</code></pre>
 
-	  </section>
+<p>举例:</p>
+
+<pre><code>
+    NSString *responseString = [NSMutableString stringWithString:[request responseString]];
+    responseString =[self removeUnescapedCharacter:responseString];
+    NSData *jsonData = [responseString dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *error;
+    NSDictionary * dic = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&amp;error];
+    
+</code></pre>
+
+		</div>
+	</article>
+	<div class="share-comment">
+	
 	</div>
 </div>        </div>
 			<footer id="footer" class="inner">Copyright &copy; 2014
