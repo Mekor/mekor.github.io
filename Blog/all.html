@@ -129,6 +129,49 @@
 	<article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
 		<div class="meta">
 			<div class="date">
+				<time datetime="2016-07-05T15:17:12+08:00" itemprop="datePublished">2016/7/5</time>
+			</div>
+			<div class="tags">posted in 
+			
+			    <a class='category' href='tips.html'>tips</a>&nbsp;
+			 
+			</div>
+		</div>
+		<h1 class="title" itemprop="name"><a href="14677030322532.html" itemprop="url">
+		键盘消失后又再次显示并立即消失问题</a></h1>
+		<div class="entry-content" itemprop="articleBody">
+			
+			<p>Keyboard will appeared automatically while displaying alertview or alertcontroller</p>
+
+<blockquote>
+<p><a href="http://stackoverflow.com/questions/30498972/keyboard-will-appeared-automatically-in-ios-8-3-while-displaying-alertview-or-al">stackoverflow</a></p>
+</blockquote>
+
+<p>我采用其中</p>
+
+<pre><code> [YOUR_TEXT resignFirstResponder];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+
+
+                    _alertVw = [[UIAlertView alloc] initWithTitle:@&quot;&quot; message:@&quot;message.&quot; delegate:self cancelButtonTitle:@&quot;Ok&quot; otherButtonTitles:nil, nil];
+
+                    [_alertVw show];
+});
+
+</code></pre>
+
+<p>这种方案解决的</p>
+
+
+			
+			
+		</div>
+
+	</article>
+ 
+	<article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+		<div class="meta">
+			<div class="date">
 				<time datetime="2016-07-05T14:21:33+08:00" itemprop="datePublished">2016/7/5</time>
 			</div>
 			<div class="tags">posted in 

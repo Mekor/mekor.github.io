@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<title>  
 	  
-  	Archives - 
+  	键盘消失后又再次显示并立即消失问题 - 
   	
 	</title>
 
@@ -123,147 +123,35 @@
 		</div>	
 		<div class="mid-col">
 			<div class="mid-col-container"> <div id="content" class="inner">
-	<div itemscope itemtype="http://schema.org/Blog">
-		<section class="archives">
 
-		
-			 
-			  	<h1 style="top: auto;" class="year">2016</h1>
-			
-			
+	<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+		<h1 class="title" itemprop="name">键盘消失后又再次显示并立即消失问题</h1>
+		<div class="entry-content" itemprop="articleBody">
+			<p>Keyboard will appeared automatically while displaying alertview or alertcontroller</p>
 
-				<article itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-					<div class="meta">
-						<span class="date"><time datetime="2016-07-05T15:17:12+08:00" itemprop="datePublished">7月 05</time></span>
-						<br>
-						 
-						<span class="tags">posted in 
-						
-						    <a class='category' href='tips.html'>tips</a>&nbsp;
-						 
-						</span>
-					    
-					</div>
-					<h1 class="title" itemprop="name"><a href="14677030322532.html">
-					键盘消失后又再次显示并立即消失问题</a></h1>
-				</article>
-	 	
-			
-			
+<blockquote>
+<p><a href="http://stackoverflow.com/questions/30498972/keyboard-will-appeared-automatically-in-ios-8-3-while-displaying-alertview-or-al">stackoverflow</a></p>
+</blockquote>
 
-				<article itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-					<div class="meta">
-						<span class="date"><time datetime="2016-07-05T14:21:33+08:00" itemprop="datePublished">7月 05</time></span>
-						<br>
-						 
-						<span class="tags">posted in 
-						
-						    <a class='category' href='tool.html'>tool</a>&nbsp;
-						 
-						</span>
-					    
-					</div>
-					<h1 class="title" itemprop="name"><a href="14676996936809.html">
-					为项目添加podspec</a></h1>
-				</article>
-	 	
-			
-			
+<p>我采用其中</p>
 
-				<article itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-					<div class="meta">
-						<span class="date"><time datetime="2016-07-05T10:51:34+08:00" itemprop="datePublished">7月 05</time></span>
-						<br>
-						 
-						<span class="tags">posted in 
-						
-						    <a class='category' href='tips.html'>tips</a>&nbsp;
-						 
-						</span>
-					    
-					</div>
-					<h1 class="title" itemprop="name"><a href="14676870942237.html">
-					AFN3.0 如何实现operation.responseString</a></h1>
-				</article>
-	 	
-			
-			
+<pre><code> [YOUR_TEXT resignFirstResponder];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 
-				<article itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-					<div class="meta">
-						<span class="date"><time datetime="2016-07-05T10:36:45+08:00" itemprop="datePublished">7月 05</time></span>
-						<br>
-						 
-						<span class="tags">posted in 
-						
-						    <a class='category' href='tips.html'>tips</a>&nbsp;
-						 
-						</span>
-					    
-					</div>
-					<h1 class="title" itemprop="name"><a href="14676862053982.html">
-					如何解决json字符串中包含制表符</a></h1>
-				</article>
-	 	
-			
-			
 
-				<article itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-					<div class="meta">
-						<span class="date"><time datetime="2016-07-04T13:45:12+08:00" itemprop="datePublished">7月 04</time></span>
-						<br>
-						 
-						<span class="tags">posted in 
-						
-						    <a class='category' href='tips.html'>tips</a>&nbsp;
-						 
-						</span>
-					    
-					</div>
-					<h1 class="title" itemprop="name"><a href="14676111126987.html">
-					Coding中检测系统授权状态，关闭提示用户去隐私设置中打开</a></h1>
-				</article>
-	 	
-			
-			
+                    _alertVw = [[UIAlertView alloc] initWithTitle:@&quot;&quot; message:@&quot;message.&quot; delegate:self cancelButtonTitle:@&quot;Ok&quot; otherButtonTitles:nil, nil];
 
-				<article itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-					<div class="meta">
-						<span class="date"><time datetime="2016-07-04T13:36:10+08:00" itemprop="datePublished">7月 04</time></span>
-						<br>
-						 
-						<span class="tags">posted in 
-						
-						    <a class='category' href='tips.html'>tips</a>&nbsp;
-						 
-						</span>
-					    
-					</div>
-					<h1 class="title" itemprop="name"><a href="14676105703423.html">
-					忽略编译器警告</a></h1>
-				</article>
-	 	
-			
-			
+                    [_alertVw show];
+});
 
-				<article itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-					<div class="meta">
-						<span class="date"><time datetime="2016-07-04T13:29:59+08:00" itemprop="datePublished">7月 04</time></span>
-						<br>
-						 
-						<span class="tags">posted in 
-						
-						    <a class='category' href='tips.html'>tips</a>&nbsp;
-						 
-						</span>
-					    
-					</div>
-					<h1 class="title" itemprop="name"><a href="14676101998537.html">
-					百度坐标&火星坐标转换</a></h1>
-				</article>
-	 	
+</code></pre>
 
-	  </section>
+<p>这种方案解决的</p>
+
+		</div>
+	</article>
+	<div class="share-comment">
+	
 	</div>
 </div>        </div>
 			<footer id="footer" class="inner">Copyright &copy; 2014
