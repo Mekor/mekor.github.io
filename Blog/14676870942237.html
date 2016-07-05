@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<title>  
 	  
-  	Archives - 
+  	AFN3.0 如何实现operation.responseString - 
   	
 	</title>
 
@@ -123,109 +123,56 @@
 		</div>	
 		<div class="mid-col">
 			<div class="mid-col-container"> <div id="content" class="inner">
-	<div itemscope itemtype="http://schema.org/Blog">
-		<section class="archives">
 
-		
-			 
-			  	<h1 style="top: auto;" class="year">2016</h1>
-			
-			
+	<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+		<h1 class="title" itemprop="name">AFN3.0 如何实现operation.responseString</h1>
+		<div class="entry-content" itemprop="articleBody">
+			<p>我在AFNetworking issues中的回答<a href="https://github.com/AFNetworking/AFNetworking/issues/3551">how to get response body in failure block?</a>还有<br/>
+<a href="https://github.com/AFNetworking/AFNetworking/issues/3534">How can i get responseString which at AFNetworking 3.0</a></p>
 
-				<article itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-					<div class="meta">
-						<span class="date"><time datetime="2016-07-05T10:51:34+08:00" itemprop="datePublished">7月 05</time></span>
-						<br>
-						 
-						<span class="tags">posted in 
-						
-						    <a class='category' href='tips.html'>tips</a>&nbsp;
-						 
-						</span>
-					    
-					</div>
-					<h1 class="title" itemprop="name"><a href="14676870942237.html">
-					AFN3.0 如何实现operation.responseString</a></h1>
-				</article>
-	 	
-			
-			
+<p>发现还有好多朋友还不清楚如何实现,其实很简单</p>
 
-				<article itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-					<div class="meta">
-						<span class="date"><time datetime="2016-07-05T10:36:45+08:00" itemprop="datePublished">7月 05</time></span>
-						<br>
-						 
-						<span class="tags">posted in 
-						
-						    <a class='category' href='tips.html'>tips</a>&nbsp;
-						 
-						</span>
-					    
-					</div>
-					<h1 class="title" itemprop="name"><a href="14676862053982.html">
-					如何解决json字符串中包含制表符</a></h1>
-				</article>
-	 	
-			
-			
+<pre><code>NSError *underError = error.userInfo[@&quot;NSUnderlyingError&quot;];
+NSData *responseData = underError.userInfo[@&quot;com.alamofire.serialization.response.error.data&quot;];
+</code></pre>
 
-				<article itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-					<div class="meta">
-						<span class="date"><time datetime="2016-07-04T13:45:12+08:00" itemprop="datePublished">7月 04</time></span>
-						<br>
-						 
-						<span class="tags">posted in 
-						
-						    <a class='category' href='tips.html'>tips</a>&nbsp;
-						 
-						</span>
-					    
-					</div>
-					<h1 class="title" itemprop="name"><a href="14676111126987.html">
-					Coding中检测系统授权状态，关闭提示用户去隐私设置中打开</a></h1>
-				</article>
-	 	
-			
-			
+<p>有小伙伴问我<code>com.alamofire.serialization.response.error.data</code>是怎么来的,原来都是AFJSONResponseSerializer解析修改成<code>manager.responseSerializer = [AFHTTPResponseSerializer serializer];</code>这样报错的时候就会看到控制台打印的信息里面有<code>com.alamofire.serialization.response.error.data</code>后面输出responseData...然后才有了上面的解决办法</p>
 
-				<article itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-					<div class="meta">
-						<span class="date"><time datetime="2016-07-04T13:36:10+08:00" itemprop="datePublished">7月 04</time></span>
-						<br>
-						 
-						<span class="tags">posted in 
-						
-						    <a class='category' href='tips.html'>tips</a>&nbsp;
-						 
-						</span>
-					    
-					</div>
-					<h1 class="title" itemprop="name"><a href="14676105703423.html">
-					忽略编译器警告</a></h1>
-				</article>
-	 	
-			
-			
+<p><strong>-----16.6.7更-----</strong><br/>
+作者回复中已经添加了相关操作<br/>
+在<code>AFURLResponseSerialization</code><br/>
+可以在 failure block 中添加下面代码获取responseString</p>
 
-				<article itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-					<div class="meta">
-						<span class="date"><time datetime="2016-07-04T13:29:59+08:00" itemprop="datePublished">7月 04</time></span>
-						<br>
-						 
-						<span class="tags">posted in 
-						
-						    <a class='category' href='tips.html'>tips</a>&nbsp;
-						 
-						</span>
-					    
-					</div>
-					<h1 class="title" itemprop="name"><a href="14676101998537.html">
-					百度坐标&火星坐标转换</a></h1>
-				</article>
-	 	
+<pre><code>NSData *data = error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
+</code></pre>
 
-	  </section>
+<p>具体代码:</p>
+
+<pre><code>/**
+ ## User info dictionary keys
+
+ These keys may exist in the user info dictionary, in addition to those defined for NSError.
+
+ - `NSString * const AFNetworkingOperationFailingURLResponseErrorKey`
+ - `NSString * const AFNetworkingOperationFailingURLResponseDataErrorKey`
+
+ ### Constants
+
+ `AFNetworkingOperationFailingURLResponseErrorKey`
+ The corresponding value is an `NSURLResponse` containing the response of the operation associated with an error. This key is only present in the `AFURLResponseSerializationErrorDomain`.
+
+ `AFNetworkingOperationFailingURLResponseDataErrorKey`
+ The corresponding value is an `NSData` containing the original data of the operation associated with an error. This key is only present in the `AFURLResponseSerializationErrorDomain`.
+ */
+FOUNDATION_EXPORT NSString * const AFNetworkingOperationFailingURLResponseErrorKey;
+
+FOUNDATION_EXPORT NSString * const AFNetworkingOperationFailingURLResponseDataErrorKey;
+</code></pre>
+
+		</div>
+	</article>
+	<div class="share-comment">
+	
 	</div>
 </div>        </div>
 			<footer id="footer" class="inner">Copyright &copy; 2014
