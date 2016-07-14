@@ -129,6 +129,41 @@
 	<article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
 		<div class="meta">
 			<div class="date">
+				<time datetime="2016-07-14T21:38:08+08:00" itemprop="datePublished">2016/7/14</time>
+			</div>
+			<div class="tags">posted in 
+			
+			    <a class='category' href='tips.html'>tips</a>&nbsp;
+			 
+			</div>
+		</div>
+		<h1 class="title" itemprop="name"><a href="14685034880390.html" itemprop="url">
+		Mac 下面Python 自动不全</a></h1>
+		<div class="entry-content" itemprop="articleBody">
+			
+			<p>网上有很多tab自动补全的脚本,但是在Mac上面都不能正常的运行,在<a href="http://stackoverflow.com/questions/7116038/python-tab-completion-mac-osx-10-7-lion">stackoverflow</a>找到一个能用的.</p>
+
+<pre><code>import readline
+import rlcompleter
+if &#39;libedit&#39; in readline.__doc__:
+    readline.parse_and_bind(&quot;bind ^I rl_complete&quot;)
+else:
+    readline.parse_and_bind(&quot;tab: complete&quot;)
+
+</code></pre>
+
+<p>进入Python后直接import tab 就可以了</p>
+
+
+			
+			
+		</div>
+
+	</article>
+ 
+	<article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+		<div class="meta">
+			<div class="date">
 				<time datetime="2016-07-11T20:39:09+08:00" itemprop="datePublished">2016/7/11</time>
 			</div>
 			<div class="tags">posted in 
