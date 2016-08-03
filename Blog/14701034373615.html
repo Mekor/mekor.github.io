@@ -1,0 +1,318 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>  
+	  
+  	网络切面化处理 - 
+  	
+	</title>
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="atom.xml" rel="alternate" title="" type="application/atom+xml">
+
+	<link href="asset/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="asset/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<script src="asset/javascripts/jquery.min.js"></script>
+	<script src="asset/highlightjs/highlight.pack.js"></script>
+	<link href="asset/highlightjs/styles/solarized_dark.css" media="screen, projection" rel="stylesheet" type="text/css">
+<script>hljs.initHighlightingOnLoad();</script>
+
+	<!--[if lt IE 9]><script src="asset/javascripts/html5.js"></script><![endif]-->
+	<!-- <link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'> -->
+	<style type="text/css">
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Nunito-Light'), url(asset/font/1TiHc9yag0wq3lDO9cw0voX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Nunito-Regular'), url(asset/font/6TbRXKWJjpj6V2v_WyRbMX-_kf6ByYO6CLYdB4HQE-Y.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Nunito-Bold'), url(asset/font/TttUCfJ272GBgSKaOaD7KoX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+	</style>
+	
+	<style type="text/css">
+	.container .left-col{ opacity: 1;}
+	#pagenavi a{ font-size: 1.3em;}
+	#pagenavi .next:before{ top: 3px;}
+	#pagenavi .prev:before{ top: 3px;}
+	.container .mid-col .mid-col-container #content .archives .title{ font-size: 1.5em;}
+	.container .mid-col .mid-col-container #content article{ padding: 15px 0px;}
+	#header .subtitle {
+		line-height: 1.2em;
+		padding-top: 8px;
+	}
+	article pre{ background: none; border: none; padding: 0;}
+	article .entry-content{text-align: left;}
+	.share-comment{ padding: 25px 0px; clear: both;}
+	hr{ margin: 20px 0px;border: 0; border-top:solid 1px #ddd;}
+	</style>
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+				<header id="header" class="inner">
+				 
+				 	<div class="profilepic">
+						<img src="https://raw.githubusercontent.com/Mekor/mekor.github.io/master/Blog/asset/icon.jpg" style="width:160px;">
+					</div>
+            	
+					
+					<h1><a href="index.html"></a></h1>
+					<p class="subtitle"></p>
+					<nav id="main-nav">
+						<ul class="main">
+						
+						  <li id=""><a target="self" href="index.html">Home</a></li>
+						
+						  <li id=""><a target="_self" href="archives.html">Archives</a></li>
+						
+						</ul>
+					</nav>
+
+					<nav id="sub-nav">
+						<div class="social">
+
+
+
+
+
+
+
+
+
+
+
+
+
+								
+
+								<a class="rss" href="atom.xml" title="RSS">RSS</a>
+							
+						</div>
+					</nav>
+				</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			<div class="mid-col-container"> <div id="content" class="inner">
+
+	<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+		<h1 class="title" itemprop="name">网络切面化处理</h1>
+		<div class="entry-content" itemprop="articleBody">
+			<h2 id="toc_0">什么是面向切片编程</h2>
+
+<blockquote>
+<p>看考&lt;禅与Objective-C 编码艺术&gt;第11章  面向切面编程</p>
+</blockquote>
+
+<p>Aspect Oriented Programming (AOP,面向切面编程)在OC中意味着可以通过运行时的特性来为切面添加合适的代码.简单说可以添加类似行为:</p>
+
+<ul>
+<li>在类的特定方法调用前运行特定的代码</li>
+<li>在类的特定方法调用后运行特定的代码</li>
+<li>增加代码来代替原来的类的方法的实现</li>
+</ul>
+
+<h2 id="toc_1">网络怎么切面</h2>
+
+<p>上面已经说了什么是面向切面编程,那么网络中怎么切面?最主要的就是找到合适的方法,然后在它的前后都切一刀.由于项目中使用的是<a href="https://github.com/AFNetworking">AFNetworking</a>所以适合我们的特定方法应该是进行网络请求的关键代码,如下:</p>
+
+<pre><code>/**
+ Creates an `NSURLSessionDataTask` with the specified request.
+
+ @param request The HTTP request for the request.
+ @param completionHandler A block object to be executed when the task finishes. This block has no return value and takes three arguments: the server response, the response object created by that serializer, and the error that occurred, if any.
+ */
+- (NSURLSessionDataTask *)dataTaskWithRequest:(NSURLRequest *)request
+                            completionHandler:(nullable void (^)(NSURLResponse *response, id _Nullable responseObject,  NSError * _Nullable error))completionHandler;
+</code></pre>
+
+<p>当然,如果需要上传下载进度的话</p>
+
+<pre><code>/**
+ Creates an `NSURLSessionDataTask` with the specified request.
+
+ @param request The HTTP request for the request.
+ @param uploadProgressBlock A block object to be executed when the upload progress is updated. Note this block is called on the session queue, not the main queue.
+ @param downloadProgressBlock A block object to be executed when the download progress is updated. Note this block is called on the session queue, not the main queue.
+ @param completionHandler A block object to be executed when the task finishes. This block has no return value and takes three arguments: the server response, the response object created by that serializer, and the error that occurred, if any.
+ */
+- (NSURLSessionDataTask *)dataTaskWithRequest:(NSURLRequest *)request
+                               uploadProgress:(nullable void (^)(NSProgress *uploadProgress))uploadProgressBlock
+                             downloadProgress:(nullable void (^)(NSProgress *downloadProgress))downloadProgressBlock
+                            completionHandler:(nullable void (^)(NSURLResponse *response, id _Nullable responseObject,  NSError * _Nullable error))completionHandler;
+</code></pre>
+
+<p>这个应该是你的选择,这里只说下网络请求,所以就以第一种为例了.</p>
+
+<p>我们能在网络请求之前与之后做些什么呢?</p>
+
+<ul>
+<li>操作网络请求之前(取消,判断是否重复...)</li>
+<li>操作网络请求之后(缓存,错误处理...)</li>
+<li>...</li>
+</ul>
+
+<h3 id="toc_2">进行网络请求核心代码</h3>
+
+<pre><code>- (void)addRequest:(NSURLRequest *)request {
+    NSLog(@&quot;\n==================================\n\nRequest Start: \n\n &quot;
+          @&quot;%@\n\n==================================&quot;,
+          request.URL);
+    
+    // 跑到这里的block的时候，就已经是主线程了。
+    __block NSURLSessionDataTask *dataTask = nil;
+    dataTask = [_manager
+                dataTaskWithRequest:request
+                completionHandler:^(NSURLResponse *_Nonnull response,
+                                    id _Nullable responseObject,
+                                    NSError *_Nullable error) {
+                    NSNumber *requestID = @([dataTask taskIdentifier]);
+                    [_requestsRecord removeObjectForKey:requestID];
+                    NSData *responseData = responseObject;
+                    NSString *responseString =
+                    [[NSString alloc] initWithData:responseData
+                                          encoding:NSUTF8StringEncoding];
+                    
+                    NSLog(@&quot;responseString:%@&quot;,responseString);
+                    if (error) {
+                        NSLog(@&quot;error: %@&quot;,error);
+                        
+#warning TODO: 失败回掉
+                        NSLog(@&quot;这里应该进行失败回掉&quot;);
+                    } else {
+                        // 检查http response是否成立。
+#warning TODO: 成功回掉
+                        NSLog(@&quot;这里应该进行成功回掉&quot;);
+                    }
+                }];
+    // 添加到请求列表
+    NSNumber *requestId = @([dataTask taskIdentifier]);
+    _requestsRecord[requestId] = dataTask;
+    [dataTask resume];
+}
+</code></pre>
+
+<h3 id="toc_3">创建NSMutableURLRequest</h3>
+
+<p>需要NSMutableURLRequest参数,所以创建一个</p>
+
+<pre><code>    AFHTTPRequestSerializer *httpRequestSerializer = [AFHTTPRequestSerializer serializer];
+    httpRequestSerializer.timeoutInterval = 20.0f;
+    httpRequestSerializer.cachePolicy = NSURLRequestUseProtocolCachePolicy;
+    /// 网络请求头部插入一些内容
+    [httpRequestSerializer setValue:[[NSUUID UUID] UUIDString] forHTTPHeaderField:@&quot;xxxxxxxx&quot;];
+    NSMutableURLRequest *request = [httpRequestSerializer requestWithMethod:@&quot;GET&quot;
+                                                                  URLString:@&quot;http://www.baidu.com&quot;
+                                                                      parameters:nil
+                                                                           error:NULL];
+</code></pre>
+
+<p>可以看到,上面注释的地方说明我们可以在这里搞事情啊,这个稍后会用到</p>
+
+<p>对了,不要忘记设置<code>info.plist</code></p>
+
+<pre><code>&lt;key&gt;NSAppTransportSecurity&lt;/key&gt;
+    &lt;dict&gt;
+        &lt;key&gt;NSAllowsArbitraryLoads&lt;/key&gt;
+        &lt;true/&gt;
+    &lt;/dict&gt;
+
+</code></pre>
+
+<p>创建request然后请求,<code>[[MKNetWorkAgent sharedInstance] addRequest:request];</code>结果如下,百度HTML页面去除了部分代码:</p>
+
+<pre><code>2016-08-02 15:36:13.721 NetWorkDemo[56429:4922365] 
+==================================
+
+Request Start: 
+
+ http://www.baidu.com
+
+==================================
+2016-08-02 15:36:13.838 NetWorkDemo[56429:4922365] responseString:&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;!--STATUS OK--&gt;
+    &lt;head&gt;
+        &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;
+        &lt;title&gt;百度一下,你就知道&lt;/title&gt;
+        &lt;meta http-equiv=&quot;Cache-control&quot; content=&quot;no-cache&quot;&gt;
+        &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no&quot;&gt;
+        &lt;style type=&quot;text/css&quot;&gt;
+            /*去掉css样式*/
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div class=&quot;wrap&quot;&gt;
+            &lt;div class=&quot;lg&quot;&gt;
+                &lt;img src=&quot;//m.baidu.com/static/index/u.png&quot; alt=&quot;百度首页&quot;&gt;
+            &lt;/div&gt;
+            &lt;form action=&quot;//m.baidu.com/s?&quot; method=&quot;get&quot;&gt;
+                &lt;div class=&quot;word-wrap&quot;&gt;
+                    &lt;input type=&quot;text&quot; name=&quot;word&quot; maxlength=&quot;64&quot; size=&quot;17&quot; id=&quot;word&quot;&gt;
+                &lt;/div&gt;
+                &lt;input type=&quot;submit&quot; value=&quot;百度一下&quot; class=&quot;bn&quot;&gt;
+            &lt;/form&gt;
+            &lt;div class=&quot;d&quot;&gt;
+                &lt;!-- 去掉了尾部 --&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+2016-08-02 15:36:13.839 NetWorkDemo[56429:4922365] 这里应该进行成功回掉
+</code></pre>
+
+<p>这说明已经能够进行网络请求了.</p>
+
+<p>........... 未完.............</p>
+
+		</div>
+	</article>
+	<div class="share-comment">
+	 
+
+	  
+
+	  
+
+	</div>
+</div>        </div>
+			<footer id="footer" class="inner">Copyright &copy; 2014
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a> &nbsp;&nbsp; 
+Theme by <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>
+      </footer>
+		</div>
+	</div>
+
+  
+    
+
+
+
+</body>
+</html>
