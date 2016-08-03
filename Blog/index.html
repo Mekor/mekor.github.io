@@ -301,7 +301,48 @@ Request Start:
 
 <p>这说明已经能够进行网络请求了.</p>
 
-<p>........... 未完.............</p>
+<p>........... 2016.8.3更新.............</p>
+
+<blockquote>
+<p>随着项目的增长,有些接口我们可能需要在不同的地方调用,这是需求把请求单独拿出来.在这里我们创建一个MKBaseRequest,所有的接口都继承自base,这样就能够满足我们的需求了.</p>
+</blockquote>
+
+<p>需求出来了,怎么解决呢?<br/>
+首先修改进行网络请求核心代码为<code>- (void)addRequest:(MKBaseRequest *)request</code>,MKBaseRequest里面必须要提供可供访问的url,因为<code>NSURLRequest</code>的创建需要url.</p>
+
+<p>在<code>MKBaseRequest</code>中添加:</p>
+
+<pre><code>/// 请求的URL
+- (NSString *)requestUrl;
+</code></pre>
+
+<p>使用方法而不是属性的原因就是为了方便子类的重写.<code>- (void)addRequest:(MKBaseRequest *)request</code>实现中由于没有<code>NSURLRequest</code>所以需要根据<code>MKBaseRequest</code>提供的url进行创建,添加代码:</p>
+
+<pre><code>NSURLRequest *requestTest = [NSURLRequest requestWithURL:[NSURL URLWithString:[request requestUrl]]];
+</code></pre>
+
+<p>同理,我们还可以在<code>MKBaseRequest</code>中添加其他限制项,例如:</p>
+
+<pre><code>/// 请求的BaseURL
+- (NSString *)baseUrl;
+
+/// 请求的游戏URL
+- (NSString *)gameUrl;
+
+/// 请求的连接超时时间，默认为60秒
+- (NSTimeInterval)requestTimeoutInterval;
+
+/// 请求的参数列表
+- (nullable id)requestArgument;
+
+/// Http请求的方法
+- (MKRequestMethod)requestMethod;
+
+/// 是否使用game的host地址
+- (BOOL)useGame;
+</code></pre>
+
+<p>写到这里,如果我们很多接口都设置类似baseUrl之类的可以提取出来还有些必须的参数,在app进入的时候一起设置.这时我们需要创建<code>MKNetworkConfig</code>来管理这些内容.</p>
 
 
 			
