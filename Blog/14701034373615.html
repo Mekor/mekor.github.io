@@ -332,6 +332,47 @@ Request Start:
 
 <p>写到这里,如果我们很多接口都设置类似baseUrl之类的可以提取出来还有些必须的参数,在app进入的时候一起设置.这时我们需要创建<code>MKNetworkConfig</code>来管理这些内容.</p>
 
+<p>........... 2016.8.4更新.............</p>
+
+<h3 id="toc_4">本地模拟登陆</h3>
+
+<p>做个简单的模拟登陆登陆页面:</p>
+
+<pre><code>&lt;form action=&quot;welcome.php&quot; method=&quot;get&quot;&gt;&lt;br&gt;
+    Name: &lt;input type=&quot;text&quot; name=&quot;name&quot; /&gt;&lt;br&gt;
+    PWD:  &lt;input type=&quot;text&quot; name=&quot;pwd&quot; /&gt;&lt;br&gt;
+    &lt;input type=&quot;submit&quot; /&gt; &lt;/form&gt;
+</code></pre>
+
+<p>welecome.php中简单的输出刚刚输入的内容.</p>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Citynight&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+您输入的账号是:
+
+&lt;?php echo $_GET[&quot;name&quot;]; ?&gt;
+.&lt;br /&gt;
+
+密码是:
+
+&lt;?php echo $_GET[&quot;pwd&quot;]; ?&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>登陆界面的样子:<br/>
+<img src="media/14701034373615/14703212142675.jpg" alt=""/></p>
+
+<p>点击提交后:<br/>
+<img src="media/14701034373615/14703212477389.jpg" alt=""/><br/>
+已经能够得到正确的结果了.</p>
+
 		</div>
 	</article>
 	<div class="share-comment">
