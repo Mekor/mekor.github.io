@@ -139,7 +139,7 @@
 			<h2 id="toc_0">什么是面向切片编程</h2>
 
 <blockquote>
-<p>看考&lt;禅与Objective-C 编码艺术&gt;第11章  面向切面编程</p>
+<p>看考&lt;禅与Objective-C 编码艺术&gt;第11章  面向切面编程.  本文中技术部分参考<a href="https://github.com/yuantiku/YTKNetwork">YTKNetwork</a>代码实现,根据个人理解修改部分功能实现,这篇文章主要就是进行思路的整理,一步一步制造自己想要的网络请求轮子.</p>
 </blockquote>
 
 <p>Aspect Oriented Programming (AOP,面向切面编程)在OC中意味着可以通过运行时的特性来为切面添加合适的代码.简单说可以添加类似行为:</p>
@@ -384,6 +384,43 @@ Request Start:
 <p>点击提交后:<br/>
 <img src="media/14701034373615/14703212477389.jpg" alt=""/><br/>
 已经能够得到正确的结果了.</p>
+
+<p>既然网页端没有问题,那么就修改成返回json格式数据给客户端</p>
+
+<pre><code>&lt;?php
+$map = array(
+    &#39;name&#39; =&gt; $_GET[&quot;name&quot;],
+    &#39;pwd&#39; =&gt; $_GET[&quot;pwd&quot;]
+);
+echo json_encode($map);
+</code></pre>
+
+<p>测试已经能够正常返回了:<br/>
+<img src="media/14701034373615/14703247878224.jpg" alt=""/></p>
+
+<h3 id="toc_5">怎样传递参数</h3>
+
+<pre><code>/// 请求的参数列表
+- (nullable id)requestArgument;
+</code></pre>
+
+<p>上面是原先设置的传递参数的方式,我感觉这样做不是很方便,比如需要传递的参数是变化的,可能就需要init的时候添加参数,这时如果参数的数量还比较多可能就比较麻烦了.<br/>
+我现在采用的是通过代理的方法实现.</p>
+
+<pre><code>/// 数据源:获得所需要的参数
+@protocol MKRequestParamSource &lt;NSObject&gt;
+@required
+- (NSDictionary *)paramsForRequest:(MKBaseRequest *)request;
+@end
+</code></pre>
+
+<p>我们创建的时候如果需要参数必须设置代理,并实现</p>
+
+<pre><code>/// request paramSource
+@property (nonatomic, weak, nullable) id&lt;MKRequestParamSource&gt; paramSource;
+</code></pre>
+
+<p>这样做事模仿数据源的代理方法,比较容易理解.</p>
 
 
 			
