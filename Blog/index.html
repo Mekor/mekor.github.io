@@ -139,7 +139,7 @@
 			<h2 id="toc_0">什么是面向切片编程</h2>
 
 <blockquote>
-<p>看考&lt;禅与Objective-C 编码艺术&gt;第11章  面向切面编程.  本文中技术部分参考<a href="https://github.com/yuantiku/YTKNetwork">YTKNetwork</a>代码实现,根据个人理解修改部分功能实现,这篇文章主要就是进行思路的整理,一步一步制造自己想要的网络请求轮子.</p>
+<p>看考&lt;禅与Objective-C 编码艺术&gt;第11章  面向切面编程.  本文中技术部分参考<a href="https://github.com/yuantiku/YTKNetwork">YTKNetwork</a>和<a href="https://github.com/casatwy/RTNetworking">RTNetworking</a>代码实现,拜读了<a href="http://casatwy.com/iosying-yong-jia-gou-tan-wang-luo-ceng-she-ji-fang-an.html">iOS应用架构谈 网络层设计方案</a>和猿题库的两篇使用介绍并根据根据个人理解修改部分功能实现,这篇文章主要就是进行思路的整理,一步一步制造自己想要的网络请求轮子.</p>
 </blockquote>
 
 <p>Aspect Oriented Programming (AOP,面向切面编程)在OC中意味着可以通过运行时的特性来为切面添加合适的代码.简单说可以添加类似行为:</p>
@@ -326,8 +326,8 @@ Request Start:
 <pre><code>/// 请求的BaseURL
 - (NSString *)baseUrl;
 
-/// 请求的游戏URL
-- (NSString *)gameUrl;
+/// 请求的cdnURL
+- (NSString *)cdnUrl;
 
 /// 请求的连接超时时间，默认为60秒
 - (NSTimeInterval)requestTimeoutInterval;
@@ -338,8 +338,8 @@ Request Start:
 /// Http请求的方法
 - (MKRequestMethod)requestMethod;
 
-/// 是否使用game的host地址
-- (BOOL)useGame;
+/// 是否使用cdn的host地址
+- (BOOL)useCDN;
 </code></pre>
 
 <p>写到这里,如果我们很多接口都设置类似baseUrl之类的可以提取出来还有些必须的参数,在app进入的时候一起设置.这时我们需要创建<code>MKNetworkConfig</code>来管理这些内容.</p>
@@ -420,7 +420,7 @@ echo json_encode($map);
 @property (nonatomic, weak, nullable) id&lt;MKRequestParamSource&gt; paramSource;
 </code></pre>
 
-<p>这样做事模仿数据源的代理方法,比较容易理解.</p>
+<p>这样做是模仿数据源的代理方法,比较容易理解.</p>
 
 
 			
