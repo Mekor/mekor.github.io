@@ -126,6 +126,45 @@
 	<article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
 		<div class="meta">
 			<div class="date">
+				<time datetime="2016-08-08T17:11:04+08:00" itemprop="datePublished">2016/8/8</time>
+			</div>
+			
+			 
+			
+		</div>
+		<h1 class="title" itemprop="name"><a href="14706474647013.html" itemprop="url">
+		collectionView遇到的问题</a></h1>
+		<div class="entry-content" itemprop="articleBody">
+			
+			<p>如果在自定义layout的时候调用 </p>
+
+<pre><code>- (CGPoint)targetContentOffsetForProposedContentOffset:(CGPoint)proposedContentOffset withScrollingVelocity:(CGPoint)velocity
+</code></pre>
+
+<p>实现吸附效果,则有可能导致</p>
+
+<pre><code>-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+</code></pre>
+
+<p>不执行...</p>
+
+<p>如果把吸附效果写在</p>
+
+<pre><code>-(void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
+</code></pre>
+
+<p>则没有问题...暂时没有找到合适的解决办法...</p>
+
+
+			
+			
+		</div>
+
+	</article>
+ 
+	<article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+		<div class="meta">
+			<div class="date">
 				<time datetime="2016-08-02T10:03:57+08:00" itemprop="datePublished">2016/8/2</time>
 			</div>
 			
