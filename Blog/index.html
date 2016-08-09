@@ -126,11 +126,45 @@
 	<article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
 		<div class="meta">
 			<div class="date">
+				<time datetime="2016-08-09T14:08:08+08:00" itemprop="datePublished">2016/8/9</time>
+			</div>
+			<div class="tags">posted in 
+			
+			    <a class='category' href='tips.html'>tips</a>&nbsp;
+			 
+			</div>
+		</div>
+		<h1 class="title" itemprop="name"><a href="14707228889696.html" itemprop="url">
+		scrollowView 添加tableView中遇到的位置不准确问题</a></h1>
+		<div class="entry-content" itemprop="articleBody">
+			
+			<p><img src="media/14707228889696/14707230189128.jpg" alt=""/><br/>
+添加tableView的时候tableView的<code>frame</code>是scrollowView的<code>bounds</code><br/>
+<img src="media/14707228889696/Snip20160809_5.png" alt="Snip20160809_5"/><br/>
+显示的时候tableView和scrollowView中间相差64.</p>
+
+<p>解决办法:</p>
+
+<pre><code>self.edgesForExtendedLayout = UIRectEdgeNone;
+</code></pre>
+
+
+			
+			
+		</div>
+
+	</article>
+ 
+	<article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+		<div class="meta">
+			<div class="date">
 				<time datetime="2016-08-08T17:11:04+08:00" itemprop="datePublished">2016/8/8</time>
 			</div>
+			<div class="tags">posted in 
 			
+			    <a class='category' href='tips.html'>tips</a>&nbsp;
 			 
-			
+			</div>
 		</div>
 		<h1 class="title" itemprop="name"><a href="14706474647013.html" itemprop="url">
 		collectionView遇到的问题</a></h1>
@@ -153,7 +187,7 @@
 <pre><code>-(void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
 </code></pre>
 
-<p>则没有问题...暂时没有找到合适的解决办法...</p>
+<p>则没有问题...暂时没有找到比较好的解决办法...</p>
 
 
 			
