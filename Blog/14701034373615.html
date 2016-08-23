@@ -410,6 +410,28 @@ echo json_encode($map);
 
 <p>这样做是模仿数据源的代理方法,比较容易理解.</p>
 
+<blockquote>
+<p>2016.8.23更</p>
+
+<h3 id="toc_6">如何进行分页</h3>
+
+<p>开发中我们经常遇到需要上拉加载更多的需求,参数中的page是动态变化的.这个轮子也对此作了处理,如下:</p>
+</blockquote>
+
+<pre><code>/// MKNetWorkAgent中添加带参数的网络请求
+- (void)addRequest:(MKBaseRequest *)baseRequest WithParams:(nullable id)params;
+</code></pre>
+
+<pre><code>//MKBaseRequest 中添加方法用于获取当前状态
+/* 子类重写必须写 super 否则 isLoading 状态不会更改*/
+- (void)beforePerformRequestState;
+/// success: 判断成功还是失败
+- (void)afterPerformResponseState:(BOOL)success;
+</code></pre>
+
+<p>具体使用:<br/>
+<img src="media/14701034373615/14719456603156.jpg" alt=""/></p>
+
 		</div>
 	</article>
 	<div class="share-comment">
