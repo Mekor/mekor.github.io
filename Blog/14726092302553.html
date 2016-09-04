@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<title>  
 	  
-  	[转]iOS MJ讲解面试题 - 
+  	转载iOS MJ讲解面试题,并修改里面错误 - 
   	
 	</title>
 
@@ -122,7 +122,7 @@
 			<div class="mid-col-container"> <div id="content" class="inner">
 
 	<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-		<h1 class="title" itemprop="name">[转]iOS MJ讲解面试题</h1>
+		<h1 class="title" itemprop="name">转载iOS MJ讲解面试题,并修改里面错误</h1>
 		<div class="entry-content" itemprop="articleBody">
 			<blockquote>
 <p>原文链接:<a href="http://www.jianshu.com/p/9050e523e278">http://www.jianshu.com/p/9050e523e278</a></p>
@@ -133,7 +133,7 @@
 <ul>
 <li>1.KVO是基于runtime机制实现的</li>
 <li>2.当某个类的对象第一次被观察时，系统就会在运行期动态地创建该类的一个派生类，在这个派生类中重写基类中任何被观察属性的setter方法。
-派生类在被重写的setter方法实现真正的通知机制（Person-&gt;NSKVONotifying Person）</li>
+派生类在被重写的setter方法实现真正的通知机制（Person-&gt;NSKVONotifying_Person）</li>
 </ul>
 
 <h4 id="toc_1">2、是否可以把比较耗时的操作放在NSNotificationCenter中</h4>
@@ -182,9 +182,9 @@
 <li>平时编写的OC代码，在程序 运行过程中，其实最终都转换成了runtime的C语言代码，runtime算是OC的幕后工作者
 举例：
 OC:
-[MJPerson alloc]init];
-runyime：
-objc_msgSend(objc_msgSend(&quot;MJPerson&quot;, &quot;alloc&quot;), &quot;init&quot;)</li>
+<code>[MJPerson alloc]init];</code>
+runtime：
+<code>objc_msgSend(objc_msgSend(&quot;MJPerson&quot;, &quot;alloc&quot;), &quot;init&quot;)</code></li>
 </ul>
 
 <h5 id="toc_9">2.用过么？怎么用？</h5>
@@ -208,8 +208,8 @@ objc_msgSend(objc_msgSend(&quot;MJPerson&quot;, &quot;alloc&quot;), &quot;init&q
 <li><p>2.相关应用</p>
 
 <ul>
-<li>NSCoding（归档和解档，利用runtime遍历模型对象的所以属性）</li>
-<li>字典 -&gt;模型 （利用runtime遍历模型对象的所以属性，根据属性名从字典中取出对应的值，设置到模型的属性上）</li>
+<li>NSCoding（归档和解档，利用runtime遍历模型对象的所有属性）</li>
+<li>字典 -&gt;模型 （利用runtime遍历模型对象的所有属性，根据属性名从字典中取出对应的值，设置到模型的属性上）</li>
 <li>KVO（利用runtime动态产生一个类）</li>
 <li>用于封装框架（想怎么改，就怎么改）</li>
 </ul></li>
