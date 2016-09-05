@@ -188,7 +188,7 @@ Student中写个text方法,然后打印下这两个隐藏参数.<br/>
 
 <h2 id="toc_2">动态添加方法</h2>
 
-<p>上面说了一些貌似和runtime没有什么关系,那么根据上面所说的方法说下动态添加方法.</p>
+<p>上面说了一些貌似和runtime没有什么关系,runtime基础知识类似类的构成,对象的构成这里不再介绍,可以自己去看定义.当然也可以去<a href="http://opensource.apple.com/source/objc4/objc4-680/runtime/">苹果的开源网站</a>查看,如果网站不方便可以去苹果的<a href="https://github.com/opensource-apple/objc4">github</a>下载开源代码研究...  ...继续...那么根据上面所说的方法说下动态添加方法.</p>
 
 <blockquote>
 <p>思考一下,咱们new项目中将采用路由模式进行页面跳转,从网页跳转进入app调用一个方法,一般情况下都是移动端和后台协议好的内容,这样跳转不会出现问题.但是如果后台写错了或者传输中出现问题导致url中包含的方法名不是规定的方法名.这时怎么办?</p>
@@ -212,17 +212,34 @@ Student中写个text方法,然后打印下这两个隐藏参数.<br/>
 
 <p>怎么忽略编译器警告已经分享过,可以参考:<a href="http://www.citynight.cn/Blog/14676105703423.html">http://www.citynight.cn/Blog/14676105703423.html</a></p>
 
-<p>怎么动态添加方法呢?<br/>
-<img src="media/14727863232294/14729983827897.jpg" alt=""/><br/>
+<h3 id="toc_3">怎么动态添加方法呢?</h3>
+
+<p><img src="media/14727863232294/14729983827897.jpg" alt=""/><br/>
 上面是动态添加对象方法的例子,动态添加类方法也是一样的<code>+(BOOL)resolveClassMethod:(SEL)sel</code><br/>
-<strong>注意</strong>上面函数类型,有人可能好奇这块为什么写成&quot;v@:&quot;  ?先看文档:<br/>
+<strong>注意</strong>上面函数类型,有人可能好奇这块为什么写成&quot;v@:&quot;  ?参见:函数类型</p>
+
+<h3 id="toc_4">关于函数类型</h3>
+
+<p>先看文档:<br/>
 <img src="media/14727863232294/14730056768742.jpg" alt=""/><br/>
 查看<code>Objective-C type encodings</code> <img src="media/14727863232294/14730058881001.jpg" alt=""/><br/>
 所以上面void eat(...)应该表述成 <code>&quot;v@:&quot;</code></p>
 
-<p><strong>补充:</strong> 动态调用方法系统默认提供一到两个参数的方法调用,这里封装了一个无限参数的方法调用.<a href="https://github.com/Mekor/NSObject-SEL">NSObject-SEL****</a></p>
+<p><strong>补充:</strong> 动态调用方法系统默认提供一到两个参数的方法调用, <del>这里封装了一个无限参数的方法调用.<a href="https://github.com/Mekor/NSObject-SEL">NSObject-SEL****</a></del>  我把一些扩展进行了总结,还不完善,地址<a href="https://github.com/Mekor/MKExtension">MKExtension</a></p>
 
-<h2 id="toc_3">方法交换(Method Swizzling:传说中的黑魔法)</h2>
+<h3 id="toc_5">关于IMP(函数指针)</h3>
+
+<pre><code class="language-objc">/// A pointer to the function of a method implementation. 
+#if !OBJC_OLD_DISPATCH_PROTOTYPES
+typedef void (*IMP)(void /* id, SEL, ... */ ); 
+#else
+typedef id (*IMP)(id, SEL, ...); 
+#endif
+</code></pre>
+
+<p>当前版本Xcode如果使用IMP的话,默认是选择第一个也就是无参无返回值.如果需要参数有返回值的话,需要修改配置文件.如下:</p>
+
+<h2 id="toc_6">方法交换(Method Swizzling:传说中的黑魔法)</h2>
 
 <p>一般使用方法交换都是想给系统提供的方法添加一些其他的功能的时候使用.new中使用方法交换的例子:</p>
 
@@ -305,9 +322,9 @@ Student中添加两个对象方法,一个run,一个sleep.我们的目的是交�
 <p>控制器调用的结果:<br/>
 <img src="media/14727863232294/14730042652865.jpg" alt=""/></p>
 
-<h2 id="toc_4">添加属性</h2>
+<h2 id="toc_7">添加属性</h2>
 
-<p>动态添加属性用的最多的地方应该是给分类添加属性.我在项目中添加过一个分类<code>UIView+Tap</code>这个也可以在这里查看<a href="https://github.com/Mekor/UIView-Tap">UIView-Tap</a></p>
+<p>动态添加属性用的最多的地方应该是给分类添加属性.  <del>我在项目中添加过一个分类<code>UIView+Tap</code>这个也可以在这里查看<a href="https://github.com/Mekor/UIView-Tap">UIView-Tap</a></del>  我把一些扩展进行了总结,还不完善,地址<a href="https://github.com/Mekor/MKExtension">MKExtension</a></p>
 
 <pre><code class="language-objc">#import &quot;UIView+Tap.h&quot;
 #import &lt;objc/runtime.h&gt;
@@ -344,7 +361,7 @@ static const void* tagValue = &amp;tagValue;
 
 <p>主要是set&amp;get方法,这点注意了也就没啥了..</p>
 
-<p>##其他</p>
+<h2 id="toc_8">其他</h2>
 
 <ol>
 <li>系统中常见的使用到runtime的地方:
