@@ -1,0 +1,3054 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[李小争]]></title>
+  <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
+  <link href="http://www.citynight.cn/Blog/"/>
+  <updated>2016-09-06T15:46:35+08:00</updated>
+  <id>http://www.citynight.cn/Blog/</id>
+  <author>
+    <name><![CDATA[]]></name>
+    
+  </author>
+  <generator uri="http://www.mweb.im">MWeb</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[runtime(内部分享草稿)]]></title>
+    <link href="http://www.citynight.cn/Blog/14727863232294.html"/>
+    <updated>2016-09-02T11:18:43+08:00</updated>
+    <id>http://www.citynight.cn/Blog/14727863232294.html</id>
+    <content type="html"><![CDATA[
+<h2 id="toc_0">理解self,super,class,superclass</h2>
+
+<p>创建一个Person里面有一个类方法:</p>
+
+<pre><code class="language-objc">#import &quot;Person.h&quot;
+
+@implementation Person
++(void)study {
+    NSLog(@&quot;%@ %@ %@ %@&quot;,[self class],[self superclass],[super class],[super superclass]);
+}
+@end
+</code></pre>
+
+<p>Student继承自Person,重写父类方法</p>
+
+<pre><code class="language-objc">#import &quot;Student.h&quot;
+
+@implementation Student
++(void)study {
+    NSLog(@&quot;%@ %@ %@ %@&quot;,[self class],[self superclass],[super class],[super superclass]);
+}
+@end
+</code></pre>
+
+<!--more-->
+
+<p>这两个输出的都是什么?<br/>
+<img src="media/14727863232294/14729913552743.jpg" alt=""/></p>
+
+<p>这时,我们在Student中用这样写:</p>
+
+<pre><code class="language-objc">#import &quot;Student.h&quot;
+
+@implementation Student
++(void)study {
+//    NSLog(@&quot;%@ %@ %@ %@&quot;,[self class],[self superclass],[super class],[super superclass]);
+    
+    [super study];
+}
+@end
+</code></pre>
+
+<p>打断点我们可以看到:<br/>
+<img src="media/14727863232294/14729934417192.jpg" alt=""/></p>
+
+<p>可以看出:</p>
+
+<pre><code class="language-objc">super：是编译器指示符，仅仅是一个标志,并不是指针，仅仅是标志的当前对象去调用父类的方法，本质还是当前对象调用
+super:并不是让父类对象调用方法，调用者还是本身
+class：获取方法调用者的类
+superclass:获取方法调用者的父类
+</code></pre>
+
+<h2 id="toc_1">self是从哪里来的?</h2>
+
+<blockquote>
+<p>官方解释:<a href="https://developer.apple.com/library/prerelease/content/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtHowMessagingWorks.html">Objective-C Runtime Programming Guide</a><img src="media/14727863232294/14729941396965.jpg" alt=""/></p>
+</blockquote>
+
+<p>简单说每个方法都存在并且隐藏的两个参数(self,_cmd),随便写个方法看下:<br/>
+Student中写个text方法,然后打印下这两个隐藏参数.<br/>
+<img src="media/14727863232294/14729960900273.jpg" alt=""/><br/>
+<img src="media/14727863232294/14729961142923.jpg" alt=""/></p>
+
+<h2 id="toc_2">动态添加方法</h2>
+
+<p>上面说了一些貌似和runtime没有什么关系,runtime基础知识类似类的构成,对象的构成这里不再介绍,可以自己去看定义.当然也可以去<a href="http://opensource.apple.com/source/objc4/objc4-680/runtime/">苹果的开源网站</a>查看,如果网站不方便可以去苹果的<a href="https://github.com/opensource-apple/objc4">github</a>下载开源代码研究&hellip;  &hellip;继续&hellip;那么根据上面所说的方法说下动态添加方法.</p>
+
+<blockquote>
+<p>思考一下,咱们new项目中将采用路由模式进行页面跳转,从网页跳转进入app调用一个方法,一般情况下都是移动端和后台协议好的内容,这样跳转不会出现问题.但是如果后台写错了或者传输中出现问题导致url中包含的方法名不是规定的方法名.这时怎么办?</p>
+</blockquote>
+
+<pre><code class="language-objc">    Student *s = [Student new];
+    
+    // 1. 比如我们要调用 Student中的eat方法, 默认这样写[s eat]; 但是不行,因为我们没有定义.
+//    [s eat];
+    // 2. 也可以这样调用[s performSelector:@selector(eat)];这样没有问题,@selector中参数是字符串,这个参考swift
+//    [s performSelector:@selector(eat)];
+    // 3. 使用string创建SEL
+    
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored&quot;-Warc-performSelector-leaks&quot;
+    [s performSelector:NSSelectorFromString(@&quot;eat&quot;)];
+#pragma clang diagnostic pop
+    
+    // 上面这样调用会报错,我们在对象调用未实现方法的时候动态的创建一个方法,避免抛出异常.
+</code></pre>
+
+<p>怎么忽略编译器警告已经分享过,可以参考:<a href="http://www.citynight.cn/Blog/14676105703423.html">http://www.citynight.cn/Blog/14676105703423.html</a></p>
+
+<h3 id="toc_3">怎么动态添加方法呢?</h3>
+
+<p><img src="media/14727863232294/14729983827897.jpg" alt=""/><br/>
+上面是动态添加对象方法的例子,动态添加类方法也是一样的<code>+(BOOL)resolveClassMethod:(SEL)sel</code><br/>
+<strong>注意</strong>上面函数类型,有人可能好奇这块为什么写成&quot;v@:&ldquo;  ?参见:函数类型</p>
+
+<h3 id="toc_4">关于函数类型</h3>
+
+<p>先看文档:<br/>
+<img src="media/14727863232294/14730056768742.jpg" alt=""/><br/>
+查看<code>Objective-C type encodings</code> <img src="media/14727863232294/14730058881001.jpg" alt=""/><br/>
+所以上面void eat(&hellip;)应该表述成 <code>&quot;v@:&quot;</code></p>
+
+<p><strong>补充:</strong> 动态调用方法系统默认提供一到两个参数的方法调用, <del>这里封装了一个无限参数的方法调用.<a href="https://github.com/Mekor/NSObject-SEL">NSObject-SEL****</a></del>  我把一些扩展进行了总结,还不完善,地址<a href="https://github.com/Mekor/MKExtension">MKExtension</a></p>
+
+<h3 id="toc_5">关于IMP(函数指针)</h3>
+
+<pre><code class="language-objc">/// A pointer to the function of a method implementation. 
+#if !OBJC_OLD_DISPATCH_PROTOTYPES
+typedef void (*IMP)(void /* id, SEL, ... */ ); 
+#else
+typedef id (*IMP)(id, SEL, ...); 
+#endif
+</code></pre>
+
+<p>当前版本Xcode如果使用IMP的话,默认是选择第一个也就是无参无返回值.如果需要参数有返回值的话,需要修改配置文件.如下:</p>
+
+<h2 id="toc_6">方法交换(Method Swizzling:传说中的黑魔法)</h2>
+
+<p>一般使用方法交换都是想给系统提供的方法添加一些其他的功能的时候使用.new中使用方法交换的例子:</p>
+
+<pre><code class="language-objc">#import &quot;UIActionSheet+Front.h&quot;
+
+#import &lt;objc/runtime.h&gt;
+
+@implementation UIActionSheet (Front)
+- (void)customShowInView:(UIView *)view{
+    for(UIWindow * tmpWin in [[UIApplication sharedApplication] windows]){
+        [tmpWin endEditing:NO];
+    }
+    [self customShowInView:view];
+}
++ (void)load{
+    swizzleAllActionSheet();
+}
+@end
+
+void swizzleAllActionSheet(){
+    Class c = [UIActionSheet class];
+    SEL origSEL = @selector(showInView:);
+    SEL newSEL = @selector(customShowInView:);
+    Method origMethod = class_getInstanceMethod(c, origSEL);
+    Method newMethod = class_getInstanceMethod(c, newSEL);
+    method_exchangeImplementations(origMethod, newMethod);
+}
+</code></pre>
+
+<p>关于方法交换,在new项目中已经封装好了,代码如下:</p>
+
+<pre><code class="language-objc">// ObjcRuntime.h文件
+void Swizzle(Class c, SEL origSEL, SEL newSEL);
+
+//ObjcRuntime.m文件
+//静态就交换静态，实例方法就交换实例方法
+void Swizzle(Class c, SEL origSEL, SEL newSEL)
+{
+    Method origMethod = class_getInstanceMethod(c, origSEL);
+    Method newMethod = nil;
+    if (!origMethod) {
+        origMethod = class_getClassMethod(c, origSEL);
+        if (!origMethod) {
+            return;
+        }
+        newMethod = class_getClassMethod(c, newSEL);
+        if (!newMethod) {
+            return;
+        }
+    }else{
+        newMethod = class_getInstanceMethod(c, newSEL);
+        if (!newMethod) {
+            return;
+        }
+    }
+    
+    //自身已经有了就添加不成功，直接交换即可
+    if(class_addMethod(c, origSEL, method_getImplementation(newMethod), method_getTypeEncoding(newMethod))){
+        class_replaceMethod(c, newSEL, method_getImplementation(origMethod), method_getTypeEncoding(origMethod));
+    }else{
+        method_exchangeImplementations(origMethod, newMethod);
+    }
+}
+</code></pre>
+
+<p>用法(还是以Student为例):<br/>
+Student中添加两个对象方法,一个run,一个sleep.我们的目的是交换两个方法的实现</p>
+
+<pre><code class="language-objc">-(void)run {
+    NSLog(@&quot;跑🏃&quot;);
+}
+-(void)sleep {
+    NSLog(@&quot;睡觉😴&quot;);
+}
++(void)load {
+    Swizzle(self, @selector(run), @selector(sleep));
+}
+</code></pre>
+
+<p>控制器调用的结果:<br/>
+<img src="media/14727863232294/14730042652865.jpg" alt=""/></p>
+
+<h2 id="toc_7">添加属性</h2>
+
+<p>动态添加属性用的最多的地方应该是给分类添加属性.  <del>我在项目中添加过一个分类<code>UIView+Tap</code>这个也可以在这里查看<a href="https://github.com/Mekor/UIView-Tap">UIView-Tap</a></del>  我把一些扩展进行了总结,还不完善,地址<a href="https://github.com/Mekor/MKExtension">MKExtension</a></p>
+
+<pre><code class="language-objc">#import &quot;UIView+Tap.h&quot;
+#import &lt;objc/runtime.h&gt;
+
+static const void* tagValue = &amp;tagValue;
+
+@interface UIView ()
+@property (nonatomic, copy) void(^tapAction)(id);
+@end
+
+@implementation UIView (Tap)
+- (void)tap{
+    if (self.tapAction) {
+        self.tapAction(self);
+    }
+}
+- (void)addTapBlock:(void(^)(id obj))tapAction{
+    self.tapAction = tapAction;
+    if (![self gestureRecognizers]) {
+        self.userInteractionEnabled = YES;
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap)];
+        [self addGestureRecognizer:tap];
+    }
+}
+
+-(void)setTapAction:(void (^)(id))tapAction {
+    objc_setAssociatedObject(self, tagValue, tapAction, OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+-(void (^)(id))tapAction {
+    return objc_getAssociatedObject(self, tagValue);
+}
+@end
+</code></pre>
+
+<p>主要是set&amp;get方法,这点注意了也就没啥了..</p>
+
+<h2 id="toc_8">其他</h2>
+
+<ol>
+<li>系统中常见的使用到runtime的地方:
+<a href="http://www.citynight.cn/Blog/14726525723684.html">KVO内部实现原理</a></li>
+<li>日常开发中使用到runtime的地方:</li>
+<li>字典转模型: 可以参看<code>MJExtension</code> 它的核心代码在:<code>NSObject+MJProperty.m</code>第150行开始</li>
+</ol>
+
+<pre><code class="language-objc">#pragma mark - 公共方法
++ (NSMutableArray *)properties
+{
+    NSMutableArray *cachedProperties = [self dictForKey:&amp;MJCachedPropertiesKey][NSStringFromClass(self)];
+    
+    if (cachedProperties == nil) {
+        cachedProperties = [NSMutableArray array];
+        
+        [self mj_enumerateClasses:^(__unsafe_unretained Class c, BOOL *stop) {
+            // 1.获得所有的成员变量
+            unsigned int outCount = 0;
+            objc_property_t *properties = class_copyPropertyList(c, &amp;outCount);
+            
+            // 2.遍历每一个成员变量
+            for (unsigned int i = 0; i&lt;outCount; i++) {
+                MJProperty *property = [MJProperty cachedPropertyWithProperty:properties[i]];
+                // 过滤掉Foundation框架类里面的属性
+                if ([MJFoundation isClassFromFoundation:property.srcClass]) continue;
+                property.srcClass = c;
+                [property setOriginKey:[self propertyKey:property.name] forClass:self];
+                [property setObjectClassInArray:[self propertyObjectClassInArray:property.name] forClass:self];
+                [cachedProperties addObject:property];
+            }
+            
+            // 3.释放内存
+            free(properties);
+        }];
+        
+        [self dictForKey:&amp;MJCachedPropertiesKey][NSStringFromClass(self)] = cachedProperties;
+    }
+    
+    return cachedProperties;
+}
+</code></pre>
+
+<p>自定义字典转模型中log的输出可以参见Xcode插件<code>ESJsonFormat</code>中<code>ESJsonFormatManager.m</code>第47行:</p>
+
+<pre><code class="language-objc">/**
+ *  格式化OC属性字符串
+ *
+ *  @param key       JSON里面key字段
+ *  @param value     JSON里面key对应的NSDiction或者NSArray
+ *  @param classInfo 类信息
+ *
+ *  @return
+ */
++ (NSString *)formatObjcWithKey:(NSString *)key value:(NSObject *)value classInfo:(ESClassInfo *)classInfo{
+    NSString *qualifierStr = @&quot;copy&quot;;
+    NSString *typeStr = @&quot;NSString&quot;;
+    //判断大小写
+    if ([ESUppercaseKeyWords containsObject:key] &amp;&amp; [ESJsonFormatSetting defaultSetting].uppercaseKeyWordForId) {
+        key = [key uppercaseString];
+    }
+    if ([value isKindOfClass:[NSString class]]) {
+        return [NSString stringWithFormat:@&quot;@property (nonatomic, %@) %@ *%@;&quot;,qualifierStr,typeStr,key];
+    }else if([value isKindOfClass:[@(YES) class]]){
+        //the &#39;NSCFBoolean&#39; is private subclass of &#39;NSNumber&#39;
+        qualifierStr = @&quot;assign&quot;;
+        typeStr = @&quot;BOOL&quot;;
+        return [NSString stringWithFormat:@&quot;@property (nonatomic, %@) %@ %@;&quot;,qualifierStr,typeStr,key];
+    }else if([value isKindOfClass:[NSNumber class]]){
+        qualifierStr = @&quot;assign&quot;;
+        NSString *valueStr = [NSString stringWithFormat:@&quot;%@&quot;,value];
+        if ([valueStr rangeOfString:@&quot;.&quot;].location!=NSNotFound){
+            typeStr = @&quot;CGFloat&quot;;
+        }else{
+            NSNumber *valueNumber = (NSNumber *)value;
+            if ([valueNumber longValue]&lt;2147483648) {
+                typeStr = @&quot;NSInteger&quot;;
+            }else{
+                typeStr = @&quot;long long&quot;;
+            }
+        }
+        return [NSString stringWithFormat:@&quot;@property (nonatomic, %@) %@ %@;&quot;,qualifierStr,typeStr,key];
+    }else if([value isKindOfClass:[NSArray class]]){
+        NSArray *array = (NSArray *)value;
+        
+        //May be &#39;NSString&#39;，will crash
+        NSString *genericTypeStr = @&quot;&quot;;
+        NSObject *firstObj = [array firstObject];
+        if ([firstObj isKindOfClass:[NSDictionary class]]) {
+            ESClassInfo *childInfo = classInfo.propertyArrayDic[key];
+            genericTypeStr = [NSString stringWithFormat:@&quot;&lt;%@ *&gt;&quot;,childInfo.className];
+        }else if ([firstObj isKindOfClass:[NSString class]]){
+            genericTypeStr = @&quot;&lt;NSString *&gt;&quot;;
+        }else if ([firstObj isKindOfClass:[NSNumber class]]){
+            genericTypeStr = @&quot;&lt;NSNumber *&gt;&quot;;
+        }
+        
+        qualifierStr = @&quot;strong&quot;;
+        typeStr = @&quot;NSArray&quot;;
+        if ([ESJsonFormatSetting defaultSetting].useGeneric &amp;&amp; [ESUtils isXcode7AndLater]) {
+            return [NSString stringWithFormat:@&quot;@property (nonatomic, %@) %@%@ *%@;&quot;,qualifierStr,typeStr,genericTypeStr,key];
+        }
+        return [NSString stringWithFormat:@&quot;@property (nonatomic, %@) %@ *%@;&quot;,qualifierStr,typeStr,key];
+    }else if ([value isKindOfClass:[NSDictionary class]]){
+        qualifierStr = @&quot;strong&quot;;
+        ESClassInfo *childInfo = classInfo.propertyClassDic[key];
+        typeStr = childInfo.className;
+        if (!typeStr) {
+            typeStr = [key capitalizedString];
+        }
+        return [NSString stringWithFormat:@&quot;@property (nonatomic, %@) %@ *%@;&quot;,qualifierStr,typeStr,key];
+    }
+    return [NSString stringWithFormat:@&quot;@property (nonatomic, %@) %@ *%@;&quot;,qualifierStr,typeStr,key];
+}
+
+</code></pre>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[基础拾遗]]></title>
+    <link href="http://www.citynight.cn/Blog/14727432716172.html"/>
+    <updated>2016-09-01T23:21:11+08:00</updated>
+    <id>http://www.citynight.cn/Blog/14727432716172.html</id>
+    <content type="html"><![CDATA[
+<p><img src="media/14727432716172/14727432899236.jpg" alt=""/></p>
+
+<h2 id="toc_0">self和super区别</h2>
+
+<p>要点：</p>
+
+<ol>
+<li>self调用自己方法，super调用父类方法</li>
+<li>self是类，super是预编译指令</li>
+<li>【self class】和【super class】输出是一样的</li>
+</ol>
+
+<p>self和super底层实现原理：</p>
+
+<ol>
+<li>当使用 self 调用方法时，会从当前类的方法列表中开始找，如果没有，就从父类中再找；而当使用 super 时，则从父类的方法列表中开始找，然后调用父类的这个方法。</li>
+<li>当使用 self 调用时，会使用 <code>objc_msgSend</code> 函数：<code>id objc_msgSend(id theReceiver, SEL theSelector, ...)</code>。第 一个参数是消息接收者，第二个参数是调用的具体类方法的 <code>selector</code>，后面是 <code>selector</code> 方法的可变参数。以 <code>[self setName:]</code> 为例，编译器会替换成调用 <code>objc_msgSend</code> 的函数调用，其中 <code>theReceiver</code> 是 <code>self</code>，<code>theSelector</code> 是 <code>@selector(setName:)</code>，这个 <code>selector</code> 是从当前 <code>self</code> 的 <code>class</code> 的方法列表开始找的 <code>setName</code>，当找到后把对应的 <code>selector</code> 传递过去。</li>
+<li>当使用 <code>super</code> 调用时，会使用 <code>objc_msgSendSuper</code> 函数：<code>id objc_msgSendSuper(struct objc_super *super, SEL op, ...)</code>第一个参数是个<code>objc_super</code>的结构体，第二个参数还是类似上面的类方法的<code>selector</code>，</li>
+</ol>
+
+<pre><code>struct objc_super {
+      id receiver;
+      Class superClass;
+};
+</code></pre>
+
+<p>当编译器遇到  <code>[super setName:]</code> 时，开始做这几个事：</p>
+
+<p>1）构建 <code>objc_super</code> 的结构体，此时这个结构体的第一个成员变量 <code>receiver</code> 就是子类，和 <code>self</code> 相同。而第二个成员变量 <code>superClass</code> 就是指父类<br/>
+调用 <code>objc_msgSendSuper</code> 的方法，将这个结构体和 <code>setName</code> 的 <code>sel</code> 传递过去。</p>
+
+<p>2）函数里面在做的事情类似这样：从 <code>objc_super</code> 结构体指向的 <code>superClass</code> 的方法列表开始找 <code>setName</code> 的 <code>selector</code>，找到后再以 <code>objc_super-&gt;receiver</code> 去调用这个 <code>selector</code></p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[KVO内部实现原理]]></title>
+    <link href="http://www.citynight.cn/Blog/14726525723684.html"/>
+    <updated>2016-08-31T22:09:32+08:00</updated>
+    <id>http://www.citynight.cn/Blog/14726525723684.html</id>
+    <content type="html"><![CDATA[
+<ol>
+<li>KVO是基于runtime机制实现的</li>
+<li>当某个类的对象第一次被观察时,系统就会在运行期动态地创建该类的一个派生类,在这个派生类中重写基类中任何被观察属性的setter方法.派生类在被重写的setter方法实现真正的通知机制.</li>
+</ol>
+
+<p>添加监听前:<br/>
+<img src="media/14726525723684/14726530320712.jpg" alt=""/></p>
+
+<p>添加监听后:(派生出:NSKVONotifying_Person)<br/>
+<img src="media/14726525723684/14726532061641.jpg" alt=""/></p>
+
+<p>把前后两份代码全部转换成cpp文件,这时我们查找两个文件不同的地方.</p>
+
+<p><img src="media/14726525723684/14726564797185.jpg" alt=""/></p>
+
+<p>经过简单整理的两份代码:<br/>
+<img src="media/14726525723684/14726568603743.jpg" alt=""/></p>
+
+<p>可以看出mi_0 &amp; mi_1之间就是Person &amp; NSKVONotifying_Person之间的关系.</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[转载iOS MJ讲解面试题,并修改里面错误]]></title>
+    <link href="http://www.citynight.cn/Blog/14726092302553.html"/>
+    <updated>2016-08-31T10:07:10+08:00</updated>
+    <id>http://www.citynight.cn/Blog/14726092302553.html</id>
+    <content type="html"><![CDATA[
+<blockquote>
+<p>原文链接:<a href="http://www.jianshu.com/p/9050e523e278">http://www.jianshu.com/p/9050e523e278</a></p>
+</blockquote>
+
+<h4 id="toc_0">1、KVO内部实现原理</h4>
+
+<ul>
+<li>1.KVO是基于runtime机制实现的</li>
+<li>2.当某个类的对象第一次被观察时，系统就会在运行期动态地创建该类的一个派生类，在这个派生类中重写基类中任何被观察属性的setter方法。
+派生类在被重写的setter方法实现真正的通知机制（Person-&gt;NSKVONotifying_Person）</li>
+</ul>
+
+<h4 id="toc_1">2、是否可以把比较耗时的操作放在NSNotificationCenter中</h4>
+
+<ul>
+<li>通知中心所做的操作在主线程，比较耗时的一般开启一个线程单独去跑</li>
+</ul>
+
+<h4 id="toc_2">3、KVO、NSNotification、代理的区别和用法是什么？什么时候该用那个？如果用protocol和delegate（或者delegate的Array）来实现类似的功能可能吗？如果能，会有什么潜在的问题？如果不能，为什么？</h4>
+
+<h5 id="toc_3">答案：</h5>
+
+<p>参考：<a href="http://blog.csdn.net/dqjyong/article/details/7685933">http://blog.csdn.net/dqjyong/article/details/7685933</a></p>
+
+<h6 id="toc_4">通知（NSNotification）：</h6>
+
+<ul>
+<li>比较灵活（1个通知能被多个对象接受，多个对象能接受多个通知）</li>
+<li>没有耦合性（Ａ发出的通知，谁去接收并不知道）</li>
+<li>缺点通知的Key容易被写错</li>
+</ul>
+
+<h6 id="toc_5">KVO</h6>
+
+<ul>
+<li>性能不好（底层对会Runtime动态产成新的类NSNotifying_xx）</li>
+<li>局限性（只能监听某个对象属性的改变，不推荐实用）</li>
+<li>1个对象的属性能被多个对象监听，1个对象能监听多个对象的其他属性</li>
+</ul>
+
+<h6 id="toc_6">代理</h6>
+
+<ul>
+<li>比较规范，所以安全性高</li>
+<li>默认是1对1监听，可以用代理数组 a.delegates = @[b, c, d];(千万别这样写，违背的设计模式，这样写还不如同消息通知)</li>
+</ul>
+
+<h4 id="toc_7">4、Runtime实现的机制是什么，怎么用，一般用于干嘛，你还记得你所使用的相关的头文件或者某些方法的名称吗？</h4>
+
+<p>运行时机制，runtime库里面包含了跟类、成员变量、方法相关的API，比如获取类里面的所有成员变量，为类动态添加成员变量，动态改变类的方法实现，为类动态添加新的方法等，需要导入</p>
+
+<h5 id="toc_8">1.什么是Runtime</h5>
+
+<ul>
+<li>runtime是一套比较低层的纯C语言API，属于1个C语言库，包含许多C底层的C语言的API</li>
+<li>平时编写的OC代码，在程序 运行过程中，其实最终都转换成了runtime的C语言代码，runtime算是OC的幕后工作者
+举例：
+OC:
+<code>[MJPerson alloc]init];</code>
+runtime：
+<code>objc_msgSend(objc_msgSend(&quot;MJPerson&quot;, &quot;alloc&quot;), &quot;init&quot;)</code></li>
+</ul>
+
+<h5 id="toc_9">2.用过么？怎么用？</h5>
+
+<ul>
+<li>1.runtime是属于OC底层，可以进行 一些非常的操作（OC无法实现的，不容易实现的）
+
+<ul>
+<li>在程序运行过程中，动态创建一个类（比如KVO底层实现）</li>
+<li>在程序运行过程中，动态地为某个类 添加属性、方法，修改属性值、方法</li>
+<li>便利一个类的 所以成员变量（属性）、方法</li>
+</ul></li>
+</ul>
+
+<h5 id="toc_10">3.相关应用</h5>
+
+<ul>
+<li><p>1.头文件</p>
+
+<p>调用底层的消息发送方法</p></li>
+<li><p>2.相关应用</p>
+
+<ul>
+<li>NSCoding（归档和解档，利用runtime遍历模型对象的所有属性）</li>
+<li>字典 -&gt;模型 （利用runtime遍历模型对象的所有属性，根据属性名从字典中取出对应的值，设置到模型的属性上）</li>
+<li>KVO（利用runtime动态产生一个类）</li>
+<li>用于封装框架（想怎么改，就怎么改）</li>
+</ul></li>
+<li><p>3.相关函数</p>
+
+<ul>
+<li>objc_msgSend ： 给对象发送消息</li>
+<li>class_copyMethodList ： 遍历某个所有方法</li>
+<li>class_copyIvarList ： 遍历某个类所以的成员变量</li>
+<li>class_addMethod ： 动态添加方法</li>
+<li>class_addIval ：动态添加成员变量</li>
+<li>class_&hellip;. class_开头的方法,是操作类的</li>
+</ul></li>
+</ul>
+
+<h6 id="toc_11">例：利用Runtime归档和解档</h6>
+
+<pre><code>//  MJPerson.m
+//  runtime进行归档和解档
+//
+//  Created by Zhanbo on 16/7/7.
+//  Copyright © 2016年 Zhanbo. All rights reserved.
+//
+
+#import &quot;MJPerson.h&quot;
+#import &lt;objc/runtime.h&gt;
+@implementation MJPerson
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+
+   unsigned int count = 0;
+  //参数1：那个类
+  //参数2：有几个成员变量
+   Ivar *ivars = class_copyIvarList([MJPerson class], &amp;count);
+
+    for (int i = 0; i &lt;count; i++) {
+        //取出i位置对应的成员变量
+        Ivar ivar = ivars[i];
+
+        //查看成员变量
+        const char *name = ivar_getName(ivar);
+        NSLog(@&quot;%s&quot;, name);
+
+        //归档
+        NSString *key = [NSString stringWithUTF8String:name];
+        id value = [self valueForKey:key];
+        [aCoder encodeObject:value forKey:key];
+
+    }
+    //在C语言中使用copy要释放
+    free(ivars);
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+
+    if (self = [super init]) {
+
+        unsigned int count = 0;
+        Ivar *ivars = class_copyIvarList([MJPerson class], &amp;count);
+
+        for (int i = 0; i &lt;count; i++) {
+            //取出i位置对应的成员变量
+            Ivar ivar = ivars[i];
+
+            //查看成员变量
+            const char *name = ivar_getName(ivar);
+            NSLog(@&quot;%s&quot;, name);
+
+            //解档
+            NSString *key = [NSString stringWithUTF8String:name];
+            id value = [aDecoder decodeObjectForKey:key];
+
+            //设置到成员变量身上
+            [self setValue:value forKey:key];
+
+        }
+        //在C语言中使用copy要释放
+        free(ivars);
+    }
+    return self;
+}
+
+@end
+</code></pre>
+
+<h5 id="toc_12">4.必备常识</h5>
+
+<ul>
+<li>1.Ivar ： 成员变量</li>
+<li>1. Method ： 成员方法</li>
+</ul>
+
+<h4 id="toc_13">5、Foundation对象与Core Foundation对象有什么区别？</h4>
+
+<ul>
+<li>1.Foundation对象是OC的，Core Foundation对象是C对象</li>
+<li><p>2.数据类型之间的转换(桥接)</p>
+
+<ul>
+<li><p>ARC：bridge_retained、 <u>bridge</u>transfer</p>
+
+<pre><code>CFArrayRef array3 = CFArrayCreate(NULL, NULL, 10, NULL);
+
+//Foundetion -&gt; Core Fountdation
+(__bridge_retained )
+
+//Core Fountdation -&gt; Foundetion
+(__bridge_transfer )
+NSArray *array4 = (__bridge_transfer NSArray *)array3);
+</code></pre></li>
+<li><p>MRC: _bridge</p>
+
+<pre><code>Foundation -&gt; Core Foundation
+NSArray *array1 = [NSArray array];
+CFArrayRef array2 = (__bridge CFArrayRef)array1;
+//记得释放内存
+[array1 release];
+</code></pre></li>
+</ul></li>
+</ul>
+
+<h4 id="toc_14">6、不用中间变量，用两种方法交换A和B的值</h4>
+
+<ul>
+<li>1. A = A + B
+    B = A - B
+    A = A- B</li>
+<li>2.使用位运算<sup>能交换两个变量的值</sup></li>
+</ul>
+
+<h4 id="toc_15">7、 什么是动态，举例说名</h4>
+
+<ul>
+<li>1.在线程运行过程才执行的操作，如Runtime动态创建成员变量和方法</li>
+</ul>
+
+<h4 id="toc_16">8、什么是多态</h4>
+
+<ul>
+<li><p>1.父类指针指向子类对象</p>
+
+<pre><code>NSObject *obj = [NSArray array];
+</code></pre></li>
+</ul>
+
+<h4 id="toc_17">9、怎么解决缓存池满的问题（cell）</h4>
+
+<ul>
+<li>iOS中不存在缓存池满的情况，应为通常我们在iOS开发，对象都是在需要的时候才会创建，有种常用的说法叫懒加载，还有在UITableView中一般只会创建刚开始出现在屏幕中的cell，之后都是从缓存池里取，不会创建新对象，缓存池里最多就一两个对象，缓存池满的这中情况一般在开发Java中比较常见，Java中一般把最近最少使用的对象先释放</li>
+<li>如果缓存池满了，判断哪个位置的cell是不经常使用的，先释放掉</li>
+</ul>
+
+<h3 id="toc_18">10、如何渲染自定义格式字符串的UILabel</h3>
+
+<ul>
+<li><p>1.通过NSAttributedString类</p>
+
+<pre><code>  //1种写法，也可以用字典
+NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:@&quot;哈哈哈啦啦啦哇哇哇&quot;];
+  //设置文字颜色
+  [str addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0, 3)];
+  [str addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:NSMakeRange(6, 3)];
+  //设置字体
+  [str addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:30] range:NSMakeRange(3, 3)];
+
+  _label.attributedText = str;
+</code></pre></li>
+</ul>
+
+<p><img src="media/14726092302553/1240." alt=""/></p>
+
+<p>效果</p>
+
+<h4 id="toc_19">11、scrollView的contentSize能在ViewDidLoad里设置吗，为什么？</h4>
+
+<ul>
+<li>1.能，在哪里都能设置</li>
+<li>2.但是最好不要在viewDidLoad里设置，因为视图刚创建不一定是我们想要的尺寸，在iPad开发中横竖屏是很好的例子</li>
+</ul>
+
+<h4 id="toc_20">12、控制器View的生命周期及相关函数什么？你在开发中是如何用的？</h4>
+
+<ul>
+<li>1.首先判断控制器是否有视图，如果没有就调用<strong>loadView</strong>方法创建：通过storyboard或者代码</li>
+<li>2.随后调用<strong>viewDidLoad</strong>，可以进行下一步的初始化操作：只会被调用一次</li>
+<li>3.在视图显示之前（即将显示）调用<strong>viewWillAppear</strong>，该函数可以多次调用</li>
+<li>4.在视图显示，会调用<strong>viewDidAppear</strong></li>
+<li>5.视图即将消失，调用<strong>viewWillDisappear</strong></li>
+<li>6.视图已经消失，调用<strong>viewDidDisappear</strong></li>
+<li>7.在布局变化前后，调用<strong>viewWillDidLayoutSubviews</strong>处理相关信息</li>
+</ul>
+
+<h4 id="toc_21">13、Block的内存管理</h4>
+
+<ul>
+<li>1.默认情况下，block的内存是在栈中
+
+<ul>
+<li>它不会对所引用的对象进行任何操作</li>
+</ul></li>
+<li>2.如果对block做一次copy操作，block的内存就会在堆中
+
+<ul>
+<li>它会对所引用的对象做一次retain操作</li>
+<li>ARC ：如果所引用的对象用了<strong>__unsafe_unretained</strong>或者<strong>__weak</strong>修饰，就不会做retain操作</li>
+<li>非ARC(MRC) ： 如果所引用的对象用<strong>__block</strong>修饰，就不会做retain操作；MRC记得释放blockBlock_release(_block);</li>
+</ul></li>
+</ul>
+
+<pre><code>- (void)dealloc {
+    //MRC记得在dealloc释放blcok，[super dealloc];要写最后
+    Block_release(_block);
+    [super dealloc];
+}
+</code></pre>
+
+<h4 id="toc_22">14、MRC中如何做开发</h4>
+
+<p>1.MRC中retain相当于ARC中strong<br/>
+assign相当于ARC中weak<br/>
+2.只要声明对象属性就要写retain</p>
+
+<pre><code>@property (nonatomic, retain)NSArray *array; +1(计数器 = 1)
+</code></pre>
+
+<p>3.声明控件、协议用assgin</p>
+
+<p>4.MRC的内存管理原则</p>
+
+<ul>
+<li>如果调用了alloc、new、copy产生了一个新对象，最后肯定要调用1次releace或者autorelease</li>
+<li>如果让一个对象做了retain操作（计数器+1），最后肯定要调用1次release或者autorelease</li>
+<li>原则：有+ 就有-</li>
+</ul>
+
+<pre><code>self.array = [NSArray alloc]init]autorelease];
+alloc后 +1(计数器 = 2)； autorelease后 -1(计数器 = 1)
+//或者这样写，就不需要写autorelease，系统内部自动写好
+self.array = [NSArray array];
+</code></pre>
+
+<ul>
+<li>最后要在dealloc释放内存</li>
+</ul>
+
+<pre><code>//当控制器将被释放的时候对调用
+- (void)dealloc {
+//最好这样写
+self.array = nil;
+-1(计数器 = 0)
+
+//也可以这样写
+self.array = [array release];
+//最后调用
+[supe dealloc];
+}
+</code></pre>
+
+<p>如果是iOS版本在5.0之前要在3个地方释放内存</p>
+
+<pre><code>//控制器的View被卸载，会调用
+- (void)viewDidUnload {
+
+    [super viewDidUnload];
+    self.array = nil;
+}
+
+//接收到内存警告，会调用
+- (void)didReceiveMemoryWarning {
+
+    [super didReceiveMemoryWarning];
+    self.array = nil;
+}
+
+- (void)dealloc {
+
+    self.array = nil;
+
+    [super dealloc];
+}
+</code></pre>
+
+<h4 id="toc_23">15、多线程如何进行线之间通讯？</h4>
+
+<pre><code>//在主线程执行某个方法，传参（该方法用于子线程对主线程进行通讯）
+[self performSelectorOnMainThread: withObject: waitUntilDone:]
+
+//指定线程，调用方法，传参
+[self performSelector: onThread: withObject: waitUntilDone: modes: *)#&gt;
+
+//GCD在异步线程做事情
+dispatch_async(, )
+</code></pre>
+
+<h4 id="toc_24">16、用NSOperation和NSOperationQueue处理A,B,C三个线程，要求执行完A,B才能执行C，怎么做？</h4>
+
+<ul>
+<li>1.第一种方法添加依赖</li>
+</ul>
+
+<pre><code>//创建列队
+NSOperationQueue *queue = [NSOperationQueue alloc]init];
+//创建3个操作
+NSOperation *a = [NSBlockOperation blockOperationWithBlock:^{
+    NSLog(@&quot;operation1....&quot;);
+}];
+
+NSOperation *c = [NSBlockOperation blockOperationWithBlock:^{
+    NSLog(@&quot;operation2....&quot;);
+}];
+
+NSOperation *b = [NSBlockOperation blockOperationWithBlock:^{
+    NSLog(@&quot;operation3....&quot;);
+}];
+//======添加依赖=======
+//只有当a操作执行完毕后，才会执行c操作
+[c addDependency:a];
+//只有当b操作执行完毕后，才会执行c操作
+[c addDependency:b];
+
+[queue addOperation:a];
+[queue addOperation:b];
+[queue addOperation:c];
+</code></pre>
+
+<ul>
+<li>2.第二种方法 可 以设置优先级</li>
+</ul>
+
+<pre><code>- (NSOperationQueuePriority)queuePriority;
+</code></pre>
+
+<h4 id="toc_25">17、GCD内部怎么实现的</h4>
+
+<ul>
+<li>1.iSO和OS X的核心是XNU内核，GCD是基于XNU内核实现的</li>
+<li>2.GCD的API全部在libdispatch库中</li>
+<li>3.GCD的底层实现主要有Dispatch Queue和 Dispatch Source
+
+<ul>
+<li>Disatch Queue ：管理block（操作，block里的代码块，根据类型在哪个线程执行）</li>
+<li>Disatch Source ： 处理事件（底层实现，处理线程之间的事件，如主线程会到什么线程，异步线程回到什么线程）</li>
+</ul></li>
+</ul>
+
+<h4 id="toc_26">18、NSOperatinQueue和CGD的区别，什么情况下用NSOperationQueue，什么情况下用GCD</h4>
+
+<ul>
+<li>1.GCD是纯C语言的API，NSOperationQueue是基于GCD的OC版本封装</li>
+<li>2.GCD只支持FIFO的列队（先进先出），NSOperationQueue可以很方便地调整执行顺序（设置优先级 ），设置最大并发数量</li>
+<li>3.NSOperatinQueue可以轻松在Operation间设置依赖关系，而GCD需要些很多代码才能实现</li>
+<li>4.NSOperationQueue支持KVO，可以监听operation是否正在执行（isExecuted）、是否结束（isFinished），是否取消（isCanceld）；系统内部已经做好的KVO</li>
+<li>5.GCD的执行速度比NSOperationQueue快</li>
+<li>什么时候，用哪个
+
+<ul>
+<li>1.任务之间有依赖/或者要监听任务的执行情况：NSOperatinQueue（任务需要时刻监听；任务严格需要按顺序执行）</li>
+<li>2.任务之间不太相互依赖就用：CGD</li>
+</ul></li>
+</ul>
+
+<h4 id="toc_27">19、既然说到GCD，那么问下在使用GCD已经block需要注意什么？</h4>
+
+<ul>
+<li>1.GCD的注意18题已有说明</li>
+<li>2.Block的使用注意
+
+<ul>
+<li>1.block的内存管理(13题已有说明)</li>
+<li>2.防止循环retain
+
+<ul>
+<li>ARC：<strong>weak/</strong>unsafe_unretained</li>
+<li>MRC: __block 0</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<h4 id="toc_28">20、如果后期需要增加数据库中的字段怎么实现，如果不使用CoreData呢？</h4>
+
+<p>编写SQL语句来操作原来表中的字段</p>
+
+<ul>
+<li>1.增加表字段
+ALTER TABLE 表名 DROP COLUMN 字段名 字段类型</li>
+<li>2.删除表字段
+ALTER TABLE 表名 DROP COLUMN 字段名</li>
+<li>3.修改表字段
+ALTER TABLE 表名 RENAME COLUMN 旧字段名 TO 新字段名</li>
+</ul>
+
+<h4 id="toc_29">21、简单描述下客户端的缓存机制</h4>
+
+<ul>
+<li>1.缓存可以分为：内存数据缓存、数据库缓存、文件缓存</li>
+<li>2.每次想获取数据的时候
+
+<ul>
+<li>先检测内存中有无缓存</li>
+<li>在检测本地有无缓存（数据库/文件）</li>
+<li>最终发送网络请求</li>
+<li>将服务器返回的网络数据进行缓存（内存、数据库、文件），已便下次读取</li>
+</ul></li>
+</ul>
+
+<h4 id="toc_30">22、有些图片加载的比较慢怎么处理？你是怎么优化程序的性能的？</h4>
+
+<ul>
+<li>1.图片下载放在异步线程</li>
+<li>2.图片下载过程中使用占位图，提高用户的天</li>
+<li>3.如果图片比较大，可以考虑多线程断点下载（开辟多个线程下载一张图片，需要服务器设置请求体信息）</li>
+</ul>
+
+<h4 id="toc_31">23、你实现过一个框架或者库以供别人使用吗？如果有，请谈一谈构建框架或者库时候的经验；如果没有，请设想和设计框架的public的API，并指出大概需要如何做、需要注意一些什么方面，来使别人容易地使用你的框架。</h4>
+
+<ul>
+<li>1.提供给外界的接口功能是否实用、够用</li>
+<li>2.别人使用我的框架时，能不能根据类名、方法名就猜出接口的具体作用</li>
+<li>3.别人调用接口时，提供的参数是否够用、调用起来是否简单</li>
+<li>4.别人使用我的框架时，要不要再导入依赖其他的框架</li>
+</ul>
+
+<h4 id="toc_32">24、是否可以把比较耗时的操作放在NSNotificationCenter中？</h4>
+
+<ul>
+<li>1.如果在异步线程发的通知，那么可以执行比较耗时的操作</li>
+<li>2.如果在主线程发的通知，那么就不可以执行比较耗时的操作
+补充：NSNotificationCenter默认是主线程的，但是在异步线程发通知，那么NSNotificationCenter就会变成异步线程</li>
+</ul>
+
+<h4 id="toc_33">25、SDWebImage具体如何实现</h4>
+
+<ul>
+<li>1.利用NSOperationQueue和NSOperation下载图片，还使用了GCD的一些函数（解码GIF图片）</li>
+<li>2.利用URL作为key，NSOperation作为value</li>
+<li>3.利用URL作为key，UIImage作为value</li>
+</ul>
+
+<h4 id="toc_34">26、怎么解决sqlite锁定的问题</h4>
+
+<ul>
+<li>1.设置数据库锁定的处理函数</li>
+</ul>
+
+<pre><code>当数据库被锁时，会调用该方法
+//参数1传入数据库，
+//参数2传入函数名(在该函数中做操作)
+int sqlite3_busy_handler(sqlite3*, test);
+</code></pre>
+
+<ul>
+<li><p>2.设置锁定时的等待时间</p>
+
+<pre><code>int sqlite3_busy_timeout(sqlite3*, int ms);
+</code></pre></li>
+</ul>
+
+<h4 id="toc_35">27、cocoa中常见对几种多线程的实现，并谈谈多线程安全的几种解决办法及多线程安全怎么控制？</h4>
+
+<ul>
+<li>1.只在主线程刷新访问UI</li>
+<li>2.如果要防止资源抢夺，得用synchroized进行加锁保护</li>
+<li>3.如果异步操作要保证线程安全等问题，尽量使用GCD（有些函数默认就是安全的）</li>
+</ul>
+
+<h4 id="toc_36">28、什么是run loop？</h4>
+
+<ul>
+<li>1.runloop是消息循环，内部有定时源和输入源来运作</li>
+<li>2.在创建的程序不需要显示的创建run loop；每个线程，包括程序的主线程（main thread）都有与之相应的run loop对象，主线程会自行创建并运行run loop</li>
+<li>3.run loop处理的输入事件有两种不同的来源：输入源（input source）和定时源（timer source）</li>
+<li>4.输入源处理传递异步消息，通常来自于其他线程或者程序。定时源则处理传递同步消息，在特定时间或者一定的时间间隔发生</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[MKNetWork简介]]></title>
+    <link href="http://www.citynight.cn/Blog/14719458588528.html"/>
+    <updated>2016-08-23T17:50:58+08:00</updated>
+    <id>http://www.citynight.cn/Blog/14719458588528.html</id>
+    <content type="html"><![CDATA[
+<p>用户版最新版本我将替换成最新的网络请求封装,这次我将封装一些常用的东西到网络请求中,让网络请求独立出一层,避免所有网络请求都写在控制器中.<br/>
+目录结构:</p>
+
+<ul>
+<li><strong>MKBaseRequest</strong>     :所有的网络请求类需要继承于 <code>MKBaseRequest</code> 类，每一个<code>MKBaseRequest</code> 类的子类代表一种专门的网络请求。
+MKBaseRequest 的基本的思想是把每一个网络请求封装成对象。所以使用 MKNetWork，你的每一种请求都需要继承 MKBaseRequest类，通过覆盖父类的一些方法来构造指定的网络请求。把每一个网络请求封装成对象其实是使用了设计模式中的 Command 模式。
+每一种网络请求继承 MKBaseRequest 类后，需要用方法覆盖（overwrite）的方式，来指定网络请求的具体信息。例如:</li>
+</ul>
+
+<pre><code>// 重写接口名称
+-(NSString *)requestUrl {
+    return @&quot;geocode/regeo&quot;;
+}
+// 重写请求方式
+-(MKRequestMethod)requestMethod {
+    return MKRequestMethodGet;
+}
+// 重写想要的放回数据解析方式
+-(MKRequestSerializerType)requestSerializerType {
+    return MKRequestSerializerTypeHTTP;
+}
+</code></pre>
+
+<p>目前没有添加返回参数格式验证,如有需要可以在base中添加,让继承者重写.</p>
+
+<ul>
+<li><strong>MKNetWorkAgent</strong>    :MKNetWorkAgent最基础的网络请求封装,目前封装的AFN,如有必要可以替换</li>
+<li><strong>MKNetworkConfig</strong>   :用于统一设置网络请求的服务器和 CDN 的地址。在实际业务中，我们的测试需要切换不同的服务器地址来测试。统一设置服务器地址到 MKNetworkConfig 类中，也便于我们统一切换服务器地址。</li>
+</ul>
+
+<pre><code> - (void)setupRequestFilters {
+    // 这里用高德Api进行测试
+    NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@&quot;CFBundleShortVersionString&quot;];
+    MKNetworkConfig *config = [MKNetworkConfig sharedInstance];
+    config.baseUrl = @&quot;http://restapi.amap.com/v3/&quot;;
+    MKUrlArgumentsFilter *urlFilter = [MKUrlArgumentsFilter filterWithArguments:@{@&quot;version&quot;: appVersion}];
+    [config addUrlFilter:urlFilter];
+}
+
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    [self setupRequestFilters];
+    
+    return YES;
+} 
+</code></pre>
+
+<ul>
+<li><strong>MKChainRequest</strong>    :用于管理有相互依赖的网络请求，它实际上最终可以用来管理多个拓扑排序后的网络请求。</li>
+</ul>
+
+<p>例如，我们有一个需求，需要用户在注册时，先发送注册的Api，然后:<br/>
+1. 如果注册成功，再发送读取用户信息的Api。并且，读取用户信息的Api需要使用注册成功返回的用户id号。<br/>
+2. 如果注册失败，则不发送读取用户信息的Api了。</p>
+
+<p><strong>不足:</strong><br/>
+1. 目前没有做缓存,由于项目中url是根据时间戳,可以使用已有的缓存作为补充.也可以写到网络层封装中.<br/>
+2. 串行网络请求封装了,但是由于默认就是并行网络请求,所以没有封装.如果需要限制最大并发数量,可以在<code>MKNetWorkAgent</code>中设置.<br/>
+3. 木有大量测试,可能存在bug</p>
+
+<p><strong>注意事项:</strong><br/>
+基本没有啥需要注意的&hellip;,具体使用方法可以参见Demo,关于参数可以实现代理方法,也可以直接传参.如果直接传参,会覆盖掉代理中的数据源.  Demo中实现了简单的下拉加载中关于page的封装.扩展功能我都写成代理,然后需要什么功能实现以下就可以了,避免<code>MKBaseRequest</code>中包含太多功能,这样可以实现自定义组成自己需要的功能.</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[const,static,extern简介]]></title>
+    <link href="http://www.citynight.cn/Blog/14718293013293.html"/>
+    <updated>2016-08-22T09:28:21+08:00</updated>
+    <id>http://www.citynight.cn/Blog/14718293013293.html</id>
+    <content type="html"><![CDATA[
+<h3 id="toc_0">一、const与宏的区别（面试题）:</h3>
+
+<ul>
+<li><p><code>const简介</code>:之前常用的字符串常量，一般是抽成宏，但是苹果不推荐我们抽成宏，推荐我们使用const常量。</p>
+
+<ul>
+<li><code>编译时刻</code>:宏是预编译（编译之前处理），const是编译阶段。</li>
+<li><code>编译检查</code>:宏不做检查，不会报编译错误，只是替换，const会编译检查，会报编译错误。</li>
+<li><code>宏的好处</code>:宏能定义一些函数，方法。 const不能。</li>
+<li><code>宏的坏处</code>:使用大量宏，容易造成编译时间久，每次都需要重新替换。</li>
+</ul>
+
+<p>注意:很多Blog都说使用宏，会消耗很多内存. define宏仅仅是展开，有多少地方使用，就展开多少次，不会分配内存。（宏定义不分配内存，<strong>变量定义</strong>分配内存。）<br/>
+ <img src="media/14718293013293/14719323806994.jpg" alt=""/></p>
+
+<p><img src="media/14718293013293/14719331536266.jpg" alt=""/></p></li>
+</ul>
+
+<p>产生上述问题的原因:可以查看<a href="https://www.zhihu.com/question/29662431">知乎</a>上面的回答,可以简单理解为编译器优化.</p>
+
+<pre><code>// 常见的常量：抽成宏
+#define MKAccount @&quot;account&quot;
+
+#define MKUserDefault [NSUserDefaults standardUserDefaults]
+
+// 字符串常量
+static NSString * const account = @&quot;account&quot;;
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+
+    // 偏好设置存储
+    // 使用宏
+    [MKUserDefault setValue:@&quot;123&quot; forKey:MKAccount];
+
+    // 使用const常量
+    [[NSUserDefaults standardUserDefaults] setValue:@&quot;123&quot; forKey:account];
+
+}
+
+</code></pre>
+
+<h3 id="toc_1">二、const作用：限制类型</h3>
+
+<ul>
+<li>1.const仅仅用来修饰右边的变量（基本数据变量p，指针变量*p）</li>
+<li><p>2.被const修饰的变量是只读的。</p></li>
+<li><p><code>const基本使用</code></p></li>
+</ul>
+
+<pre><code>- (void)viewDidLoad {
+    [super viewDidLoad];
+
+    // 定义变量
+    int a = 1;
+
+    // 允许修改值
+    a = 20;
+
+    // const两种用法
+    // const:修饰基本变量p
+    // 这两种写法是一样的，const只修饰右边的基本变量b
+    const int b = 20; // b:只读变量
+    int const b = 20; // b:只读变量
+
+    // 不允许修改值
+    b = 1;
+
+    // const:修饰指针变量*p，带*的变量，就是指针变量.
+    // 定义一个指向int类型的指针变量，指向a的地址
+    int *p = &amp;a;
+
+    int c = 10;
+
+    p = &amp;c;
+
+    // 允许修改p指向的地址，
+    // 允许修改p访问内存空间的值
+    *p = 20;
+
+    // const修饰指针变量访问的内存空间，修饰的是右边*p1，
+    // 两种方式一样
+    const int *p1; // *p1：常量 p1:变量
+    int const *p1; // *p1：常量 p1:变量
+
+    // const修饰指针变量p1
+    int * const p1; // *p1:变量 p1:常量
+
+    // 第一个const修饰*p1 第二个const修饰 p1
+    // 两种方式一样
+    const int * const p1; // *p1：常量 p1：常量
+
+    int const * const p1;  // *p1：常量 p1：常量
+
+}
+
+</code></pre>
+
+<h3 id="toc_2">三、const开发中使用场景:</h3>
+
+<ul>
+<li>1.当一个方法参数只读</li>
+<li>2.定义只读全局变量</li>
+</ul>
+
+<pre><code>@implementation ViewController
+
+// 定义只读全局常量
+NSString * const str  = @&quot;123&quot;;
+
+// 当一个方法的参数，只读.
+- (void)test:(NSString * const)name
+{
+
+}
+
+// 指针只读,不能通过指针修改值
+- (void)test1:(int const *)a{
+
+//    *a = 10;
+}
+
+// 基本数据类型只读
+- (void)test2:(int const)a{
+
+}
+
+@end
+
+</code></pre>
+
+<h3 id="toc_3">四、static和extern简单使用(要使用一个东西，先了解其作用)</h3>
+
+<ul>
+<li><p><code>static作用</code>:</p>
+
+<ul>
+<li><p>修饰局部变量：</p>
+
+<p>1.延长局部变量的生命周期,程序结束才会销毁。</p>
+
+<p>2.局部变量只会生成一份内存,只会初始化一次。</p></li>
+<li><p>修饰全局变量</p>
+
+<p>1.只能在本文件中访问,修改全局变量的作用域,生命周期不会改</p></li>
+</ul></li>
+<li><p><code>extern作用</code>:</p>
+
+<ul>
+<li>只是用来获取全局变量(包括全局静态变量)的值，不能用于定义变量</li>
+</ul></li>
+<li><p><code>extern工作原理</code>:</p>
+
+<ul>
+<li>先在当前文件查找有没有全局变量，没有找到，才会去其他文件查找。</li>
+</ul></li>
+</ul>
+
+<pre><code>// 全局变量：只有一份内存，所有文件共享，与extern联合使用。
+int a = 20;
+
+// static修饰全局变量
+static int age = 20;
+
+- (void)test
+{
+    // static修饰局部变量
+    static int age = 0;
+    age++;
+    NSLog(@&quot;%d&quot;,age);
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view, typically from a nib.
+
+    [self test];
+    [self test];
+
+    extern int age;
+    NSLog(@&quot;%d&quot;,age);
+}
+I
+
+</code></pre>
+
+<h3 id="toc_4">五、static与const联合使用</h3>
+
+<ul>
+<li>static与const作用:声明一个只读的静态变量</li>
+<li>开发使用场景:在<code>一个文件中</code>经常使用的字符串常量，可以使用static与const组合</li>
+</ul>
+
+<pre><code>// 开发中常用static修饰全局变量,只改变作用域
+
+// 为什么要改变全局变量作用域，防止重复声明全局变量。
+
+// 开发中声明的全局变量，有些不希望外界改动，只允许读取。
+
+// 比如一个基本数据类型不希望别人改动
+
+// 声明一个静态的全局只读常量
+static const int a = 20;
+
+// staic和const联合的作用:声明一个静态的全局只读常量
+
+// iOS中staic和const常用使用场景，是用来代替宏，把一个经常使用的字符串常量，定义成静态全局只读变量.
+
+// 开发中经常拿到key修改值，因此用const修饰key,表示key只读，不允许修改。
+static  NSString * const key = @&quot;name&quot;;
+
+// 如果 const修饰 *key1,表示*key1只读，key1还是能改变。
+
+static  NSString const *key1 = @&quot;name&quot;;
+
+</code></pre>
+
+<h3 id="toc_5">六、extern与const联合使用</h3>
+
+<ul>
+<li>开发中使用场景:在<code>多个文件中</code>经常使用的同一个字符串常量，可以使用extern与const组合。</li>
+<li>原因:
+
+<ul>
+<li>static与const组合：在每个文件都需要定义一份静态全局变量。</li>
+<li>extern与const组合:只需要定义一份全局变量，多个文件共享。</li>
+</ul></li>
+<li><p>全局常量正规写法:开发中便于管理所有的全局变量，通常搞一个GlobeConst文件，里面专门定义全局变量，统一管理，要不然项目文件多不好找。</p></li>
+<li><p>GlobeConst.h</p></li>
+</ul>
+
+<pre><code>/*******************************首页****************************/
+
+extern NSString * const nameKey = @&quot;name&quot;;
+
+/*******************************首页****************************/
+
+</code></pre>
+
+<ul>
+<li>GlobeConst.m</li>
+</ul>
+
+<pre><code>#import 
+
+/*******************************首页****************************/
+
+NSString * const nameKey = @&quot;name&quot;;
+
+/*******************************首页****************************/
+</code></pre>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[runtime小结]]></title>
+    <link href="http://www.citynight.cn/Blog/14717809514175.html"/>
+    <updated>2016-08-21T20:02:31+08:00</updated>
+    <id>http://www.citynight.cn/Blog/14717809514175.html</id>
+    <content type="html"><![CDATA[
+<h3 id="toc_0">一、runtime简介</h3>
+
+<ul>
+<li>runTime简称运行时。OC就是<code>运行时机制</code>，也就是在运行时候的一些机制，其中最主要的是消息机制。</li>
+<li>对于C语言，<code>函数的调用在编译的时候会决定调用哪个函数</code>。</li>
+<li>对于OC的函数，属于<code>动态调用过程</code>，在编译的时候并不能决定真正调用哪个函数，只有在真正运行的时候才会根据函数的名称找到对应的函数来调用。</li>
+<li>事实证明：
+
+<ul>
+<li>在编译阶段，OC可以<code>调用任何函数</code>，即使这个函数并未实现，只要声明过就不会报错。</li>
+<li>在编译阶段，C语言调用<code>未实现的函数</code>就会报错。</li>
+</ul></li>
+</ul>
+
+<h3 id="toc_1">二、runtime作用</h3>
+
+<h4 id="toc_2">1.发送消息</h4>
+
+<ul>
+<li>方法调用的本质，就是让对象发送消息。</li>
+<li>objc_msgSend,只有对象才能发送消息，因此以objc开头.</li>
+<li>使用<code>消息机制</code>前提，必须导入#import </li>
+<li>消息机制简单使用</li>
+<li>clang -rewrite-objc main.m 查看最终生成代码</li>
+</ul>
+
+<pre><code>    // 创建person对象
+    Person *p = [[Person alloc] init];
+
+    // 调用对象方法
+    [p eat];
+
+    // 本质：让对象发送消息
+    objc_msgSend(p, @selector(eat));
+
+    // 调用类方法的方式：两种
+    // 第一种通过类名调用
+    [Person eat];
+    // 第二种通过类对象调用
+    [[Person class] eat];
+
+    // 用类名调用类方法，底层会自动把类名转换成类对象调用
+    // 本质：让类对象发送消息
+    objc_msgSend([Person class], @selector(eat));
+
+</code></pre>
+
+<ul>
+<li>消息机制原理:对象根据方法编号SEL去映射表查找对应的方法实现
+<img src="media/14717809514175/14717888515211.jpg" alt=""/></li>
+</ul>
+
+<h4 id="toc_3">2.交换方法</h4>
+
+<ul>
+<li>开发使用场景:系统自带的方法功能不够，给系统自带的方法扩展一些功能，并且保持原有的功能。</li>
+<li>方式一:继承系统的类，重写方法.</li>
+<li>方式二:使用runtime,交换方法.</li>
+</ul>
+
+<pre><code>@implementation ViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view, typically from a nib.
+    // 需求：给imageNamed方法提供功能，每次加载图片就判断下图片是否加载成功。
+    // 步骤一：先搞个分类，定义一个能加载图片并且能打印的方法+ (instancetype)imageWithName:(NSString *)name;
+    // 步骤二：交换imageNamed和imageWithName的实现，就能调用imageWithName，间接调用imageWithName的实现。
+    UIImage *image = [UIImage imageNamed:@&quot;123&quot;];
+
+}
+
+@end
+
+@implementation UIImage (Image)
+// 加载分类到内存的时候调用
++ (void)load
+{
+    // 交换方法
+
+    // 获取imageWithName方法地址
+    Method imageWithName = class_getClassMethod(self, @selector(imageWithName:));
+
+    // 获取imageWithName方法地址
+    Method imageName = class_getClassMethod(self, @selector(imageNamed:));
+
+    // 交换方法地址，相当于交换实现方式
+    method_exchangeImplementations(imageWithName, imageName);
+
+}
+
+// 不能在分类中重写系统方法imageNamed，因为会把系统的功能给覆盖掉，而且分类中不能调用super.
+
+// 既能加载图片又能打印
++ (instancetype)imageWithName:(NSString *)name
+{
+
+    // 这里调用imageWithName，相当于调用imageName
+    UIImage *image = [self imageWithName:name];
+
+    if (image == nil) {
+        NSLog(@&quot;加载空的图片&quot;);
+    }
+
+    return image;
+}
+
+@end
+
+</code></pre>
+
+<ul>
+<li><p>交换原理：</p>
+
+<ul>
+<li><p>交换之前： <br/>
+<img src="media/14717809514175/14717892191490.jpg" alt=""/></p></li>
+<li><p>交换之后： <br/>
+<img src="media/14717809514175/14717892801791.jpg" alt=""/></p></li>
+</ul></li>
+</ul>
+
+<h4 id="toc_4">3.动态添加方法</h4>
+
+<ul>
+<li>开发使用场景：如果一个类方法非常多，加载类到内存的时候也比较耗费资源，需要给每个方法生成映射表，可以使用动态给某个类，添加方法解决。</li>
+<li>经典面试题：有没有使用performSelector，其实主要想问你有没有动态添加过方法。</li>
+<li>简单使用</li>
+</ul>
+
+<pre><code>@implementation ViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view, typically from a nib.
+
+    Person *p = [[Person alloc] init];
+
+    // 默认person，没有实现eat方法，可以通过performSelector调用，但是会报错。
+    // 动态添加方法就不会报错
+    [p performSelector:@selector(eat)];
+
+}
+
+@end
+
+@implementation Person
+// void(*)()
+// 默认方法都有两个隐式参数，
+void eat(id self,SEL sel)
+{
+    NSLog(@&quot;%@ %@&quot;,self,NSStringFromSelector(sel));
+}
+
+// 当一个对象调用未实现的方法，会调用这个方法处理,并且会把对应的方法列表传过来.
+// 刚好可以用来判断，未实现的方法是不是我们想要动态添加的方法
++ (BOOL)resolveInstanceMethod:(SEL)sel
+{
+
+    if (sel == @selector(eat)) {
+        // 动态添加eat方法
+
+        // 第一个参数：给哪个类添加方法
+        // 第二个参数：添加方法的方法编号
+        // 第三个参数：添加方法的函数实现（函数地址）
+        // 第四个参数：函数的类型，(返回值+参数类型) v:void @:对象-&gt;self :表示SEL-&gt;_cmd
+        class_addMethod(self, @selector(eat), eat, &quot;v@:&quot;);
+
+    }
+
+    return [super resolveInstanceMethod:sel];
+}
+@end
+
+</code></pre>
+
+<h4 id="toc_5">4.给分类添加属性</h4>
+
+<ul>
+<li>原理：给一个类声明属性，其实本质就是给这个类添加关联，并不是直接把这个值的内存空间添加到类存空间。</li>
+</ul>
+
+<pre><code>
+@implementation ViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view, typically from a nib.
+
+    // 给系统NSObject类动态添加属性name
+
+    NSObject *objc = [[NSObject alloc] init];
+    objc.name = @&quot;微指&quot;;
+    NSLog(@&quot;%@&quot;,objc.name);
+
+}
+
+@end
+
+// 定义关联的key
+static const char *key = &quot;name&quot;;
+
+@implementation NSObject (Property)
+
+- (NSString *)name
+{
+    // 根据关联的key，获取关联的值。
+    return objc_getAssociatedObject(self, key);
+}
+
+- (void)setName:(NSString *)name
+{
+    // 第一个参数：给哪个对象添加关联
+    // 第二个参数：关联的key，通过这个key获取
+    // 第三个参数：关联的value
+    // 第四个参数:关联的策略
+    objc_setAssociatedObject(self, key, name, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+@end
+
+</code></pre>
+
+<h4 id="toc_6">5.字典转模型</h4>
+
+<ul>
+<li>设计模型：字典转模型的第一步
+
+<ul>
+<li>模型属性，通常需要跟字典中的key一一对应</li>
+<li>问题：一个一个的生成模型属性，很慢？</li>
+<li>需求：能不能自动根据一个字典，生成对应的属性。</li>
+<li>解决：提供一个分类，专门根据字典生成对应的属性字符串。</li>
+</ul></li>
+</ul>
+
+<pre><code>    @implementation NSObject (Log)
+
+// 自动打印属性字符串
++ (void)resolveDict:(NSDictionary *)dict{
+
+    // 拼接属性字符串代码
+    NSMutableString *strM = [NSMutableString string];
+
+    // 1.遍历字典，把字典中的所有key取出来，生成对应的属性代码
+    [dict enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+
+        // 类型经常变，抽出来
+         NSString *type;
+
+        if ([obj isKindOfClass:NSClassFromString(@&quot;__NSCFString&quot;)]) {
+            type = @&quot;NSString&quot;;
+        }else if ([obj isKindOfClass:NSClassFromString(@&quot;__NSCFArray&quot;)]){
+            type = @&quot;NSArray&quot;;
+        }else if ([obj isKindOfClass:NSClassFromString(@&quot;__NSCFNumber&quot;)]){
+            type = @&quot;int&quot;;
+        }else if ([obj isKindOfClass:NSClassFromString(@&quot;__NSCFDictionary&quot;)]){
+            type = @&quot;NSDictionary&quot;;
+        }
+
+        // 属性字符串
+        NSString *str;
+        if ([type containsString:@&quot;NS&quot;]) {
+            str = [NSString stringWithFormat:@&quot;@property (nonatomic, strong) %@ *%@;&quot;,type,key];
+        }else{
+            str = [NSString stringWithFormat:@&quot;@property (nonatomic, assign) %@ %@;&quot;,type,key];
+        }
+
+        // 每生成属性字符串，就自动换行。
+        [strM appendFormat:@&quot;\n%@\n&quot;,str];
+
+    }];
+
+    // 把拼接好的字符串打印出来，就好了。
+    NSLog(@&quot;%@&quot;,strM);
+
+}
+
+@end
+
+</code></pre>
+
+<ul>
+<li>字典转模型的方式一：KVC</li>
+</ul>
+
+<pre><code>@implementation Status
+
++ (instancetype)statusWithDict:(NSDictionary *)dict
+{
+    Status *status = [[self alloc] init];
+
+    [status setValuesForKeysWithDictionary:dict];
+
+    return status;
+
+}
+
+@end
+
+</code></pre>
+
+<ul>
+<li>KVC字典转模型弊端：必须保证，模型中的属性和字典中的key一一对应。
+
+<ul>
+<li>如果不一致，就会调用<code>[ setValue:forUndefinedKey:]</code> 报<code>key</code>找不到的错。</li>
+<li>分析:模型中的属性和字典的key不一一对应，系统就会调用<code>setValue:forUndefinedKey:</code>报错。</li>
+<li>解决:重写对象的<code>setValue:forUndefinedKey:</code>,把系统的方法覆盖， 就能继续使用KVC，字典转模型了。</li>
+</ul></li>
+</ul>
+
+<pre><code>- (void)setValue:(id)value forUndefinedKey:(NSString *)key
+{
+
+}
+
+</code></pre>
+
+<ul>
+<li>字典转模型的方式二：Runtime
+
+<ul>
+<li>思路：利用运行时，遍历模型中所有属性，根据模型的属性名，去字典中查找key，取出对应的值，给模型的属性赋值。</li>
+<li>步骤：提供一个NSObject分类，专门字典转模型，以后所有模型都可以通过这个分类转。</li>
+</ul></li>
+</ul>
+
+<pre><code>
+@implementation ViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view, typically from a nib.
+
+    // 解析Plist文件
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@&quot;status.plist&quot; ofType:nil];
+
+    NSDictionary *statusDict = [NSDictionary dictionaryWithContentsOfFile:filePath];
+
+    // 获取字典数组
+    NSArray *dictArr = statusDict[@&quot;statuses&quot;];
+
+    // 自动生成模型的属性字符串
+//    [NSObject resolveDict:dictArr[0][@&quot;user&quot;]];
+
+    _statuses = [NSMutableArray array];
+
+    // 遍历字典数组
+    for (NSDictionary *dict in dictArr) {
+
+        Status *status = [Status modelWithDict:dict];
+
+        [_statuses addObject:status];
+
+    }
+
+    // 测试数据
+    NSLog(@&quot;%@ %@&quot;,_statuses,[_statuses[0] user]);
+
+}
+
+@end
+
+@implementation NSObject (Model)
+
++ (instancetype)modelWithDict:(NSDictionary *)dict
+{
+    // 思路：遍历模型中所有属性-》使用运行时
+
+    // 0.创建对应的对象
+    id objc = [[self alloc] init];
+
+    // 1.利用runtime给对象中的成员属性赋值
+
+    // class_copyIvarList:获取类中的所有成员属性
+    // Ivar：成员属性的意思
+    // 第一个参数：表示获取哪个类中的成员属性
+    // 第二个参数：表示这个类有多少成员属性，传入一个Int变量地址，会自动给这个变量赋值
+    // 返回值Ivar *：指的是一个ivar数组，会把所有成员属性放在一个数组中，通过返回的数组就能全部获取到。
+    /* 类似下面这种写法
+
+     Ivar ivar;
+     Ivar ivar1;
+     Ivar ivar2;
+     // 定义一个ivar的数组a
+     Ivar a[] = {ivar,ivar1,ivar2};
+
+     // 用一个Ivar *指针指向数组第一个元素
+     Ivar *ivarList = a;
+
+     // 根据指针访问数组第一个元素
+     ivarList[0];
+
+     */
+    unsigned int count;
+
+    // 获取类中的所有成员属性
+    Ivar *ivarList = class_copyIvarList(self, &amp;count);
+
+    for (int i = 0; i 字典中的key
+        // 从第一个角标开始截取
+        NSString *key = [name substringFromIndex:1];
+
+        // 根据成员属性名去字典中查找对应的value
+        id value = dict[key];
+
+        // 二级转换:如果字典中还有字典，也需要把对应的字典转换成模型
+        // 判断下value是否是字典
+        if ([value isKindOfClass:[NSDictionary class]]) {
+            // 字典转模型
+            // 获取模型的类对象，调用modelWithDict
+            // 模型的类名已知，就是成员属性的类型
+
+            // 获取成员属性类型
+           NSString *type = [NSString stringWithUTF8String:ivar_getTypeEncoding(ivar)];
+          // 生成的是这种@&quot;@\&quot;User\&quot;&quot; 类型 -》 @&quot;User&quot;  在OC字符串中 \&quot; -&gt; &quot;，\是转义的意思，不占用字符
+            // 裁剪类型字符串
+            NSRange range = [type rangeOfString:@&quot;\&quot;&quot;];
+
+           type = [type substringFromIndex:range.location + range.length];
+
+            range = [type rangeOfString:@&quot;\&quot;&quot;];
+
+            // 裁剪到哪个角标，不包括当前角标
+          type = [type substringToIndex:range.location];
+
+            // 根据字符串类名生成类对象
+            Class modelClass = NSClassFromString(type);
+
+            if (modelClass) { // 有对应的模型才需要转
+
+                // 把字典转模型
+                value  =  [modelClass modelWithDict:value];
+            }
+
+        }
+
+        // 三级转换：NSArray中也是字典，把数组中的字典转换成模型.
+        // 判断值是否是数组
+        if ([value isKindOfClass:[NSArray class]]) {
+            // 判断对应类有没有实现字典数组转模型数组的协议
+            if ([self respondsToSelector:@selector(arrayContainModelClass)]) {
+
+                // 转换成id类型，就能调用任何对象的方法
+                id idSelf = self;
+
+                // 获取数组中字典对应的模型
+                NSString *type =  [idSelf arrayContainModelClass][key];
+
+                // 生成模型
+               Class classModel = NSClassFromString(type);
+                NSMutableArray *arrM = [NSMutableArray array];
+                // 遍历字典数组，生成模型数组
+                for (NSDictionary *dict in value) {
+                    // 字典转模型
+                  id model =  [classModel modelWithDict:dict];
+                    [arrM addObject:model];
+                }
+
+                // 把模型数组赋值给value
+                value = arrM;
+
+            }
+        }
+
+        if (value) { // 有值，才需要给模型的属性赋值
+            // 利用KVC给模型中的属性赋值
+            [objc setValue:value forKey:key];
+        }
+
+    }
+    free(ivarList);
+    return objc;
+}
+
+@end
+</code></pre>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS开发-KVO的奥秘]]></title>
+    <link href="http://www.citynight.cn/Blog/14714050181003.html"/>
+    <updated>2016-08-17T11:36:58+08:00</updated>
+    <id>http://www.citynight.cn/Blog/14714050181003.html</id>
+    <content type="html"><![CDATA[
+<blockquote>
+<p>来源：<a href="http://www.jianshu.com/p/742b4b248da9">Sindri的小巢</a></p>
+</blockquote>
+
+<p><strong>前言</strong></p>
+
+<p>在iOS开发中，苹果提供了许多机制给我们进行回调。KVO(key-value-observing)是一种十分有趣的回调机制，在某个对象注册监听者后，在被监听的对象发生改变时，对象会发送一个通知给监听者，以便监听者执行回调操作。最常见的KVO运用是监听scrollView的contentOffset属性，来完成用户滚动时动态改变某些控件的属性实现效果，包括渐变导航栏、下拉刷新控件等效果。</p>
+
+<p><img src="http://mmbiz.qpic.cn/mmbiz/foPACGrddJ2RICbWq0ibOxfFDmygDGicuRRjLKzYTqMibXMxTiaNXIdeRT6s0aalp1ibbib7BxAYqUyPhHd1iahRY45uQ/0?wx_fmt=gif&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt="" title="1450081725511768.gif"/></p>
+
+<p>渐变导航栏</p>
+
+<p><strong>使用</strong></p>
+
+<p>KVO的使用非常简单，使用KVO的要求是对象必须能支持kvc机制——所有NSObject的子类都支持这个机制。拿上面的渐变导航栏做??，我们为tableView添加了一个监听者controller，在我们滑动列表的时候，会计算当前列表的滚动偏移量，然后改变导航栏的背景色透明度。</p>
+
+<pre><code>//添加监听者
+[self.tableView addObserver: self forKeyPath: @&quot;contentOffset&quot; options: NSKeyValueObservingOptionNew context: nil];
+/**
+ * 监听属性值发生改变时回调
+ */
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    CGFloat offset = self.tableView.contentOffset.y;
+    CGFloat delta = offset / 64.f + 1.f;
+    delta = MAX(0, delta);
+    [self alphaNavController].barAlpha = MIN(1, delta);
+}
+</code></pre>
+
+<p>毫无疑问，kvo是一种非常便捷的回调方式，但是编译器是怎么完成监听这个任务的呢？先来看看苹果文档对于KVO的实现描述</p>
+
+<blockquote>
+<p>Automatic key-value observing is implemented using a technique called isa-swizzling&hellip; When an observer is registered for an attribute of an object the isa pointer of the observed object is modified, pointing to an intermediate class rather than at the true class ..</p>
+</blockquote>
+
+<p>简要的来说，在我们对某个对象完成监听的注册后，编译器会修改监听对象（上文中的tableView）的isa指针，让这个指针指向一个新生成的中间类。从某个意义上来说，这是一场骗局。</p>
+
+<pre><code>typedef struct objc_class *Class;
+typedef struct objc_object {
+    Class isa;
+} *id;
+</code></pre>
+
+<p>这里要说明的是isa这个指针，isa是一个Class类型的指针，用来指向类的类型，我们可以通过object_getClass方法来获取这个值(正常来说，class方法内部的实现就是获取这个isa指针，但是在kvo中苹果对监听对象的这个方法进行了重写。之前这里描述有误，说成是指向父类，多谢<a href="http://www.jianshu.com/users/1498e495a4b1/timeline">夏都</a>为我纠正)。</p>
+
+<p>在oc中，规定了只要拥有isa指针的变量，通通都属于对象。上面的objc_object表示的是NSObject这个类的结构体表示，因此oc不允许出现非NSObject子类的对象（block是一个特殊的例外）</p>
+
+<p>当然了，苹果并不想讲述更多的实现细节，但是我们可以通过运行时机制来完成一些有趣的调试。</p>
+
+<p><strong>苹果的黑魔法</strong></p>
+
+<p>根据苹果的说法，在对象完成监听注册后，修改了被监听对象的某些属性，并且改变了isa指针，那么我们可以在监听前后输出被监听对象的相关属性来进一步探索kvo的原理。为了保证能够得到对象的真实类型，我使用了object_getClass方法（class方法本质上是调用这个函数），这个方法在runtime.h头文件中</p>
+
+<pre><code>NSLog(@&quot;address: %p&quot;, self.tableView);
+NSLog(@&quot;class method: %@&quot;, self.tableView.class);
+NSLog(@&quot;description method: %@&quot;, self.tableView);
+NSLog(@&quot;use runtime to get class: %@&quot;, object_getClass(self.tableView));
+[self.tableView addObserver: self forKeyPath: @&quot;contentOffset&quot; options: NSKeyValueObservingOptionNew context: nil];
+NSLog(@&quot;===================================================&quot;);
+NSLog(@&quot;address: %p&quot;, self.tableView);
+NSLog(@&quot;class method: %@&quot;, self.tableView.class);
+NSLog(@&quot;description method: %@&quot;, self.tableView);
+NSLog(@&quot;use runtime to get class %@&quot;, object_getClass(self.tableView));
+</code></pre>
+
+<p>在看官们运行这段代码之前，可以先思考一下上面的代码会输出什么。</p>
+
+<pre><code>2015-12-12 23:02:33.216 LXDAlphaNavigationController[1487:63171] address: 0x7f927a81d200
+2015-12-12 23:02:33.216 LXDAlphaNavigationController[1487:63171] class method: UITableView
+2015-12-12 23:02:33.217 LXDAlphaNavigationController[1487:63171] description method: 2015-12-12 23:02:33.217 LXDAlphaNavigationController[1487:63171] use runtime to get class: UITableView
+2015-12-12 23:02:33.217 LXDAlphaNavigationController[1487:63171] ===================================================
+2015-12-12 23:02:33.218 LXDAlphaNavigationController[1487:63171] address: 0x7f927a81d200
+2015-12-12 23:02:33.218 LXDAlphaNavigationController[1487:63171] class method: UITableView
+2015-12-12 23:02:33.218 LXDAlphaNavigationController[1487:63171] description method: 2015-12-12 23:02:33.230 LXDAlphaNavigationController[1487:63171] use runtime to get class NSKVONotifying_UITableView
+</code></pre>
+
+<p>除了通过object_getClass获取的类型之外，其他的输出没有任何变化。class方法跟description方法可以重写实现上面的效果，但是为什么连地址都是一样的。</p>
+
+<p>这里可以通过一句小代码来说明一下：</p>
+
+<pre><code>NSLog(@&quot;%@, %@&quot;, self.class, super.class);
+</code></pre>
+
+<p>上面这段代码不管你怎么输出，两个结果都是一样的。这是由于super本质上指向的是父类内存。这话说起来有点绕口，但是我们可以通过对象内存图来表示：</p>
+
+<p><img src="http://mmbiz.qpic.cn/mmbiz/foPACGrddJ2RICbWq0ibOxfFDmygDGicuRn1E06HjV4SicWpj23ss5lIoibBxfyEKHxnx22HmZdMItVZa4ViaSlAU5A/640?wx_fmt=png" alt=""/></p>
+
+<p>类的内存</p>
+
+<p>每一个对象占用的内存中，一部分是父类属性占用的；在父类占用的内存中，又有一部分是父类的父类占用的。前文已经说过isa指针指向的是父类，因此在这个图中，Son的地址从Father开始，Father的地址从NSObject开始，这三个对象内存的地址都是一样的。通过这个，我们可以猜到苹果文档中所提及的中间类就是被监听对象的子类。并且为了隐藏实现，苹果还重写了这个子类的class方法跟description方法来掩人耳目。另外，我们还看到了新类相对于父类添加了一个NSKVONotifying_前缀，添加这个前缀是为了避免多次创建监听子类，节省资源</p>
+
+<p><strong>怎么实现类似效果</strong></p>
+
+<p>既然知道了苹果的实现过程，那么我们可以自己动手通过运行时机制来实现KVO。runtime允许我们在程序运行时动态的创建新类、拓展方法、method-swizzling、绑定属性等等这些有趣的事情。</p>
+
+<p>在创建新类之前，我们应该学习苹果的做法，判断当前是否存在这个类，如果不存在我们再进行创建，并且重新实现这个新类的class方法来掩盖具体实现。基于这些原则，我们用下面的方法来获取新类</p>
+
+<pre><code>- (Class)createKVOClassWithOriginalClassName: (NSString *)className
+{
+    NSString * kvoClassName = [kLXDkvoClassPrefix stringByAppendingString: className];
+    Class observedClass = NSClassFromString(kvoClassName);
+    if (observedClass) { return observedClass; }
+    //创建新类，并且添加LXDObserver_为类名新前缀
+    Class originalClass = object_getClass(self);
+    Class kvoClass = objc_allocateClassPair(originalClass, kvoClassName.UTF8String, 0);
+    //获取监听对象的class方法实现代码，然后替换新建类的class实现
+    Method classMethod = class_getInstanceMethod(originalClass, @selector(class));
+    const char * types = method_getTypeEncoding(classMethod);
+    class_addMethod(kvoClass, @selector(class), (IMP)kvo_Class, types);
+    objc_registerClassPair(kvoClass);
+    return kvoClass;
+}
+</code></pre>
+
+<p>另外，在判断是否需要中间类来完成监听的注册前，我们还要判断监听的属性的有效性。通过获取变量的setter方法名（将首字母大写并加上前缀set），以此来获取setter实现，如果不存在实现代码，则抛出异常使程序崩溃。</p>
+
+<pre><code>SEL setterSelector = NSSelectorFromString(setterForGetter(key));
+Method setterMethod = class_getInstanceMethod([self class], setterSelector);
+if (!setterMethod) {
+    @throw [NSException exceptionWithName: NSInvalidArgumentException reason: [NSString stringWithFormat: @&quot;unrecognized selector sent to instance %p&quot;, self] userInfo: nil];
+    return;
+}
+Class observedClass = object_getClass(self);
+NSString * className = NSStringFromClass(observedClass);
+//如果被监听者没有LXDObserver_，那么判断是否需要创建新类
+if (![className hasPrefix: kLXDkvoClassPrefix]) {
+    observedClass = [self createKVOClassWithOriginalClassName: className];
+    object_setClass(self, observedClass);
+}
+//重新实现setter方法，使其完成
+const char * types = method_getTypeEncoding(setterMethod);
+class_addMethod(observedClass, setterSelector, (IMP)KVO_setter, types);
+
+
+</code></pre>
+
+<p>在重新实现setter方法的时候，有两个重要的方法：willChangeValueForKey和didChangeValueForKey，分别在赋值前后进行调用。此外，还要遍历所有的回调监听者，然后通知这些监听者：</p>
+
+<pre><code>static void KVO_setter(id self, SEL _cmd, id newValue)
+{
+    NSString * setterName = NSStringFromSelector(_cmd);
+    NSString * getterName = getterForSetter(setterName);
+    if (!getterName) {
+        @throw [NSException exceptionWithName: NSInvalidArgumentException reason: [NSString stringWithFormat: @&quot;unrecognized selector sent to instance %p&quot;, self] userInfo: nil];
+        return;
+    }
+    id oldValue = [self valueForKey: getterName];
+    struct objc_super superClass = {
+        .receiver = self,
+        .super_class = class_getSuperclass(object_getClass(self))
+    };
+    [self willChangeValueForKey: getterName];
+    void (*objc_msgSendSuperKVO)(void *, SEL, id) = (void *)objc_msgSendSuper;
+    objc_msgSendSuperKVO(&amp;superClass, _cmd, newValue);
+    [self didChangeValueForKey: getterName];
+    //获取所有监听回调对象进行回调
+    NSMutableArray * observers = objc_getAssociatedObject(self, (__bridge const void *)kLXDkvoAssiociateObserver);
+    for (LXD_ObserverInfo * info in observers) {
+        if ([info.key isEqualToString: getterName]) {
+            dispatch_async(dispatch_queue_create(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                info.handler(self, getterName, oldValue, newValue);
+            });
+        }
+    }
+}
+</code></pre>
+
+<p>所有的监听者通过动态绑定的方式将其存储起来，但这样也会产生强引用，所以我们还需要提供释放监听的方法：</p>
+
+<pre><code>- (void)LXD_removeObserver:(NSObject *)object forKey:(NSString *)key
+{
+    NSMutableArray * observers = objc_getAssociatedObject(self, (__bridge void *)kLXDkvoAssiociateObserver);
+    LXD_ObserverInfo * observerRemoved = nil;
+    for (LXD_ObserverInfo * observerInfo in observers) {
+        if (observerInfo.observer == object &amp;&amp; [observerInfo.key isEqualToString: key]) {
+            observerRemoved = observerInfo;
+            break;
+        }
+    }
+    [observers removeObject: observerRemoved];
+}
+</code></pre>
+
+<p>虽然上面已经粗略的实现了kvo，并且我们还能自定义回调方式。使用target-action或者block的方式进行回调会比单一的系统回调要全面的多。但kvo真正的实现并没有这么简单，上述代码目前只能实现对象类型的监听，基本类型无法监听，况且还有keyPath可以监听对象的成员对象的属性这种更强大的功能。</p>
+
+<p><strong>尾言</strong></p>
+
+<p>对于基本类型的监听，苹果可能是通过void *类型对对象进行桥接转换，然后直接获取内存，通过type encoding我们可以获取所有setter对象的具体类型，虽然实现比较麻烦，但是确实能够达成类似的效果。</p>
+
+<p>钻研kvo的实现可以让我们对苹果的代码实现有更深层次的了解，这些知识涉及到了更深层次的技术，探究它们对我们的开发视野有着很重要的作用。同时，对比其他的回调方式，KVO的实现在创建子类、重写方法等等方面的内存消耗是很巨大的，因此博主更加推荐使用delegate、block等回调方式，甚至直接使用method-swizzling来替换这种重写setter方式也是可行的。</p>
+
+<p>文章代码：<a href="https://github.com/JustKeepRunning/LXD_KeyValueObserveDemo">自实现KVO</a></p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[copy strong weak assign]]></title>
+    <link href="http://www.citynight.cn/Blog/14714022507551.html"/>
+    <updated>2016-08-17T10:50:50+08:00</updated>
+    <id>http://www.citynight.cn/Blog/14714022507551.html</id>
+    <content type="html"><![CDATA[
+<h2 id="toc_0">weak &amp; strong</h2>
+
+<p><strong>weak</strong><br/>
+你买了个iPhone7，你朋友觉得不错，由于手头紧，没买，于是你们公用一台iPhone7，你新装了QQ音乐，你朋友用的时候也会有QQ音乐<br/>
+然后你的手机丢了 你朋友也没有 不能用了</p>
+
+<p><strong>stong</strong><br/>
+你买了个iPhone7 你朋友也买了个iPhone7  他觉得你的app stroe账号里有好多软件 然后他就用你的app stroe账号 == 他stong了你的账号，你俩就公用了一个账号。<br/>
+你下载软件 他也有了 然后你手机账号没了丢了 但他的手机还在账号还能用。 </p>
+
+<h2 id="toc_1">strong &amp; copy (深拷贝&amp;浅拷贝)</h2>
+
+<p>copy是用来保护数据的,copy一个数据之后,更改源数据不会导致copy的数据更改<br/>
+strong是对一个数据的引用,更改源数据会导致strong的数据更改 </p>
+
+<h2 id="toc_2">assign</h2>
+
+<p>基本数据类型</p>
+
+<blockquote>
+<p><a href="https://developer.apple.com/library/mac/documentation/CoreFoundation/Conceptual/CFMemoryMgmt/Concepts/CopyFunctions.html">苹果文档中关于浅拷贝&amp;深拷贝</a></p>
+</blockquote>
+
+<p><img src="media/14714022507551/Snip20160817_3.png" alt="Snip20160817_3"/></p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[网络切面化处理]]></title>
+    <link href="http://www.citynight.cn/Blog/14701034373615.html"/>
+    <updated>2016-08-02T10:03:57+08:00</updated>
+    <id>http://www.citynight.cn/Blog/14701034373615.html</id>
+    <content type="html"><![CDATA[
+<h2 id="toc_0">什么是面向切片编程</h2>
+
+<blockquote>
+<p>看考&lt;禅与Objective-C 编码艺术&gt;第11章  面向切面编程.  本文中技术部分参考<a href="https://github.com/yuantiku/YTKNetwork">YTKNetwork</a>和<a href="https://github.com/casatwy/RTNetworking">RTNetworking</a>代码实现,拜读了<a href="http://casatwy.com/iosying-yong-jia-gou-tan-wang-luo-ceng-she-ji-fang-an.html">iOS应用架构谈 网络层设计方案</a>和猿题库的两篇使用介绍并根据根据个人理解修改部分功能实现,这篇文章主要就是进行思路的整理,一步一步制造自己想要的网络请求轮子.</p>
+</blockquote>
+
+<p>Aspect Oriented Programming (AOP,面向切面编程)在OC中意味着可以通过运行时的特性来为切面添加合适的代码.简单说可以添加类似行为:</p>
+
+<ul>
+<li>在类的特定方法调用前运行特定的代码</li>
+<li>在类的特定方法调用后运行特定的代码</li>
+<li>增加代码来代替原来的类的方法的实现</li>
+</ul>
+
+<h2 id="toc_1">网络怎么切面</h2>
+
+<p>上面已经说了什么是面向切面编程,那么网络中怎么切面?最主要的就是找到合适的方法,然后在它的前后都切一刀.由于项目中使用的是<a href="https://github.com/AFNetworking">AFNetworking</a>所以适合我们的特定方法应该是进行网络请求的关键代码,如下:</p>
+
+<pre><code>/**
+ Creates an `NSURLSessionDataTask` with the specified request.
+
+ @param request The HTTP request for the request.
+ @param completionHandler A block object to be executed when the task finishes. This block has no return value and takes three arguments: the server response, the response object created by that serializer, and the error that occurred, if any.
+ */
+- (NSURLSessionDataTask *)dataTaskWithRequest:(NSURLRequest *)request
+                            completionHandler:(nullable void (^)(NSURLResponse *response, id _Nullable responseObject,  NSError * _Nullable error))completionHandler;
+</code></pre>
+
+<p>当然,如果需要上传下载进度的话</p>
+
+<pre><code>/**
+ Creates an `NSURLSessionDataTask` with the specified request.
+
+ @param request The HTTP request for the request.
+ @param uploadProgressBlock A block object to be executed when the upload progress is updated. Note this block is called on the session queue, not the main queue.
+ @param downloadProgressBlock A block object to be executed when the download progress is updated. Note this block is called on the session queue, not the main queue.
+ @param completionHandler A block object to be executed when the task finishes. This block has no return value and takes three arguments: the server response, the response object created by that serializer, and the error that occurred, if any.
+ */
+- (NSURLSessionDataTask *)dataTaskWithRequest:(NSURLRequest *)request
+                               uploadProgress:(nullable void (^)(NSProgress *uploadProgress))uploadProgressBlock
+                             downloadProgress:(nullable void (^)(NSProgress *downloadProgress))downloadProgressBlock
+                            completionHandler:(nullable void (^)(NSURLResponse *response, id _Nullable responseObject,  NSError * _Nullable error))completionHandler;
+</code></pre>
+
+<p>这个应该是你的选择,这里只说下网络请求,所以就以第一种为例了.</p>
+
+<p>我们能在网络请求之前与之后做些什么呢?</p>
+
+<ul>
+<li>操作网络请求之前(取消,判断是否重复&hellip;)</li>
+<li>操作网络请求之后(缓存,错误处理&hellip;)</li>
+<li>&hellip;</li>
+</ul>
+
+<h3 id="toc_2">进行网络请求核心代码</h3>
+
+<pre><code>- (void)addRequest:(NSURLRequest *)request {
+    NSLog(@&quot;\n==================================\n\nRequest Start: \n\n &quot;
+          @&quot;%@\n\n==================================&quot;,
+          request.URL);
+    
+    // 跑到这里的block的时候，就已经是主线程了。
+    __block NSURLSessionDataTask *dataTask = nil;
+    dataTask = [_manager
+                dataTaskWithRequest:request
+                completionHandler:^(NSURLResponse *_Nonnull response,
+                                    id _Nullable responseObject,
+                                    NSError *_Nullable error) {
+                    NSNumber *requestID = @([dataTask taskIdentifier]);
+                    [_requestsRecord removeObjectForKey:requestID];
+                    NSData *responseData = responseObject;
+                    NSString *responseString =
+                    [[NSString alloc] initWithData:responseData
+                                          encoding:NSUTF8StringEncoding];
+                    
+                    NSLog(@&quot;responseString:%@&quot;,responseString);
+                    if (error) {
+                        NSLog(@&quot;error: %@&quot;,error);
+                        
+#warning TODO: 失败回掉
+                        NSLog(@&quot;这里应该进行失败回掉&quot;);
+                    } else {
+                        // 检查http response是否成立。
+#warning TODO: 成功回掉
+                        NSLog(@&quot;这里应该进行成功回掉&quot;);
+                    }
+                }];
+    // 添加到请求列表
+    NSNumber *requestId = @([dataTask taskIdentifier]);
+    _requestsRecord[requestId] = dataTask;
+    [dataTask resume];
+}
+</code></pre>
+
+<h3 id="toc_3">创建NSMutableURLRequest</h3>
+
+<p>需要NSMutableURLRequest参数,所以创建一个</p>
+
+<pre><code>    AFHTTPRequestSerializer *httpRequestSerializer = [AFHTTPRequestSerializer serializer];
+    httpRequestSerializer.timeoutInterval = 20.0f;
+    httpRequestSerializer.cachePolicy = NSURLRequestUseProtocolCachePolicy;
+    /// 网络请求头部插入一些内容
+    [httpRequestSerializer setValue:[[NSUUID UUID] UUIDString] forHTTPHeaderField:@&quot;xxxxxxxx&quot;];
+    NSMutableURLRequest *request = [httpRequestSerializer requestWithMethod:@&quot;GET&quot;
+                                                                  URLString:@&quot;http://www.baidu.com&quot;
+                                                                      parameters:nil
+                                                                           error:NULL];
+</code></pre>
+
+<p>可以看到,上面注释的地方说明我们可以在这里搞事情啊,这个稍后会用到</p>
+
+<p>对了,不要忘记设置<code>info.plist</code></p>
+
+<pre><code>&lt;key&gt;NSAppTransportSecurity&lt;/key&gt;
+    &lt;dict&gt;
+        &lt;key&gt;NSAllowsArbitraryLoads&lt;/key&gt;
+        &lt;true/&gt;
+    &lt;/dict&gt;
+
+</code></pre>
+
+<p>创建request然后请求,<code>[[MKNetWorkAgent sharedInstance] addRequest:request];</code>结果如下,百度HTML页面去除了部分代码:</p>
+
+<pre><code>2016-08-02 15:36:13.721 NetWorkDemo[56429:4922365] 
+==================================
+
+Request Start: 
+
+ http://www.baidu.com
+
+==================================
+2016-08-02 15:36:13.838 NetWorkDemo[56429:4922365] responseString:&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;!--STATUS OK--&gt;
+    &lt;head&gt;
+        &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;
+        &lt;title&gt;百度一下,你就知道&lt;/title&gt;
+        &lt;meta http-equiv=&quot;Cache-control&quot; content=&quot;no-cache&quot;&gt;
+        &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no&quot;&gt;
+        &lt;style type=&quot;text/css&quot;&gt;
+            /*去掉css样式*/
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div class=&quot;wrap&quot;&gt;
+            &lt;div class=&quot;lg&quot;&gt;
+                &lt;img src=&quot;//m.baidu.com/static/index/u.png&quot; alt=&quot;百度首页&quot;&gt;
+            &lt;/div&gt;
+            &lt;form action=&quot;//m.baidu.com/s?&quot; method=&quot;get&quot;&gt;
+                &lt;div class=&quot;word-wrap&quot;&gt;
+                    &lt;input type=&quot;text&quot; name=&quot;word&quot; maxlength=&quot;64&quot; size=&quot;17&quot; id=&quot;word&quot;&gt;
+                &lt;/div&gt;
+                &lt;input type=&quot;submit&quot; value=&quot;百度一下&quot; class=&quot;bn&quot;&gt;
+            &lt;/form&gt;
+            &lt;div class=&quot;d&quot;&gt;
+                &lt;!-- 去掉了尾部 --&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+2016-08-02 15:36:13.839 NetWorkDemo[56429:4922365] 这里应该进行成功回掉
+</code></pre>
+
+<p>这说明已经能够进行网络请求了.</p>
+
+<p>&hellip;&hellip;&hellip;.. 2016.8.3更新&hellip;&hellip;&hellip;&hellip;.</p>
+
+<blockquote>
+<p>随着项目的增长,有些接口我们可能需要在不同的地方调用,这是需求把请求单独拿出来.在这里我们创建一个MKBaseRequest,所有的接口都继承自base,这样就能够满足我们的需求了.</p>
+</blockquote>
+
+<p>需求出来了,怎么解决呢?<br/>
+首先修改进行网络请求核心代码为<code>- (void)addRequest:(MKBaseRequest *)request</code>,MKBaseRequest里面必须要提供可供访问的url,因为<code>NSURLRequest</code>的创建需要url.</p>
+
+<p>在<code>MKBaseRequest</code>中添加:</p>
+
+<pre><code>/// 请求的URL
+- (NSString *)requestUrl;
+</code></pre>
+
+<p>使用方法而不是属性的原因就是为了方便子类的重写.<code>- (void)addRequest:(MKBaseRequest *)request</code>实现中由于没有<code>NSURLRequest</code>所以需要根据<code>MKBaseRequest</code>提供的url进行创建,添加代码:</p>
+
+<pre><code>NSURLRequest *requestTest = [NSURLRequest requestWithURL:[NSURL URLWithString:[request requestUrl]]];
+</code></pre>
+
+<p>同理,我们还可以在<code>MKBaseRequest</code>中添加其他限制项,例如:</p>
+
+<pre><code>/// 请求的BaseURL
+- (NSString *)baseUrl;
+
+/// 请求的cdnURL
+- (NSString *)cdnUrl;
+
+/// 请求的连接超时时间，默认为60秒
+- (NSTimeInterval)requestTimeoutInterval;
+
+/// 请求的参数列表
+- (nullable id)requestArgument;
+
+/// Http请求的方法
+- (MKRequestMethod)requestMethod;
+
+/// 是否使用cdn的host地址
+- (BOOL)useCDN;
+</code></pre>
+
+<p>写到这里,如果我们很多接口都设置类似baseUrl之类的可以提取出来还有些必须的参数,在app进入的时候一起设置.这时我们需要创建<code>MKNetworkConfig</code>来管理这些内容.</p>
+
+<p>&hellip;&hellip;&hellip;.. 2016.8.4更新&hellip;&hellip;&hellip;&hellip;.</p>
+
+<h3 id="toc_4">本地模拟登陆</h3>
+
+<p>做个简单的模拟登陆登陆页面:</p>
+
+<pre><code>&lt;form action=&quot;welcome.php&quot; method=&quot;get&quot;&gt;&lt;br&gt;
+    Name: &lt;input type=&quot;text&quot; name=&quot;name&quot; /&gt;&lt;br&gt;
+    PWD:  &lt;input type=&quot;text&quot; name=&quot;pwd&quot; /&gt;&lt;br&gt;
+    &lt;input type=&quot;submit&quot; /&gt; &lt;/form&gt;
+</code></pre>
+
+<p>welecome.php中简单的输出刚刚输入的内容.</p>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Citynight&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+您输入的账号是:
+
+&lt;?php echo $_GET[&quot;name&quot;]; ?&gt;
+.&lt;br /&gt;
+
+密码是:
+
+&lt;?php echo $_GET[&quot;pwd&quot;]; ?&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>登陆界面的样子:<br/>
+<img src="media/14701034373615/14703212142675.jpg" alt=""/></p>
+
+<p>点击提交后:<br/>
+<img src="media/14701034373615/14703212477389.jpg" alt=""/><br/>
+已经能够得到正确的结果了.</p>
+
+<p>既然网页端没有问题,那么就修改成返回json格式数据给客户端</p>
+
+<pre><code>&lt;?php
+$map = array(
+    &#39;name&#39; =&gt; $_GET[&quot;name&quot;],
+    &#39;pwd&#39; =&gt; $_GET[&quot;pwd&quot;]
+);
+echo json_encode($map);
+</code></pre>
+
+<p>测试已经能够正常返回了:<br/>
+<img src="media/14701034373615/14703247878224.jpg" alt=""/></p>
+
+<h3 id="toc_5">怎样传递参数</h3>
+
+<pre><code>/// 请求的参数列表
+- (nullable id)requestArgument;
+</code></pre>
+
+<p>上面是原先设置的传递参数的方式,我感觉这样做不是很方便,比如需要传递的参数是变化的,可能就需要init的时候添加参数,这时如果参数的数量还比较多可能就比较麻烦了.<br/>
+我现在采用的是通过代理的方法实现.</p>
+
+<pre><code>/// 数据源:获得所需要的参数
+@protocol MKRequestParamSource &lt;NSObject&gt;
+@required
+- (NSDictionary *)paramsForRequest:(MKBaseRequest *)request;
+@end
+</code></pre>
+
+<p>我们创建的时候如果需要参数必须设置代理,并实现</p>
+
+<pre><code>/// request paramSource
+@property (nonatomic, weak, nullable) id&lt;MKRequestParamSource&gt; paramSource;
+</code></pre>
+
+<p>这样做是模仿数据源的代理方法,比较容易理解.</p>
+
+<blockquote>
+<p>2016.8.23更</p>
+
+<h3 id="toc_6">如何进行分页</h3>
+
+<p>开发中我们经常遇到需要上拉加载更多的需求,参数中的page是动态变化的.这个轮子也对此作了处理,如下:</p>
+</blockquote>
+
+<pre><code>/// MKNetWorkAgent中添加带参数的网络请求
+- (void)addRequest:(MKBaseRequest *)baseRequest WithParams:(nullable id)params;
+</code></pre>
+
+<pre><code>//MKBaseRequest 中添加方法用于获取当前状态
+/* 子类重写必须写 super 否则 isLoading 状态不会更改*/
+- (void)beforePerformRequestState;
+/// success: 判断成功还是失败
+- (void)afterPerformResponseState:(BOOL)success;
+</code></pre>
+
+<p>具体使用:<br/>
+<img src="media/14701034373615/14719456603156.jpg" alt=""/></p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS Tips]]></title>
+    <link href="http://www.citynight.cn/Blog/14700440944204.html"/>
+    <updated>2016-08-01T17:34:54+08:00</updated>
+    <id>http://www.citynight.cn/Blog/14700440944204.html</id>
+    <content type="html"><![CDATA[
+<p><strong>对象销毁</strong><br/>
+对象的销毁虽然消耗资源不多，但累积起来也是不容忽视的。通常当容器类持有大量对象时，其销毁时的资源消耗就非常明显。同样的，如果对象可以放到后台线程去释放，那就挪到后台线程去。这里有个小 Tip：把对象捕获到 block 中，然后扔到后台队列去随便发送个消息以避免编译器警告，就可以让对象在后台线程销毁了。</p>
+
+<pre><code>NSArray *tmp = self.array;
+self.array = nil;
+dispatch_async(queue, ^{
+    [tmp class];
+});
+</code></pre>
+
+<blockquote>
+<p>来自:<a href="http://blog.ibireme.com/2015/11/12/smooth_user_interfaces_for_ios/">iOS 保持界面流畅的技巧</a></p>
+</blockquote>
+
+<p><strong>拖拽收起键盘</strong><br/>
+UIScrollView有个keyboardDismissMode属性，设置成UIScrollViewKeyboardDismissModeOnDrag就可以在拖拽ScrollView的时候自动缩起键盘</p>
+
+<pre><code>@property(nonatomic) UIScrollViewKeyboardDismissMode keyboardDismissMode NS_AVAILABLE_IOS(7_0); // default is UIScrollViewKeyboardDismissModeNone
+</code></pre>
+
+<p><strong>让view的一部分响应手势点击</strong><br/>
+让view的一部分响应手势点击，其余部分实现手势透传给下方的view的方法</p>
+
+<p>在View中重写:</p>
+
+<pre><code>-(UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    NSLog(@&quot;%@-------------&gt;&gt;&gt;&gt;&gt;&gt;&gt;point = %@&quot;,NSStringFromSelector(_cmd),NSStringFromCGPoint(point));
+    
+    // 设置能够点击的区域
+    CGRect rect = CGRectMake(100, 100, 200, 200);
+    if (CGRectContainsPoint(rect, point)) {
+        // 如果点击在该区域,则让View 成为响应链中的一个view,接受手势事件
+        // 此时可通过touchBegan:方法监听到手势
+        return self;
+    }
+    return nil;
+}
+
+</code></pre>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Android Studio 中如何查看帮助文档]]></title>
+    <link href="http://www.citynight.cn/Blog/14693652209160.html"/>
+    <updated>2016-07-24T21:00:20+08:00</updated>
+    <id>http://www.citynight.cn/Blog/14693652209160.html</id>
+    <content type="html"><![CDATA[
+<ol>
+<li><p>首先下载帮助文档<br/>
+<img src="media/14693652209160/14693653611930.jpg" alt=""/></p></li>
+<li><p>跳转到文件夹<br/>
+<img src="media/14693652209160/14693654229419.jpg" alt=""/></p></li>
+<li><p>打开帮助文档 index.html<br/>
+<img src="media/14693652209160/14693655187234.jpg" alt=""/></p></li>
+<li><p>例如查找Activity 生命周期可以这样走<br/>
+<img src="media/14693652209160/14693656858016.jpg" alt=""/><br/>
+然后command + f 搜索Activity选中一个高亮的选项例如:<br/>
+<img src="media/14693652209160/14693658027297.jpg" alt=""/><br/>
+由于它是继承自Activity的所以可以这样<br/>
+<img src="media/14693652209160/14693659242489.jpg" alt=""/><br/>
+然后往下翻一翻就能看到了<br/>
+<img src="media/14693652209160/14693659705775.jpg" alt=""/></p></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[关于签名(Certificate),Identifiers,Device和Provisioning Profile]]></title>
+    <link href="http://www.citynight.cn/Blog/14689910761027.html"/>
+    <updated>2016-07-20T13:04:36+08:00</updated>
+    <id>http://www.citynight.cn/Blog/14689910761027.html</id>
+    <content type="html"><![CDATA[
+<p>直接上图:</p>
+
+<p><img src="media/14689910761027/%E6%80%BB%E7%BB%93.png" alt="总结"/></p>
+
+<p>应该很详细了</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Python爬网站上的图片]]></title>
+    <link href="http://www.citynight.cn/Blog/14689829459214.html"/>
+    <updated>2016-07-20T10:49:05+08:00</updated>
+    <id>http://www.citynight.cn/Blog/14689829459214.html</id>
+    <content type="html"><![CDATA[
+<p>以<a href="http://ppt.geekbang.org">极客邦PPT大全</a>为例,比如我想下载<a href="http://ppt.geekbang.org/slide/show/204">美团iOS客户端的构建思考与实践</a></p>
+
+<ol>
+<li>查看图片url
+<img src="media/14689829459214/14689832970971.jpg" alt=""/></li>
+<li>图片url的格式<a href="http://7xiox7.com2.z0.glb.qiniucdn.com/576e52fb28bf9-01.jpg">http://7xiox7.com2.z0.glb.qiniucdn.com/576e52fb28bf9-01.jpg</a>  总共101张图片</li>
+<li>根据这些编写Python文件</li>
+</ol>
+
+<pre><code>#!/usr/bin/python
+#coding:utf-8
+
+import urllib
+import urllib2
+import os
+
+basepicurl=&quot;http://7xiox7.com2.z0.glb.qiniucdn.com/576e52fb28bf9-&quot;
+save_path=&quot;/Users/mekor/Desktop/images/&quot;
+for i in range(1,102,1):
+    s = &quot;%02d&quot; % i
+    picurl = basepicurl + s + &quot;.jpg&quot;
+    imgData = urllib2.urlopen(picurl).read()
+    # 给定图片存放名称
+    fileName = save_path + s + &quot;.jpg&quot;
+    # 文件名是否存在
+    #if os.path.exists(fileName):
+    output = open(fileName,&#39;wb+&#39;)
+    output.write(imgData)
+    output.close()
+    print &quot;Finished download&quot;+ s
+
+print &quot;运行完成&quot;
+</code></pre>
+
+<p>这样就能够把所有的图片爬到本地了.</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Mac 下面Python 自动补全]]></title>
+    <link href="http://www.citynight.cn/Blog/14685034880390.html"/>
+    <updated>2016-07-14T21:38:08+08:00</updated>
+    <id>http://www.citynight.cn/Blog/14685034880390.html</id>
+    <content type="html"><![CDATA[
+<p>网上有很多tab自动补全的脚本,但是在Mac上面都不能正常的运行,在<a href="http://stackoverflow.com/questions/7116038/python-tab-completion-mac-osx-10-7-lion">stackoverflow</a>找到一个能用的.</p>
+
+<pre><code>import readline
+import rlcompleter
+if &#39;libedit&#39; in readline.__doc__:
+    readline.parse_and_bind(&quot;bind ^I rl_complete&quot;)
+else:
+    readline.parse_and_bind(&quot;tab: complete&quot;)
+
+</code></pre>
+
+<p>进入Python后直接import tab 就可以了</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[如何给View添加点击事件]]></title>
+    <link href="http://www.citynight.cn/Blog/14682407498601.html"/>
+    <updated>2016-07-11T20:39:09+08:00</updated>
+    <id>http://www.citynight.cn/Blog/14682407498601.html</id>
+    <content type="html"><![CDATA[
+<p>项目中有很多地方需要添加点击事件,重复代码很多,所以做了一个UIView的分类,专门做点击事件使用.<br/>
+项目地址:<a href="https://github.com/Mekor/UIView-Tap">UIView-Tap</a></p>
+
+<p>代码很简单,主要有一点就是注意分类不能直接添加属性,需要用到运行时相关内容.</p>
+
+<p>代码如下:</p>
+
+<pre><code>\\UIView+Tap.h文件
+@interface UIView (Tap)
+- (void)addTapBlock:(void(^)(id obj))tapAction;
+@end
+
+\\UIView+Tap.m文件
+#import &lt;objc/runtime.h&gt;
+
+static const void* tagValue = &amp;tagValue;
+
+@interface UIView ()
+@property (nonatomic, copy) void(^tapAction)(id);
+@end
+
+@implementation UIView (Tap)
+- (void)tap{
+    if (self.tapAction) {
+        self.tapAction(self);
+    }
+}
+- (void)addTapBlock:(void(^)(id obj))tapAction{
+    self.tapAction = tapAction;
+    if (![self gestureRecognizers]) {
+        self.userInteractionEnabled = YES;
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap)];
+        [self addGestureRecognizer:tap];
+    }
+}
+
+-(void)setTapAction:(void (^)(id))tapAction {
+    objc_setAssociatedObject(self, tagValue, tapAction, OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+-(void (^)(id))tapAction {
+    return objc_getAssociatedObject(self, tagValue);
+}
+@end
+</code></pre>
+
+<p>正如大家所见,如果要接收点击事件,必须userInteractionEnabled设置为YES,所以不管怎么只要确认要给视图添加点击事件,都会被设置为<code>userInteractionEnabled = YES</code></p>
+
+<p>简单实用:</p>
+
+<pre><code>UIView *redView = [[UIView alloc]initWithFrame:CGRectMake(100, 100, 100, 100)];
+redView.backgroundColor = [UIColor redColor];
+[redView addTapBlock:^(UIView* obj) {
+    NSLog(@&quot;redView%@&quot;,obj.backgroundColor);
+}];
+[self.view addSubview:redView];
+
+UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(50, 250, 100, 100)];
+imageView.image = [UIImage imageNamed:@&quot;icon&quot;];
+[imageView addTapBlock:^(UIImageView* obj) {
+    NSLog(@&quot;imageView:\n%@&quot;,obj.image);
+}];
+[self.view addSubview:imageView];
+
+UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(150, 400, 100, 100)];
+label.text = @&quot;这是label,点击这里...&quot;;
+[label addTapBlock:^(UILabel* obj) {
+    NSLog(@&quot;label:\n%@&quot;,obj.text);
+}];
+[self.view addSubview:label];
+
+</code></pre>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[关于tableViewCell加载图片优化]]></title>
+    <link href="http://www.citynight.cn/Blog/14678597180657.html"/>
+    <updated>2016-07-07T10:48:38+08:00</updated>
+    <id>http://www.citynight.cn/Blog/14678597180657.html</id>
+    <content type="html"><![CDATA[
+<p>cell的创建</p>
+
+<pre><code>- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+</code></pre>
+
+<p>数据处理建议在这里进行:</p>
+
+<pre><code>-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+</code></pre>
+
+<p>cell将要显示的时候我们进行一些处理(来自苹果Demo)</p>
+
+<pre><code>// Only load cached images; defer new downloads until scrolling ends
+if (!appRecord.appIcon)
+{
+    if (self.tableView.dragging == NO &amp;&amp; self.tableView.decelerating == NO)
+    {
+        [self startIconDownload:appRecord forIndexPath:indexPath];
+    }
+    // if a download is deferred or in progress, return a placeholder image
+    cell.imageView.image = [UIImage imageNamed:@&quot;Placeholder.png&quot;];
+}
+else
+{
+    cell.imageView.image = appRecord.appIcon;
+}
+</code></pre>
+
+<p>这里可以看出,拖拽和滚动的时候不进行图片下载,只有停止的时候才进行.当然我们还需要在scrollView停止滚动和拖拽的时候进行下载</p>
+
+<pre><code>#pragma mark - UIScrollViewDelegate
+
+// -------------------------------------------------------------------------------
+//  scrollViewDidEndDragging:willDecelerate:
+//  Load images for all onscreen rows when scrolling is finished.
+// -------------------------------------------------------------------------------
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    if (!decelerate)
+    {
+        [self loadImagesForOnscreenRows];
+    }
+}
+
+// -------------------------------------------------------------------------------
+//  scrollViewDidEndDecelerating:scrollView
+//  When scrolling stops, proceed to load the app icons that are on screen.
+// -------------------------------------------------------------------------------
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    [self loadImagesForOnscreenRows];
+}
+
+</code></pre>
+
+<p>下载显示cell的图片</p>
+
+<pre><code>// -------------------------------------------------------------------------------
+//  loadImagesForOnscreenRows
+//  This method is used in case the user scrolled into a set of cells that don&#39;t
+//  have their app icons yet.
+// -------------------------------------------------------------------------------
+- (void)loadImagesForOnscreenRows
+{
+    if (self.entries.count &gt; 0)
+    {
+        NSArray *visiblePaths = [self.tableView indexPathsForVisibleRows];
+        for (NSIndexPath *indexPath in visiblePaths)
+        {
+            AppRecord *appRecord = (self.entries)[indexPath.row];
+            
+            if (!appRecord.appIcon)
+            // Avoid the app icon download if the app already has an icon
+            {
+                [self startIconDownload:appRecord forIndexPath:indexPath];
+            }
+        }
+    }
+}
+</code></pre>
+
+<p>具体下载:</p>
+
+<pre><code>#pragma mark - Table cell image support
+
+// -------------------------------------------------------------------------------
+//  startIconDownload:forIndexPath:
+// -------------------------------------------------------------------------------
+- (void)startIconDownload:(AppRecord *)appRecord forIndexPath:(NSIndexPath *)indexPath
+{
+    NSLog(@&quot;下载图片&quot;);
+    IconDownloader *iconDownloader = (self.imageDownloadsInProgress)[indexPath];
+    if (iconDownloader == nil) 
+    {
+        iconDownloader = [[IconDownloader alloc] init];
+        iconDownloader.appRecord = appRecord;
+        [iconDownloader setCompletionHandler:^{
+            
+            UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+            
+            // Display the newly loaded image
+            cell.imageView.image = appRecord.appIcon;
+            
+            // Remove the IconDownloader from the in progress list.
+            // This will result in it being deallocated.
+            [self.imageDownloadsInProgress removeObjectForKey:indexPath];
+            
+        }];
+        (self.imageDownloadsInProgress)[indexPath] = iconDownloader;
+        [iconDownloader startDownload];  
+    }
+}
+</code></pre>
+
+<p>IconDownloader文件</p>
+
+<pre><code>//.h文件
+@class AppRecord;
+
+@interface IconDownloader : NSObject
+
+@property (nonatomic, strong) AppRecord *appRecord;
+@property (nonatomic, copy) void (^completionHandler)(void);
+
+- (void)startDownload;
+- (void)cancelDownload;
+
+@end
+
+
+//.m文件
+#import &quot;IconDownloader.h&quot;
+#import &quot;AppRecord.h&quot;
+
+#define kAppIconSize 48
+
+
+@interface IconDownloader ()
+
+@property (nonatomic, strong) NSURLSessionDataTask *sessionTask;
+
+@end
+
+
+#pragma mark -
+
+@implementation IconDownloader
+
+// -------------------------------------------------------------------------------
+//  startDownload
+// -------------------------------------------------------------------------------
+- (void)startDownload
+{
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.appRecord.imageURLString]];
+
+    // create an session data task to obtain and download the app icon
+    _sessionTask = [[NSURLSession sharedSession] dataTaskWithRequest:request
+                                                   completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        
+        // in case we want to know the response status code
+        //NSInteger HTTPStatusCode = [(NSHTTPURLResponse *)response statusCode];
+
+        if (error != nil)
+        {
+            if ([error code] == NSURLErrorAppTransportSecurityRequiresSecureConnection)
+            {
+                // if you get error NSURLErrorAppTransportSecurityRequiresSecureConnection (-1022),
+                // then your Info.plist has not been properly configured to match the target server.
+                //
+                abort();
+            }
+        }
+                                                       
+        [[NSOperationQueue mainQueue] addOperationWithBlock: ^{
+            
+            // Set appIcon and clear temporary data/image
+            UIImage *image = [[UIImage alloc] initWithData:data];
+            
+            if (image.size.width != kAppIconSize || image.size.height != kAppIconSize)
+            {
+                CGSize itemSize = CGSizeMake(kAppIconSize, kAppIconSize);
+                UIGraphicsBeginImageContextWithOptions(itemSize, NO, 0.0f);
+                CGRect imageRect = CGRectMake(0.0, 0.0, itemSize.width, itemSize.height);
+                [image drawInRect:imageRect];
+                self.appRecord.appIcon = UIGraphicsGetImageFromCurrentImageContext();
+                UIGraphicsEndImageContext();
+            }
+            else
+            {
+                self.appRecord.appIcon = image;
+            }
+            
+            // call our completion handler to tell our client that our icon is ready for display
+            if (self.completionHandler != nil)
+            {
+                self.completionHandler();
+            }
+        }];
+    }];
+    
+    [self.sessionTask resume];
+}
+
+// -------------------------------------------------------------------------------
+//  cancelDownload
+// -------------------------------------------------------------------------------
+- (void)cancelDownload
+{
+    [self.sessionTask cancel];
+    _sessionTask = nil;
+}
+</code></pre>
+
+<blockquote>
+<p><a href="https://developer.apple.com/library/ios/samplecode/LazyTableImages/Introduction/Intro.html">Apple Demo</a></p>
+</blockquote>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[键盘消失后又再次显示并立即消失问题]]></title>
+    <link href="http://www.citynight.cn/Blog/14677030322532.html"/>
+    <updated>2016-07-05T15:17:12+08:00</updated>
+    <id>http://www.citynight.cn/Blog/14677030322532.html</id>
+    <content type="html"><![CDATA[
+<p>Keyboard will appeared automatically while displaying alertview or alertcontroller</p>
+
+<blockquote>
+<p><a href="http://stackoverflow.com/questions/30498972/keyboard-will-appeared-automatically-in-ios-8-3-while-displaying-alertview-or-al">stackoverflow</a></p>
+</blockquote>
+
+<p>我采用其中</p>
+
+<pre><code> [YOUR_TEXT resignFirstResponder];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+
+
+                    _alertVw = [[UIAlertView alloc] initWithTitle:@&quot;&quot; message:@&quot;message.&quot; delegate:self cancelButtonTitle:@&quot;Ok&quot; otherButtonTitles:nil, nil];
+
+                    [_alertVw show];
+});
+
+</code></pre>
+
+<p>这种方案解决的</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[为项目添加podspec]]></title>
+    <link href="http://www.citynight.cn/Blog/14676996936809.html"/>
+    <updated>2016-07-05T14:21:33+08:00</updated>
+    <id>http://www.citynight.cn/Blog/14676996936809.html</id>
+    <content type="html"><![CDATA[
+<blockquote>
+<p>全文来自:<a href="http://www.jianshu.com/p/d7d1942dd3f1">iOS开发&ndash; 创建podspec文件，为自己的项目添加pod支持</a> 只是在文章中添加了原文没有说明的东西&amp;步骤</p>
+</blockquote>
+
+<h2 id="toc_0">1.clone项目源码</h2>
+
+<p>项目如果没有在github仓库中,先上传到github仓库,然后clone到本地,已经存在就直接clone到本地</p>
+
+<pre><code>// cd 到 想要存放项目的文件夹中执行
+git clone https://github.com/Mekor/MKScanner.git
+</code></pre>
+
+<p><code>https://github.com/Mekor/MKScanner.git</code>这个是我自己的仓库,这个仓库地址可以在这里找到<br/>
+<img src="media/14676996936809/Snip20160705_4.png" alt="Snip20160705_4"/></p>
+
+<h2 id="toc_1">2. 创建项目的podspec文件</h2>
+
+<p>•   用终端命令cd到本地项目目录并执行如下命令:</p>
+
+<pre><code>$ pod spec create MKScanner
+</code></pre>
+
+<p>MKScanner替换为自己的项目名称,这时在本地就会生成一个MKScanner.podspec</p>
+
+<p>•   用编辑器打开.podspec文件 (我自己用Sublime Text)<br/>
+删除不必要的注释(这里只简单介绍基本用法，所以只用到一部分必须得字段 更多字段请移步<a href="http://guides.cocoapods.org/syntax/podspec.html">http://guides.cocoapods.org/syntax/podspec.html</a></p>
+
+<pre><code>Pod::Spec.new do |s|
+
+  s.name                 = &quot;MKScanner&quot;
+  s.version              = &quot;0.0.1&quot;
+  s.summary              = &quot;QRCode Scanner&quot;
+  s.homepage             = &quot;https://github.com/Mekor/MKScanner&quot;
+  s.license              = { :type =&gt; &quot;MIT&quot;, :file =&gt; &quot;LICENSE&quot; }
+  s.author             = { &quot;Mekor&quot; =&gt; &quot;mekor@live.cn&quot; }
+  s.social_media_url   = &quot;http://weibo.com/gliii&quot;
+  s.platform             = :ios, &quot;7.0&quot;
+  s.source               = { :git =&gt; &quot;https://github.com/Mekor/MKScanner.git&quot;, :tag =&gt; s.version }
+  s.source_files          = &quot;MKScanner/**/*.{h,m}&quot;
+  #s.resources          = &quot;MKScanner/**/*.png&quot;
+  s.requires_arc         = true
+
+end
+</code></pre>
+
+<p>•   验证podspec文件</p>
+
+<p>编辑完podspec文件后需要验证一下这个文件是否可用podspec文件不允许有任何的Warning或者Error<br/>
+执行命令</p>
+
+<pre><code>$ pod lib lint
+</code></pre>
+
+<p>如果出现</p>
+
+<pre><code>-&gt; MKScanner (0.0.1)
+MKScanner passed validation.
+</code></pre>
+
+<p>则说明验证通过， 否则， 根据提示修改podspec文件再次验证直到验证通过<br/>
+附带说一下，Xcode允许警告存在，所以可以通过命令屏蔽警告</p>
+
+<pre><code>$ pod lib lint --allow-warnings
+</code></pre>
+
+<p>如果出现Error但是提示信息不足，可以添加&ndash;verbose 以获取更多错误信息</p>
+
+<pre><code>$ pod lib lint --verbose
+</code></pre>
+
+<h2 id="toc_2">3. 打tag 上传podspec</h2>
+
+<p>podspec文件中需要指定的tag， 完成上述操作后给项目打tag</p>
+
+<pre><code>$ git tag -m&quot;first release MKScanner with podspec&quot; &quot;0.0.1&quot;
+$ git push --tags
+
+</code></pre>
+
+<p>最后使用pod trunk命令，把podspec文件推送到CocoaPod官方库<br/>
+pod trunk 需要注册,参见:<a href="https://guides.cocoapods.org/making/getting-setup-with-trunk.html">https://guides.cocoapods.org/making/getting-setup-with-trunk.html</a><br/>
+其实很简单:</p>
+
+<pre><code>pod trunk register Mekor@live.cn &quot;Mekor&quot;
+</code></pre>
+
+<p>指明你的邮箱地址（spec文件中的）和名称<br/>
+CocoaPods 会给你填写的邮箱发送验证邮件，点击邮件中的链接就可通过验证。<br/>
+pod trunk 设置完毕后执行命令</p>
+
+<pre><code>$ pod trunk push MKScanner.podspec
+</code></pre>
+
+<p>这个过程可能会比较耗时，原因你懂的</p>
+
+<h2 id="toc_3">4. 最后</h2>
+
+<p>如果一切顺利</p>
+
+<pre><code>pod search MKScanner
+</code></pre>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[AFN3.0 如何实现operation.responseString]]></title>
+    <link href="http://www.citynight.cn/Blog/14676870942237.html"/>
+    <updated>2016-07-05T10:51:34+08:00</updated>
+    <id>http://www.citynight.cn/Blog/14676870942237.html</id>
+    <content type="html"><![CDATA[
+<p>我在AFNetworking issues中的回答<a href="https://github.com/AFNetworking/AFNetworking/issues/3551">how to get response body in failure block?</a>还有<br/>
+<a href="https://github.com/AFNetworking/AFNetworking/issues/3534">How can i get responseString which at AFNetworking 3.0</a></p>
+
+<p>发现还有好多朋友还不清楚如何实现,其实很简单</p>
+
+<pre><code>NSError *underError = error.userInfo[@&quot;NSUnderlyingError&quot;];
+NSData *responseData = underError.userInfo[@&quot;com.alamofire.serialization.response.error.data&quot;];
+</code></pre>
+
+<p>有小伙伴问我<code>com.alamofire.serialization.response.error.data</code>是怎么来的,原来都是AFJSONResponseSerializer解析修改成<code>manager.responseSerializer = [AFHTTPResponseSerializer serializer];</code>这样报错的时候就会看到控制台打印的信息里面有<code>com.alamofire.serialization.response.error.data</code>后面输出responseData&hellip;然后才有了上面的解决办法</p>
+
+<p><strong>&mdash;&ndash;16.6.7更&mdash;&ndash;</strong><br/>
+作者回复中已经添加了相关操作<br/>
+在<code>AFURLResponseSerialization</code><br/>
+可以在 failure block 中添加下面代码获取responseString</p>
+
+<pre><code>NSData *data = error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
+</code></pre>
+
+<p>具体代码:</p>
+
+<pre><code>/**
+ ## User info dictionary keys
+
+ These keys may exist in the user info dictionary, in addition to those defined for NSError.
+
+ - `NSString * const AFNetworkingOperationFailingURLResponseErrorKey`
+ - `NSString * const AFNetworkingOperationFailingURLResponseDataErrorKey`
+
+ ### Constants
+
+ `AFNetworkingOperationFailingURLResponseErrorKey`
+ The corresponding value is an `NSURLResponse` containing the response of the operation associated with an error. This key is only present in the `AFURLResponseSerializationErrorDomain`.
+
+ `AFNetworkingOperationFailingURLResponseDataErrorKey`
+ The corresponding value is an `NSData` containing the original data of the operation associated with an error. This key is only present in the `AFURLResponseSerializationErrorDomain`.
+ */
+FOUNDATION_EXPORT NSString * const AFNetworkingOperationFailingURLResponseErrorKey;
+
+FOUNDATION_EXPORT NSString * const AFNetworkingOperationFailingURLResponseDataErrorKey;
+</code></pre>
+
+]]></content>
+  </entry>
+  
+</feed>
