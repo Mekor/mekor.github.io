@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2016-09-07T09:23:49+08:00</updated>
+  <updated>2016-09-07T09:47:56+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -2577,6 +2577,8 @@ UIScrollView有个keyboardDismissMode属性，设置成UIScrollViewKeyboardDismi
 }
 
 </code></pre>
+
+<p>控制按钮的点击范围可以参见:<a href="https://github.com/Mekor/MKExtension">MKExtension</a>中的<code>UIButton+TapScope</code></p>
 
 ]]></content>
   </entry>
