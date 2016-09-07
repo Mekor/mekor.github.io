@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  百度坐标&火星坐标转换 - 李小争
+  RunLoop - 李小争
   
   </title>
  <meta name="description" content="记录开发中遇到的一些问题">
@@ -182,67 +182,135 @@
             <div class="large-9 medium-9 columns">
 
  <div class="markdown-body">
-<h1>百度坐标&火星坐标转换</h1>
+<h1>RunLoop</h1>
 
-<p>LocationHelper.h文件</p>
+<h2 id="toc_0">1. 什么是runloop</h2>
 
-<pre><code>#import &lt;Foundation/Foundation.h&gt;
-#import &lt;CoreLocation/CoreLocation.h&gt;
+<p>runloop就是运行循环,它的基本作用就是让程序持续运行,处理App中的各种事件(触摸,定时器,Selector).<br/>
+main函数中UIApplicationMain内部就启动了一个runloop,这样UIApplicationMain就会一直没有返回值,保持了程序的持续运行.这个默认的runloop是跟主线程相关联的.</p>
 
-@interface LocationHelper : NSObject
+<h2 id="toc_1">2. RunLoop与线程</h2>
 
-//百度转火星坐标
-+ (CLLocationCoordinate2D )bdToGGEncrypt:(CLLocationCoordinate2D)coord;
-//火星转百度坐标
-+ (CLLocationCoordinate2D )ggToBDEncrypt:(CLLocationCoordinate2D)coord;
+<p>每条线程都有唯一的一个与之对应的RunLoop对象,主线程的RunLoop启动的时候已经默认创建好了,其他线程的RunLoop需要主动创建(RunLoop在第一次获取的时候创建,在线程结束的时候销毁)</p>
 
-@end
+<h2 id="toc_2">3. RunLoop对象</h2>
+
+<h4 id="toc_3">iOS中有2套API来访问和使用runloop</h4>
+
+<ul>
+<li> Foundation -&gt; NSRunLoop</li>
+<li> Core Foundation -&gt; CFRunLoopRef</li>
+</ul>
+
+<p>NSRunLoop和CFRunLoopRef都是runloop对象.NSRunLoop是基于CFRunLoopRef的一层OC封装</p>
+
+<h4 id="toc_4">获得RunLoop对象</h4>
+
+<ul>
+<li><p>Foundation </p>
+
+<pre><code class="language-objc">[NSRunLoop currentRunLoop]; // 获得当前线程的RunLoop对象
+[NSRunLoop mainRunLoop]; // 获得主线程的RunLoop对象
+</code></pre></li>
+<li><p>Core Foundation </p>
+
+<pre><code class="language-objc">CFRunLoopGetCurrent(): // 获得当前线程的RunLoop对象
+CFRunLoopGetMain(): //获得主线程的RunLoop对象
+</code></pre></li>
+</ul>
+
+<h2 id="toc_5">4. RunLoop相关类</h2>
+
+<h3 id="toc_6">Core Foundation中关于RunLoop的5个类</h3>
+
+<ul>
+<li>CFRunLoopRef</li>
+<li>CFRunLoopModeRef</li>
+<li>CFRunLoopSourceRef</li>
+<li>CFRunLoopTimerRef</li>
+<li>CFRunLoopObserverRef</li>
+</ul>
+
+<p>网上其他人博客总结:<br/>
+<img src="media/14731740142157/14731758243846.jpg" alt=""/></p>
+
+<h3 id="toc_7">CFRunLoopModeRef</h3>
+
+<p><strong>CFRunLoopModeRef代表RunLoop的运行模式</strong>  一个RunLoop包含若干个Mode,每个Mode又包含若干个Source/Timer/Observer. 每次RunLoop启动时,只能指定其中一个Mode,这个Mode被称之为CurrentMode. 如果需要切换Mode,只能退出Loop,再重新指定一个Mode进入. 这样做主要是为了分隔开不同组的Source/Timer/Observer,让他们互不影响.</p>
+
+<h3 id="toc_8">CFRunLoopModeRef</h3>
+
+<p><strong>系统默认注册了5个Mode:</strong></p>
+
+<ul>
+<li><p><strong>kCFRunLoopDefaultMode:</strong> App的默认Mode，通常主线程是在这个Mode下运行</p></li>
+<li><p><strong>UITrackingRunLoopMode:</strong> 界面跟踪 Mode，用于 ScrollView 追踪触摸滑动，保证界面滑动时不受其他 Mode 影响</p></li>
+<li><p><strong>UIInitializationRunLoopMode:</strong> 在刚启动 App 时第进入的第一个 Mode，启动完成后就不再使用</p></li>
+<li><p><strong>GSEventReceiveRunLoopMode:</strong> 接受系统事件的内部 Mode，通常用不到</p></li>
+<li><p><strong>kCFRunLoopCommonModes:</strong> 这是一个占位用的Mode，不是一种真正的Mode</p></li>
+</ul>
+
+<h3 id="toc_9">CFRunLoopSourceRef</h3>
+
+<p><strong>CFRunLoopSourceRef是事件源（输入源）</strong></p>
+
+<p>以前的分法:<br/>
+Port-Based Sources<br/>
+Custom Input Sources<br/>
+Cocoa Perform Selector Sources</p>
+
+<p>现在的分法:<br/>
+Source0：非基于Port的<br/>
+Source1：基于Port的</p>
+
+<h3 id="toc_10">CFRunLoopTimerRef</h3>
+
+<p><strong>CFRunLoopTimerRef是基于时间的触发器</strong></p>
+
+<p>基本上说的就是NSTimer</p>
+
+<h3 id="toc_11">CFRunLoopObserverRef</h3>
+
+<p><strong>CFRunLoopObserverRef是观察者，能够监听RunLoop的状态改变</strong></p>
+
+<p>可以监听的时间点有以下几个</p>
+
+<pre><code>/* Run Loop Observer Activities */
+typedef CF_OPTIONS(CFOptionFlags, CFRunLoopActivity) {
+    kCFRunLoopEntry = (1UL &lt;&lt; 0),           // 即将进入 Loop
+    kCFRunLoopBeforeTimers = (1UL &lt;&lt; 1),    // 即将处理 Timer
+    kCFRunLoopBeforeSources = (1UL &lt;&lt; 2),   // 即将处理 Source
+    kCFRunLoopBeforeWaiting = (1UL &lt;&lt; 5),   // 即将进入休眠
+    kCFRunLoopAfterWaiting = (1UL &lt;&lt; 6),    // 刚从休眠中唤醒
+    kCFRunLoopExit = (1UL &lt;&lt; 7),            // 刚从休眠中唤醒
+    kCFRunLoopAllActivities = 0x0FFFFFFFU   // 所有时间点
+};
 </code></pre>
 
-<p>LocationHelper.m文件</p>
+<h2 id="toc_12">5. RunLoop处理逻辑</h2>
 
-<pre><code>//
-//  LocationHelper.m
-//  Coding_iOS
-//
-//  Created by Kevin on 3/21/15.
-//  Copyright (c) 2015 Coding. All rights reserved.
-//
+<p><img src="media/14731740142157/14732109138343.jpg" alt=""/><br/>
+<img src="media/14731740142157/14732110397325.jpg" alt=""/></p>
 
-#import &quot;LocationHelper.h&quot;
+<p>网友整理如下:<br/>
+<img src="media/14731740142157/14732111027007.jpg" alt=""/></p>
 
-@implementation LocationHelper
+<h2 id="toc_13">6.RunLoop应用</h2>
 
-//百度转火星坐标
-+ (CLLocationCoordinate2D )bdToGGEncrypt:(CLLocationCoordinate2D)coord
-{
-    double x = coord.longitude - 0.0065, y = coord.latitude - 0.006;
-    double z = sqrt(x * x + y * y) - 0.00002 * sin(y * M_PI);
-    double theta = atan2(y, x) - 0.000003 * cos(x * M_PI);
-    CLLocationCoordinate2D transformLocation ;
-    transformLocation.longitude = z * cos(theta);
-    transformLocation.latitude = z * sin(theta);
-    return transformLocation;
-}
+<ul>
+<li>NSTimer</li>
+<li>ImageView显示</li>
+<li>PerformSelector</li>
+<li>常驻线程</li>
+<li>自动释放池</li>
+</ul>
 
-//火星坐标转百度坐标
-+ (CLLocationCoordinate2D )ggToBDEncrypt:(CLLocationCoordinate2D)coord
-{
-    double x = coord.longitude, y = coord.latitude;
-    
-    double z = sqrt(x * x + y * y) + 0.00002 * sin(y * M_PI);
-    double theta = atan2(y, x) + 0.000003 * cos(x * M_PI);
-    
-    CLLocationCoordinate2D transformLocation ;
-    transformLocation.longitude = z * cos(theta) + 0.0065;
-    transformLocation.latitude = z * sin(theta) + 0.006;
-    
-    return transformLocation;
-}
+<h3 id="toc_14">参考资料:</h3>
 
-@end
+<hr/>
 
-</code></pre>
+<p>官方文档 <a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/Multithreading/RunLoopManagement/RunLoopManagement.html">Threading Programming Guide</a><br/><br/>
+CFRunLoopRef<a href="http://opensource.apple.com/source/CF/CF-1151.16/">源代码</a></p>
 
 
 </div>
@@ -254,13 +322,14 @@
   <div class="large-6 columns">
 	<div class="text-left" style="padding:15px 0px;">
 		
-	        <a href="14676105703423.html"  title="Previous Post: 忽略编译器警告">&laquo; 忽略编译器警告</a>
-	    
 	</div>
   </div>
   <div class="large-6 columns">
 	<div class="text-right" style="padding:15px 0px;">
 		
+	        <a href="14727863232294.html" 
+	        title="Next Post: runtime(内部分享草稿)">runtime(内部分享草稿) &raquo;</a>
+	    
 	</div>
   </div>
 </div>
@@ -272,7 +341,7 @@
 </div>
 <script type="text/javascript">
 	$(function(){
-		var currentURL = '14676101998537.html';
+		var currentURL = '14731740142157.html';
 		$('#side-nav a').each(function(){
 			if($(this).attr('href') == currentURL){
 				$(this).parent().addClass('active');
