@@ -47,6 +47,8 @@
         <li><label>原理探究</label></li>
 
           
+            <li><a title="转发机制" href="14733118707964.html">转发机制</a></li>
+          
             <li><a title="RunLoop" href="14731740142157.html">RunLoop</a></li>
           
             <li><a title="runtime(内部分享草稿)" href="14727863232294.html">runtime(内部分享草稿)</a></li>
@@ -121,6 +123,8 @@
 
                     
                       <li class="side-title"><span>原理探究</span></li>
+                        
+                          <li><a title="转发机制" href="14733118707964.html">转发机制</a></li>
                         
                           <li><a title="RunLoop" href="14731740142157.html">RunLoop</a></li>
                         
@@ -236,6 +240,11 @@ super:并不是让父类对象调用方法，调用者还是本身
 class：获取方法调用者的类
 superclass:获取方法调用者的父类
 </code></pre>
+
+<p>消息机制:(来自:<a href="https://developer.apple.com/library/prerelease/content/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtHowMessagingWorks.html">官方文档</a>)<br/>
+<img src="media/14727863232294/messaging1.gif" alt="消息框架"/></p>
+
+<p>当对象收到消息时,消息函数首先根据该对象的 isa 指针找到该对象所对应的类的方法表,并从表中寻找 该消息对应的方法选标。如果找不到,objc_msgSend 将继续从父类中寻找,直到 NSObject 类。一旦找到了方法选标, objc_msgSend 则以消息接收者对象为参数调用,调用该选标对应的方法实现。</p>
 
 <h2 id="toc_1">self是从哪里来的?</h2>
 
