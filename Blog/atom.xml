@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2016-09-07T09:55:42+08:00</updated>
+  <updated>2016-09-08T19:02:51+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -390,7 +390,7 @@ Student中写个text方法,然后打印下这两个隐藏参数.<br/>
 
 <p><img src="media/14727863232294/14729983827897.jpg" alt=""/><br/>
 上面是动态添加对象方法的例子,动态添加类方法也是一样的<code>+(BOOL)resolveClassMethod:(SEL)sel</code><br/>
-<strong>注意</strong>上面函数类型,有人可能好奇这块为什么写成&quot;v@:&ldquo;  ?参见:函数类型</p>
+<strong>注意</strong>上面函数类型,有人可能好奇这块为什么写成&quot;v@:&ldquo;  ?参见:函数类型,更多关于转发机制参见:<a href="">转发机制</a></p>
 
 <h3 id="toc_4">关于函数类型</h3>
 
