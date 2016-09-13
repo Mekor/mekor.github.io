@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2016-09-08T19:02:51+08:00</updated>
+  <updated>2016-09-09T09:23:40+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -286,6 +286,66 @@ CFRunLoopRef<a href="http://opensource.apple.com/source/CF/CF-1151.16/">源代�
   </entry>
   
   <entry>
+    <title type="html"><![CDATA[UIWebView可能的优化方案]]></title>
+    <link href="http://www.citynight.cn/Blog/14731574655770.html"/>
+    <updated>2016-09-06T18:24:25+08:00</updated>
+    <id>http://www.citynight.cn/Blog/14731574655770.html</id>
+    <content type="html"><![CDATA[
+<blockquote>
+<p>声明:部分思想来源于手Q空间团队</p>
+</blockquote>
+
+<p>我们都知道WebView加载页面非常缓慢,如果页面样式结构比较固定,则可以采用自己的自己封装的网络请求去获取数据,然后拼接成HTML显示.</p>
+
+<p><strong>优点:</strong></p>
+
+<ul>
+<li>通常webview首次加载非常慢,使用Native网络请求会很快</li>
+<li>离线包＋预加载(静态HTML、静态JS、静态CSS它们的加载、它们离线的东西）,首屏进入可直接加载默认数据</li>
+</ul>
+
+<p><strong>缺点:</strong></p>
+
+<ul>
+<li>静态资源包离线下载,不能保证100%</li>
+</ul>
+
+<h2 id="toc_0">传统H5加载流程</h2>
+
+<p><img src="media/14731574655770/14737415611533.jpg" alt=""/></p>
+
+<h3 id="toc_1"><strong>这里有两个问题：</strong></h3>
+
+<p>WebView的耗时 <br/>
+根据手Q的统计数据，Android的WebView平均打开启动的速度耗时是0.8秒，有些Android机型基于系统环境可能需要一点多或者两秒左右；</p>
+
+<p>HTTP协议的网络层 <br/>
+HTTP有DNS或者建立链接的耗时，HTTPS有建立SSL链接的耗时。</p>
+
+<p>所以H5通常带给用户的体验是：我点进来不管是怎么时候，是第一次第二次还是第三次，我点进来先等两秒再说，看两秒白屏后页面才可以加载进来，其实这里我们只做了两个事情去优化首次加载流程：</p>
+
+<h4 id="toc_2">1. 把WebView启动和发送请求改成并行</h4>
+
+<p>客户端在启动WebView的时候同时发起HTML的页面请求，这里可以实现一个效果：本来我的耗时是T1+T2，现在为T1或T2的最大值，这样达到并行加载的效果。<br/>
+<img src="media/14731574655770/14737420748297.jpg" alt=""/></p>
+
+<p>当然这里还有一个优化的空间，我们其实已经由客户端接管了发送网络请求的事情，以前接管的时候是用HTTP协议，比如像iOS用的是URLSession模块，但已经让客户端接管了，为什么不能够更大胆一些呢？</p>
+
+<h4 id="toc_3">2. Socket通道</h4>
+
+<p>其实我们可以不拘泥于数据传输的方式，所以这里我们把一个HTML的加载从HTTP/HTTPS改造成了一个Socket通道，这是一个App里面长连接的管道，如果手机内部有即时通讯模块的话，我们是用这个长连接的通道来做HTML的传输的，它的作用在于只要你的手机QQ能够收发消息，你的HTML页面就能够加载进来，这样就达到体验上的一致性，同时网络也有比较稳定的提升。 <br/>
+<img src="media/14731574655770/14737423231640.jpg" alt=""/></p>
+
+<p>我们基本上做了两个事情就达到首次进入加速的目的，但后面才是一个关键：首次进入我们已经做过优化了，但二次进入怎么去做优化去提高它的显示速度呢？</p>
+
+<h2 id="toc_4">本地缓存</h2>
+
+<p><img src="media/14731574655770/14737426997041.jpg" alt=""/></p>
+
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[runtime(内部分享草稿)]]></title>
     <link href="http://www.citynight.cn/Blog/14727863232294.html"/>
     <updated>2016-09-02T11:18:43+08:00</updated>
@@ -390,7 +450,7 @@ Student中写个text方法,然后打印下这两个隐藏参数.<br/>
 
 <p><img src="media/14727863232294/14729983827897.jpg" alt=""/><br/>
 上面是动态添加对象方法的例子,动态添加类方法也是一样的<code>+(BOOL)resolveClassMethod:(SEL)sel</code><br/>
-<strong>注意</strong>上面函数类型,有人可能好奇这块为什么写成&quot;v@:&ldquo;  ?参见:函数类型,更多关于转发机制参见:<a href="">转发机制</a></p>
+<strong>注意:</strong>上面函数类型,有人可能好奇这块为什么写成&quot;v@:&ldquo;  ?参见:函数类型, 更多关于转发机制参见:<a href="http://www.citynight.cn/Blog/14733118707964.html">转发机制</a></p>
 
 <h3 id="toc_4">关于函数类型</h3>
 
@@ -3134,36 +3194,6 @@ else
 <blockquote>
 <p><a href="https://developer.apple.com/library/ios/samplecode/LazyTableImages/Introduction/Intro.html">Apple Demo</a></p>
 </blockquote>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[键盘消失后又再次显示并立即消失问题]]></title>
-    <link href="http://www.citynight.cn/Blog/14677030322532.html"/>
-    <updated>2016-07-05T15:17:12+08:00</updated>
-    <id>http://www.citynight.cn/Blog/14677030322532.html</id>
-    <content type="html"><![CDATA[
-<p>Keyboard will appeared automatically while displaying alertview or alertcontroller</p>
-
-<blockquote>
-<p><a href="http://stackoverflow.com/questions/30498972/keyboard-will-appeared-automatically-in-ios-8-3-while-displaying-alertview-or-al">stackoverflow</a></p>
-</blockquote>
-
-<p>我采用其中</p>
-
-<pre><code> [YOUR_TEXT resignFirstResponder];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-
-
-                    _alertVw = [[UIAlertView alloc] initWithTitle:@&quot;&quot; message:@&quot;message.&quot; delegate:self cancelButtonTitle:@&quot;Ok&quot; otherButtonTitles:nil, nil];
-
-                    [_alertVw show];
-});
-
-</code></pre>
-
-<p>这种方案解决的</p>
 
 ]]></content>
   </entry>

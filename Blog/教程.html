@@ -87,6 +87,8 @@
         <li><label>教程</label></li>
 
           
+            <li><a title="UIWebView可能的优化方案" href="14731574655770.html">UIWebView可能的优化方案</a></li>
+          
             <li><a title="MKNetWork简介" href="14719458588528.html">MKNetWork简介</a></li>
           
             <li><a title="Android Studio 中如何查看帮助文档" href="14693652209160.html">Android Studio 中如何查看帮助文档</a></li>
@@ -160,6 +162,8 @@
                     
                       <li class="side-title"><span>教程</span></li>
                         
+                          <li><a title="UIWebView可能的优化方案" href="14731574655770.html">UIWebView可能的优化方案</a></li>
+                        
                           <li><a title="MKNetWork简介" href="14719458588528.html">MKNetWork简介</a></li>
                         
                           <li><a title="Android Studio 中如何查看帮助文档" href="14693652209160.html">Android Studio 中如何查看帮助文档</a></li>
@@ -190,71 +194,58 @@
 
 	
 		<div class="markdown-body">
-		<h1>MKNetWork简介</h1>
+		<h1>UIWebView可能的优化方案</h1>
 
-		<p>用户版最新版本我将替换成最新的网络请求封装,这次我将封装一些常用的东西到网络请求中,让网络请求独立出一层,避免所有网络请求都写在控制器中.<br/>
-目录结构:</p>
+		<blockquote>
+<p>声明:部分思想来源于手Q空间团队</p>
+</blockquote>
 
-<ul>
-<li><strong>MKBaseRequest</strong>     :所有的网络请求类需要继承于 <code>MKBaseRequest</code> 类，每一个<code>MKBaseRequest</code> 类的子类代表一种专门的网络请求。
-MKBaseRequest 的基本的思想是把每一个网络请求封装成对象。所以使用 MKNetWork，你的每一种请求都需要继承 MKBaseRequest类，通过覆盖父类的一些方法来构造指定的网络请求。把每一个网络请求封装成对象其实是使用了设计模式中的 Command 模式。
-每一种网络请求继承 MKBaseRequest 类后，需要用方法覆盖（overwrite）的方式，来指定网络请求的具体信息。例如:</li>
-</ul>
+<p>我们都知道WebView加载页面非常缓慢,如果页面样式结构比较固定,则可以采用自己的自己封装的网络请求去获取数据,然后拼接成HTML显示.</p>
 
-<pre><code>// 重写接口名称
--(NSString *)requestUrl {
-    return @&quot;geocode/regeo&quot;;
-}
-// 重写请求方式
--(MKRequestMethod)requestMethod {
-    return MKRequestMethodGet;
-}
-// 重写想要的放回数据解析方式
--(MKRequestSerializerType)requestSerializerType {
-    return MKRequestSerializerTypeHTTP;
-}
-</code></pre>
-
-<p>目前没有添加返回参数格式验证,如有需要可以在base中添加,让继承者重写.</p>
+<p><strong>优点:</strong></p>
 
 <ul>
-<li><strong>MKNetWorkAgent</strong>    :MKNetWorkAgent最基础的网络请求封装,目前封装的AFN,如有必要可以替换</li>
-<li><strong>MKNetworkConfig</strong>   :用于统一设置网络请求的服务器和 CDN 的地址。在实际业务中，我们的测试需要切换不同的服务器地址来测试。统一设置服务器地址到 MKNetworkConfig 类中，也便于我们统一切换服务器地址。</li>
+<li>通常webview首次加载非常慢,使用Native网络请求会很快</li>
+<li>离线包＋预加载(静态HTML、静态JS、静态CSS它们的加载、它们离线的东西）,首屏进入可直接加载默认数据</li>
 </ul>
 
-<pre><code> - (void)setupRequestFilters {
-    // 这里用高德Api进行测试
-    NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@&quot;CFBundleShortVersionString&quot;];
-    MKNetworkConfig *config = [MKNetworkConfig sharedInstance];
-    config.baseUrl = @&quot;http://restapi.amap.com/v3/&quot;;
-    MKUrlArgumentsFilter *urlFilter = [MKUrlArgumentsFilter filterWithArguments:@{@&quot;version&quot;: appVersion}];
-    [config addUrlFilter:urlFilter];
-}
-
-
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
-    [self setupRequestFilters];
-    
-    return YES;
-} 
-</code></pre>
+<p><strong>缺点:</strong></p>
 
 <ul>
-<li><strong>MKChainRequest</strong>    :用于管理有相互依赖的网络请求，它实际上最终可以用来管理多个拓扑排序后的网络请求。</li>
+<li>静态资源包离线下载,不能保证100%</li>
 </ul>
 
-<p>例如，我们有一个需求，需要用户在注册时，先发送注册的Api，然后:<br/>
-1. 如果注册成功，再发送读取用户信息的Api。并且，读取用户信息的Api需要使用注册成功返回的用户id号。<br/>
-2. 如果注册失败，则不发送读取用户信息的Api了。</p>
+<h2 id="toc_0">传统H5加载流程</h2>
 
-<p><strong>不足:</strong><br/>
-1. 目前没有做缓存,由于项目中url是根据时间戳,可以使用已有的缓存作为补充.也可以写到网络层封装中.<br/>
-2. 串行网络请求封装了,但是由于默认就是并行网络请求,所以没有封装.如果需要限制最大并发数量,可以在<code>MKNetWorkAgent</code>中设置.<br/>
-3. 木有大量测试,可能存在bug</p>
+<p><img src="media/14731574655770/14737415611533.jpg" alt=""/></p>
 
-<p><strong>注意事项:</strong><br/>
-基本没有啥需要注意的&hellip;,具体使用方法可以参见Demo,关于参数可以实现代理方法,也可以直接传参.如果直接传参,会覆盖掉代理中的数据源.  Demo中实现了简单的下拉加载中关于page的封装.扩展功能我都写成代理,然后需要什么功能实现以下就可以了,避免<code>MKBaseRequest</code>中包含太多功能,这样可以实现自定义组成自己需要的功能.</p>
+<h3 id="toc_1"><strong>这里有两个问题：</strong></h3>
+
+<p>WebView的耗时 <br/>
+根据手Q的统计数据，Android的WebView平均打开启动的速度耗时是0.8秒，有些Android机型基于系统环境可能需要一点多或者两秒左右；</p>
+
+<p>HTTP协议的网络层 <br/>
+HTTP有DNS或者建立链接的耗时，HTTPS有建立SSL链接的耗时。</p>
+
+<p>所以H5通常带给用户的体验是：我点进来不管是怎么时候，是第一次第二次还是第三次，我点进来先等两秒再说，看两秒白屏后页面才可以加载进来，其实这里我们只做了两个事情去优化首次加载流程：</p>
+
+<h4 id="toc_2">1. 把WebView启动和发送请求改成并行</h4>
+
+<p>客户端在启动WebView的时候同时发起HTML的页面请求，这里可以实现一个效果：本来我的耗时是T1+T2，现在为T1或T2的最大值，这样达到并行加载的效果。<br/>
+<img src="media/14731574655770/14737420748297.jpg" alt=""/></p>
+
+<p>当然这里还有一个优化的空间，我们其实已经由客户端接管了发送网络请求的事情，以前接管的时候是用HTTP协议，比如像iOS用的是URLSession模块，但已经让客户端接管了，为什么不能够更大胆一些呢？</p>
+
+<h4 id="toc_3">2. Socket通道</h4>
+
+<p>其实我们可以不拘泥于数据传输的方式，所以这里我们把一个HTML的加载从HTTP/HTTPS改造成了一个Socket通道，这是一个App里面长连接的管道，如果手机内部有即时通讯模块的话，我们是用这个长连接的通道来做HTML的传输的，它的作用在于只要你的手机QQ能够收发消息，你的HTML页面就能够加载进来，这样就达到体验上的一致性，同时网络也有比较稳定的提升。 <br/>
+<img src="media/14731574655770/14737423231640.jpg" alt=""/></p>
+
+<p>我们基本上做了两个事情就达到首次进入加速的目的，但后面才是一个关键：首次进入我们已经做过优化了，但二次进入怎么去做优化去提高它的显示速度呢？</p>
+
+<h2 id="toc_4">本地缓存</h2>
+
+<p><img src="media/14731574655770/14737426997041.jpg" alt=""/></p>
 
 
 		</div>

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  李小争
+  UIWebView可能的优化方案 - 李小争
   
   </title>
  <meta name="description" content="记录开发中遇到的一些问题">
@@ -189,157 +189,99 @@
             </div>
             <div class="large-9 medium-9 columns">
 
- 
+ <div class="markdown-body">
+<h1>UIWebView可能的优化方案</h1>
 
-
-	
-		<div class="markdown-body">
-		<h1>转发机制</h1>
-
-		<blockquote>
-<p>基本逻辑来源自官方文档 <a href="https://developer.apple.com/library/prerelease/content/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtForwarding.html">Message Forwarding</a> ,这里只做相关例子的解析.</p>
+<blockquote>
+<p>声明:部分思想来源于手Q空间团队</p>
 </blockquote>
 
-<p>当一个对象能接收一个消息时，就会走正常的方法调用流程。但如果一个对象无法接收指定消息时，又会发生什么事呢？默认情况下，如果是以 [object message]的方式调用方法，如果object无法响应message消息时，编译器会报错。但如果是以perform…的形式来调用，则需要等到运 行时才能确定object是否能接收message消息。如果不能，则程序崩溃。<br/>
-通常，当我们不能确定一个对象是否能接收某个消息时，会先调用<code>respondsToSelector:</code>来判断一下。如下代码所示：</p>
+<p>我们都知道WebView加载页面非常缓慢,如果页面样式结构比较固定,则可以采用自己的自己封装的网络请求去获取数据,然后拼接成HTML显示.</p>
 
-<pre><code>if ([self respondsToSelector:@selector(method)]) {
-    [self performSelector:@selector(method)];
-}
-</code></pre>
+<p><strong>优点:</strong></p>
 
-<p>当不使用<code>respondsToSelector:</code>判断时,就会启动&#39;消息转发(message forwarding)&lsquo;机制,通过这一机制我们可以告诉对象如何处理未知的消息.如果不做任何处理会导致程序崩溃,我们可以看到异常信息如下:</p>
+<ul>
+<li>通常webview首次加载非常慢,使用Native网络请求会很快</li>
+<li>离线包＋预加载(静态HTML、静态JS、静态CSS它们的加载、它们离线的东西）,首屏进入可直接加载默认数据</li>
+</ul>
 
-<pre><code>2016-09-08 13:26:53.094 selfsuper[65176:7154658] -[Student eat]: unrecognized selector sent to instance 0x7ff1b9f9f690
-2016-09-08 13:26:53.103 selfsuper[65176:7154658] *** Terminating app due to uncaught exception &#39;NSInvalidArgumentException&#39;, reason: &#39;-[Student eat]: unrecognized selector sent to instance 0x7ff1b9f9f690&#39;
-</code></pre>
+<p><strong>缺点:</strong></p>
 
-<p>这段异常信息实际上是由NSObject的<code>doesNotRecognizeSelector</code>方法抛出的。不过，我们可以采取一些措施，让我们的程序执行特定的逻辑，而避免程序的崩溃。</p>
+<ul>
+<li>静态资源包离线下载,不能保证100%</li>
+</ul>
 
-<p>消息转发机制基本上分为三个步骤：</p>
+<h2 id="toc_0">传统H5加载流程</h2>
 
-<ol>
-<li><p>动态方法解析</p></li>
-<li><p>备用接收者</p></li>
-<li><p>完整转发</p></li>
-</ol>
+<p><img src="media/14731574655770/14737415611533.jpg" alt=""/></p>
 
-<h2 id="toc_0">动态方法解析</h2>
+<h3 id="toc_1"><strong>这里有两个问题：</strong></h3>
 
-<p>对象在接收到未知的消息时，首先会调用所属类的类方法+resolveInstanceMethod:(实例方法)或 者+resolveClassMethod:(类方法)。在这个方法中，我们有机会为该未知消息新增一个”处理方法”“。不过使用该方法的前提是我们已经 实现了该”处理方法”，只需要在运行时通过class_addMethod函数动态添加到类里面就可以了。如下代码所示：</p>
+<p>WebView的耗时 <br/>
+根据手Q的统计数据，Android的WebView平均打开启动的速度耗时是0.8秒，有些Android机型基于系统环境可能需要一点多或者两秒左右；</p>
 
-<pre><code>// void(*)()
-// 默认方法都有两个隐式参数，
-void eat(id self,SEL sel)
-{
-    NSLog(@&quot;%@ %@&quot;,self,NSStringFromSelector(sel));
-}
+<p>HTTP协议的网络层 <br/>
+HTTP有DNS或者建立链接的耗时，HTTPS有建立SSL链接的耗时。</p>
 
-// 当一个对象调用未实现的方法，会调用这个方法处理,并且会把对应的方法列表传过来.
-// 刚好可以用来判断，未实现的方法是不是我们想要动态添加的方法
-+ (BOOL)resolveInstanceMethod:(SEL)sel
-{
-    if (sel == NSSelectorFromString(@&quot;eat&quot;)) {
-        // 动态添加eat方法
-        
-        // 第一个参数：给哪个类添加方法
-        // 第二个参数：添加方法的方法编号
-        // 第三个参数：添加方法的函数实现（函数地址）
-        // 第四个参数：函数的类型，(返回值+参数类型) v:void @:对象-&gt;self :表示SEL-&gt;_cmd
-        class_addMethod(self, NSSelectorFromString(@&quot;eat&quot;), (IMP)eat, &quot;v@:&quot;);
-        
-    }
-    
-    return [super resolveInstanceMethod:sel];
-}
+<p>所以H5通常带给用户的体验是：我点进来不管是怎么时候，是第一次第二次还是第三次，我点进来先等两秒再说，看两秒白屏后页面才可以加载进来，其实这里我们只做了两个事情去优化首次加载流程：</p>
 
-</code></pre>
+<h4 id="toc_2">1. 把WebView启动和发送请求改成并行</h4>
 
-<p>不过这种方案更多的是为了实现@dynamic属性。</p>
+<p>客户端在启动WebView的时候同时发起HTML的页面请求，这里可以实现一个效果：本来我的耗时是T1+T2，现在为T1或T2的最大值，这样达到并行加载的效果。<br/>
+<img src="media/14731574655770/14737420748297.jpg" alt=""/></p>
 
-<h2 id="toc_1">备用接收者</h2>
+<p>当然这里还有一个优化的空间，我们其实已经由客户端接管了发送网络请求的事情，以前接管的时候是用HTTP协议，比如像iOS用的是URLSession模块，但已经让客户端接管了，为什么不能够更大胆一些呢？</p>
 
-<p>如果在上一步无法处理消息，则Runtime会继续调以下方法：</p>
+<h4 id="toc_3">2. Socket通道</h4>
 
-<pre><code>- (id)forwardingTargetForSelector:(SEL)aSelector
-</code></pre>
+<p>其实我们可以不拘泥于数据传输的方式，所以这里我们把一个HTML的加载从HTTP/HTTPS改造成了一个Socket通道，这是一个App里面长连接的管道，如果手机内部有即时通讯模块的话，我们是用这个长连接的通道来做HTML的传输的，它的作用在于只要你的手机QQ能够收发消息，你的HTML页面就能够加载进来，这样就达到体验上的一致性，同时网络也有比较稳定的提升。 <br/>
+<img src="media/14731574655770/14737423231640.jpg" alt=""/></p>
 
-<p>如果一个对象实现了这个方法，并返回一个非nil的结果，则这个对象会作为消息的新接收者，且消息会被分发到这个对象。当然这个对象不能是self自身，否则就是出现无限循环。当然，如果我们没有指定相应的对象来处理aSelector，则应该调用父类的实现来返回结果。</p>
+<p>我们基本上做了两个事情就达到首次进入加速的目的，但后面才是一个关键：首次进入我们已经做过优化了，但二次进入怎么去做优化去提高它的显示速度呢？</p>
 
-<p>使用这个方法通常是在对象内部，可能还有一系列其它对象能处理该消息，我们便可借这些对象来处理消息并返回，这样在对象外部看来，还是由该对象亲自处理了这一消息。如下代码所示：</p>
+<h2 id="toc_4">本地缓存</h2>
 
-<pre><code>/**
- * 测试消息转发
- */
--(id)forwardingTargetForSelector:(SEL)aSelector {
-    NSLog(@&quot;消息转发&quot;);
-    NSString *selectorString = NSStringFromSelector(aSelector);
-    if ([selectorString isEqualToString:@&quot;eat2&quot;]){
-        // 将消息转给 RuntimeHelper 对象,让他来处理
-        return [RuntimeHelper new];
-    }
-    return [super forwardingTargetForSelector:aSelector];
-}
-
-</code></pre>
-
-<p>这一步合适于我们只想将消息转发到另一个能处理该消息的对象上。但这一步无法对消息进行处理，如操作消息的参数和返回值。如果需要修改参数和返回值,可以使用完整消息转发.</p>
-
-<h2 id="toc_2">完整消息转发</h2>
-
-<p>如果在上一步还不能处理未知消息，则唯一能做的就是启用完整的消息转发机制了。此时会调用以下方法:</p>
-
-<pre><code>- (void)forwardInvocation:(NSInvocation *)anInvocation
-</code></pre>
-
-<p>完整代码:</p>
-
-<pre><code>/**
- *  完整的消息转发
- */
-
-/* 必须重写 (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector
- * 消息转发机制使用从这个方法中获取的信息来创建NSInvocation对象。因此我们必须重写这个方法，为给定的selector提供一个合适的方法签名。
- */
-- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector {
-    NSMethodSignature *signature = [super methodSignatureForSelector:aSelector];
-    
-    if (!signature) {
-        if ([RuntimeHelper instancesRespondToSelector:aSelector]) {
-            signature = [RuntimeHelper instanceMethodSignatureForSelector:aSelector];
-        }
-    }
-    
-    return signature;
-}
-
--(void)forwardInvocation:(NSInvocation *)anInvocation {
-    if ([RuntimeHelper instanceMethodSignatureForSelector:anInvocation.selector]) {
-        [anInvocation invokeWithTarget:[RuntimeHelper new]];
-    }
-}
-</code></pre>
-
-<p>关于 NSInvocation 可以参见<a href="https://github.com/Mekor/MKExtension">MKExtension</a>中<code>NSObject+SEL</code>,里面有关于 NSInvocation 的应用.</p>
+<p><img src="media/14731574655770/14737426997041.jpg" alt=""/></p>
 
 
-		</div>
-	
+</div>
 
- 
-	
+<br /><br />
+<hr />
 
- 
-	
+<div class="row clearfix">
+  <div class="large-6 columns">
+	<div class="text-left" style="padding:15px 0px;">
+		
+	        <a href="14731740142157.html"  title="Previous Post: RunLoop">&laquo; RunLoop</a>
+	    
+	</div>
+  </div>
+  <div class="large-6 columns">
+	<div class="text-right" style="padding:15px 0px;">
+		
+	        <a href="14727863232294.html" 
+	        title="Next Post: runtime(内部分享草稿)">runtime(内部分享草稿) &raquo;</a>
+	    
+	</div>
+  </div>
+</div>
 
- 
-	
+<div class="row">
+<div style="padding:0px 0.93em;" class="share-comments">
 
- 
-	
-
-  
-  
+</div>
+</div>
+<script type="text/javascript">
+	$(function(){
+		var currentURL = '14731574655770.html';
+		$('#side-nav a').each(function(){
+			if($(this).attr('href') == currentURL){
+				$(this).parent().addClass('active');
+			}
+		});
+	});
+</script>  
 </div></div>
 
 
