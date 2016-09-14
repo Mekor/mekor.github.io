@@ -193,7 +193,7 @@
 <h1>UIWebView可能的优化方案</h1>
 
 <blockquote>
-<p>声明:部分思想来源于手Q空间团队</p>
+<p>声明:Socket思想来源于手Q空间团队,Demo中提供了使用Socket模拟HTTP请求.</p>
 </blockquote>
 
 <p>我们都知道WebView加载页面非常缓慢,如果页面样式结构比较固定,则可以采用自己的自己封装的网络请求去获取数据,然后拼接成HTML显示.</p>
@@ -249,7 +249,7 @@ HTTP有DNS或者建立链接的耗时，HTTPS有建立SSL链接的耗时。</p>
 <p>关于加载优化Demo,地址:<a href="https://github.com/Mekor/Optimization-of-webView">https://github.com/Mekor/Optimization-of-webView</a></p>
 </blockquote>
 
-<p><strong>webView加载耗时问题解决方案简介:</strong></p>
+<h4 id="toc_6">webView加载耗时问题解决方案简介:</h4>
 
 <ol>
 <li>如果有界面变动不大,可以吧HTML直接在本地存放一份,然后从网上请求数据,拼接成HTML,这样加载速度会很快.这种可以参考用户版商品的图片简介.</li>
@@ -435,6 +435,10 @@ HTTP有DNS或者建立链接的耗时，HTTPS有建立SSL链接的耗时。</p>
 </code></pre>
 
 <p>提供了 <code>body</code> 里面的占位符,同时还提供了,pixel,alt,src等.这时我们可以做的事情就多了,根据占位符替换 <code>body</code> 中的占位,通过原生网络下载图片等等.Demo中我只做了简单的HTML拼接.拼接好HTML在把本地的模板添加进去,比如css,js等.最后直接把拼接好的完整的HTML给webView,让其显示.具体Demo已经提供了,仅供参考.</p>
+
+<h4 id="toc_7">Socket模拟HTTP请求</h4>
+
+<p>第二个Demo中模拟了Socket发送HTTP请求的方式,当然我这里只是猜测手Q的实现方式.需要注意的地方就是拼接请求头.</p>
 
 
 </div>
