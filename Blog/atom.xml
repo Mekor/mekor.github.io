@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2016-09-14T14:06:09+08:00</updated>
+  <updated>2016-09-14T14:12:12+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -533,11 +533,22 @@ HTTP有DNS或者建立链接的耗时，HTTPS有建立SSL链接的耗时。</p>
 },
 </code></pre>
 
-<p>提供了 <code>body</code> 里面的占位符,同时还提供了,pixel,alt,src等.这时我们可以做的事情就多了,根据占位符替换 <code>body</code> 中的占位,通过原生网络下载图片等等.Demo中我只做了简单的HTML拼接.拼接好HTML在把本地的模板添加进去,比如css,js等.最后直接把拼接好的完整的HTML给webView,让其显示.具体Demo已经提供了,仅供参考.</p>
+<p>提供了 <code>body</code> 里面的占位符,同时还提供了,pixel,alt,src等.这时我们可以做的事情就多了,根据占位符替换 <code>body</code> 中的占位,通过原生网络下载图片等等.Demo中我只做了简单的HTML拼接.拼接好HTML在把本地的模板添加进去,比如css,js等.最后直接把拼接好的完整的HTML给webView,让其显示.具体Demo已经提供了,仅供参考.效果图:</p>
+
+<p><img src="media/14731574655770/14738361521187.gif" alt=""/><br/>
+(仅供参考,css我只是简单的按照大概写的,勿喷)</p>
 
 <h4 id="toc_7">Socket模拟HTTP请求</h4>
 
 <p>第二个Demo中模拟了Socket发送HTTP请求的方式,当然我这里只是猜测手Q的实现方式.需要注意的地方就是拼接请求头.</p>
+
+<pre><code>    //拼接http请求
+    NSString *request = @&quot;GET / HTTP/1.1\n&quot;
+    &quot;Connection: Close\n&quot;
+    &quot;Host: m.baidu.com\n&quot;
+    //告诉服务器客户端是mac
+    &quot;User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.115 Safari/537.36\n\n&quot;;
+</code></pre>
 
 ]]></content>
   </entry>
