@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2016-09-13T13:02:32+08:00</updated>
+  <updated>2016-09-13T15:43:54+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -342,7 +342,198 @@ HTTP有DNS或者建立链接的耗时，HTTPS有建立SSL链接的耗时。</p>
 
 <p><img src="media/14731574655770/14737426997041.jpg" alt=""/></p>
 
+<h2 id="toc_5">Demo简单介绍</h2>
+
+<blockquote>
 <p>关于加载优化Demo,地址:<a href="https://github.com/Mekor/Optimization-of-webView">https://github.com/Mekor/Optimization-of-webView</a></p>
+</blockquote>
+
+<p><strong>webView加载耗时问题解决方案简介:</strong></p>
+
+<ol>
+<li>如果有界面变动不大,可以吧HTML直接在本地存放一份,然后从网上请求数据,拼接成HTML,这样加载速度会很快.这种可以参考用户版商品的图片简介.</li>
+<li>如果内部动态变化的,但是样式和交互式规定好的,可以在本地存放一份,当然也可以每次启动app的时候更新本地存放的静态资源.这样的好处就是每次只替换更新的内容.</li>
+</ol>
+
+<p>下面以网易新闻为例,这里我抓包网易新闻的请求,新闻详情: <a href="http://c.m.163.com/nc/article/C0OBRVC7051789DB/full.html">http://c.m.163.com/nc/article/C0OBRVC7051789DB/full.html</a><br/>
+这里我们可以看出,网易新闻也不是直接用webView加载url的方式显示的.</p>
+
+<pre><code>{
+    &quot;C0OBRVC7051789DB&quot;: {
+        &quot;body&quot;: &quot;&lt;p&gt;　　郭德纲的成功除了自身坚持不懈的努力外，当然也因郭德纲遇到了不少“贵人”的帮助，在这其中有一位也是其“贵人”，郭德纲曾经也在很多场合说其是自己的贵人，他就是大鹏。&lt;/p&gt;&lt;!--IMG#0--&gt;&lt;p&gt;　　不过，此大鹏非彼大鹏。如今一说到大鹏，都会想到导演电影《煎饼侠》的大鹏，那是赵本山的弟子，却和郭德纲没有什么关系。而帮助过郭德纲，使得其相声在北京能广受欢迎的大鹏，则是北京文艺广播《开心茶馆》主持人康大鹏。&lt;/p&gt;&lt;!--IMG#1--&gt;&lt;p&gt;　　康大鹏作为电台节目主持人，在没有听到郭德纲相声之前，给听众播放的也是一些经典的相声段子，不过翻来覆去时间长了也令听众生厌，久而久之就没有了兴趣。在这种情况下，大鹏听了郭德纲的相声后，才感到眼前一亮。&lt;/p&gt;&lt;!--IMG#2--&gt;&lt;p&gt;　　当时的郭德纲，虽然在北京也开始站住了脚跟，但是仅限于小部分观众知道，并且据说还备受各方打击，所以才会在相声中经常有“怨言”。在大鹏看了德云社郭德纲的相声后，认为这是个机会，德云社也需要听众，也需要帮助。&lt;/p&gt;&lt;!--IMG#3--&gt;&lt;p&gt;　　于是，大鹏就开始到德云社录音，然后播放给听众听。这在当时，也是一个不小的举动。毕竟郭德纲在当时还名不见经传，而为郭德纲录音还需要大鹏自己掏腰包购买录音器材，至于播出后效果如何也担有一定风险。&lt;/p&gt;&lt;!--IMG#4--&gt;&lt;p&gt;　　也正如大鹏所想象，郭德纲的相声在电台播出后便反响强烈，使得很多观众都开始迷上了相声，也迷上了郭德纲。在拥有了大批粉丝后，据说郭德纲随后开办了一场大型纪念演出，当时有不少电视台和电台的领导观看，而在郭德纲相声结束后，大鹏还给台下领导来了一个惊人的一跪。&lt;/p&gt;&lt;!--IMG#5--&gt;&lt;p&gt;　　虽然只是单膝点地，但在当时的报纸也给出了惊天一跪的标题，而大鹏的这一跪，也使得郭德纲和电视台结缘。尽管郭德纲的成名和大鹏有着不可分割的关系，但大鹏还是很谦虚的说两者是相互的关系，因为节目需要听众。&lt;/p&gt;&lt;!--IMG#6--&gt;&lt;p&gt;　　在郭德纲进入北京电视台主持《星夜故事秀》节目时，这也是郭德纲和北京电视台合作最好的时期，堪称两者的“蜜月期”。只是随着郭德纲的成名，郭德纲后来又转战到了天津卫视，自己在北京电视台的节目则交给了何云伟和李菁来做。&lt;/p&gt;&lt;!--IMG#7--&gt;&lt;p&gt;　　这其中的原因，有人说是因为报酬方面产生了分歧，说白了其他电视台给了更高的价钱。所以北京电视台才会批郭德纲“忘恩负义”，因北京电视台为郭德纲的宣传做了很大的努力，但也有人说是因郭德纲的加盟，才使得北京电视台节目火了起来。谁是谁非莫衷一是。&lt;/p&gt;&lt;!--IMG#8--&gt;&lt;p&gt;　　至于后来，两者闹得更是不可开交，直到最后变成了“冤家”。而和北京电视台闹分裂后，对原电台主持人大鹏自然也是有很大的影响，毕竟电视台和电台也是一脉相承的关系，不可能不对大鹏产生影响。&lt;/p&gt;&lt;!--IMG#9--&gt;&lt;p&gt;　　对与错是与非都是难以说清，正如大鹏所说，郭德纲的相声给其节目带来了听众，而电台也给郭德纲带去了名气，两者也是相辅相成。但不管怎样，大鹏的确是郭德纲演艺路上的一位“恩人”，起码让其早点脱颖而出扬眉吐气了。&lt;/p&gt;&lt;p&gt; 特别声明：本文为网易自媒体平台“网易号”作者上传并发布，仅代表该作者观点。网易仅提供信息发布平台。&lt;/p&gt;&quot;,
+        &quot;users&quot;: [],
+        &quot;replyCount&quot;: 1893,
+        &quot;ydbaike&quot;: [],
+        &quot;link&quot;: [],
+        &quot;shareLink&quot;: &quot;http://c.m.163.com/news/a/C0OBRVC7051789DB.html?spss=newsapp&amp;spsw=1&quot;,
+        &quot;votes&quot;: [],
+        &quot;img&quot;: [
+            {
+                &quot;ref&quot;: &quot;&lt;!--IMG#0--&gt;&quot;,
+                &quot;pixel&quot;: &quot;400*263&quot;,
+                &quot;alt&quot;: &quot;&quot;,
+                &quot;src&quot;: &quot;http://dingyue.nosdn.127.net/s9VWjHPwFtTeqKoYJBULaIbs5TmzcYeGFQeljU0IFvZrD1473633706236.jpg&quot;
+            },
+            {
+                &quot;ref&quot;: &quot;&lt;!--IMG#1--&gt;&quot;,
+                &quot;pixel&quot;: &quot;412*256&quot;,
+                &quot;alt&quot;: &quot;&quot;,
+                &quot;src&quot;: &quot;http://dingyue.nosdn.127.net/6DXnTuxZs2jvgFJLMW2svrKoh1=KTYXhGwGUH2JlqdpZq1473633736663.jpg&quot;
+            },
+            {
+                &quot;ref&quot;: &quot;&lt;!--IMG#2--&gt;&quot;,
+                &quot;pixel&quot;: &quot;380*246&quot;,
+                &quot;alt&quot;: &quot;&quot;,
+                &quot;src&quot;: &quot;http://dingyue.nosdn.127.net/H5jHhCfSD5uhRhMFrHwze4LgrK97qwcG1GkwWGRZcOeqe1473633752645.jpg&quot;
+            },
+            {
+                &quot;ref&quot;: &quot;&lt;!--IMG#3--&gt;&quot;,
+                &quot;pixel&quot;: &quot;360*286&quot;,
+                &quot;alt&quot;: &quot;&quot;,
+                &quot;src&quot;: &quot;http://dingyue.nosdn.127.net/udjNFCksz6Fc7fCFAzCBwzUYxWB1TJUVis97X5ZRHpqg61473633775305.jpg&quot;
+            },
+            {
+                &quot;ref&quot;: &quot;&lt;!--IMG#4--&gt;&quot;,
+                &quot;pixel&quot;: &quot;407*255&quot;,
+                &quot;alt&quot;: &quot;&quot;,
+                &quot;src&quot;: &quot;http://dingyue.nosdn.127.net/7mbZrlli2D70eS9WHoRmd54RDkr6onqv8Zl1h6V5zJraj1473633824123compressflag.jpg&quot;
+            },
+            {
+                &quot;ref&quot;: &quot;&lt;!--IMG#5--&gt;&quot;,
+                &quot;pixel&quot;: &quot;400*266&quot;,
+                &quot;alt&quot;: &quot;&quot;,
+                &quot;src&quot;: &quot;http://dingyue.nosdn.127.net/HVmr=qRm5YReXaRAJBcSaI6WJpMn6DkKHJIVJBdbqMOYY1473633850729compressflag.jpg&quot;
+            },
+            {
+                &quot;ref&quot;: &quot;&lt;!--IMG#6--&gt;&quot;,
+                &quot;pixel&quot;: &quot;380*232&quot;,
+                &quot;alt&quot;: &quot;&quot;,
+                &quot;src&quot;: &quot;http://dingyue.nosdn.127.net/HQUW=i7soYmJqlUDaS1iv6pGBI9NzCdFqYU=yC=QT8BDQ1473633896632.jpg&quot;
+            },
+            {
+                &quot;ref&quot;: &quot;&lt;!--IMG#7--&gt;&quot;,
+                &quot;pixel&quot;: &quot;294*220&quot;,
+                &quot;alt&quot;: &quot;&quot;,
+                &quot;src&quot;: &quot;http://dingyue.nosdn.127.net/lEs43YivpKRxQqZPlmaIo=SpEOdRTqeYUywHCLqwIqR111473633914904.jpg&quot;
+            },
+            {
+                &quot;ref&quot;: &quot;&lt;!--IMG#8--&gt;&quot;,
+                &quot;pixel&quot;: &quot;402*238&quot;,
+                &quot;alt&quot;: &quot;&quot;,
+                &quot;src&quot;: &quot;http://dingyue.nosdn.127.net/bhzvrmx8JUQHVViXI5VKqvHG=c5RIIxx0dssbfTNM7mfE1473633962043.jpg&quot;
+            },
+            {
+                &quot;ref&quot;: &quot;&lt;!--IMG#9--&gt;&quot;,
+                &quot;pixel&quot;: &quot;329*220&quot;,
+                &quot;alt&quot;: &quot;&quot;,
+                &quot;src&quot;: &quot;http://dingyue.nosdn.127.net/tN7dLuyOJ0SU3kXoPRrLdXkVMZGJtiS97Qh46opqH2Q0N1473634186617.jpg&quot;
+            }
+        ],
+        &quot;digest&quot;: &quot;&quot;,
+        &quot;topiclist_news&quot;: [],
+        &quot;dkeys&quot;: &quot;null&quot;,
+        &quot;topiclist&quot;: [
+            {
+                &quot;hasCover&quot;: false,
+                &quot;subnum&quot;: &quot;2.8万&quot;,
+                &quot;alias&quot;: &quot;娱乐八卦、影视评论&quot;,
+                &quot;tname&quot;: &quot;娱乐大嘴&quot;,
+                &quot;ename&quot;: &quot;T1439876075818&quot;,
+                &quot;tid&quot;: &quot;T1439876075818&quot;,
+                &quot;cid&quot;: &quot;C1374475306828&quot;
+            }
+        ],
+        &quot;docid&quot;: &quot;C0OBRVC7051789DB&quot;,
+        &quot;picnews&quot;: true,
+        &quot;title&quot;: &quot;郭德纲从他的节目走红 此“贵人”却不求回报&quot;,
+        &quot;sourceinfo&quot;: {
+            &quot;alias&quot;: &quot;娱乐八卦、影视评论&quot;,
+            &quot;ename&quot;: &quot;T1439876075818&quot;,
+            &quot;tname&quot;: &quot;娱乐大嘴&quot;,
+            &quot;tid&quot;: &quot;T1439876075818&quot;
+        },
+        &quot;tid&quot;: &quot;&quot;,
+        &quot;template&quot;: &quot;normal1&quot;,
+        &quot;threadVote&quot;: 108,
+        &quot;askbar&quot;: [
+            {
+                &quot;title&quot;: &quot;主持人&quot;,
+                &quot;headpicurl&quot;: &quot;http://dingyue.nosdn.127.net/27vmGgL=A4BbmMAUJIEOEJ2vUlnvIGE9Ufum0roxEDigT1472456332076.jpg&quot;,
+                &quot;alias&quot;: &quot; 我是河北交通广播主持人月色，关于主持、情感和各种天马行空的问题，问我吧！ &quot;,
+                &quot;expertId&quot;: &quot;EX880112773195081120&quot;,
+                &quot;name&quot;: &quot;月色&quot;,
+                &quot;concernCount&quot;: 6341
+            }
+        ],
+        &quot;threadAgainst&quot;: 49,
+        &quot;boboList&quot;: [],
+        &quot;articleTags&quot;: &quot;网易号&quot;,
+        &quot;replyBoard&quot;: &quot;dy_wemedia_bbs&quot;,
+        &quot;source&quot;: &quot;娱乐大嘴&quot;,
+        &quot;huati&quot;: [
+            {
+                &quot;topicId&quot;: &quot;SJ02345751487819348812&quot;,
+                &quot;topicName&quot;: &quot;郭德纲&quot;
+            },
+            {
+                &quot;topicId&quot;: &quot;SJ1851570047893940154&quot;,
+                &quot;topicName&quot;: &quot;赵本山&quot;
+            }
+        ],
+        &quot;hasNext&quot;: false,
+        &quot;voicecomment&quot;: &quot;off&quot;,
+        &quot;apps&quot;: [],
+        &quot;relative_sys&quot;: [
+            {
+                &quot;id&quot;: &quot;C0RN7O7N00034VR2&quot;,
+                &quot;title&quot;: &quot;郭德纲的综艺版图:交人脉、捧新人、强化德云IP&quot;,
+                &quot;source&quot;: &quot;网易娱乐专稿&quot;,
+                &quot;imgsrc&quot;: &quot;http://cms-bucket.nosdn.127.net/a11079eb004f445abdb7146850e4810d20160913141047.jpeg&quot;,
+                &quot;docID&quot;: &quot;C0RN7O7N00034VR2&quot;,
+                &quot;from&quot;: &quot;HZ&quot;,
+                &quot;type&quot;: &quot;doc&quot;,
+                &quot;ptime&quot;: &quot;2016-09-13 14:13:21&quot;,
+                &quot;href&quot;: &quot;&quot;
+            },
+            {
+                &quot;id&quot;: &quot;C0DBP4LV0517ACQ1&quot;,
+                &quot;title&quot;: &quot;老梁说天下：郭德纲为什么这么能“惹事儿”&quot;,
+                &quot;source&quot;: &quot;纵横娱乐&quot;,
+                &quot;imgsrc&quot;: &quot;http://dingyue.nosdn.127.net/sYo3zfohiqrXHHZIhYV0wqZTpE7RavK7qWneE4BsRH6O=1473265404780compressflag.png&quot;,
+                &quot;docID&quot;: &quot;C0DBP4LV0517ACQ1&quot;,
+                &quot;from&quot;: &quot;HZ&quot;,
+                &quot;type&quot;: &quot;doc&quot;,
+                &quot;ptime&quot;: &quot;2016-09-08 00:23:46&quot;,
+                &quot;href&quot;: &quot;&quot;
+            },
+            {
+                &quot;id&quot;: &quot;C0R1QGIN051789DB&quot;,
+                &quot;title&quot;: &quot;唯一被戏称德云社第一女弟子女星，却是郭德纲铁杆粉丝&quot;,
+                &quot;source&quot;: &quot;娱乐大嘴&quot;,
+                &quot;imgsrc&quot;: &quot;http://dingyue.nosdn.127.net/I=T7AyADVhb6T8KiCoR0Yw0mKqBXyzUNKWyafBy9PRvxF1473724249899.jpg&quot;,
+                &quot;docID&quot;: &quot;C0R1QGIN051789DB&quot;,
+                &quot;from&quot;: &quot;HZ&quot;,
+                &quot;type&quot;: &quot;doc&quot;,
+                &quot;ptime&quot;: &quot;2016-09-13 08:01:08&quot;,
+                &quot;href&quot;: &quot;&quot;
+            }
+        ],
+        &quot;ptime&quot;: &quot;2016-09-12 06:59:42&quot;
+    }
+}
+</code></pre>
+
+<p>我们可以看出, <code>body</code> 里面是配置好的html,同时里面也给出了图片占位符类似于 <code>&lt;!--IMG#0--&gt;</code>,通过 <code>img</code> 数组里面的的内容进行替换,img里面提供类似 </p>
+
+<pre><code>{
+    &quot;ref&quot;: &quot;&lt;!--IMG#0--&gt;&quot;, 
+    &quot;pixel&quot;: &quot;400*263&quot;, 
+    &quot;alt&quot;: &quot;&quot;, 
+    &quot;src&quot;: &quot;http://dingyue.nosdn.127.net/s9VWjHPwFtTeqKoYJBULaIbs5TmzcYeGFQeljU0IFvZrD1473633706236.jpg&quot;
+},
+</code></pre>
+
+<p>提供了 <code>body</code> 里面的占位符,同时还提供了,pixel,alt,src等.这时我们可以做的事情就多了,根据占位符替换 <code>body</code> 中的占位,通过原生网络下载图片等等.Demo中我只做了简单的HTML拼接.拼接好HTML在把本地的模板添加进去,比如css,js等.最后直接把拼接好的完整的HTML给webView,让其显示.具体Demo已经提供了,仅供参考.</p>
 
 ]]></content>
   </entry>
