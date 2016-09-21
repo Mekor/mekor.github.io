@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2016-09-14T14:57:54+08:00</updated>
+  <updated>2016-09-21T09:43:10+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -605,6 +605,10 @@ HTTP有DNS或者建立链接的耗时，HTTPS有建立SSL链接的耗时。</p>
     <updated>2016-09-02T11:18:43+08:00</updated>
     <id>http://www.citynight.cn/Blog/14727863232294.html</id>
     <content type="html"><![CDATA[
+<blockquote>
+<p>本文涉及到的Demo地址 <a href="https://github.com/Mekor/runtimeDemo">https://github.com/Mekor/runtimeDemo</a></p>
+</blockquote>
+
 <h2 id="toc_0">理解self,super,class,superclass</h2>
 
 <p>创建一个Person里面有一个类方法:</p>
