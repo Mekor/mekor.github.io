@@ -107,6 +107,8 @@
         <li><label>遇到Bug</label></li>
 
           
+            <li><a title="如何解决json字符串中包含制表符" href="14747833011771.html">如何解决json字符串中包含制表符</a></li>
+          
             <li><a title="键盘消失后又再次显示并立即消失问题" href="14677030322532.html">键盘消失后又再次显示并立即消失问题</a></li>
           
 
@@ -182,6 +184,8 @@
                     
                       <li class="side-title"><span>遇到Bug</span></li>
                         
+                          <li><a title="如何解决json字符串中包含制表符" href="14747833011771.html">如何解决json字符串中包含制表符</a></li>
+                        
                           <li><a title="键盘消失后又再次显示并立即消失问题" href="14677030322532.html">键盘消失后又再次显示并立即消失问题</a></li>
                         
 
@@ -198,24 +202,49 @@
 
 	
 		<div class="markdown-body">
-		<h1>Android Studio 中如何查看帮助文档</h1>
+		<h1>iOS Tips</h1>
 
-		<ol>
-<li><p>首先下载帮助文档<br/>
-<img src="media/14693652209160/14693653611930.jpg" alt=""/></p></li>
-<li><p>跳转到文件夹<br/>
-<img src="media/14693652209160/14693654229419.jpg" alt=""/></p></li>
-<li><p>打开帮助文档 index.html<br/>
-<img src="media/14693652209160/14693655187234.jpg" alt=""/></p></li>
-<li><p>例如查找Activity 生命周期可以这样走<br/>
-<img src="media/14693652209160/14693656858016.jpg" alt=""/><br/>
-然后command + f 搜索Activity选中一个高亮的选项例如:<br/>
-<img src="media/14693652209160/14693658027297.jpg" alt=""/><br/>
-由于它是继承自Activity的所以可以这样<br/>
-<img src="media/14693652209160/14693659242489.jpg" alt=""/><br/>
-然后往下翻一翻就能看到了<br/>
-<img src="media/14693652209160/14693659705775.jpg" alt=""/></p></li>
-</ol>
+		<p><strong>对象销毁</strong><br/>
+对象的销毁虽然消耗资源不多，但累积起来也是不容忽视的。通常当容器类持有大量对象时，其销毁时的资源消耗就非常明显。同样的，如果对象可以放到后台线程去释放，那就挪到后台线程去。这里有个小 Tip：把对象捕获到 block 中，然后扔到后台队列去随便发送个消息以避免编译器警告，就可以让对象在后台线程销毁了。</p>
+
+<pre><code>NSArray *tmp = self.array;
+self.array = nil;
+dispatch_async(queue, ^{
+    [tmp class];
+});
+</code></pre>
+
+<blockquote>
+<p>来自:<a href="http://blog.ibireme.com/2015/11/12/smooth_user_interfaces_for_ios/">iOS 保持界面流畅的技巧</a></p>
+</blockquote>
+
+<p><strong>拖拽收起键盘</strong><br/>
+UIScrollView有个keyboardDismissMode属性，设置成UIScrollViewKeyboardDismissModeOnDrag就可以在拖拽ScrollView的时候自动缩起键盘</p>
+
+<pre><code>@property(nonatomic) UIScrollViewKeyboardDismissMode keyboardDismissMode NS_AVAILABLE_IOS(7_0); // default is UIScrollViewKeyboardDismissModeNone
+</code></pre>
+
+<p><strong>让view的一部分响应手势点击</strong><br/>
+让view的一部分响应手势点击，其余部分实现手势透传给下方的view的方法</p>
+
+<p>在View中重写:</p>
+
+<pre><code>-(UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    NSLog(@&quot;%@-------------&gt;&gt;&gt;&gt;&gt;&gt;&gt;point = %@&quot;,NSStringFromSelector(_cmd),NSStringFromCGPoint(point));
+    
+    // 设置能够点击的区域
+    CGRect rect = CGRectMake(100, 100, 200, 200);
+    if (CGRectContainsPoint(rect, point)) {
+        // 如果点击在该区域,则让View 成为响应链中的一个view,接受手势事件
+        // 此时可通过touchBegan:方法监听到手势
+        return self;
+    }
+    return nil;
+}
+
+</code></pre>
+
+<p>控制按钮的点击范围可以参见:<a href="https://github.com/Mekor/MKExtension">MKExtension</a>中的<code>UIButton+TapScope</code></p>
 
 
 		</div>

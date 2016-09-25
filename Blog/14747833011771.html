@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  iOS Tips - 李小争
+  如何解决json字符串中包含制表符 - 李小争
   
   </title>
  <meta name="description" content="记录开发中遇到的一些问题">
@@ -198,49 +198,42 @@
             <div class="large-9 medium-9 columns">
 
  <div class="markdown-body">
-<h1>iOS Tips</h1>
+<h1>如何解决json字符串中包含制表符</h1>
 
-<p><strong>对象销毁</strong><br/>
-对象的销毁虽然消耗资源不多，但累积起来也是不容忽视的。通常当容器类持有大量对象时，其销毁时的资源消耗就非常明显。同样的，如果对象可以放到后台线程去释放，那就挪到后台线程去。这里有个小 Tip：把对象捕获到 block 中，然后扔到后台队列去随便发送个消息以避免编译器警告，就可以让对象在后台线程销毁了。</p>
+<p>错误信息:</p>
 
-<pre><code>NSArray *tmp = self.array;
-self.array = nil;
-dispatch_async(queue, ^{
-    [tmp class];
-});
+<pre><code>Error Domain=NSCocoaErrorDomain Code=3840 &quot;The operation couldn’t be completed. (Cocoa error 3840.)&quot; (Unescaped control character around character 135.) UserInfo=0x170e79d00 {NSDebugDescription=Unescaped control character around character 135.}
 </code></pre>
 
-<blockquote>
-<p>来自:<a href="http://blog.ibireme.com/2015/11/12/smooth_user_interfaces_for_ios/">iOS 保持界面流畅的技巧</a></p>
-</blockquote>
+<p><strong>如何处理</strong><br/>
+最关键的地方:</p>
 
-<p><strong>拖拽收起键盘</strong><br/>
-UIScrollView有个keyboardDismissMode属性，设置成UIScrollViewKeyboardDismissModeOnDrag就可以在拖拽ScrollView的时候自动缩起键盘</p>
-
-<pre><code>@property(nonatomic) UIScrollViewKeyboardDismissMode keyboardDismissMode NS_AVAILABLE_IOS(7_0); // default is UIScrollViewKeyboardDismissModeNone
-</code></pre>
-
-<p><strong>让view的一部分响应手势点击</strong><br/>
-让view的一部分响应手势点击，其余部分实现手势透传给下方的view的方法</p>
-
-<p>在View中重写:</p>
-
-<pre><code>-(UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
-    NSLog(@&quot;%@-------------&gt;&gt;&gt;&gt;&gt;&gt;&gt;point = %@&quot;,NSStringFromSelector(_cmd),NSStringFromCGPoint(point));
-    
-    // 设置能够点击的区域
-    CGRect rect = CGRectMake(100, 100, 200, 200);
-    if (CGRectContainsPoint(rect, point)) {
-        // 如果点击在该区域,则让View 成为响应链中的一个view,接受手势事件
-        // 此时可通过touchBegan:方法监听到手势
-        return self;
-    }
-    return nil;
+<pre><code>-(NSString *)removeUnescapedCharacter:(NSString *)inputStr
+{
+    NSCharacterSet *controlChars = [NSCharacterSet controlCharacterSet];//获取那些特殊字符
+    NSRange range = [inputStr rangeOfCharacterFromSet:controlChars];//寻找字符串中有没有这些特殊字符
+    if (range.location != NSNotFound)
+        {
+        NSMutableString *mutable = [NSMutableString stringWithString:inputStr];
+        while (range.location != NSNotFound)
+            {
+            [mutable deleteCharactersInRange:range];//去掉这些特殊字符
+            range = [mutable rangeOfCharacterFromSet:controlChars];
+            }
+        return mutable;
+        }
+    return inputStr;
 }
-
 </code></pre>
 
-<p>控制按钮的点击范围可以参见:<a href="https://github.com/Mekor/MKExtension">MKExtension</a>中的<code>UIButton+TapScope</code></p>
+<p>举例:</p>
+
+<pre><code>    NSString *responseString = [NSMutableString stringWithString:[request responseString]];
+    responseString =[self removeUnescapedCharacter:responseString];
+    NSData *jsonData = [responseString dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *error;
+    NSDictionary * dic = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&amp;error];
+</code></pre>
 
 
 </div>
@@ -252,15 +245,13 @@ UIScrollView有个keyboardDismissMode属性，设置成UIScrollViewKeyboardDismi
   <div class="large-6 columns">
 	<div class="text-left" style="padding:15px 0px;">
 		
-	        <a href="14701034373615.html"  title="Previous Post: 网络切面化处理">&laquo; 网络切面化处理</a>
-	    
 	</div>
   </div>
   <div class="large-6 columns">
 	<div class="text-right" style="padding:15px 0px;">
 		
-	        <a href="14693652209160.html" 
-	        title="Next Post: Android Studio 中如何查看帮助文档">Android Studio 中如何查看帮助文档 &raquo;</a>
+	        <a href="14743674179375.html" 
+	        title="Next Post: iOS10 遇到问题总结">iOS10 遇到问题总结 &raquo;</a>
 	    
 	</div>
   </div>
@@ -273,7 +264,7 @@ UIScrollView有个keyboardDismissMode属性，设置成UIScrollViewKeyboardDismi
 </div>
 <script type="text/javascript">
 	$(function(){
-		var currentURL = '14700440944204.html';
+		var currentURL = '14747833011771.html';
 		$('#side-nav a').each(function(){
 			if($(this).attr('href') == currentURL){
 				$(this).parent().addClass('active');
