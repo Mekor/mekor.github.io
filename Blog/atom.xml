@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2016-09-29T14:05:14+08:00</updated>
+  <updated>2016-09-30T14:04:19+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -25,6 +25,21 @@
     [[SDImageCache sharedImageCache] clearMemory];
 }
 </code></pre>
+
+<p>原理:</p>
+
+<pre><code>- (void)clearMemory {
+    [self.memCache removeAllObjects];
+}
+</code></pre>
+
+<p>_memCache 是 NSCache 类型的,</p>
+
+<p>没有做任何操作的时候大概是这个样子的<br/>
+<img src="media/14752152861722/14752174866625.jpg" alt=""/></p>
+
+<p>添加clearMemory后:<br/>
+<img src="media/14752152861722/14752177858503.jpg" alt=""/></p>
 
 ]]></content>
   </entry>

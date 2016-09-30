@@ -223,6 +223,21 @@
 }
 </code></pre>
 
+<p>原理:</p>
+
+<pre><code>- (void)clearMemory {
+    [self.memCache removeAllObjects];
+}
+</code></pre>
+
+<p>_memCache 是 NSCache 类型的,</p>
+
+<p>没有做任何操作的时候大概是这个样子的<br/>
+<img src="media/14752152861722/14752174866625.jpg" alt=""/></p>
+
+<p>添加clearMemory后:<br/>
+<img src="media/14752152861722/14752177858503.jpg" alt=""/></p>
+
 
 		</div>
 	
