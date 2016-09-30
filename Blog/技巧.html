@@ -63,6 +63,8 @@
         <li><label>技巧</label></li>
 
           
+            <li><a title="怎样让内存缓存变稳定" href="14752152861722.html">怎样让内存缓存变稳定</a></li>
+          
             <li><a title="如何在UIBarButtonItem上显示数字(BadgeValue)" href="14747835330079.html">如何在UIBarButtonItem上显示数字(BadgeValue)</a></li>
           
             <li><a title="const,static,extern简介" href="14718293013293.html">const,static,extern简介</a></li>
@@ -148,6 +150,8 @@
                     
                       <li class="side-title"><span>技巧</span></li>
                         
+                          <li><a title="怎样让内存缓存变稳定" href="14752152861722.html">怎样让内存缓存变稳定</a></li>
+                        
                           <li><a title="如何在UIBarButtonItem上显示数字(BadgeValue)" href="14747835330079.html">如何在UIBarButtonItem上显示数字(BadgeValue)</a></li>
                         
                           <li><a title="const,static,extern简介" href="14718293013293.html">const,static,extern简介</a></li>
@@ -210,80 +214,14 @@
 
 	
 		<div class="markdown-body">
-		<h1>如何在UIBarButtonItem上显示数字(BadgeValue)</h1>
+		<h1>怎样让内存缓存变稳定</h1>
 
-		<blockquote>
-<p>原因：项目中想要实现购物车右上角显示购物车中上品数量，但是直接用UIBarButtonItem不能实现要求</p>
-</blockquote>
+		<p>项目中如果显示图片比较多,会遇到内存涨的比较厉害,项目中用到 SDWebImage, 所以可以很简单的让内存缓存变稳定:</p>
 
-<p>这里是实现后的效果图：</p>
-
-<p><img src="media/14747835330079/strip." alt="购物车动画"/></p>
-
-<p>一开始直接创建的UIBarButtonItem，但是不能直接往上面添加想要的效果，因为</p>
-
-<pre><code>NS_CLASS_AVAILABLE_IOS(2_0) @interface UIBarButtonItem : UIBarItem &lt;NSCoding&gt;
-</code></pre>
-
-<p>而且</p>
-
-<pre><code>NS_CLASS_AVAILABLE_IOS(2_0) @interface UIBarItem : NSObject &lt;NSCoding, UIAppearance&gt;
-</code></pre>
-
-<p>退而求其次，我们知道UIBarButtonItem有一个属性</p>
-
-<pre><code>@property(nullable, nonatomic,strong)  __kindof UIView     *customView;       // default is nil
-</code></pre>
-
-<p>这说明我们可以使用UIButton来代替UIBarButtonItem，在UIButton上面添加想要的动画效果。</p>
-
-<pre><code>    static CGFloat const kButtonWidth = 43.0f;
-    static CGFloat const kButtonHeight = 43.0f;
-
-    UIImage *cartImage = [[UIImage imageNamed:@&quot;iconfont-cart&quot;]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-
-    UIButton *cartButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    cartButton.frame = CGRectMake(0.0f, 0.0f, kButtonWidth, kButtonHeight);
-    cartButton.backgroundColor = [UIColor clearColor];
-    [cartButton setImage:cartImage forState:UIControlStateNormal];
-    [cartButton setImageEdgeInsets:UIEdgeInsetsMake(0.0f,(kButtonHeight- cartImage.size.width), 0.0f, 0.0f)];
-    [cartButton addTarget:self action:@selector(changeStatus:) forControlEvents:UIControlEventTouchUpInside];
-    [cartButton addSubview:self.numberLabel];
-
-    UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:cartButton];
-    self.navigationItem.rightBarButtonItem = rightBarButtonItem;
-</code></pre>
-
-<p>创建Label使用懒加载：</p>
-
-<pre><code>#pragma mark 购物车上面显示的按钮
--(UILabel *)numberLabel
-{
-    if (!_numberLabel) {
-
-        static CGFloat const kNameLabelWidth = 14;
-        static CGFloat const kNameLabelHeight = 14;
-        static CGFloat const kNameLabelX = 40; // 父视图宽44，UI说改到这个位置
-        static CGFloat const kNameLabelY = 6;
-
-        _numberLabel = [UILabel new];
-        _numberLabel.hidden = YES;
-        _numberLabel.frame = CGRectMake(kNameLabelX, kNameLabelY, kNameLabelWidth, kNameLabelHeight);
-
-        _numberLabel.backgroundColor = [UIColor redColor];
-        _numberLabel.textColor = [UIColor whiteColor];
-        _numberLabel.font = [UIFont systemFontOfSize:9];
-        _numberLabel.textAlignment = NSTextAlignmentCenter;
-        _numberLabel.layer.cornerRadius = kNameLabelHeight * 0.5;
-        _numberLabel.layer.masksToBounds = YES;
-
-    }
-    return _numberLabel;
+<pre><code>-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [[SDImageCache sharedImageCache] clearMemory];
 }
 </code></pre>
-
-<p>这里说下为什么设置为hidden，因为要求数量为0的时候不显示，数量不为0显示，如果删除后还要添加不如直接控制hidden。<br/>
-其他的就是设置Label显示的数字了，这里就不写了。</p>
 
 
 		</div>

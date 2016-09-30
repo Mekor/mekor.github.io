@@ -63,6 +63,8 @@
         <li><label>技巧</label></li>
 
           
+            <li><a title="怎样让内存缓存变稳定" href="14752152861722.html">怎样让内存缓存变稳定</a></li>
+          
             <li><a title="如何在UIBarButtonItem上显示数字(BadgeValue)" href="14747835330079.html">如何在UIBarButtonItem上显示数字(BadgeValue)</a></li>
           
             <li><a title="const,static,extern简介" href="14718293013293.html">const,static,extern简介</a></li>
@@ -148,6 +150,8 @@
                     
                       <li class="side-title"><span>技巧</span></li>
                         
+                          <li><a title="怎样让内存缓存变稳定" href="14752152861722.html">怎样让内存缓存变稳定</a></li>
+                        
                           <li><a title="如何在UIBarButtonItem上显示数字(BadgeValue)" href="14747835330079.html">如何在UIBarButtonItem上显示数字(BadgeValue)</a></li>
                         
                           <li><a title="const,static,extern简介" href="14718293013293.html">const,static,extern简介</a></li>
@@ -210,43 +214,13 @@
 
 	
 		<div class="markdown-body">
-		<h1>Python爬网站上的图片</h1>
+		<h1>关于签名(Certificate),Identifiers,Device和Provisioning Profile</h1>
 
-		<p>以<a href="http://ppt.geekbang.org">极客邦PPT大全</a>为例,比如我想下载<a href="http://ppt.geekbang.org/slide/show/204">美团iOS客户端的构建思考与实践</a></p>
+		<p>直接上图:</p>
 
-<ol>
-<li>查看图片url
-<img src="media/14689829459214/14689832970971.jpg" alt=""/></li>
-<li>图片url的格式<a href="http://7xiox7.com2.z0.glb.qiniucdn.com/576e52fb28bf9-01.jpg">http://7xiox7.com2.z0.glb.qiniucdn.com/576e52fb28bf9-01.jpg</a>  总共101张图片</li>
-<li>根据这些编写Python文件</li>
-</ol>
+<p><img src="media/14689910761027/%E6%80%BB%E7%BB%93.png" alt="总结"/></p>
 
-<pre><code>#!/usr/bin/python
-#coding:utf-8
-
-import urllib
-import urllib2
-import os
-
-basepicurl=&quot;http://7xiox7.com2.z0.glb.qiniucdn.com/576e52fb28bf9-&quot;
-save_path=&quot;/Users/mekor/Desktop/images/&quot;
-for i in range(1,102,1):
-    s = &quot;%02d&quot; % i
-    picurl = basepicurl + s + &quot;.jpg&quot;
-    imgData = urllib2.urlopen(picurl).read()
-    # 给定图片存放名称
-    fileName = save_path + s + &quot;.jpg&quot;
-    # 文件名是否存在
-    #if os.path.exists(fileName):
-    output = open(fileName,&#39;wb+&#39;)
-    output.write(imgData)
-    output.close()
-    print &quot;Finished download&quot;+ s
-
-print &quot;运行完成&quot;
-</code></pre>
-
-<p>这样就能够把所有的图片爬到本地了.</p>
+<p>应该很详细了</p>
 
 
 		</div>

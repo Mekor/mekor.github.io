@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2016-09-28T15:36:15+08:00</updated>
+  <updated>2016-09-29T14:05:14+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -12,6 +12,22 @@
   </author>
   <generator uri="http://www.mweb.im">MWeb</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[怎样让内存缓存变稳定]]></title>
+    <link href="http://www.citynight.cn/Blog/14752152861722.html"/>
+    <updated>2016-09-30T14:01:26+08:00</updated>
+    <id>http://www.citynight.cn/Blog/14752152861722.html</id>
+    <content type="html"><![CDATA[
+<p>项目中如果显示图片比较多,会遇到内存涨的比较厉害,项目中用到 SDWebImage, 所以可以很简单的让内存缓存变稳定:</p>
+
+<pre><code>-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [[SDImageCache sharedImageCache] clearMemory];
+}
+</code></pre>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Cocoapods的安装]]></title>
@@ -29,7 +45,7 @@
 3.安装cocoapods
     sudo gem install cocoapods
     或者（如10.11系统）sudo gem install -n /usr/local/bin cocoapods
-4.将Podspec文件托管地址从github切换到国内的oschina
+4.(可忽略)将Podspec文件托管地址从github切换到国内的oschina
     【先删除，再添加，再更新】
     pod repo remove master
     pod repo add master http://git.oschina.net/akuandev/Specs.git
@@ -3385,21 +3401,6 @@ UIScrollView有个keyboardDismissMode属性，设置成UIScrollViewKeyboardDismi
 然后往下翻一翻就能看到了<br/>
 <img src="media/14693652209160/14693659705775.jpg" alt=""/></p></li>
 </ol>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[关于签名(Certificate),Identifiers,Device和Provisioning Profile]]></title>
-    <link href="http://www.citynight.cn/Blog/14689910761027.html"/>
-    <updated>2016-07-20T13:04:36+08:00</updated>
-    <id>http://www.citynight.cn/Blog/14689910761027.html</id>
-    <content type="html"><![CDATA[
-<p>直接上图:</p>
-
-<p><img src="media/14689910761027/%E6%80%BB%E7%BB%93.png" alt="总结"/></p>
-
-<p>应该很详细了</p>
 
 ]]></content>
   </entry>
