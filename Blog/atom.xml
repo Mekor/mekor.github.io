@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2016-09-30T14:04:19+08:00</updated>
+  <updated>2016-09-30T14:44:22+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -40,6 +40,8 @@
 
 <p>添加clearMemory后:<br/>
 <img src="media/14752152861722/14752177858503.jpg" alt=""/></p>
+
+<p>这也是为什么滚动后屏幕上还显示图片的原因.</p>
 
 ]]></content>
   </entry>
