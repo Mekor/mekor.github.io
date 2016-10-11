@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  关于tableViewCell加载图片优化 - 李小争
+  优秀文章链接收藏 - 李小争
   
   </title>
  <meta name="description" content="记录开发中遇到的一些问题">
@@ -214,224 +214,22 @@
             <div class="large-9 medium-9 columns">
 
  <div class="markdown-body">
-<h1>关于tableViewCell加载图片优化</h1>
+<h1>优秀文章链接收藏</h1>
 
-<p>cell的创建</p>
+<h2 id="toc_0">优化</h2>
 
-<pre><code>- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-</code></pre>
+<p><a href="http://www.mulle-kybernetik.com/artikel/Optimization/opti-3-imp-deluxe.html">极致优化</a></p>
 
-<p>数据处理建议在这里进行:</p>
+<p>美团点评技术团队: <a href="http://tech.meituan.com/DiveIntoMethodCache.html">深入理解Objective-C：方法缓存</a></p>
 
-<pre><code>-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-</code></pre>
+<h2 id="toc_1">Runloop</h2>
 
-<p>cell将要显示的时候我们进行一些处理(来自苹果Demo)</p>
+<p><a href="http://blog.ibireme.com/2015/05/18/runloop/">深入理解RunLoop</a>  &mdash; 内部分享文章runloop中使用了该文章中的一张图.</p>
 
-<pre><code>// Only load cached images; defer new downloads until scrolling ends
-if (!appRecord.appIcon)
-{
-    if (self.tableView.dragging == NO &amp;&amp; self.tableView.decelerating == NO)
-    {
-        [self startIconDownload:appRecord forIndexPath:indexPath];
-    }
-    // if a download is deferred or in progress, return a placeholder image
-    cell.imageView.image = [UIImage imageNamed:@&quot;Placeholder.png&quot;];
-}
-else
-{
-    cell.imageView.image = appRecord.appIcon;
-}
-</code></pre>
+<h2 id="toc_2">GCD</h2>
 
-<p>这里可以看出,拖拽和滚动的时候不进行图片下载,只有停止的时候才进行.当然我们还需要在scrollView停止滚动和拖拽的时候进行下载</p>
-
-<pre><code>#pragma mark - UIScrollViewDelegate
-
-// -------------------------------------------------------------------------------
-//  scrollViewDidEndDragging:willDecelerate:
-//  Load images for all onscreen rows when scrolling is finished.
-// -------------------------------------------------------------------------------
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-{
-    if (!decelerate)
-    {
-        [self loadImagesForOnscreenRows];
-    }
-}
-
-// -------------------------------------------------------------------------------
-//  scrollViewDidEndDecelerating:scrollView
-//  When scrolling stops, proceed to load the app icons that are on screen.
-// -------------------------------------------------------------------------------
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-    [self loadImagesForOnscreenRows];
-}
-
-</code></pre>
-
-<p>下载显示cell的图片</p>
-
-<pre><code>// -------------------------------------------------------------------------------
-//  loadImagesForOnscreenRows
-//  This method is used in case the user scrolled into a set of cells that don&#39;t
-//  have their app icons yet.
-// -------------------------------------------------------------------------------
-- (void)loadImagesForOnscreenRows
-{
-    if (self.entries.count &gt; 0)
-    {
-        NSArray *visiblePaths = [self.tableView indexPathsForVisibleRows];
-        for (NSIndexPath *indexPath in visiblePaths)
-        {
-            AppRecord *appRecord = (self.entries)[indexPath.row];
-            
-            if (!appRecord.appIcon)
-            // Avoid the app icon download if the app already has an icon
-            {
-                [self startIconDownload:appRecord forIndexPath:indexPath];
-            }
-        }
-    }
-}
-</code></pre>
-
-<p>具体下载:</p>
-
-<pre><code>#pragma mark - Table cell image support
-
-// -------------------------------------------------------------------------------
-//  startIconDownload:forIndexPath:
-// -------------------------------------------------------------------------------
-- (void)startIconDownload:(AppRecord *)appRecord forIndexPath:(NSIndexPath *)indexPath
-{
-    NSLog(@&quot;下载图片&quot;);
-    IconDownloader *iconDownloader = (self.imageDownloadsInProgress)[indexPath];
-    if (iconDownloader == nil) 
-    {
-        iconDownloader = [[IconDownloader alloc] init];
-        iconDownloader.appRecord = appRecord;
-        [iconDownloader setCompletionHandler:^{
-            
-            UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-            
-            // Display the newly loaded image
-            cell.imageView.image = appRecord.appIcon;
-            
-            // Remove the IconDownloader from the in progress list.
-            // This will result in it being deallocated.
-            [self.imageDownloadsInProgress removeObjectForKey:indexPath];
-            
-        }];
-        (self.imageDownloadsInProgress)[indexPath] = iconDownloader;
-        [iconDownloader startDownload];  
-    }
-}
-</code></pre>
-
-<p>IconDownloader文件</p>
-
-<pre><code>//.h文件
-@class AppRecord;
-
-@interface IconDownloader : NSObject
-
-@property (nonatomic, strong) AppRecord *appRecord;
-@property (nonatomic, copy) void (^completionHandler)(void);
-
-- (void)startDownload;
-- (void)cancelDownload;
-
-@end
-
-
-//.m文件
-#import &quot;IconDownloader.h&quot;
-#import &quot;AppRecord.h&quot;
-
-#define kAppIconSize 48
-
-
-@interface IconDownloader ()
-
-@property (nonatomic, strong) NSURLSessionDataTask *sessionTask;
-
-@end
-
-
-#pragma mark -
-
-@implementation IconDownloader
-
-// -------------------------------------------------------------------------------
-//  startDownload
-// -------------------------------------------------------------------------------
-- (void)startDownload
-{
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.appRecord.imageURLString]];
-
-    // create an session data task to obtain and download the app icon
-    _sessionTask = [[NSURLSession sharedSession] dataTaskWithRequest:request
-                                                   completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        
-        // in case we want to know the response status code
-        //NSInteger HTTPStatusCode = [(NSHTTPURLResponse *)response statusCode];
-
-        if (error != nil)
-        {
-            if ([error code] == NSURLErrorAppTransportSecurityRequiresSecureConnection)
-            {
-                // if you get error NSURLErrorAppTransportSecurityRequiresSecureConnection (-1022),
-                // then your Info.plist has not been properly configured to match the target server.
-                //
-                abort();
-            }
-        }
-                                                       
-        [[NSOperationQueue mainQueue] addOperationWithBlock: ^{
-            
-            // Set appIcon and clear temporary data/image
-            UIImage *image = [[UIImage alloc] initWithData:data];
-            
-            if (image.size.width != kAppIconSize || image.size.height != kAppIconSize)
-            {
-                CGSize itemSize = CGSizeMake(kAppIconSize, kAppIconSize);
-                UIGraphicsBeginImageContextWithOptions(itemSize, NO, 0.0f);
-                CGRect imageRect = CGRectMake(0.0, 0.0, itemSize.width, itemSize.height);
-                [image drawInRect:imageRect];
-                self.appRecord.appIcon = UIGraphicsGetImageFromCurrentImageContext();
-                UIGraphicsEndImageContext();
-            }
-            else
-            {
-                self.appRecord.appIcon = image;
-            }
-            
-            // call our completion handler to tell our client that our icon is ready for display
-            if (self.completionHandler != nil)
-            {
-                self.completionHandler();
-            }
-        }];
-    }];
-    
-    [self.sessionTask resume];
-}
-
-// -------------------------------------------------------------------------------
-//  cancelDownload
-// -------------------------------------------------------------------------------
-- (void)cancelDownload
-{
-    [self.sessionTask cancel];
-    _sessionTask = nil;
-}
-</code></pre>
-
-<blockquote>
-<p><a href="https://developer.apple.com/library/ios/samplecode/LazyTableImages/Introduction/Intro.html">Apple Demo</a></p>
-</blockquote>
+<p><a href="http://www.raywenderlich.com/60749/grand-central-dispatch-in-depth-part-1">GCD 深入理解：第一部分</a> 中文翻译:<a href="https://github.com/nixzhu/dev-blog/blob/master/2014-04-19-grand-central-dispatch-in-depth-part-1.md">译文</a><br/>
+<a href="https://github.com/nixzhu/dev-blog/blob/master/2014-05-14-grand-central-dispatch-in-depth-part-2.md">GCD 深入理解：第二部分</a></p>
 
 
 </div>
@@ -443,15 +241,13 @@ else
   <div class="large-6 columns">
 	<div class="text-left" style="padding:15px 0px;">
 		
-	        <a href="14682407498601.html"  title="Previous Post: 如何给View添加点击事件">&laquo; 如何给View添加点击事件</a>
-	    
 	</div>
   </div>
   <div class="large-6 columns">
 	<div class="text-right" style="padding:15px 0px;">
 		
-	        <a href="14677030322532.html" 
-	        title="Next Post: 键盘消失后又再次显示并立即消失问题">键盘消失后又再次显示并立即消失问题 &raquo;</a>
+	        <a href="14752152861722.html" 
+	        title="Next Post: 怎样让内存缓存变稳定">怎样让内存缓存变稳定 &raquo;</a>
 	    
 	</div>
   </div>
@@ -464,7 +260,7 @@ else
 </div>
 <script type="text/javascript">
 	$(function(){
-		var currentURL = '14678597180657.html';
+		var currentURL = '14760921807707.html';
 		$('#side-nav a').each(function(){
 			if($(this).attr('href') == currentURL){
 				$(this).parent().addClass('active');
