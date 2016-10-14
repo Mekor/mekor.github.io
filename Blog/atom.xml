@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2016-10-11T22:03:33+08:00</updated>
+  <updated>2016-10-12T11:44:52+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -12,6 +12,21 @@
   </author>
   <generator uri="http://www.mweb.im">MWeb</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[vim 学习]]></title>
+    <link href="http://www.citynight.cn/Blog/14764220018619.html"/>
+    <updated>2016-10-14T13:13:21+08:00</updated>
+    <id>http://www.citynight.cn/Blog/14764220018619.html</id>
+    <content type="html"><![CDATA[
+<p>开发中如果遇到修改配置文件的时候经常用到 vim .今天把常用到的 vim 命令进行简单的总结</p>
+
+<h2 id="toc_0">开始学习 vim</h2>
+
+<p>在 terminal 中输入  <code>vimtutor -g zh</code> 就会开始 vim  学习教程 </p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[在包含UITableView视图中添加单击手势]]></title>
@@ -3112,40 +3127,6 @@ class_addMethod(observedClass, setterSelector, (IMP)KVO_setter, types);
 <p>钻研kvo的实现可以让我们对苹果的代码实现有更深层次的了解，这些知识涉及到了更深层次的技术，探究它们对我们的开发视野有着很重要的作用。同时，对比其他的回调方式，KVO的实现在创建子类、重写方法等等方面的内存消耗是很巨大的，因此博主更加推荐使用delegate、block等回调方式，甚至直接使用method-swizzling来替换这种重写setter方式也是可行的。</p>
 
 <p>文章代码：<a href="https://github.com/JustKeepRunning/LXD_KeyValueObserveDemo">自实现KVO</a></p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[copy strong weak assign]]></title>
-    <link href="http://www.citynight.cn/Blog/14714022507551.html"/>
-    <updated>2016-08-17T10:50:50+08:00</updated>
-    <id>http://www.citynight.cn/Blog/14714022507551.html</id>
-    <content type="html"><![CDATA[
-<h2 id="toc_0">weak &amp; strong</h2>
-
-<p><strong>weak</strong><br/>
-你买了个iPhone7，你朋友觉得不错，由于手头紧，没买，于是你们公用一台iPhone7，你新装了QQ音乐，你朋友用的时候也会有QQ音乐<br/>
-然后你的手机丢了 你朋友也没有 不能用了</p>
-
-<p><strong>stong</strong><br/>
-你买了个iPhone7 你朋友也买了个iPhone7  他觉得你的app stroe账号里有好多软件 然后他就用你的app stroe账号 == 他stong了你的账号，你俩就公用了一个账号。<br/>
-你下载软件 他也有了 然后你手机账号没了丢了 但他的手机还在账号还能用。 </p>
-
-<h2 id="toc_1">strong &amp; copy (深拷贝&amp;浅拷贝)</h2>
-
-<p>copy是用来保护数据的,copy一个数据之后,更改源数据不会导致copy的数据更改<br/>
-strong是对一个数据的引用,更改源数据会导致strong的数据更改 </p>
-
-<h2 id="toc_2">assign</h2>
-
-<p>基本数据类型</p>
-
-<blockquote>
-<p><a href="https://developer.apple.com/library/mac/documentation/CoreFoundation/Conceptual/CFMemoryMgmt/Concepts/CopyFunctions.html">苹果文档中关于浅拷贝&amp;深拷贝</a></p>
-</blockquote>
-
-<p><img src="media/14714022507551/Snip20160817_3.png" alt="Snip20160817_3"/></p>
 
 ]]></content>
   </entry>

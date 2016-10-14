@@ -93,6 +93,8 @@
         <li><label>教程</label></li>
 
           
+            <li><a title="vim 学习" href="14764220018619.html">vim 学习</a></li>
+          
             <li><a title="优秀文章链接收藏" href="14760921807707.html">优秀文章链接收藏</a></li>
           
             <li><a title="Cocoapods的安装" href="14751288042220.html">Cocoapods的安装</a></li>
@@ -184,6 +186,8 @@
                     
                       <li class="side-title"><span>教程</span></li>
                         
+                          <li><a title="vim 学习" href="14764220018619.html">vim 学习</a></li>
+                        
                           <li><a title="优秀文章链接收藏" href="14760921807707.html">优秀文章链接收藏</a></li>
                         
                           <li><a title="Cocoapods的安装" href="14751288042220.html">Cocoapods的安装</a></li>
@@ -226,33 +230,13 @@
 
 	
 		<div class="markdown-body">
-		<h1>在包含UITableView视图中添加单击手势</h1>
+		<h1>vim 学习</h1>
 
-		<p>如果在包含UITableView视图中添加单击手势，这个单击手势会屏蔽掉UITableView的</p>
+		<p>开发中如果遇到修改配置文件的时候经常用到 vim .今天把常用到的 vim 命令进行简单的总结</p>
 
-<pre><code>- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath;
-</code></pre>
+<h2 id="toc_0">开始学习 vim</h2>
 
-<p>可以利用<code>UIGestureRecognizer</code>的<code>Delegate</code>中的</p>
-
-<pre><code>- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer;
-</code></pre>
-
-<p>在单击点位于UITableView内的时候取消响应</p>
-
-<pre><code>- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer{
-    CGPoint point = [gestureRecognizer locationInView:self];
-    if(CGRectContainsPoint(menuTableView.frame, point)){
-        return NO;
-    }
-    return YES;
-}
-</code></pre>
-
-<p>或者将单击手势的cancelsTouchesInView设置为NO</p>
-
-<pre><code>singleTap.cancelsTouchesInView = NO;
-</code></pre>
+<p>在 terminal 中输入  <code>vimtutor -g zh</code> 就会开始 vim  学习教程 </p>
 
 
 		</div>
