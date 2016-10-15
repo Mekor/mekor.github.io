@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  键盘消失后又再次显示并立即消失问题 - 李小争
+   - 李小争
   
   </title>
  <meta name="description" content="记录开发中遇到的一些问题">
@@ -234,28 +234,8 @@
             <div class="large-9 medium-9 columns">
 
  <div class="markdown-body">
-<h1>键盘消失后又再次显示并立即消失问题</h1>
+<h1></h1>
 
-<p>Keyboard will appeared automatically while displaying alertview or alertcontroller</p>
-
-<blockquote>
-<p><a href="http://stackoverflow.com/questions/30498972/keyboard-will-appeared-automatically-in-ios-8-3-while-displaying-alertview-or-al">stackoverflow</a></p>
-</blockquote>
-
-<p>我采用其中</p>
-
-<pre><code> [YOUR_TEXT resignFirstResponder];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-
-
-                    _alertVw = [[UIAlertView alloc] initWithTitle:@&quot;&quot; message:@&quot;message.&quot; delegate:self cancelButtonTitle:@&quot;Ok&quot; otherButtonTitles:nil, nil];
-
-                    [_alertVw show];
-});
-
-</code></pre>
-
-<p>这种方案解决的</p>
 
 
 </div>
@@ -267,15 +247,13 @@
   <div class="large-6 columns">
 	<div class="text-left" style="padding:15px 0px;">
 		
-	        <a href="14678597180657.html"  title="Previous Post: 关于tableViewCell加载图片优化">&laquo; 关于tableViewCell加载图片优化</a>
-	    
 	</div>
   </div>
   <div class="large-6 columns">
 	<div class="text-right" style="padding:15px 0px;">
 		
-	        <a href="14676996936809.html" 
-	        title="Next Post: 为项目添加podspec">为项目添加podspec &raquo;</a>
+	        <a href="14765391593705.html" 
+	        title="Next Post: 字符串frame相关">字符串frame相关 &raquo;</a>
 	    
 	</div>
   </div>
@@ -288,7 +266,7 @@
 </div>
 <script type="text/javascript">
 	$(function(){
-		var currentURL = '14677030322532.html';
+		var currentURL = '14765420394973.html';
 		$('#side-nav a').each(function(){
 			if($(this).attr('href') == currentURL){
 				$(this).parent().addClass('active');
