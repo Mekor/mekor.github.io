@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  百度坐标&火星坐标转换 - 李小争
+  UILabel边缘出现黑线 - 李小争
   
   </title>
  <meta name="description" content="记录开发中遇到的一些问题">
@@ -238,66 +238,12 @@
             <div class="large-9 medium-9 columns">
 
  <div class="markdown-body">
-<h1>百度坐标&火星坐标转换</h1>
+<h1>UILabel边缘出现黑线</h1>
 
-<p>LocationHelper.h文件</p>
+<p>问题:代码实现 UILabel 时出现的边缘黑线问题<br/>
+原因:当 UILabel 的宽高出现浮点型数字时,在高清屏下有可能出现右侧边缘黑线问题, 解决方法是使用 <code>CGRectIntegral()</code> 方法确保 <code>frame</code> 中不存在非整形数值</p>
 
-<pre><code>#import &lt;Foundation/Foundation.h&gt;
-#import &lt;CoreLocation/CoreLocation.h&gt;
-
-@interface LocationHelper : NSObject
-
-//百度转火星坐标
-+ (CLLocationCoordinate2D )bdToGGEncrypt:(CLLocationCoordinate2D)coord;
-//火星转百度坐标
-+ (CLLocationCoordinate2D )ggToBDEncrypt:(CLLocationCoordinate2D)coord;
-
-@end
-</code></pre>
-
-<p>LocationHelper.m文件</p>
-
-<pre><code>//
-//  LocationHelper.m
-//  Coding_iOS
-//
-//  Created by Kevin on 3/21/15.
-//  Copyright (c) 2015 Coding. All rights reserved.
-//
-
-#import &quot;LocationHelper.h&quot;
-
-@implementation LocationHelper
-
-//百度转火星坐标
-+ (CLLocationCoordinate2D )bdToGGEncrypt:(CLLocationCoordinate2D)coord
-{
-    double x = coord.longitude - 0.0065, y = coord.latitude - 0.006;
-    double z = sqrt(x * x + y * y) - 0.00002 * sin(y * M_PI);
-    double theta = atan2(y, x) - 0.000003 * cos(x * M_PI);
-    CLLocationCoordinate2D transformLocation ;
-    transformLocation.longitude = z * cos(theta);
-    transformLocation.latitude = z * sin(theta);
-    return transformLocation;
-}
-
-//火星坐标转百度坐标
-+ (CLLocationCoordinate2D )ggToBDEncrypt:(CLLocationCoordinate2D)coord
-{
-    double x = coord.longitude, y = coord.latitude;
-    
-    double z = sqrt(x * x + y * y) + 0.00002 * sin(y * M_PI);
-    double theta = atan2(y, x) + 0.000003 * cos(x * M_PI);
-    
-    CLLocationCoordinate2D transformLocation ;
-    transformLocation.longitude = z * cos(theta) + 0.0065;
-    transformLocation.latitude = z * sin(theta) + 0.006;
-    
-    return transformLocation;
-}
-
-@end
-
+<pre><code>label.frame = CGRectIntegral(CGRectMake(0, 0, ceil(width),40));
 </code></pre>
 
 
@@ -310,13 +256,14 @@
   <div class="large-6 columns">
 	<div class="text-left" style="padding:15px 0px;">
 		
-	        <a href="14676105703423.html"  title="Previous Post: 忽略编译器警告">&laquo; 忽略编译器警告</a>
-	    
 	</div>
   </div>
   <div class="large-6 columns">
 	<div class="text-right" style="padding:15px 0px;">
 		
+	        <a href="14765420394973.html" 
+	        title="Next Post: iOS 模拟器 添加图片到相册的小技巧">iOS 模拟器 添加图片到相册的小技巧 &raquo;</a>
+	    
 	</div>
   </div>
 </div>
@@ -328,7 +275,7 @@
 </div>
 <script type="text/javascript">
 	$(function(){
-		var currentURL = '14676101998537.html';
+		var currentURL = '14766298858600.html';
 		$('#side-nav a').each(function(){
 			if($(this).attr('href') == currentURL){
 				$(this).parent().addClass('active');

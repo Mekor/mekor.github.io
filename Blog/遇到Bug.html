@@ -123,6 +123,8 @@
         <li><label>遇到Bug</label></li>
 
           
+            <li><a title="UILabel边缘出现黑线" href="14766298858600.html">UILabel边缘出现黑线</a></li>
+          
             <li><a title="升级到Xcode8后Qt无法正常使用" href="14761943627170.html">升级到Xcode8后Qt无法正常使用</a></li>
           
             <li><a title="如何解决json字符串中包含制表符" href="14747833011771.html">如何解决json字符串中包含制表符</a></li>
@@ -218,6 +220,8 @@
                     
                       <li class="side-title"><span>遇到Bug</span></li>
                         
+                          <li><a title="UILabel边缘出现黑线" href="14766298858600.html">UILabel边缘出现黑线</a></li>
+                        
                           <li><a title="升级到Xcode8后Qt无法正常使用" href="14761943627170.html">升级到Xcode8后Qt无法正常使用</a></li>
                         
                           <li><a title="如何解决json字符串中包含制表符" href="14747833011771.html">如何解决json字符串中包含制表符</a></li>
@@ -238,64 +242,19 @@
 
 	
 		<div class="markdown-body">
-		<h1>升级到Xcode8后Qt无法正常使用</h1>
+		<h1>UILabel边缘出现黑线</h1>
 
-		<p>错误信息:</p>
+		<p>问题:代码实现 UILabel 时出现的边缘黑线问题<br/>
+原因:当 UILabel 的宽高出现浮点型数字时,在高清屏下有可能出现右侧边缘黑线问题, 解决方法是使用 <code>CGRectIntegral()</code> 方法确保 <code>frame</code> 中不存在非整形数值</p>
 
-<blockquote>
-<p>Project ERROR: Xcode not set up properly. You may need to confirm the license agreement by running /usr/bin/xcodebuild.</p>
-</blockquote>
-
-<p>解决办法:<br/>
-<strong>&gt;= Xcode 8</strong></p>
-
-<p>In Xcode 8, as Bruce said, this happens when Qt tries to find <code>xcrun</code> when it should be looking for <code>xcodebuild</code>.</p>
-
-<p><strong>Step 1:</strong></p>
-
-<p>Open the file:</p>
-
-<pre><code>Qt_install_folder/5.7/clang_64/mkspecs/features/mac/default_pre.prf
+<pre><code>label.frame = CGRectIntegral(CGRectMake(0, 0, ceil(width),40));
 </code></pre>
-
-<p><strong>Step 2:</strong></p>
-
-<p>Replace:</p>
-
-<pre><code>isEmpty($$list($$system(&quot;/usr/bin/xcrun -find xcrun 2&gt;/dev/null&quot;)))
-</code></pre>
-
-<p>With:</p>
-
-<pre><code>isEmpty($$list($$system(&quot;/usr/bin/xcrun -find xcodebuild 2&gt;/dev/null&quot;)))
-</code></pre>
-
-<p><strong>~&gt; Xcode 8</strong></p>
-
-<p>Before Xcode 8, this problem occurs when command line tools are installed after Xcode is installed. What happens is the <code>Xcode-select</code> developer directory gets pointed to <code>/Library/Developer/CommandLineTools</code>.</p>
-
-<p><strong>Step 1:</strong></p>
-
-<p>Point <code>Xcode-select</code> to the correct Xcode Developer directory with the command:</p>
-
-<pre><code>sudo xcode-select -switch /Applications/Xcode.app/Contents/Developer
-</code></pre>
-
-<p><strong>Step 2:</strong></p>
-
-<p>Confirm the license agreement with the command:</p>
-
-<pre><code>xcodebuild -license
-</code></pre>
-
-<p>This will prompt you to read through the license agreement.</p>
-
-<p>Enter <code>agree</code> to accept the terms.</p>
-
-<p>详见stackoverflow 中 <a href="http://stackoverflow.com/questions/33728905/qt-creator-project-error-xcode-not-set-up-properly-you-may-need-to-confirm-t">Qt Creator - Project ERROR: Xcode not set up properly. You may need to confirm the license agreement by running /usr/bin/xcodebuild</a></p>
 
 
 		</div>
+	
+
+ 
 	
 
  
