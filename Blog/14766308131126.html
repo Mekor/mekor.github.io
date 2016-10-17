@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  优秀文章链接收藏 - 李小争
+  UITableView优化方案(收集) - 李小争
   
   </title>
  <meta name="description" content="记录开发中遇到的一些问题">
@@ -242,22 +242,82 @@
             <div class="large-9 medium-9 columns">
 
  <div class="markdown-body">
-<h1>优秀文章链接收藏</h1>
+<h1>UITableView优化方案(收集)</h1>
 
-<h2 id="toc_0">优化</h2>
+<p><a href="http://www.cocoachina.com/ios/20150906/13212.html">一次 TableView 性能优化经历</a><br/>
+<a href="http://blog.jobbole.com/37984/">iOS应用性能调优的25个建议和技巧</a><br/>
+<a href="http://longxdragon.github.io/2015/05/26/UITableView%E4%BC%98%E5%8C%96%E6%8A%80%E5%B7%A7/">UITableView优化技巧</a><br/>
+<a href="http://blog.csdn.net/shang_ri_la/article/details/25954383">UITableView 滚动流畅性优化</a> (备注:这个原始网站挂了,幸好有朋友转载过.)</p>
 
-<p><a href="http://www.mulle-kybernetik.com/artikel/Optimization/opti-3-imp-deluxe.html">极致优化</a></p>
+<p>注意点:</p>
 
-<p>美团点评技术团队: <a href="http://tech.meituan.com/DiveIntoMethodCache.html">深入理解Objective-C：方法缓存</a></p>
+<ol>
+<li><p>列表卡顿问题最好真机测试，有条件的尽量选择低版本硬件和系统进行测试；</p></li>
+<li><p>使用 Instruments 的 Time Profiler 工具定位造成卡顿时间消耗的位置；</p></li>
+<li><p>避免 UITableView 的多次刷新( reloadData )，尤其 Xib 加载 UITableView 时避免首次自动加载；</p></li>
+<li><p>为 Cell 专门定义显示 Model；</p></li>
+<li><p>Model 需要包含已提前计算出的 Cell 高度；</p></li>
+<li><p>对于显示的 NSString，提前在 Model 中组装完成，避免在 Cell 中组装转换；</p></li>
+<li><p>对于需要加载的网络图片链接，提前在 Model 中组装完成 NSURL,避免在 Cell 中组装转换；</p></li>
+<li><p>尽量减少 Cell 中的逻辑判断和运算并使用正确的数据格式;</p></li>
+<li><p>避免在 Cell 中反复创建 View,最好在初始化时一并创建，通过设置 Hidden 属性控制显示和隐藏;</p></li>
+<li><p>对于 UIImageView ,注意加载的图片大小是否与控件大小一致，尽量保持一致；</p></li>
+<li><p>正确使用 reuseIdentifier</p></li>
+</ol>
 
-<h2 id="toc_1">Runloop</h2>
+<pre><code>static NSString *CellIdentifier = @&quot;MyFancyCell&quot;;
+UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
 
-<p><a href="http://blog.ibireme.com/2015/05/18/runloop/">深入理解RunLoop</a>  &mdash; 内部分享文章runloop中使用了该文章中的一张图.</p>
+</code></pre>
 
-<h2 id="toc_2">GCD</h2>
+<ol>
+<li><p>尽量把所有的 UIView 以及其子类控件设置为不透明（Opaque = YES）,你可以在模拟器中用Debug\Color Blended Layers选项来发现哪些view没有被设置为opaque。目标就是，能设为opaque的就全设为opaque!</p></li>
+<li><p>尽量避免图片压缩，模拟器条件下使用 Debug\Color Misaligned Images 选项检查像素是否对其:如果图片边界没有与目标像素完美对齐，该功能可为图片叠加上一层品红色。如果图片使用确定的比例大小绘制，那么该功能会为图片添加一层黄色叠加。真机条件下使用 Instrument 中的 Core Animation 工具检查；</p></li>
+<li><p>使用 shadowPath 来画阴影;</p></li>
+</ol>
 
-<p><a href="http://www.raywenderlich.com/60749/grand-central-dispatch-in-depth-part-1">GCD 深入理解：第一部分</a> 中文翻译:<a href="https://github.com/nixzhu/dev-blog/blob/master/2014-04-19-grand-central-dispatch-in-depth-part-1.md">译文</a><br/>
-<a href="https://github.com/nixzhu/dev-blog/blob/master/2014-05-14-grand-central-dispatch-in-depth-part-2.md">GCD 深入理解：第二部分</a></p>
+<pre><code>#import &lt;QuartzCore/QuartzCore.h&gt;
+
+// Somewhere later ...
+UIView *view = [[UIView alloc] init];
+
+// Setup the shadow ...
+view.layer.shadowOffset = CGSizeMake(-1.0f, 1.0f);
+view.layer.shadowRadius = 5.0f;
+view.layer.shadowOpacity = 0.6;
+</code></pre>
+
+<ol>
+<li><p>减少 subviews 的数量;</p></li>
+<li><p>尽量不使用 cellForRowAtIndexPath: ，如果你需要用到它，只用一次然后缓存结果；</p></li>
+<li><p>使用 Autorelease Pool；</p></li>
+</ol>
+
+<pre><code>NSArray *urls = &lt;# An array of file URLs #&gt;;
+for (NSURL *url in urls) {
+    @autoreleasepool {
+        NSError *error;
+        NSString *fileContents = [NSString stringWithContentsOfURL:url
+                                         encoding:NSUTF8StringEncoding error:&amp;error];
+    }
+}
+</code></pre>
+
+<ol>
+<li>选择是否需要缓存；</li>
+</ol>
+
+<pre><code>UIImage *img = [UIImage imageNamed:@&quot;myImage&quot;]; // caching
+
+// or
+ UIImage *img = [UIImage imageWithContentsOfFile:@&quot;myImage&quot;]; // no caching
+</code></pre>
+
+<p>如果你要加载一个大图片而且是一次性使用，那么就没必要缓存这个图片，用 imageWithContentsOfFile 足矣，这样不会浪费内存来缓存它。然而，在图片反复重用的情况下 imageNamed 是一个好得多的选择。</p>
+
+<ol>
+<li>避免日期格式转换；相关日期显示应该在 Model 中定义完成。</li>
+</ol>
 
 
 </div>
@@ -269,15 +329,13 @@
   <div class="large-6 columns">
 	<div class="text-left" style="padding:15px 0px;">
 		
-	        <a href="14761943627170.html"  title="Previous Post: 升级到Xcode8后Qt无法正常使用">&laquo; 升级到Xcode8后Qt无法正常使用</a>
-	    
 	</div>
   </div>
   <div class="large-6 columns">
 	<div class="text-right" style="padding:15px 0px;">
 		
-	        <a href="14752152861722.html" 
-	        title="Next Post: 怎样让内存缓存变稳定">怎样让内存缓存变稳定 &raquo;</a>
+	        <a href="14766298858600.html" 
+	        title="Next Post: UILabel边缘出现黑线">UILabel边缘出现黑线 &raquo;</a>
 	    
 	</div>
   </div>
@@ -290,7 +348,7 @@
 </div>
 <script type="text/javascript">
 	$(function(){
-		var currentURL = '14760921807707.html';
+		var currentURL = '14766308131126.html';
 		$('#side-nav a').each(function(){
 			if($(this).attr('href') == currentURL){
 				$(this).parent().addClass('active');
