@@ -99,6 +99,8 @@
         <li><label>教程</label></li>
 
           
+            <li><a title="使用 chisel 提高 LLDB 调试效率" href="14766672567296.html">使用 chisel 提高 LLDB 调试效率</a></li>
+          
             <li><a title="vim 学习" href="14764220018619.html">vim 学习</a></li>
           
             <li><a title="优秀文章链接收藏" href="14760921807707.html">优秀文章链接收藏</a></li>
@@ -200,6 +202,8 @@
                     
                       <li class="side-title"><span>教程</span></li>
                         
+                          <li><a title="使用 chisel 提高 LLDB 调试效率" href="14766672567296.html">使用 chisel 提高 LLDB 调试效率</a></li>
+                        
                           <li><a title="vim 学习" href="14764220018619.html">vim 学习</a></li>
                         
                           <li><a title="优秀文章链接收藏" href="14760921807707.html">优秀文章链接收藏</a></li>
@@ -246,13 +250,50 @@
 
 	
 		<div class="markdown-body">
-		<h1>vim 学习</h1>
+		<h1>使用 chisel 提高 LLDB 调试效率</h1>
 
-		<p>开发中如果遇到修改配置文件的时候经常用到 vim .今天把常用到的 vim 命令进行简单的总结</p>
+		<h2 id="toc_0">安装</h2>
 
-<h2 id="toc_0">开始学习 vim</h2>
+<ol>
+<li>安装 Homebrew (如果已经安装了,可以跳过这一步)</li>
+</ol>
 
-<p>在 terminal 中输入  <code>vimtutor -g zh</code> 就会开始 vim  学习教程 </p>
+<pre><code>ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;
+</code></pre>
+
+<ol>
+<li>更新 Homebrew (如果已经最新了,可以跳过这一步)</li>
+</ol>
+
+<pre><code>brew update
+</code></pre>
+
+<ol>
+<li>通过 Homebrew 安装 chisel</li>
+</ol>
+
+<pre><code>brew install chisel
+</code></pre>
+
+<ol>
+<li>添加 chisel 命令至 ~/.lldbinit</li>
+</ol>
+
+<pre><code>touch ~/.lldbinit echo &quot;command script import /usr/local/opt/chisel/libexec/fblldb.py&quot; &gt;&gt; ~/.lldbinit
+</code></pre>
+
+<ol>
+<li>更新 chisel</li>
+</ol>
+
+<pre><code>brew upgrade chisel
+</code></pre>
+
+<h2 id="toc_1">使用</h2>
+
+<ol>
+<li>通过 <code>pviews</code> 命令直接查看页面层级关系</li>
+</ol>
 
 
 		</div>

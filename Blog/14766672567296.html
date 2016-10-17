@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  copy strong weak assign - 李小争
+  使用 chisel 提高 LLDB 调试效率 - 李小争
   
   </title>
  <meta name="description" content="记录开发中遇到的一些问题">
@@ -246,32 +246,50 @@
             <div class="large-9 medium-9 columns">
 
  <div class="markdown-body">
-<h1>copy strong weak assign</h1>
+<h1>使用 chisel 提高 LLDB 调试效率</h1>
 
-<h2 id="toc_0">weak &amp; strong</h2>
+<h2 id="toc_0">安装</h2>
 
-<p><strong>weak</strong><br/>
-你买了个iPhone7，你朋友觉得不错，由于手头紧，没买，于是你们公用一台iPhone7，你新装了QQ音乐，你朋友用的时候也会有QQ音乐<br/>
-然后你的手机丢了 你朋友也没有 不能用了</p>
+<ol>
+<li>安装 Homebrew (如果已经安装了,可以跳过这一步)</li>
+</ol>
 
-<p><strong>stong</strong><br/>
-你买了个iPhone7 你朋友也买了个iPhone7  他觉得你的app stroe账号里有好多软件 然后他就用你的app stroe账号 == 他stong了你的账号，你俩就公用了一个账号。<br/>
-你下载软件 他也有了 然后你手机账号没了丢了 但他的手机还在账号还能用。 </p>
+<pre><code>ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;
+</code></pre>
 
-<h2 id="toc_1">strong &amp; copy (深拷贝&amp;浅拷贝)</h2>
+<ol>
+<li>更新 Homebrew (如果已经最新了,可以跳过这一步)</li>
+</ol>
 
-<p>copy是用来保护数据的,copy一个数据之后,更改源数据不会导致copy的数据更改<br/>
-strong是对一个数据的引用,更改源数据会导致strong的数据更改 </p>
+<pre><code>brew update
+</code></pre>
 
-<h2 id="toc_2">assign</h2>
+<ol>
+<li>通过 Homebrew 安装 chisel</li>
+</ol>
 
-<p>基本数据类型</p>
+<pre><code>brew install chisel
+</code></pre>
 
-<blockquote>
-<p><a href="https://developer.apple.com/library/mac/documentation/CoreFoundation/Conceptual/CFMemoryMgmt/Concepts/CopyFunctions.html">苹果文档中关于浅拷贝&amp;深拷贝</a></p>
-</blockquote>
+<ol>
+<li>添加 chisel 命令至 ~/.lldbinit</li>
+</ol>
 
-<p><img src="media/14714022507551/Snip20160817_3.png" alt="Snip20160817_3"/></p>
+<pre><code>touch ~/.lldbinit echo &quot;command script import /usr/local/opt/chisel/libexec/fblldb.py&quot; &gt;&gt; ~/.lldbinit
+</code></pre>
+
+<ol>
+<li>更新 chisel</li>
+</ol>
+
+<pre><code>brew upgrade chisel
+</code></pre>
+
+<h2 id="toc_1">使用</h2>
+
+<ol>
+<li>通过 <code>pviews</code> 命令直接查看页面层级关系</li>
+</ol>
 
 
 </div>
@@ -283,15 +301,13 @@ strong是对一个数据的引用,更改源数据会导致strong的数据更改 
   <div class="large-6 columns">
 	<div class="text-left" style="padding:15px 0px;">
 		
-	        <a href="14714050181003.html"  title="Previous Post: iOS开发-KVO的奥秘">&laquo; iOS开发-KVO的奥秘</a>
-	    
 	</div>
   </div>
   <div class="large-6 columns">
 	<div class="text-right" style="padding:15px 0px;">
 		
-	        <a href="14701034373615.html" 
-	        title="Next Post: 网络切面化处理">网络切面化处理 &raquo;</a>
+	        <a href="14766308131126.html" 
+	        title="Next Post: UITableView优化方案(收集)">UITableView优化方案(收集) &raquo;</a>
 	    
 	</div>
   </div>
@@ -304,7 +320,7 @@ strong是对一个数据的引用,更改源数据会导致strong的数据更改 
 </div>
 <script type="text/javascript">
 	$(function(){
-		var currentURL = '14714022507551.html';
+		var currentURL = '14766672567296.html';
 		$('#side-nav a').each(function(){
 			if($(this).attr('href') == currentURL){
 				$(this).parent().addClass('active');
