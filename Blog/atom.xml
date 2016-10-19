@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2016-10-17T09:41:22+08:00</updated>
+  <updated>2016-10-19T18:41:51+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -328,6 +328,266 @@ for (NSURL *url in urls) {
 <td></td>
 <td>j</td>
 <td>向下移动光标</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>翻页</td>
+<td>Ctrl + f</td>
+<td>向下翻整页</td>
+</tr>
+<tr>
+<td></td>
+<td>Ctrl + b</td>
+<td>向上翻整页</td>
+</tr>
+<tr>
+<td></td>
+<td>Ctrl + u</td>
+<td>向上翻半页</td>
+</tr>
+<tr>
+<td></td>
+<td>Ctrl + d</td>
+<td>向下翻半页</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>行内移动光标</td>
+<td>^</td>
+<td>将光标快速跳转到本行的行首字符</td>
+</tr>
+<tr>
+<td></td>
+<td>$</td>
+<td>将光标快速跳转到本行的行尾字符</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>文件内跳转</td>
+<td>:set nu</td>
+<td>在编辑器中显示行号</td>
+</tr>
+<tr>
+<td></td>
+<td>:set nonu</td>
+<td>取消编辑器中的行号显示</td>
+</tr>
+<tr>
+<td></td>
+<td>1G(gg)</td>
+<td>跳转到文件的首行</td>
+</tr>
+<tr>
+<td></td>
+<td>G</td>
+<td>跳转到文件的末尾行</td>
+</tr>
+<tr>
+<td></td>
+<td>#G</td>
+<td>跳转到文件中的第#行</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="toc_6">编辑操作</h3>
+
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>光标操作</th>
+<th>释意</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>进入输入模式</td>
+<td>i</td>
+<td>在当前光标处进入插入状态</td>
+</tr>
+<tr>
+<td></td>
+<td>a</td>
+<td>在当前光标后进入插入状态</td>
+</tr>
+<tr>
+<td></td>
+<td>o</td>
+<td>在当前行的下面插入新行,光标移动到新行的行首,进入插入状态</td>
+</tr>
+<tr>
+<td></td>
+<td>O</td>
+<td>在当前行的上面插入新行,光标移动到新行的行首,进入插入状态</td>
+</tr>
+<tr>
+<td></td>
+<td>c(n)w</td>
+<td>删除当前光标到所在单词尾部的字符,并进入插入状态</td>
+</tr>
+<tr>
+<td></td>
+<td>c$</td>
+<td>删除当前光标到行尾的字符,并进入插入状态</td>
+</tr>
+<tr>
+<td></td>
+<td>c^</td>
+<td>命令删除当前光标之前(不包括光标上的字符)到行首的字符,并进入插入状态</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>删除操作</td>
+<td>x</td>
+<td>删除光标处的单个字符</td>
+</tr>
+<tr>
+<td></td>
+<td>(n)dd</td>
+<td>删除光标所 n 行</td>
+</tr>
+<tr>
+<td></td>
+<td>:3,5 d</td>
+<td>删除从第 3 行到第 5 行的内容</td>
+</tr>
+<tr>
+<td></td>
+<td>dw</td>
+<td>删除当前字符到单词尾(包括空格)的所有字符</td>
+</tr>
+<tr>
+<td></td>
+<td>de</td>
+<td>删除当前字符到单词尾(不包括单词尾部的空格)的所有字符</td>
+</tr>
+<tr>
+<td></td>
+<td>d$</td>
+<td>删除当前字符到行尾的所有字符</td>
+</tr>
+<tr>
+<td></td>
+<td>d^</td>
+<td>删除当前字符到行首的所有字符</td>
+</tr>
+<tr>
+<td></td>
+<td>J(大写)</td>
+<td>删除光标所在行行尾的换行符,相当于合并当 前行和下一行的内容</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>拷贝和粘贴</td>
+<td>(n)yy</td>
+<td>复制当前行整行的内容到 vi 缓冲区</td>
+</tr>
+<tr>
+<td></td>
+<td>:3,6 co(m) 12</td>
+<td>复制(剪切)3-6 行,到第 12 行处</td>
+</tr>
+<tr>
+<td></td>
+<td>p</td>
+<td>读取 vi 缓冲区中的内容,并粘贴到光标当前的位置(不覆盖文件已有的内容)</td>
+</tr>
+<tr>
+<td></td>
+<td>u</td>
+<td>取消最近一次的操作,并恢复操作结果可以多次使用 u命令恢复已进行的多步操作</td>
+</tr>
+<tr>
+<td></td>
+<td>U</td>
+<td>取消对当前整行进行的所有操作</td>
+</tr>
+<tr>
+<td></td>
+<td>Ctrl + r</td>
+<td>对使用 u 命令撤销的操作进行恢复</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="toc_7">查找与替换操作</h3>
+
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>光标操作</th>
+<th>释意</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>查找</td>
+<td>/word</td>
+<td>从上而下在文件中查找字符串“word”</td>
+</tr>
+<tr>
+<td></td>
+<td>?word</td>
+<td>从下而上在文件中查找字符串“word”</td>
+</tr>
+<tr>
+<td></td>
+<td>n</td>
+<td>定位下一个匹配的被查找字符串</td>
+</tr>
+<tr>
+<td></td>
+<td>N</td>
+<td>定位上一个匹配的被查找字符串</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>替换</td>
+<td>:s/old/new</td>
+<td>将当前行中查找到的第一个字符“old” 串替换为“new”</td>
+</tr>
+<tr>
+<td></td>
+<td>:s/old/new/g</td>
+<td>将当前行中查找到的所有字符串“old” 替换为“new”</td>
+</tr>
+<tr>
+<td></td>
+<td>:#,#s/old/new/g</td>
+<td>在行号“#,#”范围内替换所有的字符串“old”为“new”</td>
+</tr>
+<tr>
+<td></td>
+<td>:%s/old/new/g</td>
+<td>在整个文件范围内替换所有的字符串“old”为“new”</td>
 </tr>
 </tbody>
 </table>
