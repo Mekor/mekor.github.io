@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2016-10-16T23:26:03+08:00</updated>
+  <updated>2016-10-17T09:41:22+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -234,6 +234,103 @@ for (NSURL *url in urls) {
 <h2 id="toc_0">开始学习 vim</h2>
 
 <p>在 terminal 中输入  <code>vimtutor -g zh</code> 就会开始 vim  学习教程 </p>
+
+<h2 id="toc_1">简单总结</h2>
+
+<h3 id="toc_2">vim 编辑器中有三种状态模式</h3>
+
+<p><img src="media/14764220018619/14768675919240.jpg" alt=""/></p>
+
+<h3 id="toc_3">vim 编辑器的启动与退出</h3>
+
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>释意</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>$ vim</td>
+<td>直接进入编辑环境</td>
+</tr>
+<tr>
+<td>$ vim myfile</td>
+<td>进入编辑环境并打开(新建)文件</td>
+</tr>
+<tr>
+<td>:q</td>
+<td>退出 vi 编辑环境</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="toc_4">文件操作</h3>
+
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>释意</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>:w</td>
+<td>保存对 vim 编辑器中已打开文件的修改</td>
+</tr>
+<tr>
+<td>:w myfile</td>
+<td>将 vim 编辑器中的内容另存为指定文件名</td>
+</tr>
+<tr>
+<td>:wq</td>
+<td>对 vim 编辑器中的文件进行保存并退出 vim 编辑器</td>
+</tr>
+<tr>
+<td>:q!</td>
+<td>放弃对文件内容的修改,并退出 vi 编辑器</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="toc_5">光标移动操作</h3>
+
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>光标操作</th>
+<th>释意</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>光标移动</td>
+<td>h</td>
+<td>向左移动光标</td>
+</tr>
+<tr>
+<td></td>
+<td>l</td>
+<td>向右移动光标</td>
+</tr>
+<tr>
+<td></td>
+<td>k</td>
+<td>向上移动光标</td>
+</tr>
+<tr>
+<td></td>
+<td>j</td>
+<td>向下移动光标</td>
+</tr>
+</tbody>
+</table>
 
 ]]></content>
   </entry>
