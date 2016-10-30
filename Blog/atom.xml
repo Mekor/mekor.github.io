@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2016-10-26T22:04:34+08:00</updated>
+  <updated>2016-10-30T20:55:52+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -20,9 +20,10 @@
     <id>http://www.citynight.cn/Blog/14778318573153.html</id>
     <content type="html"><![CDATA[
 <blockquote>
-<p>NSCountedSet这个一直没有用过,看到其他人使用在此记录下.<br/>
-计算老虎机中奖等级的问题：老虎机有四列，每列四个图案，如果四个相同就是等级1，三个相同就是等级2，以此类推。说是用<code>if else</code>太麻烦，有没有什么比较快捷的方法，首先想到的是用KVC中剔除重复数据的办法。比如：</p>
+<p>NSCountedSet这个一直没有用过,看到其他人使用在此记录下.</p>
 </blockquote>
+
+<p>计算老虎机中奖等级的问题：老虎机有四列，每列四个图案，如果四个相同就是等级1，三个相同就是等级2，以此类推。说是用<code>if else</code>太麻烦，有没有什么比较快捷的方法，首先想到的是用KVC中剔除重复数据的办法。比如：</p>
 
 <pre><code>NSArray *array = @[@2, @2, @2, @1];
 NSLog(@&quot;%@&quot;, [array valueForKeyPath:@&quot;@distinctUnionOfObjects.self&quot;]);
