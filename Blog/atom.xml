@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2016-10-22T14:34:42+08:00</updated>
+  <updated>2016-10-26T22:04:34+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -12,6 +12,39 @@
   </author>
   <generator uri="http://www.mweb.im">MWeb</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[计算老虎机中奖等级-NSCountedSet]]></title>
+    <link href="http://www.citynight.cn/Blog/14778318573153.html"/>
+    <updated>2016-10-30T20:50:57+08:00</updated>
+    <id>http://www.citynight.cn/Blog/14778318573153.html</id>
+    <content type="html"><![CDATA[
+<blockquote>
+<p>NSCountedSet这个一直没有用过,看到其他人使用在此记录下.<br/>
+计算老虎机中奖等级的问题：老虎机有四列，每列四个图案，如果四个相同就是等级1，三个相同就是等级2，以此类推。说是用<code>if else</code>太麻烦，有没有什么比较快捷的方法，首先想到的是用KVC中剔除重复数据的办法。比如：</p>
+</blockquote>
+
+<pre><code>NSArray *array = @[@2, @2, @2, @1];
+NSLog(@&quot;%@&quot;, [array valueForKeyPath:@&quot;@distinctUnionOfObjects.self&quot;]);
+</code></pre>
+
+<p>然后得到数组的个数为2，看起来很合理，如果数组是<code>NSArray *array = @[@2, @1, @2, @1];</code>这时候计算出来的数组个数是也是2，但是正确结果应该是等级3，后来突然想起一个类:NSCountedSet</p>
+
+<pre><code>    NSArray *array = @[@1, @2, @2, @1];
+    NSCountedSet *set = [[NSCountedSet alloc]initWithArray:array];
+
+    [set enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
+        NSLog(@&quot;%@ =&gt; %d&quot;, obj, [set countForObject:obj]);
+    }];
+
+</code></pre>
+
+<pre><code>1 =&gt; 2
+2 =&gt; 2
+</code></pre>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[使用Qt创建桌面应用程序]]></title>
@@ -2138,48 +2171,6 @@ static const void* tagValue = &amp;tagValue;
 }
 
 </code></pre>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[基础拾遗]]></title>
-    <link href="http://www.citynight.cn/Blog/14727432716172.html"/>
-    <updated>2016-09-01T23:21:11+08:00</updated>
-    <id>http://www.citynight.cn/Blog/14727432716172.html</id>
-    <content type="html"><![CDATA[
-<p><img src="media/14727432716172/14727432899236.jpg" alt=""/></p>
-
-<h2 id="toc_0">self和super区别</h2>
-
-<p>要点：</p>
-
-<ol>
-<li>self调用自己方法，super调用父类方法</li>
-<li>self是类，super是预编译指令</li>
-<li>【self class】和【super class】输出是一样的</li>
-</ol>
-
-<p>self和super底层实现原理：</p>
-
-<ol>
-<li>当使用 self 调用方法时，会从当前类的方法列表中开始找，如果没有，就从父类中再找；而当使用 super 时，则从父类的方法列表中开始找，然后调用父类的这个方法。</li>
-<li>当使用 self 调用时，会使用 <code>objc_msgSend</code> 函数：<code>id objc_msgSend(id theReceiver, SEL theSelector, ...)</code>。第 一个参数是消息接收者，第二个参数是调用的具体类方法的 <code>selector</code>，后面是 <code>selector</code> 方法的可变参数。以 <code>[self setName:]</code> 为例，编译器会替换成调用 <code>objc_msgSend</code> 的函数调用，其中 <code>theReceiver</code> 是 <code>self</code>，<code>theSelector</code> 是 <code>@selector(setName:)</code>，这个 <code>selector</code> 是从当前 <code>self</code> 的 <code>class</code> 的方法列表开始找的 <code>setName</code>，当找到后把对应的 <code>selector</code> 传递过去。</li>
-<li>当使用 <code>super</code> 调用时，会使用 <code>objc_msgSendSuper</code> 函数：<code>id objc_msgSendSuper(struct objc_super *super, SEL op, ...)</code>第一个参数是个<code>objc_super</code>的结构体，第二个参数还是类似上面的类方法的<code>selector</code>，</li>
-</ol>
-
-<pre><code>struct objc_super {
-      id receiver;
-      Class superClass;
-};
-</code></pre>
-
-<p>当编译器遇到  <code>[super setName:]</code> 时，开始做这几个事：</p>
-
-<p>1）构建 <code>objc_super</code> 的结构体，此时这个结构体的第一个成员变量 <code>receiver</code> 就是子类，和 <code>self</code> 相同。而第二个成员变量 <code>superClass</code> 就是指父类<br/>
-调用 <code>objc_msgSendSuper</code> 的方法，将这个结构体和 <code>setName</code> 的 <code>sel</code> 传递过去。</p>
-
-<p>2）函数里面在做的事情类似这样：从 <code>objc_super</code> 结构体指向的 <code>superClass</code> 的方法列表开始找 <code>setName</code> 的 <code>selector</code>，找到后再以 <code>objc_super-&gt;receiver</code> 去调用这个 <code>selector</code></p>
 
 ]]></content>
   </entry>
