@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  copy strong weak assign - 李小争
+  安装tree命令 - 李小争
   
   </title>
  <meta name="description" content="记录开发中遇到的一些问题">
@@ -266,32 +266,79 @@
             <div class="large-9 medium-9 columns">
 
  <div class="markdown-body">
-<h1>copy strong weak assign</h1>
+<h1>安装tree命令</h1>
 
-<h2 id="toc_0">weak &amp; strong</h2>
+<p><code>brew</code> 一行命令搞定 <code>brew install tree</code></p>
 
-<p><strong>weak</strong><br/>
-你买了个iPhone7，你朋友觉得不错，由于手头紧，没买，于是你们公用一台iPhone7，你新装了QQ音乐，你朋友用的时候也会有QQ音乐<br/>
-然后你的手机丢了 你朋友也没有 不能用了</p>
+<p>效果图:</p>
 
-<p><strong>stong</strong><br/>
-你买了个iPhone7 你朋友也买了个iPhone7  他觉得你的app stroe账号里有好多软件 然后他就用你的app stroe账号 == 他stong了你的账号，你俩就公用了一个账号。<br/>
-你下载软件 他也有了 然后你手机账号没了丢了 但他的手机还在账号还能用。 </p>
+<pre><code>.
+├── LICENSE
+├── MKShowDetail
+│   ├── MKShowDetail.h
+│   ├── XZBaseViewController.h
+│   ├── XZBaseViewController.m
+│   ├── XZBaseViewController.xib
+│   ├── XZCustomViewController.h
+│   ├── XZCustomViewController.m
+│   ├── XZTableView.h
+│   ├── XZTableView.m
+│   └── bgImage.gif
+├── MKShowDetail.podspec
+├── MKShowDetailDemo
+│   ├── DetailShow
+│   │   ├── AppDelegate.h
+│   │   ├── AppDelegate.m
+│   │   ├── Assets.xcassets
+│   │   │   ├── AppIcon.appiconset
+│   │   │   │   └── Contents.json
+│   │   │   ├── Contents.json
+│   │   │   └── icon.imageset
+│   │   │       ├── Contents.json
+│   │   │       └── icon.jpg
+│   │   ├── Base.lproj
+│   │   │   ├── LaunchScreen.storyboard
+│   │   │   └── Main.storyboard
+│   │   ├── Info.plist
+│   │   ├── OneViewController.h
+│   │   ├── OneViewController.m
+│   │   ├── TestViewController.h
+│   │   ├── TestViewController.m
+│   │   ├── ThreeViewController.h
+│   │   ├── ThreeViewController.m
+│   │   ├── TwoViewController.h
+│   │   ├── TwoViewController.m
+│   │   ├── ViewController.h
+│   │   ├── ViewController.m
+│   │   ├── lol.jpg
+│   │   ├── main.m
+│   │   └── timo.jpg
+│   └── DetailShow.xcodeproj
+│       ├── project.pbxproj
+│       ├── project.xcworkspace
+│       │   ├── contents.xcworkspacedata
+│       │   └── xcuserdata
+│       │       ├── mekor.xcuserdatad
+│       │       │   └── UserInterfaceState.xcuserstate
+│       │       └── weizhi.xcuserdatad
+│       │           └── UserInterfaceState.xcuserstate
+│       └── xcuserdata
+│           ├── mekor.xcuserdatad
+│           │   └── xcschemes
+│           │       ├── DetailShow.xcscheme
+│           │       └── xcschememanagement.plist
+│           └── weizhi.xcuserdatad
+│               ├── xcdebugger
+│               │   └── Breakpoints_v2.xcbkptlist
+│               └── xcschemes
+│                   ├── DetailShow.xcscheme
+│                   └── xcschememanagement.plist
+├── README.md
+└── shopdetail.gif
 
-<h2 id="toc_1">strong &amp; copy (深拷贝&amp;浅拷贝)</h2>
+</code></pre>
 
-<p>copy是用来保护数据的,copy一个数据之后,更改源数据不会导致copy的数据更改<br/>
-strong是对一个数据的引用,更改源数据会导致strong的数据更改 </p>
-
-<h2 id="toc_2">assign</h2>
-
-<p>基本数据类型</p>
-
-<blockquote>
-<p><a href="https://developer.apple.com/library/mac/documentation/CoreFoundation/Conceptual/CFMemoryMgmt/Concepts/CopyFunctions.html">苹果文档中关于浅拷贝&amp;深拷贝</a></p>
-</blockquote>
-
-<p><img src="media/14714022507551/Snip20160817_3.png" alt="Snip20160817_3"/></p>
+<p>看起来效果不错.</p>
 
 
 </div>
@@ -303,15 +350,13 @@ strong是对一个数据的引用,更改源数据会导致strong的数据更改 
   <div class="large-6 columns">
 	<div class="text-left" style="padding:15px 0px;">
 		
-	        <a href="14714050181003.html"  title="Previous Post: iOS开发-KVO的奥秘">&laquo; iOS开发-KVO的奥秘</a>
-	    
 	</div>
   </div>
   <div class="large-6 columns">
 	<div class="text-right" style="padding:15px 0px;">
 		
-	        <a href="14701034373615.html" 
-	        title="Next Post: 网络切面化处理">网络切面化处理 &raquo;</a>
+	        <a href="14781433227076.html" 
+	        title="Next Post: 获取当前显示的UIViewController">获取当前显示的UIViewController &raquo;</a>
 	    
 	</div>
   </div>
@@ -324,7 +369,7 @@ strong是对一个数据的引用,更改源数据会导致strong的数据更改 
 </div>
 <script type="text/javascript">
 	$(function(){
-		var currentURL = '14714022507551.html';
+		var currentURL = '14781615036446.html';
 		$('#side-nav a').each(function(){
 			if($(this).attr('href') == currentURL){
 				$(this).parent().addClass('active');

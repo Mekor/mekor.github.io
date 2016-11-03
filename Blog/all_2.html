@@ -63,6 +63,8 @@
         <li><label>技巧</label></li>
 
           
+            <li><a title="安装tree命令" href="14781615036446.html">安装tree命令</a></li>
+          
             <li><a title="获取当前显示的UIViewController" href="14781433227076.html">获取当前显示的UIViewController</a></li>
           
             <li><a title="UITableView优化方案(收集)" href="14766308131126.html">UITableView优化方案(收集)</a></li>
@@ -176,6 +178,8 @@
                     
                       <li class="side-title"><span>技巧</span></li>
                         
+                          <li><a title="安装tree命令" href="14781615036446.html">安装tree命令</a></li>
+                        
                           <li><a title="获取当前显示的UIViewController" href="14781433227076.html">获取当前显示的UIViewController</a></li>
                         
                           <li><a title="UITableView优化方案(收集)" href="14766308131126.html">UITableView优化方案(收集)</a></li>
@@ -266,32 +270,383 @@
 
 	
 		<div class="markdown-body">
-		<h1>在包含UITableView视图中添加单击手势</h1>
+		<h1>vim 学习</h1>
 
-		<p>如果在包含UITableView视图中添加单击手势，这个单击手势会屏蔽掉UITableView的</p>
+		<p>开发中如果遇到修改配置文件的时候经常用到 vim .今天把常用到的 vim 命令进行简单的总结</p>
 
-<pre><code>- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath;
-</code></pre>
+<h2 id="toc_0">开始学习 vim</h2>
 
-<p>可以利用<code>UIGestureRecognizer</code>的<code>Delegate</code>中的</p>
+<p>在 terminal 中输入  <code>vimtutor -g zh</code> 就会开始 vim  学习教程 </p>
 
-<pre><code>- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer;
-</code></pre>
+<h2 id="toc_1">简单总结</h2>
 
-<p>在单击点位于UITableView内的时候取消响应</p>
+<h3 id="toc_2">vim 编辑器中有三种状态模式</h3>
 
-<pre><code>- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer{
-    CGPoint point = [gestureRecognizer locationInView:self];
-    if(CGRectContainsPoint(menuTableView.frame, point)){
-        return NO;
-    }
-    return YES;
-}
-</code></pre>
+<p><img src="media/14764220018619/14768675919240.jpg" alt=""/></p>
 
-<p>或者将单击手势的cancelsTouchesInView设置为NO</p>
+<h3 id="toc_3">vim 编辑器的启动与退出</h3>
 
-<pre><code>singleTap.cancelsTouchesInView = NO;
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>释意</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>$ vim</td>
+<td>直接进入编辑环境</td>
+</tr>
+<tr>
+<td>$ vim myfile</td>
+<td>进入编辑环境并打开(新建)文件</td>
+</tr>
+<tr>
+<td>:q</td>
+<td>退出 vi 编辑环境</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="toc_4">文件操作</h3>
+
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>释意</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>:w</td>
+<td>保存对 vim 编辑器中已打开文件的修改</td>
+</tr>
+<tr>
+<td>:w myfile</td>
+<td>将 vim 编辑器中的内容另存为指定文件名</td>
+</tr>
+<tr>
+<td>:wq</td>
+<td>对 vim 编辑器中的文件进行保存并退出 vim 编辑器</td>
+</tr>
+<tr>
+<td>:q!</td>
+<td>放弃对文件内容的修改,并退出 vi 编辑器</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="toc_5">光标移动操作</h3>
+
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>光标操作</th>
+<th>释意</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>光标移动</td>
+<td>h</td>
+<td>向左移动光标</td>
+</tr>
+<tr>
+<td></td>
+<td>l</td>
+<td>向右移动光标</td>
+</tr>
+<tr>
+<td></td>
+<td>k</td>
+<td>向上移动光标</td>
+</tr>
+<tr>
+<td></td>
+<td>j</td>
+<td>向下移动光标</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>翻页</td>
+<td>Ctrl + f</td>
+<td>向下翻整页</td>
+</tr>
+<tr>
+<td></td>
+<td>Ctrl + b</td>
+<td>向上翻整页</td>
+</tr>
+<tr>
+<td></td>
+<td>Ctrl + u</td>
+<td>向上翻半页</td>
+</tr>
+<tr>
+<td></td>
+<td>Ctrl + d</td>
+<td>向下翻半页</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>行内移动光标</td>
+<td>^</td>
+<td>将光标快速跳转到本行的行首字符</td>
+</tr>
+<tr>
+<td></td>
+<td>$</td>
+<td>将光标快速跳转到本行的行尾字符</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>文件内跳转</td>
+<td>:set nu</td>
+<td>在编辑器中显示行号</td>
+</tr>
+<tr>
+<td></td>
+<td>:set nonu</td>
+<td>取消编辑器中的行号显示</td>
+</tr>
+<tr>
+<td></td>
+<td>1G(gg)</td>
+<td>跳转到文件的首行</td>
+</tr>
+<tr>
+<td></td>
+<td>G</td>
+<td>跳转到文件的末尾行</td>
+</tr>
+<tr>
+<td></td>
+<td>#G</td>
+<td>跳转到文件中的第#行</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="toc_6">编辑操作</h3>
+
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>光标操作</th>
+<th>释意</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>进入输入模式</td>
+<td>i</td>
+<td>在当前光标处进入插入状态</td>
+</tr>
+<tr>
+<td></td>
+<td>a</td>
+<td>在当前光标后进入插入状态</td>
+</tr>
+<tr>
+<td></td>
+<td>o</td>
+<td>在当前行的下面插入新行,光标移动到新行的行首,进入插入状态</td>
+</tr>
+<tr>
+<td></td>
+<td>O</td>
+<td>在当前行的上面插入新行,光标移动到新行的行首,进入插入状态</td>
+</tr>
+<tr>
+<td></td>
+<td>c(n)w</td>
+<td>删除当前光标到所在单词尾部的字符,并进入插入状态</td>
+</tr>
+<tr>
+<td></td>
+<td>c$</td>
+<td>删除当前光标到行尾的字符,并进入插入状态</td>
+</tr>
+<tr>
+<td></td>
+<td>c^</td>
+<td>命令删除当前光标之前(不包括光标上的字符)到行首的字符,并进入插入状态</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>删除操作</td>
+<td>x</td>
+<td>删除光标处的单个字符</td>
+</tr>
+<tr>
+<td></td>
+<td>(n)dd</td>
+<td>删除光标所 n 行</td>
+</tr>
+<tr>
+<td></td>
+<td>:3,5 d</td>
+<td>删除从第 3 行到第 5 行的内容</td>
+</tr>
+<tr>
+<td></td>
+<td>dw</td>
+<td>删除当前字符到单词尾(包括空格)的所有字符</td>
+</tr>
+<tr>
+<td></td>
+<td>de</td>
+<td>删除当前字符到单词尾(不包括单词尾部的空格)的所有字符</td>
+</tr>
+<tr>
+<td></td>
+<td>d$</td>
+<td>删除当前字符到行尾的所有字符</td>
+</tr>
+<tr>
+<td></td>
+<td>d^</td>
+<td>删除当前字符到行首的所有字符</td>
+</tr>
+<tr>
+<td></td>
+<td>J(大写)</td>
+<td>删除光标所在行行尾的换行符,相当于合并当 前行和下一行的内容</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>拷贝和粘贴</td>
+<td>(n)yy</td>
+<td>复制当前行整行的内容到 vi 缓冲区</td>
+</tr>
+<tr>
+<td></td>
+<td>:3,6 co(m) 12</td>
+<td>复制(剪切)3-6 行,到第 12 行处</td>
+</tr>
+<tr>
+<td></td>
+<td>p</td>
+<td>读取 vi 缓冲区中的内容,并粘贴到光标当前的位置(不覆盖文件已有的内容)</td>
+</tr>
+<tr>
+<td></td>
+<td>u</td>
+<td>取消最近一次的操作,并恢复操作结果可以多次使用 u命令恢复已进行的多步操作</td>
+</tr>
+<tr>
+<td></td>
+<td>U</td>
+<td>取消对当前整行进行的所有操作</td>
+</tr>
+<tr>
+<td></td>
+<td>Ctrl + r</td>
+<td>对使用 u 命令撤销的操作进行恢复</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="toc_7">查找与替换操作</h3>
+
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>光标操作</th>
+<th>释意</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>查找</td>
+<td>/word</td>
+<td>从上而下在文件中查找字符串“word”</td>
+</tr>
+<tr>
+<td></td>
+<td>?word</td>
+<td>从下而上在文件中查找字符串“word”</td>
+</tr>
+<tr>
+<td></td>
+<td>n</td>
+<td>定位下一个匹配的被查找字符串</td>
+</tr>
+<tr>
+<td></td>
+<td>N</td>
+<td>定位上一个匹配的被查找字符串</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>替换</td>
+<td>:s/old/new</td>
+<td>将当前行中查找到的第一个字符“old” 串替换为“new”</td>
+</tr>
+<tr>
+<td></td>
+<td>:s/old/new/g</td>
+<td>将当前行中查找到的所有字符串“old” 替换为“new”</td>
+</tr>
+<tr>
+<td></td>
+<td>:#,#s/old/new/g</td>
+<td>在行号“#,#”范围内替换所有的字符串“old”为“new”</td>
+</tr>
+<tr>
+<td></td>
+<td>:%s/old/new/g</td>
+<td>在整个文件范围内替换所有的字符串“old”为“new”</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="toc_8">简易配置</h2>
+
+<p>输入 vim ~/.vimrc 该文件是一个隐藏文件,如果没有则 创建它,该文件中保存一些,vim 的常用配置。</p>
+
+<pre><code>set nu //代码显示行号
+syntax on //关键词高亮显示
+set cindent //c 语法自动缩进
+set autoindent //新行自动缩进
+set shiftwidth=4 //缩进宽度 4
+set tabstop=4 //tab 键宽度 4
+set softtabstop=4 //制表符宽度 4
+set nobackup //不备份
 </code></pre>
 
 
