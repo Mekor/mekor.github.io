@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2016-11-12T18:17:32+08:00</updated>
+  <updated>2016-11-12T18:48:13+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -12,6 +12,54 @@
   </author>
   <generator uri="http://www.mweb.im">MWeb</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Swift - 字典中的增删改,遍历与合并]]></title>
+    <link href="http://www.citynight.cn/Blog/14789481799893.html"/>
+    <updated>2016-11-12T18:56:19+08:00</updated>
+    <id>http://www.citynight.cn/Blog/14789481799893.html</id>
+    <content type="html"><![CDATA[
+<p>增删改</p>
+
+<pre><code>var dict:[String:Any] = [&quot;name&quot; : &quot;小明&quot;, &quot;age&quot; : 18, &quot;sex&quot;:&quot;man&quot;]
+
+// 新增
+dict[&quot;title&quot;] = &quot;老大&quot;
+print(dict)
+
+// 修改
+dict[&quot;name&quot;] = &quot;赵四&quot;
+print(dict)
+
+// 删除
+dict.removeValue(forKey: &quot;age&quot;)
+print(dict)
+
+</code></pre>
+
+<p>遍历,合并</p>
+
+<pre><code>// 遍历
+for e in dict {
+    print(e)
+}
+
+for (k,v) in dict {
+    print(&quot;key:\(k)  value:\(v)&quot;)
+}
+// 合并
+var dict1:[String:Any] = [&quot;name&quot; : &quot;李明&quot;, &quot;age&quot; : 18, &quot;sex&quot;:&quot;m&quot;]
+var dict2:[String:Any] = [&quot;name&quot; : &quot;韩梅梅&quot;, &quot;age&quot; : 16, &quot;sex&quot;:&quot;w&quot;]
+// 如果把 dict2 合并到 dict1
+for e in dict2 {
+    dict1[e.key] = e.value   //dict2[e.key]
+}
+print(&quot;----------\n\(dict1)&quot;)
+
+</code></pre>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Swift - 数组中的增删改与合并]]></title>
@@ -1500,88 +1548,6 @@ pod &#39;SDWebImage&#39;,&#39;~&gt;2.6&#39; 设置框架的名称和版本号
 04 整合Pods项目：将Pods和项目整合到一个工作空间中，并且设置文件链接。
 
 </code></pre>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[如何在UIBarButtonItem上显示数字(BadgeValue)]]></title>
-    <link href="http://www.citynight.cn/Blog/14747835330079.html"/>
-    <updated>2016-09-25T14:05:33+08:00</updated>
-    <id>http://www.citynight.cn/Blog/14747835330079.html</id>
-    <content type="html"><![CDATA[
-<blockquote>
-<p>原因：项目中想要实现购物车右上角显示购物车中上品数量，但是直接用UIBarButtonItem不能实现要求</p>
-</blockquote>
-
-<p>这里是实现后的效果图：</p>
-
-<p><img src="media/14747835330079/strip." alt="购物车动画"/></p>
-
-<p>一开始直接创建的UIBarButtonItem，但是不能直接往上面添加想要的效果，因为</p>
-
-<pre><code>NS_CLASS_AVAILABLE_IOS(2_0) @interface UIBarButtonItem : UIBarItem &lt;NSCoding&gt;
-</code></pre>
-
-<p>而且</p>
-
-<pre><code>NS_CLASS_AVAILABLE_IOS(2_0) @interface UIBarItem : NSObject &lt;NSCoding, UIAppearance&gt;
-</code></pre>
-
-<p>退而求其次，我们知道UIBarButtonItem有一个属性</p>
-
-<pre><code>@property(nullable, nonatomic,strong)  __kindof UIView     *customView;       // default is nil
-</code></pre>
-
-<p>这说明我们可以使用UIButton来代替UIBarButtonItem，在UIButton上面添加想要的动画效果。</p>
-
-<pre><code>    static CGFloat const kButtonWidth = 43.0f;
-    static CGFloat const kButtonHeight = 43.0f;
-
-    UIImage *cartImage = [[UIImage imageNamed:@&quot;iconfont-cart&quot;]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-
-    UIButton *cartButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    cartButton.frame = CGRectMake(0.0f, 0.0f, kButtonWidth, kButtonHeight);
-    cartButton.backgroundColor = [UIColor clearColor];
-    [cartButton setImage:cartImage forState:UIControlStateNormal];
-    [cartButton setImageEdgeInsets:UIEdgeInsetsMake(0.0f,(kButtonHeight- cartImage.size.width), 0.0f, 0.0f)];
-    [cartButton addTarget:self action:@selector(changeStatus:) forControlEvents:UIControlEventTouchUpInside];
-    [cartButton addSubview:self.numberLabel];
-
-    UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:cartButton];
-    self.navigationItem.rightBarButtonItem = rightBarButtonItem;
-</code></pre>
-
-<p>创建Label使用懒加载：</p>
-
-<pre><code>#pragma mark 购物车上面显示的按钮
--(UILabel *)numberLabel
-{
-    if (!_numberLabel) {
-
-        static CGFloat const kNameLabelWidth = 14;
-        static CGFloat const kNameLabelHeight = 14;
-        static CGFloat const kNameLabelX = 40; // 父视图宽44，UI说改到这个位置
-        static CGFloat const kNameLabelY = 6;
-
-        _numberLabel = [UILabel new];
-        _numberLabel.hidden = YES;
-        _numberLabel.frame = CGRectMake(kNameLabelX, kNameLabelY, kNameLabelWidth, kNameLabelHeight);
-
-        _numberLabel.backgroundColor = [UIColor redColor];
-        _numberLabel.textColor = [UIColor whiteColor];
-        _numberLabel.font = [UIFont systemFontOfSize:9];
-        _numberLabel.textAlignment = NSTextAlignmentCenter;
-        _numberLabel.layer.cornerRadius = kNameLabelHeight * 0.5;
-        _numberLabel.layer.masksToBounds = YES;
-
-    }
-    return _numberLabel;
-}
-</code></pre>
-
-<p>这里说下为什么设置为hidden，因为要求数量为0的时候不显示，数量不为0显示，如果删除后还要添加不如直接控制hidden。<br/>
-其他的就是设置Label显示的数字了，这里就不写了。</p>
 
 ]]></content>
   </entry>
