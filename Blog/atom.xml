@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2016-11-11T14:09:56+08:00</updated>
+  <updated>2016-11-12T18:17:32+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -12,6 +12,93 @@
   </author>
   <generator uri="http://www.mweb.im">MWeb</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Swift - 数组中的增删改与合并]]></title>
+    <link href="http://www.citynight.cn/Blog/14789459811464.html"/>
+    <updated>2016-11-12T18:19:41+08:00</updated>
+    <id>http://www.citynight.cn/Blog/14789459811464.html</id>
+    <content type="html"><![CDATA[
+<blockquote>
+<p>第一篇写了数组遍历的几种情况,这篇主要就是数组中的增删改,也是开发中常用的</p>
+</blockquote>
+
+<p>OC中数组分为可变(NSMutableArray)和不可变(NSArray) 相应的在Swift中就是 var &amp; let</p>
+
+<h2 id="toc_0">追加元素</h2>
+
+<p>首先定义一个可变数组</p>
+
+<pre><code>var array = [&quot;张三&quot;,&quot;李四&quot;,&quot;王五&quot;]
+</code></pre>
+
+<p>追加一个元素</p>
+
+<pre><code>// 追加元素
+array.append(&quot;赵六&quot;)
+print(array)
+</code></pre>
+
+<h2 id="toc_1">修改元素</h2>
+
+<p>通过下标进行修改</p>
+
+<pre><code>array[0] = &quot;赵四&quot;
+print(array)
+</code></pre>
+
+<p>结果:</p>
+
+<pre><code>[&quot;赵四&quot;, &quot;李四&quot;, &quot;王五&quot;, &quot;赵六&quot;]
+</code></pre>
+
+<h2 id="toc_2">删除</h2>
+
+<pre><code>// 删除元素
+array.remove(at: 0)
+print(array)
+</code></pre>
+
+<p>结果:</p>
+
+<pre><code>[&quot;赵四&quot;, &quot;李四&quot;, &quot;王五&quot;, &quot;赵六&quot;]
+[&quot;李四&quot;, &quot;王五&quot;, &quot;赵六&quot;]
+</code></pre>
+
+<p>remove 的方法由很多,移除首/尾,移除范围&hellip;</p>
+
+<pre><code>array.removeAll(keepingCapacity: true)
+print(&quot;数组中的元素\(array) 数组容量\(array.capacity)&quot;)
+</code></pre>
+
+<p>结果:</p>
+
+<pre><code>数组中的元素[] 数组容量6
+</code></pre>
+
+<h2 id="toc_3">数组合并</h2>
+
+<pre><code>var arr0 = [1,2,3]
+let arr1 = [3,4,5]
+arr0 += arr1
+print(arr0)
+</code></pre>
+
+<p>结果:</p>
+
+<pre><code>[1, 2, 3, 3, 4, 5]
+</code></pre>
+
+<p>注意: 要合并的数组的类型必须一致,如果不一致会出错. 比如:</p>
+
+<pre><code>var arr0:[Any] = [1,2,3]
+let arr1:[Any] = [&quot;2&quot;,3,4,5]
+arr0 += arr1
+print(arr0)
+</code></pre>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Swift - 数组遍历]]></title>
@@ -1495,50 +1582,6 @@ pod &#39;SDWebImage&#39;,&#39;~&gt;2.6&#39; 设置框架的名称和版本号
 
 <p>这里说下为什么设置为hidden，因为要求数量为0的时候不显示，数量不为0显示，如果删除后还要添加不如直接控制hidden。<br/>
 其他的就是设置Label显示的数字了，这里就不写了。</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[如何解决json字符串中包含制表符]]></title>
-    <link href="http://www.citynight.cn/Blog/14747833011771.html"/>
-    <updated>2016-09-25T14:01:41+08:00</updated>
-    <id>http://www.citynight.cn/Blog/14747833011771.html</id>
-    <content type="html"><![CDATA[
-<p>错误信息:</p>
-
-<pre><code>Error Domain=NSCocoaErrorDomain Code=3840 &quot;The operation couldn’t be completed. (Cocoa error 3840.)&quot; (Unescaped control character around character 135.) UserInfo=0x170e79d00 {NSDebugDescription=Unescaped control character around character 135.}
-</code></pre>
-
-<p><strong>如何处理</strong><br/>
-最关键的地方:</p>
-
-<pre><code>-(NSString *)removeUnescapedCharacter:(NSString *)inputStr
-{
-    NSCharacterSet *controlChars = [NSCharacterSet controlCharacterSet];//获取那些特殊字符
-    NSRange range = [inputStr rangeOfCharacterFromSet:controlChars];//寻找字符串中有没有这些特殊字符
-    if (range.location != NSNotFound)
-        {
-        NSMutableString *mutable = [NSMutableString stringWithString:inputStr];
-        while (range.location != NSNotFound)
-            {
-            [mutable deleteCharactersInRange:range];//去掉这些特殊字符
-            range = [mutable rangeOfCharacterFromSet:controlChars];
-            }
-        return mutable;
-        }
-    return inputStr;
-}
-</code></pre>
-
-<p>举例:</p>
-
-<pre><code>    NSString *responseString = [NSMutableString stringWithString:[request responseString]];
-    responseString =[self removeUnescapedCharacter:responseString];
-    NSData *jsonData = [responseString dataUsingEncoding:NSUTF8StringEncoding];
-    NSError *error;
-    NSDictionary * dic = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&amp;error];
-</code></pre>
 
 ]]></content>
   </entry>
