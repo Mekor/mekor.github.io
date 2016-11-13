@@ -376,6 +376,31 @@ class Person: NSObject {
 
 </code></pre>
 
+<p>上面是OC写法,可以改进的更Swift一点:</p>
+
+<pre><code>    class func propertyList() -&gt; [String] {
+        var count:UInt32 = 0
+        
+        let list = class_copyPropertyList(self,&amp;count)
+        
+        var array:[String] = [];
+        
+        for i in 0..&lt;Int(count) {
+            
+            guard let pty = list?[i],
+                let cName = property_getName(pty),
+                let name = String(utf8String: cName)
+                else {
+                    // 继续遍历下一个
+                    continue
+            }
+            array.append(name)
+        }
+        free(list)
+        return array
+    }
+</code></pre>
+
 <p>通过运行时可以发现:</p>
 
 <ol>

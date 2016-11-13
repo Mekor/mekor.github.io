@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2016-11-13T18:03:01+08:00</updated>
+  <updated>2016-11-13T20:23:30+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -81,6 +81,31 @@ class Person: NSObject {
     }
 }
 
+</code></pre>
+
+<p>上面是OC写法,可以改进的更Swift一点:</p>
+
+<pre><code>    class func propertyList() -&gt; [String] {
+        var count:UInt32 = 0
+        
+        let list = class_copyPropertyList(self,&amp;count)
+        
+        var array:[String] = [];
+        
+        for i in 0..&lt;Int(count) {
+            
+            guard let pty = list?[i],
+                let cName = property_getName(pty),
+                let name = String(utf8String: cName)
+                else {
+                    // 继续遍历下一个
+                    continue
+            }
+            array.append(name)
+        }
+        free(list)
+        return array
+    }
 </code></pre>
 
 <p>通过运行时可以发现:</p>
