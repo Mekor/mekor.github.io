@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2016-11-13T20:23:30+08:00</updated>
+  <updated>2016-11-13T20:32:39+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -12,6 +12,45 @@
   </author>
   <generator uri="http://www.mweb.im">MWeb</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Swift - convenience 便利构造函数]]></title>
+    <link href="http://www.citynight.cn/Blog/14790461560134.html"/>
+    <updated>2016-11-13T22:09:16+08:00</updated>
+    <id>http://www.citynight.cn/Blog/14790461560134.html</id>
+    <content type="html"><![CDATA[
+<blockquote>
+<p>具体解释可以参见 <strong>Swifter</strong> 中<code>Designated，Convenience 和 Required</code></p>
+</blockquote>
+
+<p>使用遍历工造函数的好处可以参见如下代码:</p>
+
+<pre><code>import UIKit
+
+extension UITextField {
+    convenience init(frame:CGRect, placeholder:String,fontSize:CGFloat = 14) {
+        self.init(frame:frame)
+        
+        self.borderStyle = .roundedRect
+        self.placeholder = placeholder
+        self.font = UIFont.systemFont(ofSize: fontSize)
+    }
+}
+
+</code></pre>
+
+<p><strong>好处:</strong><br/>
+1. 判断条件,只有满足条件才实例化对象,可以防止造成不必要的内存开销<br/>
+2. 简化对象的创建  -&gt;利用<code>extension</code>抽取控件创建方法<br/>
+3. 本身不负责属性的创建和初始化工作<br/>
+4. 可以返回nil</p>
+
+<p><strong>注意点:</strong><br/>
+1. 必须调用本类的 <code>self.init</code>,不能调用父类的<code>super.init</code><br/>
+2. 不能被重写</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Swift - KVC 和 运行时获取属性列表]]></title>
@@ -1628,30 +1667,6 @@ set nobackup //不备份
 <p>Enter <code>agree</code> to accept the terms.</p>
 
 <p>详见stackoverflow 中 <a href="http://stackoverflow.com/questions/33728905/qt-creator-project-error-xcode-not-set-up-properly-you-may-need-to-confirm-t">Qt Creator - Project ERROR: Xcode not set up properly. You may need to confirm the license agreement by running /usr/bin/xcodebuild</a></p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[优秀文章链接收藏]]></title>
-    <link href="http://www.citynight.cn/Blog/14760921807707.html"/>
-    <updated>2016-10-10T17:36:20+08:00</updated>
-    <id>http://www.citynight.cn/Blog/14760921807707.html</id>
-    <content type="html"><![CDATA[
-<h2 id="toc_0">优化</h2>
-
-<p><a href="http://www.mulle-kybernetik.com/artikel/Optimization/opti-3-imp-deluxe.html">极致优化</a></p>
-
-<p>美团点评技术团队: <a href="http://tech.meituan.com/DiveIntoMethodCache.html">深入理解Objective-C：方法缓存</a></p>
-
-<h2 id="toc_1">Runloop</h2>
-
-<p><a href="http://blog.ibireme.com/2015/05/18/runloop/">深入理解RunLoop</a>  &mdash; 内部分享文章runloop中使用了该文章中的一张图.</p>
-
-<h2 id="toc_2">GCD</h2>
-
-<p><a href="http://www.raywenderlich.com/60749/grand-central-dispatch-in-depth-part-1">GCD 深入理解：第一部分</a> 中文翻译:<a href="https://github.com/nixzhu/dev-blog/blob/master/2014-04-19-grand-central-dispatch-in-depth-part-1.md">译文</a><br/>
-<a href="https://github.com/nixzhu/dev-blog/blob/master/2014-05-14-grand-central-dispatch-in-depth-part-2.md">GCD 深入理解：第二部分</a></p>
 
 ]]></content>
   </entry>

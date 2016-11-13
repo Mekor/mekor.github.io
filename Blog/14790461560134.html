@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  Swift - 数组中的增删改与合并 - 李小争
+  Swift - convenience 便利构造函数 - 李小争
   
   </title>
  <meta name="description" content="记录开发中遇到的一些问题">
@@ -314,85 +314,37 @@
             <div class="large-9 medium-9 columns">
 
  <div class="markdown-body">
-<h1>Swift - 数组中的增删改与合并</h1>
+<h1>Swift - convenience 便利构造函数</h1>
 
 <blockquote>
-<p>第一篇写了数组遍历的几种情况,这篇主要就是数组中的增删改,也是开发中常用的</p>
+<p>具体解释可以参见 <strong>Swifter</strong> 中<code>Designated，Convenience 和 Required</code></p>
 </blockquote>
 
-<p>OC中数组分为可变(NSMutableArray)和不可变(NSArray) 相应的在Swift中就是 var &amp; let</p>
+<p>使用遍历工造函数的好处可以参见如下代码:</p>
 
-<h2 id="toc_0">追加元素</h2>
+<pre><code>import UIKit
 
-<p>首先定义一个可变数组</p>
+extension UITextField {
+    convenience init(frame:CGRect, placeholder:String,fontSize:CGFloat = 14) {
+        self.init(frame:frame)
+        
+        self.borderStyle = .roundedRect
+        self.placeholder = placeholder
+        self.font = UIFont.systemFont(ofSize: fontSize)
+    }
+}
 
-<pre><code>var array = [&quot;张三&quot;,&quot;李四&quot;,&quot;王五&quot;]
 </code></pre>
 
-<p>追加一个元素</p>
+<p><strong>好处:</strong><br/>
+1. 判断条件,只有满足条件才实例化对象,可以防止造成不必要的内存开销<br/>
+2. 简化对象的创建  -&gt;利用<code>extension</code>抽取控件创建方法<br/>
+3. 本身不负责属性的创建和初始化工作<br/>
+4. 可以返回nil</p>
 
-<pre><code>// 追加元素
-array.append(&quot;赵六&quot;)
-print(array)
-</code></pre>
-
-<h2 id="toc_1">修改元素</h2>
-
-<p>通过下标进行修改</p>
-
-<pre><code>array[0] = &quot;赵四&quot;
-print(array)
-</code></pre>
-
-<p>结果:</p>
-
-<pre><code>[&quot;赵四&quot;, &quot;李四&quot;, &quot;王五&quot;, &quot;赵六&quot;]
-</code></pre>
-
-<h2 id="toc_2">删除</h2>
-
-<pre><code>// 删除元素
-array.remove(at: 0)
-print(array)
-</code></pre>
-
-<p>结果:</p>
-
-<pre><code>[&quot;赵四&quot;, &quot;李四&quot;, &quot;王五&quot;, &quot;赵六&quot;]
-[&quot;李四&quot;, &quot;王五&quot;, &quot;赵六&quot;]
-</code></pre>
-
-<p>remove 的方法由很多,移除首/尾,移除范围&hellip;</p>
-
-<pre><code>array.removeAll(keepingCapacity: true)
-print(&quot;数组中的元素\(array) 数组容量\(array.capacity)&quot;)
-</code></pre>
-
-<p>结果:</p>
-
-<pre><code>数组中的元素[] 数组容量6
-</code></pre>
-
-<h2 id="toc_3">数组合并</h2>
-
-<pre><code>var arr0 = [1,2,3]
-let arr1 = [3,4,5]
-arr0 += arr1
-print(arr0)
-</code></pre>
-
-<p>结果:</p>
-
-<pre><code>[1, 2, 3, 3, 4, 5]
-</code></pre>
-
-<p>注意: 要合并的数组的类型必须一致,如果不一致会出错. 比如:</p>
-
-<pre><code>var arr0:[Any] = [1,2,3]
-let arr1:[Any] = [&quot;2&quot;,3,4,5]
-arr0 += arr1
-print(arr0)
-</code></pre>
+<p><strong>注意点:</strong><br/>
+1. 必须调用本类的 <code>self.init</code>,不能调用父类的<code>super.init</code><br/>
+2. 不能被重写</p>
 
 
 </div>
@@ -404,15 +356,13 @@ print(arr0)
   <div class="large-6 columns">
 	<div class="text-left" style="padding:15px 0px;">
 		
-	        <a href="14789481799893.html"  title="Previous Post: Swift - 字典中的增删改,遍历与合并">&laquo; Swift - 字典中的增删改,遍历与合并</a>
-	    
 	</div>
   </div>
   <div class="large-6 columns">
 	<div class="text-right" style="padding:15px 0px;">
 		
-	        <a href="14789442794521.html" 
-	        title="Next Post: Swift - 数组遍历">Swift - 数组遍历 &raquo;</a>
+	        <a href="14790381443417.html" 
+	        title="Next Post: Swift - KVC 和 运行时获取属性列表">Swift - KVC 和 运行时获取属性列表 &raquo;</a>
 	    
 	</div>
   </div>
@@ -425,7 +375,7 @@ print(arr0)
 </div>
 <script type="text/javascript">
 	$(function(){
-		var currentURL = '14789459811464.html';
+		var currentURL = '14790461560134.html';
 		$('#side-nav a').each(function(){
 			if($(this).attr('href') == currentURL){
 				$(this).parent().addClass('active');

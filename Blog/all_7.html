@@ -159,6 +159,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="Swift - convenience 便利构造函数" href="14790461560134.html">Swift - convenience 便利构造函数</a></li>
+          
             <li><a title="Swift - KVC 和 运行时获取属性列表" href="14790381443417.html">Swift - KVC 和 运行时获取属性列表</a></li>
           
             <li><a title="Swift - 函数" href="14790175059723.html">Swift - 函数</a></li>
@@ -290,6 +292,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="Swift - convenience 便利构造函数" href="14790461560134.html">Swift - convenience 便利构造函数</a></li>
+                        
                           <li><a title="Swift - KVC 和 运行时获取属性列表" href="14790381443417.html">Swift - KVC 和 运行时获取属性列表</a></li>
                         
                           <li><a title="Swift - 函数" href="14790175059723.html">Swift - 函数</a></li>
@@ -314,201 +318,486 @@
 
 	
 		<div class="markdown-body">
-		<h1>iOS开发-KVO的奥秘</h1>
+		<h1>runtime小结</h1>
 
-		<blockquote>
-<p>来源：<a href="http://www.jianshu.com/p/742b4b248da9">Sindri的小巢</a></p>
-</blockquote>
+		<h3 id="toc_0">一、runtime简介</h3>
 
-<p><strong>前言</strong></p>
+<ul>
+<li>runTime简称运行时。OC就是<code>运行时机制</code>，也就是在运行时候的一些机制，其中最主要的是消息机制。</li>
+<li>对于C语言，<code>函数的调用在编译的时候会决定调用哪个函数</code>。</li>
+<li>对于OC的函数，属于<code>动态调用过程</code>，在编译的时候并不能决定真正调用哪个函数，只有在真正运行的时候才会根据函数的名称找到对应的函数来调用。</li>
+<li>事实证明：
 
-<p>在iOS开发中，苹果提供了许多机制给我们进行回调。KVO(key-value-observing)是一种十分有趣的回调机制，在某个对象注册监听者后，在被监听的对象发生改变时，对象会发送一个通知给监听者，以便监听者执行回调操作。最常见的KVO运用是监听scrollView的contentOffset属性，来完成用户滚动时动态改变某些控件的属性实现效果，包括渐变导航栏、下拉刷新控件等效果。</p>
+<ul>
+<li>在编译阶段，OC可以<code>调用任何函数</code>，即使这个函数并未实现，只要声明过就不会报错。</li>
+<li>在编译阶段，C语言调用<code>未实现的函数</code>就会报错。</li>
+</ul></li>
+</ul>
 
-<p><img src="http://mmbiz.qpic.cn/mmbiz/foPACGrddJ2RICbWq0ibOxfFDmygDGicuRRjLKzYTqMibXMxTiaNXIdeRT6s0aalp1ibbib7BxAYqUyPhHd1iahRY45uQ/0?wx_fmt=gif&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt="" title="1450081725511768.gif"/></p>
+<h3 id="toc_1">二、runtime作用</h3>
 
-<p>渐变导航栏</p>
+<h4 id="toc_2">1.发送消息</h4>
 
-<p><strong>使用</strong></p>
+<ul>
+<li>方法调用的本质，就是让对象发送消息。</li>
+<li>objc_msgSend,只有对象才能发送消息，因此以objc开头.</li>
+<li>使用<code>消息机制</code>前提，必须导入#import </li>
+<li>消息机制简单使用</li>
+<li>clang -rewrite-objc main.m 查看最终生成代码</li>
+</ul>
 
-<p>KVO的使用非常简单，使用KVO的要求是对象必须能支持kvc机制——所有NSObject的子类都支持这个机制。拿上面的渐变导航栏做??，我们为tableView添加了一个监听者controller，在我们滑动列表的时候，会计算当前列表的滚动偏移量，然后改变导航栏的背景色透明度。</p>
+<pre><code>    // 创建person对象
+    Person *p = [[Person alloc] init];
 
-<pre><code>//添加监听者
-[self.tableView addObserver: self forKeyPath: @&quot;contentOffset&quot; options: NSKeyValueObservingOptionNew context: nil];
-/**
- * 监听属性值发生改变时回调
- */
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+    // 调用对象方法
+    [p eat];
+
+    // 本质：让对象发送消息
+    objc_msgSend(p, @selector(eat));
+
+    // 调用类方法的方式：两种
+    // 第一种通过类名调用
+    [Person eat];
+    // 第二种通过类对象调用
+    [[Person class] eat];
+
+    // 用类名调用类方法，底层会自动把类名转换成类对象调用
+    // 本质：让类对象发送消息
+    objc_msgSend([Person class], @selector(eat));
+
+</code></pre>
+
+<ul>
+<li>消息机制原理:对象根据方法编号SEL去映射表查找对应的方法实现
+<img src="media/14717809514175/14717888515211.jpg" alt=""/></li>
+</ul>
+
+<h4 id="toc_3">2.交换方法</h4>
+
+<ul>
+<li>开发使用场景:系统自带的方法功能不够，给系统自带的方法扩展一些功能，并且保持原有的功能。</li>
+<li>方式一:继承系统的类，重写方法.</li>
+<li>方式二:使用runtime,交换方法.</li>
+</ul>
+
+<pre><code>@implementation ViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view, typically from a nib.
+    // 需求：给imageNamed方法提供功能，每次加载图片就判断下图片是否加载成功。
+    // 步骤一：先搞个分类，定义一个能加载图片并且能打印的方法+ (instancetype)imageWithName:(NSString *)name;
+    // 步骤二：交换imageNamed和imageWithName的实现，就能调用imageWithName，间接调用imageWithName的实现。
+    UIImage *image = [UIImage imageNamed:@&quot;123&quot;];
+
+}
+
+@end
+
+@implementation UIImage (Image)
+// 加载分类到内存的时候调用
++ (void)load
 {
-    CGFloat offset = self.tableView.contentOffset.y;
-    CGFloat delta = offset / 64.f + 1.f;
-    delta = MAX(0, delta);
-    [self alphaNavController].barAlpha = MIN(1, delta);
+    // 交换方法
+
+    // 获取imageWithName方法地址
+    Method imageWithName = class_getClassMethod(self, @selector(imageWithName:));
+
+    // 获取imageWithName方法地址
+    Method imageName = class_getClassMethod(self, @selector(imageNamed:));
+
+    // 交换方法地址，相当于交换实现方式
+    method_exchangeImplementations(imageWithName, imageName);
+
 }
-</code></pre>
 
-<p>毫无疑问，kvo是一种非常便捷的回调方式，但是编译器是怎么完成监听这个任务的呢？先来看看苹果文档对于KVO的实现描述</p>
+// 不能在分类中重写系统方法imageNamed，因为会把系统的功能给覆盖掉，而且分类中不能调用super.
 
-<blockquote>
-<p>Automatic key-value observing is implemented using a technique called isa-swizzling&hellip; When an observer is registered for an attribute of an object the isa pointer of the observed object is modified, pointing to an intermediate class rather than at the true class ..</p>
-</blockquote>
-
-<p>简要的来说，在我们对某个对象完成监听的注册后，编译器会修改监听对象（上文中的tableView）的isa指针，让这个指针指向一个新生成的中间类。从某个意义上来说，这是一场骗局。</p>
-
-<pre><code>typedef struct objc_class *Class;
-typedef struct objc_object {
-    Class isa;
-} *id;
-</code></pre>
-
-<p>这里要说明的是isa这个指针，isa是一个Class类型的指针，用来指向类的类型，我们可以通过object_getClass方法来获取这个值(正常来说，class方法内部的实现就是获取这个isa指针，但是在kvo中苹果对监听对象的这个方法进行了重写。之前这里描述有误，说成是指向父类，多谢<a href="http://www.jianshu.com/users/1498e495a4b1/timeline">夏都</a>为我纠正)。</p>
-
-<p>在oc中，规定了只要拥有isa指针的变量，通通都属于对象。上面的objc_object表示的是NSObject这个类的结构体表示，因此oc不允许出现非NSObject子类的对象（block是一个特殊的例外）</p>
-
-<p>当然了，苹果并不想讲述更多的实现细节，但是我们可以通过运行时机制来完成一些有趣的调试。</p>
-
-<p><strong>苹果的黑魔法</strong></p>
-
-<p>根据苹果的说法，在对象完成监听注册后，修改了被监听对象的某些属性，并且改变了isa指针，那么我们可以在监听前后输出被监听对象的相关属性来进一步探索kvo的原理。为了保证能够得到对象的真实类型，我使用了object_getClass方法（class方法本质上是调用这个函数），这个方法在runtime.h头文件中</p>
-
-<pre><code>NSLog(@&quot;address: %p&quot;, self.tableView);
-NSLog(@&quot;class method: %@&quot;, self.tableView.class);
-NSLog(@&quot;description method: %@&quot;, self.tableView);
-NSLog(@&quot;use runtime to get class: %@&quot;, object_getClass(self.tableView));
-[self.tableView addObserver: self forKeyPath: @&quot;contentOffset&quot; options: NSKeyValueObservingOptionNew context: nil];
-NSLog(@&quot;===================================================&quot;);
-NSLog(@&quot;address: %p&quot;, self.tableView);
-NSLog(@&quot;class method: %@&quot;, self.tableView.class);
-NSLog(@&quot;description method: %@&quot;, self.tableView);
-NSLog(@&quot;use runtime to get class %@&quot;, object_getClass(self.tableView));
-</code></pre>
-
-<p>在看官们运行这段代码之前，可以先思考一下上面的代码会输出什么。</p>
-
-<pre><code>2015-12-12 23:02:33.216 LXDAlphaNavigationController[1487:63171] address: 0x7f927a81d200
-2015-12-12 23:02:33.216 LXDAlphaNavigationController[1487:63171] class method: UITableView
-2015-12-12 23:02:33.217 LXDAlphaNavigationController[1487:63171] description method: 2015-12-12 23:02:33.217 LXDAlphaNavigationController[1487:63171] use runtime to get class: UITableView
-2015-12-12 23:02:33.217 LXDAlphaNavigationController[1487:63171] ===================================================
-2015-12-12 23:02:33.218 LXDAlphaNavigationController[1487:63171] address: 0x7f927a81d200
-2015-12-12 23:02:33.218 LXDAlphaNavigationController[1487:63171] class method: UITableView
-2015-12-12 23:02:33.218 LXDAlphaNavigationController[1487:63171] description method: 2015-12-12 23:02:33.230 LXDAlphaNavigationController[1487:63171] use runtime to get class NSKVONotifying_UITableView
-</code></pre>
-
-<p>除了通过object_getClass获取的类型之外，其他的输出没有任何变化。class方法跟description方法可以重写实现上面的效果，但是为什么连地址都是一样的。</p>
-
-<p>这里可以通过一句小代码来说明一下：</p>
-
-<pre><code>NSLog(@&quot;%@, %@&quot;, self.class, super.class);
-</code></pre>
-
-<p>上面这段代码不管你怎么输出，两个结果都是一样的。这是由于super本质上指向的是父类内存。这话说起来有点绕口，但是我们可以通过对象内存图来表示：</p>
-
-<p><img src="http://mmbiz.qpic.cn/mmbiz/foPACGrddJ2RICbWq0ibOxfFDmygDGicuRn1E06HjV4SicWpj23ss5lIoibBxfyEKHxnx22HmZdMItVZa4ViaSlAU5A/640?wx_fmt=png" alt=""/></p>
-
-<p>类的内存</p>
-
-<p>每一个对象占用的内存中，一部分是父类属性占用的；在父类占用的内存中，又有一部分是父类的父类占用的。前文已经说过isa指针指向的是父类，因此在这个图中，Son的地址从Father开始，Father的地址从NSObject开始，这三个对象内存的地址都是一样的。通过这个，我们可以猜到苹果文档中所提及的中间类就是被监听对象的子类。并且为了隐藏实现，苹果还重写了这个子类的class方法跟description方法来掩人耳目。另外，我们还看到了新类相对于父类添加了一个NSKVONotifying_前缀，添加这个前缀是为了避免多次创建监听子类，节省资源</p>
-
-<p><strong>怎么实现类似效果</strong></p>
-
-<p>既然知道了苹果的实现过程，那么我们可以自己动手通过运行时机制来实现KVO。runtime允许我们在程序运行时动态的创建新类、拓展方法、method-swizzling、绑定属性等等这些有趣的事情。</p>
-
-<p>在创建新类之前，我们应该学习苹果的做法，判断当前是否存在这个类，如果不存在我们再进行创建，并且重新实现这个新类的class方法来掩盖具体实现。基于这些原则，我们用下面的方法来获取新类</p>
-
-<pre><code>- (Class)createKVOClassWithOriginalClassName: (NSString *)className
+// 既能加载图片又能打印
++ (instancetype)imageWithName:(NSString *)name
 {
-    NSString * kvoClassName = [kLXDkvoClassPrefix stringByAppendingString: className];
-    Class observedClass = NSClassFromString(kvoClassName);
-    if (observedClass) { return observedClass; }
-    //创建新类，并且添加LXDObserver_为类名新前缀
-    Class originalClass = object_getClass(self);
-    Class kvoClass = objc_allocateClassPair(originalClass, kvoClassName.UTF8String, 0);
-    //获取监听对象的class方法实现代码，然后替换新建类的class实现
-    Method classMethod = class_getInstanceMethod(originalClass, @selector(class));
-    const char * types = method_getTypeEncoding(classMethod);
-    class_addMethod(kvoClass, @selector(class), (IMP)kvo_Class, types);
-    objc_registerClassPair(kvoClass);
-    return kvoClass;
-}
-</code></pre>
 
-<p>另外，在判断是否需要中间类来完成监听的注册前，我们还要判断监听的属性的有效性。通过获取变量的setter方法名（将首字母大写并加上前缀set），以此来获取setter实现，如果不存在实现代码，则抛出异常使程序崩溃。</p>
+    // 这里调用imageWithName，相当于调用imageName
+    UIImage *image = [self imageWithName:name];
 
-<pre><code>SEL setterSelector = NSSelectorFromString(setterForGetter(key));
-Method setterMethod = class_getInstanceMethod([self class], setterSelector);
-if (!setterMethod) {
-    @throw [NSException exceptionWithName: NSInvalidArgumentException reason: [NSString stringWithFormat: @&quot;unrecognized selector sent to instance %p&quot;, self] userInfo: nil];
-    return;
-}
-Class observedClass = object_getClass(self);
-NSString * className = NSStringFromClass(observedClass);
-//如果被监听者没有LXDObserver_，那么判断是否需要创建新类
-if (![className hasPrefix: kLXDkvoClassPrefix]) {
-    observedClass = [self createKVOClassWithOriginalClassName: className];
-    object_setClass(self, observedClass);
-}
-//重新实现setter方法，使其完成
-const char * types = method_getTypeEncoding(setterMethod);
-class_addMethod(observedClass, setterSelector, (IMP)KVO_setter, types);
-
-
-</code></pre>
-
-<p>在重新实现setter方法的时候，有两个重要的方法：willChangeValueForKey和didChangeValueForKey，分别在赋值前后进行调用。此外，还要遍历所有的回调监听者，然后通知这些监听者：</p>
-
-<pre><code>static void KVO_setter(id self, SEL _cmd, id newValue)
-{
-    NSString * setterName = NSStringFromSelector(_cmd);
-    NSString * getterName = getterForSetter(setterName);
-    if (!getterName) {
-        @throw [NSException exceptionWithName: NSInvalidArgumentException reason: [NSString stringWithFormat: @&quot;unrecognized selector sent to instance %p&quot;, self] userInfo: nil];
-        return;
+    if (image == nil) {
+        NSLog(@&quot;加载空的图片&quot;);
     }
-    id oldValue = [self valueForKey: getterName];
-    struct objc_super superClass = {
-        .receiver = self,
-        .super_class = class_getSuperclass(object_getClass(self))
-    };
-    [self willChangeValueForKey: getterName];
-    void (*objc_msgSendSuperKVO)(void *, SEL, id) = (void *)objc_msgSendSuper;
-    objc_msgSendSuperKVO(&amp;superClass, _cmd, newValue);
-    [self didChangeValueForKey: getterName];
-    //获取所有监听回调对象进行回调
-    NSMutableArray * observers = objc_getAssociatedObject(self, (__bridge const void *)kLXDkvoAssiociateObserver);
-    for (LXD_ObserverInfo * info in observers) {
-        if ([info.key isEqualToString: getterName]) {
-            dispatch_async(dispatch_queue_create(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                info.handler(self, getterName, oldValue, newValue);
-            });
+
+    return image;
+}
+
+@end
+
+</code></pre>
+
+<ul>
+<li><p>交换原理：</p>
+
+<ul>
+<li><p>交换之前： <br/>
+<img src="media/14717809514175/14717892191490.jpg" alt=""/></p></li>
+<li><p>交换之后： <br/>
+<img src="media/14717809514175/14717892801791.jpg" alt=""/></p></li>
+</ul></li>
+</ul>
+
+<h4 id="toc_4">3.动态添加方法</h4>
+
+<ul>
+<li>开发使用场景：如果一个类方法非常多，加载类到内存的时候也比较耗费资源，需要给每个方法生成映射表，可以使用动态给某个类，添加方法解决。</li>
+<li>经典面试题：有没有使用performSelector，其实主要想问你有没有动态添加过方法。</li>
+<li>简单使用</li>
+</ul>
+
+<pre><code>@implementation ViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view, typically from a nib.
+
+    Person *p = [[Person alloc] init];
+
+    // 默认person，没有实现eat方法，可以通过performSelector调用，但是会报错。
+    // 动态添加方法就不会报错
+    [p performSelector:@selector(eat)];
+
+}
+
+@end
+
+@implementation Person
+// void(*)()
+// 默认方法都有两个隐式参数，
+void eat(id self,SEL sel)
+{
+    NSLog(@&quot;%@ %@&quot;,self,NSStringFromSelector(sel));
+}
+
+// 当一个对象调用未实现的方法，会调用这个方法处理,并且会把对应的方法列表传过来.
+// 刚好可以用来判断，未实现的方法是不是我们想要动态添加的方法
++ (BOOL)resolveInstanceMethod:(SEL)sel
+{
+
+    if (sel == @selector(eat)) {
+        // 动态添加eat方法
+
+        // 第一个参数：给哪个类添加方法
+        // 第二个参数：添加方法的方法编号
+        // 第三个参数：添加方法的函数实现（函数地址）
+        // 第四个参数：函数的类型，(返回值+参数类型) v:void @:对象-&gt;self :表示SEL-&gt;_cmd
+        class_addMethod(self, @selector(eat), eat, &quot;v@:&quot;);
+
+    }
+
+    return [super resolveInstanceMethod:sel];
+}
+@end
+
+</code></pre>
+
+<h4 id="toc_5">4.给分类添加属性</h4>
+
+<ul>
+<li>原理：给一个类声明属性，其实本质就是给这个类添加关联，并不是直接把这个值的内存空间添加到类存空间。</li>
+</ul>
+
+<pre><code>
+@implementation ViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view, typically from a nib.
+
+    // 给系统NSObject类动态添加属性name
+
+    NSObject *objc = [[NSObject alloc] init];
+    objc.name = @&quot;微指&quot;;
+    NSLog(@&quot;%@&quot;,objc.name);
+
+}
+
+@end
+
+// 定义关联的key
+static const char *key = &quot;name&quot;;
+
+@implementation NSObject (Property)
+
+- (NSString *)name
+{
+    // 根据关联的key，获取关联的值。
+    return objc_getAssociatedObject(self, key);
+}
+
+- (void)setName:(NSString *)name
+{
+    // 第一个参数：给哪个对象添加关联
+    // 第二个参数：关联的key，通过这个key获取
+    // 第三个参数：关联的value
+    // 第四个参数:关联的策略
+    objc_setAssociatedObject(self, key, name, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+@end
+
+</code></pre>
+
+<h4 id="toc_6">5.字典转模型</h4>
+
+<ul>
+<li>设计模型：字典转模型的第一步
+
+<ul>
+<li>模型属性，通常需要跟字典中的key一一对应</li>
+<li>问题：一个一个的生成模型属性，很慢？</li>
+<li>需求：能不能自动根据一个字典，生成对应的属性。</li>
+<li>解决：提供一个分类，专门根据字典生成对应的属性字符串。</li>
+</ul></li>
+</ul>
+
+<pre><code>    @implementation NSObject (Log)
+
+// 自动打印属性字符串
++ (void)resolveDict:(NSDictionary *)dict{
+
+    // 拼接属性字符串代码
+    NSMutableString *strM = [NSMutableString string];
+
+    // 1.遍历字典，把字典中的所有key取出来，生成对应的属性代码
+    [dict enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+
+        // 类型经常变，抽出来
+         NSString *type;
+
+        if ([obj isKindOfClass:NSClassFromString(@&quot;__NSCFString&quot;)]) {
+            type = @&quot;NSString&quot;;
+        }else if ([obj isKindOfClass:NSClassFromString(@&quot;__NSCFArray&quot;)]){
+            type = @&quot;NSArray&quot;;
+        }else if ([obj isKindOfClass:NSClassFromString(@&quot;__NSCFNumber&quot;)]){
+            type = @&quot;int&quot;;
+        }else if ([obj isKindOfClass:NSClassFromString(@&quot;__NSCFDictionary&quot;)]){
+            type = @&quot;NSDictionary&quot;;
         }
-    }
-}
-</code></pre>
 
-<p>所有的监听者通过动态绑定的方式将其存储起来，但这样也会产生强引用，所以我们还需要提供释放监听的方法：</p>
-
-<pre><code>- (void)LXD_removeObserver:(NSObject *)object forKey:(NSString *)key
-{
-    NSMutableArray * observers = objc_getAssociatedObject(self, (__bridge void *)kLXDkvoAssiociateObserver);
-    LXD_ObserverInfo * observerRemoved = nil;
-    for (LXD_ObserverInfo * observerInfo in observers) {
-        if (observerInfo.observer == object &amp;&amp; [observerInfo.key isEqualToString: key]) {
-            observerRemoved = observerInfo;
-            break;
+        // 属性字符串
+        NSString *str;
+        if ([type containsString:@&quot;NS&quot;]) {
+            str = [NSString stringWithFormat:@&quot;@property (nonatomic, strong) %@ *%@;&quot;,type,key];
+        }else{
+            str = [NSString stringWithFormat:@&quot;@property (nonatomic, assign) %@ %@;&quot;,type,key];
         }
-    }
-    [observers removeObject: observerRemoved];
+
+        // 每生成属性字符串，就自动换行。
+        [strM appendFormat:@&quot;\n%@\n&quot;,str];
+
+    }];
+
+    // 把拼接好的字符串打印出来，就好了。
+    NSLog(@&quot;%@&quot;,strM);
+
 }
+
+@end
+
 </code></pre>
 
-<p>虽然上面已经粗略的实现了kvo，并且我们还能自定义回调方式。使用target-action或者block的方式进行回调会比单一的系统回调要全面的多。但kvo真正的实现并没有这么简单，上述代码目前只能实现对象类型的监听，基本类型无法监听，况且还有keyPath可以监听对象的成员对象的属性这种更强大的功能。</p>
+<ul>
+<li>字典转模型的方式一：KVC</li>
+</ul>
 
-<p><strong>尾言</strong></p>
+<pre><code>@implementation Status
 
-<p>对于基本类型的监听，苹果可能是通过void *类型对对象进行桥接转换，然后直接获取内存，通过type encoding我们可以获取所有setter对象的具体类型，虽然实现比较麻烦，但是确实能够达成类似的效果。</p>
++ (instancetype)statusWithDict:(NSDictionary *)dict
+{
+    Status *status = [[self alloc] init];
 
-<p>钻研kvo的实现可以让我们对苹果的代码实现有更深层次的了解，这些知识涉及到了更深层次的技术，探究它们对我们的开发视野有着很重要的作用。同时，对比其他的回调方式，KVO的实现在创建子类、重写方法等等方面的内存消耗是很巨大的，因此博主更加推荐使用delegate、block等回调方式，甚至直接使用method-swizzling来替换这种重写setter方式也是可行的。</p>
+    [status setValuesForKeysWithDictionary:dict];
 
-<p>文章代码：<a href="https://github.com/JustKeepRunning/LXD_KeyValueObserveDemo">自实现KVO</a></p>
+    return status;
+
+}
+
+@end
+
+</code></pre>
+
+<ul>
+<li>KVC字典转模型弊端：必须保证，模型中的属性和字典中的key一一对应。
+
+<ul>
+<li>如果不一致，就会调用<code>[ setValue:forUndefinedKey:]</code> 报<code>key</code>找不到的错。</li>
+<li>分析:模型中的属性和字典的key不一一对应，系统就会调用<code>setValue:forUndefinedKey:</code>报错。</li>
+<li>解决:重写对象的<code>setValue:forUndefinedKey:</code>,把系统的方法覆盖， 就能继续使用KVC，字典转模型了。</li>
+</ul></li>
+</ul>
+
+<pre><code>- (void)setValue:(id)value forUndefinedKey:(NSString *)key
+{
+
+}
+
+</code></pre>
+
+<ul>
+<li>字典转模型的方式二：Runtime
+
+<ul>
+<li>思路：利用运行时，遍历模型中所有属性，根据模型的属性名，去字典中查找key，取出对应的值，给模型的属性赋值。</li>
+<li>步骤：提供一个NSObject分类，专门字典转模型，以后所有模型都可以通过这个分类转。</li>
+</ul></li>
+</ul>
+
+<pre><code>
+@implementation ViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view, typically from a nib.
+
+    // 解析Plist文件
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@&quot;status.plist&quot; ofType:nil];
+
+    NSDictionary *statusDict = [NSDictionary dictionaryWithContentsOfFile:filePath];
+
+    // 获取字典数组
+    NSArray *dictArr = statusDict[@&quot;statuses&quot;];
+
+    // 自动生成模型的属性字符串
+//    [NSObject resolveDict:dictArr[0][@&quot;user&quot;]];
+
+    _statuses = [NSMutableArray array];
+
+    // 遍历字典数组
+    for (NSDictionary *dict in dictArr) {
+
+        Status *status = [Status modelWithDict:dict];
+
+        [_statuses addObject:status];
+
+    }
+
+    // 测试数据
+    NSLog(@&quot;%@ %@&quot;,_statuses,[_statuses[0] user]);
+
+}
+
+@end
+
+@implementation NSObject (Model)
+
++ (instancetype)modelWithDict:(NSDictionary *)dict
+{
+    // 思路：遍历模型中所有属性-》使用运行时
+
+    // 0.创建对应的对象
+    id objc = [[self alloc] init];
+
+    // 1.利用runtime给对象中的成员属性赋值
+
+    // class_copyIvarList:获取类中的所有成员属性
+    // Ivar：成员属性的意思
+    // 第一个参数：表示获取哪个类中的成员属性
+    // 第二个参数：表示这个类有多少成员属性，传入一个Int变量地址，会自动给这个变量赋值
+    // 返回值Ivar *：指的是一个ivar数组，会把所有成员属性放在一个数组中，通过返回的数组就能全部获取到。
+    /* 类似下面这种写法
+
+     Ivar ivar;
+     Ivar ivar1;
+     Ivar ivar2;
+     // 定义一个ivar的数组a
+     Ivar a[] = {ivar,ivar1,ivar2};
+
+     // 用一个Ivar *指针指向数组第一个元素
+     Ivar *ivarList = a;
+
+     // 根据指针访问数组第一个元素
+     ivarList[0];
+
+     */
+    unsigned int count;
+
+    // 获取类中的所有成员属性
+    Ivar *ivarList = class_copyIvarList(self, &amp;count);
+
+    for (int i = 0; i 字典中的key
+        // 从第一个角标开始截取
+        NSString *key = [name substringFromIndex:1];
+
+        // 根据成员属性名去字典中查找对应的value
+        id value = dict[key];
+
+        // 二级转换:如果字典中还有字典，也需要把对应的字典转换成模型
+        // 判断下value是否是字典
+        if ([value isKindOfClass:[NSDictionary class]]) {
+            // 字典转模型
+            // 获取模型的类对象，调用modelWithDict
+            // 模型的类名已知，就是成员属性的类型
+
+            // 获取成员属性类型
+           NSString *type = [NSString stringWithUTF8String:ivar_getTypeEncoding(ivar)];
+          // 生成的是这种@&quot;@\&quot;User\&quot;&quot; 类型 -》 @&quot;User&quot;  在OC字符串中 \&quot; -&gt; &quot;，\是转义的意思，不占用字符
+            // 裁剪类型字符串
+            NSRange range = [type rangeOfString:@&quot;\&quot;&quot;];
+
+           type = [type substringFromIndex:range.location + range.length];
+
+            range = [type rangeOfString:@&quot;\&quot;&quot;];
+
+            // 裁剪到哪个角标，不包括当前角标
+          type = [type substringToIndex:range.location];
+
+            // 根据字符串类名生成类对象
+            Class modelClass = NSClassFromString(type);
+
+            if (modelClass) { // 有对应的模型才需要转
+
+                // 把字典转模型
+                value  =  [modelClass modelWithDict:value];
+            }
+
+        }
+
+        // 三级转换：NSArray中也是字典，把数组中的字典转换成模型.
+        // 判断值是否是数组
+        if ([value isKindOfClass:[NSArray class]]) {
+            // 判断对应类有没有实现字典数组转模型数组的协议
+            if ([self respondsToSelector:@selector(arrayContainModelClass)]) {
+
+                // 转换成id类型，就能调用任何对象的方法
+                id idSelf = self;
+
+                // 获取数组中字典对应的模型
+                NSString *type =  [idSelf arrayContainModelClass][key];
+
+                // 生成模型
+               Class classModel = NSClassFromString(type);
+                NSMutableArray *arrM = [NSMutableArray array];
+                // 遍历字典数组，生成模型数组
+                for (NSDictionary *dict in value) {
+                    // 字典转模型
+                  id model =  [classModel modelWithDict:dict];
+                    [arrM addObject:model];
+                }
+
+                // 把模型数组赋值给value
+                value = arrM;
+
+            }
+        }
+
+        if (value) { // 有值，才需要给模型的属性赋值
+            // 利用KVC给模型中的属性赋值
+            [objc setValue:value forKey:key];
+        }
+
+    }
+    free(ivarList);
+    return objc;
+}
+
+@end
+</code></pre>
 
 
 		</div>
