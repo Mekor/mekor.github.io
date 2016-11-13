@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2016-11-12T18:48:13+08:00</updated>
+  <updated>2016-11-12T23:32:55+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -12,6 +12,99 @@
   </author>
   <generator uri="http://www.mweb.im">MWeb</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Swift - 函数]]></title>
+    <link href="http://www.citynight.cn/Blog/14790175059723.html"/>
+    <updated>2016-11-13T14:11:45+08:00</updated>
+    <id>http://www.citynight.cn/Blog/14790175059723.html</id>
+    <content type="html"><![CDATA[
+<h2 id="toc_0">函数的几种情况</h2>
+
+<pre><code>// 正常
+func sum(x:Int, y:Int) -&gt; Int {
+    return x+y
+}
+print(sum(x: 10, y: 20))
+
+// 去掉形参
+func sum(_ x:Int,_ y:Int) -&gt; Int {
+    return x+y
+}
+print(sum(10, 20))
+
+// 外部参数
+func sum(num1 x:Int,num2 y:Int) -&gt; Int {
+    return x+y
+}
+print(sum(num1: 10, num2: 20))
+
+// 函数带默认值
+func sum(x:Int = 1, y:Int = 2) -&gt; Int {
+    return x+y
+}
+print(sum())
+</code></pre>
+
+<h2 id="toc_1">闭包</h2>
+
+<blockquote>
+<p>闭包类似于OC中的block,但应用更广. 与OC对比, OC中block是特殊的函数,在Swift中函数是特殊的闭包</p>
+</blockquote>
+
+<pre><code>// 最简单的闭包
+// 定义
+let foo = {
+    print(&quot;最简单的闭包&quot;)
+}
+// 调用
+foo()
+
+// 带参数无返回值
+let foo = { (x:Int) -&gt; () in
+    print(x)
+}
+foo(100)
+
+// 带参数有返回值
+let foo = { (x:Int) -&gt; Int in
+    return x+1
+}
+foo(10)
+</code></pre>
+
+<p>block常用在异步执行,回调&hellip;Swift中异步跟OC稍微有些区别.</p>
+
+<h3 id="toc_2">模拟异步加载</h3>
+
+<pre><code>    /// 加载数据
+    func loadData(completion:@escaping (_ result: [String])-&gt;()) {
+        
+        DispatchQueue.global().async {
+            print(&quot;耗时操作\(Thread.current)&quot;)
+            
+            DispatchQueue.main.async {
+                print(&quot;主线程更新\(Thread.current)&quot;)
+                let json = [&quot;头条&quot;,&quot;八卦&quot;,&quot;出大事了&quot;]
+                completion(json)
+            }
+        }
+    }
+</code></pre>
+
+<p>注:关于<strong>@escaping</strong>参见 Swifter 中<code>@escaping</code></p>
+
+<h3 id="toc_3">尾随闭包</h3>
+
+<pre><code>        // 如果函数的最后一个参数是闭包,函数参数可以提前结束,最后一个参数直接使用{}包装闭包的代码
+        loadData { (JSON) in
+            print(JSON)
+        }
+
+</code></pre>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Swift - 字典中的增删改,遍历与合并]]></title>
@@ -1487,67 +1580,6 @@ set nobackup //不备份
 <img src="media/14752152861722/14752177858503.jpg" alt=""/></p>
 
 <p>这也是为什么滚动后屏幕上还显示图片的原因.</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Cocoapods的安装]]></title>
-    <link href="http://www.citynight.cn/Blog/14751288042220.html"/>
-    <updated>2016-09-29T14:00:04+08:00</updated>
-    <id>http://www.citynight.cn/Blog/14751288042220.html</id>
-    <content type="html"><![CDATA[
-<pre><code>1.先升级Gem
-    sudo gem update --system
-2.切换cocoapods的数据源
-    【先删除，再添加，查看】
-    gem sources --remove https://rubygems.org/
-    gem sources -a https://ruby.taobao.org/
-    gem sources -l
-3.安装cocoapods
-    sudo gem install cocoapods
-    或者（如10.11系统）sudo gem install -n /usr/local/bin cocoapods
-4.(可忽略)将Podspec文件托管地址从github切换到国内的oschina
-    【先删除，再添加，再更新】
-    pod repo remove master
-    pod repo add master http://git.oschina.net/akuandev/Specs.git
-    pod repo add master https://gitcafe.com/akuandev/Specs.git
-    pod repo update
-5.设置pod仓库
-    pod setup
-6.测试
-    【如果有版本号，则说明已经安装成功】
-    pod --version
-7.利用cocoapods来安装第三方框架
-    01 进入要安装框架的项目的.xcodeproj同级文件夹
-    02 在该文件夹中新建一个文件podfile
-    03 在文件中告诉cocoapods需要安装的框架信息
-        a.该框架支持的平台
-        b.适用的iOS版本
-        c.框架的名称
-        d.框架的版本
-8.安装
-pod install --no-repo-update
-pod update --no-repo-update
-
-9.说明
-platform :ios, &#39;8.0&#39; 用来设置所有第三方库所支持的iOS最低版本
-pod &#39;SDWebImage&#39;,&#39;~&gt;2.6&#39; 设置框架的名称和版本号
-版本号的规则：
-&#39;&gt;1.0&#39;    可以安装任何高于1.0的版本
-&#39;&gt;=1.0&#39;   可以安装任何高于或等于1.0的版本
-&#39;&lt;1.0&#39;    任何低于1.0的版本
-&#39;&lt;=1.0&#39;   任何低于或等于1.0的版本
-&#39;~&gt;0.1&#39;   任何高于或等于0.1的版本，但是不包含高于1.0的版本
-&#39;~&gt;0&#39;     任何版本，相当于不指定版本，默认采用最新版本号
-
-10.使用pod install命令安装框架后的大致过程：
-01 分析依赖:该步骤会分析Podfile,查看不同类库之间的依赖情况。如果有多个类库依赖于同一个类库，但是依赖于不同的版本，那么cocoaPods会自动设置一个兼容的版本。
-02 下载依赖:根据分析依赖的结果，下载指定版本的类库到本地项目中。
-03 生成Pods项目：创建一个Pods项目专门用来编译和管理第三方框架，CocoaPods会将所需的框架，库等内容添加到项目中，并且进行相应的配置。
-04 整合Pods项目：将Pods和项目整合到一个工作空间中，并且设置文件链接。
-
-</code></pre>
 
 ]]></content>
   </entry>
