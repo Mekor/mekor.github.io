@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2016-11-14T22:22:17+08:00</updated>
+  <updated>2016-11-14T22:30:58+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -22,7 +22,7 @@
 <p>新项目需要使用一种新的依赖库管理工具:<code>Carthage</code> </p>
 
 <blockquote>
-<p>参见:iOS依赖库管理工具：Carthage</p>
+<p>参见:<a href="http://www.jianshu.com/p/9a37b81a59d6">iOS依赖库管理工具：Carthage</a></p>
 </blockquote>
 
 <h2 id="toc_0">安装Carthage</h2>
