@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  Mac 下面Python 自动补全 - 李小争
+  Swift - 自定义tableViewCell - 李小争
   
   </title>
  <meta name="description" content="记录开发中遇到的一些问题">
@@ -330,20 +330,30 @@
             <div class="large-9 medium-9 columns">
 
  <div class="markdown-body">
-<h1>Mac 下面Python 自动补全</h1>
+<h1>Swift - 自定义tableViewCell</h1>
 
-<p>网上有很多tab自动补全的脚本,但是在Mac上面都不能正常的运行,在<a href="http://stackoverflow.com/questions/7116038/python-tab-completion-mac-osx-10-7-lion">stackoverflow</a>找到一个能用的.</p>
+<p>习惯 OC 刚刚接触 Swift 还是有很多地方不适应,创建自定义cell的时候出现如下情况</p>
 
-<pre><code>import readline
-import rlcompleter
-if &#39;libedit&#39; in readline.__doc__:
-    readline.parse_and_bind(&quot;bind ^I rl_complete&quot;)
-else:
-    readline.parse_and_bind(&quot;tab: complete&quot;)
+<pre><code>    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    }
+</code></pre>
+
+<p>OC 中,我们会用 self 来接 super 初始化来判断是否创建成功,但是 Swift 中怎样做呢?调用 <code>super.init</code>是没有返回值的,那么我们怎样判断呢?</p>
+
+<p>从网上看<a href="http://stackoverflow.com/questions/37098742/super-init-in-swift">Super init in Swift</a>没有必要在进行<code>if(self)</code>判断了&hellip;不过,我还是找到了一种更容易理解的方法:</p>
+
+<pre><code>    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        if !self.isEqual(nil) {
+            setupInterface()
+        }
+    }
 
 </code></pre>
 
-<p>进入Python后直接import tab 就可以了</p>
+<p>虽然感觉有点画蛇添足,不过很符合刚刚从OC 转 Swift 的理解方式</p>
 
 
 </div>
@@ -355,15 +365,13 @@ else:
   <div class="large-6 columns">
 	<div class="text-left" style="padding:15px 0px;">
 		
-	        <a href="14689829459214.html"  title="Previous Post: Python爬网站上的图片">&laquo; Python爬网站上的图片</a>
-	    
 	</div>
   </div>
   <div class="large-6 columns">
 	<div class="text-right" style="padding:15px 0px;">
 		
-	        <a href="14682407498601.html" 
-	        title="Next Post: 如何给View添加点击事件">如何给View添加点击事件 &raquo;</a>
+	        <a href="14793034700265.html" 
+	        title="Next Post: 隐藏tabBar的小技巧">隐藏tabBar的小技巧 &raquo;</a>
 	    
 	</div>
   </div>
@@ -376,7 +384,7 @@ else:
 </div>
 <script type="text/javascript">
 	$(function(){
-		var currentURL = '14685034880390.html';
+		var currentURL = '14793055516073.html';
 		$('#side-nav a').each(function(){
 			if($(this).attr('href') == currentURL){
 				$(this).parent().addClass('active');
