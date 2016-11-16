@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  Swift - 李小争
+  隐藏tabBar的小技巧 - 李小争
   
   </title>
  <meta name="description" content="记录开发中遇到的一些问题">
@@ -325,64 +325,63 @@
             </div>
             <div class="large-9 medium-9 columns">
 
- 
+ <div class="markdown-body">
+<h1>隐藏tabBar的小技巧</h1>
 
+<p>突然想起来 <code>微指App</code> 里面控制 tabBar 显示与隐藏非常麻烦,在控制器中的 <code>viewWillAppear</code> 和 <code>viewWillDisappear</code>中做处理,这样能保证在控制器中控制 tabBar 的显示与隐藏,但是也非常麻烦,每个控制器都需要控制..</p>
 
-	
-		<div class="markdown-body">
-		<h1>Swift - 字典中的增删改,遍历与合并</h1>
+<p>一劳永逸的做法:</p>
 
-		<p>增删改</p>
-
-<pre><code>var dict:[String:Any] = [&quot;name&quot; : &quot;小明&quot;, &quot;age&quot; : 18, &quot;sex&quot;:&quot;man&quot;]
-
-// 新增
-dict[&quot;title&quot;] = &quot;老大&quot;
-print(dict)
-
-// 修改
-dict[&quot;name&quot;] = &quot;赵四&quot;
-print(dict)
-
-// 删除
-dict.removeValue(forKey: &quot;age&quot;)
-print(dict)
-
+<pre><code>    // 重写 push 方法
+    override func pushViewController(_ viewController: UIViewController, animated: Bool) {
+        // 如果不是栈底控制器才需要隐藏, 根控制器 不需要处理
+        if childViewControllers.count &gt; 0 {
+            // 隐藏底部的 TabBar
+            viewController.hidesBottomBarWhenPushed = true
+        }
+        super.pushViewController(viewController, animated: true)
+    }
 </code></pre>
 
-<p>遍历,合并</p>
-
-<pre><code>// 遍历
-for e in dict {
-    print(e)
-}
-
-for (k,v) in dict {
-    print(&quot;key:\(k)  value:\(v)&quot;)
-}
-// 合并
-var dict1:[String:Any] = [&quot;name&quot; : &quot;李明&quot;, &quot;age&quot; : 18, &quot;sex&quot;:&quot;m&quot;]
-var dict2:[String:Any] = [&quot;name&quot; : &quot;韩梅梅&quot;, &quot;age&quot; : 16, &quot;sex&quot;:&quot;w&quot;]
-// 如果把 dict2 合并到 dict1
-for e in dict2 {
-    dict1[e.key] = e.value   //dict2[e.key]
-}
-print(&quot;----------\n\(dict1)&quot;)
-
-</code></pre>
+<p>在导航控制器中重写 <code>push</code> 方法,这样就能省去好多麻烦..</p>
 
 
-		</div>
-	
+</div>
 
- 
-	
+<br /><br />
+<hr />
 
- 
-	
+<div class="row clearfix">
+  <div class="large-6 columns">
+	<div class="text-left" style="padding:15px 0px;">
+		
+	</div>
+  </div>
+  <div class="large-6 columns">
+	<div class="text-right" style="padding:15px 0px;">
+		
+	        <a href="14791335483032.html" 
+	        title="Next Post: iOS依赖库管理工具：Carthage">iOS依赖库管理工具：Carthage &raquo;</a>
+	    
+	</div>
+  </div>
+</div>
 
-  
-  
+<div class="row">
+<div style="padding:0px 0.93em;" class="share-comments">
+
+</div>
+</div>
+<script type="text/javascript">
+	$(function(){
+		var currentURL = '14793034700265.html';
+		$('#side-nav a').each(function(){
+			if($(this).attr('href') == currentURL){
+				$(this).parent().addClass('active');
+			}
+		});
+	});
+</script>  
 </div></div>
 
 

@@ -63,6 +63,8 @@
         <li><label>技巧</label></li>
 
           
+            <li><a title="隐藏tabBar的小技巧" href="14793034700265.html">隐藏tabBar的小技巧</a></li>
+          
             <li><a title="安装tree命令" href="14781615036446.html">安装tree命令</a></li>
           
             <li><a title="获取当前显示的UIViewController" href="14781433227076.html">获取当前显示的UIViewController</a></li>
@@ -208,6 +210,8 @@
                     
                       <li class="side-title"><span>技巧</span></li>
                         
+                          <li><a title="隐藏tabBar的小技巧" href="14793034700265.html">隐藏tabBar的小技巧</a></li>
+                        
                           <li><a title="安装tree命令" href="14781615036446.html">安装tree命令</a></li>
                         
                           <li><a title="获取当前显示的UIViewController" href="14781433227076.html">获取当前显示的UIViewController</a></li>
@@ -326,79 +330,24 @@
 
 	
 		<div class="markdown-body">
-		<h1>安装tree命令</h1>
+		<h1>隐藏tabBar的小技巧</h1>
 
-		<p><code>brew</code> 一行命令搞定 <code>brew install tree</code></p>
+		<p>突然想起来 <code>微指App</code> 里面控制 tabBar 显示与隐藏非常麻烦,在控制器中的 <code>viewWillAppear</code> 和 <code>viewWillDisappear</code>中做处理,这样能保证在控制器中控制 tabBar 的显示与隐藏,但是也非常麻烦,每个控制器都需要控制..</p>
 
-<p>效果图:</p>
+<p>一劳永逸的做法:</p>
 
-<pre><code>.
-├── LICENSE
-├── MKShowDetail
-│   ├── MKShowDetail.h
-│   ├── XZBaseViewController.h
-│   ├── XZBaseViewController.m
-│   ├── XZBaseViewController.xib
-│   ├── XZCustomViewController.h
-│   ├── XZCustomViewController.m
-│   ├── XZTableView.h
-│   ├── XZTableView.m
-│   └── bgImage.gif
-├── MKShowDetail.podspec
-├── MKShowDetailDemo
-│   ├── DetailShow
-│   │   ├── AppDelegate.h
-│   │   ├── AppDelegate.m
-│   │   ├── Assets.xcassets
-│   │   │   ├── AppIcon.appiconset
-│   │   │   │   └── Contents.json
-│   │   │   ├── Contents.json
-│   │   │   └── icon.imageset
-│   │   │       ├── Contents.json
-│   │   │       └── icon.jpg
-│   │   ├── Base.lproj
-│   │   │   ├── LaunchScreen.storyboard
-│   │   │   └── Main.storyboard
-│   │   ├── Info.plist
-│   │   ├── OneViewController.h
-│   │   ├── OneViewController.m
-│   │   ├── TestViewController.h
-│   │   ├── TestViewController.m
-│   │   ├── ThreeViewController.h
-│   │   ├── ThreeViewController.m
-│   │   ├── TwoViewController.h
-│   │   ├── TwoViewController.m
-│   │   ├── ViewController.h
-│   │   ├── ViewController.m
-│   │   ├── lol.jpg
-│   │   ├── main.m
-│   │   └── timo.jpg
-│   └── DetailShow.xcodeproj
-│       ├── project.pbxproj
-│       ├── project.xcworkspace
-│       │   ├── contents.xcworkspacedata
-│       │   └── xcuserdata
-│       │       ├── mekor.xcuserdatad
-│       │       │   └── UserInterfaceState.xcuserstate
-│       │       └── weizhi.xcuserdatad
-│       │           └── UserInterfaceState.xcuserstate
-│       └── xcuserdata
-│           ├── mekor.xcuserdatad
-│           │   └── xcschemes
-│           │       ├── DetailShow.xcscheme
-│           │       └── xcschememanagement.plist
-│           └── weizhi.xcuserdatad
-│               ├── xcdebugger
-│               │   └── Breakpoints_v2.xcbkptlist
-│               └── xcschemes
-│                   ├── DetailShow.xcscheme
-│                   └── xcschememanagement.plist
-├── README.md
-└── shopdetail.gif
-
+<pre><code>    // 重写 push 方法
+    override func pushViewController(_ viewController: UIViewController, animated: Bool) {
+        // 如果不是栈底控制器才需要隐藏, 根控制器 不需要处理
+        if childViewControllers.count &gt; 0 {
+            // 隐藏底部的 TabBar
+            viewController.hidesBottomBarWhenPushed = true
+        }
+        super.pushViewController(viewController, animated: true)
+    }
 </code></pre>
 
-<p>看起来效果不错.</p>
+<p>在导航控制器中重写 <code>push</code> 方法,这样就能省去好多麻烦..</p>
 
 
 		</div>

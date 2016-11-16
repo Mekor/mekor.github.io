@@ -63,6 +63,8 @@
         <li><label>技巧</label></li>
 
           
+            <li><a title="隐藏tabBar的小技巧" href="14793034700265.html">隐藏tabBar的小技巧</a></li>
+          
             <li><a title="安装tree命令" href="14781615036446.html">安装tree命令</a></li>
           
             <li><a title="获取当前显示的UIViewController" href="14781433227076.html">获取当前显示的UIViewController</a></li>
@@ -208,6 +210,8 @@
                     
                       <li class="side-title"><span>技巧</span></li>
                         
+                          <li><a title="隐藏tabBar的小技巧" href="14793034700265.html">隐藏tabBar的小技巧</a></li>
+                        
                           <li><a title="安装tree命令" href="14781615036446.html">安装tree命令</a></li>
                         
                           <li><a title="获取当前显示的UIViewController" href="14781433227076.html">获取当前显示的UIViewController</a></li>
@@ -326,52 +330,115 @@
 
 	
 		<div class="markdown-body">
-		<h1>AFN3.0 如何实现operation.responseString</h1>
+		<h1>为项目添加podspec</h1>
 
-		<p>我在AFNetworking issues中的回答<a href="https://github.com/AFNetworking/AFNetworking/issues/3551">how to get response body in failure block?</a>还有<br/>
-<a href="https://github.com/AFNetworking/AFNetworking/issues/3534">How can i get responseString which at AFNetworking 3.0</a></p>
+		<blockquote>
+<p>全文来自:<a href="http://www.jianshu.com/p/d7d1942dd3f1">iOS开发&ndash; 创建podspec文件，为自己的项目添加pod支持</a> 只是在文章中添加了原文没有说明的东西&amp;步骤</p>
+</blockquote>
 
-<p>发现还有好多朋友还不清楚如何实现,其实很简单</p>
+<h2 id="toc_0">1.clone项目源码</h2>
 
-<pre><code>NSError *underError = error.userInfo[@&quot;NSUnderlyingError&quot;];
-NSData *responseData = underError.userInfo[@&quot;com.alamofire.serialization.response.error.data&quot;];
+<p>项目如果没有在github仓库中,先上传到github仓库,然后clone到本地,已经存在就直接clone到本地</p>
+
+<pre><code>// cd 到 想要存放项目的文件夹中执行
+git clone https://github.com/Mekor/MKScanner.git
 </code></pre>
 
-<p>有小伙伴问我<code>com.alamofire.serialization.response.error.data</code>是怎么来的,原来都是AFJSONResponseSerializer解析修改成<code>manager.responseSerializer = [AFHTTPResponseSerializer serializer];</code>这样报错的时候就会看到控制台打印的信息里面有<code>com.alamofire.serialization.response.error.data</code>后面输出responseData&hellip;然后才有了上面的解决办法</p>
+<p><code>https://github.com/Mekor/MKScanner.git</code>这个是我自己的仓库,这个仓库地址可以在这里找到<br/>
+<img src="media/14676996936809/Snip20160705_4.png" alt="Snip20160705_4"/></p>
 
-<p><strong>&mdash;&ndash;16.6.7更&mdash;&ndash;</strong><br/>
-作者回复中已经添加了相关操作<br/>
-在<code>AFURLResponseSerialization</code><br/>
-可以在 failure block 中添加下面代码获取responseString</p>
+<h2 id="toc_1">2. 创建项目的podspec文件</h2>
 
-<pre><code>NSData *data = error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
+<p>•   用终端命令cd到本地项目目录并执行如下命令:</p>
+
+<pre><code>$ pod spec create MKScanner
 </code></pre>
 
-<p>具体代码:</p>
+<p>MKScanner替换为自己的项目名称,这时在本地就会生成一个MKScanner.podspec</p>
 
-<pre><code>/**
- ## User info dictionary keys
+<p>•   用编辑器打开.podspec文件 (我自己用Sublime Text)<br/>
+删除不必要的注释(这里只简单介绍基本用法，所以只用到一部分必须得字段 更多字段请移步<a href="http://guides.cocoapods.org/syntax/podspec.html">http://guides.cocoapods.org/syntax/podspec.html</a></p>
 
- These keys may exist in the user info dictionary, in addition to those defined for NSError.
+<pre><code>Pod::Spec.new do |s|
 
- - `NSString * const AFNetworkingOperationFailingURLResponseErrorKey`
- - `NSString * const AFNetworkingOperationFailingURLResponseDataErrorKey`
+  s.name                 = &quot;MKScanner&quot;
+  s.version              = &quot;0.0.1&quot;
+  s.summary              = &quot;QRCode Scanner&quot;
+  s.homepage             = &quot;https://github.com/Mekor/MKScanner&quot;
+  s.license              = { :type =&gt; &quot;MIT&quot;, :file =&gt; &quot;LICENSE&quot; }
+  s.author             = { &quot;Mekor&quot; =&gt; &quot;mekor@live.cn&quot; }
+  s.social_media_url   = &quot;http://weibo.com/gliii&quot;
+  s.platform             = :ios, &quot;7.0&quot;
+  s.source               = { :git =&gt; &quot;https://github.com/Mekor/MKScanner.git&quot;, :tag =&gt; s.version }
+  s.source_files          = &quot;MKScanner/**/*.{h,m}&quot;
+  #s.resources          = &quot;MKScanner/**/*.png&quot;
+  s.requires_arc         = true
 
- ### Constants
+end
+</code></pre>
 
- `AFNetworkingOperationFailingURLResponseErrorKey`
- The corresponding value is an `NSURLResponse` containing the response of the operation associated with an error. This key is only present in the `AFURLResponseSerializationErrorDomain`.
+<p>•   验证podspec文件</p>
 
- `AFNetworkingOperationFailingURLResponseDataErrorKey`
- The corresponding value is an `NSData` containing the original data of the operation associated with an error. This key is only present in the `AFURLResponseSerializationErrorDomain`.
- */
-FOUNDATION_EXPORT NSString * const AFNetworkingOperationFailingURLResponseErrorKey;
+<p>编辑完podspec文件后需要验证一下这个文件是否可用podspec文件不允许有任何的Warning或者Error<br/>
+执行命令</p>
 
-FOUNDATION_EXPORT NSString * const AFNetworkingOperationFailingURLResponseDataErrorKey;
+<pre><code>$ pod lib lint
+</code></pre>
+
+<p>如果出现</p>
+
+<pre><code>-&gt; MKScanner (0.0.1)
+MKScanner passed validation.
+</code></pre>
+
+<p>则说明验证通过， 否则， 根据提示修改podspec文件再次验证直到验证通过<br/>
+附带说一下，Xcode允许警告存在，所以可以通过命令屏蔽警告</p>
+
+<pre><code>$ pod lib lint --allow-warnings
+</code></pre>
+
+<p>如果出现Error但是提示信息不足，可以添加&ndash;verbose 以获取更多错误信息</p>
+
+<pre><code>$ pod lib lint --verbose
+</code></pre>
+
+<h2 id="toc_2">3. 打tag 上传podspec</h2>
+
+<p>podspec文件中需要指定的tag， 完成上述操作后给项目打tag</p>
+
+<pre><code>$ git tag -m&quot;first release MKScanner with podspec&quot; &quot;0.0.1&quot;
+$ git push --tags
+
+</code></pre>
+
+<p>最后使用pod trunk命令，把podspec文件推送到CocoaPod官方库<br/>
+pod trunk 需要注册,参见:<a href="https://guides.cocoapods.org/making/getting-setup-with-trunk.html">https://guides.cocoapods.org/making/getting-setup-with-trunk.html</a><br/>
+其实很简单:</p>
+
+<pre><code>pod trunk register Mekor@live.cn &quot;Mekor&quot;
+</code></pre>
+
+<p>指明你的邮箱地址（spec文件中的）和名称<br/>
+CocoaPods 会给你填写的邮箱发送验证邮件，点击邮件中的链接就可通过验证。<br/>
+pod trunk 设置完毕后执行命令</p>
+
+<pre><code>$ pod trunk push MKScanner.podspec
+</code></pre>
+
+<p>这个过程可能会比较耗时，原因你懂的</p>
+
+<h2 id="toc_3">4. 最后</h2>
+
+<p>如果一切顺利</p>
+
+<pre><code>pod search MKScanner
 </code></pre>
 
 
 		</div>
+	
+
+ 
 	
 
  
