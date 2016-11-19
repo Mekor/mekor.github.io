@@ -105,6 +105,8 @@
         <li><label>教程</label></li>
 
           
+            <li><a title="Git学习" href="14793607171148.html">Git学习</a></li>
+          
             <li><a title="如何获取手机上安装的所有App" href="14778331858080.html">如何获取手机上安装的所有App</a></li>
           
             <li><a title="计算老虎机中奖等级-NSCountedSet" href="14778318573153.html">计算老虎机中奖等级-NSCountedSet</a></li>
@@ -252,6 +254,8 @@
                     
                       <li class="side-title"><span>教程</span></li>
                         
+                          <li><a title="Git学习" href="14793607171148.html">Git学习</a></li>
+                        
                           <li><a title="如何获取手机上安装的所有App" href="14778331858080.html">如何获取手机上安装的所有App</a></li>
                         
                           <li><a title="计算老虎机中奖等级-NSCountedSet" href="14778318573153.html">计算老虎机中奖等级-NSCountedSet</a></li>
@@ -334,27 +338,77 @@
 
 	
 		<div class="markdown-body">
-		<h1>Android Studio 中如何查看帮助文档</h1>
+		<h1>MKNetWork简介</h1>
 
-		<ol>
-<li><p>首先下载帮助文档<br/>
-<img src="media/14693652209160/14693653611930.jpg" alt=""/></p></li>
-<li><p>跳转到文件夹<br/>
-<img src="media/14693652209160/14693654229419.jpg" alt=""/></p></li>
-<li><p>打开帮助文档 index.html<br/>
-<img src="media/14693652209160/14693655187234.jpg" alt=""/></p></li>
-<li><p>例如查找Activity 生命周期可以这样走<br/>
-<img src="media/14693652209160/14693656858016.jpg" alt=""/><br/>
-然后command + f 搜索Activity选中一个高亮的选项例如:<br/>
-<img src="media/14693652209160/14693658027297.jpg" alt=""/><br/>
-由于它是继承自Activity的所以可以这样<br/>
-<img src="media/14693652209160/14693659242489.jpg" alt=""/><br/>
-然后往下翻一翻就能看到了<br/>
-<img src="media/14693652209160/14693659705775.jpg" alt=""/></p></li>
-</ol>
+		<p>用户版最新版本我将替换成最新的网络请求封装,这次我将封装一些常用的东西到网络请求中,让网络请求独立出一层,避免所有网络请求都写在控制器中.<br/>
+目录结构:</p>
+
+<ul>
+<li><strong>MKBaseRequest</strong>     :所有的网络请求类需要继承于 <code>MKBaseRequest</code> 类，每一个<code>MKBaseRequest</code> 类的子类代表一种专门的网络请求。
+MKBaseRequest 的基本的思想是把每一个网络请求封装成对象。所以使用 MKNetWork，你的每一种请求都需要继承 MKBaseRequest类，通过覆盖父类的一些方法来构造指定的网络请求。把每一个网络请求封装成对象其实是使用了设计模式中的 Command 模式。
+每一种网络请求继承 MKBaseRequest 类后，需要用方法覆盖（overwrite）的方式，来指定网络请求的具体信息。例如:</li>
+</ul>
+
+<pre><code>// 重写接口名称
+-(NSString *)requestUrl {
+    return @&quot;geocode/regeo&quot;;
+}
+// 重写请求方式
+-(MKRequestMethod)requestMethod {
+    return MKRequestMethodGet;
+}
+// 重写想要的放回数据解析方式
+-(MKRequestSerializerType)requestSerializerType {
+    return MKRequestSerializerTypeHTTP;
+}
+</code></pre>
+
+<p>目前没有添加返回参数格式验证,如有需要可以在base中添加,让继承者重写.</p>
+
+<ul>
+<li><strong>MKNetWorkAgent</strong>    :MKNetWorkAgent最基础的网络请求封装,目前封装的AFN,如有必要可以替换</li>
+<li><strong>MKNetworkConfig</strong>   :用于统一设置网络请求的服务器和 CDN 的地址。在实际业务中，我们的测试需要切换不同的服务器地址来测试。统一设置服务器地址到 MKNetworkConfig 类中，也便于我们统一切换服务器地址。</li>
+</ul>
+
+<pre><code> - (void)setupRequestFilters {
+    // 这里用高德Api进行测试
+    NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@&quot;CFBundleShortVersionString&quot;];
+    MKNetworkConfig *config = [MKNetworkConfig sharedInstance];
+    config.baseUrl = @&quot;http://restapi.amap.com/v3/&quot;;
+    MKUrlArgumentsFilter *urlFilter = [MKUrlArgumentsFilter filterWithArguments:@{@&quot;version&quot;: appVersion}];
+    [config addUrlFilter:urlFilter];
+}
+
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    [self setupRequestFilters];
+    
+    return YES;
+} 
+</code></pre>
+
+<ul>
+<li><strong>MKChainRequest</strong>    :用于管理有相互依赖的网络请求，它实际上最终可以用来管理多个拓扑排序后的网络请求。</li>
+</ul>
+
+<p>例如，我们有一个需求，需要用户在注册时，先发送注册的Api，然后:<br/>
+1. 如果注册成功，再发送读取用户信息的Api。并且，读取用户信息的Api需要使用注册成功返回的用户id号。<br/>
+2. 如果注册失败，则不发送读取用户信息的Api了。</p>
+
+<p><strong>不足:</strong><br/>
+1. 目前没有做缓存,由于项目中url是根据时间戳,可以使用已有的缓存作为补充.也可以写到网络层封装中.<br/>
+2. 串行网络请求封装了,但是由于默认就是并行网络请求,所以没有封装.如果需要限制最大并发数量,可以在<code>MKNetWorkAgent</code>中设置.<br/>
+3. 木有大量测试,可能存在bug</p>
+
+<p><strong>注意事项:</strong><br/>
+基本没有啥需要注意的&hellip;,具体使用方法可以参见Demo,关于参数可以实现代理方法,也可以直接传参.如果直接传参,会覆盖掉代理中的数据源.  Demo中实现了简单的下拉加载中关于page的封装.扩展功能我都写成代理,然后需要什么功能实现以下就可以了,避免<code>MKBaseRequest</code>中包含太多功能,这样可以实现自定义组成自己需要的功能.</p>
 
 
 		</div>
+	
+
+ 
 	
 
  

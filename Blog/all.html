@@ -105,6 +105,8 @@
         <li><label>教程</label></li>
 
           
+            <li><a title="Git学习" href="14793607171148.html">Git学习</a></li>
+          
             <li><a title="如何获取手机上安装的所有App" href="14778331858080.html">如何获取手机上安装的所有App</a></li>
           
             <li><a title="计算老虎机中奖等级-NSCountedSet" href="14778318573153.html">计算老虎机中奖等级-NSCountedSet</a></li>
@@ -252,6 +254,8 @@
                     
                       <li class="side-title"><span>教程</span></li>
                         
+                          <li><a title="Git学习" href="14793607171148.html">Git学习</a></li>
+                        
                           <li><a title="如何获取手机上安装的所有App" href="14778331858080.html">如何获取手机上安装的所有App</a></li>
                         
                           <li><a title="计算老虎机中奖等级-NSCountedSet" href="14778318573153.html">计算老虎机中奖等级-NSCountedSet</a></li>
@@ -334,30 +338,19 @@
 
 	
 		<div class="markdown-body">
-		<h1>Swift - 自定义tableViewCell</h1>
+		<h1>Git学习</h1>
 
-		<p>习惯 OC 刚刚接触 Swift 还是有很多地方不适应,创建自定义cell的时候出现如下情况</p>
+		<p>工作中必须使用git,但是原先一直使用svn,所以有点坑&hellip;这里简单总结下简单用法</p>
 
-<pre><code>    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-    }
-</code></pre>
+<h2 id="toc_0">svn与git的不同</h2>
 
-<p>OC 中,我们会用 self 来接 super 初始化来判断是否创建成功,但是 Swift 中怎样做呢?调用 <code>super.init</code>是没有返回值的,那么我们怎样判断呢?</p>
+<p>一个是集中式版本管理控制,一个是分布式</p>
 
-<p>从网上看<a href="http://stackoverflow.com/questions/37098742/super-init-in-swift">Super init in Swift</a>没有必要在进行<code>if(self)</code>判断了&hellip;不过,我还是找到了一种更容易理解的方法:</p>
+<p><strong>集中式版本控制:</strong><br/>
+<img src="media/14793607171148/14795544773647.jpg" alt=""/></p>
 
-<pre><code>    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        if !self.isEqual(nil) {
-            setupInterface()
-        }
-    }
-
-</code></pre>
-
-<p>虽然感觉有点画蛇添足,不过很符合刚刚从OC 转 Swift 的理解方式</p>
+<p><strong>分布式版本控制:</strong><br/>
+<img src="media/14793607171148/14795545177377.jpg" alt=""/></p>
 
 
 		</div>

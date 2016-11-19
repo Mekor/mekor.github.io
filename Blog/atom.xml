@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2016-11-16T21:58:37+08:00</updated>
+  <updated>2016-11-16T22:26:11+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -12,6 +12,27 @@
   </author>
   <generator uri="http://www.mweb.im">MWeb</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Git学习]]></title>
+    <link href="http://www.citynight.cn/Blog/14793607171148.html"/>
+    <updated>2016-11-17T13:31:57+08:00</updated>
+    <id>http://www.citynight.cn/Blog/14793607171148.html</id>
+    <content type="html"><![CDATA[
+<p>工作中必须使用git,但是原先一直使用svn,所以有点坑&hellip;这里简单总结下简单用法</p>
+
+<h2 id="toc_0">svn与git的不同</h2>
+
+<p>一个是集中式版本管理控制,一个是分布式</p>
+
+<p><strong>集中式版本控制:</strong><br/>
+<img src="media/14793607171148/14795544773647.jpg" alt=""/></p>
+
+<p><strong>分布式版本控制:</strong><br/>
+<img src="media/14793607171148/14795545177377.jpg" alt=""/></p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Swift - 自定义tableViewCell]]></title>
@@ -1368,18 +1389,6 @@ for (NSURL *url in urls) {
 
 <pre><code>label.frame = CGRectIntegral(CGRectMake(0, 0, ceil(width),40));
 </code></pre>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS 模拟器 添加图片到相册的小技巧]]></title>
-    <link href="http://www.citynight.cn/Blog/14765420394973.html"/>
-    <updated>2016-10-15T22:33:59+08:00</updated>
-    <id>http://www.citynight.cn/Blog/14765420394973.html</id>
-    <content type="html"><![CDATA[
-<p>把图片拖到模拟器主屏幕,或者Safari中,保存图片7 <br/>
-<img src="media/14765420394973/tips.gif" alt="tips"/></p>
 
 ]]></content>
   </entry>
