@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  字符串frame相关 - 李小争
+  Swift - 使用代理和闭包传值 - 李小争
   
   </title>
  <meta name="description" content="记录开发中遇到的一些问题">
@@ -342,39 +342,57 @@
             <div class="large-9 medium-9 columns">
 
  <div class="markdown-body">
-<h1>字符串frame相关</h1>
+<h1>Swift - 使用代理和闭包传值</h1>
 
-<p>开发中常用到计算字符串的size或者rect</p>
+<h2 id="toc_0">代理传值</h2>
 
-<p>经常见到如下接口:</p>
+<p>声明协议:</p>
 
-<pre><code>- (CGSize)sizeWithAttributes:(nullable NSDictionary&lt;NSString *, id&gt; *)attrs NS_AVAILABLE(10_0, 7_0);
-
-- (CGRect)boundingRectWithSize:(CGSize)size options:(NSStringDrawingOptions)options attributes:(nullable NSDictionary&lt;NSString *, id&gt; *)attributes context:(nullable NSStringDrawingContext *)context NS_AVAILABLE(10_11, 7_0);
+<pre><code>protocol FunctionButtonViewDelegate {
+    func gotoViewController(vcString:String)
+}
 </code></pre>
 
-<p>项目中使用的例子:</p>
+<pre><code>var delegate :FunctionButtonViewDelegate?
+</code></pre>
 
-<pre><code>    // shopNameLabel frame
-    {
-        CGSize stringSize = [self.shopNameLabel.text sizeWithAttributes:@{NSFontAttributeName: self.shopNameLabel.font}];
-        self.shopNameLabel.frame = CGRectMake(margin, margin, ceil(stringSize.width), ceil(stringSize.height));
+<p>这里<code>?</code>就具有<code>weak</code>的作用</p>
+
+<p>传值:</p>
+
+<pre><code>delegate?.gotoViewController(vcString: button.currentTitle!)
+</code></pre>
+
+<p>实现代理方法</p>
+
+<pre><code>extension PersonalCenterViewController:FunctionButtonViewDelegate {
+    //MARK: - 跳转到对应的功能模块
+    func gotoViewController(vcString: String) {
+        print(vcString)
     }
+}
 </code></pre>
 
-<pre><code>    // addressLabel frame
-    {
-        CGFloat lwidth = width - imageWH - 3*margin;
-        
-        CGSize stringSize = [self.addressLabel.text boundingRectWithSize:CGSizeMake(lwidth, self.addressLabel.font.lineHeight *self.addressLabel.numberOfLines) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: self.addressLabel.font} context:nil].size;
-        self.addressLabel.frame = CGRectMake(margin, ceil(CGRectGetMaxY(self.juliLabel.frame) + margin), stringSize.width, stringSize.height);
-    }
+<h2 id="toc_1">闭包传值</h2>
 
+<p>声明:</p>
+
+<pre><code>var callback : ((Int?) -&gt; Void)?
 </code></pre>
 
-<p>由于经常使用,所以我把这些都抽取成代码块,方便调用.</p>
+<p>传值</p>
 
-<p>其中由于需要预估字符串的高度,<code>boundingRectWithSize</code>,由于iOS所提供的默认字体是可能变化的,所以这里我们不能凭借经验10号字体默认高度就是10,这是不准确的.使用<code>self.addressLabel.font.lineHeight</code>应该使用行高来计算.并且显示的行数也不要写死,需要写成 <code>self.addressLabel.numberOfLines</code>.这样做才能得到想要的效果.</p>
+<pre><code>if let cb = callback {
+    cb(200)
+}
+</code></pre>
+
+<p>实现:</p>
+
+<pre><code>bottomView.callback = { (num)-&gt;Void in
+    print(num ?? 0)
+}
+</code></pre>
 
 
 </div>
@@ -386,15 +404,13 @@
   <div class="large-6 columns">
 	<div class="text-left" style="padding:15px 0px;">
 		
-	        <a href="14765420394973.html"  title="Previous Post: iOS 模拟器 添加图片到相册的小技巧">&laquo; iOS 模拟器 添加图片到相册的小技巧</a>
-	    
 	</div>
   </div>
   <div class="large-6 columns">
 	<div class="text-right" style="padding:15px 0px;">
 		
-	        <a href="14764220018619.html" 
-	        title="Next Post: vim 学习">vim 学习 &raquo;</a>
+	        <a href="14796201135474.html" 
+	        title="Next Post: Swift - 在swift中如何使用 hexcolor 值表示颜色">Swift - 在swift中如何使用 hexcolor 值表示颜色 &raquo;</a>
 	    
 	</div>
   </div>
@@ -407,7 +423,7 @@
 </div>
 <script type="text/javascript">
 	$(function(){
-		var currentURL = '14765391593705.html';
+		var currentURL = '14796301513904.html';
 		$('#side-nav a').each(function(){
 			if($(this).attr('href') == currentURL){
 				$(this).parent().addClass('active');
