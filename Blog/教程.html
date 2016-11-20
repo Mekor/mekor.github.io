@@ -489,6 +489,42 @@ $ git config alias.ci &quot;commit -m&quot;
 
 <h2 id="toc_7">版本号，让我们在任意版本之间穿梭</h2>
 
+<pre><code># 回到当前版本，放弃所有没有提交的修改
+$ git reset --hard HEAD
+# 回到上一个版本
+$ git reset --hard HEAD^
+# 回到之前第3个修订版本
+$ git reset --hard HEAD~3
+# 回到指定版本号的版本
+$ git reset --hard e695b67
+
+# 查看分支引用记录
+$ git reflog
+
+</code></pre>
+
+<h2 id="toc_8">分支管理 - Tag</h2>
+
+<pre><code># 查看当前标签
+$ git tag
+# 在本地代码库给项目打上一个标签
+$ git tag -a v1.0 -m &#39;Version 1.0&#39;
+# 将标签添推送到远程代码库中
+$ git push origin v1.0
+
+# 使用tag，就能够将项目快速切换到某一个中间状态，例如产品开发线上的某一个稳定版本
+# 签出v1.0标签
+$ git checkout v1.0
+# 从签出状态创建v1.0bugfix分支
+$ git checkout -b bugfix1.0
+
+# 查看远程分支
+$ git branch -r
+# 删除远程分支
+$ git branch -r -d origin/bugfix1.0
+
+</code></pre>
+
 
 		</div>
 	
