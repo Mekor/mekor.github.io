@@ -163,6 +163,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="Swift - 在swift中如何使用 hexcolor 值表示颜色" href="14796201135474.html">Swift - 在swift中如何使用 hexcolor 值表示颜色</a></li>
+          
             <li><a title="Swift - 自定义tableViewCell" href="14793055516073.html">Swift - 自定义tableViewCell</a></li>
           
             <li><a title="iOS依赖库管理工具：Carthage" href="14791335483032.html">iOS依赖库管理工具：Carthage</a></li>
@@ -306,6 +308,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="Swift - 在swift中如何使用 hexcolor 值表示颜色" href="14796201135474.html">Swift - 在swift中如何使用 hexcolor 值表示颜色</a></li>
+                        
                           <li><a title="Swift - 自定义tableViewCell" href="14793055516073.html">Swift - 自定义tableViewCell</a></li>
                         
                           <li><a title="iOS依赖库管理工具：Carthage" href="14791335483032.html">iOS依赖库管理工具：Carthage</a></li>
@@ -338,37 +342,105 @@
 
 	
 		<div class="markdown-body">
-		<h1>Swift - convenience 便利构造函数</h1>
+		<h1>Swift - 懒加载 lazy</h1>
 
-		<blockquote>
-<p>具体解释可以参见 <strong>Swifter</strong> 中<code>Designated，Convenience 和 Required</code></p>
+		<p>为什么使用懒加载?</p>
+
+<ol>
+<li>能够延迟创建</li>
+<li>解除解包的烦恼</li>
+</ol>
+
+<blockquote>
+<p>参考<strong>Swifter</strong>中`lazy 修饰符和 lazy 方法</p>
 </blockquote>
 
-<p>使用遍历工造函数的好处可以参见如下代码:</p>
+<h2 id="toc_0">常用方法</h2>
 
-<pre><code>import UIKit
+<p>OC中的懒加载</p>
 
-extension UITextField {
-    convenience init(frame:CGRect, placeholder:String,fontSize:CGFloat = 14) {
-        self.init(frame:frame)
-        
-        self.borderStyle = .roundedRect
-        self.placeholder = placeholder
-        self.font = UIFont.systemFont(ofSize: fontSize)
-    }
+<pre><code>// ClassA.h
+@property (nonatomic, copy) NSString *testString;
+
+// ClassA.m
+- (NSString *)testString {
+     if (!_testString) {
+         _testString = @&quot;Hello&quot;;
+        NSLog(@&quot;只在首次访问输出&quot;);
+     }
+     return _testString;
 }
+</code></pre>
+
+<p>Swift中:</p>
+
+<pre><code>class ClassA {
+    lazy var str: String = {
+        let str = &quot;Hello&quot;
+        print(&quot;只在首次访问输出&quot;)
+        return str
+    }()
+}
+</code></pre>
+
+<p>简化版本:</p>
+
+<pre><code>lazy var str: String = &quot;Hello&quot;
+</code></pre>
+
+<h2 id="toc_1">其他用法</h2>
+
+<pre><code>        let data = 1...3
+        let result = data.map { (i:Int) -&gt; Int in
+            print(&quot;正在处理\(i)&quot;)
+            return 1*2
+        }
+        
+        print(&quot;准备访问结果&quot;)
+        
+        for i in result {
+            print(&quot;操作后结果为\(i)&quot;)
+        }
 
 </code></pre>
 
-<p><strong>好处:</strong><br/>
-1. 判断条件,只有满足条件才实例化对象,可以防止造成不必要的内存开销<br/>
-2. 简化对象的创建  -&gt;利用<code>extension</code>抽取控件创建方法<br/>
-3. 本身不负责属性的创建和初始化工作<br/>
-4. 可以返回nil</p>
+<p>结果:</p>
 
-<p><strong>注意点:</strong><br/>
-1. 必须调用本类的 <code>self.init</code>,不能调用父类的<code>super.init</code><br/>
-2. 不能被重写</p>
+<pre><code>正在处理1
+正在处理2
+正在处理3
+准备访问结果
+操作后结果为2
+操作后结果为4
+操作后结果为6
+</code></pre>
+
+<p>如果使用lazy</p>
+
+<pre><code>        let data = 1...3
+        let result = data.lazy.map { (i:Int) -&gt; Int in
+            print(&quot;正在处理\(i)&quot;)
+            return i*2
+        }
+        
+        print(&quot;准备访问结果&quot;)
+        
+        for i in result {
+            print(&quot;操作后结果为\(i)&quot;)
+        }
+
+</code></pre>
+
+<p>结果:<br/>
+<code><br/>
+准备访问结果<br/>
+正在处理1<br/>
+操作后结果为2<br/>
+正在处理2<br/>
+操作后结果为4<br/>
+正在处理3<br/>
+操作后结果为6<br/>
+</code></p>
 
 
 		</div>

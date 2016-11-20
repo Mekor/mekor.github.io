@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  李小争
+  Swift - 在swift中如何使用 hexcolor 值表示颜色 - 李小争
   
   </title>
  <meta name="description" content="记录开发中遇到的一些问题">
@@ -337,112 +337,73 @@
             </div>
             <div class="large-9 medium-9 columns">
 
- 
+ <div class="markdown-body">
+<h1>Swift - 在swift中如何使用 hexcolor 值表示颜色</h1>
 
-
-	
-		<div class="markdown-body">
-		<h1>Coding中检测系统授权状态，关闭提示用户去隐私设置中打开</h1>
-
-		<blockquote>
-<p>参考Coding项目,二维码扫描中使用到,大家可以参考:<a href="https://github.com/Mekor/MKScanner">MKScanner</a></p>
+<blockquote>
+<p>结果来自<a href="http://stackoverflow.com/questions/24263007/how-to-use-hex-colour-values-in-swift-ios">How to use hex colour values in Swift, iOS</a></p>
 </blockquote>
 
-<p>Helper.h文件</p>
-
-<pre><code>#import &lt;Foundation/Foundation.h&gt;
-
-@interface Helper : NSObject
-
-/**
- * 检查系统&quot;照片&quot;授权状态, 如果权限被关闭, 提示用户去隐私设置中打开.
- */
-+ (BOOL)checkPhotoLibraryAuthorizationStatus;
-
-/**
- * 检查系统&quot;相机&quot;授权状态, 如果权限被关闭, 提示用户去隐私设置中打开.
- */
-+ (BOOL)checkCameraAuthorizationStatus;
-
-@end
+<pre><code>extension UIColor {
+    convenience init(hexString: String) {
+        let hex = hexString.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
+        var int = UInt32()
+        Scanner(string: hex).scanHexInt32(&amp;int)
+        let a, r, g, b: UInt32
+        switch hex.characters.count {
+        case 3: // RGB (12-bit)
+            (a, r, g, b) = (255, (int &gt;&gt; 8) * 17, (int &gt;&gt; 4 &amp; 0xF) * 17, (int &amp; 0xF) * 17)
+        case 6: // RGB (24-bit)
+            (a, r, g, b) = (255, int &gt;&gt; 16, int &gt;&gt; 8 &amp; 0xFF, int &amp; 0xFF)
+        case 8: // ARGB (32-bit)
+            (a, r, g, b) = (int &gt;&gt; 24, int &gt;&gt; 16 &amp; 0xFF, int &gt;&gt; 8 &amp; 0xFF, int &amp; 0xFF)
+        default:
+            (a, r, g, b) = (255, 0, 0, 0)
+        }
+        self.init(red: CGFloat(r) / 255, green: CGFloat(g) / 255, blue: CGFloat(b) / 255, alpha: CGFloat(a) / 255)
+    }
+}
 </code></pre>
 
-<p>Helper.m文件</p>
-
-<pre><code>#import &quot;Helper.h&quot;
-@import AVFoundation;
-
-@implementation Helper
-
-+ (BOOL)checkPhotoLibraryAuthorizationStatus
-{
-    if ([ALAssetsLibrary respondsToSelector:@selector(authorizationStatus)]) {
-        ALAuthorizationStatus authStatus = [ALAssetsLibrary authorizationStatus];
-        if (ALAuthorizationStatusDenied == authStatus ||
-            ALAuthorizationStatusRestricted == authStatus) {
-            [self showSettingAlertStr:@&quot;请在iPhone的“设置-&gt;隐私-&gt;照片”中打开本应用的访问权限&quot;];
-            return NO;
-        }
-    }
-    return YES;
-}
-
-+ (BOOL)checkCameraAuthorizationStatus
-{
-    if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-        kTipAlert(@&quot;该设备不支持拍照&quot;);
-        return NO;
-    }
-    
-    if ([AVCaptureDevice respondsToSelector:@selector(authorizationStatusForMediaType:)]) {
-        AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
-        if (AVAuthorizationStatusDenied == authStatus ||
-            AVAuthorizationStatusRestricted == authStatus) {
-            [self showSettingAlertStr:@&quot;请在iPhone的“设置-&gt;隐私-&gt;相机”中打开本应用的访问权限&quot;];
-            return NO;
-        }
-    }
-    
-    return YES;
-}
-
-+ (void)showSettingAlertStr:(NSString *)tipStr{
-    //iOS8+系统下可跳转到‘设置’页面，否则只弹出提示窗即可
-    if (floor(NSFoundationVersionNumber) &gt; NSFoundationVersionNumber_iOS_7_1) {
-        UIAlertView *alertView = [UIAlertView bk_alertViewWithTitle:@&quot;提示&quot; message:tipStr];
-        [alertView bk_setCancelButtonWithTitle:@&quot;取消&quot; handler:nil];
-        [alertView bk_addButtonWithTitle:@&quot;设置&quot; handler:nil];
-        [alertView bk_setDidDismissBlock:^(UIAlertView *alert, NSInteger index) {
-            if (index == 1) {
-                UIApplication *app = [UIApplication sharedApplication];
-                NSURL *settingsURL = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
-                if ([app canOpenURL:settingsURL]) {
-                    [app openURL:settingsURL];
-                }
-            }
-        }];
-        [alertView show];
-    }else{
-        kTipAlert(@&quot;%@&quot;, tipStr);
-    }
-}
-
-@end
-
-</code></pre>
+<p>使用方法:</p>
 
 
-		</div>
-	
+</div>
 
- 
-	
+<br /><br />
+<hr />
 
- 
-	
+<div class="row clearfix">
+  <div class="large-6 columns">
+	<div class="text-left" style="padding:15px 0px;">
+		
+	</div>
+  </div>
+  <div class="large-6 columns">
+	<div class="text-right" style="padding:15px 0px;">
+		
+	        <a href="14793607171148.html" 
+	        title="Next Post: Git学习">Git学习 &raquo;</a>
+	    
+	</div>
+  </div>
+</div>
 
-  
-  
+<div class="row">
+<div style="padding:0px 0.93em;" class="share-comments">
+
+</div>
+</div>
+<script type="text/javascript">
+	$(function(){
+		var currentURL = '14796201135474.html';
+		$('#side-nav a').each(function(){
+			if($(this).attr('href') == currentURL){
+				$(this).parent().addClass('active');
+			}
+		});
+	});
+</script>  
 </div></div>
 
 
