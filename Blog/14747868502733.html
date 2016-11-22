@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  键盘消失后又再次显示并立即消失问题 - 李小争
+  GCD(Grand Central Dispatch) - 李小争
   
   </title>
  <meta name="description" content="记录开发中遇到的一些问题">
@@ -346,28 +346,52 @@
             <div class="large-9 medium-9 columns">
 
  <div class="markdown-body">
-<h1>键盘消失后又再次显示并立即消失问题</h1>
+<h1>GCD(Grand Central Dispatch)</h1>
 
-<p>Keyboard will appeared automatically while displaying alertview or alertcontroller</p>
+<p>可以让程序长时间压后台</p>
 
-<blockquote>
-<p><a href="http://stackoverflow.com/questions/30498972/keyboard-will-appeared-automatically-in-ios-8-3-while-displaying-alertview-or-al">stackoverflow</a></p>
-</blockquote>
-
-<p>我采用其中</p>
-
-<pre><code> [YOUR_TEXT resignFirstResponder];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-
-
-                    _alertVw = [[UIAlertView alloc] initWithTitle:@&quot;&quot; message:@&quot;message.&quot; delegate:self cancelButtonTitle:@&quot;Ok&quot; otherButtonTitles:nil, nil];
-
-                    [_alertVw show];
+<pre><code>//  后台执行：
+dispatch_async(dispatch_get_global_queue(0, 0), ^{
+  // something
 });
 
-</code></pre>
+// 主线程执行：
+dispatch_async(dispatch_get_main_queue(), ^{
+  // something
+});
 
-<p>这种方案解决的</p>
+// 一次性执行：
+static dispatch_once_t onceToken;
+dispatch_once(&amp;onceToken, ^{
+  // code to be executed once
+});
+
+// 延迟2秒执行：
+double delayInSeconds = 2.0;
+dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+   // code to be executed on the main queue after delay
+});
+
+// 自定义dispatch_queue_t
+dispatch_queue_t urls_queue = dispatch_queue_create(&quot;blog.devtang.com&quot;, NULL);
+dispatch_async(urls_queue, ^{
+  // your code
+});
+dispatch_release(urls_queue);
+
+// 合并汇总结果
+dispatch_group_t group = dispatch_group_create();
+dispatch_group_async(group, dispatch_get_global_queue(0,0), ^{
+  // 并行执行的线程一
+});
+dispatch_group_async(group, dispatch_get_global_queue(0,0), ^{
+  // 并行执行的线程二
+});
+dispatch_group_notify(group, dispatch_get_global_queue(0,0), ^{
+  // 汇总结果
+});
+</code></pre>
 
 
 </div>
@@ -379,15 +403,15 @@
   <div class="large-6 columns">
 	<div class="text-left" style="padding:15px 0px;">
 		
-	        <a href="14678597180657.html"  title="Previous Post: 关于tableViewCell加载图片优化">&laquo; 关于tableViewCell加载图片优化</a>
+	        <a href="14751288042220.html"  title="Previous Post: Cocoapods的安装">&laquo; Cocoapods的安装</a>
 	    
 	</div>
   </div>
   <div class="large-6 columns">
 	<div class="text-right" style="padding:15px 0px;">
 		
-	        <a href="14676996936809.html" 
-	        title="Next Post: 为项目添加podspec">为项目添加podspec &raquo;</a>
+	        <a href="14747835330079.html" 
+	        title="Next Post: 如何在UIBarButtonItem上显示数字(BadgeValue)">如何在UIBarButtonItem上显示数字(BadgeValue) &raquo;</a>
 	    
 	</div>
   </div>
@@ -400,7 +424,7 @@
 </div>
 <script type="text/javascript">
 	$(function(){
-		var currentURL = '14677030322532.html';
+		var currentURL = '14747868502733.html';
 		$('#side-nav a').each(function(){
 			if($(this).attr('href') == currentURL){
 				$(this).parent().addClass('active');
