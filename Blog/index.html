@@ -165,6 +165,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="Swift - 函数式编程" href="14799126696997.html">Swift - 函数式编程</a></li>
+          
             <li><a title="Swift - 使用代理和闭包传值" href="14796301513904.html">Swift - 使用代理和闭包传值</a></li>
           
             <li><a title="Swift - 在swift中如何使用 hexcolor 值表示颜色" href="14796201135474.html">Swift - 在swift中如何使用 hexcolor 值表示颜色</a></li>
@@ -314,6 +316,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="Swift - 函数式编程" href="14799126696997.html">Swift - 函数式编程</a></li>
+                        
                           <li><a title="Swift - 使用代理和闭包传值" href="14796301513904.html">Swift - 使用代理和闭包传值</a></li>
                         
                           <li><a title="Swift - 在swift中如何使用 hexcolor 值表示颜色" href="14796201135474.html">Swift - 在swift中如何使用 hexcolor 值表示颜色</a></li>
@@ -350,57 +354,53 @@
 
 	
 		<div class="markdown-body">
-		<h1>Swift - 使用代理和闭包传值</h1>
+		<h1>Swift - 函数式编程</h1>
 
-		<h2 id="toc_0">代理传值</h2>
+		<p>一般情况:</p>
 
-<p>声明协议:</p>
-
-<pre><code>protocol FunctionButtonViewDelegate {
-    func gotoViewController(vcString:String)
-}
-</code></pre>
-
-<pre><code>var delegate :FunctionButtonViewDelegate?
-</code></pre>
-
-<p>这里<code>?</code>就具有<code>weak</code>的作用</p>
-
-<p>传值:</p>
-
-<pre><code>delegate?.gotoViewController(vcString: button.currentTitle!)
-</code></pre>
-
-<p>实现代理方法</p>
-
-<pre><code>extension PersonalCenterViewController:FunctionButtonViewDelegate {
-    //MARK: - 跳转到对应的功能模块
-    func gotoViewController(vcString: String) {
-        print(vcString)
+<pre><code>struct User {
+    func login(password: String){
+        print(password)
     }
 }
+
+let passwd = &quot;123123123&quot;
+let usr = User()
+
+usr.login(password: passwd)
 </code></pre>
 
-<h2 id="toc_1">闭包传值</h2>
+<p>函数式编程</p>
 
-<p>声明:</p>
-
-<pre><code>var callback : ((Int?) -&gt; Void)?
-</code></pre>
-
-<p>传值</p>
-
-<pre><code>if let cb = callback {
-    cb(200)
+<pre><code>struct User {
+    func login(password: String){
+        print(password)
+    }
 }
+
+let passwd = &quot;123123123&quot;
+let usr = User()
+
+User.login(usr)(password: passwd)
 </code></pre>
 
-<p>实现:</p>
+<p>由此可见: <code>usr.login(password: passwd)</code> == <code>User.login(usr)(password: passwd)</code></p>
 
-<pre><code>bottomView.callback = { (num)-&gt;Void in
-    print(num ?? 0)
+<p>如果忽略外部参数</p>
+
+<pre><code>struct User {
+    func login(_ password: String){
+        print(password)
+    }
 }
+
+let passwd = &quot;123123123&quot;
+let usr = User()
+usr.login(passwd)
+User.login(usr)(passwd)
 </code></pre>
+
+<p>这样就更简洁了</p>
 
 
 		</div>

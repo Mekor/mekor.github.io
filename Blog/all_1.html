@@ -165,6 +165,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="Swift - 函数式编程" href="14799126696997.html">Swift - 函数式编程</a></li>
+          
             <li><a title="Swift - 使用代理和闭包传值" href="14796301513904.html">Swift - 使用代理和闭包传值</a></li>
           
             <li><a title="Swift - 在swift中如何使用 hexcolor 值表示颜色" href="14796201135474.html">Swift - 在swift中如何使用 hexcolor 值表示颜色</a></li>
@@ -314,6 +316,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="Swift - 函数式编程" href="14799126696997.html">Swift - 函数式编程</a></li>
+                        
                           <li><a title="Swift - 使用代理和闭包传值" href="14796301513904.html">Swift - 使用代理和闭包传值</a></li>
                         
                           <li><a title="Swift - 在swift中如何使用 hexcolor 值表示颜色" href="14796201135474.html">Swift - 在swift中如何使用 hexcolor 值表示颜色</a></li>
@@ -350,71 +354,24 @@
 
 	
 		<div class="markdown-body">
-		<h1>iOS依赖库管理工具：Carthage</h1>
+		<h1>隐藏tabBar的小技巧</h1>
 
-		<p>新项目需要使用一种新的依赖库管理工具:<code>Carthage</code> </p>
+		<p>突然想起来 <code>微指App</code> 里面控制 tabBar 显示与隐藏非常麻烦,在控制器中的 <code>viewWillAppear</code> 和 <code>viewWillDisappear</code>中做处理,这样能保证在控制器中控制 tabBar 的显示与隐藏,但是也非常麻烦,每个控制器都需要控制..</p>
 
-<blockquote>
-<p>参见:<a href="http://www.jianshu.com/p/9a37b81a59d6">iOS依赖库管理工具：Carthage</a></p>
-</blockquote>
+<p>一劳永逸的做法:</p>
 
-<h2 id="toc_0">安装Carthage</h2>
-
-<ul>
-<li>使用终端安装</li>
-</ul>
-
-<pre><code>$brew update
-$brew install carthage
+<pre><code>    // 重写 push 方法
+    override func pushViewController(_ viewController: UIViewController, animated: Bool) {
+        // 如果不是栈底控制器才需要隐藏, 根控制器 不需要处理
+        if childViewControllers.count &gt; 0 {
+            // 隐藏底部的 TabBar
+            viewController.hidesBottomBarWhenPushed = true
+        }
+        super.pushViewController(viewController, animated: true)
+    }
 </code></pre>
 
-<ul>
-<li>在<a href="https://github.com/Carthage/Carthage/releases">https://github.com/Carthage/Carthage/releases</a> 下载最新版的Carthage.pkg</li>
-</ul>
-
-<p>安装好Carthage后，查看Carthage当前版本</p>
-
-<pre><code>$brew carthage version
-</code></pre>
-
-<h2 id="toc_1">使用Carthage</h2>
-
-<ul>
-<li>在项目所在文件夹中创建一个空的Carthage文件</li>
-</ul>
-
-<pre><code>$touch Cartfile  
-$vi Cartfile
-</code></pre>
-
-<p><strong>$touch Cartfile</strong>：新建一个名为Cartfile的文件</p>
-
-<p><strong>$vi Cartfile</strong>：打开名为Cartfile文件，如若该文件不存在会新建</p>
-
-<ul>
-<li>在Cartfile中加入一下内容，以Alamofire为例：</li>
-</ul>
-
-<pre><code>github &quot;Alamofire/Alamofire&quot; ~&gt; 3.0
-</code></pre>
-
-<p>版本含义：<br/>
-<code>~&gt; 3.0：表示使用版本高于3.0低于4.0的最新版本</code><br/>
-<code>== 3.0：使用3.0版本</code><br/>
-<code>&gt;= 3.0：使用3.0版本或者更高版本</code><br/>
-如果没有指明版本号，默认使用最新版本</p>
-
-<ul>
-<li>保存并关闭Cartfile文件，在终端执行如下命令，carthage开始下载和编译所需要的第三方库，当命令执行完毕，项目文件夹中会创建一个名为Carthage的文件夹，并且在~/Carthage/Build/iOS中出现Alamofire.framework文件</li>
-</ul>
-
-<pre><code>$carthage update
-</code></pre>
-
-<ul>
-<li><p>打开项目，点击project-&gt;target-&gt;General，在Embedded Binaries添加Alamofire.framework</p></li>
-<li><p>此时已经可以使用导入的第三方库了，在需要的文件中导入头文件</p></li>
-</ul>
+<p>在导航控制器中重写 <code>push</code> 方法,这样就能省去好多麻烦..</p>
 
 
 		</div>

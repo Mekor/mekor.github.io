@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2016-11-22T23:14:07+08:00</updated>
+  <updated>2016-11-23T14:29:54+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -12,6 +12,61 @@
   </author>
   <generator uri="http://www.mweb.im">MWeb</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Swift - 函数式编程]]></title>
+    <link href="http://www.citynight.cn/Blog/14799126696997.html"/>
+    <updated>2016-11-23T22:51:09+08:00</updated>
+    <id>http://www.citynight.cn/Blog/14799126696997.html</id>
+    <content type="html"><![CDATA[
+<p>一般情况:</p>
+
+<pre><code>struct User {
+    func login(password: String){
+        print(password)
+    }
+}
+
+let passwd = &quot;123123123&quot;
+let usr = User()
+
+usr.login(password: passwd)
+</code></pre>
+
+<p>函数式编程</p>
+
+<pre><code>struct User {
+    func login(password: String){
+        print(password)
+    }
+}
+
+let passwd = &quot;123123123&quot;
+let usr = User()
+
+User.login(usr)(password: passwd)
+</code></pre>
+
+<p>由此可见: <code>usr.login(password: passwd)</code> == <code>User.login(usr)(password: passwd)</code></p>
+
+<p>如果忽略外部参数</p>
+
+<pre><code>struct User {
+    func login(_ password: String){
+        print(password)
+    }
+}
+
+let passwd = &quot;123123123&quot;
+let usr = User()
+usr.login(passwd)
+User.login(usr)(passwd)
+</code></pre>
+
+<p>这样就更简洁了</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Swift - 使用代理和闭包传值]]></title>
@@ -1491,66 +1546,6 @@ NSLog(@&quot;%@&quot;, [array valueForKeyPath:@&quot;@distinctUnionOfObjects.sel
 </code></pre>
 
 <p>开心的run下吧..</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[使用 chisel 提高 LLDB 调试效率]]></title>
-    <link href="http://www.citynight.cn/Blog/14766672567296.html"/>
-    <updated>2016-10-17T09:20:56+08:00</updated>
-    <id>http://www.citynight.cn/Blog/14766672567296.html</id>
-    <content type="html"><![CDATA[
-<blockquote>
-<p><a href="https://github.com/facebook/chisel">https://github.com/facebook/chisel</a> 英文版使用说明</p>
-</blockquote>
-
-<h2 id="toc_0">安装</h2>
-
-<ol>
-<li>安装 <a href="http://brew.sh/index_zh-cn.html">Homebrew</a> (如果已经安装了,可以跳过这一步)</li>
-</ol>
-
-<pre><code>/usr/bin/ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;
-</code></pre>
-
-<ol>
-<li>更新 Homebrew (如果已经最新了,可以跳过这一步)</li>
-</ol>
-
-<pre><code>brew update
-</code></pre>
-
-<ol>
-<li>通过 Homebrew 安装 chisel</li>
-</ol>
-
-<pre><code>brew install chisel
-</code></pre>
-
-<ol>
-<li>添加 chisel 命令至 ~/.lldbinit</li>
-</ol>
-
-<pre><code>touch ~/.lldbinit echo &quot;command script import /usr/local/opt/chisel/libexec/fblldb.py&quot; &gt;&gt; ~/.lldbinit
-</code></pre>
-
-<ol>
-<li>更新 chisel</li>
-</ol>
-
-<pre><code>brew upgrade chisel
-</code></pre>
-
-<h2 id="toc_1">使用</h2>
-
-<ol>
-<li>通过 <code>pviews</code> 命令直接查看页面层级关系</li>
-</ol>
-
-<hr/>
-
-<p>未完&hellip; </p>
 
 ]]></content>
   </entry>
