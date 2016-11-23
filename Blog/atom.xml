@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2016-11-20T22:55:43+08:00</updated>
+  <updated>2016-11-22T23:14:07+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -291,6 +291,11 @@ $ git checkout -b bugfix1.0
 $ git branch -r
 # 删除远程分支
 $ git branch -r -d origin/bugfix1.0
+</code></pre>
+
+<p>删除修改返回到上次提交状态</p>
+
+<pre><code>git checkout -f
 </code></pre>
 
 ]]></content>
