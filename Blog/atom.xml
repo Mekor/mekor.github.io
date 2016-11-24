@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2016-11-23T23:32:53+08:00</updated>
+  <updated>2016-11-24T22:50:28+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -105,6 +105,31 @@ User.login(usr)(passwd)
 <p>这样就更简洁了</p>
 
 <hr/>
+
+<h2 id="toc_0">柯里化(Currying)</h2>
+
+<pre><code>// 柯里化(Currying)
+
+func addOne(num:Int) -&gt;Int {
+    return num + 1
+}
+
+print(addOne(num: 10))
+
+func addTo(_ adder:Int) -&gt;(_ num:Int) -&gt; Int {
+    return {
+        num in
+        return num + adder
+    }
+}
+
+let addTwo = addTo(2)
+
+print(addTwo(6))
+
+print(addTo(9)(1))
+
+</code></pre>
 
 <p>&mdash;-未完待续&mdash;</p>
 
