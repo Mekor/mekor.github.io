@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2016-11-24T22:50:28+08:00</updated>
+  <updated>2016-11-24T22:54:41+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -106,6 +106,8 @@ User.login(usr)(passwd)
 
 <hr/>
 
+<p>&mdash; 11.24更 &ndash;</p>
+
 <h2 id="toc_0">柯里化(Currying)</h2>
 
 <pre><code>// 柯里化(Currying)
@@ -127,6 +129,7 @@ let addTwo = addTo(2)
 
 print(addTwo(6))
 
+// 更简单的调用方式
 print(addTo(9)(1))
 
 </code></pre>
