@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  字符串frame相关 - 李小争
+  Swift - 面向协议编程 - 李小争
   
   </title>
  <meta name="description" content="记录开发中遇到的一些问题">
@@ -354,39 +354,37 @@
             <div class="large-9 medium-9 columns">
 
  <div class="markdown-body">
-<h1>字符串frame相关</h1>
+<h1>Swift - 面向协议编程</h1>
 
-<p>开发中常用到计算字符串的size或者rect</p>
+<p>跟全部写在base中比较:</p>
 
-<p>经常见到如下接口:</p>
+<ol>
+<li>代码没有增多,却更复用</li>
+<li>面向协议(接口),而不是实现,充分解耦</li>
+<li>静态类型检查版主在编译时发现问题</li>
+<li>写代码像搭积木,先设计接口,再逐一实现</li>
+<li>依赖少,更容易调试</li>
+</ol>
 
-<pre><code>- (CGSize)sizeWithAttributes:(nullable NSDictionary&lt;NSString *, id&gt; *)attrs NS_AVAILABLE(10_0, 7_0);
+<pre><code>protocol Hello {
+    func sayHello()
+}
 
-- (CGRect)boundingRectWithSize:(CGSize)size options:(NSStringDrawingOptions)options attributes:(nullable NSDictionary&lt;NSString *, id&gt; *)attributes context:(nullable NSStringDrawingContext *)context NS_AVAILABLE(10_11, 7_0);
-</code></pre>
-
-<p>项目中使用的例子:</p>
-
-<pre><code>    // shopNameLabel frame
-    {
-        CGSize stringSize = [self.shopNameLabel.text sizeWithAttributes:@{NSFontAttributeName: self.shopNameLabel.font}];
-        self.shopNameLabel.frame = CGRectMake(margin, margin, ceil(stringSize.width), ceil(stringSize.height));
+extension Hello {
+    func sayHello() {
+        print(&quot;Hello!&quot;)
     }
+}
+
+struct Person: Hello {
+    
+}
+
+let p = Person()
+p.sayHello()
 </code></pre>
 
-<pre><code>    // addressLabel frame
-    {
-        CGFloat lwidth = width - imageWH - 3*margin;
-        
-        CGSize stringSize = [self.addressLabel.text boundingRectWithSize:CGSizeMake(lwidth, self.addressLabel.font.lineHeight *self.addressLabel.numberOfLines) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: self.addressLabel.font} context:nil].size;
-        self.addressLabel.frame = CGRectMake(margin, ceil(CGRectGetMaxY(self.juliLabel.frame) + margin), stringSize.width, stringSize.height);
-    }
-
-</code></pre>
-
-<p>由于经常使用,所以我把这些都抽取成代码块,方便调用.</p>
-
-<p>其中由于需要预估字符串的高度,<code>boundingRectWithSize</code>,由于iOS所提供的默认字体是可能变化的,所以这里我们不能凭借经验10号字体默认高度就是10,这是不准确的.使用<code>self.addressLabel.font.lineHeight</code>应该使用行高来计算.并且显示的行数也不要写死,需要写成 <code>self.addressLabel.numberOfLines</code>.这样做才能得到想要的效果.</p>
+<p>创建一个协议,并且做一个默认实现.使用的时候可以直接调用</p>
 
 
 </div>
@@ -398,15 +396,13 @@
   <div class="large-6 columns">
 	<div class="text-left" style="padding:15px 0px;">
 		
-	        <a href="14765420394973.html"  title="Previous Post: iOS 模拟器 添加图片到相册的小技巧">&laquo; iOS 模拟器 添加图片到相册的小技巧</a>
-	    
 	</div>
   </div>
   <div class="large-6 columns">
 	<div class="text-right" style="padding:15px 0px;">
 		
-	        <a href="14764220018619.html" 
-	        title="Next Post: vim 学习">vim 学习 &raquo;</a>
+	        <a href="14799126696997.html" 
+	        title="Next Post: Swift - 函数式编程">Swift - 函数式编程 &raquo;</a>
 	    
 	</div>
   </div>
@@ -419,7 +415,7 @@
 </div>
 <script type="text/javascript">
 	$(function(){
-		var currentURL = '14765391593705.html';
+		var currentURL = '14799970254990.html';
 		$('#side-nav a').each(function(){
 			if($(this).attr('href') == currentURL){
 				$(this).parent().addClass('active');

@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2016-11-23T14:29:54+08:00</updated>
+  <updated>2016-11-23T23:32:53+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -12,6 +12,45 @@
   </author>
   <generator uri="http://www.mweb.im">MWeb</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Swift - 面向协议编程]]></title>
+    <link href="http://www.citynight.cn/Blog/14799970254990.html"/>
+    <updated>2016-11-24T22:17:05+08:00</updated>
+    <id>http://www.citynight.cn/Blog/14799970254990.html</id>
+    <content type="html"><![CDATA[
+<p>跟全部写在base中比较:</p>
+
+<ol>
+<li>代码没有增多,却更复用</li>
+<li>面向协议(接口),而不是实现,充分解耦</li>
+<li>静态类型检查版主在编译时发现问题</li>
+<li>写代码像搭积木,先设计接口,再逐一实现</li>
+<li>依赖少,更容易调试</li>
+</ol>
+
+<pre><code>protocol Hello {
+    func sayHello()
+}
+
+extension Hello {
+    func sayHello() {
+        print(&quot;Hello!&quot;)
+    }
+}
+
+struct Person: Hello {
+    
+}
+
+let p = Person()
+p.sayHello()
+</code></pre>
+
+<p>创建一个协议,并且做一个默认实现.使用的时候可以直接调用</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Swift - 函数式编程]]></title>
@@ -64,6 +103,10 @@ User.login(usr)(passwd)
 </code></pre>
 
 <p>这样就更简洁了</p>
+
+<hr/>
+
+<p>&mdash;-未完待续&mdash;</p>
 
 ]]></content>
   </entry>
@@ -1459,93 +1502,6 @@ NSLog(@&quot;%@&quot;, [array valueForKeyPath:@&quot;@distinctUnionOfObjects.sel
 <pre><code>1 =&gt; 2
 2 =&gt; 2
 </code></pre>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[使用Qt创建桌面应用程序]]></title>
-    <link href="http://www.citynight.cn/Blog/14771170894039.html"/>
-    <updated>2016-10-22T14:18:09+08:00</updated>
-    <id>http://www.citynight.cn/Blog/14771170894039.html</id>
-    <content type="html"><![CDATA[
-<blockquote>
-<p>如果Xcode8下无法正常使用Qt,解决办法参见:<a href="http://www.citynight.cn/Blog/14761943627170.html">http://www.citynight.cn/Blog/14761943627170.html</a></p>
-</blockquote>
-
-<p>最终实现的效果:<br/>
-<img src="media/14771170894039/14771178501064.jpg" alt=""/></p>
-
-<p><img src="media/14771170894039/14771179340151.jpg" alt=""/></p>
-
-<p>选择桌面应用程序<br/>
-<img src="media/14771170894039/14771179611437.jpg" alt=""/></p>
-
-<p><img src="media/14771170894039/14771180181773.jpg" alt=""/></p>
-
-<p>OK,现在项目创建好了&hellip;.接下来就是写代码了&hellip;</p>
-
-<p><img src="media/14771170894039/14771173227361.jpg" alt=""/></p>
-
-<p>然后在<code>mainwindow.cpp</code>文件中编写代码:<br/>
-引入需要的头文件</p>
-
-<pre><code>#include &lt;QPainter&gt;
-#include &lt;QPen&gt;
-#include &lt;math.h&gt;
-</code></pre>
-
-<p>在<code>MainWindow</code>中设置窗口位置</p>
-
-<pre><code>    // 设置在桌面上显示的位置&amp;大小
-    this-&gt;setGeometry(600,300,600,300);
-</code></pre>
-
-<pre><code>void MainWindow::paintEvent(QPaintEvent *e){
-        // 定义画笔
-        QPainter painter(this);
-
-        // 定义画坐标笔的,宽度,颜色
-        QPen pen;
-        pen.setWidth(2);
-        pen.setColor(Qt::black);
-
-        // 设置属性生效
-        painter.setPen(pen);
-
-        // 画坐标
-        painter.drawLine(0,150,600,150);
-        painter.drawLine(100,0,100,300);
-
-        //将绘画的坐标原点,转移到(100,150)的位置
-        painter.translate(100,150);
-
-
-
-        //重新设置画正弦颜色和样式
-
-        pen.setColor(Qt::red);
-
-        pen.setStyle(Qt::SolidLine);
-
-        //使设置生效
-        painter.setPen(pen);
-
-        //采集 360 个点用于绘图
-        QVector&lt;QPointF&gt;pVector;
-
-        for(int i=0; i&lt;360; i++)
-        {
-            pVector.push_back(QPointF(i,-sin(3.14/180*i)*70));//y 轴坐标,相反
-
-        }
-
-        // 画多点线条
-        painter.drawPolyline(pVector);
-}
-</code></pre>
-
-<p>开心的run下吧..</p>
 
 ]]></content>
   </entry>

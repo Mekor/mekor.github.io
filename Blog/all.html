@@ -165,6 +165,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="Swift - 面向协议编程" href="14799970254990.html">Swift - 面向协议编程</a></li>
+          
             <li><a title="Swift - 函数式编程" href="14799126696997.html">Swift - 函数式编程</a></li>
           
             <li><a title="Swift - 使用代理和闭包传值" href="14796301513904.html">Swift - 使用代理和闭包传值</a></li>
@@ -316,6 +318,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="Swift - 面向协议编程" href="14799970254990.html">Swift - 面向协议编程</a></li>
+                        
                           <li><a title="Swift - 函数式编程" href="14799126696997.html">Swift - 函数式编程</a></li>
                         
                           <li><a title="Swift - 使用代理和闭包传值" href="14796301513904.html">Swift - 使用代理和闭包传值</a></li>
@@ -354,53 +358,37 @@
 
 	
 		<div class="markdown-body">
-		<h1>Swift - 函数式编程</h1>
+		<h1>Swift - 面向协议编程</h1>
 
-		<p>一般情况:</p>
+		<p>跟全部写在base中比较:</p>
 
-<pre><code>struct User {
-    func login(password: String){
-        print(password)
+<ol>
+<li>代码没有增多,却更复用</li>
+<li>面向协议(接口),而不是实现,充分解耦</li>
+<li>静态类型检查版主在编译时发现问题</li>
+<li>写代码像搭积木,先设计接口,再逐一实现</li>
+<li>依赖少,更容易调试</li>
+</ol>
+
+<pre><code>protocol Hello {
+    func sayHello()
+}
+
+extension Hello {
+    func sayHello() {
+        print(&quot;Hello!&quot;)
     }
 }
 
-let passwd = &quot;123123123&quot;
-let usr = User()
-
-usr.login(password: passwd)
-</code></pre>
-
-<p>函数式编程</p>
-
-<pre><code>struct User {
-    func login(password: String){
-        print(password)
-    }
+struct Person: Hello {
+    
 }
 
-let passwd = &quot;123123123&quot;
-let usr = User()
-
-User.login(usr)(password: passwd)
+let p = Person()
+p.sayHello()
 </code></pre>
 
-<p>由此可见: <code>usr.login(password: passwd)</code> == <code>User.login(usr)(password: passwd)</code></p>
-
-<p>如果忽略外部参数</p>
-
-<pre><code>struct User {
-    func login(_ password: String){
-        print(password)
-    }
-}
-
-let passwd = &quot;123123123&quot;
-let usr = User()
-usr.login(passwd)
-User.login(usr)(passwd)
-</code></pre>
-
-<p>这样就更简洁了</p>
+<p>创建一个协议,并且做一个默认实现.使用的时候可以直接调用</p>
 
 
 		</div>
