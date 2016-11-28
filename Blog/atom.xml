@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2016-11-24T22:54:41+08:00</updated>
+  <updated>2016-11-24T22:55:46+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -12,6 +12,20 @@
   </author>
   <generator uri="http://www.mweb.im">MWeb</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[xib报错]]></title>
+    <link href="http://www.citynight.cn/Blog/14802973825600.html"/>
+    <updated>2016-11-28T09:43:02+08:00</updated>
+    <id>http://www.citynight.cn/Blog/14802973825600.html</id>
+    <content type="html"><![CDATA[
+<p>错误信息: Unknown class XXXX in Interface Builder file. (lldb)</p>
+
+<p>原因,Xib是在其他项目中创建的,拖进来的时候没有注意,只要修改<br/>
+<img src="media/14802973825600/14802974822042.jpg" alt=""/></p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Swift - 面向协议编程]]></title>
@@ -1496,40 +1510,6 @@ NSLog(@&quot;apps: %@&quot;, [workspace performSelector:@selector(allApplication
 
 <p>动态调用加上简单的混淆应该就可以了<br/>
 上架要自己拼接字符串绕过审查</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[计算老虎机中奖等级-NSCountedSet]]></title>
-    <link href="http://www.citynight.cn/Blog/14778318573153.html"/>
-    <updated>2016-10-30T20:50:57+08:00</updated>
-    <id>http://www.citynight.cn/Blog/14778318573153.html</id>
-    <content type="html"><![CDATA[
-<blockquote>
-<p>NSCountedSet这个一直没有用过,看到其他人使用在此记录下.</p>
-</blockquote>
-
-<p>计算老虎机中奖等级的问题：老虎机有四列，每列四个图案，如果四个相同就是等级1，三个相同就是等级2，以此类推。说是用<code>if else</code>太麻烦，有没有什么比较快捷的方法，首先想到的是用KVC中剔除重复数据的办法。比如：</p>
-
-<pre><code>NSArray *array = @[@2, @2, @2, @1];
-NSLog(@&quot;%@&quot;, [array valueForKeyPath:@&quot;@distinctUnionOfObjects.self&quot;]);
-</code></pre>
-
-<p>然后得到数组的个数为2，看起来很合理，如果数组是<code>NSArray *array = @[@2, @1, @2, @1];</code>这时候计算出来的数组个数是也是2，但是正确结果应该是等级3，后来突然想起一个类:NSCountedSet</p>
-
-<pre><code>    NSArray *array = @[@1, @2, @2, @1];
-    NSCountedSet *set = [[NSCountedSet alloc]initWithArray:array];
-
-    [set enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
-        NSLog(@&quot;%@ =&gt; %d&quot;, obj, [set countForObject:obj]);
-    }];
-
-</code></pre>
-
-<pre><code>1 =&gt; 2
-2 =&gt; 2
-</code></pre>
 
 ]]></content>
   </entry>

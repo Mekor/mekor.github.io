@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  李小争
+  xib报错 - 李小争
   
   </title>
  <meta name="description" content="记录开发中遇到的一些问题">
@@ -357,66 +357,51 @@
             </div>
             <div class="large-9 medium-9 columns">
 
- 
+ <div class="markdown-body">
+<h1>xib报错</h1>
+
+<p>错误信息: Unknown class XXXX in Interface Builder file. (lldb)</p>
+
+<p>原因,Xib是在其他项目中创建的,拖进来的时候没有注意,只要修改<br/>
+<img src="media/14802973825600/14802974822042.jpg" alt=""/></p>
 
 
-	
-		<div class="markdown-body">
-		<h1>如何解决json字符串中包含制表符</h1>
+</div>
 
-		<p>错误信息:</p>
+<br /><br />
+<hr />
 
-<pre><code>Error Domain=NSCocoaErrorDomain Code=3840 &quot;The operation couldn’t be completed. (Cocoa error 3840.)&quot; (Unescaped control character around character 135.) UserInfo=0x170e79d00 {NSDebugDescription=Unescaped control character around character 135.}
-</code></pre>
+<div class="row clearfix">
+  <div class="large-6 columns">
+	<div class="text-left" style="padding:15px 0px;">
+		
+	</div>
+  </div>
+  <div class="large-6 columns">
+	<div class="text-right" style="padding:15px 0px;">
+		
+	        <a href="14799970254990.html" 
+	        title="Next Post: Swift - 面向协议编程">Swift - 面向协议编程 &raquo;</a>
+	    
+	</div>
+  </div>
+</div>
 
-<p><strong>如何处理</strong><br/>
-最关键的地方:</p>
+<div class="row">
+<div style="padding:0px 0.93em;" class="share-comments">
 
-<pre><code>-(NSString *)removeUnescapedCharacter:(NSString *)inputStr
-{
-    NSCharacterSet *controlChars = [NSCharacterSet controlCharacterSet];//获取那些特殊字符
-    NSRange range = [inputStr rangeOfCharacterFromSet:controlChars];//寻找字符串中有没有这些特殊字符
-    if (range.location != NSNotFound)
-        {
-        NSMutableString *mutable = [NSMutableString stringWithString:inputStr];
-        while (range.location != NSNotFound)
-            {
-            [mutable deleteCharactersInRange:range];//去掉这些特殊字符
-            range = [mutable rangeOfCharacterFromSet:controlChars];
-            }
-        return mutable;
-        }
-    return inputStr;
-}
-</code></pre>
-
-<p>举例:</p>
-
-<pre><code>    NSString *responseString = [NSMutableString stringWithString:[request responseString]];
-    responseString =[self removeUnescapedCharacter:responseString];
-    NSData *jsonData = [responseString dataUsingEncoding:NSUTF8StringEncoding];
-    NSError *error;
-    NSDictionary * dic = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&amp;error];
-</code></pre>
-
-
-		</div>
-	
-
- 
-	
-
- 
-	
-
- 
-	
-
- 
-	
-
-  
-  
+</div>
+</div>
+<script type="text/javascript">
+	$(function(){
+		var currentURL = '14802973825600.html';
+		$('#side-nav a').each(function(){
+			if($(this).attr('href') == currentURL){
+				$(this).parent().addClass('active');
+			}
+		});
+	});
+</script>  
 </div></div>
 
 
