@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2016-11-24T22:55:46+08:00</updated>
+  <updated>2016-11-30T22:30:01+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -19,10 +19,14 @@
     <updated>2016-11-28T09:43:02+08:00</updated>
     <id>http://www.citynight.cn/Blog/14802973825600.html</id>
     <content type="html"><![CDATA[
+<blockquote>
 <p>错误信息: Unknown class XXXX in Interface Builder file. (lldb)</p>
+</blockquote>
 
 <p>原因,Xib是在其他项目中创建的,拖进来的时候没有注意,只要修改<br/>
 <img src="media/14802973825600/14802974822042.jpg" alt=""/></p>
+
+<p>修改module为项目的就好了</p>
 
 ]]></content>
   </entry>
