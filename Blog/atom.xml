@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2016-11-30T22:30:15+08:00</updated>
+  <updated>2016-12-03T22:19:37+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -67,6 +67,8 @@
 </code></pre>
 
 <p>很明显的知道我是使用代理进行数据传递的..说下为啥不使用属性记录<code>index</code>?? 任性😁</p>
+
+<p>到这里<code>headerView</code>基本完成了,控制器实现代理方法就好了,然后根据<code>index</code>让右侧具体的菜品滚动到相应的位置就好了&hellip;</p>
 
 ]]></content>
   </entry>
