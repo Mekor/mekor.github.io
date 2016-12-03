@@ -105,6 +105,8 @@
         <li><label>教程</label></li>
 
           
+            <li><a title="左右联动效果再实现" href="14807724917867.html">左右联动效果再实现</a></li>
+          
             <li><a title="Git学习" href="14793607171148.html">Git学习</a></li>
           
             <li><a title="如何获取手机上安装的所有App" href="14778331858080.html">如何获取手机上安装的所有App</a></li>
@@ -266,6 +268,8 @@
                     
                       <li class="side-title"><span>教程</span></li>
                         
+                          <li><a title="左右联动效果再实现" href="14807724917867.html">左右联动效果再实现</a></li>
+                        
                           <li><a title="Git学习" href="14793607171148.html">Git学习</a></li>
                         
                           <li><a title="如何获取手机上安装的所有App" href="14778331858080.html">如何获取手机上安装的所有App</a></li>
@@ -362,79 +366,20 @@
 
 	
 		<div class="markdown-body">
-		<h1>如何给View添加点击事件</h1>
+		<h1>Mac 下面Python 自动补全</h1>
 
-		<p>项目中有很多地方需要添加点击事件,重复代码很多,所以做了一个UIView的分类,专门做点击事件使用.<br/>
-项目地址:<a href="https://github.com/Mekor/UIView-Tap">UIView-Tap</a></p>
+		<p>网上有很多tab自动补全的脚本,但是在Mac上面都不能正常的运行,在<a href="http://stackoverflow.com/questions/7116038/python-tab-completion-mac-osx-10-7-lion">stackoverflow</a>找到一个能用的.</p>
 
-<p>代码很简单,主要有一点就是注意分类不能直接添加属性,需要用到运行时相关内容.</p>
-
-<p>代码如下:</p>
-
-<pre><code>\\UIView+Tap.h文件
-@interface UIView (Tap)
-- (void)addTapBlock:(void(^)(id obj))tapAction;
-@end
-
-\\UIView+Tap.m文件
-#import &lt;objc/runtime.h&gt;
-
-static const void* tagValue = &amp;tagValue;
-
-@interface UIView ()
-@property (nonatomic, copy) void(^tapAction)(id);
-@end
-
-@implementation UIView (Tap)
-- (void)tap{
-    if (self.tapAction) {
-        self.tapAction(self);
-    }
-}
-- (void)addTapBlock:(void(^)(id obj))tapAction{
-    self.tapAction = tapAction;
-    if (![self gestureRecognizers]) {
-        self.userInteractionEnabled = YES;
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap)];
-        [self addGestureRecognizer:tap];
-    }
-}
-
--(void)setTapAction:(void (^)(id))tapAction {
-    objc_setAssociatedObject(self, tagValue, tapAction, OBJC_ASSOCIATION_COPY_NONATOMIC);
-}
--(void (^)(id))tapAction {
-    return objc_getAssociatedObject(self, tagValue);
-}
-@end
-</code></pre>
-
-<p>正如大家所见,如果要接收点击事件,必须userInteractionEnabled设置为YES,所以不管怎么只要确认要给视图添加点击事件,都会被设置为<code>userInteractionEnabled = YES</code></p>
-
-<p>简单实用:</p>
-
-<pre><code>UIView *redView = [[UIView alloc]initWithFrame:CGRectMake(100, 100, 100, 100)];
-redView.backgroundColor = [UIColor redColor];
-[redView addTapBlock:^(UIView* obj) {
-    NSLog(@&quot;redView%@&quot;,obj.backgroundColor);
-}];
-[self.view addSubview:redView];
-
-UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(50, 250, 100, 100)];
-imageView.image = [UIImage imageNamed:@&quot;icon&quot;];
-[imageView addTapBlock:^(UIImageView* obj) {
-    NSLog(@&quot;imageView:\n%@&quot;,obj.image);
-}];
-[self.view addSubview:imageView];
-
-UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(150, 400, 100, 100)];
-label.text = @&quot;这是label,点击这里...&quot;;
-[label addTapBlock:^(UILabel* obj) {
-    NSLog(@&quot;label:\n%@&quot;,obj.text);
-}];
-[self.view addSubview:label];
+<pre><code>import readline
+import rlcompleter
+if &#39;libedit&#39; in readline.__doc__:
+    readline.parse_and_bind(&quot;bind ^I rl_complete&quot;)
+else:
+    readline.parse_and_bind(&quot;tab: complete&quot;)
 
 </code></pre>
+
+<p>进入Python后直接import tab 就可以了</p>
 
 
 		</div>

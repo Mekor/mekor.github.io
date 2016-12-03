@@ -105,6 +105,8 @@
         <li><label>教程</label></li>
 
           
+            <li><a title="左右联动效果再实现" href="14807724917867.html">左右联动效果再实现</a></li>
+          
             <li><a title="Git学习" href="14793607171148.html">Git学习</a></li>
           
             <li><a title="如何获取手机上安装的所有App" href="14778331858080.html">如何获取手机上安装的所有App</a></li>
@@ -266,6 +268,8 @@
                     
                       <li class="side-title"><span>教程</span></li>
                         
+                          <li><a title="左右联动效果再实现" href="14807724917867.html">左右联动效果再实现</a></li>
+                        
                           <li><a title="Git学习" href="14793607171148.html">Git学习</a></li>
                         
                           <li><a title="如何获取手机上安装的所有App" href="14778331858080.html">如何获取手机上安装的所有App</a></li>
@@ -362,188 +366,56 @@
 
 	
 		<div class="markdown-body">
-		<h1>Git学习</h1>
+		<h1>左右联动效果再实现</h1>
 
-		<p>工作中必须使用git,但是原先一直使用svn,所以有点坑&hellip;这里简单总结下简单用法</p>
+		<blockquote>
+<p>在微指的时候,商户详情界面中就存在左右联动,具体实现可见<a href="https://github.com/Mekor/MKShowDetail">MKShowDetail</a> .当然这次和微指的时候有所不同,层级结构更深,所属视图跨控制器.下面是正文👇</p>
+</blockquote>
 
-<h2 id="toc_0">svn与git的不同</h2>
+<h2 id="toc_0">数据结构</h2>
 
-<p>一个是集中式版本管理控制,一个是分布式</p>
+<p>在海底捞Pad版本项目中,点菜和点锅是两种完全不同的东西,但是又都属于点菜类中,所以数据结构比较复杂:</p>
 
-<p><strong>集中式版本控制:</strong><br/>
-<img src="media/14793607171148/14795544773647.jpg" alt=""/></p>
-
-<p><strong>分布式版本控制:</strong><br/>
-<img src="media/14793607171148/14795545177377.jpg" alt=""/></p>
-
-<h2 id="toc_1">git简单实用</h2>
-
-<h3 id="toc_2">git help</h3>
-
-<pre><code>$ git help
+<pre><code>点锅: 大分类 --&gt; 具体的锅底
+点菜: 大分类 --&gt; 小分类 --&gt; 具体菜品
 </code></pre>
 
-<p>查看git所有命令的帮助</p>
+<p><strong>需求:</strong> <em>大分类下如果有小分类并且小分类个数大于1个的时候显示小分类,如果小于一个则不显示.</em></p>
 
-<pre><code>$ git help 子命令
-</code></pre>
+<p>这样两种数据结构完全不同的数据需要整合成相同的显示样式,跟同事讨论后决定粗暴的也是最简单的方法修改点锅数据,给大分类后面强行包裹一层小分类.</p>
 
-<p>要退出帮助信息，按<code>&quot;q&quot;</code><br/>
-翻看下页，按<code>&quot;空格&quot;</code><br/>
-翻看上页，按<code>&quot;CTRL+B&quot;</code><br/>
-要搜索相关文字，按<code>&quot;/&quot;</code>然后输入<code>&quot;相关文字&quot;</code></p>
+<h2 id="toc_1">视图设计</h2>
 
-<h3 id="toc_3">配置</h3>
+<p>数据层搞定了,又到了显示问题了:<br/>
+分类显示马上想到了<code>tableView</code>,但是<code>点锅</code>和<code>点菜</code>互不干扰,我想到的就是分成两个<code>section</code>,这时又有一个问题,需求又要求大分类和小分类的样式是不一样的,不一样的,不一样的&hellip;怎么办? 使用<code>tableViewSectionHeader</code>.按大类进行划分,<code>点锅</code>和<code>点菜</code>之间的区分用数据.小分类则用cell表示.</p>
 
-<p>1&gt;  创建代码仓库</p>
+<h3 id="toc_2">tableViewSectionHeader 设计</h3>
 
-<pre><code>$ git init
-</code></pre>
-
-<p>2&gt;  配置用户名和邮箱</p>
-
-<pre><code>$ git config user.name manager
-$ git config user.email manager@gmail.com
-</code></pre>
-
-<ul>
-<li>以上两个命令会将用户信息保存在当前代码仓库中</li>
-</ul>
-
-<p>3&gt;  如果要一次性配置完成可以使用一下命令</p>
-
-<pre><code>$ git config --global user.name manager
-$ git config --global user.email manager@gmail.com
-</code></pre>
-
-<ul>
-<li>以上两个命令会将用户信息保存在用户目录下的 <code>.gitconfig</code> 文件中</li>
-</ul>
-
-<p>4&gt;  查看当前所有配置</p>
-
-<pre><code>$ git config -l
-</code></pre>
-
-<h3 id="toc_4">开发中常用</h3>
-
-<p>1&gt;  创建代码，开始开发</p>
-
-<pre><code>$ touch main.c
-$ open main.c
-</code></pre>
-
-<p>2&gt;  将代码添加到代码库</p>
+<p>既然已经决定了用<code>headerView</code>那么怎么设计呢?</p>
 
 <ol>
-<li> 查看当前代码库状态
-<code>
-$ git status
-</code></li>
-<li> 将文件添加到代码库
-<code>
-$ git add main.c
-</code></li>
-<li><p>将修改提交到代码库<br/>
-<code><br/>
-$ git commit -m &quot;添加了main.c&quot;<br/>
-</code><br/>
-提示：</p>
-
-<ul>
-<li>   在此一定要使用 -m 参数指定修改的备注信息</li>
-<li>   否则会进入 vim 编辑器，如果对vim不熟悉，会是很糟糕的事情</li>
-</ul></li>
-<li><p>将当前文件夹下的所有新建或修改的文件一次性添加到代码库<br/>
-<code>$ git add .</code></p></li>
+<li>点击事件</li>
+<li>确定具体点击的是哪个</li>
 </ol>
 
-<p>3&gt;  添加多个文件</p>
+<p>所以我在设计<code>headerView</code>的时候让它在显示数据的时候也要传入当前的<code>index</code>:</p>
 
-<pre><code>$ touch Person.h Person.m
-$ git add .
-$ git commit -m &quot;添加了Person类&quot;
-$ open Person.h
-$ git add .
-$ git commit -m &quot;增加Person类属性&quot;
+<pre><code>    func setName(_ name: String, index: Int) {
+        nameLabel.text = name
+        self.index = index
+    }
 </code></pre>
 
-<ul>
-<li>注意 使用git时，每一次修改都需要添加再提交，这一点是与svn不一样的</li>
-</ul>
+<p>(ps: 不要吐槽,刚开始用Swift写项目😂)</p>
 
-<h2 id="toc_5">git 的重要概念及工作原理</h2>
+<p>这样我自己记录下传入的<code>index</code>当点击事件的时候再告诉外界具体点击的是哪一个:</p>
 
-<p>工作区<br/>
-暂存区(staged)<br/>
-分支(HEAD)</p>
-
-<h2 id="toc_6">别名 &amp; 日志</h2>
-
-<pre><code>$ git config alias.st status
-$ git config alias.ci &quot;commit -m&quot;
+<pre><code>    @objc private func labelClick() {
+        delegate?.didSelectedHeader(section : self.index)
+    }
 </code></pre>
 
-<p>除非特殊原因，最好不要设置别名，否则换一台机器就不会用了</p>
-
-<p>查看所有版本库日志</p>
-
-<pre><code>$ git log
-</code></pre>
-
-<p>查看指定文件的版本库日志</p>
-
-<pre><code>$ git log 文件名
-</code></pre>
-
-<p>配置带颜色的log别名</p>
-
-<pre><code>git config --global alias.lg &quot;log --color --graph --pretty=format:&#39;%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset&#39; --abbrev-commit&quot;
-</code></pre>
-
-<p>提示：在git中，版本号是一个由SHA1生成的哈希值</p>
-
-<h2 id="toc_7">版本号，让我们在任意版本之间穿梭</h2>
-
-<pre><code># 回到当前版本，放弃所有没有提交的修改
-$ git reset --hard HEAD
-# 回到上一个版本
-$ git reset --hard HEAD^
-# 回到之前第3个修订版本
-$ git reset --hard HEAD~3
-# 回到指定版本号的版本
-$ git reset --hard e695b67
-
-# 查看分支引用记录
-$ git reflog
-
-</code></pre>
-
-<h2 id="toc_8">分支管理 - Tag</h2>
-
-<pre><code># 查看当前标签
-$ git tag
-# 在本地代码库给项目打上一个标签
-$ git tag -a v1.0 -m &#39;Version 1.0&#39;
-# 将标签添推送到远程代码库中
-$ git push origin v1.0
-
-# 使用tag，就能够将项目快速切换到某一个中间状态，例如产品开发线上的某一个稳定版本
-# 签出v1.0标签
-$ git checkout v1.0
-# 从签出状态创建v1.0bugfix分支
-$ git checkout -b bugfix1.0
-
-# 查看远程分支
-$ git branch -r
-# 删除远程分支
-$ git branch -r -d origin/bugfix1.0
-</code></pre>
-
-<p>删除修改返回到上次提交状态</p>
-
-<pre><code>git checkout -f
-</code></pre>
+<p>很明显的知道我是使用代理进行数据传递的..说下为啥不使用属性记录<code>index</code>?? 任性😁</p>
 
 
 		</div>

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  李小争
+  左右联动效果再实现 - 李小争
   
   </title>
  <meta name="description" content="记录开发中遇到的一些问题">
@@ -361,339 +361,95 @@
             </div>
             <div class="large-9 medium-9 columns">
 
- 
-
-
-	
-		<div class="markdown-body">
-		<h1>网络切面化处理</h1>
-
-		<h2 id="toc_0">什么是面向切片编程</h2>
+ <div class="markdown-body">
+<h1>左右联动效果再实现</h1>
 
 <blockquote>
-<p>看考&lt;禅与Objective-C 编码艺术&gt;第11章  面向切面编程.  本文中技术部分参考<a href="https://github.com/yuantiku/YTKNetwork">YTKNetwork</a>和<a href="https://github.com/casatwy/RTNetworking">RTNetworking</a>代码实现,拜读了<a href="http://casatwy.com/iosying-yong-jia-gou-tan-wang-luo-ceng-she-ji-fang-an.html">iOS应用架构谈 网络层设计方案</a>和猿题库的两篇使用介绍并根据根据个人理解修改部分功能实现,这篇文章主要就是进行思路的整理,一步一步制造自己想要的网络请求轮子.</p>
+<p>在微指的时候,商户详情界面中就存在左右联动,具体实现可见<a href="https://github.com/Mekor/MKShowDetail">MKShowDetail</a> .当然这次和微指的时候有所不同,层级结构更深,所属视图跨控制器.下面是正文👇</p>
 </blockquote>
 
-<p>Aspect Oriented Programming (AOP,面向切面编程)在OC中意味着可以通过运行时的特性来为切面添加合适的代码.简单说可以添加类似行为:</p>
+<h2 id="toc_0">数据结构</h2>
 
-<ul>
-<li>在类的特定方法调用前运行特定的代码</li>
-<li>在类的特定方法调用后运行特定的代码</li>
-<li>增加代码来代替原来的类的方法的实现</li>
-</ul>
+<p>在海底捞Pad版本项目中,点菜和点锅是两种完全不同的东西,但是又都属于点菜类中,所以数据结构比较复杂:</p>
 
-<h2 id="toc_1">网络怎么切面</h2>
-
-<p>上面已经说了什么是面向切面编程,那么网络中怎么切面?最主要的就是找到合适的方法,然后在它的前后都切一刀.由于项目中使用的是<a href="https://github.com/AFNetworking">AFNetworking</a>所以适合我们的特定方法应该是进行网络请求的关键代码,如下:</p>
-
-<pre><code>/**
- Creates an `NSURLSessionDataTask` with the specified request.
-
- @param request The HTTP request for the request.
- @param completionHandler A block object to be executed when the task finishes. This block has no return value and takes three arguments: the server response, the response object created by that serializer, and the error that occurred, if any.
- */
-- (NSURLSessionDataTask *)dataTaskWithRequest:(NSURLRequest *)request
-                            completionHandler:(nullable void (^)(NSURLResponse *response, id _Nullable responseObject,  NSError * _Nullable error))completionHandler;
+<pre><code>点锅: 大分类 --&gt; 具体的锅底
+点菜: 大分类 --&gt; 小分类 --&gt; 具体菜品
 </code></pre>
 
-<p>当然,如果需要上传下载进度的话</p>
+<p><strong>需求:</strong> <em>大分类下如果有小分类并且小分类个数大于1个的时候显示小分类,如果小于一个则不显示.</em></p>
 
-<pre><code>/**
- Creates an `NSURLSessionDataTask` with the specified request.
+<p>这样两种数据结构完全不同的数据需要整合成相同的显示样式,跟同事讨论后决定粗暴的也是最简单的方法修改点锅数据,给大分类后面强行包裹一层小分类.</p>
 
- @param request The HTTP request for the request.
- @param uploadProgressBlock A block object to be executed when the upload progress is updated. Note this block is called on the session queue, not the main queue.
- @param downloadProgressBlock A block object to be executed when the download progress is updated. Note this block is called on the session queue, not the main queue.
- @param completionHandler A block object to be executed when the task finishes. This block has no return value and takes three arguments: the server response, the response object created by that serializer, and the error that occurred, if any.
- */
-- (NSURLSessionDataTask *)dataTaskWithRequest:(NSURLRequest *)request
-                               uploadProgress:(nullable void (^)(NSProgress *uploadProgress))uploadProgressBlock
-                             downloadProgress:(nullable void (^)(NSProgress *downloadProgress))downloadProgressBlock
-                            completionHandler:(nullable void (^)(NSURLResponse *response, id _Nullable responseObject,  NSError * _Nullable error))completionHandler;
+<h2 id="toc_1">视图设计</h2>
+
+<p>数据层搞定了,又到了显示问题了:<br/>
+分类显示马上想到了<code>tableView</code>,但是<code>点锅</code>和<code>点菜</code>互不干扰,我想到的就是分成两个<code>section</code>,这时又有一个问题,需求又要求大分类和小分类的样式是不一样的,不一样的,不一样的&hellip;怎么办? 使用<code>tableViewSectionHeader</code>.按大类进行划分,<code>点锅</code>和<code>点菜</code>之间的区分用数据.小分类则用cell表示.</p>
+
+<h3 id="toc_2">tableViewSectionHeader 设计</h3>
+
+<p>既然已经决定了用<code>headerView</code>那么怎么设计呢?</p>
+
+<ol>
+<li>点击事件</li>
+<li>确定具体点击的是哪个</li>
+</ol>
+
+<p>所以我在设计<code>headerView</code>的时候让它在显示数据的时候也要传入当前的<code>index</code>:</p>
+
+<pre><code>    func setName(_ name: String, index: Int) {
+        nameLabel.text = name
+        self.index = index
+    }
 </code></pre>
 
-<p>这个应该是你的选择,这里只说下网络请求,所以就以第一种为例了.</p>
+<p>(ps: 不要吐槽,刚开始用Swift写项目😂)</p>
 
-<p>我们能在网络请求之前与之后做些什么呢?</p>
+<p>这样我自己记录下传入的<code>index</code>当点击事件的时候再告诉外界具体点击的是哪一个:</p>
 
-<ul>
-<li>操作网络请求之前(取消,判断是否重复&hellip;)</li>
-<li>操作网络请求之后(缓存,错误处理&hellip;)</li>
-<li>&hellip;</li>
-</ul>
-
-<h3 id="toc_2">进行网络请求核心代码</h3>
-
-<pre><code>- (void)addRequest:(NSURLRequest *)request {
-    NSLog(@&quot;\n==================================\n\nRequest Start: \n\n &quot;
-          @&quot;%@\n\n==================================&quot;,
-          request.URL);
-    
-    // 跑到这里的block的时候，就已经是主线程了。
-    __block NSURLSessionDataTask *dataTask = nil;
-    dataTask = [_manager
-                dataTaskWithRequest:request
-                completionHandler:^(NSURLResponse *_Nonnull response,
-                                    id _Nullable responseObject,
-                                    NSError *_Nullable error) {
-                    NSNumber *requestID = @([dataTask taskIdentifier]);
-                    [_requestsRecord removeObjectForKey:requestID];
-                    NSData *responseData = responseObject;
-                    NSString *responseString =
-                    [[NSString alloc] initWithData:responseData
-                                          encoding:NSUTF8StringEncoding];
-                    
-                    NSLog(@&quot;responseString:%@&quot;,responseString);
-                    if (error) {
-                        NSLog(@&quot;error: %@&quot;,error);
-                        
-#warning TODO: 失败回掉
-                        NSLog(@&quot;这里应该进行失败回掉&quot;);
-                    } else {
-                        // 检查http response是否成立。
-#warning TODO: 成功回掉
-                        NSLog(@&quot;这里应该进行成功回掉&quot;);
-                    }
-                }];
-    // 添加到请求列表
-    NSNumber *requestId = @([dataTask taskIdentifier]);
-    _requestsRecord[requestId] = dataTask;
-    [dataTask resume];
-}
+<pre><code>    @objc private func labelClick() {
+        delegate?.didSelectedHeader(section : self.index)
+    }
 </code></pre>
 
-<h3 id="toc_3">创建NSMutableURLRequest</h3>
-
-<p>需要NSMutableURLRequest参数,所以创建一个</p>
-
-<pre><code>    AFHTTPRequestSerializer *httpRequestSerializer = [AFHTTPRequestSerializer serializer];
-    httpRequestSerializer.timeoutInterval = 20.0f;
-    httpRequestSerializer.cachePolicy = NSURLRequestUseProtocolCachePolicy;
-    /// 网络请求头部插入一些内容
-    [httpRequestSerializer setValue:[[NSUUID UUID] UUIDString] forHTTPHeaderField:@&quot;xxxxxxxx&quot;];
-    NSMutableURLRequest *request = [httpRequestSerializer requestWithMethod:@&quot;GET&quot;
-                                                                  URLString:@&quot;http://www.baidu.com&quot;
-                                                                      parameters:nil
-                                                                           error:NULL];
-</code></pre>
-
-<p>可以看到,上面注释的地方说明我们可以在这里搞事情啊,这个稍后会用到</p>
-
-<p>对了,不要忘记设置<code>info.plist</code></p>
-
-<pre><code>&lt;key&gt;NSAppTransportSecurity&lt;/key&gt;
-    &lt;dict&gt;
-        &lt;key&gt;NSAllowsArbitraryLoads&lt;/key&gt;
-        &lt;true/&gt;
-    &lt;/dict&gt;
-
-</code></pre>
-
-<p>创建request然后请求,<code>[[MKNetWorkAgent sharedInstance] addRequest:request];</code>结果如下,百度HTML页面去除了部分代码:</p>
-
-<pre><code>2016-08-02 15:36:13.721 NetWorkDemo[56429:4922365] 
-==================================
-
-Request Start: 
-
- http://www.baidu.com
-
-==================================
-2016-08-02 15:36:13.838 NetWorkDemo[56429:4922365] responseString:&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-    &lt;!--STATUS OK--&gt;
-    &lt;head&gt;
-        &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;
-        &lt;title&gt;百度一下,你就知道&lt;/title&gt;
-        &lt;meta http-equiv=&quot;Cache-control&quot; content=&quot;no-cache&quot;&gt;
-        &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no&quot;&gt;
-        &lt;style type=&quot;text/css&quot;&gt;
-            /*去掉css样式*/
-        &lt;/style&gt;
-    &lt;/head&gt;
-    &lt;body&gt;
-        &lt;div class=&quot;wrap&quot;&gt;
-            &lt;div class=&quot;lg&quot;&gt;
-                &lt;img src=&quot;//m.baidu.com/static/index/u.png&quot; alt=&quot;百度首页&quot;&gt;
-            &lt;/div&gt;
-            &lt;form action=&quot;//m.baidu.com/s?&quot; method=&quot;get&quot;&gt;
-                &lt;div class=&quot;word-wrap&quot;&gt;
-                    &lt;input type=&quot;text&quot; name=&quot;word&quot; maxlength=&quot;64&quot; size=&quot;17&quot; id=&quot;word&quot;&gt;
-                &lt;/div&gt;
-                &lt;input type=&quot;submit&quot; value=&quot;百度一下&quot; class=&quot;bn&quot;&gt;
-            &lt;/form&gt;
-            &lt;div class=&quot;d&quot;&gt;
-                &lt;!-- 去掉了尾部 --&gt;
-            &lt;/div&gt;
-        &lt;/div&gt;
-    &lt;/body&gt;
-&lt;/html&gt;
-2016-08-02 15:36:13.839 NetWorkDemo[56429:4922365] 这里应该进行成功回掉
-</code></pre>
-
-<p>这说明已经能够进行网络请求了.</p>
-
-<p>&hellip;&hellip;&hellip;.. 2016.8.3更新&hellip;&hellip;&hellip;&hellip;.</p>
-
-<blockquote>
-<p>随着项目的增长,有些接口我们可能需要在不同的地方调用,这是需求把请求单独拿出来.在这里我们创建一个MKBaseRequest,所有的接口都继承自base,这样就能够满足我们的需求了.</p>
-</blockquote>
-
-<p>需求出来了,怎么解决呢?<br/>
-首先修改进行网络请求核心代码为<code>- (void)addRequest:(MKBaseRequest *)request</code>,MKBaseRequest里面必须要提供可供访问的url,因为<code>NSURLRequest</code>的创建需要url.</p>
-
-<p>在<code>MKBaseRequest</code>中添加:</p>
-
-<pre><code>/// 请求的URL
-- (NSString *)requestUrl;
-</code></pre>
-
-<p>使用方法而不是属性的原因就是为了方便子类的重写.<code>- (void)addRequest:(MKBaseRequest *)request</code>实现中由于没有<code>NSURLRequest</code>所以需要根据<code>MKBaseRequest</code>提供的url进行创建,添加代码:</p>
-
-<pre><code>NSURLRequest *requestTest = [NSURLRequest requestWithURL:[NSURL URLWithString:[request requestUrl]]];
-</code></pre>
-
-<p>同理,我们还可以在<code>MKBaseRequest</code>中添加其他限制项,例如:</p>
-
-<pre><code>/// 请求的BaseURL
-- (NSString *)baseUrl;
-
-/// 请求的cdnURL
-- (NSString *)cdnUrl;
-
-/// 请求的连接超时时间，默认为60秒
-- (NSTimeInterval)requestTimeoutInterval;
-
-/// 请求的参数列表
-- (nullable id)requestArgument;
-
-/// Http请求的方法
-- (MKRequestMethod)requestMethod;
-
-/// 是否使用cdn的host地址
-- (BOOL)useCDN;
-</code></pre>
-
-<p>写到这里,如果我们很多接口都设置类似baseUrl之类的可以提取出来还有些必须的参数,在app进入的时候一起设置.这时我们需要创建<code>MKNetworkConfig</code>来管理这些内容.</p>
-
-<p>&hellip;&hellip;&hellip;.. 2016.8.4更新&hellip;&hellip;&hellip;&hellip;.</p>
-
-<h3 id="toc_4">本地模拟登陆</h3>
-
-<p>做个简单的模拟登陆登陆页面:</p>
-
-<pre><code>&lt;form action=&quot;welcome.php&quot; method=&quot;get&quot;&gt;&lt;br&gt;
-    Name: &lt;input type=&quot;text&quot; name=&quot;name&quot; /&gt;&lt;br&gt;
-    PWD:  &lt;input type=&quot;text&quot; name=&quot;pwd&quot; /&gt;&lt;br&gt;
-    &lt;input type=&quot;submit&quot; /&gt; &lt;/form&gt;
-</code></pre>
-
-<p>welecome.php中简单的输出刚刚输入的内容.</p>
-
-<pre><code>&lt;!DOCTYPE html&gt;
-&lt;html lang=&quot;en&quot;&gt;
-&lt;head&gt;
-    &lt;meta charset=&quot;UTF-8&quot;&gt;
-    &lt;title&gt;Citynight&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-
-您输入的账号是:
-
-&lt;?php echo $_GET[&quot;name&quot;]; ?&gt;
-.&lt;br /&gt;
-
-密码是:
-
-&lt;?php echo $_GET[&quot;pwd&quot;]; ?&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
-
-<p>登陆界面的样子:<br/>
-<img src="media/14701034373615/14703212142675.jpg" alt=""/></p>
-
-<p>点击提交后:<br/>
-<img src="media/14701034373615/14703212477389.jpg" alt=""/><br/>
-已经能够得到正确的结果了.</p>
-
-<p>既然网页端没有问题,那么就修改成返回json格式数据给客户端</p>
-
-<pre><code>&lt;?php
-$map = array(
-    &#39;name&#39; =&gt; $_GET[&quot;name&quot;],
-    &#39;pwd&#39; =&gt; $_GET[&quot;pwd&quot;]
-);
-echo json_encode($map);
-</code></pre>
-
-<p>测试已经能够正常返回了:<br/>
-<img src="media/14701034373615/14703247878224.jpg" alt=""/></p>
-
-<h3 id="toc_5">怎样传递参数</h3>
-
-<pre><code>/// 请求的参数列表
-- (nullable id)requestArgument;
-</code></pre>
-
-<p>上面是原先设置的传递参数的方式,我感觉这样做不是很方便,比如需要传递的参数是变化的,可能就需要init的时候添加参数,这时如果参数的数量还比较多可能就比较麻烦了.<br/>
-我现在采用的是通过代理的方法实现.</p>
-
-<pre><code>/// 数据源:获得所需要的参数
-@protocol MKRequestParamSource &lt;NSObject&gt;
-@required
-- (NSDictionary *)paramsForRequest:(MKBaseRequest *)request;
-@end
-</code></pre>
-
-<p>我们创建的时候如果需要参数必须设置代理,并实现</p>
-
-<pre><code>/// request paramSource
-@property (nonatomic, weak, nullable) id&lt;MKRequestParamSource&gt; paramSource;
-</code></pre>
-
-<p>这样做是模仿数据源的代理方法,比较容易理解.</p>
-
-<blockquote>
-<p>2016.8.23更</p>
-
-<h3 id="toc_6">如何进行分页</h3>
-
-<p>开发中我们经常遇到需要上拉加载更多的需求,参数中的page是动态变化的.这个轮子也对此作了处理,如下:</p>
-</blockquote>
-
-<pre><code>/// MKNetWorkAgent中添加带参数的网络请求
-- (void)addRequest:(MKBaseRequest *)baseRequest WithParams:(nullable id)params;
-</code></pre>
-
-<pre><code>//MKBaseRequest 中添加方法用于获取当前状态
-/* 子类重写必须写 super 否则 isLoading 状态不会更改*/
-- (void)beforePerformRequestState;
-/// success: 判断成功还是失败
-- (void)afterPerformResponseState:(BOOL)success;
-</code></pre>
-
-<p>具体使用:<br/>
-<img src="media/14701034373615/14719456603156.jpg" alt=""/></p>
+<p>很明显的知道我是使用代理进行数据传递的..说下为啥不使用属性记录<code>index</code>?? 任性😁</p>
 
 
-		</div>
-	
+</div>
 
- 
-	
+<br /><br />
+<hr />
 
- 
-	
+<div class="row clearfix">
+  <div class="large-6 columns">
+	<div class="text-left" style="padding:15px 0px;">
+		
+	</div>
+  </div>
+  <div class="large-6 columns">
+	<div class="text-right" style="padding:15px 0px;">
+		
+	        <a href="14802973825600.html" 
+	        title="Next Post: xib报错">xib报错 &raquo;</a>
+	    
+	</div>
+  </div>
+</div>
 
- 
-	
+<div class="row">
+<div style="padding:0px 0.93em;" class="share-comments">
 
- 
-	
-
-  
-  
+</div>
+</div>
+<script type="text/javascript">
+	$(function(){
+		var currentURL = '14807724917867.html';
+		$('#side-nav a').each(function(){
+			if($(this).attr('href') == currentURL){
+				$(this).parent().addClass('active');
+			}
+		});
+	});
+</script>  
 </div></div>
 
 

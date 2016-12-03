@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2016-11-30T22:30:01+08:00</updated>
+  <updated>2016-11-30T22:30:15+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -12,6 +12,64 @@
   </author>
   <generator uri="http://www.mweb.im">MWeb</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[左右联动效果再实现]]></title>
+    <link href="http://www.citynight.cn/Blog/14807724917867.html"/>
+    <updated>2016-12-03T21:41:31+08:00</updated>
+    <id>http://www.citynight.cn/Blog/14807724917867.html</id>
+    <content type="html"><![CDATA[
+<blockquote>
+<p>在微指的时候,商户详情界面中就存在左右联动,具体实现可见<a href="https://github.com/Mekor/MKShowDetail">MKShowDetail</a> .当然这次和微指的时候有所不同,层级结构更深,所属视图跨控制器.下面是正文👇</p>
+</blockquote>
+
+<h2 id="toc_0">数据结构</h2>
+
+<p>在海底捞Pad版本项目中,点菜和点锅是两种完全不同的东西,但是又都属于点菜类中,所以数据结构比较复杂:</p>
+
+<pre><code>点锅: 大分类 --&gt; 具体的锅底
+点菜: 大分类 --&gt; 小分类 --&gt; 具体菜品
+</code></pre>
+
+<p><strong>需求:</strong> <em>大分类下如果有小分类并且小分类个数大于1个的时候显示小分类,如果小于一个则不显示.</em></p>
+
+<p>这样两种数据结构完全不同的数据需要整合成相同的显示样式,跟同事讨论后决定粗暴的也是最简单的方法修改点锅数据,给大分类后面强行包裹一层小分类.</p>
+
+<h2 id="toc_1">视图设计</h2>
+
+<p>数据层搞定了,又到了显示问题了:<br/>
+分类显示马上想到了<code>tableView</code>,但是<code>点锅</code>和<code>点菜</code>互不干扰,我想到的就是分成两个<code>section</code>,这时又有一个问题,需求又要求大分类和小分类的样式是不一样的,不一样的,不一样的&hellip;怎么办? 使用<code>tableViewSectionHeader</code>.按大类进行划分,<code>点锅</code>和<code>点菜</code>之间的区分用数据.小分类则用cell表示.</p>
+
+<h3 id="toc_2">tableViewSectionHeader 设计</h3>
+
+<p>既然已经决定了用<code>headerView</code>那么怎么设计呢?</p>
+
+<ol>
+<li>点击事件</li>
+<li>确定具体点击的是哪个</li>
+</ol>
+
+<p>所以我在设计<code>headerView</code>的时候让它在显示数据的时候也要传入当前的<code>index</code>:</p>
+
+<pre><code>    func setName(_ name: String, index: Int) {
+        nameLabel.text = name
+        self.index = index
+    }
+</code></pre>
+
+<p>(ps: 不要吐槽,刚开始用Swift写项目😂)</p>
+
+<p>这样我自己记录下传入的<code>index</code>当点击事件的时候再告诉外界具体点击的是哪一个:</p>
+
+<pre><code>    @objc private func labelClick() {
+        delegate?.didSelectedHeader(section : self.index)
+    }
+</code></pre>
+
+<p>很明显的知道我是使用代理进行数据传递的..说下为啥不使用属性记录<code>index</code>?? 任性😁</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[xib报错]]></title>
@@ -1437,83 +1495,6 @@ for (n,s) in array.enumerated().reversed() {
 }
 
 </code></pre>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[如何获取手机上安装的所有App]]></title>
-    <link href="http://www.citynight.cn/Blog/14778331858080.html"/>
-    <updated>2016-10-30T21:13:05+08:00</updated>
-    <id>http://www.citynight.cn/Blog/14778331858080.html</id>
-    <content type="html"><![CDATA[
-<pre><code>#include &lt;objc/runtime.h&gt; 
-
-Class LSApplicationWorkspace_class = objc_getClass(&quot;LSApplicationWorkspace&quot;);
-NSObject* workspace = [LSApplicationWorkspace_class performSelector:@selector(defaultWorkspace)];
-NSLog(@&quot;apps: %@&quot;, [workspace performSelector:@selector(allApplications)]);
-</code></pre>
-
-<p>模拟器打印结果:</p>
-
-<pre><code>apps: (
-    &quot;&lt;LSApplicationProxy: 0x7fbd34603da0&gt; com.apple.appleaccount.AACredentialRecoveryDialog file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/AACredentialRecoveryDialog.app &lt;com.apple.appleaccount.AACredentialRecoveryDialog &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd383073a0&gt; com.apple.AccountAuthenticationDialog file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/AccountAuthenticationDialog.app &lt;com.apple.AccountAuthenticationDialog &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd38308a00&gt; com.apple.AdSheetPhone file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/AdSheet.app &lt;com.apple.AdSheetPhone &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd38308df0&gt; com.apple.Bridge file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/Bridge.app &lt;com.apple.Bridge &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd38308fe0&gt; com.apple.camera file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/Camera.app &lt;com.apple.camera &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd34503d80&gt; com.apple.MobileAddressBook file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/Contacts.app &lt;com.apple.MobileAddressBook &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd34605980&gt; com.apple.CoreAuthUI file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/CoreAuthUI.app &lt;com.apple.CoreAuthUI &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd346062f0&gt; com.apple.DataActivation file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/DataActivation.app &lt;com.apple.DataActivation &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd34606730&gt; com.apple.datadetectors.DDActionsService file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/DDActionsService.app &lt;com.apple.datadetectors.DDActionsService &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd34606f60&gt; com.apple.FacebookAccountMigrationDialog file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/FacebookAccountMigrationDialog.app &lt;com.apple.FacebookAccountMigrationDialog &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd346074c0&gt; com.apple.gamecenter.GameCenterUIService file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/GameCenterUIService.app &lt;com.apple.gamecenter.GameCenterUIService &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd34607b10&gt; com.apple.siri.parsec.HashtagImagesApp file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/HashtagImages.app &lt;com.apple.siri.parsec.HashtagImagesApp &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd34608040&gt; com.apple.Health file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/Health.app &lt;com.apple.Health &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd346085d0&gt; com.apple.HealthPrivacyService file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/HealthPrivacyService.app &lt;com.apple.HealthPrivacyService &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd34608f70&gt; com.apple.Home.HomeUIService file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/HomeUIService.app &lt;com.apple.Home.HomeUIService &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd346093c0&gt; com.apple.iad.iAdOptOut file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/iAdOptOut.app &lt;com.apple.iad.iAdOptOut &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd346095b0&gt; com.apple.CloudKit.ShareBear file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/iCloud.app &lt;com.apple.CloudKit.ShareBear &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd3460a060&gt; com.apple.iCloudDriveApp file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/iCloudDriveApp.app &lt;com.apple.iCloudDriveApp &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd3460a4b0&gt; com.apple.LoginUI file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/LoginUI.app &lt;com.apple.LoginUI &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd3460a9f0&gt; com.apple.MailCompositionService file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/MailCompositionService.app &lt;com.apple.MailCompositionService &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd3460ae80&gt; com.apple.Maps file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/Maps.app &lt;com.apple.Maps &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd3460b3e0&gt; com.apple.mobilesms.compose file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/MessagesViewService.app &lt;com.apple.mobilesms.compose &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd3460bb00&gt; com.apple.mobilecal file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/MobileCal.app &lt;com.apple.mobilecal &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd3460bf50&gt; com.apple.mobilesafari file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/MobileSafari.app &lt;com.apple.mobilesafari &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd3460c4e0&gt; com.apple.mobileslideshow file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/MobileSlideShow.app &lt;com.apple.mobileslideshow &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd3460c8d0&gt; com.apple.MobileSMS file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/MobileSMS.app &lt;com.apple.MobileSMS &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd3460cac0&gt; com.apple.MusicUIService file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/MusicUIService.app &lt;com.apple.MusicUIService &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd3460d520&gt; com.apple.news file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/News.app &lt;com.apple.news &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd3460dc70&gt; com.apple.Passbook file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/Passbook.app &lt;com.apple.Passbook &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd3460e0c0&gt; com.apple.PassbookUIService file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/PassbookUIService.app &lt;com.apple.PassbookUIService &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd3460e510&gt; com.apple.PhotosViewService file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/PhotosViewService.app &lt;com.apple.PhotosViewService &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd3460eaf0&gt; com.apple.Preferences file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/Preferences.app &lt;com.apple.Preferences &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd3460ece0&gt; com.apple.PrintKit.Print-Center file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/Print%20Center.app &lt;com.apple.PrintKit.Print-Center &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd3460abe0&gt; com.apple.reminders file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/Reminders.app &lt;com.apple.reminders &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd3460f790&gt; com.apple.SafariViewService file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/SafariViewService.app &lt;com.apple.SafariViewService &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd3460ffc0&gt; com.apple.ServerDocuments file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/ServerDocuments.app &lt;com.apple.ServerDocuments &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd34610580&gt; com.apple.SharedWebCredentialViewService file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/SharedWebCredentialViewService.app &lt;com.apple.SharedWebCredentialViewService &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd34610ab0&gt; com.apple.SharingViewService file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/SharingViewService.app &lt;com.apple.SharingViewService &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd34610ca0&gt; com.apple.SiriViewService file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/SiriViewService.app &lt;com.apple.SiriViewService &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd34610e90&gt; com.apple.social.SLGoogleAuth file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/SLGoogleAuth.app &lt;com.apple.social.SLGoogleAuth &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd345016b0&gt; com.apple.social.SLYahooAuth file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/SLYahooAuth.app &lt;com.apple.social.SLYahooAuth &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd34501370&gt; com.apple.share file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/SocialUIService.app &lt;com.apple.share &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd34507a80&gt; com.apple.ios.StoreKitUIService file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/StoreKitUIService.app &lt;com.apple.ios.StoreKitUIService &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd34507c70&gt; com.apple.TencentWeiboAccountMigrationDialog file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/TencentWeiboAccountMigrationDialog.app &lt;com.apple.TencentWeiboAccountMigrationDialog &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd34507e60&gt; com.apple.TrustMe file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/TrustMe.app &lt;com.apple.TrustMe &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd346123f0&gt; com.apple.VSViewService file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/VideoSubscriberAccountViewService.app &lt;com.apple.VSViewService &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd34612c30&gt; com.apple.webapp file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/Web.app &lt;com.apple.webapp &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd346133b0&gt; com.apple.webapp1 file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/WebApp1.app &lt;com.apple.webapp1 &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd34613fa0&gt; com.apple.WebContentFilter.remoteUI.WebContentAnalysisUI file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/WebContentAnalysisUI.app &lt;com.apple.WebContentFilter.remoteUI.WebContentAnalysisUI &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd34614930&gt; com.apple.WebSheet file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/WebSheet.app &lt;com.apple.WebSheet &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd346151b0&gt; cn.citynight.----- file:///Users/mekor/Library/Developer/CoreSimulator/Devices/F9CC59DD-6467-40E5-B0AE-F7EDDD22C612/data/Containers/Bundle/Application/0F126D14-F359-4D63-AEE7-B569519AC04F/%E5%85%91%E6%8D%A2%E5%88%B8%E6%B5%8B%E8%AF%95.app &lt;cn.citynight.----- &lt;installed &gt;&gt;&quot;
-)
-
-</code></pre>
-
-<p>动态调用加上简单的混淆应该就可以了<br/>
-上架要自己拼接字符串绕过审查</p>
 
 ]]></content>
   </entry>

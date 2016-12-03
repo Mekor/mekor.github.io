@@ -105,6 +105,8 @@
         <li><label>教程</label></li>
 
           
+            <li><a title="左右联动效果再实现" href="14807724917867.html">左右联动效果再实现</a></li>
+          
             <li><a title="Git学习" href="14793607171148.html">Git学习</a></li>
           
             <li><a title="如何获取手机上安装的所有App" href="14778331858080.html">如何获取手机上安装的所有App</a></li>
@@ -266,6 +268,8 @@
                     
                       <li class="side-title"><span>教程</span></li>
                         
+                          <li><a title="左右联动效果再实现" href="14807724917867.html">左右联动效果再实现</a></li>
+                        
                           <li><a title="Git学习" href="14793607171148.html">Git学习</a></li>
                         
                           <li><a title="如何获取手机上安装的所有App" href="14778331858080.html">如何获取手机上安装的所有App</a></li>
@@ -362,16 +366,56 @@
 
 	
 		<div class="markdown-body">
-		<h1>xib报错</h1>
+		<h1>左右联动效果再实现</h1>
 
 		<blockquote>
-<p>错误信息: Unknown class XXXX in Interface Builder file. (lldb)</p>
+<p>在微指的时候,商户详情界面中就存在左右联动,具体实现可见<a href="https://github.com/Mekor/MKShowDetail">MKShowDetail</a> .当然这次和微指的时候有所不同,层级结构更深,所属视图跨控制器.下面是正文👇</p>
 </blockquote>
 
-<p>原因,Xib是在其他项目中创建的,拖进来的时候没有注意,只要修改<br/>
-<img src="media/14802973825600/14802974822042.jpg" alt=""/></p>
+<h2 id="toc_0">数据结构</h2>
 
-<p>修改module为项目的就好了</p>
+<p>在海底捞Pad版本项目中,点菜和点锅是两种完全不同的东西,但是又都属于点菜类中,所以数据结构比较复杂:</p>
+
+<pre><code>点锅: 大分类 --&gt; 具体的锅底
+点菜: 大分类 --&gt; 小分类 --&gt; 具体菜品
+</code></pre>
+
+<p><strong>需求:</strong> <em>大分类下如果有小分类并且小分类个数大于1个的时候显示小分类,如果小于一个则不显示.</em></p>
+
+<p>这样两种数据结构完全不同的数据需要整合成相同的显示样式,跟同事讨论后决定粗暴的也是最简单的方法修改点锅数据,给大分类后面强行包裹一层小分类.</p>
+
+<h2 id="toc_1">视图设计</h2>
+
+<p>数据层搞定了,又到了显示问题了:<br/>
+分类显示马上想到了<code>tableView</code>,但是<code>点锅</code>和<code>点菜</code>互不干扰,我想到的就是分成两个<code>section</code>,这时又有一个问题,需求又要求大分类和小分类的样式是不一样的,不一样的,不一样的&hellip;怎么办? 使用<code>tableViewSectionHeader</code>.按大类进行划分,<code>点锅</code>和<code>点菜</code>之间的区分用数据.小分类则用cell表示.</p>
+
+<h3 id="toc_2">tableViewSectionHeader 设计</h3>
+
+<p>既然已经决定了用<code>headerView</code>那么怎么设计呢?</p>
+
+<ol>
+<li>点击事件</li>
+<li>确定具体点击的是哪个</li>
+</ol>
+
+<p>所以我在设计<code>headerView</code>的时候让它在显示数据的时候也要传入当前的<code>index</code>:</p>
+
+<pre><code>    func setName(_ name: String, index: Int) {
+        nameLabel.text = name
+        self.index = index
+    }
+</code></pre>
+
+<p>(ps: 不要吐槽,刚开始用Swift写项目😂)</p>
+
+<p>这样我自己记录下传入的<code>index</code>当点击事件的时候再告诉外界具体点击的是哪一个:</p>
+
+<pre><code>    @objc private func labelClick() {
+        delegate?.didSelectedHeader(section : self.index)
+    }
+</code></pre>
+
+<p>很明显的知道我是使用代理进行数据传递的..说下为啥不使用属性记录<code>index</code>?? 任性😁</p>
 
 
 		</div>
