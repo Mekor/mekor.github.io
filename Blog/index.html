@@ -430,7 +430,16 @@
 
 <p>直接设置<code>scrollow</code>的<code>contentOffset</code>就可以了</p>
 
-<p><strong>怎么做到电商网站中详情页与图文详情页滚动呢?</strong> 最简单的一种实现方式:</p>
+<p><strong>怎么做到电商网站中详情页与图文详情页滚动呢?</strong> 以当前项目为例(点锅在首屏),最简单的一种实现方式:</p>
+
+<p>使用下拉刷新&amp;上拉加载更多实现</p>
+
+<ol>
+<li>点锅页面上拉加载更多跳转到点菜页面(通过上面代码设置<code>scrollow</code>的<code>contentOffset</code>实现)</li>
+<li>点菜页面下拉刷新跳转到点锅页面,实现方式同上..</li>
+</ol>
+
+<p>这样很容易实现两个页面之间的跳转.</p>
 
 
 		</div>
