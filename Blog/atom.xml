@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2016-12-03T22:19:37+08:00</updated>
+  <updated>2016-12-03T22:22:00+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -69,6 +69,19 @@
 <p>很明显的知道我是使用代理进行数据传递的..说下为啥不使用属性记录<code>index</code>?? 任性😁</p>
 
 <p>到这里<code>headerView</code>基本完成了,控制器实现代理方法就好了,然后根据<code>index</code>让右侧具体的菜品滚动到相应的位置就好了&hellip;</p>
+
+<h3 id="toc_3">点锅点菜区分&amp;跳转</h3>
+
+<p>接上,左侧显示的大分类与小分类都是统一的了,但是右侧的点菜与点锅是分开的<strong>锅是锅,菜是菜</strong>.怎样区分呢?使用两套数据源,然后随时切换&gt;?? 不行🚫&hellip;要求要像淘宝或者京东详情页那样,可以滚动到下一页还可以滚回到上一页&hellip;怎么办? 使用两个collection控制器,一个显示点锅数据,一个显示点菜数据.这样做能够尽量减少某一个单独的控制器中存在过多的逻辑代码.那么谁来承载这两个控制器呢?再创建一个控制器然后把这两个放进去? 这样也能实现,就是控制器太多了&hellip;我想用的是一个<code>scrollow</code>来包裹这两个控制器,好处是能够控制显示那个控制器,逻辑也比较简单..比如说滚到第一个视图:</p>
+
+<pre><code>        UIView.animate(withDuration: 0.25, delay: 0, options: .layoutSubviews, animations: ({
+            self.contentView.contentOffset = CGPoint(x: 0, y: 0)
+        }), completion: nil)
+</code></pre>
+
+<p>直接设置<code>scrollow</code>的<code>contentOffset</code>就可以了</p>
+
+<p><strong>怎么做到电商网站中详情页与图文详情页滚动呢?</strong> 最简单的一种实现方式:</p>
 
 ]]></content>
   </entry>
