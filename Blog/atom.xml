@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2016-12-03T22:40:55+08:00</updated>
+  <updated>2016-12-04T00:01:53+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -99,6 +99,48 @@
 
 <p>把点菜数据也通过一层操作转成两层数据:  <code>三层数据 --&gt; 遍历 --&gt; 数组 + 字典</code><br/>
 具体点就是遍历三层数据,然后使用IndexPath当做 key ,具体的<code>Item</code>数组当做 value 这样就转换成立一个二级结构数据.具体<code>IndexPath</code>中<code>section</code>存放原有的大分类信息,<code>row</code>存放子分类数据信息..这样我们就可以通过 key 找到原有的数据结构信息,然后通过 key 把原有的信息传递到tableView,实现联动.</p>
+
+<h3 id="toc_5">具体联动效果实现</h3>
+
+<p>左侧点击后使用 <code>collectionView?.scrollToItem(at: IndexPath(item: 0, section: section), at: .top, animated: true)</code> 让右侧数据滚动到相应位置,关键是右侧滚动怎么判断左侧滚动到相应位置</p>
+
+<p>在<code>scrollViewDidScroll</code>方法中获得当前显示的<code>Item</code>,具体计算方法如下:</p>
+
+<pre><code>    private func minCurrentSection(collectionView:UICollectionView) -&gt; Int {
+        // 根据屏幕的某一坐标,获取当前的index
+        // 将collectionView在控制器屏幕的点转化成collectionView上的坐标
+        let topPoint = CGPoint(x: UIScreen.main.bounds.size.width*0.5, y: 64)
+        let pInView = view.convert(topPoint, to: collectionView)
+        
+        // 获取这一点的indexPath
+        let  indexPathNow = collectionView.indexPathForItem(at: pInView)
+
+        // 赋值给记录当前坐标的变量
+        return indexPathNow?.section ?? 0
+    }
+
+</code></pre>
+
+<p>这样就能够得到当前<code>Item</code>的<code>section</code>,<code>点锅</code>数据就可以直接让row等于0 然后直接回调就OK了,点菜数据还有些差别:<br/>
+点菜需要返回具体的<code>indexPathNow</code>而不是只返回所在<code>section</code>,因为我们需要返回来的<code>index</code>寻找所在的<code>Item</code></p>
+
+<pre><code>guard let cell = collectionView?.cellForItem(at: index) as? OrderDishOrPotCollectionCell else {
+            return
+        }
+        delegate?.orderDishCurrent(position: IndexPath(row:cell.index.row , section: cell.index.section))
+</code></pre>
+
+<p>如上,我在<code>cell</code>中存放一个使用元组的属性</p>
+
+<pre><code>    // 记录对应的大分类与小分类
+    var index:(section:Int,row:Int) = (section: 0,row: 0)
+</code></pre>
+
+<p>处理菜品数据的时候所说的,<code>点菜</code>比较特殊我用<code>IndexPath</code>来记录原先所在的大分类与小分类,那么这里的属性就是记录<code>Key</code>中<code>IndexPath</code>所对应的值.我们既然能够找到这个<code>Item</code>那么问题就都解决了,就像上面代码中的回调.</p>
+
+<h3 id="toc_6">注意</h3>
+
+<p>因为这次需求是右侧数据滚动的过程中让左侧数据及时响应,而不是滚动结束的时候响应,所以需要判断是触摸滚动还是左侧数据点击后右侧数据滚动,毕竟两侧联动吗不做处理的话点击右侧数据左侧滚动,在左侧数据滚动的过程中又会及时回调让左侧数据滚动..</p>
 
 ]]></content>
   </entry>
