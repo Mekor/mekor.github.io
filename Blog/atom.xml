@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2016-12-05T22:37:37+08:00</updated>
+  <updated>2016-12-05T22:38:01+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -12,6 +12,26 @@
   </author>
   <generator uri="http://www.mweb.im">MWeb</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Scroll UICollectionView to section header view]]></title>
+    <link href="http://www.citynight.cn/Blog/14810139766101.html"/>
+    <updated>2016-12-06T16:46:16+08:00</updated>
+    <id>http://www.citynight.cn/Blog/14810139766101.html</id>
+    <content type="html"><![CDATA[
+<p>新界面左右联动的时候遇到了一个问题,怎么在左侧tableView点击某一cell的时候右侧collectionView跳转到对应的section</p>
+
+<p>如果没有section header View 的时候直接跳转到这个section的第一个Item就ok了,但是如果有section header View 的时候就需要注意了,不能这样进行跳转了,下面👇是经过测试的方法能够完美跳转到相应的section:</p>
+
+<pre><code>let attributes = self.collectionView.collectionViewLayout.layoutAttributesForSupplementaryViewOfKind(UICollectionElementKindSectionHeader, atIndexPath: NSIndexPath(forItem: 0, inSection: index))
+
+self.collectionView.setContentOffset(CGPointMake(0, attributes!.frame.origin.y - self.collectionView.contentInset.top), animated: true)
+</code></pre>
+
+<p>参见:<a href="http://stackoverflow.com/questions/22100227/scroll-uicollectionview-to-section-header-view">Scroll UICollectionView to section header view</a></p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[左右联动效果再实现]]></title>
@@ -1517,69 +1537,6 @@ for (n,s) in array.enumerated().reversed() {
 </code></pre>
 
 <p>看起来效果不错.</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[获取当前显示的UIViewController]]></title>
-    <link href="http://www.citynight.cn/Blog/14781433227076.html"/>
-    <updated>2016-11-03T11:22:02+08:00</updated>
-    <id>http://www.citynight.cn/Blog/14781433227076.html</id>
-    <content type="html"><![CDATA[
-<pre><code>+ (UIViewController *)getCurrentRootViewController {
-
-    CommonTool *tool = [[CommonTool alloc]init];
-
-    UIViewController *result;
-    UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
-
-    if (topWindow.windowLevel != UIWindowLevelNormal){
-        NSArray *windows = [[UIApplication sharedApplication] windows];
-        for(topWindow in windows){
-            if (topWindow.windowLevel == UIWindowLevelNormal)
-                break;
-        }
-    }
-
-    UIView *rootView = [topWindow subviews].firstObject;
-    id nextResponder = [rootView nextResponder];
-
-    if ([nextResponder isMemberOfClass:[UIViewController class]]){
-        result = nextResponder;
-    }
-    else if ([nextResponder isMemberOfClass:[UITabBarController class]] | [nextResponder isMemberOfClass:[UINavigationController class]]){
-        result = [tool findViewController:nextResponder];
-    }
-    else if ([topWindow respondsToSelector:@selector(rootViewController)] &amp;&amp; topWindow.rootViewController != nil){
-        result = topWindow.rootViewController;
-    }
-
-    else{
-        NSAssert(NO, @&quot;找不到顶端VC&quot;);
-    }
-    return result;
-}
-
-</code></pre>
-
-<pre><code>- (UIViewController *)findViewController:(id)controller{
-    if ([controller isMemberOfClass:[UINavigationController class]]) {
-        return [self findViewController:[(UINavigationController *)controller visibleViewController]];
-    }
-    else if ([controller isMemberOfClass:[UITabBarController class]]){
-        return [self findViewController:[(UITabBarController *)controller selectedViewController]];
-    }
-    else if ([controller isKindOfClass:[UIViewController class]]){
-        return controller;
-    }
-    else{
-        NSAssert(NO, @&quot;找不到顶端VC&quot;);
-        return nil;
-    }
-}
-
-</code></pre>
 
 ]]></content>
   </entry>

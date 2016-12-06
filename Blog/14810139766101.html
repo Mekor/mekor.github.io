@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  李小争
+  Scroll UICollectionView to section header view - 李小争
   
   </title>
  <meta name="description" content="记录开发中遇到的一些问题">
@@ -365,70 +365,57 @@
             </div>
             <div class="large-9 medium-9 columns">
 
- 
+ <div class="markdown-body">
+<h1>Scroll UICollectionView to section header view</h1>
 
+<p>新界面左右联动的时候遇到了一个问题,怎么在左侧tableView点击某一cell的时候右侧collectionView跳转到对应的section</p>
 
-	
-		<div class="markdown-body">
-		<h1>Swift - 字典中的增删改,遍历与合并</h1>
+<p>如果没有section header View 的时候直接跳转到这个section的第一个Item就ok了,但是如果有section header View 的时候就需要注意了,不能这样进行跳转了,下面👇是经过测试的方法能够完美跳转到相应的section:</p>
 
-		<p>增删改</p>
+<pre><code>let attributes = self.collectionView.collectionViewLayout.layoutAttributesForSupplementaryViewOfKind(UICollectionElementKindSectionHeader, atIndexPath: NSIndexPath(forItem: 0, inSection: index))
 
-<pre><code>var dict:[String:Any] = [&quot;name&quot; : &quot;小明&quot;, &quot;age&quot; : 18, &quot;sex&quot;:&quot;man&quot;]
-
-// 新增
-dict[&quot;title&quot;] = &quot;老大&quot;
-print(dict)
-
-// 修改
-dict[&quot;name&quot;] = &quot;赵四&quot;
-print(dict)
-
-// 删除
-dict.removeValue(forKey: &quot;age&quot;)
-print(dict)
-
+self.collectionView.setContentOffset(CGPointMake(0, attributes!.frame.origin.y - self.collectionView.contentInset.top), animated: true)
 </code></pre>
 
-<p>遍历,合并</p>
-
-<pre><code>// 遍历
-for e in dict {
-    print(e)
-}
-
-for (k,v) in dict {
-    print(&quot;key:\(k)  value:\(v)&quot;)
-}
-// 合并
-var dict1:[String:Any] = [&quot;name&quot; : &quot;李明&quot;, &quot;age&quot; : 18, &quot;sex&quot;:&quot;m&quot;]
-var dict2:[String:Any] = [&quot;name&quot; : &quot;韩梅梅&quot;, &quot;age&quot; : 16, &quot;sex&quot;:&quot;w&quot;]
-// 如果把 dict2 合并到 dict1
-for e in dict2 {
-    dict1[e.key] = e.value   //dict2[e.key]
-}
-print(&quot;----------\n\(dict1)&quot;)
-
-</code></pre>
+<p>参见:<a href="http://stackoverflow.com/questions/22100227/scroll-uicollectionview-to-section-header-view">Scroll UICollectionView to section header view</a></p>
 
 
-		</div>
-	
+</div>
 
- 
-	
+<br /><br />
+<hr />
 
- 
-	
+<div class="row clearfix">
+  <div class="large-6 columns">
+	<div class="text-left" style="padding:15px 0px;">
+		
+	</div>
+  </div>
+  <div class="large-6 columns">
+	<div class="text-right" style="padding:15px 0px;">
+		
+	        <a href="14807724917867.html" 
+	        title="Next Post: 左右联动效果再实现">左右联动效果再实现 &raquo;</a>
+	    
+	</div>
+  </div>
+</div>
 
- 
-	
+<div class="row">
+<div style="padding:0px 0.93em;" class="share-comments">
 
- 
-	
-
-  
-  
+</div>
+</div>
+<script type="text/javascript">
+	$(function(){
+		var currentURL = '14810139766101.html';
+		$('#side-nav a').each(function(){
+			if($(this).attr('href') == currentURL){
+				$(this).parent().addClass('active');
+			}
+		});
+	});
+</script>  
 </div></div>
 
 
