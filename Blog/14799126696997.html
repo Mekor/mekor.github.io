@@ -445,8 +445,22 @@ print(addTo(9)(1))
 </code></pre>
 
 <p>&mdash;-12.8&mdash;-<br/>
-说到函数式编程,我突然想起了今天实现一个功能所用到的技术,这里只做简单记录.<br/>
-&mdash;-未完待续&mdash;</p>
+说到函数式编程,我突然想起了今天实现一个功能所用到的技术,这里只做简单记录.</p>
+
+<p>项目中遇到一个问题:根据参数创建相应个数的视图,视图中按钮的点击事件还要回调..我一开始想用代理来做,发现如果层级结构比较深的话代理不是很好用.既然否定了代理那么怎样还能实现该效果呢?我尝试用函数(闭包).</p>
+
+<pre><code>let showTitle =  data[i][&quot;title&quot;] as! String
+let showSubTitle = data[i][&quot;subtitle&quot;] as! String
+let imageName = data[i][&quot;imagename&quot;] as! String
+let callBack = data[i][&quot;callback&quot;] as! (()-&gt;()) // 这里就是我需要的闭包
+
+//=======
+
+callBack() // 闭包调用
+
+</code></pre>
+
+<p>&mdash;-未完待续&mdash;</p>
 
 
 </div>
