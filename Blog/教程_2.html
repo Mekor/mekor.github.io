@@ -107,6 +107,8 @@
         <li><label>教程</label></li>
 
           
+            <li><a title="iOS8之后设置PopoverController" href="14813828036514.html">iOS8之后设置PopoverController</a></li>
+          
             <li><a title="左右联动效果再实现" href="14807724917867.html">左右联动效果再实现</a></li>
           
             <li><a title="Git学习" href="14793607171148.html">Git学习</a></li>
@@ -272,6 +274,8 @@
                     
                       <li class="side-title"><span>教程</span></li>
                         
+                          <li><a title="iOS8之后设置PopoverController" href="14813828036514.html">iOS8之后设置PopoverController</a></li>
+                        
                           <li><a title="左右联动效果再实现" href="14807724917867.html">左右联动效果再实现</a></li>
                         
                           <li><a title="Git学习" href="14793607171148.html">Git学习</a></li>
@@ -370,44 +374,52 @@
 
 	
 		<div class="markdown-body">
-		<h1>iOS10 遇到问题总结</h1>
+		<h1>GCD(Grand Central Dispatch)</h1>
 
-		<p>iOS10 用户权限设置新增，在info.plist文件中，新增字段：</p>
+		<p>可以让程序长时间压后台</p>
 
-<table>
-<thead>
-<tr>
-<th>权限</th>
-<th>字段</th>
-<th>说明</th>
-</tr>
-</thead>
+<pre><code>//  后台执行：
+dispatch_async(dispatch_get_global_queue(0, 0), ^{
+  // something
+});
 
-<tbody>
-<tr>
-<td>相册权限</td>
-<td>Privacy - Photo Library Usage Description</td>
-<td>string类型的文字说明</td>
-</tr>
-<tr>
-<td>相机权限</td>
-<td>NSCameraUsageDescription</td>
-<td>string类型的文字说明</td>
-</tr>
-<tr>
-<td>麦克风权限</td>
-<td>NSMicrophoneUsageDescription</td>
-<td>string类型的文字说明</td>
-</tr>
-<tr>
-<td>定位权限</td>
-<td>NSLocationWhenInUseUsageDescription</td>
-<td>string类型的文字说明</td>
-</tr>
-</tbody>
-</table>
+// 主线程执行：
+dispatch_async(dispatch_get_main_queue(), ^{
+  // something
+});
 
-<p>iOS10 新用户下载app，使用以上前3种权限，如果不添加授权描述，会导致程序崩溃</p>
+// 一次性执行：
+static dispatch_once_t onceToken;
+dispatch_once(&amp;onceToken, ^{
+  // code to be executed once
+});
+
+// 延迟2秒执行：
+double delayInSeconds = 2.0;
+dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+   // code to be executed on the main queue after delay
+});
+
+// 自定义dispatch_queue_t
+dispatch_queue_t urls_queue = dispatch_queue_create(&quot;blog.devtang.com&quot;, NULL);
+dispatch_async(urls_queue, ^{
+  // your code
+});
+dispatch_release(urls_queue);
+
+// 合并汇总结果
+dispatch_group_t group = dispatch_group_create();
+dispatch_group_async(group, dispatch_get_global_queue(0,0), ^{
+  // 并行执行的线程一
+});
+dispatch_group_async(group, dispatch_get_global_queue(0,0), ^{
+  // 并行执行的线程二
+});
+dispatch_group_notify(group, dispatch_get_global_queue(0,0), ^{
+  // 汇总结果
+});
+</code></pre>
 
 
 		</div>

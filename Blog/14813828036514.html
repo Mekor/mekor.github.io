@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  xib报错 - 李小争
+  iOS8之后设置PopoverController - 李小争
   
   </title>
  <meta name="description" content="记录开发中遇到的一些问题">
@@ -370,16 +370,39 @@
             <div class="large-9 medium-9 columns">
 
  <div class="markdown-body">
-<h1>xib报错</h1>
+<h1>iOS8之后设置PopoverController</h1>
 
-<blockquote>
-<p>错误信息: Unknown class XXXX in Interface Builder file. (lldb)</p>
-</blockquote>
+<p>直接上代码:</p>
 
-<p>原因,Xib是在其他项目中创建的,拖进来的时候没有注意,只要修改<br/>
-<img src="media/14802973825600/14802974822042.jpg" alt=""/></p>
+<pre><code>    @IBOutlet weak var popoverButton: UIButton!
+    @IBAction func popoverClick(_ sender: Any) {
+        
+        // 需要被展示的控制器
+        let popover = PopoverViewController()
+        // 设置呈现样式
+        popover.modalPresentationStyle = .popover
+        // 对应原来PopoverController中的rect
+        popover.popoverPresentationController?.sourceRect = self.popoverButton.bounds
+        // 对应原来PopoverController中的inView
+        popover.popoverPresentationController?.sourceView = self.popoverButton
+        // 展示
+        self.present(popover, animated: true, completion: nil)
+    }
+</code></pre>
 
-<p>修改module为项目的就好了</p>
+<p>在被呈现的控制器中设置显示的大小:</p>
+
+<pre><code>class PopoverViewController: UIViewController {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        /// 设置呈现大小
+        self.preferredContentSize = CGSize(width: 400, height: 400)
+    }
+}
+</code></pre>
+
+<p>以上设置,如果是iPhone的话,模态弹出视图,popover属性就会被忽略.iPad则会Popover弹出</p>
 
 
 </div>
@@ -391,15 +414,13 @@
   <div class="large-6 columns">
 	<div class="text-left" style="padding:15px 0px;">
 		
-	        <a href="14807724917867.html"  title="Previous Post: 左右联动效果再实现">&laquo; 左右联动效果再实现</a>
-	    
 	</div>
   </div>
   <div class="large-6 columns">
 	<div class="text-right" style="padding:15px 0px;">
 		
-	        <a href="14799970254990.html" 
-	        title="Next Post: Swift - 面向协议编程">Swift - 面向协议编程 &raquo;</a>
+	        <a href="14810139766101.html" 
+	        title="Next Post: Scroll UICollectionView to section header view">Scroll UICollectionView to section header view &raquo;</a>
 	    
 	</div>
   </div>
@@ -412,7 +433,7 @@
 </div>
 <script type="text/javascript">
 	$(function(){
-		var currentURL = '14802973825600.html';
+		var currentURL = '14813828036514.html';
 		$('#side-nav a').each(function(){
 			if($(this).attr('href') == currentURL){
 				$(this).parent().addClass('active');

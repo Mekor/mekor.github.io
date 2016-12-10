@@ -107,6 +107,8 @@
         <li><label>教程</label></li>
 
           
+            <li><a title="iOS8之后设置PopoverController" href="14813828036514.html">iOS8之后设置PopoverController</a></li>
+          
             <li><a title="左右联动效果再实现" href="14807724917867.html">左右联动效果再实现</a></li>
           
             <li><a title="Git学习" href="14793607171148.html">Git学习</a></li>
@@ -272,6 +274,8 @@
                     
                       <li class="side-title"><span>教程</span></li>
                         
+                          <li><a title="iOS8之后设置PopoverController" href="14813828036514.html">iOS8之后设置PopoverController</a></li>
+                        
                           <li><a title="左右联动效果再实现" href="14807724917867.html">左右联动效果再实现</a></li>
                         
                           <li><a title="Git学习" href="14793607171148.html">Git学习</a></li>
@@ -370,18 +374,39 @@
 
 	
 		<div class="markdown-body">
-		<h1>Scroll UICollectionView to section header view</h1>
+		<h1>iOS8之后设置PopoverController</h1>
 
-		<p>新界面左右联动的时候遇到了一个问题,怎么在左侧tableView点击某一cell的时候右侧collectionView跳转到对应的section</p>
+		<p>直接上代码:</p>
 
-<p>如果没有section header View 的时候直接跳转到这个section的第一个Item就ok了,但是如果有section header View 的时候就需要注意了,不能这样进行跳转了,下面👇是经过测试的方法能够完美跳转到相应的section:</p>
-
-<pre><code>let attributes = self.collectionView.collectionViewLayout.layoutAttributesForSupplementaryViewOfKind(UICollectionElementKindSectionHeader, atIndexPath: NSIndexPath(forItem: 0, inSection: index))
-
-self.collectionView.setContentOffset(CGPointMake(0, attributes!.frame.origin.y - self.collectionView.contentInset.top), animated: true)
+<pre><code>    @IBOutlet weak var popoverButton: UIButton!
+    @IBAction func popoverClick(_ sender: Any) {
+        
+        // 需要被展示的控制器
+        let popover = PopoverViewController()
+        // 设置呈现样式
+        popover.modalPresentationStyle = .popover
+        // 对应原来PopoverController中的rect
+        popover.popoverPresentationController?.sourceRect = self.popoverButton.bounds
+        // 对应原来PopoverController中的inView
+        popover.popoverPresentationController?.sourceView = self.popoverButton
+        // 展示
+        self.present(popover, animated: true, completion: nil)
+    }
 </code></pre>
 
-<p>参见:<a href="http://stackoverflow.com/questions/22100227/scroll-uicollectionview-to-section-header-view">Scroll UICollectionView to section header view</a></p>
+<p>在被呈现的控制器中设置显示的大小:</p>
+
+<pre><code>class PopoverViewController: UIViewController {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        /// 设置呈现大小
+        self.preferredContentSize = CGSize(width: 400, height: 400)
+    }
+}
+</code></pre>
+
+<p>以上设置,如果是iPhone的话,模态弹出视图,popover属性就会被忽略.iPad则会Popover弹出</p>
 
 
 		</div>
