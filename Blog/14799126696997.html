@@ -449,6 +449,16 @@ print(addTo(9)(1))
 
 <p>项目中遇到一个问题:根据参数创建相应个数的视图,视图中按钮的点击事件还要回调..我一开始想用代理来做,发现如果层级结构比较深的话代理不是很好用.既然否定了代理那么怎样还能实现该效果呢?我尝试用函数(闭包).</p>
 
+<p>需要传递的数据<br/>
+<code><br/>
+let dict = [<br/>
+    [&quot;title&quot;:GLOBAL_LANGUAGE(&quot;历史锅底&quot;) ,<br/>
+     &quot;subtitle&quot;:GLOBAL_LANGUAGE(&quot;上次的定制锅底,再来一单&quot;),<br/>
+     &quot;imagename&quot;:&quot;OrderDishOrPot1&quot;,<br/>
+     &quot;callback&quot;:historyPotsList!]  // callback 中存放的就是函数名或者闭包名<br/>
+]<br/>
+</code></p>
+
 <pre><code>let showTitle =  data[i][&quot;title&quot;] as! String
 let showSubTitle = data[i][&quot;subtitle&quot;] as! String
 let imageName = data[i][&quot;imagename&quot;] as! String
@@ -459,6 +469,8 @@ let callBack = data[i][&quot;callback&quot;] as! (()-&gt;()) // 这里就是我�
 callBack() // 闭包调用
 
 </code></pre>
+
+<p>只需要这样我就能实现需求了&hellip;函数的传递虽然不像👆所说的那样函数式编程,但是还是有必要记录下,swift跟OC比还是灵活了很多.</p>
 
 <p>&mdash;-未完待续&mdash;</p>
 
