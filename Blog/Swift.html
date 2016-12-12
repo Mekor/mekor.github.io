@@ -173,7 +173,7 @@
         <li><label>Swift</label></li>
 
           
-            <li><a title="Swift - 懒加载的正确姿势" href="14815534553600.html">Swift - 懒加载的正确姿势</a></li>
+            <li><a title="Swift - 上周问题总结" href="14815534553600.html">Swift - 上周问题总结</a></li>
           
             <li><a title="Swift - 面向协议编程" href="14799970254990.html">Swift - 面向协议编程</a></li>
           
@@ -336,7 +336,7 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
-                          <li><a title="Swift - 懒加载的正确姿势" href="14815534553600.html">Swift - 懒加载的正确姿势</a></li>
+                          <li><a title="Swift - 上周问题总结" href="14815534553600.html">Swift - 上周问题总结</a></li>
                         
                           <li><a title="Swift - 面向协议编程" href="14799970254990.html">Swift - 面向协议编程</a></li>
                         
@@ -378,9 +378,11 @@
 
 	
 		<div class="markdown-body">
-		<h1>Swift - 懒加载的正确姿势</h1>
+		<h1>Swift - 上周问题总结</h1>
 
-		<blockquote>
+		<h2 id="toc_0">懒加载的正确姿势</h2>
+
+<blockquote>
 <p>使用Swift的时候用懒加载,但是我发现我使用的时候不能再懒加载中调用本文件中声明的属性,原因是我在写懒加载的时候没有注明类型,正确的姿势应该是:</p>
 </blockquote>
 
@@ -393,6 +395,18 @@
 <p>快捷键<br/>
 <img src="media/14815534553600/14815536582812.jpg" alt=""/><br/>
 采用这种方式声明的懒加载能够在内部使用self</p>
+
+<h2 id="toc_1">OC中用KVC赋值,使NSString类型指向了NSNumber,导致Swift中调用崩溃</h2>
+
+<blockquote>
+<p>崩溃信息:<code>reason: &#39;-[__NSCFNumber length]: unrecognized selector sent to instance 0x00000XXXX</code></p>
+</blockquote>
+
+<p>原因分析:NSString指向的数据类型为NSNumber的数据,取值时崩溃.由于原有的代码不能更改,提出一种解决方案,重写NSString数据的<code>set</code>方法,赋值前判断数据类型,如果是NSNumber类型就转换成NSString类型.</p>
+
+<h2 id="toc_2">视图层级深,内部视图如何通知控制器数据更新?</h2>
+
+<p>我想到的一种方法是把函数当做参数来传递,这样能够在一定程度上减少层级结构.甲冠提出设置一个属性,然后在属性的<code>didSet</code>中调用方法.目前还没有做实践,目测层级结构没有任何减少,但是代码量会少些.需要实验验证下.</p>
 
 
 		</div>
