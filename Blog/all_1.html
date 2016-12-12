@@ -173,6 +173,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="Swift - 懒加载的正确姿势" href="14815534553600.html">Swift - 懒加载的正确姿势</a></li>
+          
             <li><a title="Swift - 面向协议编程" href="14799970254990.html">Swift - 面向协议编程</a></li>
           
             <li><a title="Swift - 函数式编程" href="14799126696997.html">Swift - 函数式编程</a></li>
@@ -334,6 +336,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="Swift - 懒加载的正确姿势" href="14815534553600.html">Swift - 懒加载的正确姿势</a></li>
+                        
                           <li><a title="Swift - 面向协议编程" href="14799970254990.html">Swift - 面向协议编程</a></li>
                         
                           <li><a title="Swift - 函数式编程" href="14799126696997.html">Swift - 函数式编程</a></li>
@@ -374,113 +378,37 @@
 
 	
 		<div class="markdown-body">
-		<h1>Swift - 函数式编程</h1>
+		<h1>Swift - 面向协议编程</h1>
 
-		<p>一般情况:</p>
+		<p>跟全部写在base中比较:</p>
 
-<pre><code>struct User {
-    func login(password: String){
-        print(password)
+<ol>
+<li>代码没有增多,却更复用</li>
+<li>面向协议(接口),而不是实现,充分解耦</li>
+<li>静态类型检查版主在编译时发现问题</li>
+<li>写代码像搭积木,先设计接口,再逐一实现</li>
+<li>依赖少,更容易调试</li>
+</ol>
+
+<pre><code>protocol Hello {
+    func sayHello()
+}
+
+extension Hello {
+    func sayHello() {
+        print(&quot;Hello!&quot;)
     }
 }
 
-let passwd = &quot;123123123&quot;
-let usr = User()
-
-usr.login(password: passwd)
-</code></pre>
-
-<p>函数式编程</p>
-
-<pre><code>struct User {
-    func login(password: String){
-        print(password)
-    }
+struct Person: Hello {
+    
 }
 
-let passwd = &quot;123123123&quot;
-let usr = User()
-
-User.login(usr)(password: passwd)
+let p = Person()
+p.sayHello()
 </code></pre>
 
-<p>由此可见: <code>usr.login(password: passwd)</code> == <code>User.login(usr)(password: passwd)</code></p>
-
-<p>如果忽略外部参数</p>
-
-<pre><code>struct User {
-    func login(_ password: String){
-        print(password)
-    }
-}
-
-let passwd = &quot;123123123&quot;
-let usr = User()
-usr.login(passwd)
-User.login(usr)(passwd)
-</code></pre>
-
-<p>这样就更简洁了</p>
-
-<hr/>
-
-<p>&mdash; 11.24更 &ndash;</p>
-
-<h2 id="toc_0">柯里化(Currying)</h2>
-
-<pre><code>// 柯里化(Currying)
-
-func addOne(num:Int) -&gt;Int {
-    return num + 1
-}
-
-print(addOne(num: 10))
-
-func addTo(_ adder:Int) -&gt;(_ num:Int) -&gt; Int {
-    return {
-        num in
-        return num + adder
-    }
-}
-
-let addTwo = addTo(2)
-
-print(addTwo(6))
-
-// 更简单的调用方式
-print(addTo(9)(1))
-
-</code></pre>
-
-<p>&mdash;-12.8&mdash;-<br/>
-说到函数式编程,我突然想起了今天实现一个功能所用到的技术,这里只做简单记录.</p>
-
-<p>项目中遇到一个问题:根据参数创建相应个数的视图,视图中按钮的点击事件还要回调..我一开始想用代理来做,发现如果层级结构比较深的话代理不是很好用.既然否定了代理那么怎样还能实现该效果呢?我尝试用函数(闭包).</p>
-
-<p>需要传递的数据<br/>
-<code><br/>
-let dict = [<br/>
-    [&quot;title&quot;:GLOBAL_LANGUAGE(&quot;历史锅底&quot;) ,<br/>
-     &quot;subtitle&quot;:GLOBAL_LANGUAGE(&quot;上次的定制锅底,再来一单&quot;),<br/>
-     &quot;imagename&quot;:&quot;OrderDishOrPot1&quot;,<br/>
-     &quot;callback&quot;:historyPotsList!]  // callback 中存放的就是函数名或者闭包名<br/>
-]<br/>
-</code></p>
-
-<pre><code>let showTitle =  data[i][&quot;title&quot;] as! String
-let showSubTitle = data[i][&quot;subtitle&quot;] as! String
-let imageName = data[i][&quot;imagename&quot;] as! String
-let callBack = data[i][&quot;callback&quot;] as! (()-&gt;()) // 这里就是我需要的闭包
-
-//=======
-
-callBack() // 闭包调用
-
-</code></pre>
-
-<p>只需要这样我就能实现需求了&hellip;函数的传递虽然不像👆所说的那样函数式编程,但是还是有必要记录下,swift跟OC比还是灵活了很多.</p>
-
-<p>&mdash;-未完待续&mdash;</p>
+<p>创建一个协议,并且做一个默认实现.使用的时候可以直接调用</p>
 
 
 		</div>
