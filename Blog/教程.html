@@ -107,6 +107,8 @@
         <li><label>教程</label></li>
 
           
+            <li><a title="获取崩溃信息" href="14816416025061.html">获取崩溃信息</a></li>
+          
             <li><a title="iOS8之后设置PopoverController" href="14813828036514.html">iOS8之后设置PopoverController</a></li>
           
             <li><a title="左右联动效果再实现" href="14807724917867.html">左右联动效果再实现</a></li>
@@ -276,6 +278,8 @@
                     
                       <li class="side-title"><span>教程</span></li>
                         
+                          <li><a title="获取崩溃信息" href="14816416025061.html">获取崩溃信息</a></li>
+                        
                           <li><a title="iOS8之后设置PopoverController" href="14813828036514.html">iOS8之后设置PopoverController</a></li>
                         
                           <li><a title="左右联动效果再实现" href="14807724917867.html">左右联动效果再实现</a></li>
@@ -378,39 +382,23 @@
 
 	
 		<div class="markdown-body">
-		<h1>iOS8之后设置PopoverController</h1>
+		<h1>获取崩溃信息</h1>
 
-		<p>直接上代码:</p>
+		<p>日志详细信息:</p>
 
-<pre><code>    @IBOutlet weak var popoverButton: UIButton!
-    @IBAction func popoverClick(_ sender: Any) {
-        
-        // 需要被展示的控制器
-        let popover = PopoverViewController()
-        // 设置呈现样式
-        popover.modalPresentationStyle = .popover
-        // 对应原来PopoverController中的rect
-        popover.popoverPresentationController?.sourceRect = self.popoverButton.bounds
-        // 对应原来PopoverController中的inView
-        popover.popoverPresentationController?.sourceView = self.popoverButton
-        // 展示
-        self.present(popover, animated: true, completion: nil)
-    }
-</code></pre>
+<pre><code>static void exceptionHandler( NSException * exception )
+{
+    NSString *date = [NSString stringWithFormat:@&quot;崩溃日志-%@&quot;, [[NSDate date] description]];
 
-<p>在被呈现的控制器中设置显示的大小:</p>
-
-<pre><code>class PopoverViewController: UIViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        /// 设置呈现大小
-        self.preferredContentSize = CGSize(width: 400, height: 400)
-    }
+    NSLog(DEBUG_CRASH, @&quot;%@ app crashed %@&quot;,date,exception.description);
+     abort();
 }
 </code></pre>
 
-<p>以上设置,如果是iPhone的话,模态弹出视图,popover属性就会被忽略.iPad则会Popover弹出</p>
+<p>Appdelegate中调用:</p>
+
+<pre><code>NSSetUncaughtExceptionHandler( &amp;exceptionHandler );
+</code></pre>
 
 
 		</div>

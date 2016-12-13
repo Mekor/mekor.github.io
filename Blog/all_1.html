@@ -107,6 +107,8 @@
         <li><label>教程</label></li>
 
           
+            <li><a title="获取崩溃信息" href="14816416025061.html">获取崩溃信息</a></li>
+          
             <li><a title="iOS8之后设置PopoverController" href="14813828036514.html">iOS8之后设置PopoverController</a></li>
           
             <li><a title="左右联动效果再实现" href="14807724917867.html">左右联动效果再实现</a></li>
@@ -276,6 +278,8 @@
                     
                       <li class="side-title"><span>教程</span></li>
                         
+                          <li><a title="获取崩溃信息" href="14816416025061.html">获取崩溃信息</a></li>
+                        
                           <li><a title="iOS8之后设置PopoverController" href="14813828036514.html">iOS8之后设置PopoverController</a></li>
                         
                           <li><a title="左右联动效果再实现" href="14807724917867.html">左右联动效果再实现</a></li>
@@ -378,37 +382,16 @@
 
 	
 		<div class="markdown-body">
-		<h1>Swift - 面向协议编程</h1>
+		<h1>xib报错</h1>
 
-		<p>跟全部写在base中比较:</p>
+		<blockquote>
+<p>错误信息: Unknown class XXXX in Interface Builder file. (lldb)</p>
+</blockquote>
 
-<ol>
-<li>代码没有增多,却更复用</li>
-<li>面向协议(接口),而不是实现,充分解耦</li>
-<li>静态类型检查版主在编译时发现问题</li>
-<li>写代码像搭积木,先设计接口,再逐一实现</li>
-<li>依赖少,更容易调试</li>
-</ol>
+<p>原因,Xib是在其他项目中创建的,拖进来的时候没有注意,只要修改<br/>
+<img src="media/14802973825600/14802974822042.jpg" alt=""/></p>
 
-<pre><code>protocol Hello {
-    func sayHello()
-}
-
-extension Hello {
-    func sayHello() {
-        print(&quot;Hello!&quot;)
-    }
-}
-
-struct Person: Hello {
-    
-}
-
-let p = Person()
-p.sayHello()
-</code></pre>
-
-<p>创建一个协议,并且做一个默认实现.使用的时候可以直接调用</p>
+<p>修改module为项目的就好了</p>
 
 
 		</div>

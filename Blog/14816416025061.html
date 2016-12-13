@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  UILabel边缘出现黑线 - 李小争
+  获取崩溃信息 - 李小争
   
   </title>
  <meta name="description" content="记录开发中遇到的一些问题">
@@ -378,12 +378,22 @@
             <div class="large-9 medium-9 columns">
 
  <div class="markdown-body">
-<h1>UILabel边缘出现黑线</h1>
+<h1>获取崩溃信息</h1>
 
-<p>问题:代码实现 UILabel 时出现的边缘黑线问题<br/>
-原因:当 UILabel 的宽高出现浮点型数字时,在高清屏下有可能出现右侧边缘黑线问题, 解决方法是使用 <code>CGRectIntegral()</code> 方法确保 <code>frame</code> 中不存在非整形数值</p>
+<p>日志详细信息:</p>
 
-<pre><code>label.frame = CGRectIntegral(CGRectMake(0, 0, ceil(width),40));
+<pre><code>static void exceptionHandler( NSException * exception )
+{
+    NSString *date = [NSString stringWithFormat:@&quot;崩溃日志-%@&quot;, [[NSDate date] description]];
+
+    NSLog(DEBUG_CRASH, @&quot;%@ app crashed %@&quot;,date,exception.description);
+     abort();
+}
+</code></pre>
+
+<p>Appdelegate中调用:</p>
+
+<pre><code>NSSetUncaughtExceptionHandler( &amp;exceptionHandler );
 </code></pre>
 
 
@@ -396,15 +406,13 @@
   <div class="large-6 columns">
 	<div class="text-left" style="padding:15px 0px;">
 		
-	        <a href="14766308131126.html"  title="Previous Post: UITableView优化方案(收集)">&laquo; UITableView优化方案(收集)</a>
-	    
 	</div>
   </div>
   <div class="large-6 columns">
 	<div class="text-right" style="padding:15px 0px;">
 		
-	        <a href="14765420394973.html" 
-	        title="Next Post: iOS 模拟器 添加图片到相册的小技巧">iOS 模拟器 添加图片到相册的小技巧 &raquo;</a>
+	        <a href="14815534553600.html" 
+	        title="Next Post: Swift - 上周问题总结">Swift - 上周问题总结 &raquo;</a>
 	    
 	</div>
   </div>
@@ -417,7 +425,7 @@
 </div>
 <script type="text/javascript">
 	$(function(){
-		var currentURL = '14766298858600.html';
+		var currentURL = '14816416025061.html';
 		$('#side-nav a').each(function(){
 			if($(this).attr('href') == currentURL){
 				$(this).parent().addClass('active');

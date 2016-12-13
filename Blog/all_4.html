@@ -107,6 +107,8 @@
         <li><label>教程</label></li>
 
           
+            <li><a title="获取崩溃信息" href="14816416025061.html">获取崩溃信息</a></li>
+          
             <li><a title="iOS8之后设置PopoverController" href="14813828036514.html">iOS8之后设置PopoverController</a></li>
           
             <li><a title="左右联动效果再实现" href="14807724917867.html">左右联动效果再实现</a></li>
@@ -276,6 +278,8 @@
                     
                       <li class="side-title"><span>教程</span></li>
                         
+                          <li><a title="获取崩溃信息" href="14816416025061.html">获取崩溃信息</a></li>
+                        
                           <li><a title="iOS8之后设置PopoverController" href="14813828036514.html">iOS8之后设置PopoverController</a></li>
                         
                           <li><a title="左右联动效果再实现" href="14807724917867.html">左右联动效果再实现</a></li>
@@ -378,140 +382,98 @@
 
 	
 		<div class="markdown-body">
-		<h1>会议记录(培训)</h1>
+		<h1>Swift - 数组遍历</h1>
 
-		<h2 id="toc_0">Scrum 快速迭代与反馈</h2>
+		<blockquote>
+<p>最近没怎么更新,主要是最近刚入职新公司.正在熟悉环境中&hellip; 好了题目是<code>Swift - 数组遍历</code> 主要是项目要使用 Swift 开发,所以需要熟悉下语法.</p>
+</blockquote>
 
-<p>快速迭代得到用户的反馈</p>
+<h2 id="toc_0">传统的下标遍历方法</h2>
 
-<h2 id="toc_1">scrum概念</h2>
+<pre><code>let array = [&quot;张三&quot;,&quot;李四&quot;,&quot;王五&quot;]
 
-<p>敏捷宣言:个体与交互 高于 流程与工具<br/>
-工作的软件 高于 详尽的文档<br/>
-客户合作 高于 合同谈判<br/>
-相应变化 高于 遵循计划</p>
+// 第一种 下标遍历
+for i in 0..&lt;array.count {
+    print(array[i])
+}
+</code></pre>
 
-<p>在短时间内交付组稿价值的</p>
+<h2 id="toc_1">for in 遍历元素</h2>
 
-<p>Scrum框架  3 3 5 5</p>
+<pre><code>// 第二种 for in 遍历元素
+for s in array {
+    print(s)
+}
+</code></pre>
 
-<h3 id="toc_2">3个角色</h3>
+<h2 id="toc_2">enum block遍历</h2>
 
-<h4 id="toc_3">PO(Product owner)产品经理</h4>
+<pre><code>// 第三种 enum block 遍历
+for e in array.enumerated() {
+    print(e)
+}
+</code></pre>
 
-<ul>
-<li>一个人</li>
-<li>产品决策</li>
-<li>驱动产品走向成功</li>
-<li>客户与团队的桥梁(双向的代表)</li>
-<li>建立意愿</li>
-<li>负责&quot;做什么&quot;</li>
-<li>对Product Backlog 排优先级   (故事来表达条目,如果有其他的也可以)</li>
-<li>决定发布日期</li>
-<li>接受和退回工作成果</li>
-</ul>
+<p>结果:</p>
 
-<h4 id="toc_4">开发团队  &ndash;&gt; 规模 = 7+-2</h4>
+<pre><code>(0, &quot;张三&quot;)
+(1, &quot;李四&quot;)
+(2, &quot;王五&quot;)
+</code></pre>
 
-<p>能力:职能全(编码/测试),团队做一个项目<br/>
- 职责:产品增量(完整的可以上线的产品)<br/>
- 持续自我改进:所有成员都要有</p>
+<p>我们可以看下e的类型&ndash;元组<br/>
+<img src="media/14789442794521/14789449636069.jpg" alt=""/></p>
 
-<h4 id="toc_5">SM(Sturm Master)</h4>
+<h2 id="toc_3">元组方法遍历下标和内容</h2>
 
-<ul>
-<li>管理层与团队的桥梁(双向代表)</li>
-<li>帮助团队做决定,自己不做决定</li>
-<li>团队内部教练</li>
-<li>开放并善于聆听</li>
-<li>营造和推进Scrum价值观</li>
-<li>帮助团队移除障碍</li>
-<li>为PO和团队服务</li>
-<li>培养和保护团队  保护团队不受打扰</li>
-<li>提升管队效率</li>
-</ul>
+<p>由上面第三种方法我们可以知道 e 的类型是元组,那么同样我们可以直接使用元组</p>
 
-<h3 id="toc_6">3个工件(过程成果和交付物)</h3>
+<pre><code>// 第四种 元组使用
+for (n,s) in array.enumerated() {
+    print(&quot;\(n) \(s)&quot;)
+}
+</code></pre>
 
-<h4 id="toc_7">Product Backlog</h4>
+<p>结果:</p>
 
-<ul>
-<li>动态列表,包含产品功能(用户故事:)</li>
-<li>其他能给用户带来的价值的工作(技术故事:一般由主设计由产品经理确认)</li>
-<li>好的Product Backlog <strong>详细,规模估算,涌现式,优先级(绝对序号排序,不要用高中低)</strong></li>
-<li>PO维护</li>
-</ul>
+<pre><code>0 张三
+1 李四
+2 王五
+</code></pre>
 
-<h4 id="toc_8">Sprint backlog</h4>
+<h2 id="toc_4">反序遍历</h2>
 
-<ul>
-<li>基于product backlog 拆分成更小的任务.关注与怎么做的问题</li>
-<li><p>开发团队负责创建与维护</p>
+<pre><code>// 第五种 反序遍历
+for i in array.reversed() {
+    print(i)
+}
+</code></pre>
 
-<p><em>1</em> 选取要进行的Product backlog Item<br/>
-<em>2</em> 协作完成<br/>
-<em>3</em> 通过scrum任务版让团队自我管理Sprint Backlog<br/>
-<em>4</em> 通过燃尽图跟踪sprint进展情况并预测和管理开发的进展</p>
+<p>结果</p>
 
-<h4 id="toc_9">Sprint产品增量</h4></li>
-<li><p>项目有一些列 sprint 组成</p></li>
-<li><p>通常2-4周</p></li>
-<li><p>固定周期    &ndash;&gt; 让开发团队适应节奏</p></li>
-<li><p>时间盒结束sprint结束</p></li>
-<li><p>计划会定义的工作要在sprint内全部完成</p></li>
-</ul>
+<pre><code>王五
+李四
+张三
+</code></pre>
 
-<h3 id="toc_10">5个活动</h3>
+<h2 id="toc_5">反序遍历 带索引</h2>
 
-<h4 id="toc_11">Sprint计划会</h4>
+<pre><code>// 第六种 反序遍历 带索引
+for (n,s) in array.enumerated().reversed() {
+    print(&quot;\(n) \(s)&quot;)
+}
+</code></pre>
 
-<ul>
-<li>第一部分:定义目标,选择可以承诺完成的任务(例如:主流程能跑通)</li>
-<li>第二部分:决定如何实现目标,创建Sprint backlog估算(故事清单,按清单做)
-####Daily Scrum 每日站立会</li>
-<li>每日</li>
-<li>相同时间地点</li>
-<li>15分钟</li>
-<li>站立 时间端,累 注意力集中</li>
-<li>团队,+SM,PO</li>
-</ul>
+<p>结果:</p>
 
-<h4 id="toc_12">迭代评审会</h4>
+<pre><code>2 王五
+1 李四
+0 张三
+</code></pre>
 
-<ul>
-<li>展示工作成果,获得客户反馈</li>
-<li>PO接受或者回退工作</li>
-<li>团队成员全部参家</li>
-<li>邀请相关干系人</li>
-</ul>
+<p>注意: <strong>先枚举再反序</strong></p>
 
-<h4 id="toc_13">迭代回顾会</h4>
-
-<ul>
-<li>团队开发过程会持续改进</li>
-<li>最长3小时</li>
-<li>全员参加,领导可以不参加</li>
-<li>敏捷教练或者SM带领大家回顾</li>
-<li>形成明确的改进计划,并在下一个迭代会回顾会检视效果</li>
-</ul>
-
-<h4 id="toc_14">把Scrum本身也做为一个活动</h4>
-
-<h3 id="toc_15">5个价值观</h3>
-
-<h2 id="toc_16">scrum拆解</h2>
-
-<h1 id="toc_17">案例</h1>
-
-<h2 id="toc_18">1.团队要敏捷,从哪里开始</h2>
-
-<h3 id="toc_19">准备阶段</h3>
-
-<p>团队组件:PO,SM(敏捷教练),开发团队(开发和测试不要很明确)</p>
-
-<h3 id="toc_20">项目启动会</h3>
-
-<h2 id="toc_21">2.git支管理办法</h2>
+<p>总结:Swift 太灵活了&hellip;</p>
 
 
 		</div>
