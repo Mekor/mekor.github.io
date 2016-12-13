@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2016-12-12T23:33:42+08:00</updated>
+  <updated>2016-12-13T23:10:50+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -33,6 +33,11 @@
 <p>Appdelegate中调用:</p>
 
 <pre><code>NSSetUncaughtExceptionHandler( &amp;exceptionHandler );
+</code></pre>
+
+<p>当然也可以在日志信息中记录堆栈信息:</p>
+
+<pre><code>[exception callStackSymbols]
 </code></pre>
 
 ]]></content>

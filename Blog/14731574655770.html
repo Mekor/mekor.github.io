@@ -639,6 +639,15 @@ HTTP有DNS或者建立链接的耗时，HTTPS有建立SSL链接的耗时。</p>
     &quot;User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.115 Safari/537.36\n\n&quot;;
 </code></pre>
 
+<h2 id="toc_8">其他优化方案</h2>
+
+<p>可以设置url缓存,直接在Appdelegate中默认设置就好了..</p>
+
+<pre><code>//网络缓存优化 -- 设置 4 MB 的内存缓存， 50MB 的磁盘缓存
+    NSURLCache *URLCache = [[NSURLCache alloc] initWithMemoryCapacity:4 * 1024 * 1024 diskCapacity:50 * 1024 * 1024 diskPath:nil];
+    [NSURLCache setSharedURLCache:URLCache];
+</code></pre>
+
 
 </div>
 
