@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2016-12-13T23:10:50+08:00</updated>
+  <updated>2016-12-13T23:17:26+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -12,6 +12,106 @@
   </author>
   <generator uri="http://www.mweb.im">MWeb</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[数据库复习]]></title>
+    <link href="http://www.citynight.cn/Blog/14817245458052.html"/>
+    <updated>2016-12-14T22:09:05+08:00</updated>
+    <id>http://www.citynight.cn/Blog/14817245458052.html</id>
+    <content type="html"><![CDATA[
+<blockquote>
+<p>项目中部分功能打算使用数据库进行数据本地存储,所以复习了下数据库语句</p>
+</blockquote>
+
+<h2 id="toc_0">DDL</h2>
+
+<pre><code>/*
+删除表,如果存在表就删除表
+*/
+DROP TABLE IF EXISTS &#39;t_student&#39;;
+
+/*
+创建表
+*/
+
+CREATE TABLE IF NOT EXISTS &#39;t_student&#39; (
+    &#39;id&#39; INTEGER NOT NULL PRIMARY KEY  AUTOINCREMENT,
+    &#39;name&#39; TEXT,
+    &#39;age&#39; INTEGER
+);
+</code></pre>
+
+<h2 id="toc_1">DML</h2>
+
+<pre><code>/*
+插入数据
+*/
+/*
+INSERT INTO &#39;t_student&#39; (name, age) VALUES (&#39;lxz1&#39;, 18);
+INSERT INTO &#39;t_student&#39; (name, age) VALUES (&#39;lxz2&#39;, 19);
+INSERT INTO &#39;t_student&#39; (name, age) VALUES (&#39;lxz3&#39;, 21);
+INSERT INTO &#39;t_student&#39; (name, age) VALUES (&#39;lxz4&#39;, 22);
+*/
+
+/*更新*/
+-- UPDATE t_student SET age = 20 WHERE name = &#39;lxz1&#39;
+UPDATE t_student SET name = &#39;xxx&#39; WHERE age &gt; 20
+
+
+/*删除*/
+DELETE FROM t_student WHERE name = &#39;xxx&#39;
+</code></pre>
+
+<h2 id="toc_2">DQL</h2>
+
+<pre><code>/*查询语句*/
+-- SELECT * FROM t_student;
+
+/*查询特殊的字段*/
+-- SELECT name,age FROM t_student;
+
+/*通过条件来查询语句*/
+-- SELECT name, age FROM t_student WHERE age &lt; 20;
+
+/*模糊查询*/
+-- SELECT name,age FROM t_student WHERE name LIKE &#39;%l%&#39;
+
+/*多个条件的查询
+AND 并且
+OR 或者
+*/
+-- SELECT name, age FROM t_student WHERE name LIKE &#39;%l%&#39; AND age &lt; 20;
+
+/*计算个数*/
+-- SELECT count(*) FROM t_student WHERE age &lt; 20
+
+/*排序
+升序 ASC
+降序 DESC
+*/
+-- SELECT * FROM t_student ORDER BY age DESC
+
+-- SELECT * FROM t_student ORDER BY age ASC, name DESC;
+
+/*起别名*/
+-- 给表起别名
+SELECT s.name, s.age FROM t_student AS s;
+-- 给字段起别名
+SELECT name AS myName, age AS myAge FROM t_student;
+
+
+/*分页查询 limt
+数字1的意思是前面跳过多少条数据
+数字2的意思是本次查询多少条数据
+SELECT * FROM t_student LIMIT 数字1,数字2
+
+跳过0条数据查询5条数据
+SELECT * FROM t_student LIMIT 5
+*/
+</code></pre>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[获取崩溃信息]]></title>
@@ -1273,93 +1373,6 @@ for e in dict2 {
 }
 print(&quot;----------\n\(dict1)&quot;)
 
-</code></pre>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Swift - 数组中的增删改与合并]]></title>
-    <link href="http://www.citynight.cn/Blog/14789459811464.html"/>
-    <updated>2016-11-12T18:19:41+08:00</updated>
-    <id>http://www.citynight.cn/Blog/14789459811464.html</id>
-    <content type="html"><![CDATA[
-<blockquote>
-<p>第一篇写了数组遍历的几种情况,这篇主要就是数组中的增删改,也是开发中常用的</p>
-</blockquote>
-
-<p>OC中数组分为可变(NSMutableArray)和不可变(NSArray) 相应的在Swift中就是 var &amp; let</p>
-
-<h2 id="toc_0">追加元素</h2>
-
-<p>首先定义一个可变数组</p>
-
-<pre><code>var array = [&quot;张三&quot;,&quot;李四&quot;,&quot;王五&quot;]
-</code></pre>
-
-<p>追加一个元素</p>
-
-<pre><code>// 追加元素
-array.append(&quot;赵六&quot;)
-print(array)
-</code></pre>
-
-<h2 id="toc_1">修改元素</h2>
-
-<p>通过下标进行修改</p>
-
-<pre><code>array[0] = &quot;赵四&quot;
-print(array)
-</code></pre>
-
-<p>结果:</p>
-
-<pre><code>[&quot;赵四&quot;, &quot;李四&quot;, &quot;王五&quot;, &quot;赵六&quot;]
-</code></pre>
-
-<h2 id="toc_2">删除</h2>
-
-<pre><code>// 删除元素
-array.remove(at: 0)
-print(array)
-</code></pre>
-
-<p>结果:</p>
-
-<pre><code>[&quot;赵四&quot;, &quot;李四&quot;, &quot;王五&quot;, &quot;赵六&quot;]
-[&quot;李四&quot;, &quot;王五&quot;, &quot;赵六&quot;]
-</code></pre>
-
-<p>remove 的方法由很多,移除首/尾,移除范围&hellip;</p>
-
-<pre><code>array.removeAll(keepingCapacity: true)
-print(&quot;数组中的元素\(array) 数组容量\(array.capacity)&quot;)
-</code></pre>
-
-<p>结果:</p>
-
-<pre><code>数组中的元素[] 数组容量6
-</code></pre>
-
-<h2 id="toc_3">数组合并</h2>
-
-<pre><code>var arr0 = [1,2,3]
-let arr1 = [3,4,5]
-arr0 += arr1
-print(arr0)
-</code></pre>
-
-<p>结果:</p>
-
-<pre><code>[1, 2, 3, 3, 4, 5]
-</code></pre>
-
-<p>注意: 要合并的数组的类型必须一致,如果不一致会出错. 比如:</p>
-
-<pre><code>var arr0:[Any] = [1,2,3]
-let arr1:[Any] = [&quot;2&quot;,3,4,5]
-arr0 += arr1
-print(arr0)
 </code></pre>
 
 ]]></content>

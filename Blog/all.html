@@ -167,6 +167,8 @@
         <li><label>杂记</label></li>
 
           
+            <li><a title="数据库复习" href="14817245458052.html">数据库复习</a></li>
+          
             <li><a title="会议记录(培训)" href="14787398225011.html">会议记录(培训)</a></li>
           
 
@@ -334,6 +336,8 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
+                          <li><a title="数据库复习" href="14817245458052.html">数据库复习</a></li>
+                        
                           <li><a title="会议记录(培训)" href="14787398225011.html">会议记录(培训)</a></li>
                         
 
@@ -382,27 +386,97 @@
 
 	
 		<div class="markdown-body">
-		<h1>获取崩溃信息</h1>
+		<h1>数据库复习</h1>
 
-		<p>日志详细信息:</p>
+		<blockquote>
+<p>项目中部分功能打算使用数据库进行数据本地存储,所以复习了下数据库语句</p>
+</blockquote>
 
-<pre><code>static void exceptionHandler( NSException * exception )
-{
-    NSString *date = [NSString stringWithFormat:@&quot;崩溃日志-%@&quot;, [[NSDate date] description]];
+<h2 id="toc_0">DDL</h2>
 
-    NSLog(DEBUG_CRASH, @&quot;%@ app crashed %@&quot;,date,exception.description);
-     abort();
-}
+<pre><code>/*
+删除表,如果存在表就删除表
+*/
+DROP TABLE IF EXISTS &#39;t_student&#39;;
+
+/*
+创建表
+*/
+
+CREATE TABLE IF NOT EXISTS &#39;t_student&#39; (
+    &#39;id&#39; INTEGER NOT NULL PRIMARY KEY  AUTOINCREMENT,
+    &#39;name&#39; TEXT,
+    &#39;age&#39; INTEGER
+);
 </code></pre>
 
-<p>Appdelegate中调用:</p>
+<h2 id="toc_1">DML</h2>
 
-<pre><code>NSSetUncaughtExceptionHandler( &amp;exceptionHandler );
+<pre><code>/*
+插入数据
+*/
+/*
+INSERT INTO &#39;t_student&#39; (name, age) VALUES (&#39;lxz1&#39;, 18);
+INSERT INTO &#39;t_student&#39; (name, age) VALUES (&#39;lxz2&#39;, 19);
+INSERT INTO &#39;t_student&#39; (name, age) VALUES (&#39;lxz3&#39;, 21);
+INSERT INTO &#39;t_student&#39; (name, age) VALUES (&#39;lxz4&#39;, 22);
+*/
+
+/*更新*/
+-- UPDATE t_student SET age = 20 WHERE name = &#39;lxz1&#39;
+UPDATE t_student SET name = &#39;xxx&#39; WHERE age &gt; 20
+
+
+/*删除*/
+DELETE FROM t_student WHERE name = &#39;xxx&#39;
 </code></pre>
 
-<p>当然也可以在日志信息中记录堆栈信息:</p>
+<h2 id="toc_2">DQL</h2>
 
-<pre><code>[exception callStackSymbols]
+<pre><code>/*查询语句*/
+-- SELECT * FROM t_student;
+
+/*查询特殊的字段*/
+-- SELECT name,age FROM t_student;
+
+/*通过条件来查询语句*/
+-- SELECT name, age FROM t_student WHERE age &lt; 20;
+
+/*模糊查询*/
+-- SELECT name,age FROM t_student WHERE name LIKE &#39;%l%&#39;
+
+/*多个条件的查询
+AND 并且
+OR 或者
+*/
+-- SELECT name, age FROM t_student WHERE name LIKE &#39;%l%&#39; AND age &lt; 20;
+
+/*计算个数*/
+-- SELECT count(*) FROM t_student WHERE age &lt; 20
+
+/*排序
+升序 ASC
+降序 DESC
+*/
+-- SELECT * FROM t_student ORDER BY age DESC
+
+-- SELECT * FROM t_student ORDER BY age ASC, name DESC;
+
+/*起别名*/
+-- 给表起别名
+SELECT s.name, s.age FROM t_student AS s;
+-- 给字段起别名
+SELECT name AS myName, age AS myAge FROM t_student;
+
+
+/*分页查询 limt
+数字1的意思是前面跳过多少条数据
+数字2的意思是本次查询多少条数据
+SELECT * FROM t_student LIMIT 数字1,数字2
+
+跳过0条数据查询5条数据
+SELECT * FROM t_student LIMIT 5
+*/
 </code></pre>
 
 

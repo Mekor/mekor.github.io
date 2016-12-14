@@ -167,6 +167,8 @@
         <li><label>杂记</label></li>
 
           
+            <li><a title="数据库复习" href="14817245458052.html">数据库复习</a></li>
+          
             <li><a title="会议记录(培训)" href="14787398225011.html">会议记录(培训)</a></li>
           
 
@@ -334,6 +336,8 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
+                          <li><a title="数据库复习" href="14817245458052.html">数据库复习</a></li>
+                        
                           <li><a title="会议记录(培训)" href="14787398225011.html">会议记录(培训)</a></li>
                         
 
@@ -382,97 +386,55 @@
 
 	
 		<div class="markdown-body">
-		<h1>Coding中检测系统授权状态，关闭提示用户去隐私设置中打开</h1>
+		<h1>AFN3.0 如何实现operation.responseString</h1>
 
-		<blockquote>
-<p>参考Coding项目,二维码扫描中使用到,大家可以参考:<a href="https://github.com/Mekor/MKScanner">MKScanner</a></p>
-</blockquote>
+		<p>我在AFNetworking issues中的回答<a href="https://github.com/AFNetworking/AFNetworking/issues/3551">how to get response body in failure block?</a>还有<br/>
+<a href="https://github.com/AFNetworking/AFNetworking/issues/3534">How can i get responseString which at AFNetworking 3.0</a></p>
 
-<p>Helper.h文件</p>
+<p>发现还有好多朋友还不清楚如何实现,其实很简单</p>
 
-<pre><code>#import &lt;Foundation/Foundation.h&gt;
-
-@interface Helper : NSObject
-
-/**
- * 检查系统&quot;照片&quot;授权状态, 如果权限被关闭, 提示用户去隐私设置中打开.
- */
-+ (BOOL)checkPhotoLibraryAuthorizationStatus;
-
-/**
- * 检查系统&quot;相机&quot;授权状态, 如果权限被关闭, 提示用户去隐私设置中打开.
- */
-+ (BOOL)checkCameraAuthorizationStatus;
-
-@end
+<pre><code>NSError *underError = error.userInfo[@&quot;NSUnderlyingError&quot;];
+NSData *responseData = underError.userInfo[@&quot;com.alamofire.serialization.response.error.data&quot;];
 </code></pre>
 
-<p>Helper.m文件</p>
+<p>有小伙伴问我<code>com.alamofire.serialization.response.error.data</code>是怎么来的,原来都是AFJSONResponseSerializer解析修改成<code>manager.responseSerializer = [AFHTTPResponseSerializer serializer];</code>这样报错的时候就会看到控制台打印的信息里面有<code>com.alamofire.serialization.response.error.data</code>后面输出responseData&hellip;然后才有了上面的解决办法</p>
 
-<pre><code>#import &quot;Helper.h&quot;
-@import AVFoundation;
+<p><strong>&mdash;&ndash;16.6.7更&mdash;&ndash;</strong><br/>
+作者回复中已经添加了相关操作<br/>
+在<code>AFURLResponseSerialization</code><br/>
+可以在 failure block 中添加下面代码获取responseString</p>
 
-@implementation Helper
+<pre><code>NSData *data = error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
+</code></pre>
 
-+ (BOOL)checkPhotoLibraryAuthorizationStatus
-{
-    if ([ALAssetsLibrary respondsToSelector:@selector(authorizationStatus)]) {
-        ALAuthorizationStatus authStatus = [ALAssetsLibrary authorizationStatus];
-        if (ALAuthorizationStatusDenied == authStatus ||
-            ALAuthorizationStatusRestricted == authStatus) {
-            [self showSettingAlertStr:@&quot;请在iPhone的“设置-&gt;隐私-&gt;照片”中打开本应用的访问权限&quot;];
-            return NO;
-        }
-    }
-    return YES;
-}
+<p>具体代码:</p>
 
-+ (BOOL)checkCameraAuthorizationStatus
-{
-    if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-        kTipAlert(@&quot;该设备不支持拍照&quot;);
-        return NO;
-    }
-    
-    if ([AVCaptureDevice respondsToSelector:@selector(authorizationStatusForMediaType:)]) {
-        AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
-        if (AVAuthorizationStatusDenied == authStatus ||
-            AVAuthorizationStatusRestricted == authStatus) {
-            [self showSettingAlertStr:@&quot;请在iPhone的“设置-&gt;隐私-&gt;相机”中打开本应用的访问权限&quot;];
-            return NO;
-        }
-    }
-    
-    return YES;
-}
+<pre><code>/**
+ ## User info dictionary keys
 
-+ (void)showSettingAlertStr:(NSString *)tipStr{
-    //iOS8+系统下可跳转到‘设置’页面，否则只弹出提示窗即可
-    if (floor(NSFoundationVersionNumber) &gt; NSFoundationVersionNumber_iOS_7_1) {
-        UIAlertView *alertView = [UIAlertView bk_alertViewWithTitle:@&quot;提示&quot; message:tipStr];
-        [alertView bk_setCancelButtonWithTitle:@&quot;取消&quot; handler:nil];
-        [alertView bk_addButtonWithTitle:@&quot;设置&quot; handler:nil];
-        [alertView bk_setDidDismissBlock:^(UIAlertView *alert, NSInteger index) {
-            if (index == 1) {
-                UIApplication *app = [UIApplication sharedApplication];
-                NSURL *settingsURL = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
-                if ([app canOpenURL:settingsURL]) {
-                    [app openURL:settingsURL];
-                }
-            }
-        }];
-        [alertView show];
-    }else{
-        kTipAlert(@&quot;%@&quot;, tipStr);
-    }
-}
+ These keys may exist in the user info dictionary, in addition to those defined for NSError.
 
-@end
+ - `NSString * const AFNetworkingOperationFailingURLResponseErrorKey`
+ - `NSString * const AFNetworkingOperationFailingURLResponseDataErrorKey`
 
+ ### Constants
+
+ `AFNetworkingOperationFailingURLResponseErrorKey`
+ The corresponding value is an `NSURLResponse` containing the response of the operation associated with an error. This key is only present in the `AFURLResponseSerializationErrorDomain`.
+
+ `AFNetworkingOperationFailingURLResponseDataErrorKey`
+ The corresponding value is an `NSData` containing the original data of the operation associated with an error. This key is only present in the `AFURLResponseSerializationErrorDomain`.
+ */
+FOUNDATION_EXPORT NSString * const AFNetworkingOperationFailingURLResponseErrorKey;
+
+FOUNDATION_EXPORT NSString * const AFNetworkingOperationFailingURLResponseDataErrorKey;
 </code></pre>
 
 
 		</div>
+	
+
+ 
 	
 
  
