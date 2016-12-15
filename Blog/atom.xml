@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2016-12-13T23:17:26+08:00</updated>
+  <updated>2016-12-15T22:09:25+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -184,6 +184,11 @@ SELECT * FROM t_student LIMIT 5
 
 <p>Cocoa:<br/>
 <img src="media/14815534553600/14815567675257.gif" alt=""/></p>
+
+<h2 id="toc_3">Xcode升级后部分第三方库报错</h2>
+
+<p><img src="media/14815534553600/Snip20161215_3.png" alt="Snip20161215_3"/><br/>
+让第三方库不跟随Xcode的swift版本</p>
 
 ]]></content>
   </entry>
