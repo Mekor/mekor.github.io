@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  Swift - 全屏返回手势 - 李小争
+  全屏返回手势小技巧 - 李小争
   
   </title>
  <meta name="description" content="记录开发中遇到的一些问题">
@@ -177,7 +177,7 @@
         <li><label>Swift</label></li>
 
           
-            <li><a title="Swift - 全屏返回手势" href="14823239811290.html">Swift - 全屏返回手势</a></li>
+            <li><a title="全屏返回手势小技巧" href="14823239811290.html">全屏返回手势小技巧</a></li>
           
             <li><a title="Swift - 上周问题总结" href="14815534553600.html">Swift - 上周问题总结</a></li>
           
@@ -346,7 +346,7 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
-                          <li><a title="Swift - 全屏返回手势" href="14823239811290.html">Swift - 全屏返回手势</a></li>
+                          <li><a title="全屏返回手势小技巧" href="14823239811290.html">全屏返回手势小技巧</a></li>
                         
                           <li><a title="Swift - 上周问题总结" href="14815534553600.html">Swift - 上周问题总结</a></li>
                         
@@ -386,11 +386,9 @@
             <div class="large-9 medium-9 columns">
 
  <div class="markdown-body">
-<h1>Swift - 全屏返回手势</h1>
+<h1>全屏返回手势小技巧</h1>
 
-<blockquote>
-<p>通过<code>runtime</code>与<code>KVC</code>配合完成</p>
-</blockquote>
+<h2 id="toc_0">第一种: 通过<code>runtime</code>与<code>KVC</code>配合完成</h2>
 
 <p>在<code>UINavigationController</code>的<code>viewDidLoad</code>方法中:</p>
 
@@ -408,6 +406,48 @@ let target = targets[0].value(forKey: &quot;_target&quot;)
 // 给视图添加点击事件
 let pan = UIPanGestureRecognizer(target: target, action: NSSelectorFromString(&quot;handleNavigationTransition:&quot;))
 view.addGestureRecognizer(pan)
+</code></pre>
+
+<h2 id="toc_1">第二种: 通过原有的代理完成</h2>
+
+<p>直接上代码:</p>
+
+<pre><code>class BaseNavigationController: UINavigationController {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        // 获取系统的手势的代理
+        guard let target = interactivePopGestureRecognizer?.delegate else {
+            return
+        }
+        
+        // 禁用系统的手势
+        interactivePopGestureRecognizer?.isEnabled = false
+        
+        // 给视图添加点击事件
+        let pan = UIPanGestureRecognizer(target: target, action: NSSelectorFromString(&quot;handleNavigationTransition:&quot;))
+        pan.delegate = self
+        view.addGestureRecognizer(pan)
+    }
+}
+
+extension BaseNavigationController:UIGestureRecognizerDelegate {
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -&gt; Bool {
+        // 当是跟控制器的时候不让返回,非跟控制器可以返回
+        return viewControllers.count &gt; 1
+    }
+}
+
+</code></pre>
+
+<p>第一种也应该设置代理,不设置代理的话跟控制出现手势就会有bug</p>
+
+<p>简单比较一下,第二种更简洁.不过应用了一个小技巧即:<code>target</code>&amp;<code>delegate</code></p>
+
+<pre><code>    let pan = UIPanGestureRecognizer(target: self, action: NSSelectorFromString(&quot;handleNavigationTransition:&quot;))
+    pan.delegate = self
+    view.addGestureRecognizer(pan)
 </code></pre>
 
 
