@@ -400,6 +400,8 @@
 
 <pre><code>// 获取系统的手势
 let gest = self.interactivePopGestureRecognizer!
+// 禁用系统的手势
+interactivePopGestureRecognizer?.isEnabled = false
 
 // 通过KVC获取target 属性是通过runtime获取的,具体方法参见`Swift - KVC 和 运行时获取属性列表`
 guard let targets = gest.value(forKey: &quot;_targets&quot;) as? [AnyObject] else {
