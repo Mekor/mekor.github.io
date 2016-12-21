@@ -177,6 +177,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="Swift - 全屏返回手势" href="14823239811290.html">Swift - 全屏返回手势</a></li>
+          
             <li><a title="Swift - 上周问题总结" href="14815534553600.html">Swift - 上周问题总结</a></li>
           
             <li><a title="Swift - 面向协议编程" href="14799970254990.html">Swift - 面向协议编程</a></li>
@@ -344,6 +346,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="Swift - 全屏返回手势" href="14823239811290.html">Swift - 全屏返回手势</a></li>
+                        
                           <li><a title="Swift - 上周问题总结" href="14815534553600.html">Swift - 上周问题总结</a></li>
                         
                           <li><a title="Swift - 面向协议编程" href="14799970254990.html">Swift - 面向协议编程</a></li>
@@ -386,20 +390,43 @@
 
 	
 		<div class="markdown-body">
-		<h1>Mac 下面Python 自动补全</h1>
+		<h1>Python爬网站上的图片</h1>
 
-		<p>网上有很多tab自动补全的脚本,但是在Mac上面都不能正常的运行,在<a href="http://stackoverflow.com/questions/7116038/python-tab-completion-mac-osx-10-7-lion">stackoverflow</a>找到一个能用的.</p>
+		<p>以<a href="http://ppt.geekbang.org">极客邦PPT大全</a>为例,比如我想下载<a href="http://ppt.geekbang.org/slide/show/204">美团iOS客户端的构建思考与实践</a></p>
 
-<pre><code>import readline
-import rlcompleter
-if &#39;libedit&#39; in readline.__doc__:
-    readline.parse_and_bind(&quot;bind ^I rl_complete&quot;)
-else:
-    readline.parse_and_bind(&quot;tab: complete&quot;)
+<ol>
+<li>查看图片url
+<img src="media/14689829459214/14689832970971.jpg" alt=""/></li>
+<li>图片url的格式<a href="http://7xiox7.com2.z0.glb.qiniucdn.com/576e52fb28bf9-01.jpg">http://7xiox7.com2.z0.glb.qiniucdn.com/576e52fb28bf9-01.jpg</a>  总共101张图片</li>
+<li>根据这些编写Python文件</li>
+</ol>
 
+<pre><code>#!/usr/bin/python
+#coding:utf-8
+
+import urllib
+import urllib2
+import os
+
+basepicurl=&quot;http://7xiox7.com2.z0.glb.qiniucdn.com/576e52fb28bf9-&quot;
+save_path=&quot;/Users/mekor/Desktop/images/&quot;
+for i in range(1,102,1):
+    s = &quot;%02d&quot; % i
+    picurl = basepicurl + s + &quot;.jpg&quot;
+    imgData = urllib2.urlopen(picurl).read()
+    # 给定图片存放名称
+    fileName = save_path + s + &quot;.jpg&quot;
+    # 文件名是否存在
+    #if os.path.exists(fileName):
+    output = open(fileName,&#39;wb+&#39;)
+    output.write(imgData)
+    output.close()
+    print &quot;Finished download&quot;+ s
+
+print &quot;运行完成&quot;
 </code></pre>
 
-<p>进入Python后直接import tab 就可以了</p>
+<p>这样就能够把所有的图片爬到本地了.</p>
 
 
 		</div>

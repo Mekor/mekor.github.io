@@ -177,6 +177,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="Swift - 全屏返回手势" href="14823239811290.html">Swift - 全屏返回手势</a></li>
+          
             <li><a title="Swift - 上周问题总结" href="14815534553600.html">Swift - 上周问题总结</a></li>
           
             <li><a title="Swift - 面向协议编程" href="14799970254990.html">Swift - 面向协议编程</a></li>
@@ -344,6 +346,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="Swift - 全屏返回手势" href="14823239811290.html">Swift - 全屏返回手势</a></li>
+                        
                           <li><a title="Swift - 上周问题总结" href="14815534553600.html">Swift - 上周问题总结</a></li>
                         
                           <li><a title="Swift - 面向协议编程" href="14799970254990.html">Swift - 面向协议编程</a></li>
@@ -386,97 +390,26 @@
 
 	
 		<div class="markdown-body">
-		<h1>数据库复习</h1>
+		<h1>Swift - 全屏返回手势</h1>
 
 		<blockquote>
-<p>项目中部分功能打算使用数据库进行数据本地存储,所以复习了下数据库语句</p>
+<p>通过<code>runtime</code>与<code>KVC</code>配合完成</p>
 </blockquote>
 
-<h2 id="toc_0">DDL</h2>
+<p>在<code>UINavigationController</code>的<code>viewDidLoad</code>方法中:</p>
 
-<pre><code>/*
-删除表,如果存在表就删除表
-*/
-DROP TABLE IF EXISTS &#39;t_student&#39;;
+<pre><code>// 获取系统的手势
+let gest = self.interactivePopGestureRecognizer!
 
-/*
-创建表
-*/
+// 通过KVC获取target 属性是通过runtime获取的,具体方法参见`Swift - KVC 和 运行时获取属性列表`
+guard let targets = gest.value(forKey: &quot;_targets&quot;) as? [AnyObject] else {
+    return
+}
+let target = targets[0].value(forKey: &quot;_target&quot;)
 
-CREATE TABLE IF NOT EXISTS &#39;t_student&#39; (
-    &#39;id&#39; INTEGER NOT NULL PRIMARY KEY  AUTOINCREMENT,
-    &#39;name&#39; TEXT,
-    &#39;age&#39; INTEGER
-);
-</code></pre>
-
-<h2 id="toc_1">DML</h2>
-
-<pre><code>/*
-插入数据
-*/
-/*
-INSERT INTO &#39;t_student&#39; (name, age) VALUES (&#39;lxz1&#39;, 18);
-INSERT INTO &#39;t_student&#39; (name, age) VALUES (&#39;lxz2&#39;, 19);
-INSERT INTO &#39;t_student&#39; (name, age) VALUES (&#39;lxz3&#39;, 21);
-INSERT INTO &#39;t_student&#39; (name, age) VALUES (&#39;lxz4&#39;, 22);
-*/
-
-/*更新*/
--- UPDATE t_student SET age = 20 WHERE name = &#39;lxz1&#39;
-UPDATE t_student SET name = &#39;xxx&#39; WHERE age &gt; 20
-
-
-/*删除*/
-DELETE FROM t_student WHERE name = &#39;xxx&#39;
-</code></pre>
-
-<h2 id="toc_2">DQL</h2>
-
-<pre><code>/*查询语句*/
--- SELECT * FROM t_student;
-
-/*查询特殊的字段*/
--- SELECT name,age FROM t_student;
-
-/*通过条件来查询语句*/
--- SELECT name, age FROM t_student WHERE age &lt; 20;
-
-/*模糊查询*/
--- SELECT name,age FROM t_student WHERE name LIKE &#39;%l%&#39;
-
-/*多个条件的查询
-AND 并且
-OR 或者
-*/
--- SELECT name, age FROM t_student WHERE name LIKE &#39;%l%&#39; AND age &lt; 20;
-
-/*计算个数*/
--- SELECT count(*) FROM t_student WHERE age &lt; 20
-
-/*排序
-升序 ASC
-降序 DESC
-*/
--- SELECT * FROM t_student ORDER BY age DESC
-
--- SELECT * FROM t_student ORDER BY age ASC, name DESC;
-
-/*起别名*/
--- 给表起别名
-SELECT s.name, s.age FROM t_student AS s;
--- 给字段起别名
-SELECT name AS myName, age AS myAge FROM t_student;
-
-
-/*分页查询 limt
-数字1的意思是前面跳过多少条数据
-数字2的意思是本次查询多少条数据
-SELECT * FROM t_student LIMIT 数字1,数字2
-
-跳过0条数据查询5条数据
-SELECT * FROM t_student LIMIT 5
-*/
+// 给视图添加点击事件
+let pan = UIPanGestureRecognizer(target: target, action: NSSelectorFromString(&quot;handleNavigationTransition:&quot;))
+view.addGestureRecognizer(pan)
 </code></pre>
 
 

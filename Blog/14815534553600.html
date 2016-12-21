@@ -177,6 +177,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="Swift - 全屏返回手势" href="14823239811290.html">Swift - 全屏返回手势</a></li>
+          
             <li><a title="Swift - 上周问题总结" href="14815534553600.html">Swift - 上周问题总结</a></li>
           
             <li><a title="Swift - 面向协议编程" href="14799970254990.html">Swift - 面向协议编程</a></li>
@@ -344,6 +346,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="Swift - 全屏返回手势" href="14823239811290.html">Swift - 全屏返回手势</a></li>
+                        
                           <li><a title="Swift - 上周问题总结" href="14815534553600.html">Swift - 上周问题总结</a></li>
                         
                           <li><a title="Swift - 面向协议编程" href="14799970254990.html">Swift - 面向协议编程</a></li>
@@ -406,7 +410,7 @@
 <p>崩溃信息:<code>reason: &#39;-[__NSCFNumber length]: unrecognized selector sent to instance 0x00000XXXX</code></p>
 </blockquote>
 
-<p>原因分析:NSString指向的数据类型为NSNumber的数据,取值时崩溃.由于原有的代码不能更改,提出一种解决方案,重写NSString数据的<code>set</code>方法,赋值前判断数据类型,如果是NSNumber类型就转换成NSString类型.</p>
+<p>原因分析:NSString指向的数据类型为NSNumber的数据,取值时崩溃.第一种方案找到赋值有误的地方修改,第二不修改原有的代码,提出一种解决方案,重写NSString数据的<code>set</code>方法,赋值前判断数据类型,如果是NSNumber类型就转换成NSString类型.ß®</p>
 
 <h2 id="toc_2">视图层级深,内部视图如何通知控制器数据更新?</h2>
 
