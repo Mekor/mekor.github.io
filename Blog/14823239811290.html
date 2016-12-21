@@ -63,6 +63,8 @@
         <li><label>技巧</label></li>
 
           
+            <li><a title="全屏返回手势小技巧" href="14823239811290.html">全屏返回手势小技巧</a></li>
+          
             <li><a title="Scroll UICollectionView to section header view" href="14810139766101.html">Scroll UICollectionView to section header view</a></li>
           
             <li><a title="隐藏tabBar的小技巧" href="14793034700265.html">隐藏tabBar的小技巧</a></li>
@@ -177,8 +179,6 @@
         <li><label>Swift</label></li>
 
           
-            <li><a title="全屏返回手势小技巧" href="14823239811290.html">全屏返回手势小技巧</a></li>
-          
             <li><a title="Swift - 上周问题总结" href="14815534553600.html">Swift - 上周问题总结</a></li>
           
             <li><a title="Swift - 面向协议编程" href="14799970254990.html">Swift - 面向协议编程</a></li>
@@ -239,6 +239,8 @@
 
                     
                       <li class="side-title"><span>技巧</span></li>
+                        
+                          <li><a title="全屏返回手势小技巧" href="14823239811290.html">全屏返回手势小技巧</a></li>
                         
                           <li><a title="Scroll UICollectionView to section header view" href="14810139766101.html">Scroll UICollectionView to section header view</a></li>
                         
@@ -346,8 +348,6 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
-                          <li><a title="全屏返回手势小技巧" href="14823239811290.html">全屏返回手势小技巧</a></li>
-                        
                           <li><a title="Swift - 上周问题总结" href="14815534553600.html">Swift - 上周问题总结</a></li>
                         
                           <li><a title="Swift - 面向协议编程" href="14799970254990.html">Swift - 面向协议编程</a></li>
@@ -387,6 +387,10 @@
 
  <div class="markdown-body">
 <h1>全屏返回手势小技巧</h1>
+
+<blockquote>
+<p>这片文章可以和<a href="http://www.citynight.cn/Blog/14790381443417.html">Swift - KVC 和 运行时获取属性列表</a> 一起看,当然配上<a href="http://www.citynight.cn/Blog/14793034700265.html">隐藏tabBar的小技巧</a>就更好了😀</p>
+</blockquote>
 
 <h2 id="toc_0">第一种: 通过<code>runtime</code>与<code>KVC</code>配合完成</h2>
 
@@ -443,12 +447,14 @@ extension BaseNavigationController:UIGestureRecognizerDelegate {
 
 <p>第一种也应该设置代理,不设置代理的话跟控制出现手势就会有bug</p>
 
-<p>简单比较一下,第二种更简洁.不过应用了一个小技巧即:<code>target</code>&amp;<code>delegate</code></p>
+<p>简单比较一下,第二种更简洁.不过应用了一个小技巧,看代码:</p>
 
 <pre><code>    let pan = UIPanGestureRecognizer(target: self, action: NSSelectorFromString(&quot;handleNavigationTransition:&quot;))
     pan.delegate = self
     view.addGestureRecognizer(pan)
 </code></pre>
+
+<p>可见<code>target</code>&amp;<code>delegate</code>通常都是同一个对象,当让也可以是不同的,这里应用这个小技巧让代码变得更简洁.</p>
 
 
 </div>

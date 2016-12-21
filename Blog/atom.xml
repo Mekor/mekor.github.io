@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2016-12-21T20:53:03+08:00</updated>
+  <updated>2016-12-21T21:30:12+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -19,6 +19,10 @@
     <updated>2016-12-21T20:39:41+08:00</updated>
     <id>http://www.citynight.cn/Blog/14823239811290.html</id>
     <content type="html"><![CDATA[
+<blockquote>
+<p>这片文章可以和<a href="http://www.citynight.cn/Blog/14790381443417.html">Swift - KVC 和 运行时获取属性列表</a> 一起看,当然配上<a href="http://www.citynight.cn/Blog/14793034700265.html">隐藏tabBar的小技巧</a>就更好了😀</p>
+</blockquote>
+
 <h2 id="toc_0">第一种: 通过<code>runtime</code>与<code>KVC</code>配合完成</h2>
 
 <p>在<code>UINavigationController</code>的<code>viewDidLoad</code>方法中:</p>
@@ -74,12 +78,14 @@ extension BaseNavigationController:UIGestureRecognizerDelegate {
 
 <p>第一种也应该设置代理,不设置代理的话跟控制出现手势就会有bug</p>
 
-<p>简单比较一下,第二种更简洁.不过应用了一个小技巧即:<code>target</code>&amp;<code>delegate</code></p>
+<p>简单比较一下,第二种更简洁.不过应用了一个小技巧,看代码:</p>
 
 <pre><code>    let pan = UIPanGestureRecognizer(target: self, action: NSSelectorFromString(&quot;handleNavigationTransition:&quot;))
     pan.delegate = self
     view.addGestureRecognizer(pan)
 </code></pre>
+
+<p>可见<code>target</code>&amp;<code>delegate</code>通常都是同一个对象,当让也可以是不同的,这里应用这个小技巧让代码变得更简洁.</p>
 
 ]]></content>
   </entry>

@@ -63,6 +63,8 @@
         <li><label>技巧</label></li>
 
           
+            <li><a title="全屏返回手势小技巧" href="14823239811290.html">全屏返回手势小技巧</a></li>
+          
             <li><a title="Scroll UICollectionView to section header view" href="14810139766101.html">Scroll UICollectionView to section header view</a></li>
           
             <li><a title="隐藏tabBar的小技巧" href="14793034700265.html">隐藏tabBar的小技巧</a></li>
@@ -177,8 +179,6 @@
         <li><label>Swift</label></li>
 
           
-            <li><a title="全屏返回手势小技巧" href="14823239811290.html">全屏返回手势小技巧</a></li>
-          
             <li><a title="Swift - 上周问题总结" href="14815534553600.html">Swift - 上周问题总结</a></li>
           
             <li><a title="Swift - 面向协议编程" href="14799970254990.html">Swift - 面向协议编程</a></li>
@@ -239,6 +239,8 @@
 
                     
                       <li class="side-title"><span>技巧</span></li>
+                        
+                          <li><a title="全屏返回手势小技巧" href="14823239811290.html">全屏返回手势小技巧</a></li>
                         
                           <li><a title="Scroll UICollectionView to section header view" href="14810139766101.html">Scroll UICollectionView to section header view</a></li>
                         
@@ -346,8 +348,6 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
-                          <li><a title="全屏返回手势小技巧" href="14823239811290.html">全屏返回手势小技巧</a></li>
-                        
                           <li><a title="Swift - 上周问题总结" href="14815534553600.html">Swift - 上周问题总结</a></li>
                         
                           <li><a title="Swift - 面向协议编程" href="14799970254990.html">Swift - 面向协议编程</a></li>
@@ -390,37 +390,30 @@
 
 	
 		<div class="markdown-body">
-		<h1>Swift - 在swift中如何使用 hexcolor 值表示颜色</h1>
+		<h1>Swift - 自定义tableViewCell</h1>
 
-		<blockquote>
-<p>结果来自<a href="http://stackoverflow.com/questions/24263007/how-to-use-hex-colour-values-in-swift-ios">How to use hex colour values in Swift, iOS</a></p>
-</blockquote>
+		<p>习惯 OC 刚刚接触 Swift 还是有很多地方不适应,创建自定义cell的时候出现如下情况</p>
 
-<pre><code>extension UIColor {
-    convenience init(hexString: String) {
-        let hex = hexString.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
-        var int = UInt32()
-        Scanner(string: hex).scanHexInt32(&amp;int)
-        let a, r, g, b: UInt32
-        switch hex.characters.count {
-        case 3: // RGB (12-bit)
-            (a, r, g, b) = (255, (int &gt;&gt; 8) * 17, (int &gt;&gt; 4 &amp; 0xF) * 17, (int &amp; 0xF) * 17)
-        case 6: // RGB (24-bit)
-            (a, r, g, b) = (255, int &gt;&gt; 16, int &gt;&gt; 8 &amp; 0xFF, int &amp; 0xFF)
-        case 8: // ARGB (32-bit)
-            (a, r, g, b) = (int &gt;&gt; 24, int &gt;&gt; 16 &amp; 0xFF, int &gt;&gt; 8 &amp; 0xFF, int &amp; 0xFF)
-        default:
-            (a, r, g, b) = (255, 0, 0, 0)
-        }
-        self.init(red: CGFloat(r) / 255, green: CGFloat(g) / 255, blue: CGFloat(b) / 255, alpha: CGFloat(a) / 255)
+<pre><code>    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
     }
-}
 </code></pre>
 
-<p>使用方法:</p>
+<p>OC 中,我们会用 self 来接 super 初始化来判断是否创建成功,但是 Swift 中怎样做呢?调用 <code>super.init</code>是没有返回值的,那么我们怎样判断呢?</p>
 
-<pre><code>let darkGrey = UIColor(hexString: &quot;#757575&quot;)
+<p>从网上看<a href="http://stackoverflow.com/questions/37098742/super-init-in-swift">Super init in Swift</a>没有必要在进行<code>if(self)</code>判断了&hellip;不过,我还是找到了一种更容易理解的方法:</p>
+
+<pre><code>    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        if !self.isEqual(nil) {
+            setupInterface()
+        }
+    }
+
 </code></pre>
+
+<p>虽然感觉有点画蛇添足,不过很符合刚刚从OC 转 Swift 的理解方式</p>
 
 
 		</div>
