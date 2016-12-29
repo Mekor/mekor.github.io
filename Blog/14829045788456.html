@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  UILabel边缘出现黑线 - 李小争
+  点菜逻辑梳理 - 李小争
   
   </title>
  <meta name="description" content="记录开发中遇到的一些问题">
@@ -394,13 +394,44 @@
             <div class="large-9 medium-9 columns">
 
  <div class="markdown-body">
-<h1>UILabel边缘出现黑线</h1>
+<h1>点菜逻辑梳理</h1>
 
-<p>问题:代码实现 UILabel 时出现的边缘黑线问题<br/>
-原因:当 UILabel 的宽高出现浮点型数字时,在高清屏下有可能出现右侧边缘黑线问题, 解决方法是使用 <code>CGRectIntegral()</code> 方法确保 <code>frame</code> 中不存在非整形数值</p>
+<h2 id="toc_0">同步逻辑(全量上传):</h2>
 
-<pre><code>label.frame = CGRectIntegral(CGRectMake(0, 0, ceil(width),40));
-</code></pre>
+<p>原定: 切台\转台 全量上传<br/>
+现在: 轮询即上传(每次轮询信息都走这个接口),切台/轮询同样走这个接口</p>
+
+<h2 id="toc_1">关于延时</h2>
+
+<p>12.27泽祥刚跟海底捞确定逻辑和备注一致即这道菜如果半份延时了再次点这道菜不论整份半份都是延时的.</p>
+
+<h2 id="toc_2">整份半份显示(如果新需求的话,可能还需要改变正在和泽祥确定中)</h2>
+
+<p>需求:点菜点锅界面菜品包含整份与半份 购物车界面整份与半份是分开的.</p>
+
+<p>目前的做法: 购物车等地方如果调用<code>-(NSArray *)getLocalDishArray</code>这个操作会把数据拆分成整份半份给调用者.但是在点菜点锅页面,我会调用<code>configLocalDishArray</code> 这个操作会把整份半份整合成一个菜给调用者</p>
+
+<h2 id="toc_3">关于估清</h2>
+
+<p>原有逻辑就是根据数据库中获取菜品信息进行估清操作判断的,<strong>目前</strong>的逻辑是这样的,数据库返回字段和轮询回来的估清数据中只要有一个是估清就显示估清,显示需要调用<code>-(BOOL)judgeIsSellOutWithDish:(HTDishEntity *)dish</code></p>
+
+<h2 id="toc_4">关于已点</h2>
+
+<p>新加菜&amp;已下单数据只要一个地方有该菜品都显示已点<code>-(BOOL)haveOrderThisDish:(NSString *)dishid</code></p>
+
+<h2 id="toc_5">匹配菜品中整份半份数量</h2>
+
+<p><code>-(nonnull HTDishEntity *)configNumberOfDish:(nonnull HTDishEntity *)dish</code><br/>
+会计算未下单数据中所有整份半份数量</p>
+
+<h2 id="toc_6">延时倍增拆分等操作</h2>
+
+<p>这里需要的菜品都是通过<code>getLocalDishArray</code>来获取否则有问题,详细逻辑大伟比较清楚</p>
+
+<h2 id="toc_7">目前问题</h2>
+
+<p>如果某一道菜设置延时了,将来这道菜每次进行数量的加减时都要同步到服务器,这个操作会不会导致网络请求发送比较频繁<br/>
+点锅后,使用最新的同步接口延时太久.吃饭前同步的数据,中午午休后发现数据回来了&hellip;点菜的数据同步很快..这个是接口用错了还是后台接口需要调整?</p>
 
 
 </div>
@@ -412,15 +443,15 @@
   <div class="large-6 columns">
 	<div class="text-left" style="padding:15px 0px;">
 		
-	        <a href="14766308131126.html"  title="Previous Post: UITableView优化方案(收集)">&laquo; UITableView优化方案(收集)</a>
+	        <a href="14830040423390.html"  title="Previous Post: 视图规范">&laquo; 视图规范</a>
 	    
 	</div>
   </div>
   <div class="large-6 columns">
 	<div class="text-right" style="padding:15px 0px;">
 		
-	        <a href="14765420394973.html" 
-	        title="Next Post: iOS 模拟器 添加图片到相册的小技巧">iOS 模拟器 添加图片到相册的小技巧 &raquo;</a>
+	        <a href="14823239811290.html" 
+	        title="Next Post: 全屏返回手势小技巧">全屏返回手势小技巧 &raquo;</a>
 	    
 	</div>
   </div>
@@ -433,7 +464,7 @@
 </div>
 <script type="text/javascript">
 	$(function(){
-		var currentURL = '14766298858600.html';
+		var currentURL = '14829045788456.html';
 		$('#side-nav a').each(function(){
 			if($(this).attr('href') == currentURL){
 				$(this).parent().addClass('active');

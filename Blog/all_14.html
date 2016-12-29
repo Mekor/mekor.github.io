@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  UILabel边缘出现黑线 - 李小争
+  李小争
   
   </title>
  <meta name="description" content="记录开发中遇到的一些问题">
@@ -393,54 +393,58 @@
             </div>
             <div class="large-9 medium-9 columns">
 
- <div class="markdown-body">
-<h1>UILabel边缘出现黑线</h1>
+ 
 
-<p>问题:代码实现 UILabel 时出现的边缘黑线问题<br/>
-原因:当 UILabel 的宽高出现浮点型数字时,在高清屏下有可能出现右侧边缘黑线问题, 解决方法是使用 <code>CGRectIntegral()</code> 方法确保 <code>frame</code> 中不存在非整形数值</p>
 
-<pre><code>label.frame = CGRectIntegral(CGRectMake(0, 0, ceil(width),40));
+	
+		<div class="markdown-body">
+		<h1>忽略编译器警告</h1>
+
+		<h2 id="toc_0">第一种方法</h2>
+
+<p>举例<br/>
+<img src="media/14672570618572/14672571503878.jpg" alt=""/><br/>
+<img src="media/14672570618572/14672573103735.jpg" alt=""/><br/>
+接下来,<br/>
+<img src="media/14672570618572/14672575411986.jpg" alt=""/><br/>
+<img src="media/14672570618572/14672577757507.jpg" alt=""/></p>
+
+<h2 id="toc_1">第二种方法</h2>
+
+<pre><code>#pragma clang diagnostic push
+#pragma clang diagnostic ignored&quot; -Wcompare-distinct-pointer-types&quot;
+    //写在这个中间的代码,都不会被编译器提示-Wcompare-distinct-pointer-types
+#pragma clang diagnostic pop 
 </code></pre>
 
+<h2 id="toc_2">Xib警告: This file is set to build for a version older than the deployment target. Functionality may be limited.</h2>
 
-</div>
+<p>类似于这种<br/>
+<img src="media/14672570618572/14672589919425.jpg" alt=""/></p>
 
-<br /><br />
-<hr />
+<p>双击进入Xib文件<br/>
+<img src="media/14672570618572/14672592962938.jpg" alt=""/><br/>
+OK,这样就没有警告了</p>
 
-<div class="row clearfix">
-  <div class="large-6 columns">
-	<div class="text-left" style="padding:15px 0px;">
-		
-	        <a href="14766308131126.html"  title="Previous Post: UITableView优化方案(收集)">&laquo; UITableView优化方案(收集)</a>
-	    
-	</div>
-  </div>
-  <div class="large-6 columns">
-	<div class="text-right" style="padding:15px 0px;">
-		
-	        <a href="14765420394973.html" 
-	        title="Next Post: iOS 模拟器 添加图片到相册的小技巧">iOS 模拟器 添加图片到相册的小技巧 &raquo;</a>
-	    
-	</div>
-  </div>
-</div>
+<h2 id="toc_3">非源文件参与编译错误</h2>
 
-<div class="row">
-<div style="padding:0px 0.93em;" class="share-comments">
+<p><img src="media/14672570618572/Snip20160630_15.png" alt="Snip20160630_15"/><br/>
+项目中有一个README.md的文件,这个文件主要记录使用第三方的一些情况,默认就参与编译了,我们需要这样做</p>
 
-</div>
-</div>
-<script type="text/javascript">
-	$(function(){
-		var currentURL = '14766298858600.html';
-		$('#side-nav a').each(function(){
-			if($(this).attr('href') == currentURL){
-				$(this).parent().addClass('active');
-			}
-		});
-	});
-</script>  
+<p><img src="media/14672570618572/Snip20160630_16.png" alt="Snip20160630_16"/></p>
+
+<p>找到这个文件,然后移除,这样就不会有问题了.<br/>
+参考: <a href="http://stackoverflow.com/questions/6509600/compilation-warning-no-rule-to-process-file-for-architecture-i386">compilation warning: no rule to process file for architecture i386</a></p>
+
+
+		</div>
+	
+
+ 
+	
+
+  
+  
 </div></div>
 
 

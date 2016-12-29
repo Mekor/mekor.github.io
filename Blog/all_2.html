@@ -169,6 +169,10 @@
         <li><label>杂记</label></li>
 
           
+            <li><a title="视图规范" href="14830040423390.html">视图规范</a></li>
+          
+            <li><a title="点菜逻辑梳理" href="14829045788456.html">点菜逻辑梳理</a></li>
+          
             <li><a title="数据库复习" href="14817245458052.html">数据库复习</a></li>
           
             <li><a title="会议记录(培训)" href="14787398225011.html">会议记录(培训)</a></li>
@@ -340,6 +344,10 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
+                          <li><a title="视图规范" href="14830040423390.html">视图规范</a></li>
+                        
+                          <li><a title="点菜逻辑梳理" href="14829045788456.html">点菜逻辑梳理</a></li>
+                        
                           <li><a title="数据库复习" href="14817245458052.html">数据库复习</a></li>
                         
                           <li><a title="会议记录(培训)" href="14787398225011.html">会议记录(培训)</a></li>
@@ -390,57 +398,37 @@
 
 	
 		<div class="markdown-body">
-		<h1>Swift - 使用代理和闭包传值</h1>
+		<h1>Swift - 面向协议编程</h1>
 
-		<h2 id="toc_0">代理传值</h2>
+		<p>跟全部写在base中比较:</p>
 
-<p>声明协议:</p>
+<ol>
+<li>代码没有增多,却更复用</li>
+<li>面向协议(接口),而不是实现,充分解耦</li>
+<li>静态类型检查版主在编译时发现问题</li>
+<li>写代码像搭积木,先设计接口,再逐一实现</li>
+<li>依赖少,更容易调试</li>
+</ol>
 
-<pre><code>protocol FunctionButtonViewDelegate {
-    func gotoViewController(vcString:String)
+<pre><code>protocol Hello {
+    func sayHello()
 }
-</code></pre>
 
-<pre><code>var delegate :FunctionButtonViewDelegate?
-</code></pre>
-
-<p>这里<code>?</code>就具有<code>weak</code>的作用</p>
-
-<p>传值:</p>
-
-<pre><code>delegate?.gotoViewController(vcString: button.currentTitle!)
-</code></pre>
-
-<p>实现代理方法</p>
-
-<pre><code>extension PersonalCenterViewController:FunctionButtonViewDelegate {
-    //MARK: - 跳转到对应的功能模块
-    func gotoViewController(vcString: String) {
-        print(vcString)
+extension Hello {
+    func sayHello() {
+        print(&quot;Hello!&quot;)
     }
 }
-</code></pre>
 
-<h2 id="toc_1">闭包传值</h2>
-
-<p>声明:</p>
-
-<pre><code>var callback : ((Int?) -&gt; Void)?
-</code></pre>
-
-<p>传值</p>
-
-<pre><code>if let cb = callback {
-    cb(200)
+struct Person: Hello {
+    
 }
+
+let p = Person()
+p.sayHello()
 </code></pre>
 
-<p>实现:</p>
-
-<pre><code>bottomView.callback = { (num)-&gt;Void in
-    print(num ?? 0)
-}
-</code></pre>
+<p>创建一个协议,并且做一个默认实现.使用的时候可以直接调用</p>
 
 
 		</div>

@@ -169,6 +169,10 @@
         <li><label>杂记</label></li>
 
           
+            <li><a title="视图规范" href="14830040423390.html">视图规范</a></li>
+          
+            <li><a title="点菜逻辑梳理" href="14829045788456.html">点菜逻辑梳理</a></li>
+          
             <li><a title="数据库复习" href="14817245458052.html">数据库复习</a></li>
           
             <li><a title="会议记录(培训)" href="14787398225011.html">会议记录(培训)</a></li>
@@ -340,6 +344,10 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
+                          <li><a title="视图规范" href="14830040423390.html">视图规范</a></li>
+                        
+                          <li><a title="点菜逻辑梳理" href="14829045788456.html">点菜逻辑梳理</a></li>
+                        
                           <li><a title="数据库复习" href="14817245458052.html">数据库复习</a></li>
                         
                           <li><a title="会议记录(培训)" href="14787398225011.html">会议记录(培训)</a></li>
@@ -390,76 +398,9 @@
 
 	
 		<div class="markdown-body">
-		<h1>全屏返回手势小技巧</h1>
+		<h1>视图规范</h1>
 
-		<blockquote>
-<p>这片文章可以和<a href="http://www.citynight.cn/Blog/14790381443417.html">Swift - KVC 和 运行时获取属性列表</a> 一起看,当然配上<a href="http://www.citynight.cn/Blog/14793034700265.html">隐藏tabBar的小技巧</a>就更好了😀</p>
-</blockquote>
-
-<h2 id="toc_0">第一种: 通过<code>runtime</code>与<code>KVC</code>配合完成</h2>
-
-<p>在<code>UINavigationController</code>的<code>viewDidLoad</code>方法中:</p>
-
-<pre><code>// 获取系统的手势
-let gest = self.interactivePopGestureRecognizer!
-// 禁用系统的手势
-interactivePopGestureRecognizer?.isEnabled = false
-
-// 通过KVC获取target 属性是通过runtime获取的,具体方法参见`Swift - KVC 和 运行时获取属性列表`
-guard let targets = gest.value(forKey: &quot;_targets&quot;) as? [AnyObject] else {
-    return
-}
-let target = targets[0].value(forKey: &quot;_target&quot;)
-
-// 给视图添加点击事件
-let pan = UIPanGestureRecognizer(target: target, action: NSSelectorFromString(&quot;handleNavigationTransition:&quot;))
-view.addGestureRecognizer(pan)
-</code></pre>
-
-<h2 id="toc_1">第二种: 通过原有的代理完成</h2>
-
-<p>直接上代码:</p>
-
-<pre><code>class BaseNavigationController: UINavigationController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // 获取系统的手势的代理
-        guard let target = interactivePopGestureRecognizer?.delegate else {
-            return
-        }
-        
-        // 禁用系统的手势
-        interactivePopGestureRecognizer?.isEnabled = false
-        
-        // 给视图添加点击事件
-        let pan = UIPanGestureRecognizer(target: target, action: NSSelectorFromString(&quot;handleNavigationTransition:&quot;))
-        pan.delegate = self
-        view.addGestureRecognizer(pan)
-    }
-}
-
-extension BaseNavigationController:UIGestureRecognizerDelegate {
-    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -&gt; Bool {
-        // 当是跟控制器的时候不让返回,非跟控制器可以返回
-        return viewControllers.count &gt; 1
-    }
-}
-
-</code></pre>
-
-<p>第一种也应该设置代理,不设置代理的话跟控制出现手势就会有bug</p>
-
-<p>简单比较一下,第二种更简洁.不过应用了一个小技巧,看代码:</p>
-
-<pre><code>    let pan = UIPanGestureRecognizer(target: self, action: NSSelectorFromString(&quot;handleNavigationTransition:&quot;))
-    pan.delegate = self
-    view.addGestureRecognizer(pan)
-</code></pre>
-
-<p>可见<code>target</code>&amp;<code>delegate</code>通常都是同一个对象,当让也可以是不同的,这里应用这个小技巧让代码变得更简洁.</p>
-
+		
 
 		</div>
 	

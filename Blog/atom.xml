@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2016-12-21T21:30:12+08:00</updated>
+  <updated>2016-12-21T21:32:20+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -12,6 +12,62 @@
   </author>
   <generator uri="http://www.mweb.im">MWeb</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[视图规范]]></title>
+    <link href="http://www.citynight.cn/Blog/14830040423390.html"/>
+    <updated>2016-12-29T17:34:02+08:00</updated>
+    <id>http://www.citynight.cn/Blog/14830040423390.html</id>
+    <content type="html"><![CDATA[
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[点菜逻辑梳理]]></title>
+    <link href="http://www.citynight.cn/Blog/14829045788456.html"/>
+    <updated>2016-12-28T13:56:18+08:00</updated>
+    <id>http://www.citynight.cn/Blog/14829045788456.html</id>
+    <content type="html"><![CDATA[
+<h2 id="toc_0">同步逻辑(全量上传):</h2>
+
+<p>原定: 切台\转台 全量上传<br/>
+现在: 轮询即上传(每次轮询信息都走这个接口),切台/轮询同样走这个接口</p>
+
+<h2 id="toc_1">关于延时</h2>
+
+<p>12.27泽祥刚跟海底捞确定逻辑和备注一致即这道菜如果半份延时了再次点这道菜不论整份半份都是延时的.</p>
+
+<h2 id="toc_2">整份半份显示(如果新需求的话,可能还需要改变正在和泽祥确定中)</h2>
+
+<p>需求:点菜点锅界面菜品包含整份与半份 购物车界面整份与半份是分开的.</p>
+
+<p>目前的做法: 购物车等地方如果调用<code>-(NSArray *)getLocalDishArray</code>这个操作会把数据拆分成整份半份给调用者.但是在点菜点锅页面,我会调用<code>configLocalDishArray</code> 这个操作会把整份半份整合成一个菜给调用者</p>
+
+<h2 id="toc_3">关于估清</h2>
+
+<p>原有逻辑就是根据数据库中获取菜品信息进行估清操作判断的,<strong>目前</strong>的逻辑是这样的,数据库返回字段和轮询回来的估清数据中只要有一个是估清就显示估清,显示需要调用<code>-(BOOL)judgeIsSellOutWithDish:(HTDishEntity *)dish</code></p>
+
+<h2 id="toc_4">关于已点</h2>
+
+<p>新加菜&amp;已下单数据只要一个地方有该菜品都显示已点<code>-(BOOL)haveOrderThisDish:(NSString *)dishid</code></p>
+
+<h2 id="toc_5">匹配菜品中整份半份数量</h2>
+
+<p><code>-(nonnull HTDishEntity *)configNumberOfDish:(nonnull HTDishEntity *)dish</code><br/>
+会计算未下单数据中所有整份半份数量</p>
+
+<h2 id="toc_6">延时倍增拆分等操作</h2>
+
+<p>这里需要的菜品都是通过<code>getLocalDishArray</code>来获取否则有问题,详细逻辑大伟比较清楚</p>
+
+<h2 id="toc_7">目前问题</h2>
+
+<p>如果某一道菜设置延时了,将来这道菜每次进行数量的加减时都要同步到服务器,这个操作会不会导致网络请求发送比较频繁<br/>
+点锅后,使用最新的同步接口延时太久.吃饭前同步的数据,中午午休后发现数据回来了&hellip;点菜的数据同步很快..这个是接口用错了还是后台接口需要调整?</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[全屏返回手势小技巧]]></title>
@@ -1210,204 +1266,6 @@ extension UITextField {
 <p><strong>注意点:</strong><br/>
 1. 必须调用本类的 <code>self.init</code>,不能调用父类的<code>super.init</code><br/>
 2. 不能被重写</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Swift - KVC 和 运行时获取属性列表]]></title>
-    <link href="http://www.citynight.cn/Blog/14790381443417.html"/>
-    <updated>2016-11-13T19:55:44+08:00</updated>
-    <id>http://www.citynight.cn/Blog/14790381443417.html</id>
-    <content type="html"><![CDATA[
-<h2 id="toc_0">Swift中如何使用KVC</h2>
-
-<pre><code>import UIKit
-
-class Person: NSObject {
-    var name:String?
-    var age: Int = 0
-    var title:String?
-    
-    init(dict:[String:Any]) {
-        super.init()
-        setValuesForKeys(dict)
-    }
-    
-    
-    override func setValue(_ value: Any?, forUndefinedKey key: String) {
-        
-    }
-}
-</code></pre>
-
-<p>注意:基本数据类型一开始要设置默认值.</p>
-
-<h2 id="toc_1">Swift中运行时获取属性列表</h2>
-
-<pre><code>class Person: NSObject {
-    var name:String?
-    var age: Int = 0
-    var title:String?
-    
-    init(dict:[String:Any]) {
-        super.init()
-        setValuesForKeys(dict)
-    }
-    
-    
-    override func setValue(_ value: Any?, forUndefinedKey key: String) {
-        
-    }
-    
-    class func propertyList() -&gt; [String] {
-        var count:UInt32 = 0
-        
-        let list = class_copyPropertyList(self,&amp;count)
-        
-        var array:[String] = [];
-        
-        for i in 0..&lt;Int(count) {
-            
-            // 获取属性
-            let pty = list?[i]
-            
-            // 获取属性名称
-            let cName = property_getName(pty)
-            let name = String(utf8String: cName!)
-            array.append(name!)
-        }
-        free(list)
-        return array
-    }
-}
-
-</code></pre>
-
-<p>上面是OC写法,可以改进的更Swift一点:</p>
-
-<pre><code>    class func propertyList() -&gt; [String] {
-        var count:UInt32 = 0
-        
-        let list = class_copyPropertyList(self,&amp;count)
-        
-        var array:[String] = [];
-        
-        for i in 0..&lt;Int(count) {
-            
-            guard let pty = list?[i],
-                let cName = property_getName(pty),
-                let name = String(utf8String: cName)
-                else {
-                    // 继续遍历下一个
-                    continue
-            }
-            array.append(name)
-        }
-        free(list)
-        return array
-    }
-</code></pre>
-
-<p>通过运行时可以发现:</p>
-
-<ol>
-<li>基本数据类型如果设置成可选类型则运行时获取不到(在OC中没有可选)&hellip;.  这就说明了上面的注意点,否则使用<code>KVC</code>会崩溃 </li>
-<li>如果属性为<code>private</code>同样获取不到属性(可以获取到ivar),同样会让<code>KVC</code>崩溃</li>
-</ol>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Swift - 函数]]></title>
-    <link href="http://www.citynight.cn/Blog/14790175059723.html"/>
-    <updated>2016-11-13T14:11:45+08:00</updated>
-    <id>http://www.citynight.cn/Blog/14790175059723.html</id>
-    <content type="html"><![CDATA[
-<h2 id="toc_0">函数的几种情况</h2>
-
-<pre><code>// 正常
-func sum(x:Int, y:Int) -&gt; Int {
-    return x+y
-}
-print(sum(x: 10, y: 20))
-
-// 去掉形参
-func sum(_ x:Int,_ y:Int) -&gt; Int {
-    return x+y
-}
-print(sum(10, 20))
-
-// 外部参数
-func sum(num1 x:Int,num2 y:Int) -&gt; Int {
-    return x+y
-}
-print(sum(num1: 10, num2: 20))
-
-// 函数带默认值
-func sum(x:Int = 1, y:Int = 2) -&gt; Int {
-    return x+y
-}
-print(sum())
-</code></pre>
-
-<h2 id="toc_1">闭包</h2>
-
-<blockquote>
-<p>闭包类似于OC中的block,但应用更广. 与OC对比, OC中block是特殊的函数,在Swift中函数是特殊的闭包</p>
-</blockquote>
-
-<pre><code>// 最简单的闭包
-// 定义
-let foo = {
-    print(&quot;最简单的闭包&quot;)
-}
-// 调用
-foo()
-
-// 带参数无返回值
-let foo = { (x:Int) -&gt; () in
-    print(x)
-}
-foo(100)
-
-// 带参数有返回值
-let foo = { (x:Int) -&gt; Int in
-    return x+1
-}
-foo(10)
-</code></pre>
-
-<p>block常用在异步执行,回调&hellip;Swift中异步跟OC稍微有些区别.</p>
-
-<h3 id="toc_2">模拟异步加载</h3>
-
-<pre><code>    /// 加载数据
-    func loadData(completion:@escaping (_ result: [String])-&gt;()) {
-        
-        DispatchQueue.global().async {
-            print(&quot;耗时操作\(Thread.current)&quot;)
-            
-            DispatchQueue.main.async {
-                print(&quot;主线程更新\(Thread.current)&quot;)
-                let json = [&quot;头条&quot;,&quot;八卦&quot;,&quot;出大事了&quot;]
-                completion(json)
-            }
-        }
-    }
-</code></pre>
-
-<p>注:关于<strong>@escaping</strong>参见 Swifter 中<code>@escaping</code></p>
-
-<h3 id="toc_3">尾随闭包</h3>
-
-<pre><code>        // 如果函数的最后一个参数是闭包,函数参数可以提前结束,最后一个参数直接使用{}包装闭包的代码
-        loadData { (JSON) in
-            print(JSON)
-        }
-
-</code></pre>
 
 ]]></content>
   </entry>

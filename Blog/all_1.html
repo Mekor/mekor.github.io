@@ -169,6 +169,10 @@
         <li><label>杂记</label></li>
 
           
+            <li><a title="视图规范" href="14830040423390.html">视图规范</a></li>
+          
+            <li><a title="点菜逻辑梳理" href="14829045788456.html">点菜逻辑梳理</a></li>
+          
             <li><a title="数据库复习" href="14817245458052.html">数据库复习</a></li>
           
             <li><a title="会议记录(培训)" href="14787398225011.html">会议记录(培训)</a></li>
@@ -340,6 +344,10 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
+                          <li><a title="视图规范" href="14830040423390.html">视图规范</a></li>
+                        
+                          <li><a title="点菜逻辑梳理" href="14829045788456.html">点菜逻辑梳理</a></li>
+                        
                           <li><a title="数据库复习" href="14817245458052.html">数据库复习</a></li>
                         
                           <li><a title="会议记录(培训)" href="14787398225011.html">会议记录(培训)</a></li>
@@ -390,18 +398,48 @@
 
 	
 		<div class="markdown-body">
-		<h1>Scroll UICollectionView to section header view</h1>
+		<h1>Swift - 上周问题总结</h1>
 
-		<p>新界面左右联动的时候遇到了一个问题,怎么在左侧tableView点击某一cell的时候右侧collectionView跳转到对应的section</p>
+		<h2 id="toc_0">懒加载的正确姿势</h2>
 
-<p>如果没有section header View 的时候直接跳转到这个section的第一个Item就ok了,但是如果有section header View 的时候就需要注意了,不能这样进行跳转了,下面👇是经过测试的方法能够完美跳转到相应的section:</p>
+<blockquote>
+<p>使用Swift的时候用懒加载,但是我发现我使用的时候不能再懒加载中调用本文件中声明的属性,原因是我在写懒加载的时候没有注明类型,正确的姿势应该是:</p>
+</blockquote>
 
-<pre><code>let attributes = self.collectionView.collectionViewLayout.layoutAttributesForSupplementaryViewOfKind(UICollectionElementKindSectionHeader, atIndexPath: NSIndexPath(forItem: 0, inSection: index))
-
-self.collectionView.setContentOffset(CGPointMake(0, attributes!.frame.origin.y - self.collectionView.contentInset.top), animated: true)
+<pre><code>    lazy var &lt;#property name#&gt;: &lt;#type name#&gt; = {
+        &lt;#statements#&gt;
+        return &lt;#value#&gt;
+    }()
 </code></pre>
 
-<p>参见:<a href="http://stackoverflow.com/questions/22100227/scroll-uicollectionview-to-section-header-view">Scroll UICollectionView to section header view</a></p>
+<p>快捷键<br/>
+<img src="media/14815534553600/14815536582812.jpg" alt=""/><br/>
+采用这种方式声明的懒加载能够在内部使用self</p>
+
+<h2 id="toc_1">OC中用KVC赋值,使NSString类型指向了NSNumber,导致Swift中调用崩溃</h2>
+
+<blockquote>
+<p>崩溃信息:<code>reason: &#39;-[__NSCFNumber length]: unrecognized selector sent to instance 0x00000XXXX</code></p>
+</blockquote>
+
+<p>原因分析:NSString指向的数据类型为NSNumber的数据,取值时崩溃.第一种方案找到赋值有误的地方修改,第二不修改原有的代码,提出一种解决方案,重写NSString数据的<code>set</code>方法,赋值前判断数据类型,如果是NSNumber类型就转换成NSString类型.ß®</p>
+
+<h2 id="toc_2">视图层级深,内部视图如何通知控制器数据更新?</h2>
+
+<p>我想到的一种方法是把函数当做参数来传递,这样能够在一定程度上减少层级结构.甲冠提出设置一个属性,然后在属性的<code>didSet</code>中调用方法.目前还没有做实践,目测层级结构没有任何减少,但是代码量会少些.需要实验验证下.</p>
+
+<p><strong>注:</strong>讨论中间有讨论MVC框架,这里附上苹果多MVC的介绍:<a href="https://developer.apple.com/library/content/documentation/General/Conceptual/CocoaEncyclopedia/Model-View-Controller/Model-View-Controller.html#//apple_ref/doc/uid/TP40010810-CH14-SW1">https://developer.apple.com/library/content/documentation/General/Conceptual/CocoaEncyclopedia/Model-View-Controller/Model-View-Controller.html#//apple_ref/doc/uid/TP40010810-CH14-SW1</a></p>
+
+<p>传统:<br/>
+<img src="media/14815534553600/14815566784560.gif" alt=""/></p>
+
+<p>Cocoa:<br/>
+<img src="media/14815534553600/14815567675257.gif" alt=""/></p>
+
+<h2 id="toc_3">Xcode升级后部分第三方库报错</h2>
+
+<p><img src="media/14815534553600/Snip20161215_3.png" alt="Snip20161215_3"/><br/>
+让第三方库不跟随Xcode的swift版本®</p>
 
 
 		</div>

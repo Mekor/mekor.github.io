@@ -169,6 +169,10 @@
         <li><label>杂记</label></li>
 
           
+            <li><a title="视图规范" href="14830040423390.html">视图规范</a></li>
+          
+            <li><a title="点菜逻辑梳理" href="14829045788456.html">点菜逻辑梳理</a></li>
+          
             <li><a title="数据库复习" href="14817245458052.html">数据库复习</a></li>
           
             <li><a title="会议记录(培训)" href="14787398225011.html">会议记录(培训)</a></li>
@@ -340,6 +344,10 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
+                          <li><a title="视图规范" href="14830040423390.html">视图规范</a></li>
+                        
+                          <li><a title="点菜逻辑梳理" href="14829045788456.html">点菜逻辑梳理</a></li>
+                        
                           <li><a title="数据库复习" href="14817245458052.html">数据库复习</a></li>
                         
                           <li><a title="会议记录(培训)" href="14787398225011.html">会议记录(培训)</a></li>
@@ -390,43 +398,24 @@
 
 	
 		<div class="markdown-body">
-		<h1>Python爬网站上的图片</h1>
+		<h1>Android Studio 中如何查看帮助文档</h1>
 
-		<p>以<a href="http://ppt.geekbang.org">极客邦PPT大全</a>为例,比如我想下载<a href="http://ppt.geekbang.org/slide/show/204">美团iOS客户端的构建思考与实践</a></p>
-
-<ol>
-<li>查看图片url
-<img src="media/14689829459214/14689832970971.jpg" alt=""/></li>
-<li>图片url的格式<a href="http://7xiox7.com2.z0.glb.qiniucdn.com/576e52fb28bf9-01.jpg">http://7xiox7.com2.z0.glb.qiniucdn.com/576e52fb28bf9-01.jpg</a>  总共101张图片</li>
-<li>根据这些编写Python文件</li>
+		<ol>
+<li><p>首先下载帮助文档<br/>
+<img src="media/14693652209160/14693653611930.jpg" alt=""/></p></li>
+<li><p>跳转到文件夹<br/>
+<img src="media/14693652209160/14693654229419.jpg" alt=""/></p></li>
+<li><p>打开帮助文档 index.html<br/>
+<img src="media/14693652209160/14693655187234.jpg" alt=""/></p></li>
+<li><p>例如查找Activity 生命周期可以这样走<br/>
+<img src="media/14693652209160/14693656858016.jpg" alt=""/><br/>
+然后command + f 搜索Activity选中一个高亮的选项例如:<br/>
+<img src="media/14693652209160/14693658027297.jpg" alt=""/><br/>
+由于它是继承自Activity的所以可以这样<br/>
+<img src="media/14693652209160/14693659242489.jpg" alt=""/><br/>
+然后往下翻一翻就能看到了<br/>
+<img src="media/14693652209160/14693659705775.jpg" alt=""/></p></li>
 </ol>
-
-<pre><code>#!/usr/bin/python
-#coding:utf-8
-
-import urllib
-import urllib2
-import os
-
-basepicurl=&quot;http://7xiox7.com2.z0.glb.qiniucdn.com/576e52fb28bf9-&quot;
-save_path=&quot;/Users/mekor/Desktop/images/&quot;
-for i in range(1,102,1):
-    s = &quot;%02d&quot; % i
-    picurl = basepicurl + s + &quot;.jpg&quot;
-    imgData = urllib2.urlopen(picurl).read()
-    # 给定图片存放名称
-    fileName = save_path + s + &quot;.jpg&quot;
-    # 文件名是否存在
-    #if os.path.exists(fileName):
-    output = open(fileName,&#39;wb+&#39;)
-    output.write(imgData)
-    output.close()
-    print &quot;Finished download&quot;+ s
-
-print &quot;运行完成&quot;
-</code></pre>
-
-<p>这样就能够把所有的图片爬到本地了.</p>
 
 
 		</div>
