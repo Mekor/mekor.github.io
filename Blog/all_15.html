@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  全屏返回手势小技巧 - 李小争
+  李小争
   
   </title>
  <meta name="description" content="记录开发中遇到的一些问题">
@@ -419,116 +419,79 @@
             </div>
             <div class="large-9 medium-9 columns">
 
- <div class="markdown-body">
-<h1>全屏返回手势小技巧</h1>
+ 
 
-<blockquote>
-<p>这片文章可以和<a href="http://www.citynight.cn/Blog/14790381443417.html">Swift - KVC 和 运行时获取属性列表</a> 一起看,当然配上<a href="http://www.citynight.cn/Blog/14793034700265.html">隐藏tabBar的小技巧</a>就更好了😀</p>
-</blockquote>
 
-<h2 id="toc_0">第一种: 通过<code>runtime</code>与<code>KVC</code>配合完成</h2>
+	
+		<div class="markdown-body">
+		<h1>百度坐标&火星坐标转换</h1>
 
-<p>在<code>UINavigationController</code>的<code>viewDidLoad</code>方法中:</p>
+		<p>LocationHelper.h文件</p>
 
-<pre><code>// 获取系统的手势
-let gest = self.interactivePopGestureRecognizer!
-// 禁用系统的手势
-interactivePopGestureRecognizer?.isEnabled = false
+<pre><code>#import &lt;Foundation/Foundation.h&gt;
+#import &lt;CoreLocation/CoreLocation.h&gt;
 
-// 通过KVC获取target 属性是通过runtime获取的,具体方法参见`Swift - KVC 和 运行时获取属性列表`
-guard let targets = gest.value(forKey: &quot;_targets&quot;) as? [AnyObject] else {
-    return
-}
-let target = targets[0].value(forKey: &quot;_target&quot;)
+@interface LocationHelper : NSObject
 
-// 给视图添加点击事件
-let pan = UIPanGestureRecognizer(target: target, action: NSSelectorFromString(&quot;handleNavigationTransition:&quot;))
-view.addGestureRecognizer(pan)
+//百度转火星坐标
++ (CLLocationCoordinate2D )bdToGGEncrypt:(CLLocationCoordinate2D)coord;
+//火星转百度坐标
++ (CLLocationCoordinate2D )ggToBDEncrypt:(CLLocationCoordinate2D)coord;
+
+@end
 </code></pre>
 
-<h2 id="toc_1">第二种: 通过原有的代理完成</h2>
+<p>LocationHelper.m文件</p>
 
-<p>直接上代码:</p>
+<pre><code>//
+//  LocationHelper.m
+//  Coding_iOS
+//
+//  Created by Kevin on 3/21/15.
+//  Copyright (c) 2015 Coding. All rights reserved.
+//
 
-<pre><code>class BaseNavigationController: UINavigationController {
+#import &quot;LocationHelper.h&quot;
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+@implementation LocationHelper
 
-        // 获取系统的手势的代理
-        guard let target = interactivePopGestureRecognizer?.delegate else {
-            return
-        }
-        
-        // 禁用系统的手势
-        interactivePopGestureRecognizer?.isEnabled = false
-        
-        // 给视图添加点击事件
-        let pan = UIPanGestureRecognizer(target: target, action: NSSelectorFromString(&quot;handleNavigationTransition:&quot;))
-        pan.delegate = self
-        view.addGestureRecognizer(pan)
-    }
+//百度转火星坐标
++ (CLLocationCoordinate2D )bdToGGEncrypt:(CLLocationCoordinate2D)coord
+{
+    double x = coord.longitude - 0.0065, y = coord.latitude - 0.006;
+    double z = sqrt(x * x + y * y) - 0.00002 * sin(y * M_PI);
+    double theta = atan2(y, x) - 0.000003 * cos(x * M_PI);
+    CLLocationCoordinate2D transformLocation ;
+    transformLocation.longitude = z * cos(theta);
+    transformLocation.latitude = z * sin(theta);
+    return transformLocation;
 }
 
-extension BaseNavigationController:UIGestureRecognizerDelegate {
-    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -&gt; Bool {
-        // 当是跟控制器的时候不让返回,非跟控制器可以返回
-        return viewControllers.count &gt; 1
-    }
+//火星坐标转百度坐标
++ (CLLocationCoordinate2D )ggToBDEncrypt:(CLLocationCoordinate2D)coord
+{
+    double x = coord.longitude, y = coord.latitude;
+    
+    double z = sqrt(x * x + y * y) + 0.00002 * sin(y * M_PI);
+    double theta = atan2(y, x) + 0.000003 * cos(x * M_PI);
+    
+    CLLocationCoordinate2D transformLocation ;
+    transformLocation.longitude = z * cos(theta) + 0.0065;
+    transformLocation.latitude = z * sin(theta) + 0.006;
+    
+    return transformLocation;
 }
+
+@end
 
 </code></pre>
 
-<p>第一种也应该设置代理,不设置代理的话跟控制出现手势就会有bug</p>
 
-<p>简单比较一下,第二种更简洁.不过应用了一个小技巧,看代码:</p>
+		</div>
+	
 
-<pre><code>    let pan = UIPanGestureRecognizer(target: self, action: NSSelectorFromString(&quot;handleNavigationTransition:&quot;))
-    pan.delegate = self
-    view.addGestureRecognizer(pan)
-</code></pre>
-
-<p>可见<code>target</code>&amp;<code>delegate</code>通常都是同一个对象,当让也可以是不同的,这里应用这个小技巧让代码变得更简洁.</p>
-
-
-</div>
-
-<br /><br />
-<hr />
-
-<div class="row clearfix">
-  <div class="large-6 columns">
-	<div class="text-left" style="padding:15px 0px;">
-		
-	        <a href="14829045788456.html"  title="Previous Post: 点菜逻辑梳理">&laquo; 点菜逻辑梳理</a>
-	    
-	</div>
-  </div>
-  <div class="large-6 columns">
-	<div class="text-right" style="padding:15px 0px;">
-		
-	        <a href="14817245458052.html" 
-	        title="Next Post: 数据库复习">数据库复习 &raquo;</a>
-	    
-	</div>
-  </div>
-</div>
-
-<div class="row">
-<div style="padding:0px 0.93em;" class="share-comments">
-
-</div>
-</div>
-<script type="text/javascript">
-	$(function(){
-		var currentURL = '14823239811290.html';
-		$('#side-nav a').each(function(){
-			if($(this).attr('href') == currentURL){
-				$(this).parent().addClass('active');
-			}
-		});
-	});
-</script>  
+  
+  
 </div></div>
 
 
