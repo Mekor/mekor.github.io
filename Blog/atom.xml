@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2017-02-04T14:31:57+08:00</updated>
+  <updated>2017-02-04T14:34:22+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -31,9 +31,11 @@
 <li><p>关于什么时候提取出方法<br/>
 一个函数如果行数过长不便于阅读,可以按照步骤抽取出字方法<br/>
 如果一个功能有2个以上地方用到需要抽取为一个方法</p></li>
+<li><p>多种样式Cell如何配置</p></li>
 </ol>
 
-<p>撕逼未完&hellip;.</p>
+<p>撕逼未完&hellip;.<br/>
+海莹我问下失业保险这个圈出来金额为0是因为我没有办这个保险的原因吗?</p>
 
 ]]></content>
   </entry>
