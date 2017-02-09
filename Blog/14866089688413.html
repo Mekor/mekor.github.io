@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  Mac 下面Python 自动补全 - 李小争
+  如何获取 `main`的返回值 - 李小争
   
   </title>
  <meta name="description" content="记录开发中遇到的一些问题">
@@ -424,20 +424,26 @@
             <div class="large-9 medium-9 columns">
 
  <div class="markdown-body">
-<h1>Mac 下面Python 自动补全</h1>
+<h1>如何获取 `main`的返回值</h1>
 
-<p>网上有很多tab自动补全的脚本,但是在Mac上面都不能正常的运行,在<a href="http://stackoverflow.com/questions/7116038/python-tab-completion-mac-osx-10-7-lion">stackoverflow</a>找到一个能用的.</p>
+<p>访问<code>main</code>的返回值的方法依赖于系统.在UNIX和Windows系统中,执行完一个程序后,都可以通过echo命令获得其返回值.<br/>
+在UNIX中通过<code>echo $?</code><br/>
+在Windows中通过<code>echo %ERRORLEVEL%</code></p>
 
-<pre><code>import readline
-import rlcompleter
-if &#39;libedit&#39; in readline.__doc__:
-    readline.parse_and_bind(&quot;bind ^I rl_complete&quot;)
-else:
-    readline.parse_and_bind(&quot;tab: complete&quot;)
+<p>使用方式:<br/>
+在terminal中, <code>vim prog1.cc</code> ,然后在vim下输入(<code>i</code>是插入键)<br/>
+<code><br/>
+ int main()<br/>
+ {<br/>
+     return 0;<br/>
+ }<br/>
+</code></p>
 
-</code></pre>
-
-<p>进入Python后直接import tab 就可以了</p>
+<p>退出编辑器(先按<code>esc</code>,然后<code>:wq</code>)<br/>
+在terminal中运行<br/>
+<code><br/>
+cc prog1.cc<br/>
+</code></p>
 
 
 </div>
@@ -449,15 +455,13 @@ else:
   <div class="large-6 columns">
 	<div class="text-left" style="padding:15px 0px;">
 		
-	        <a href="14689829459214.html"  title="Previous Post: Python爬网站上的图片">&laquo; Python爬网站上的图片</a>
-	    
 	</div>
   </div>
   <div class="large-6 columns">
 	<div class="text-right" style="padding:15px 0px;">
 		
-	        <a href="14682407498601.html" 
-	        title="Next Post: 如何给View添加点击事件">如何给View添加点击事件 &raquo;</a>
+	        <a href="14861891967085.html" 
+	        title="Next Post: Swift - 春节前问题总结">Swift - 春节前问题总结 &raquo;</a>
 	    
 	</div>
   </div>
@@ -470,7 +474,7 @@ else:
 </div>
 <script type="text/javascript">
 	$(function(){
-		var currentURL = '14685034880390.html';
+		var currentURL = '14866089688413.html';
 		$('#side-nav a').each(function(){
 			if($(this).attr('href') == currentURL){
 				$(this).parent().addClass('active');

@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2017-02-06T10:59:43+08:00</updated>
+  <updated>2017-02-07T09:13:34+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -12,6 +12,34 @@
   </author>
   <generator uri="http://www.mweb.im">MWeb</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[如何获取 `main`的返回值]]></title>
+    <link href="http://www.citynight.cn/Blog/14866089688413.html"/>
+    <updated>2017-02-09T10:56:08+08:00</updated>
+    <id>http://www.citynight.cn/Blog/14866089688413.html</id>
+    <content type="html"><![CDATA[
+<p>访问<code>main</code>的返回值的方法依赖于系统.在UNIX和Windows系统中,执行完一个程序后,都可以通过echo命令获得其返回值.<br/>
+在UNIX中通过<code>echo $?</code><br/>
+在Windows中通过<code>echo %ERRORLEVEL%</code></p>
+
+<p>使用方式:<br/>
+在terminal中, <code>vim prog1.cc</code> ,然后在vim下输入(<code>i</code>是插入键)<br/>
+<code><br/>
+ int main()<br/>
+ {<br/>
+     return 0;<br/>
+ }<br/>
+</code></p>
+
+<p>退出编辑器(先按<code>esc</code>,然后<code>:wq</code>)<br/>
+在terminal中运行<br/>
+<code><br/>
+cc prog1.cc<br/>
+</code></p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Swift - 春节前问题总结]]></title>
@@ -1380,38 +1408,6 @@ $ git branch -r -d origin/bugfix1.0
 
 <pre><code>git checkout -f
 </code></pre>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Swift - 自定义tableViewCell]]></title>
-    <link href="http://www.citynight.cn/Blog/14793055516073.html"/>
-    <updated>2016-11-16T22:12:31+08:00</updated>
-    <id>http://www.citynight.cn/Blog/14793055516073.html</id>
-    <content type="html"><![CDATA[
-<p>习惯 OC 刚刚接触 Swift 还是有很多地方不适应,创建自定义cell的时候出现如下情况</p>
-
-<pre><code>    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-    }
-</code></pre>
-
-<p>OC 中,我们会用 self 来接 super 初始化来判断是否创建成功,但是 Swift 中怎样做呢?调用 <code>super.init</code>是没有返回值的,那么我们怎样判断呢?</p>
-
-<p>从网上看<a href="http://stackoverflow.com/questions/37098742/super-init-in-swift">Super init in Swift</a>没有必要在进行<code>if(self)</code>判断了&hellip;不过,我还是找到了一种更容易理解的方法:</p>
-
-<pre><code>    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        if !self.isEqual(nil) {
-            setupInterface()
-        }
-    }
-
-</code></pre>
-
-<p>虽然感觉有点画蛇添足,不过很符合刚刚从OC 转 Swift 的理解方式</p>
 
 ]]></content>
   </entry>
