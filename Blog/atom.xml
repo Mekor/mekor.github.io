@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2017-02-07T09:13:34+08:00</updated>
+  <updated>2017-02-09T11:05:58+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -24,19 +24,23 @@
 在Windows中通过<code>echo %ERRORLEVEL%</code></p>
 
 <p>使用方式:<br/>
-在terminal中, <code>vim prog1.cc</code> ,然后在vim下输入(<code>i</code>是插入键)<br/>
-<code><br/>
- int main()<br/>
- {<br/>
-     return 0;<br/>
- }<br/>
-</code></p>
+在terminal中, <code>vim prog1.cc</code> ,然后在vim下输入(<code>i</code>是插入键)</p>
+
+<pre><code> int main()
+ {
+     return 0;
+ }
+</code></pre>
 
 <p>退出编辑器(先按<code>esc</code>,然后<code>:wq</code>)<br/>
-在terminal中运行<br/>
-<code><br/>
-cc prog1.cc<br/>
-</code></p>
+在terminal中运行</p>
+
+<pre><code>cc prog1.cc
+./a.out
+echo $?
+</code></pre>
+
+<p>最终会得到我们的返回值<code>0</code></p>
 
 ]]></content>
   </entry>
