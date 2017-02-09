@@ -223,6 +223,8 @@
         <li><label>C/C++</label></li>
 
           
+            <li><a title="C++Primer笔记 - 初识输入输出" href="14866104685305.html">C++Primer笔记 - 初识输入输出</a></li>
+          
             <li><a title="C++Primer笔记 - 如何获取 `main`的返回值" href="14866089688413.html">C++Primer笔记 - 如何获取 `main`的返回值</a></li>
           
             <li><a title="C/C++ - 回调函数中比较大小为啥0不行?" href="14834570124499.html">C/C++ - 回调函数中比较大小为啥0不行?</a></li>
@@ -410,6 +412,8 @@
                     
                       <li class="side-title"><span>C/C++</span></li>
                         
+                          <li><a title="C++Primer笔记 - 初识输入输出" href="14866104685305.html">C++Primer笔记 - 初识输入输出</a></li>
+                        
                           <li><a title="C++Primer笔记 - 如何获取 `main`的返回值" href="14866089688413.html">C++Primer笔记 - 如何获取 `main`的返回值</a></li>
                         
                           <li><a title="C/C++ - 回调函数中比较大小为啥0不行?" href="14834570124499.html">C/C++ - 回调函数中比较大小为啥0不行?</a></li>
@@ -428,85 +432,32 @@
 
 	
 		<div class="markdown-body">
-		<h1>使用Qt创建桌面应用程序</h1>
+		<h1>计算老虎机中奖等级-NSCountedSet</h1>
 
 		<blockquote>
-<p>如果Xcode8下无法正常使用Qt,解决办法参见:<a href="http://www.citynight.cn/Blog/14761943627170.html">http://www.citynight.cn/Blog/14761943627170.html</a></p>
+<p>NSCountedSet这个一直没有用过,看到其他人使用在此记录下.</p>
 </blockquote>
 
-<p>最终实现的效果:<br/>
-<img src="media/14771170894039/14771178501064.jpg" alt=""/></p>
+<p>计算老虎机中奖等级的问题：老虎机有四列，每列四个图案，如果四个相同就是等级1，三个相同就是等级2，以此类推。说是用<code>if else</code>太麻烦，有没有什么比较快捷的方法，首先想到的是用KVC中剔除重复数据的办法。比如：</p>
 
-<p><img src="media/14771170894039/14771179340151.jpg" alt=""/></p>
-
-<p>选择桌面应用程序<br/>
-<img src="media/14771170894039/14771179611437.jpg" alt=""/></p>
-
-<p><img src="media/14771170894039/14771180181773.jpg" alt=""/></p>
-
-<p>OK,现在项目创建好了&hellip;.接下来就是写代码了&hellip;</p>
-
-<p><img src="media/14771170894039/14771173227361.jpg" alt=""/></p>
-
-<p>然后在<code>mainwindow.cpp</code>文件中编写代码:<br/>
-引入需要的头文件</p>
-
-<pre><code>#include &lt;QPainter&gt;
-#include &lt;QPen&gt;
-#include &lt;math.h&gt;
+<pre><code>NSArray *array = @[@2, @2, @2, @1];
+NSLog(@&quot;%@&quot;, [array valueForKeyPath:@&quot;@distinctUnionOfObjects.self&quot;]);
 </code></pre>
 
-<p>在<code>MainWindow</code>中设置窗口位置</p>
+<p>然后得到数组的个数为2，看起来很合理，如果数组是<code>NSArray *array = @[@2, @1, @2, @1];</code>这时候计算出来的数组个数是也是2，但是正确结果应该是等级3，后来突然想起一个类:NSCountedSet</p>
 
-<pre><code>    // 设置在桌面上显示的位置&amp;大小
-    this-&gt;setGeometry(600,300,600,300);
+<pre><code>    NSArray *array = @[@1, @2, @2, @1];
+    NSCountedSet *set = [[NSCountedSet alloc]initWithArray:array];
+
+    [set enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
+        NSLog(@&quot;%@ =&gt; %d&quot;, obj, [set countForObject:obj]);
+    }];
+
 </code></pre>
 
-<pre><code>void MainWindow::paintEvent(QPaintEvent *e){
-        // 定义画笔
-        QPainter painter(this);
-
-        // 定义画坐标笔的,宽度,颜色
-        QPen pen;
-        pen.setWidth(2);
-        pen.setColor(Qt::black);
-
-        // 设置属性生效
-        painter.setPen(pen);
-
-        // 画坐标
-        painter.drawLine(0,150,600,150);
-        painter.drawLine(100,0,100,300);
-
-        //将绘画的坐标原点,转移到(100,150)的位置
-        painter.translate(100,150);
-
-
-
-        //重新设置画正弦颜色和样式
-
-        pen.setColor(Qt::red);
-
-        pen.setStyle(Qt::SolidLine);
-
-        //使设置生效
-        painter.setPen(pen);
-
-        //采集 360 个点用于绘图
-        QVector&lt;QPointF&gt;pVector;
-
-        for(int i=0; i&lt;360; i++)
-        {
-            pVector.push_back(QPointF(i,-sin(3.14/180*i)*70));//y 轴坐标,相反
-
-        }
-
-        // 画多点线条
-        painter.drawPolyline(pVector);
-}
+<pre><code>1 =&gt; 2
+2 =&gt; 2
 </code></pre>
-
-<p>开心的run下吧..</p>
 
 
 		</div>

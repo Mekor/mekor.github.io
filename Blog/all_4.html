@@ -223,6 +223,8 @@
         <li><label>C/C++</label></li>
 
           
+            <li><a title="C++Primer笔记 - 初识输入输出" href="14866104685305.html">C++Primer笔记 - 初识输入输出</a></li>
+          
             <li><a title="C++Primer笔记 - 如何获取 `main`的返回值" href="14866089688413.html">C++Primer笔记 - 如何获取 `main`的返回值</a></li>
           
             <li><a title="C/C++ - 回调函数中比较大小为啥0不行?" href="14834570124499.html">C/C++ - 回调函数中比较大小为啥0不行?</a></li>
@@ -410,6 +412,8 @@
                     
                       <li class="side-title"><span>C/C++</span></li>
                         
+                          <li><a title="C++Primer笔记 - 初识输入输出" href="14866104685305.html">C++Primer笔记 - 初识输入输出</a></li>
+                        
                           <li><a title="C++Primer笔记 - 如何获取 `main`的返回值" href="14866089688413.html">C++Primer笔记 - 如何获取 `main`的返回值</a></li>
                         
                           <li><a title="C/C++ - 回调函数中比较大小为啥0不行?" href="14834570124499.html">C/C++ - 回调函数中比较大小为啥0不行?</a></li>
@@ -428,30 +432,188 @@
 
 	
 		<div class="markdown-body">
-		<h1>Swift - 自定义tableViewCell</h1>
+		<h1>Git学习</h1>
 
-		<p>习惯 OC 刚刚接触 Swift 还是有很多地方不适应,创建自定义cell的时候出现如下情况</p>
+		<p>工作中必须使用git,但是原先一直使用svn,所以有点坑&hellip;这里简单总结下简单用法</p>
 
-<pre><code>    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-    }
+<h2 id="toc_0">svn与git的不同</h2>
+
+<p>一个是集中式版本管理控制,一个是分布式</p>
+
+<p><strong>集中式版本控制:</strong><br/>
+<img src="media/14793607171148/14795544773647.jpg" alt=""/></p>
+
+<p><strong>分布式版本控制:</strong><br/>
+<img src="media/14793607171148/14795545177377.jpg" alt=""/></p>
+
+<h2 id="toc_1">git简单实用</h2>
+
+<h3 id="toc_2">git help</h3>
+
+<pre><code>$ git help
 </code></pre>
 
-<p>OC 中,我们会用 self 来接 super 初始化来判断是否创建成功,但是 Swift 中怎样做呢?调用 <code>super.init</code>是没有返回值的,那么我们怎样判断呢?</p>
+<p>查看git所有命令的帮助</p>
 
-<p>从网上看<a href="http://stackoverflow.com/questions/37098742/super-init-in-swift">Super init in Swift</a>没有必要在进行<code>if(self)</code>判断了&hellip;不过,我还是找到了一种更容易理解的方法:</p>
+<pre><code>$ git help 子命令
+</code></pre>
 
-<pre><code>    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        if !self.isEqual(nil) {
-            setupInterface()
-        }
-    }
+<p>要退出帮助信息，按<code>&quot;q&quot;</code><br/>
+翻看下页，按<code>&quot;空格&quot;</code><br/>
+翻看上页，按<code>&quot;CTRL+B&quot;</code><br/>
+要搜索相关文字，按<code>&quot;/&quot;</code>然后输入<code>&quot;相关文字&quot;</code></p>
+
+<h3 id="toc_3">配置</h3>
+
+<p>1&gt;  创建代码仓库</p>
+
+<pre><code>$ git init
+</code></pre>
+
+<p>2&gt;  配置用户名和邮箱</p>
+
+<pre><code>$ git config user.name manager
+$ git config user.email manager@gmail.com
+</code></pre>
+
+<ul>
+<li>以上两个命令会将用户信息保存在当前代码仓库中</li>
+</ul>
+
+<p>3&gt;  如果要一次性配置完成可以使用一下命令</p>
+
+<pre><code>$ git config --global user.name manager
+$ git config --global user.email manager@gmail.com
+</code></pre>
+
+<ul>
+<li>以上两个命令会将用户信息保存在用户目录下的 <code>.gitconfig</code> 文件中</li>
+</ul>
+
+<p>4&gt;  查看当前所有配置</p>
+
+<pre><code>$ git config -l
+</code></pre>
+
+<h3 id="toc_4">开发中常用</h3>
+
+<p>1&gt;  创建代码，开始开发</p>
+
+<pre><code>$ touch main.c
+$ open main.c
+</code></pre>
+
+<p>2&gt;  将代码添加到代码库</p>
+
+<ol>
+<li> 查看当前代码库状态
+<code>
+$ git status
+</code></li>
+<li> 将文件添加到代码库
+<code>
+$ git add main.c
+</code></li>
+<li><p>将修改提交到代码库<br/>
+<code><br/>
+$ git commit -m &quot;添加了main.c&quot;<br/>
+</code><br/>
+提示：</p>
+
+<ul>
+<li>   在此一定要使用 -m 参数指定修改的备注信息</li>
+<li>   否则会进入 vim 编辑器，如果对vim不熟悉，会是很糟糕的事情</li>
+</ul></li>
+<li><p>将当前文件夹下的所有新建或修改的文件一次性添加到代码库<br/>
+<code>$ git add .</code></p></li>
+</ol>
+
+<p>3&gt;  添加多个文件</p>
+
+<pre><code>$ touch Person.h Person.m
+$ git add .
+$ git commit -m &quot;添加了Person类&quot;
+$ open Person.h
+$ git add .
+$ git commit -m &quot;增加Person类属性&quot;
+</code></pre>
+
+<ul>
+<li>注意 使用git时，每一次修改都需要添加再提交，这一点是与svn不一样的</li>
+</ul>
+
+<h2 id="toc_5">git 的重要概念及工作原理</h2>
+
+<p>工作区<br/>
+暂存区(staged)<br/>
+分支(HEAD)</p>
+
+<h2 id="toc_6">别名 &amp; 日志</h2>
+
+<pre><code>$ git config alias.st status
+$ git config alias.ci &quot;commit -m&quot;
+</code></pre>
+
+<p>除非特殊原因，最好不要设置别名，否则换一台机器就不会用了</p>
+
+<p>查看所有版本库日志</p>
+
+<pre><code>$ git log
+</code></pre>
+
+<p>查看指定文件的版本库日志</p>
+
+<pre><code>$ git log 文件名
+</code></pre>
+
+<p>配置带颜色的log别名</p>
+
+<pre><code>git config --global alias.lg &quot;log --color --graph --pretty=format:&#39;%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset&#39; --abbrev-commit&quot;
+</code></pre>
+
+<p>提示：在git中，版本号是一个由SHA1生成的哈希值</p>
+
+<h2 id="toc_7">版本号，让我们在任意版本之间穿梭</h2>
+
+<pre><code># 回到当前版本，放弃所有没有提交的修改
+$ git reset --hard HEAD
+# 回到上一个版本
+$ git reset --hard HEAD^
+# 回到之前第3个修订版本
+$ git reset --hard HEAD~3
+# 回到指定版本号的版本
+$ git reset --hard e695b67
+
+# 查看分支引用记录
+$ git reflog
 
 </code></pre>
 
-<p>虽然感觉有点画蛇添足,不过很符合刚刚从OC 转 Swift 的理解方式</p>
+<h2 id="toc_8">分支管理 - Tag</h2>
+
+<pre><code># 查看当前标签
+$ git tag
+# 在本地代码库给项目打上一个标签
+$ git tag -a v1.0 -m &#39;Version 1.0&#39;
+# 将标签添推送到远程代码库中
+$ git push origin v1.0
+
+# 使用tag，就能够将项目快速切换到某一个中间状态，例如产品开发线上的某一个稳定版本
+# 签出v1.0标签
+$ git checkout v1.0
+# 从签出状态创建v1.0bugfix分支
+$ git checkout -b bugfix1.0
+
+# 查看远程分支
+$ git branch -r
+# 删除远程分支
+$ git branch -r -d origin/bugfix1.0
+</code></pre>
+
+<p>删除修改返回到上次提交状态</p>
+
+<pre><code>git checkout -f
+</code></pre>
 
 
 		</div>

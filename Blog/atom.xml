@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2017-02-09T11:17:05+08:00</updated>
+  <updated>2017-02-09T11:18:00+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -12,6 +12,40 @@
   </author>
   <generator uri="http://www.mweb.im">MWeb</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[C++Primer笔记 - 初识输入输出]]></title>
+    <link href="http://www.citynight.cn/Blog/14866104685305.html"/>
+    <updated>2017-02-09T11:21:08+08:00</updated>
+    <id>http://www.citynight.cn/Blog/14866104685305.html</id>
+    <content type="html"><![CDATA[
+<blockquote>
+<p>使用<code>iostream</code>库.<code>iostream</code>中包含两个基础类型<code>istream</code>和<code>ostream</code>,分别表示输入流和输出流</p>
+
+<h2 id="toc_0">标准输入输出对象</h2>
+
+<p>标准库中定义了4个IO对象.为了处理输入,我们使用了一个名为<code>cin</code>的<code>istream</code>类型的对象.这个对象也被称为<strong>标准输入</strong>.对于输出,我们使用一个名为<code>cout</code>的<code>ostream</code>类型的对象.此对象也被称为<strong>标准输出</strong>.标准库中还定义了其他两个<code>ostream</code>对象,名为<code>cerr</code>和<code>clog</code>.我们通常用<code>cerr</code>来输出警告和错误信心,因此它也被称为<strong>标准错误</strong>,而<code>clog</code>用来输出程序运行时的一般性信息.</p>
+</blockquote>
+
+<p>系统通常将程序所运行的窗口与这些对象关联起来.因此,当我们读取cin,数据将从程序正在运行的窗口读入,当我们像cout,cerr,clog写入数据的时候,将会写到同一个窗口.</p>
+
+<h2 id="toc_1">Demo</h2>
+
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+int main(int argc, char *argv[])
+{
+    std::cout &lt;&lt; &quot;Enter two numbers:&quot; &lt;&lt; std::endl;
+    int v1 = 0, v2 = 0;
+    std::cin &gt;&gt; v1 &gt;&gt; v2;
+    std::cout &lt;&lt; &quot;The sun of &quot; &lt;&lt; v1 &lt;&lt; &quot;and&quot; &lt;&lt; v2 &lt;&lt; &quot;is&quot; &lt;&lt; v1 + v2 &lt;&lt; std::endl;
+    return 0;
+}
+</code></pre>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[C++Primer笔记 - 如何获取 `main`的返回值]]></title>
@@ -1225,196 +1259,6 @@ callBack() // 闭包调用
 <p>使用方法:</p>
 
 <pre><code>let darkGrey = UIColor(hexString: &quot;#757575&quot;)
-</code></pre>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Git学习]]></title>
-    <link href="http://www.citynight.cn/Blog/14793607171148.html"/>
-    <updated>2016-11-17T13:31:57+08:00</updated>
-    <id>http://www.citynight.cn/Blog/14793607171148.html</id>
-    <content type="html"><![CDATA[
-<p>工作中必须使用git,但是原先一直使用svn,所以有点坑&hellip;这里简单总结下简单用法</p>
-
-<h2 id="toc_0">svn与git的不同</h2>
-
-<p>一个是集中式版本管理控制,一个是分布式</p>
-
-<p><strong>集中式版本控制:</strong><br/>
-<img src="media/14793607171148/14795544773647.jpg" alt=""/></p>
-
-<p><strong>分布式版本控制:</strong><br/>
-<img src="media/14793607171148/14795545177377.jpg" alt=""/></p>
-
-<h2 id="toc_1">git简单实用</h2>
-
-<h3 id="toc_2">git help</h3>
-
-<pre><code>$ git help
-</code></pre>
-
-<p>查看git所有命令的帮助</p>
-
-<pre><code>$ git help 子命令
-</code></pre>
-
-<p>要退出帮助信息，按<code>&quot;q&quot;</code><br/>
-翻看下页，按<code>&quot;空格&quot;</code><br/>
-翻看上页，按<code>&quot;CTRL+B&quot;</code><br/>
-要搜索相关文字，按<code>&quot;/&quot;</code>然后输入<code>&quot;相关文字&quot;</code></p>
-
-<h3 id="toc_3">配置</h3>
-
-<p>1&gt;  创建代码仓库</p>
-
-<pre><code>$ git init
-</code></pre>
-
-<p>2&gt;  配置用户名和邮箱</p>
-
-<pre><code>$ git config user.name manager
-$ git config user.email manager@gmail.com
-</code></pre>
-
-<ul>
-<li>以上两个命令会将用户信息保存在当前代码仓库中</li>
-</ul>
-
-<p>3&gt;  如果要一次性配置完成可以使用一下命令</p>
-
-<pre><code>$ git config --global user.name manager
-$ git config --global user.email manager@gmail.com
-</code></pre>
-
-<ul>
-<li>以上两个命令会将用户信息保存在用户目录下的 <code>.gitconfig</code> 文件中</li>
-</ul>
-
-<p>4&gt;  查看当前所有配置</p>
-
-<pre><code>$ git config -l
-</code></pre>
-
-<h3 id="toc_4">开发中常用</h3>
-
-<p>1&gt;  创建代码，开始开发</p>
-
-<pre><code>$ touch main.c
-$ open main.c
-</code></pre>
-
-<p>2&gt;  将代码添加到代码库</p>
-
-<ol>
-<li> 查看当前代码库状态
-<code>
-$ git status
-</code></li>
-<li> 将文件添加到代码库
-<code>
-$ git add main.c
-</code></li>
-<li><p>将修改提交到代码库<br/>
-<code><br/>
-$ git commit -m &quot;添加了main.c&quot;<br/>
-</code><br/>
-提示：</p>
-
-<ul>
-<li>   在此一定要使用 -m 参数指定修改的备注信息</li>
-<li>   否则会进入 vim 编辑器，如果对vim不熟悉，会是很糟糕的事情</li>
-</ul></li>
-<li><p>将当前文件夹下的所有新建或修改的文件一次性添加到代码库<br/>
-<code>$ git add .</code></p></li>
-</ol>
-
-<p>3&gt;  添加多个文件</p>
-
-<pre><code>$ touch Person.h Person.m
-$ git add .
-$ git commit -m &quot;添加了Person类&quot;
-$ open Person.h
-$ git add .
-$ git commit -m &quot;增加Person类属性&quot;
-</code></pre>
-
-<ul>
-<li>注意 使用git时，每一次修改都需要添加再提交，这一点是与svn不一样的</li>
-</ul>
-
-<h2 id="toc_5">git 的重要概念及工作原理</h2>
-
-<p>工作区<br/>
-暂存区(staged)<br/>
-分支(HEAD)</p>
-
-<h2 id="toc_6">别名 &amp; 日志</h2>
-
-<pre><code>$ git config alias.st status
-$ git config alias.ci &quot;commit -m&quot;
-</code></pre>
-
-<p>除非特殊原因，最好不要设置别名，否则换一台机器就不会用了</p>
-
-<p>查看所有版本库日志</p>
-
-<pre><code>$ git log
-</code></pre>
-
-<p>查看指定文件的版本库日志</p>
-
-<pre><code>$ git log 文件名
-</code></pre>
-
-<p>配置带颜色的log别名</p>
-
-<pre><code>git config --global alias.lg &quot;log --color --graph --pretty=format:&#39;%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset&#39; --abbrev-commit&quot;
-</code></pre>
-
-<p>提示：在git中，版本号是一个由SHA1生成的哈希值</p>
-
-<h2 id="toc_7">版本号，让我们在任意版本之间穿梭</h2>
-
-<pre><code># 回到当前版本，放弃所有没有提交的修改
-$ git reset --hard HEAD
-# 回到上一个版本
-$ git reset --hard HEAD^
-# 回到之前第3个修订版本
-$ git reset --hard HEAD~3
-# 回到指定版本号的版本
-$ git reset --hard e695b67
-
-# 查看分支引用记录
-$ git reflog
-
-</code></pre>
-
-<h2 id="toc_8">分支管理 - Tag</h2>
-
-<pre><code># 查看当前标签
-$ git tag
-# 在本地代码库给项目打上一个标签
-$ git tag -a v1.0 -m &#39;Version 1.0&#39;
-# 将标签添推送到远程代码库中
-$ git push origin v1.0
-
-# 使用tag，就能够将项目快速切换到某一个中间状态，例如产品开发线上的某一个稳定版本
-# 签出v1.0标签
-$ git checkout v1.0
-# 从签出状态创建v1.0bugfix分支
-$ git checkout -b bugfix1.0
-
-# 查看远程分支
-$ git branch -r
-# 删除远程分支
-$ git branch -r -d origin/bugfix1.0
-</code></pre>
-
-<p>删除修改返回到上次提交状态</p>
-
-<pre><code>git checkout -f
 </code></pre>
 
 ]]></content>
