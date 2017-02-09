@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  使用 chisel 提高 LLDB 调试效率 - 李小争
+  C++Primer笔记 - 李小争
   
   </title>
  <meta name="description" content="记录开发中遇到的一些问题">
@@ -223,8 +223,6 @@
         <li><label>C/C++</label></li>
 
           
-            <li><a title="C++Primer笔记 - 如何获取 `main`的返回值" href="14866089688413.html">C++Primer笔记 - 如何获取 `main`的返回值</a></li>
-          
             <li><a title="C/C++ - 回调函数中比较大小为啥0不行?" href="14834570124499.html">C/C++ - 回调函数中比较大小为啥0不行?</a></li>
           
 
@@ -410,8 +408,6 @@
                     
                       <li class="side-title"><span>C/C++</span></li>
                         
-                          <li><a title="C++Primer笔记 - 如何获取 `main`的返回值" href="14866089688413.html">C++Primer笔记 - 如何获取 `main`的返回值</a></li>
-                        
                           <li><a title="C/C++ - 回调函数中比较大小为啥0不行?" href="14834570124499.html">C/C++ - 回调函数中比较大小为啥0不行?</a></li>
                         
 
@@ -423,99 +419,42 @@
             </div>
             <div class="large-9 medium-9 columns">
 
- <div class="markdown-body">
-<h1>使用 chisel 提高 LLDB 调试效率</h1>
+ 
 
-<blockquote>
-<p><a href="https://github.com/facebook/chisel">https://github.com/facebook/chisel</a> 英文版使用说明</p>
-</blockquote>
 
-<h2 id="toc_0">安装</h2>
+	
+		<div class="markdown-body">
+		<h1>如何获取 `main`的返回值</h1>
 
-<ol>
-<li>安装 <a href="http://brew.sh/index_zh-cn.html">Homebrew</a> (如果已经安装了,可以跳过这一步)</li>
-</ol>
+		<p>访问<code>main</code>的返回值的方法依赖于系统.在UNIX和Windows系统中,执行完一个程序后,都可以通过echo命令获得其返回值.<br/>
+在UNIX中通过<code>echo $?</code><br/>
+在Windows中通过<code>echo %ERRORLEVEL%</code></p>
 
-<pre><code>/usr/bin/ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;
+<p>使用方式:<br/>
+在terminal中, <code>vim prog1.cc</code> ,然后在vim下输入(<code>i</code>是插入键)</p>
+
+<pre><code> int main()
+ {
+     return 0;
+ }
 </code></pre>
 
-<ol>
-<li>更新 Homebrew (如果已经最新了,可以跳过这一步)</li>
-</ol>
+<p>退出编辑器(先按<code>esc</code>,然后<code>:wq</code>)<br/>
+在terminal中运行</p>
 
-<pre><code>brew update
+<pre><code>cc prog1.cc
+./a.out
+echo $?
 </code></pre>
 
-<ol>
-<li>通过 Homebrew 安装 chisel</li>
-</ol>
-
-<pre><code>brew install chisel
-</code></pre>
-
-<ol>
-<li>添加 chisel 命令至 ~/.lldbinit</li>
-</ol>
-
-<pre><code>touch ~/.lldbinit echo &quot;command script import /usr/local/opt/chisel/libexec/fblldb.py&quot; &gt;&gt; ~/.lldbinit
-</code></pre>
-
-<ol>
-<li>更新 chisel</li>
-</ol>
-
-<pre><code>brew upgrade chisel
-</code></pre>
-
-<h2 id="toc_1">使用</h2>
-
-<ol>
-<li>通过 <code>pviews</code> 命令直接查看页面层级关系</li>
-</ol>
-
-<hr/>
-
-<p>未完&hellip; </p>
+<p>最终会得到我们的返回值<code>0</code></p>
 
 
-</div>
+		</div>
+	
 
-<br /><br />
-<hr />
-
-<div class="row clearfix">
-  <div class="large-6 columns">
-	<div class="text-left" style="padding:15px 0px;">
-		
-	        <a href="14771170894039.html"  title="Previous Post: 使用Qt创建桌面应用程序">&laquo; 使用Qt创建桌面应用程序</a>
-	    
-	</div>
-  </div>
-  <div class="large-6 columns">
-	<div class="text-right" style="padding:15px 0px;">
-		
-	        <a href="14766308131126.html" 
-	        title="Next Post: UITableView优化方案(收集)">UITableView优化方案(收集) &raquo;</a>
-	    
-	</div>
-  </div>
-</div>
-
-<div class="row">
-<div style="padding:0px 0.93em;" class="share-comments">
-
-</div>
-</div>
-<script type="text/javascript">
-	$(function(){
-		var currentURL = '14766672567296.html';
-		$('#side-nav a').each(function(){
-			if($(this).attr('href') == currentURL){
-				$(this).parent().addClass('active');
-			}
-		});
-	});
-</script>  
+  
+  
 </div></div>
 
 

@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2017-02-09T11:05:58+08:00</updated>
+  <updated>2017-02-09T11:11:33+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[如何获取 `main`的返回值]]></title>
+    <title type="html"><![CDATA[C++Primer笔记 - 如何获取 `main`的返回值]]></title>
     <link href="http://www.citynight.cn/Blog/14866089688413.html"/>
     <updated>2017-02-09T10:56:08+08:00</updated>
     <id>http://www.citynight.cn/Blog/14866089688413.html</id>
@@ -41,6 +41,10 @@ echo $?
 </code></pre>
 
 <p>最终会得到我们的返回值<code>0</code></p>
+
+<p><strong>1.1节联系</strong><br/>
+1.2: main中返回-1.返回值-1通常被当做程序错误的标识.重新编译运行我再次获取错误值为255<br/>
+<img src="media/14866089688413/14866102127236.jpg" alt=""/></p>
 
 ]]></content>
   </entry>
