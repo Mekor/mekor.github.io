@@ -63,6 +63,8 @@
         <li><label>技巧</label></li>
 
           
+            <li><a title="synchronized(object)" href="14877545165696.html">synchronized(object)</a></li>
+          
             <li><a title="全屏返回手势小技巧" href="14823239811290.html">全屏返回手势小技巧</a></li>
           
             <li><a title="Scroll UICollectionView to section header view" href="14810139766101.html">Scroll UICollectionView to section header view</a></li>
@@ -262,6 +264,8 @@
                     
                       <li class="side-title"><span>技巧</span></li>
                         
+                          <li><a title="synchronized(object)" href="14877545165696.html">synchronized(object)</a></li>
+                        
                           <li><a title="全屏返回手势小技巧" href="14823239811290.html">全屏返回手势小技巧</a></li>
                         
                           <li><a title="Scroll UICollectionView to section header view" href="14810139766101.html">Scroll UICollectionView to section header view</a></li>
@@ -432,10 +436,13 @@
 
 	
 		<div class="markdown-body">
-		<h1>iOS 模拟器 添加图片到相册的小技巧</h1>
+		<h1>UILabel边缘出现黑线</h1>
 
-		<p>把图片拖到模拟器主屏幕,或者Safari中,保存图片7 <br/>
-<img src="media/14765420394973/tips.gif" alt="tips"/></p>
+		<p>问题:代码实现 UILabel 时出现的边缘黑线问题<br/>
+原因:当 UILabel 的宽高出现浮点型数字时,在高清屏下有可能出现右侧边缘黑线问题, 解决方法是使用 <code>CGRectIntegral()</code> 方法确保 <code>frame</code> 中不存在非整形数值</p>
+
+<pre><code>label.frame = CGRectIntegral(CGRectMake(0, 0, ceil(width),40));
+</code></pre>
 
 
 		</div>

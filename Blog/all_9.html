@@ -63,6 +63,8 @@
         <li><label>技巧</label></li>
 
           
+            <li><a title="synchronized(object)" href="14877545165696.html">synchronized(object)</a></li>
+          
             <li><a title="全屏返回手势小技巧" href="14823239811290.html">全屏返回手势小技巧</a></li>
           
             <li><a title="Scroll UICollectionView to section header view" href="14810139766101.html">Scroll UICollectionView to section header view</a></li>
@@ -262,6 +264,8 @@
                     
                       <li class="side-title"><span>技巧</span></li>
                         
+                          <li><a title="synchronized(object)" href="14877545165696.html">synchronized(object)</a></li>
+                        
                           <li><a title="全屏返回手势小技巧" href="14823239811290.html">全屏返回手势小技巧</a></li>
                         
                           <li><a title="Scroll UICollectionView to section header view" href="14810139766101.html">Scroll UICollectionView to section header view</a></li>
@@ -432,22 +436,61 @@
 
 	
 		<div class="markdown-body">
-		<h1>优秀文章链接收藏</h1>
+		<h1>升级到Xcode8后Qt无法正常使用</h1>
 
-		<h2 id="toc_0">优化</h2>
+		<p>错误信息:</p>
 
-<p><a href="http://www.mulle-kybernetik.com/artikel/Optimization/opti-3-imp-deluxe.html">极致优化</a></p>
+<blockquote>
+<p>Project ERROR: Xcode not set up properly. You may need to confirm the license agreement by running /usr/bin/xcodebuild.</p>
+</blockquote>
 
-<p>美团点评技术团队: <a href="http://tech.meituan.com/DiveIntoMethodCache.html">深入理解Objective-C：方法缓存</a></p>
+<p>解决办法:<br/>
+<strong>&gt;= Xcode 8</strong></p>
 
-<h2 id="toc_1">Runloop</h2>
+<p>In Xcode 8, as Bruce said, this happens when Qt tries to find <code>xcrun</code> when it should be looking for <code>xcodebuild</code>.</p>
 
-<p><a href="http://blog.ibireme.com/2015/05/18/runloop/">深入理解RunLoop</a>  &mdash; 内部分享文章runloop中使用了该文章中的一张图.</p>
+<p><strong>Step 1:</strong></p>
 
-<h2 id="toc_2">GCD</h2>
+<p>Open the file:</p>
 
-<p><a href="http://www.raywenderlich.com/60749/grand-central-dispatch-in-depth-part-1">GCD 深入理解：第一部分</a> 中文翻译:<a href="https://github.com/nixzhu/dev-blog/blob/master/2014-04-19-grand-central-dispatch-in-depth-part-1.md">译文</a><br/>
-<a href="https://github.com/nixzhu/dev-blog/blob/master/2014-05-14-grand-central-dispatch-in-depth-part-2.md">GCD 深入理解：第二部分</a></p>
+<pre><code>Qt_install_folder/5.7/clang_64/mkspecs/features/mac/default_pre.prf
+</code></pre>
+
+<p><strong>Step 2:</strong></p>
+
+<p>Replace:</p>
+
+<pre><code>isEmpty($$list($$system(&quot;/usr/bin/xcrun -find xcrun 2&gt;/dev/null&quot;)))
+</code></pre>
+
+<p>With:</p>
+
+<pre><code>isEmpty($$list($$system(&quot;/usr/bin/xcrun -find xcodebuild 2&gt;/dev/null&quot;)))
+</code></pre>
+
+<p><strong>~&gt; Xcode 8</strong></p>
+
+<p>Before Xcode 8, this problem occurs when command line tools are installed after Xcode is installed. What happens is the <code>Xcode-select</code> developer directory gets pointed to <code>/Library/Developer/CommandLineTools</code>.</p>
+
+<p><strong>Step 1:</strong></p>
+
+<p>Point <code>Xcode-select</code> to the correct Xcode Developer directory with the command:</p>
+
+<pre><code>sudo xcode-select -switch /Applications/Xcode.app/Contents/Developer
+</code></pre>
+
+<p><strong>Step 2:</strong></p>
+
+<p>Confirm the license agreement with the command:</p>
+
+<pre><code>xcodebuild -license
+</code></pre>
+
+<p>This will prompt you to read through the license agreement.</p>
+
+<p>Enter <code>agree</code> to accept the terms.</p>
+
+<p>详见stackoverflow 中 <a href="http://stackoverflow.com/questions/33728905/qt-creator-project-error-xcode-not-set-up-properly-you-may-need-to-confirm-t">Qt Creator - Project ERROR: Xcode not set up properly. You may need to confirm the license agreement by running /usr/bin/xcodebuild</a></p>
 
 
 		</div>
