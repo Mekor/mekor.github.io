@@ -63,6 +63,8 @@
         <li><label>技巧</label></li>
 
           
+            <li><a title="数组传递" href="14878335740172.html">数组传递</a></li>
+          
             <li><a title="synchronized(object)" href="14877545165696.html">synchronized(object)</a></li>
           
             <li><a title="全屏返回手势小技巧" href="14823239811290.html">全屏返回手势小技巧</a></li>
@@ -183,6 +185,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="把函数名当参数传递不释放" href="14888974267202.html">把函数名当参数传递不释放</a></li>
+          
             <li><a title="Swift - 春节前问题总结" href="14861891967085.html">Swift - 春节前问题总结</a></li>
           
             <li><a title="Swift - Swift Talk: Networking" href="14860911508877.html">Swift - Swift Talk: Networking</a></li>
@@ -263,6 +267,8 @@
 
                     
                       <li class="side-title"><span>技巧</span></li>
+                        
+                          <li><a title="数组传递" href="14878335740172.html">数组传递</a></li>
                         
                           <li><a title="synchronized(object)" href="14877545165696.html">synchronized(object)</a></li>
                         
@@ -376,6 +382,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="把函数名当参数传递不释放" href="14888974267202.html">把函数名当参数传递不释放</a></li>
+                        
                           <li><a title="Swift - 春节前问题总结" href="14861891967085.html">Swift - 春节前问题总结</a></li>
                         
                           <li><a title="Swift - Swift Talk: Networking" href="14860911508877.html">Swift - Swift Talk: Networking</a></li>
@@ -436,80 +444,59 @@
 
 	
 		<div class="markdown-body">
-		<h1>如何在UIBarButtonItem上显示数字(BadgeValue)</h1>
+		<h1>Cocoapods的安装</h1>
 
-		<blockquote>
-<p>原因：项目中想要实现购物车右上角显示购物车中上品数量，但是直接用UIBarButtonItem不能实现要求</p>
-</blockquote>
+		<pre><code>1.先升级Gem
+    sudo gem update --system
+2.切换cocoapods的数据源
+    【先删除，再添加，查看】
+    gem sources --remove https://rubygems.org/
+    gem sources -a https://ruby.taobao.org/
+    gem sources -l
+3.安装cocoapods
+    sudo gem install cocoapods
+    或者（如10.11系统）sudo gem install -n /usr/local/bin cocoapods
+4.(可忽略)将Podspec文件托管地址从github切换到国内的oschina
+    【先删除，再添加，再更新】
+    pod repo remove master
+    pod repo add master http://git.oschina.net/akuandev/Specs.git
+    pod repo add master https://gitcafe.com/akuandev/Specs.git
+    pod repo update
+5.设置pod仓库
+    pod setup
+6.测试
+    【如果有版本号，则说明已经安装成功】
+    pod --version
+7.利用cocoapods来安装第三方框架
+    01 进入要安装框架的项目的.xcodeproj同级文件夹
+    02 在该文件夹中新建一个文件podfile
+    03 在文件中告诉cocoapods需要安装的框架信息
+        a.该框架支持的平台
+        b.适用的iOS版本
+        c.框架的名称
+        d.框架的版本
+8.安装
+pod install --no-repo-update
+pod update --no-repo-update
 
-<p>这里是实现后的效果图：</p>
+9.说明
+platform :ios, &#39;8.0&#39; 用来设置所有第三方库所支持的iOS最低版本
+pod &#39;SDWebImage&#39;,&#39;~&gt;2.6&#39; 设置框架的名称和版本号
+版本号的规则：
+&#39;&gt;1.0&#39;    可以安装任何高于1.0的版本
+&#39;&gt;=1.0&#39;   可以安装任何高于或等于1.0的版本
+&#39;&lt;1.0&#39;    任何低于1.0的版本
+&#39;&lt;=1.0&#39;   任何低于或等于1.0的版本
+&#39;~&gt;0.1&#39;   任何高于或等于0.1的版本，但是不包含高于1.0的版本
+&#39;~&gt;0&#39;     任何版本，相当于不指定版本，默认采用最新版本号
 
-<p><img src="media/14747835330079/strip." alt="购物车动画"/></p>
+10.使用pod install命令安装框架后的大致过程：
+01 分析依赖:该步骤会分析Podfile,查看不同类库之间的依赖情况。如果有多个类库依赖于同一个类库，但是依赖于不同的版本，那么cocoaPods会自动设置一个兼容的版本。
+02 下载依赖:根据分析依赖的结果，下载指定版本的类库到本地项目中。
+03 生成Pods项目：创建一个Pods项目专门用来编译和管理第三方框架，CocoaPods会将所需的框架，库等内容添加到项目中，并且进行相应的配置。
+04 整合Pods项目：将Pods和项目整合到一个工作空间中，并且设置文件链接。
 
-<p>一开始直接创建的UIBarButtonItem，但是不能直接往上面添加想要的效果，因为</p>
-
-<pre><code>NS_CLASS_AVAILABLE_IOS(2_0) @interface UIBarButtonItem : UIBarItem &lt;NSCoding&gt;
 </code></pre>
-
-<p>而且</p>
-
-<pre><code>NS_CLASS_AVAILABLE_IOS(2_0) @interface UIBarItem : NSObject &lt;NSCoding, UIAppearance&gt;
-</code></pre>
-
-<p>退而求其次，我们知道UIBarButtonItem有一个属性</p>
-
-<pre><code>@property(nullable, nonatomic,strong)  __kindof UIView     *customView;       // default is nil
-</code></pre>
-
-<p>这说明我们可以使用UIButton来代替UIBarButtonItem，在UIButton上面添加想要的动画效果。</p>
-
-<pre><code>    static CGFloat const kButtonWidth = 43.0f;
-    static CGFloat const kButtonHeight = 43.0f;
-
-    UIImage *cartImage = [[UIImage imageNamed:@&quot;iconfont-cart&quot;]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-
-    UIButton *cartButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    cartButton.frame = CGRectMake(0.0f, 0.0f, kButtonWidth, kButtonHeight);
-    cartButton.backgroundColor = [UIColor clearColor];
-    [cartButton setImage:cartImage forState:UIControlStateNormal];
-    [cartButton setImageEdgeInsets:UIEdgeInsetsMake(0.0f,(kButtonHeight- cartImage.size.width), 0.0f, 0.0f)];
-    [cartButton addTarget:self action:@selector(changeStatus:) forControlEvents:UIControlEventTouchUpInside];
-    [cartButton addSubview:self.numberLabel];
-
-    UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:cartButton];
-    self.navigationItem.rightBarButtonItem = rightBarButtonItem;
-</code></pre>
-
-<p>创建Label使用懒加载：</p>
-
-<pre><code>#pragma mark 购物车上面显示的按钮
--(UILabel *)numberLabel
-{
-    if (!_numberLabel) {
-
-        static CGFloat const kNameLabelWidth = 14;
-        static CGFloat const kNameLabelHeight = 14;
-        static CGFloat const kNameLabelX = 40; // 父视图宽44，UI说改到这个位置
-        static CGFloat const kNameLabelY = 6;
-
-        _numberLabel = [UILabel new];
-        _numberLabel.hidden = YES;
-        _numberLabel.frame = CGRectMake(kNameLabelX, kNameLabelY, kNameLabelWidth, kNameLabelHeight);
-
-        _numberLabel.backgroundColor = [UIColor redColor];
-        _numberLabel.textColor = [UIColor whiteColor];
-        _numberLabel.font = [UIFont systemFontOfSize:9];
-        _numberLabel.textAlignment = NSTextAlignmentCenter;
-        _numberLabel.layer.cornerRadius = kNameLabelHeight * 0.5;
-        _numberLabel.layer.masksToBounds = YES;
-
-    }
-    return _numberLabel;
-}
-</code></pre>
-
-<p>这里说下为什么设置为hidden，因为要求数量为0的时候不显示，数量不为0显示，如果删除后还要添加不如直接控制hidden。<br/>
-其他的就是设置Label显示的数字了，这里就不写了。</p>
 
 
 		</div>
