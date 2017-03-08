@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2017-02-22T17:14:54+08:00</updated>
+  <updated>2017-03-08T23:05:40+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -14,14 +14,16 @@
 
   
   <entry>
-    <title type="html"><![CDATA[把函数名当参数传递不释放]]></title>
+    <title type="html"><![CDATA[Swift - 最近遇到的问题(3.8)]]></title>
     <link href="http://www.citynight.cn/Blog/14888974267202.html"/>
     <updated>2017-03-07T22:37:06+08:00</updated>
     <id>http://www.citynight.cn/Blog/14888974267202.html</id>
     <content type="html"><![CDATA[
+<h2 id="toc_0">把函数名当参数传递不释放</h2>
+
 <p>控制器A 有一个函数 func  有一个视图 View ,如果控制器A 把函数 func 传递给 View 那么 控制器不释放</p>
 
-<h1 id="toc_0">*** Assertion failure in -[UITableView dequeueReusableCellWithIdentifier:forIndexPath:]</h1>
+<h2 id="toc_1">*** Assertion failure in -[UITableView dequeueReusableCellWithIdentifier:forIndexPath:]</h2>
 
 <p>产生原因: 同一个控制器,里面有一个代码添加的tableView,然后这个控制器又添加了一个xib视图,xib视图中有tableView,并且设置tableView的数据源和代理方法为filesowner,导致崩溃.  </p>
 

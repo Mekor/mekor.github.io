@@ -185,7 +185,7 @@
         <li><label>Swift</label></li>
 
           
-            <li><a title="把函数名当参数传递不释放" href="14888974267202.html">把函数名当参数传递不释放</a></li>
+            <li><a title="Swift - 最近遇到的问题(3.8)" href="14888974267202.html">Swift - 最近遇到的问题(3.8)</a></li>
           
             <li><a title="Swift - 春节前问题总结" href="14861891967085.html">Swift - 春节前问题总结</a></li>
           
@@ -382,7 +382,7 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
-                          <li><a title="把函数名当参数传递不释放" href="14888974267202.html">把函数名当参数传递不释放</a></li>
+                          <li><a title="Swift - 最近遇到的问题(3.8)" href="14888974267202.html">Swift - 最近遇到的问题(3.8)</a></li>
                         
                           <li><a title="Swift - 春节前问题总结" href="14861891967085.html">Swift - 春节前问题总结</a></li>
                         
@@ -444,11 +444,13 @@
 
 	
 		<div class="markdown-body">
-		<h1>把函数名当参数传递不释放</h1>
+		<h1>Swift - 最近遇到的问题(3.8)</h1>
 
-		<p>控制器A 有一个函数 func  有一个视图 View ,如果控制器A 把函数 func 传递给 View 那么 控制器不释放</p>
+		<h2 id="toc_0">把函数名当参数传递不释放</h2>
 
-<h1 id="toc_0">*** Assertion failure in -[UITableView dequeueReusableCellWithIdentifier:forIndexPath:]</h1>
+<p>控制器A 有一个函数 func  有一个视图 View ,如果控制器A 把函数 func 传递给 View 那么 控制器不释放</p>
+
+<h2 id="toc_1">*** Assertion failure in -[UITableView dequeueReusableCellWithIdentifier:forIndexPath:]</h2>
 
 <p>产生原因: 同一个控制器,里面有一个代码添加的tableView,然后这个控制器又添加了一个xib视图,xib视图中有tableView,并且设置tableView的数据源和代理方法为filesowner,导致崩溃.  </p>
 
