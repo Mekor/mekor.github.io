@@ -63,6 +63,8 @@
         <li><label>技巧</label></li>
 
           
+            <li><a title="Mac zsh 使用命令打开sublime" href="14907559721950.html">Mac zsh 使用命令打开sublime</a></li>
+          
             <li><a title="数组传递" href="14878335740172.html">数组传递</a></li>
           
             <li><a title="synchronized(object)" href="14877545165696.html">synchronized(object)</a></li>
@@ -268,6 +270,8 @@
                     
                       <li class="side-title"><span>技巧</span></li>
                         
+                          <li><a title="Mac zsh 使用命令打开sublime" href="14907559721950.html">Mac zsh 使用命令打开sublime</a></li>
+                        
                           <li><a title="数组传递" href="14878335740172.html">数组传递</a></li>
                         
                           <li><a title="synchronized(object)" href="14877545165696.html">synchronized(object)</a></li>
@@ -444,44 +448,102 @@
 
 	
 		<div class="markdown-body">
-		<h1>点菜逻辑梳理</h1>
+		<h1>Swift - 上周总结(12.30)</h1>
 
-		<h2 id="toc_0">同步逻辑(全量上传):</h2>
+		<h2 id="toc_0">规范问题</h2>
 
-<p>原定: 切台\转台 全量上传<br/>
-现在: 轮询即上传(每次轮询信息都走这个接口),切台/轮询同样走这个接口</p>
+<p>关于视图该不该把控件暴露出去?<br/>
+通常情况下不能,原因:为了<del>部落</del>封闭性.</p>
 
-<h2 id="toc_1">关于延时</h2>
+<p>我的理解,每个视图都是一个盒子,如果有需要我可以给外面提供一个update接口来更改数据.视图中的点击事件可以通过<code>Target-Action</code>实现,当然闭包&amp;代理同样可以.非常符合<code>Cocoa</code>提倡的<code>MVC</code>模式</p>
 
-<p>12.27泽祥刚跟海底捞确定逻辑和备注一致即这道菜如果半份延时了再次点这道菜不论整份半份都是延时的.</p>
+<p><img src="media/14830040423390/14834530948549.jpg" alt=""/></p>
 
-<h2 id="toc_2">整份半份显示(如果新需求的话,可能还需要改变正在和泽祥确定中)</h2>
+<p>关于视图中空间是否暴露出去,默认都是<code>private</code>,我认为苹果<code>Cocoa Touch</code>中<code>UIKit</code>部分控件设计的不是很好,举个🌰:<br/>
+<code>UIButton</code>如果设置字体的大小,需要通过<code>titleLabel?.font</code>来设置.我认为这样是不好的,通过一个方法来设置font感觉更合适.</p>
 
-<p>需求:点菜点锅界面菜品包含整份与半份 购物车界面整份与半份是分开的.</p>
+<h2 id="toc_1">更Swift</h2>
 
-<p>目前的做法: 购物车等地方如果调用<code>-(NSArray *)getLocalDishArray</code>这个操作会把数据拆分成整份半份给调用者.但是在点菜点锅页面,我会调用<code>configLocalDishArray</code> 这个操作会把整份半份整合成一个菜给调用者</p>
+<p>毕竟大部分同学都是刚接触Swift,整个项目感觉有点像翻译,还是<code>OC</code>的味道,关于这个问题讨论了两点,一个是面向协议编程,一个是函数式编程</p>
 
-<h2 id="toc_3">关于估清</h2>
+<h3 id="toc_2">面向协议编程</h3>
 
-<p>原有逻辑就是根据数据库中获取菜品信息进行估清操作判断的,<strong>目前</strong>的逻辑是这样的,数据库返回字段和轮询回来的估清数据中只要有一个是估清就显示估清,显示需要调用<code>-(BOOL)judgeIsSellOutWithDish:(HTDishEntity *)dish</code></p>
+<p>问题:某一个视图是其他视图所需要的一部分,现在的做法是将共有的视图抽取出来,成为一个视图,然后其他视图包含这个视图.<br/>
+面向协议:公共的子视图设置为一个协议,然后给一个默认的实现.像搭积木一样做视图的拼接.</p>
 
-<h2 id="toc_4">关于已点</h2>
+<p>参考资料:<a href="https://github.com/atConf/atswift-2016-resources">atswift-2016大会</a>中<code>李洁信_Pop in Swift</code>这个section可以参考.</p>
 
-<p>新加菜&amp;已下单数据只要一个地方有该菜品都显示已点<code>-(BOOL)haveOrderThisDish:(NSString *)dishid</code></p>
+<h3 id="toc_3">函数式编程</h3>
 
-<h2 id="toc_5">匹配菜品中整份半份数量</h2>
+<p>周欣对自己代码优化的时候发现的问题:<br/>
+一开始的逻辑:</p>
 
-<p><code>-(nonnull HTDishEntity *)configNumberOfDish:(nonnull HTDishEntity *)dish</code><br/>
-会计算未下单数据中所有整份半份数量</p>
+<pre><code>class func fetchAllDish() -&gt; [Any] {
+        var mutableBigCategorys = [Any]()
+        let bigCategorys = DatabaseManager.shared.fetchAllDishCategory()
+        for bigCategory in bigCategorys {
+            var bigCategory = bigCategory
+            var mutableSubCategorys = [Any]()
+            let subCategorys = DatabaseManager.shared.fetchSubCategorys(byCategroyID: bigCategory[&quot;CATEGORYID&quot;] as! String)
+            for subCategory in subCategorys {
+                var subCategory = subCategory
+                let dishes = DatabaseManager.shared.fetchDishes(bySubCategoryID: subCategory[&quot;CLASSID&quot;] as! String)
+                if dishes.count &gt; 0 {
+                    subCategory[&quot;dishes&quot;] = dishes
+                    mutableSubCategorys.append(subCategory)
+                }
+            }
+            if mutableSubCategorys.count &gt; 0 {
+                bigCategory[&quot;subCategorys&quot;] = mutableSubCategorys
+                mutableBigCategorys.append(bigCategory)
+            }
+        }
+        return mutableBigCategorys
+    }
+</code></pre>
 
-<h2 id="toc_6">延时倍增拆分等操作</h2>
+<p>优化后的:</p>
 
-<p>这里需要的菜品都是通过<code>getLocalDishArray</code>来获取否则有问题,详细逻辑大伟比较清楚</p>
+<pre><code>class func fetchAllDish() -&gt; [Any] {
+        let bigCategorys = DatabaseManager.shared.fetchAllDishCategory()
+        let results = bigCategorys.map { (bigCategory) -&gt; [String: Any] in
+            var bigCategory = bigCategory
+            let subCategory = DatabaseManager.shared.fetchSubCategorys(byCategroyID: bigCategory[&quot;CATEGORYID&quot;] as! String)
+            let subResults = subCategory.map({ (subCategory) -&gt; [String: Any] in
+                var subCategory = subCategory
+                let dishes = DatabaseManager.shared.fetchDishes(bySubCategoryID: subCategory[&quot;CLASSID&quot;] as! String)
+                subCategory[&quot;dishes&quot;] = dishes
+                return subCategory
+            }).filter({ $0.count &gt; 0 })
+            bigCategory[&quot;subCategorys&quot;] = subResults
+            return bigCategory
+        }.filter({ $0.count &gt; 0 })
+        return results
+    }
+</code></pre>
 
-<h2 id="toc_7">目前问题</h2>
+<p>通过<code>map</code>与<code>filter</code>的灵活使用,使代码逻辑更清晰,同时也减少了不必要的临时变量.</p>
 
-<p>如果某一道菜设置延时了,将来这道菜每次进行数量的加减时都要同步到服务器,这个操作会不会导致网络请求发送比较频繁<br/>
-点锅后,使用最新的同步接口延时太久.吃饭前同步的数据,中午午休后发现数据回来了&hellip;点菜的数据同步很快..这个是接口用错了还是后台接口需要调整?</p>
+<h3 id="toc_4">元组</h3>
+
+<p>这个甲冠用的比较6..代码参见<code>NeoSubDishDetailView.swift</code>简单🌰:</p>
+
+<pre><code>    func refreshInfo(data : (UIButton,DishTypeModel)){
+        dishNameLabel.text = data.1.name
+        moneyLabel.text = data.1.price
+        numLabel.text = String(data.1.num)
+        if data.1.num &lt;= 0{
+            self.cutButton.isHidden = true
+            self.numLabel.isHidden = true
+        }else{
+            self.cutButton.isHidden = false
+            self.numLabel.isHidden = false
+        }
+    }
+
+</code></pre>
+
+<p>还有好多地方使用,这个文件可以好好观摩一下,很Swift&hellip;</p>
 
 
 		</div>

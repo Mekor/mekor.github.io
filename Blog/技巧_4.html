@@ -63,6 +63,8 @@
         <li><label>技巧</label></li>
 
           
+            <li><a title="Mac zsh 使用命令打开sublime" href="14907559721950.html">Mac zsh 使用命令打开sublime</a></li>
+          
             <li><a title="数组传递" href="14878335740172.html">数组传递</a></li>
           
             <li><a title="synchronized(object)" href="14877545165696.html">synchronized(object)</a></li>
@@ -268,6 +270,8 @@
                     
                       <li class="side-title"><span>技巧</span></li>
                         
+                          <li><a title="Mac zsh 使用命令打开sublime" href="14907559721950.html">Mac zsh 使用命令打开sublime</a></li>
+                        
                           <li><a title="数组传递" href="14878335740172.html">数组传递</a></li>
                         
                           <li><a title="synchronized(object)" href="14877545165696.html">synchronized(object)</a></li>
@@ -444,46 +448,100 @@
 
 	
 		<div class="markdown-body">
-		<h1>忽略编译器警告</h1>
+		<h1>Coding中检测系统授权状态，关闭提示用户去隐私设置中打开</h1>
 
-		<h2 id="toc_0">第一种方法</h2>
+		<blockquote>
+<p>参考Coding项目,二维码扫描中使用到,大家可以参考:<a href="https://github.com/Mekor/MKScanner">MKScanner</a></p>
+</blockquote>
 
-<p>举例<br/>
-<img src="media/14672570618572/14672571503878.jpg" alt=""/><br/>
-<img src="media/14672570618572/14672573103735.jpg" alt=""/><br/>
-接下来,<br/>
-<img src="media/14672570618572/14672575411986.jpg" alt=""/><br/>
-<img src="media/14672570618572/14672577757507.jpg" alt=""/></p>
+<p>Helper.h文件</p>
 
-<h2 id="toc_1">第二种方法</h2>
+<pre><code>#import &lt;Foundation/Foundation.h&gt;
 
-<pre><code>#pragma clang diagnostic push
-#pragma clang diagnostic ignored&quot; -Wcompare-distinct-pointer-types&quot;
-    //写在这个中间的代码,都不会被编译器提示-Wcompare-distinct-pointer-types
-#pragma clang diagnostic pop 
+@interface Helper : NSObject
+
+/**
+ * 检查系统&quot;照片&quot;授权状态, 如果权限被关闭, 提示用户去隐私设置中打开.
+ */
++ (BOOL)checkPhotoLibraryAuthorizationStatus;
+
+/**
+ * 检查系统&quot;相机&quot;授权状态, 如果权限被关闭, 提示用户去隐私设置中打开.
+ */
++ (BOOL)checkCameraAuthorizationStatus;
+
+@end
 </code></pre>
 
-<h2 id="toc_2">Xib警告: This file is set to build for a version older than the deployment target. Functionality may be limited.</h2>
+<p>Helper.m文件</p>
 
-<p>类似于这种<br/>
-<img src="media/14672570618572/14672589919425.jpg" alt=""/></p>
+<pre><code>#import &quot;Helper.h&quot;
+@import AVFoundation;
 
-<p>双击进入Xib文件<br/>
-<img src="media/14672570618572/14672592962938.jpg" alt=""/><br/>
-OK,这样就没有警告了</p>
+@implementation Helper
 
-<h2 id="toc_3">非源文件参与编译错误</h2>
++ (BOOL)checkPhotoLibraryAuthorizationStatus
+{
+    if ([ALAssetsLibrary respondsToSelector:@selector(authorizationStatus)]) {
+        ALAuthorizationStatus authStatus = [ALAssetsLibrary authorizationStatus];
+        if (ALAuthorizationStatusDenied == authStatus ||
+            ALAuthorizationStatusRestricted == authStatus) {
+            [self showSettingAlertStr:@&quot;请在iPhone的“设置-&gt;隐私-&gt;照片”中打开本应用的访问权限&quot;];
+            return NO;
+        }
+    }
+    return YES;
+}
 
-<p><img src="media/14672570618572/Snip20160630_15.png" alt="Snip20160630_15"/><br/>
-项目中有一个README.md的文件,这个文件主要记录使用第三方的一些情况,默认就参与编译了,我们需要这样做</p>
++ (BOOL)checkCameraAuthorizationStatus
+{
+    if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        kTipAlert(@&quot;该设备不支持拍照&quot;);
+        return NO;
+    }
+    
+    if ([AVCaptureDevice respondsToSelector:@selector(authorizationStatusForMediaType:)]) {
+        AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+        if (AVAuthorizationStatusDenied == authStatus ||
+            AVAuthorizationStatusRestricted == authStatus) {
+            [self showSettingAlertStr:@&quot;请在iPhone的“设置-&gt;隐私-&gt;相机”中打开本应用的访问权限&quot;];
+            return NO;
+        }
+    }
+    
+    return YES;
+}
 
-<p><img src="media/14672570618572/Snip20160630_16.png" alt="Snip20160630_16"/></p>
++ (void)showSettingAlertStr:(NSString *)tipStr{
+    //iOS8+系统下可跳转到‘设置’页面，否则只弹出提示窗即可
+    if (floor(NSFoundationVersionNumber) &gt; NSFoundationVersionNumber_iOS_7_1) {
+        UIAlertView *alertView = [UIAlertView bk_alertViewWithTitle:@&quot;提示&quot; message:tipStr];
+        [alertView bk_setCancelButtonWithTitle:@&quot;取消&quot; handler:nil];
+        [alertView bk_addButtonWithTitle:@&quot;设置&quot; handler:nil];
+        [alertView bk_setDidDismissBlock:^(UIAlertView *alert, NSInteger index) {
+            if (index == 1) {
+                UIApplication *app = [UIApplication sharedApplication];
+                NSURL *settingsURL = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+                if ([app canOpenURL:settingsURL]) {
+                    [app openURL:settingsURL];
+                }
+            }
+        }];
+        [alertView show];
+    }else{
+        kTipAlert(@&quot;%@&quot;, tipStr);
+    }
+}
 
-<p>找到这个文件,然后移除,这样就不会有问题了.<br/>
-参考: <a href="http://stackoverflow.com/questions/6509600/compilation-warning-no-rule-to-process-file-for-architecture-i386">compilation warning: no rule to process file for architecture i386</a></p>
+@end
+
+</code></pre>
 
 
 		</div>
+	
+
+ 
 	
 
  

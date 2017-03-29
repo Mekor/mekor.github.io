@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2017-03-08T23:05:40+08:00</updated>
+  <updated>2017-03-08T23:06:31+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -12,6 +12,30 @@
   </author>
   <generator uri="http://www.mweb.im">MWeb</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Mac zsh 使用命令打开sublime]]></title>
+    <link href="http://www.citynight.cn/Blog/14907559721950.html"/>
+    <updated>2017-03-29T10:52:52+08:00</updated>
+    <id>http://www.citynight.cn/Blog/14907559721950.html</id>
+    <content type="html"><![CDATA[
+<h2 id="toc_0">1/添加</h2>
+
+<p><code>vim .zshrc</code></p>
+
+<p>添加 <br/>
+ <code>alias subl=&quot;open -a Sublime\ Text&quot;</code>（如果你是Sublime Text ）<br/>
+  或者<br/>
+<code>alias subl=&quot;open -a Sublime\ Text\ 2&quot;</code> （如果你是Sublime Text 2）</p>
+
+<h2 id="toc_1">2/生效</h2>
+
+<p><code>source ~/.zshrc</code></p>
+
+<h2 id="toc_2">3/测试</h2>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Swift - 最近遇到的问题(3.8)]]></title>
@@ -1087,45 +1111,6 @@ self.collectionView.setContentOffset(CGPointMake(0, attributes!.frame.origin.y -
 <img src="media/14802973825600/14802974822042.jpg" alt=""/></p>
 
 <p>修改module为项目的就好了</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Swift - 面向协议编程]]></title>
-    <link href="http://www.citynight.cn/Blog/14799970254990.html"/>
-    <updated>2016-11-24T22:17:05+08:00</updated>
-    <id>http://www.citynight.cn/Blog/14799970254990.html</id>
-    <content type="html"><![CDATA[
-<p>跟全部写在base中比较:</p>
-
-<ol>
-<li>代码没有增多,却更复用</li>
-<li>面向协议(接口),而不是实现,充分解耦</li>
-<li>静态类型检查版主在编译时发现问题</li>
-<li>写代码像搭积木,先设计接口,再逐一实现</li>
-<li>依赖少,更容易调试</li>
-</ol>
-
-<pre><code>protocol Hello {
-    func sayHello()
-}
-
-extension Hello {
-    func sayHello() {
-        print(&quot;Hello!&quot;)
-    }
-}
-
-struct Person: Hello {
-    
-}
-
-let p = Person()
-p.sayHello()
-</code></pre>
-
-<p>创建一个协议,并且做一个默认实现.使用的时候可以直接调用</p>
 
 ]]></content>
   </entry>
