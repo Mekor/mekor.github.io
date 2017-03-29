@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2017-03-08T23:06:31+08:00</updated>
+  <updated>2017-03-29T10:57:38+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -33,6 +33,12 @@
 <p><code>source ~/.zshrc</code></p>
 
 <h2 id="toc_2">3/测试</h2>
+
+<p>在命令行输入：<br/>
+    <code>subl</code>     就可以打开sublime</p>
+
+<p>输入：<br/>
+    <code>subl test.txt</code> 就可以打开文件</p>
 
 ]]></content>
   </entry>
