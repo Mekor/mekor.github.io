@@ -175,6 +175,8 @@
         <li><label>杂记</label></li>
 
           
+            <li><a title="设计模式 读书笔记" href="14907835920803.html">设计模式 读书笔记</a></li>
+          
             <li><a title="点菜逻辑梳理" href="14829045788456.html">点菜逻辑梳理</a></li>
           
             <li><a title="数据库复习" href="14817245458052.html">数据库复习</a></li>
@@ -186,6 +188,8 @@
         <li class="divider"></li>
         <li><label>Swift</label></li>
 
+          
+            <li><a title="关于信号量" href="14916349354566.html">关于信号量</a></li>
           
             <li><a title="Swift - 最近遇到的问题(3.8)" href="14888974267202.html">Swift - 最近遇到的问题(3.8)</a></li>
           
@@ -376,6 +380,8 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
+                          <li><a title="设计模式 读书笔记" href="14907835920803.html">设计模式 读书笔记</a></li>
+                        
                           <li><a title="点菜逻辑梳理" href="14829045788456.html">点菜逻辑梳理</a></li>
                         
                           <li><a title="数据库复习" href="14817245458052.html">数据库复习</a></li>
@@ -385,6 +391,8 @@
 
                     
                       <li class="side-title"><span>Swift</span></li>
+                        
+                          <li><a title="关于信号量" href="14916349354566.html">关于信号量</a></li>
                         
                           <li><a title="Swift - 最近遇到的问题(3.8)" href="14888974267202.html">Swift - 最近遇到的问题(3.8)</a></li>
                         
@@ -448,31 +456,61 @@
 
 	
 		<div class="markdown-body">
-		<h1>怎样让内存缓存变稳定</h1>
+		<h1>升级到Xcode8后Qt无法正常使用</h1>
 
-		<p>项目中如果显示图片比较多,会遇到内存涨的比较厉害,项目中用到 SDWebImage, 所以可以很简单的让内存缓存变稳定:</p>
+		<p>错误信息:</p>
 
-<pre><code>-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    [[SDImageCache sharedImageCache] clearMemory];
-}
+<blockquote>
+<p>Project ERROR: Xcode not set up properly. You may need to confirm the license agreement by running /usr/bin/xcodebuild.</p>
+</blockquote>
+
+<p>解决办法:<br/>
+<strong>&gt;= Xcode 8</strong></p>
+
+<p>In Xcode 8, as Bruce said, this happens when Qt tries to find <code>xcrun</code> when it should be looking for <code>xcodebuild</code>.</p>
+
+<p><strong>Step 1:</strong></p>
+
+<p>Open the file:</p>
+
+<pre><code>Qt_install_folder/5.7/clang_64/mkspecs/features/mac/default_pre.prf
 </code></pre>
 
-<p>原理:</p>
+<p><strong>Step 2:</strong></p>
 
-<pre><code>- (void)clearMemory {
-    [self.memCache removeAllObjects];
-}
+<p>Replace:</p>
+
+<pre><code>isEmpty($$list($$system(&quot;/usr/bin/xcrun -find xcrun 2&gt;/dev/null&quot;)))
 </code></pre>
 
-<p>_memCache 是 NSCache 类型的,</p>
+<p>With:</p>
 
-<p>没有做任何操作的时候大概是这个样子的<br/>
-<img src="media/14752152861722/14752174866625.jpg" alt=""/></p>
+<pre><code>isEmpty($$list($$system(&quot;/usr/bin/xcrun -find xcodebuild 2&gt;/dev/null&quot;)))
+</code></pre>
 
-<p>添加clearMemory后:<br/>
-<img src="media/14752152861722/14752177858503.jpg" alt=""/></p>
+<p><strong>~&gt; Xcode 8</strong></p>
 
-<p>这也是为什么滚动后屏幕上还显示图片的原因.</p>
+<p>Before Xcode 8, this problem occurs when command line tools are installed after Xcode is installed. What happens is the <code>Xcode-select</code> developer directory gets pointed to <code>/Library/Developer/CommandLineTools</code>.</p>
+
+<p><strong>Step 1:</strong></p>
+
+<p>Point <code>Xcode-select</code> to the correct Xcode Developer directory with the command:</p>
+
+<pre><code>sudo xcode-select -switch /Applications/Xcode.app/Contents/Developer
+</code></pre>
+
+<p><strong>Step 2:</strong></p>
+
+<p>Confirm the license agreement with the command:</p>
+
+<pre><code>xcodebuild -license
+</code></pre>
+
+<p>This will prompt you to read through the license agreement.</p>
+
+<p>Enter <code>agree</code> to accept the terms.</p>
+
+<p>详见stackoverflow 中 <a href="http://stackoverflow.com/questions/33728905/qt-creator-project-error-xcode-not-set-up-properly-you-may-need-to-confirm-t">Qt Creator - Project ERROR: Xcode not set up properly. You may need to confirm the license agreement by running /usr/bin/xcodebuild</a></p>
 
 
 		</div>

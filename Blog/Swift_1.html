@@ -175,6 +175,8 @@
         <li><label>杂记</label></li>
 
           
+            <li><a title="设计模式 读书笔记" href="14907835920803.html">设计模式 读书笔记</a></li>
+          
             <li><a title="点菜逻辑梳理" href="14829045788456.html">点菜逻辑梳理</a></li>
           
             <li><a title="数据库复习" href="14817245458052.html">数据库复习</a></li>
@@ -186,6 +188,8 @@
         <li class="divider"></li>
         <li><label>Swift</label></li>
 
+          
+            <li><a title="关于信号量" href="14916349354566.html">关于信号量</a></li>
           
             <li><a title="Swift - 最近遇到的问题(3.8)" href="14888974267202.html">Swift - 最近遇到的问题(3.8)</a></li>
           
@@ -376,6 +380,8 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
+                          <li><a title="设计模式 读书笔记" href="14907835920803.html">设计模式 读书笔记</a></li>
+                        
                           <li><a title="点菜逻辑梳理" href="14829045788456.html">点菜逻辑梳理</a></li>
                         
                           <li><a title="数据库复习" href="14817245458052.html">数据库复习</a></li>
@@ -385,6 +391,8 @@
 
                     
                       <li class="side-title"><span>Swift</span></li>
+                        
+                          <li><a title="关于信号量" href="14916349354566.html">关于信号量</a></li>
                         
                           <li><a title="Swift - 最近遇到的问题(3.8)" href="14888974267202.html">Swift - 最近遇到的问题(3.8)</a></li>
                         
@@ -448,48 +456,102 @@
 
 	
 		<div class="markdown-body">
-		<h1>Swift - 上周问题总结</h1>
+		<h1>Swift - 上周总结(12.30)</h1>
 
-		<h2 id="toc_0">懒加载的正确姿势</h2>
+		<h2 id="toc_0">规范问题</h2>
 
-<blockquote>
-<p>使用Swift的时候用懒加载,但是我发现我使用的时候不能再懒加载中调用本文件中声明的属性,原因是我在写懒加载的时候没有注明类型,正确的姿势应该是:</p>
-</blockquote>
+<p>关于视图该不该把控件暴露出去?<br/>
+通常情况下不能,原因:为了<del>部落</del>封闭性.</p>
 
-<pre><code>    lazy var &lt;#property name#&gt;: &lt;#type name#&gt; = {
-        &lt;#statements#&gt;
-        return &lt;#value#&gt;
-    }()
+<p>我的理解,每个视图都是一个盒子,如果有需要我可以给外面提供一个update接口来更改数据.视图中的点击事件可以通过<code>Target-Action</code>实现,当然闭包&amp;代理同样可以.非常符合<code>Cocoa</code>提倡的<code>MVC</code>模式</p>
+
+<p><img src="media/14830040423390/14834530948549.jpg" alt=""/></p>
+
+<p>关于视图中空间是否暴露出去,默认都是<code>private</code>,我认为苹果<code>Cocoa Touch</code>中<code>UIKit</code>部分控件设计的不是很好,举个🌰:<br/>
+<code>UIButton</code>如果设置字体的大小,需要通过<code>titleLabel?.font</code>来设置.我认为这样是不好的,通过一个方法来设置font感觉更合适.</p>
+
+<h2 id="toc_1">更Swift</h2>
+
+<p>毕竟大部分同学都是刚接触Swift,整个项目感觉有点像翻译,还是<code>OC</code>的味道,关于这个问题讨论了两点,一个是面向协议编程,一个是函数式编程</p>
+
+<h3 id="toc_2">面向协议编程</h3>
+
+<p>问题:某一个视图是其他视图所需要的一部分,现在的做法是将共有的视图抽取出来,成为一个视图,然后其他视图包含这个视图.<br/>
+面向协议:公共的子视图设置为一个协议,然后给一个默认的实现.像搭积木一样做视图的拼接.</p>
+
+<p>参考资料:<a href="https://github.com/atConf/atswift-2016-resources">atswift-2016大会</a>中<code>李洁信_Pop in Swift</code>这个section可以参考.</p>
+
+<h3 id="toc_3">函数式编程</h3>
+
+<p>周欣对自己代码优化的时候发现的问题:<br/>
+一开始的逻辑:</p>
+
+<pre><code>class func fetchAllDish() -&gt; [Any] {
+        var mutableBigCategorys = [Any]()
+        let bigCategorys = DatabaseManager.shared.fetchAllDishCategory()
+        for bigCategory in bigCategorys {
+            var bigCategory = bigCategory
+            var mutableSubCategorys = [Any]()
+            let subCategorys = DatabaseManager.shared.fetchSubCategorys(byCategroyID: bigCategory[&quot;CATEGORYID&quot;] as! String)
+            for subCategory in subCategorys {
+                var subCategory = subCategory
+                let dishes = DatabaseManager.shared.fetchDishes(bySubCategoryID: subCategory[&quot;CLASSID&quot;] as! String)
+                if dishes.count &gt; 0 {
+                    subCategory[&quot;dishes&quot;] = dishes
+                    mutableSubCategorys.append(subCategory)
+                }
+            }
+            if mutableSubCategorys.count &gt; 0 {
+                bigCategory[&quot;subCategorys&quot;] = mutableSubCategorys
+                mutableBigCategorys.append(bigCategory)
+            }
+        }
+        return mutableBigCategorys
+    }
 </code></pre>
 
-<p>快捷键<br/>
-<img src="media/14815534553600/14815536582812.jpg" alt=""/><br/>
-采用这种方式声明的懒加载能够在内部使用self</p>
+<p>优化后的:</p>
 
-<h2 id="toc_1">OC中用KVC赋值,使NSString类型指向了NSNumber,导致Swift中调用崩溃</h2>
+<pre><code>class func fetchAllDish() -&gt; [Any] {
+        let bigCategorys = DatabaseManager.shared.fetchAllDishCategory()
+        let results = bigCategorys.map { (bigCategory) -&gt; [String: Any] in
+            var bigCategory = bigCategory
+            let subCategory = DatabaseManager.shared.fetchSubCategorys(byCategroyID: bigCategory[&quot;CATEGORYID&quot;] as! String)
+            let subResults = subCategory.map({ (subCategory) -&gt; [String: Any] in
+                var subCategory = subCategory
+                let dishes = DatabaseManager.shared.fetchDishes(bySubCategoryID: subCategory[&quot;CLASSID&quot;] as! String)
+                subCategory[&quot;dishes&quot;] = dishes
+                return subCategory
+            }).filter({ $0.count &gt; 0 })
+            bigCategory[&quot;subCategorys&quot;] = subResults
+            return bigCategory
+        }.filter({ $0.count &gt; 0 })
+        return results
+    }
+</code></pre>
 
-<blockquote>
-<p>崩溃信息:<code>reason: &#39;-[__NSCFNumber length]: unrecognized selector sent to instance 0x00000XXXX</code></p>
-</blockquote>
+<p>通过<code>map</code>与<code>filter</code>的灵活使用,使代码逻辑更清晰,同时也减少了不必要的临时变量.</p>
 
-<p>原因分析:NSString指向的数据类型为NSNumber的数据,取值时崩溃.第一种方案找到赋值有误的地方修改,第二不修改原有的代码,提出一种解决方案,重写NSString数据的<code>set</code>方法,赋值前判断数据类型,如果是NSNumber类型就转换成NSString类型.ß®</p>
+<h3 id="toc_4">元组</h3>
 
-<h2 id="toc_2">视图层级深,内部视图如何通知控制器数据更新?</h2>
+<p>这个甲冠用的比较6..代码参见<code>NeoSubDishDetailView.swift</code>简单🌰:</p>
 
-<p>我想到的一种方法是把函数当做参数来传递,这样能够在一定程度上减少层级结构.甲冠提出设置一个属性,然后在属性的<code>didSet</code>中调用方法.目前还没有做实践,目测层级结构没有任何减少,但是代码量会少些.需要实验验证下.</p>
+<pre><code>    func refreshInfo(data : (UIButton,DishTypeModel)){
+        dishNameLabel.text = data.1.name
+        moneyLabel.text = data.1.price
+        numLabel.text = String(data.1.num)
+        if data.1.num &lt;= 0{
+            self.cutButton.isHidden = true
+            self.numLabel.isHidden = true
+        }else{
+            self.cutButton.isHidden = false
+            self.numLabel.isHidden = false
+        }
+    }
 
-<p><strong>注:</strong>讨论中间有讨论MVC框架,这里附上苹果多MVC的介绍:<a href="https://developer.apple.com/library/content/documentation/General/Conceptual/CocoaEncyclopedia/Model-View-Controller/Model-View-Controller.html#//apple_ref/doc/uid/TP40010810-CH14-SW1">https://developer.apple.com/library/content/documentation/General/Conceptual/CocoaEncyclopedia/Model-View-Controller/Model-View-Controller.html#//apple_ref/doc/uid/TP40010810-CH14-SW1</a></p>
+</code></pre>
 
-<p>传统:<br/>
-<img src="media/14815534553600/14815566784560.gif" alt=""/></p>
-
-<p>Cocoa:<br/>
-<img src="media/14815534553600/14815567675257.gif" alt=""/></p>
-
-<h2 id="toc_3">Xcode升级后部分第三方库报错</h2>
-
-<p><img src="media/14815534553600/Snip20161215_3.png" alt="Snip20161215_3"/><br/>
-让第三方库不跟随Xcode的swift版本®</p>
+<p>还有好多地方使用,这个文件可以好好观摩一下,很Swift&hellip;</p>
 
 
 		</div>
