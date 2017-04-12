@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2017-04-08T15:06:01+08:00</updated>
+  <updated>2017-04-08T15:08:56+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -12,6 +12,48 @@
   </author>
   <generator uri="http://www.mweb.im">MWeb</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[项目优化记录]]></title>
+    <link href="http://www.citynight.cn/Blog/14919624884376.html"/>
+    <updated>2017-04-12T10:01:28+08:00</updated>
+    <id>http://www.citynight.cn/Blog/14919624884376.html</id>
+    <content type="html"><![CDATA[
+<h2 id="toc_0">首页显示</h2>
+
+<p>重点: 数据处理放在获取数据的时候,尽管这样数据不会实时更新,但是保证了数据显示的速度.<br/>
+关于Cache, 目前使用数据库.关于异步访问要用 <code>safeAsync</code></p>
+
+<pre><code>extension DispatchQueue {
+    // This method will dispatch the `block` to self.
+    // If `self` is the main queue, and current thread is main thread, the block
+    // will be invoked immediately instead of being dispatched.
+    func safeAsync(_ block: @escaping ()-&gt;()) {
+        if self === DispatchQueue.main &amp;&amp; Thread.isMainThread {
+            block()
+        } else {
+            async { block() }
+        }
+    }
+}
+</code></pre>
+
+<h2 id="toc_1">Topbar 移除</h2>
+
+<p>这个原有的导航对项目入侵太深,已经忍无可忍了&hellip;这周终于下决心移除它用原生的导航栏和自定义视图代替她..进展非常顺利.写了一天自定义控件,然后让大家各自把自己的控制过滤一遍.总耗时,我自己一天,其他同事不到1个小时.还是非常顺利的.用比较少的时间完成了项目中的毒瘤.</p>
+
+<h2 id="toc_2">下拉刷新封装</h2>
+
+<p>老版本使用的是<code>MJRefresh</code> 但是需要定制, 在老项目中我是通过继承完成的功能修改,这样做的原因是老项目是OC和Swift混编的,而且都是把第三方库源文件拖到项目中的方式进行的. 在重构的时候我把第三方库放到了公司的git上,然后更改源码.再打包成成库调用.</p>
+
+<h2 id="toc_3">关于时间比较</h2>
+
+<p>新项目中存在一个功能比如 <code>10:00:00</code> 到 <code>11:59:59</code> 算早市,需要判断当前时间是否是早市. 一种更方便的处理方式:</p>
+
+<p>时间格式 <code>HH:mm:ss</code> 一共6位数字,我们可以去掉中间的<code>:</code>,这样时间就是一个整数了,然后三个整数之间进行比较比 先比小时再比分钟最后比秒数要方便很多.</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Swift - 关于信号量]]></title>
@@ -977,26 +1019,6 @@ SELECT * FROM t_student LIMIT 5
 </code></pre>
 
 <p>以上设置,如果是iPhone的话,模态弹出视图,popover属性就会被忽略.iPad则会Popover弹出</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Scroll UICollectionView to section header view]]></title>
-    <link href="http://www.citynight.cn/Blog/14810139766101.html"/>
-    <updated>2016-12-06T16:46:16+08:00</updated>
-    <id>http://www.citynight.cn/Blog/14810139766101.html</id>
-    <content type="html"><![CDATA[
-<p>新界面左右联动的时候遇到了一个问题,怎么在左侧tableView点击某一cell的时候右侧collectionView跳转到对应的section</p>
-
-<p>如果没有section header View 的时候直接跳转到这个section的第一个Item就ok了,但是如果有section header View 的时候就需要注意了,不能这样进行跳转了,下面👇是经过测试的方法能够完美跳转到相应的section:</p>
-
-<pre><code>let attributes = self.collectionView.collectionViewLayout.layoutAttributesForSupplementaryViewOfKind(UICollectionElementKindSectionHeader, atIndexPath: NSIndexPath(forItem: 0, inSection: index))
-
-self.collectionView.setContentOffset(CGPointMake(0, attributes!.frame.origin.y - self.collectionView.contentInset.top), animated: true)
-</code></pre>
-
-<p>参见:<a href="http://stackoverflow.com/questions/22100227/scroll-uicollectionview-to-section-header-view">Scroll UICollectionView to section header view</a></p>
 
 ]]></content>
   </entry>
