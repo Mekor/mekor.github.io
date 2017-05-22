@@ -245,6 +245,14 @@
           
 
       
+        <li class="divider"></li>
+        <li><label>Linux</label></li>
+
+          
+            <li><a title="Linux - 文件和目录" href="14954377078014.html">Linux - 文件和目录</a></li>
+          
+
+      
       </ul>
     </aside>
 
@@ -448,6 +456,12 @@
                         
 
                     
+                      <li class="side-title"><span>Linux</span></li>
+                        
+                          <li><a title="Linux - 文件和目录" href="14954377078014.html">Linux - 文件和目录</a></li>
+                        
+
+                    
                   </ul>
                 </nav>
                 </div>
@@ -460,61 +474,79 @@
 
 	
 		<div class="markdown-body">
-		<h1>获取当前显示的UIViewController</h1>
+		<h1>安装tree命令</h1>
 
-		<pre><code>+ (UIViewController *)getCurrentRootViewController {
+		<p><code>brew</code> 一行命令搞定 <code>brew install tree</code></p>
 
-    CommonTool *tool = [[CommonTool alloc]init];
+<p>效果图:</p>
 
-    UIViewController *result;
-    UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
-
-    if (topWindow.windowLevel != UIWindowLevelNormal){
-        NSArray *windows = [[UIApplication sharedApplication] windows];
-        for(topWindow in windows){
-            if (topWindow.windowLevel == UIWindowLevelNormal)
-                break;
-        }
-    }
-
-    UIView *rootView = [topWindow subviews].firstObject;
-    id nextResponder = [rootView nextResponder];
-
-    if ([nextResponder isMemberOfClass:[UIViewController class]]){
-        result = nextResponder;
-    }
-    else if ([nextResponder isMemberOfClass:[UITabBarController class]] | [nextResponder isMemberOfClass:[UINavigationController class]]){
-        result = [tool findViewController:nextResponder];
-    }
-    else if ([topWindow respondsToSelector:@selector(rootViewController)] &amp;&amp; topWindow.rootViewController != nil){
-        result = topWindow.rootViewController;
-    }
-
-    else{
-        NSAssert(NO, @&quot;找不到顶端VC&quot;);
-    }
-    return result;
-}
+<pre><code>.
+├── LICENSE
+├── MKShowDetail
+│   ├── MKShowDetail.h
+│   ├── XZBaseViewController.h
+│   ├── XZBaseViewController.m
+│   ├── XZBaseViewController.xib
+│   ├── XZCustomViewController.h
+│   ├── XZCustomViewController.m
+│   ├── XZTableView.h
+│   ├── XZTableView.m
+│   └── bgImage.gif
+├── MKShowDetail.podspec
+├── MKShowDetailDemo
+│   ├── DetailShow
+│   │   ├── AppDelegate.h
+│   │   ├── AppDelegate.m
+│   │   ├── Assets.xcassets
+│   │   │   ├── AppIcon.appiconset
+│   │   │   │   └── Contents.json
+│   │   │   ├── Contents.json
+│   │   │   └── icon.imageset
+│   │   │       ├── Contents.json
+│   │   │       └── icon.jpg
+│   │   ├── Base.lproj
+│   │   │   ├── LaunchScreen.storyboard
+│   │   │   └── Main.storyboard
+│   │   ├── Info.plist
+│   │   ├── OneViewController.h
+│   │   ├── OneViewController.m
+│   │   ├── TestViewController.h
+│   │   ├── TestViewController.m
+│   │   ├── ThreeViewController.h
+│   │   ├── ThreeViewController.m
+│   │   ├── TwoViewController.h
+│   │   ├── TwoViewController.m
+│   │   ├── ViewController.h
+│   │   ├── ViewController.m
+│   │   ├── lol.jpg
+│   │   ├── main.m
+│   │   └── timo.jpg
+│   └── DetailShow.xcodeproj
+│       ├── project.pbxproj
+│       ├── project.xcworkspace
+│       │   ├── contents.xcworkspacedata
+│       │   └── xcuserdata
+│       │       ├── mekor.xcuserdatad
+│       │       │   └── UserInterfaceState.xcuserstate
+│       │       └── weizhi.xcuserdatad
+│       │           └── UserInterfaceState.xcuserstate
+│       └── xcuserdata
+│           ├── mekor.xcuserdatad
+│           │   └── xcschemes
+│           │       ├── DetailShow.xcscheme
+│           │       └── xcschememanagement.plist
+│           └── weizhi.xcuserdatad
+│               ├── xcdebugger
+│               │   └── Breakpoints_v2.xcbkptlist
+│               └── xcschemes
+│                   ├── DetailShow.xcscheme
+│                   └── xcschememanagement.plist
+├── README.md
+└── shopdetail.gif
 
 </code></pre>
 
-<pre><code>- (UIViewController *)findViewController:(id)controller{
-    if ([controller isMemberOfClass:[UINavigationController class]]) {
-        return [self findViewController:[(UINavigationController *)controller visibleViewController]];
-    }
-    else if ([controller isMemberOfClass:[UITabBarController class]]){
-        return [self findViewController:[(UITabBarController *)controller selectedViewController]];
-    }
-    else if ([controller isKindOfClass:[UIViewController class]]){
-        return controller;
-    }
-    else{
-        NSAssert(NO, @&quot;找不到顶端VC&quot;);
-        return nil;
-    }
-}
-
-</code></pre>
+<p>看起来效果不错.</p>
 
 
 		</div>
