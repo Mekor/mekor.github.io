@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2017-05-22T19:29:26+08:00</updated>
+  <updated>2017-05-22T19:29:47+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -12,6 +12,240 @@
   </author>
   <generator uri="http://www.mweb.im">MWeb</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Linux - 文件、磁盘管理]]></title>
+    <link href="http://www.citynight.cn/Blog/14954528363090.html"/>
+    <updated>2017-05-22T19:33:56+08:00</updated>
+    <id>http://www.citynight.cn/Blog/14954528363090.html</id>
+    <content type="html"><![CDATA[
+<h2 id="toc_0">1.文件管理</h2>
+
+<h3 id="toc_1">查看文件信息：ls</h3>
+
+<p>ls是英文单词list的简写，其功能为列出目录的内容，是用户最常用的命令之一，它类似于DOS下的dir命令。</p>
+
+<p><code>Linux文件或者目录名称最长可以有265个字符，“.”代表当前目录，“..”代表上一级目录，以“.”开头的文件为隐藏文件，需要用 -a 参数才能显示。</code></p>
+
+<p>ls常用参数：</p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: center">参数</th>
+<th>含义</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: center">-a</td>
+<td>显示指定目录下所有子目录与文件，包括隐藏文件</td>
+</tr>
+<tr>
+<td style="text-align: center">-l</td>
+<td>以列表方式显示文件的详细信息</td>
+</tr>
+<tr>
+<td style="text-align: center">-h</td>
+<td>配合 -l 以人性化的方式显示文件大小</td>
+</tr>
+</tbody>
+</table>
+
+<p><img src="media/14954528363090/14954529185223.jpg" alt=""/></p>
+
+<p>图中列出的信息含义如下图所示：</p>
+
+<p><img src="media/14954528363090/14954529393080.jpg" alt=""/></p>
+
+<p>与DOS下的文件操作类似，在Unix/Linux系统中，也同样允许使用特殊字符来同时引用多个文件名，这些特殊字符被称为通配符。</p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">通配符</th>
+<th>含义</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">*</td>
+<td>文件代表文件名中所有字符</td>
+</tr>
+<tr>
+<td style="text-align: left">ls te*</td>
+<td>查找以te开头的文件</td>
+</tr>
+<tr>
+<td style="text-align: left">ls *html</td>
+<td>查找结尾为html的文件</td>
+</tr>
+<tr>
+<td style="text-align: left">？</td>
+<td>代表文件名中任意一个字符</td>
+</tr>
+<tr>
+<td style="text-align: left">ls ?.c</td>
+<td>只找第一个字符任意，后缀为.c的文件</td>
+</tr>
+<tr>
+<td style="text-align: left">ls a.?</td>
+<td>只找只有3个字符，前2字符为a.，最后一个字符任意的文件</td>
+</tr>
+<tr>
+<td style="text-align: left">[]</td>
+<td>[”和“]”将字符组括起来，表示可以匹配字符组中的任意一个。“-”用于表示字符范围。</td>
+</tr>
+<tr>
+<td style="text-align: left">[abc]</td>
+<td>匹配a、b、c中的任意一个</td>
+</tr>
+<tr>
+<td style="text-align: left">[a-f]</td>
+<td>匹配从a到f范围内的的任意一个字符</td>
+</tr>
+<tr>
+<td style="text-align: left">ls [a-f]*</td>
+<td>找到从a到f范围内的的任意一个字符开头的文件</td>
+</tr>
+<tr>
+<td style="text-align: left">ls a-f</td>
+<td>查找文件名为a-f的文件,当“-”处于方括号之外失去通配符的作用</td>
+</tr>
+<tr>
+<td style="text-align: left">\</td>
+<td>如果要使通配符作为普通字符使用，可以在其前面加上转义字符。“?”和“*”处于方括号内时不用使用转义字符就失去通配符的作用。</td>
+</tr>
+<tr>
+<td style="text-align: left">ls *a</td>
+<td>查找文件名为*a的文件</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="toc_2">输出重定向命令：&gt;</h3>
+
+<p>Linux允许将命令执行结果重定向到一个文件，本应显示在终端上的内容保存到指定文件中。</p>
+
+<p>如：ls &gt; test.txt ( test.txt 如果不存在，则创建，存在则覆盖其内容 )</p>
+
+<p><img src="media/14954528363090/14954530933243.jpg" alt=""/><br/>
+注意： <code>&gt;输出重定向会覆盖原来的内容，&gt;&gt;输出重定向则会追加到文件的尾部。</code></p>
+
+<h3 id="toc_3">分屏显示：more</h3>
+
+<p>查看内容时，在信息过长无法在一屏上显示时，会出现快速滚屏，使得用户无法看清文件的内容，此时可以使用more命令，每次只显示一页，按下空格键可以显示下一页，按下q键退出显示，按下h键可以获取帮助。</p>
+
+<p><img src="media/14954528363090/14954533115641.jpg" alt=""/></p>
+
+<h3 id="toc_4">管道：|</h3>
+
+<p>管道：一个命令的输出可以通过管道做为另一个命令的输入。</p>
+
+<p>管道我们可以理解现实生活中的管子，管子的一头塞东西进去，另一头取出来，这里“ | ”的左右分为两端，左端塞东西(写)，右端取东西(读)。</p>
+
+<p><img src="media/14954528363090/14954534699128.jpg" alt=""/></p>
+
+<h3 id="toc_5">清屏：clear</h3>
+
+<p>clear作用为清除终端上的显示(类似于DOS的cls清屏功能)，也可使用快捷键：Ctrl + l ( “l” 为字母 )。</p>
+
+<h3 id="toc_6">切换工作目录： cd</h3>
+
+<p>在使用Unix/Linux的时候，经常需要更换工作目录。cd命令可以帮助用户切换工作目录。<code>Linux所有的目录和文件名大小写敏感</code></p>
+
+<p>cd后面可跟绝对路径，也可以跟相对路径。如果省略目录，则默认切换到当前用户的主目录。</p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">命令</th>
+<th>含义</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">cd</td>
+<td>切换到当前用户的主目录(/home/用户目录)，用户登陆的时候，默认的目录就是用户的主目录。</td>
+</tr>
+<tr>
+<td style="text-align: left">cd ~</td>
+<td>切换到当前用户的主目录(/home/用户目录)</td>
+</tr>
+<tr>
+<td style="text-align: left">cd .</td>
+<td>切换到当前目录</td>
+</tr>
+<tr>
+<td style="text-align: left">cd ..</td>
+<td>切换到上级目录</td>
+</tr>
+<tr>
+<td style="text-align: left">cd -</td>
+<td>可进入上次所在的目录</td>
+</tr>
+</tbody>
+</table>
+
+<p><img src="media/14954528363090/14955894273051.jpg" alt=""/><br/>
+注意：</p>
+
+<ul>
+<li>如果路径是从根路径开始的，则路径的前面需要加上 “ / ”，如 “ /mnt ”，通常进入某个目录里的文件夹，前面不用加 “ / ”。</li>
+</ul>
+
+<p><img src="media/14954528363090/14955900895519.jpg" alt=""/></p>
+
+<h3 id="toc_7">显示当前路径：pwd</h3>
+
+<p>使用pwd命令可以显示当前的工作目录，该命令很简单，直接输入pwd即可，后面不带参数。</p>
+
+<h3 id="toc_8">创建目录：mkdir</h3>
+
+<p>通过mkdir命令可以创建一个新的目录。参数-p可递归创建目录。</p>
+
+<p>需要注意的是新建目录的名称不能与当前目录中已有的目录或文件同名，并且目录创建者必须对当前目录具有写权限。<br/>
+<img src="media/14954528363090/14955907314659.jpg" alt=""/></p>
+
+<h3 id="toc_9">删除目录：rmdir</h3>
+
+<p>可使用rmdir命令删除一个目录。必须离开目录，并且目录必须为空目录，不然提示删除失败。</p>
+
+<h3 id="toc_10">删除文件：rm</h3>
+
+<p>可通过rm删除文件或目录。使用rm命令要小心，因为文件删除后不能恢复。为了防止文件误删，可以在rm后使用-i参数以逐个确认要删除的文件。</p>
+
+<p>常用参数及含义如下表所示：</p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">参数</th>
+<th>含义</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">-i</td>
+<td>以进行交互式方式执行</td>
+</tr>
+<tr>
+<td style="text-align: left">-f</td>
+<td>强制删除，忽略不存在的文件，无需提示</td>
+</tr>
+<tr>
+<td style="text-align: left">-r</td>
+<td>递归地删除目录下的内容，删除文件夹时必须加此参数</td>
+</tr>
+</tbody>
+</table>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Linux - 常用基本命令]]></title>
@@ -1140,36 +1374,6 @@ SELECT * FROM t_student LIMIT 数字1,数字2
 跳过0条数据查询5条数据
 SELECT * FROM t_student LIMIT 5
 */
-</code></pre>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[获取崩溃信息]]></title>
-    <link href="http://www.citynight.cn/Blog/14816416025061.html"/>
-    <updated>2016-12-13T23:06:42+08:00</updated>
-    <id>http://www.citynight.cn/Blog/14816416025061.html</id>
-    <content type="html"><![CDATA[
-<p>日志详细信息:</p>
-
-<pre><code>static void exceptionHandler( NSException * exception )
-{
-    NSString *date = [NSString stringWithFormat:@&quot;崩溃日志-%@&quot;, [[NSDate date] description]];
-
-    NSLog(DEBUG_CRASH, @&quot;%@ app crashed %@&quot;,date,exception.description);
-     abort();
-}
-</code></pre>
-
-<p>Appdelegate中调用:</p>
-
-<pre><code>NSSetUncaughtExceptionHandler( &amp;exceptionHandler );
-</code></pre>
-
-<p>当然也可以在日志信息中记录堆栈信息:</p>
-
-<pre><code>[exception callStackSymbols]
 </code></pre>
 
 ]]></content>
