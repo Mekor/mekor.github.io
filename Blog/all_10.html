@@ -159,6 +159,8 @@
         <li><label>遇到Bug</label></li>
 
           
+            <li><a title="打包后出现 Undefined symbols for architecture i386" href="14963702971919.html">打包后出现 Undefined symbols for architecture i386</a></li>
+          
             <li><a title="xib报错" href="14802973825600.html">xib报错</a></li>
           
             <li><a title="UILabel边缘出现黑线" href="14766298858600.html">UILabel边缘出现黑线</a></li>
@@ -380,6 +382,8 @@
                     
                       <li class="side-title"><span>遇到Bug</span></li>
                         
+                          <li><a title="打包后出现 Undefined symbols for architecture i386" href="14963702971919.html">打包后出现 Undefined symbols for architecture i386</a></li>
+                        
                           <li><a title="xib报错" href="14802973825600.html">xib报错</a></li>
                         
                           <li><a title="UILabel边缘出现黑线" href="14766298858600.html">UILabel边缘出现黑线</a></li>
@@ -482,10 +486,13 @@
 
 	
 		<div class="markdown-body">
-		<h1>iOS 模拟器 添加图片到相册的小技巧</h1>
+		<h1>UILabel边缘出现黑线</h1>
 
-		<p>把图片拖到模拟器主屏幕,或者Safari中,保存图片7 <br/>
-<img src="media/14765420394973/tips.gif" alt="tips"/></p>
+		<p>问题:代码实现 UILabel 时出现的边缘黑线问题<br/>
+原因:当 UILabel 的宽高出现浮点型数字时,在高清屏下有可能出现右侧边缘黑线问题, 解决方法是使用 <code>CGRectIntegral()</code> 方法确保 <code>frame</code> 中不存在非整形数值</p>
+
+<pre><code>label.frame = CGRectIntegral(CGRectMake(0, 0, ceil(width),40));
+</code></pre>
 
 
 		</div>

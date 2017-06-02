@@ -159,6 +159,8 @@
         <li><label>遇到Bug</label></li>
 
           
+            <li><a title="打包后出现 Undefined symbols for architecture i386" href="14963702971919.html">打包后出现 Undefined symbols for architecture i386</a></li>
+          
             <li><a title="xib报错" href="14802973825600.html">xib报错</a></li>
           
             <li><a title="UILabel边缘出现黑线" href="14766298858600.html">UILabel边缘出现黑线</a></li>
@@ -379,6 +381,8 @@
 
                     
                       <li class="side-title"><span>遇到Bug</span></li>
+                        
+                          <li><a title="打包后出现 Undefined symbols for architecture i386" href="14963702971919.html">打包后出现 Undefined symbols for architecture i386</a></li>
                         
                           <li><a title="xib报错" href="14802973825600.html">xib报错</a></li>
                         
@@ -705,6 +709,294 @@
 </tbody>
 </table>
 
+<h3 id="toc_11">建立链接文件：ln</h3>
+
+<p>Linux链接文件类似于Windows下的快捷方式。</p>
+
+<p>链接文件分为软链接和硬链接。</p>
+
+<p>软链接：软链接不占用磁盘空间，源文件删除则软链接失效。</p>
+
+<p>硬链接：硬链接只能链接普通文件，不能链接目录。</p>
+
+<p>使用格式：</p>
+
+<pre><code>ln 源文件 链接文件
+ln -s 源文件 链接文件
+
+</code></pre>
+
+<p>如果<code>没有-s</code>选项代表建立一个硬链接文件，两个文件占用相同大小的硬盘空间，即使删除了源文件，链接文件还是存在，所以-s选项是更常见的形式。</p>
+
+<p>注意：如果软链接文件和源文件不在同一个目录，源文件要使用绝对路径，不能使用相对路径。</p>
+
+<h3 id="toc_12">查看或者合并文件内容：cat</h3>
+
+<h3 id="toc_13">文本搜索：grep</h3>
+
+<p>Linux系统中grep命令是一种强大的文本搜索工具，grep允许对文本文件进行模式查找。如果找到匹配模式， grep打印包含模式的所有行。</p>
+
+<p>grep一般格式为：</p>
+
+<pre><code>grep [-选项] ‘搜索内容串’文件名
+
+</code></pre>
+
+<p>在grep命令中输入字符串参数时，最好引号或双引号括起来。例如：grep‘a ’1.txt。</p>
+
+<p>常用选项说明：</p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">选项</th>
+<th>含义</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">-v</td>
+<td>显示不包含匹配文本的所有行（相当于求反）</td>
+</tr>
+<tr>
+<td style="text-align: left">-n</td>
+<td>显示匹配行及行号</td>
+</tr>
+<tr>
+<td style="text-align: left">-i</td>
+<td>忽略大小写</td>
+</tr>
+</tbody>
+</table>
+
+<p>grep搜索内容串可以是正则表达式。</p>
+
+<p>正则表达式是对字符串操作的一种逻辑公式，就是用事先定义好的一些特定字符、及这些特定字符的组合，组成一个“规则字符串”，这个“规则字符串”用来表达对字符串的一种过滤逻辑。</p>
+
+<p>grep常用正则表达式：</p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">参数</th>
+<th>含义</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left"><sup>a</sup></td>
+<td>行首,搜寻以 m 开头的行；grep -n &lsquo;<sup>a&rsquo;</sup> 1.txt</td>
+</tr>
+<tr>
+<td style="text-align: left">ke$</td>
+<td>行尾,搜寻以 ke 结束的行；grep -n &lsquo;ke$&rsquo; 1.txt</td>
+</tr>
+<tr>
+<td style="text-align: left">[Ss]igna[Ll]</td>
+<td>匹配 [] 里中一系列字符中的一个；搜寻匹配单词signal、signaL、Signal、SignaL的行；grep -n &lsquo;[Ss]igna[Ll]&rsquo; 1.txt</td>
+</tr>
+<tr>
+<td style="text-align: left">.</td>
+<td>(点)匹配一个非换行符的字符；匹配 e 和 e 之间有任意一个字符，可以匹配 eee，eae，eve，但是不匹配 ee，eaae；grep -n &lsquo;e.e&rsquo; 1.txt</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="toc_14">查找文件：find</h3>
+
+<p>find命令功能非常强大，通常用来在特定的目录下搜索符合条件的文件，也可以用来搜索特定用户属主的文件。</p>
+
+<p>常用用法：</p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">命令</th>
+<th>含义</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">find ./ -name test.sh</td>
+<td>查找当前目录下所有名为test.sh的文件</td>
+</tr>
+<tr>
+<td style="text-align: left">find ./ -name &lsquo;*.sh&rsquo;</td>
+<td>查找当前目录下所有后缀为.sh的文件</td>
+</tr>
+<tr>
+<td style="text-align: left">find ./ -name &ldquo;[A-Z]*&rdquo;</td>
+<td>查找当前目录下所有以大写字母开头的文件</td>
+</tr>
+<tr>
+<td style="text-align: left">find /tmp -size 2M</td>
+<td>查找在/tmp 目录下等于2M的文件</td>
+</tr>
+<tr>
+<td style="text-align: left">find /tmp -size +2M</td>
+<td>查找在/tmp 目录下大于2M的文件</td>
+</tr>
+<tr>
+<td style="text-align: left">find /tmp -size -2M</td>
+<td>查找在/tmp 目录下小于2M的文件</td>
+</tr>
+<tr>
+<td style="text-align: left">find ./ -size +4k -size -5M</td>
+<td>查找当前目录下大于4k，小于5M的文件</td>
+</tr>
+<tr>
+<td style="text-align: left">find ./ -perm 0777</td>
+<td>查找当前目录下权限为 777 的文件或目录</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="toc_15">拷贝文件：cp</h3>
+
+<p>cp命令的功能是将给出的文件或目录复制到另一个文件或目录中，相当于DOS下的copy命令。</p>
+
+<p>常用选项说明：</p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">选项</th>
+<th>含义</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">-a</td>
+<td>该选项通常在复制目录时使用，它保留链接、文件属性，并递归地复制目录，简单而言，保持文件原有属性。</td>
+</tr>
+<tr>
+<td style="text-align: left">-f</td>
+<td>已经存在的目标文件而不提示</td>
+</tr>
+<tr>
+<td style="text-align: left">-i</td>
+<td>交互式复制，在覆盖目标文件之前将给出提示要求用户确认</td>
+</tr>
+<tr>
+<td style="text-align: left">-r</td>
+<td>若给出的源文件是目录文件，则cp将递归复制该目录下的所有子目录和文件，目标文件必须为一个目录名。</td>
+</tr>
+<tr>
+<td style="text-align: left">-v</td>
+<td>显示拷贝进度</td>
+</tr>
+</tbody>
+</table>
+
+<p>cp vim_configure/ code/ -ivr 把文件夹 vim_configure 拷贝到 code 目录里：</p>
+
+<p><strong>暂时缺图稍后补</strong></p>
+
+<h3 id="toc_16">移动文件：mv</h3>
+
+<p>用户可以使用mv命令来移动文件或目录，也可以给文件或目录重命名。</p>
+
+<p>常用选项说明：</p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">选项</th>
+<th>含义</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">-f</td>
+<td>禁止交互式操作，如有覆盖也不会给出提示</td>
+</tr>
+<tr>
+<td style="text-align: left">-i</td>
+<td>确认交互方式操作，如果mv操作将导致对已存在的目标文件的覆盖，系统会询问是否重写，要求用户回答以避免误覆盖文件</td>
+</tr>
+<tr>
+<td style="text-align: left">-v</td>
+<td>显示移动进度</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="toc_17">归档管理：tar</h3>
+
+<p>计算机中的数据经常需要备份，tar是Unix/Linux中最常用的备份工具，此命令可以把一系列文件归档到一个大文件中，也可以把档案文件解开以恢复数据。</p>
+
+<p>tar使用格式 tar [参数] 打包文件名 文件</p>
+
+<p>tar命令很特殊，其参数前面可以使用“-”，也可以不使用。</p>
+
+<p>常用参数：</p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">参数</th>
+<th>含义</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">-c</td>
+<td>生成档案文件，创建打包文件</td>
+</tr>
+<tr>
+<td style="text-align: left">-v</td>
+<td>列出归档解档的详细过程，显示进度</td>
+</tr>
+<tr>
+<td style="text-align: left">-f</td>
+<td>指定档案文件名称，f后面一定是.tar文件，所以必须放选项最后</td>
+</tr>
+<tr>
+<td style="text-align: left">-t</td>
+<td>列出档案中包含的文件</td>
+</tr>
+<tr>
+<td style="text-align: left">-x</td>
+<td>解开档案文件</td>
+</tr>
+</tbody>
+</table>
+
+<p>注意：除了f需要放在参数的最后，其它参数的顺序任意。</p>
+
+<h3 id="toc_18">文件压缩解压：gzip</h3>
+
+<p>tar与gzip命令结合使用实现文件打包、压缩。 tar只负责打包文件，但不压缩，用gzip压缩tar打包后的文件，其扩展名一般用xxxx.tar.gz。</p>
+
+<p>gzip使用格式如下：</p>
+
+<pre><code>gzip  [选项]  被压缩文件
+
+</code></pre>
+
+<p>常用选项：</p>
+
+<p>|选项|含义| |-d|解压| |-r|压缩所有子目录|</p>
+
+<p><strong>这里缺图</strong></p>
+
+<p>tar这个命令并没有压缩的功能，它只是一个打包的命令，但是在tar命令中增加一个选项(-z)可以调用gzip实现了一个压缩的功能，实行一个先打包后压缩的过程。</p>
+
+<p>压缩用法：tar cvzf 压缩包包名 文件1 文件2 &hellip;</p>
+
+<pre><code>-z ：指定压缩包的格式为：file.tar.gz
+
+</code></pre>
+
+<p>例如： tar zcvf test.tar.gz 1.c 2.c 3.c 4.c把 1.c 2.c 3.c 4.c 压缩成 test.tar.gz<br/>
+<strong>这里缺图</strong></p>
+
 
 </div>
 
@@ -715,6 +1007,8 @@
   <div class="large-6 columns">
 	<div class="text-left" style="padding:15px 0px;">
 		
+	        <a href="14963702971919.html"  title="Previous Post: 打包后出现 Undefined symbols for architecture i386">&laquo; 打包后出现 Undefined symbols for architecture i386</a>
+	    
 	</div>
   </div>
   <div class="large-6 columns">
