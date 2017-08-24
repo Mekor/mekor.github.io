@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2017-08-24T15:48:10+08:00</updated>
+  <updated>2017-08-24T16:03:48+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[GCD相关]]></title>
+    <title type="html"><![CDATA[GCD (Grand Central Dispatch)]]></title>
     <link href="http://www.citynight.cn/Blog/15035599814628.html"/>
     <updated>2017-08-24T15:33:01+08:00</updated>
     <id>http://www.citynight.cn/Blog/15035599814628.html</id>
