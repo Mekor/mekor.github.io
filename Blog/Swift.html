@@ -193,6 +193,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="GCD相关" href="15035599814628.html">GCD相关</a></li>
+          
             <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
           
             <li><a title="Swift - 最近遇到的问题(3.8)" href="14888974267202.html">Swift - 最近遇到的问题(3.8)</a></li>
@@ -412,6 +414,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="GCD相关" href="15035599814628.html">GCD相关</a></li>
+                        
                           <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
                         
                           <li><a title="Swift - 最近遇到的问题(3.8)" href="14888974267202.html">Swift - 最近遇到的问题(3.8)</a></li>
@@ -486,11 +490,44 @@
 
 	
 		<div class="markdown-body">
-		<h1>Swift - 关于信号量</h1>
+		<h1>GCD相关</h1>
 
-		<p>信号量的使用</p>
+		<p><a href="https://stackoverflow.com/documentation/ios/4626/gcd-grand-central-dispatch/28284/dispatch-semaphore#t=201708240714182196184">Stack Overflow</a></p>
 
-<p><img src="media/14916349354566/%E4%BF%A1%E5%8F%B7%E9%87%8F.gif" alt="信号量"/></p>
+<h2 id="toc_0">Dispatch Semaphore (信号量)</h2>
+
+<blockquote>
+<p>DispatchSemaphore provides an efficient implementation of a traditional counting semaphore, which can be used to control access to a resource across multiple execution contexts.</p>
+</blockquote>
+
+<p>A scenario for when to use a semaphore could be if you are doing some file reading/writing, if multiple tasks are trying to read and write from file at the same time, it could increase your performance to make each task wait its turn so as to not overburden the I/O controller.</p>
+
+<pre><code>func do2TasksAtATime () {
+    print(&quot;starting long running tasks (2 at a time)&quot;)
+    let sem = DispatchSemaphore(value: 2)            //this semaphore only allows 2 tasks to run at the same time (the resource count)
+    for i in 0...7 {                                 //launch a bunch of tasks
+        DispatchQueue.global().async {               //run tasks on a background thread
+            sem.wait()                               //wait here if no resources available
+            sleep(2)                                 //do some long task eg file access (here we are just sleeping for a 2 seconds for demonstration purposes)
+            print(&quot;long task \(i) done! \(Date())&quot;)
+            sem.signal()                             //let the semaphore know this resource is now available
+        }
+    }
+}
+</code></pre>
+
+<p>Example output: (notice the time stamps)</p>
+
+<pre><code>starting long running tasks (2 at a time)
+long task 0 done! 2017-02-16 07:11:53 +0000
+long task 1 done! 2017-02-16 07:11:53 +0000
+long task 2 done! 2017-02-16 07:11:55 +0000
+long task 3 done! 2017-02-16 07:11:55 +0000
+long task 5 done! 2017-02-16 07:11:57 +0000
+long task 4 done! 2017-02-16 07:11:57 +0000
+long task 6 done! 2017-02-16 07:11:59 +0000
+long task 7 done! 2017-02-16 07:11:59 +0000
+</code></pre>
 
 
 		</div>
@@ -541,7 +578,7 @@ Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
      
     </script>
     <script src="asset/chart/all-min.js"></script><script type="text/javascript">$(function(){    var mwebii=0;    var mwebChartEleId = 'mweb-chart-ele-';    $('pre>code').each(function(){        mwebii++;        var eleiid = mwebChartEleId+mwebii;        if($(this).hasClass('language-sequence')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = Diagram.parse($(this).text());            diagram.drawSVG(eleiid,{theme: 'simple'});        }else if($(this).hasClass('language-flow')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = flowchart.parse($(this).text());            diagram.drawSVG(eleiid);        }    });});</script>
-<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
 
   </body>
 </html>

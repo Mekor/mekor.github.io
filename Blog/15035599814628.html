@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  李小争
+  GCD相关 - 李小争
   
   </title>
  <meta name="description" content="记录开发中遇到的一些问题">
@@ -485,34 +485,83 @@
             </div>
             <div class="large-9 medium-9 columns">
 
- 
+ <div class="markdown-body">
+<h1>GCD相关</h1>
+
+<p><a href="https://stackoverflow.com/documentation/ios/4626/gcd-grand-central-dispatch/28284/dispatch-semaphore#t=201708240714182196184">Stack Overflow</a></p>
+
+<h2 id="toc_0">Dispatch Semaphore (信号量)</h2>
+
+<blockquote>
+<p>DispatchSemaphore provides an efficient implementation of a traditional counting semaphore, which can be used to control access to a resource across multiple execution contexts.</p>
+</blockquote>
+
+<p>A scenario for when to use a semaphore could be if you are doing some file reading/writing, if multiple tasks are trying to read and write from file at the same time, it could increase your performance to make each task wait its turn so as to not overburden the I/O controller.</p>
+
+<pre><code>func do2TasksAtATime () {
+    print(&quot;starting long running tasks (2 at a time)&quot;)
+    let sem = DispatchSemaphore(value: 2)            //this semaphore only allows 2 tasks to run at the same time (the resource count)
+    for i in 0...7 {                                 //launch a bunch of tasks
+        DispatchQueue.global().async {               //run tasks on a background thread
+            sem.wait()                               //wait here if no resources available
+            sleep(2)                                 //do some long task eg file access (here we are just sleeping for a 2 seconds for demonstration purposes)
+            print(&quot;long task \(i) done! \(Date())&quot;)
+            sem.signal()                             //let the semaphore know this resource is now available
+        }
+    }
+}
+</code></pre>
+
+<p>Example output: (notice the time stamps)</p>
+
+<pre><code>starting long running tasks (2 at a time)
+long task 0 done! 2017-02-16 07:11:53 +0000
+long task 1 done! 2017-02-16 07:11:53 +0000
+long task 2 done! 2017-02-16 07:11:55 +0000
+long task 3 done! 2017-02-16 07:11:55 +0000
+long task 5 done! 2017-02-16 07:11:57 +0000
+long task 4 done! 2017-02-16 07:11:57 +0000
+long task 6 done! 2017-02-16 07:11:59 +0000
+long task 7 done! 2017-02-16 07:11:59 +0000
+</code></pre>
 
 
-	
-		<div class="markdown-body">
-		<h1>数组传递</h1>
+</div>
 
-		<p>把A控制器中的数组 传递给 B  ,然后 B 再把数据传递给 C <br/>
-这时如果 A中数组进行了修改,那么 C 中数据也会修改</p>
+<br /><br />
+<hr />
 
+<div class="row clearfix">
+  <div class="large-6 columns">
+	<div class="text-left" style="padding:15px 0px;">
+		
+	</div>
+  </div>
+  <div class="large-6 columns">
+	<div class="text-right" style="padding:15px 0px;">
+		
+	        <a href="14963702971919.html" 
+	        title="Next Post: 打包后出现 Undefined symbols for architecture i386">打包后出现 Undefined symbols for architecture i386 &raquo;</a>
+	    
+	</div>
+  </div>
+</div>
 
-		</div>
-	
+<div class="row">
+<div style="padding:0px 0.93em;" class="share-comments">
 
- 
-	
-
- 
-	
-
- 
-	
-
- 
-	
-
-  
-  
+</div>
+</div>
+<script type="text/javascript">
+	$(function(){
+		var currentURL = '15035599814628.html';
+		$('#side-nav a').each(function(){
+			if($(this).attr('href') == currentURL){
+				$(this).parent().addClass('active');
+			}
+		});
+	});
+</script>  
 </div></div>
 
 

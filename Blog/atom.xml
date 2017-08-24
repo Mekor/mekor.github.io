@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2017-06-02T10:30:29+08:00</updated>
+  <updated>2017-06-02T10:30:59+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -12,6 +12,52 @@
   </author>
   <generator uri="http://www.mweb.im">MWeb</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[GCD相关]]></title>
+    <link href="http://www.citynight.cn/Blog/15035599814628.html"/>
+    <updated>2017-08-24T15:33:01+08:00</updated>
+    <id>http://www.citynight.cn/Blog/15035599814628.html</id>
+    <content type="html"><![CDATA[
+<p><a href="https://stackoverflow.com/documentation/ios/4626/gcd-grand-central-dispatch/28284/dispatch-semaphore#t=201708240714182196184">Stack Overflow</a></p>
+
+<h2 id="toc_0">Dispatch Semaphore (信号量)</h2>
+
+<blockquote>
+<p>DispatchSemaphore provides an efficient implementation of a traditional counting semaphore, which can be used to control access to a resource across multiple execution contexts.</p>
+</blockquote>
+
+<p>A scenario for when to use a semaphore could be if you are doing some file reading/writing, if multiple tasks are trying to read and write from file at the same time, it could increase your performance to make each task wait its turn so as to not overburden the I/O controller.</p>
+
+<pre><code>func do2TasksAtATime () {
+    print(&quot;starting long running tasks (2 at a time)&quot;)
+    let sem = DispatchSemaphore(value: 2)            //this semaphore only allows 2 tasks to run at the same time (the resource count)
+    for i in 0...7 {                                 //launch a bunch of tasks
+        DispatchQueue.global().async {               //run tasks on a background thread
+            sem.wait()                               //wait here if no resources available
+            sleep(2)                                 //do some long task eg file access (here we are just sleeping for a 2 seconds for demonstration purposes)
+            print(&quot;long task \(i) done! \(Date())&quot;)
+            sem.signal()                             //let the semaphore know this resource is now available
+        }
+    }
+}
+</code></pre>
+
+<p>Example output: (notice the time stamps)</p>
+
+<pre><code>starting long running tasks (2 at a time)
+long task 0 done! 2017-02-16 07:11:53 +0000
+long task 1 done! 2017-02-16 07:11:53 +0000
+long task 2 done! 2017-02-16 07:11:55 +0000
+long task 3 done! 2017-02-16 07:11:55 +0000
+long task 5 done! 2017-02-16 07:11:57 +0000
+long task 4 done! 2017-02-16 07:11:57 +0000
+long task 6 done! 2017-02-16 07:11:59 +0000
+long task 7 done! 2017-02-16 07:11:59 +0000
+</code></pre>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[打包后出现 Undefined symbols for architecture i386]]></title>
@@ -1509,83 +1555,6 @@ int main(int argc, char *argv[])
 
 <p>如果某一道菜设置延时了,将来这道菜每次进行数量的加减时都要同步到服务器,这个操作会不会导致网络请求发送比较频繁<br/>
 点锅后,使用最新的同步接口延时太久.吃饭前同步的数据,中午午休后发现数据回来了&hellip;点菜的数据同步很快..这个是接口用错了还是后台接口需要调整?</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[全屏返回手势小技巧]]></title>
-    <link href="http://www.citynight.cn/Blog/14823239811290.html"/>
-    <updated>2016-12-21T20:39:41+08:00</updated>
-    <id>http://www.citynight.cn/Blog/14823239811290.html</id>
-    <content type="html"><![CDATA[
-<blockquote>
-<p>这片文章可以和<a href="http://www.citynight.cn/Blog/14790381443417.html">Swift - KVC 和 运行时获取属性列表</a> 一起看,当然配上<a href="http://www.citynight.cn/Blog/14793034700265.html">隐藏tabBar的小技巧</a>就更好了😀</p>
-</blockquote>
-
-<h2 id="toc_0">第一种: 通过<code>runtime</code>与<code>KVC</code>配合完成</h2>
-
-<p>在<code>UINavigationController</code>的<code>viewDidLoad</code>方法中:</p>
-
-<pre><code>// 获取系统的手势
-let gest = self.interactivePopGestureRecognizer!
-// 禁用系统的手势
-interactivePopGestureRecognizer?.isEnabled = false
-
-// 通过KVC获取target 属性是通过runtime获取的,具体方法参见`Swift - KVC 和 运行时获取属性列表`
-guard let targets = gest.value(forKey: &quot;_targets&quot;) as? [AnyObject] else {
-    return
-}
-let target = targets[0].value(forKey: &quot;_target&quot;)
-
-// 给视图添加点击事件
-let pan = UIPanGestureRecognizer(target: target, action: NSSelectorFromString(&quot;handleNavigationTransition:&quot;))
-view.addGestureRecognizer(pan)
-</code></pre>
-
-<h2 id="toc_1">第二种: 通过原有的代理完成</h2>
-
-<p>直接上代码:</p>
-
-<pre><code>class BaseNavigationController: UINavigationController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // 获取系统的手势的代理
-        guard let target = interactivePopGestureRecognizer?.delegate else {
-            return
-        }
-        
-        // 禁用系统的手势
-        interactivePopGestureRecognizer?.isEnabled = false
-        
-        // 给视图添加点击事件
-        let pan = UIPanGestureRecognizer(target: target, action: NSSelectorFromString(&quot;handleNavigationTransition:&quot;))
-        pan.delegate = self
-        view.addGestureRecognizer(pan)
-    }
-}
-
-extension BaseNavigationController:UIGestureRecognizerDelegate {
-    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -&gt; Bool {
-        // 当是跟控制器的时候不让返回,非跟控制器可以返回
-        return viewControllers.count &gt; 1
-    }
-}
-
-</code></pre>
-
-<p>第一种也应该设置代理,不设置代理的话跟控制出现手势就会有bug</p>
-
-<p>简单比较一下,第二种更简洁.不过应用了一个小技巧,看代码:</p>
-
-<pre><code>    let pan = UIPanGestureRecognizer(target: self, action: NSSelectorFromString(&quot;handleNavigationTransition:&quot;))
-    pan.delegate = self
-    view.addGestureRecognizer(pan)
-</code></pre>
-
-<p>可见<code>target</code>&amp;<code>delegate</code>通常都是同一个对象,当让也可以是不同的,这里应用这个小技巧让代码变得更简洁.</p>
 
 ]]></content>
   </entry>

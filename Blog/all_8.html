@@ -193,6 +193,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="GCD相关" href="15035599814628.html">GCD相关</a></li>
+          
             <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
           
             <li><a title="Swift - 最近遇到的问题(3.8)" href="14888974267202.html">Swift - 最近遇到的问题(3.8)</a></li>
@@ -412,6 +414,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="GCD相关" href="15035599814628.html">GCD相关</a></li>
+                        
                           <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
                         
                           <li><a title="Swift - 最近遇到的问题(3.8)" href="14888974267202.html">Swift - 最近遇到的问题(3.8)</a></li>
@@ -486,84 +490,45 @@
 
 	
 		<div class="markdown-body">
-		<h1>Swift - 数组中的增删改与合并</h1>
+		<h1>Swift - 字典中的增删改,遍历与合并</h1>
 
-		<blockquote>
-<p>第一篇写了数组遍历的几种情况,这篇主要就是数组中的增删改,也是开发中常用的</p>
-</blockquote>
+		<p>增删改</p>
 
-<p>OC中数组分为可变(NSMutableArray)和不可变(NSArray) 相应的在Swift中就是 var &amp; let</p>
+<pre><code>var dict:[String:Any] = [&quot;name&quot; : &quot;小明&quot;, &quot;age&quot; : 18, &quot;sex&quot;:&quot;man&quot;]
 
-<h2 id="toc_0">追加元素</h2>
+// 新增
+dict[&quot;title&quot;] = &quot;老大&quot;
+print(dict)
 
-<p>首先定义一个可变数组</p>
+// 修改
+dict[&quot;name&quot;] = &quot;赵四&quot;
+print(dict)
 
-<pre><code>var array = [&quot;张三&quot;,&quot;李四&quot;,&quot;王五&quot;]
+// 删除
+dict.removeValue(forKey: &quot;age&quot;)
+print(dict)
+
 </code></pre>
 
-<p>追加一个元素</p>
+<p>遍历,合并</p>
 
-<pre><code>// 追加元素
-array.append(&quot;赵六&quot;)
-print(array)
-</code></pre>
+<pre><code>// 遍历
+for e in dict {
+    print(e)
+}
 
-<h2 id="toc_1">修改元素</h2>
+for (k,v) in dict {
+    print(&quot;key:\(k)  value:\(v)&quot;)
+}
+// 合并
+var dict1:[String:Any] = [&quot;name&quot; : &quot;李明&quot;, &quot;age&quot; : 18, &quot;sex&quot;:&quot;m&quot;]
+var dict2:[String:Any] = [&quot;name&quot; : &quot;韩梅梅&quot;, &quot;age&quot; : 16, &quot;sex&quot;:&quot;w&quot;]
+// 如果把 dict2 合并到 dict1
+for e in dict2 {
+    dict1[e.key] = e.value   //dict2[e.key]
+}
+print(&quot;----------\n\(dict1)&quot;)
 
-<p>通过下标进行修改</p>
-
-<pre><code>array[0] = &quot;赵四&quot;
-print(array)
-</code></pre>
-
-<p>结果:</p>
-
-<pre><code>[&quot;赵四&quot;, &quot;李四&quot;, &quot;王五&quot;, &quot;赵六&quot;]
-</code></pre>
-
-<h2 id="toc_2">删除</h2>
-
-<pre><code>// 删除元素
-array.remove(at: 0)
-print(array)
-</code></pre>
-
-<p>结果:</p>
-
-<pre><code>[&quot;赵四&quot;, &quot;李四&quot;, &quot;王五&quot;, &quot;赵六&quot;]
-[&quot;李四&quot;, &quot;王五&quot;, &quot;赵六&quot;]
-</code></pre>
-
-<p>remove 的方法由很多,移除首/尾,移除范围&hellip;</p>
-
-<pre><code>array.removeAll(keepingCapacity: true)
-print(&quot;数组中的元素\(array) 数组容量\(array.capacity)&quot;)
-</code></pre>
-
-<p>结果:</p>
-
-<pre><code>数组中的元素[] 数组容量6
-</code></pre>
-
-<h2 id="toc_3">数组合并</h2>
-
-<pre><code>var arr0 = [1,2,3]
-let arr1 = [3,4,5]
-arr0 += arr1
-print(arr0)
-</code></pre>
-
-<p>结果:</p>
-
-<pre><code>[1, 2, 3, 3, 4, 5]
-</code></pre>
-
-<p>注意: 要合并的数组的类型必须一致,如果不一致会出错. 比如:</p>
-
-<pre><code>var arr0:[Any] = [1,2,3]
-let arr1:[Any] = [&quot;2&quot;,3,4,5]
-arr0 += arr1
-print(arr0)
 </code></pre>
 
 
@@ -615,7 +580,7 @@ Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
      
     </script>
     <script src="asset/chart/all-min.js"></script><script type="text/javascript">$(function(){    var mwebii=0;    var mwebChartEleId = 'mweb-chart-ele-';    $('pre>code').each(function(){        mwebii++;        var eleiid = mwebChartEleId+mwebii;        if($(this).hasClass('language-sequence')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = Diagram.parse($(this).text());            diagram.drawSVG(eleiid,{theme: 'simple'});        }else if($(this).hasClass('language-flow')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = flowchart.parse($(this).text());            diagram.drawSVG(eleiid);        }    });});</script>
-<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
 
   </body>
 </html>
