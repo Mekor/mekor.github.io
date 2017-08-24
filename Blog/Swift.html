@@ -193,7 +193,7 @@
         <li><label>Swift</label></li>
 
           
-            <li><a title="GCD (Grand Central Dispatch)" href="15035599814628.html">GCD (Grand Central Dispatch)</a></li>
+            <li><a title="GCD(Grand Central Dispatch)" href="15035627499170.html">GCD(Grand Central Dispatch)</a></li>
           
             <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
           
@@ -414,7 +414,7 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
-                          <li><a title="GCD (Grand Central Dispatch)" href="15035599814628.html">GCD (Grand Central Dispatch)</a></li>
+                          <li><a title="GCD(Grand Central Dispatch)" href="15035627499170.html">GCD(Grand Central Dispatch)</a></li>
                         
                           <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
                         
@@ -490,11 +490,13 @@
 
 	
 		<div class="markdown-body">
-		<h1>GCD (Grand Central Dispatch)</h1>
+		<h1>GCD(Grand Central Dispatch)</h1>
 
-		<p><a href="https://stackoverflow.com/documentation/ios/4626/gcd-grand-central-dispatch/28284/dispatch-semaphore#t=201708240714182196184">Stack Overflow</a></p>
+		<p>Grand Central Dispatch (GCD) is Apple&rsquo;s answer to multithreading. It is a lightweight framework for performing tasks synchronously or asynchronously in queues and handles CPU threads for you behind the scenes.</p>
 
-<h2 id="toc_0">Dispatch Semaphore (信号量)</h2>
+<h2 id="toc_0">Dispatch Semaphore</h2>
+
+<p><a href="https://stackoverflow.com/documentation/ios/4626/gcd-grand-central-dispatch/28284/dispatch-semaphore">Stack Overflow地址</a></p>
 
 <blockquote>
 <p>DispatchSemaphore provides an efficient implementation of a traditional counting semaphore, which can be used to control access to a resource across multiple execution contexts.</p>
@@ -531,12 +533,15 @@ long task 7 done! 2017-02-16 07:11:59 +0000
 
 <h2 id="toc_1">Dispatch Group</h2>
 
+<p><a href="https://stackoverflow.com/documentation/ios/4626/gcd-grand-central-dispatch/28278/dispatch-group">Stack Overflow地址</a></p>
+
 <blockquote>
 <p>DispatchGroup allows for aggregate synchronization of work. You can use them to submit multiple different work items and track when they all complete, even though they might run on different queues. This behavior can be helpful when progress can’t be made until all of the specified tasks are complete.</p>
 </blockquote>
 
-<p>DispatchGroup allows for aggregate synchronization of work. You can use them to submit multiple different work items and track when they all complete, even though they might run on different queues. This behavior can be helpful when progress can’t be made until all of the specified tasks are complete.<br/>
-A Scenario when this could be useful is if you have multiple webservice calls that all need to finish before continuing. For example, you need to download multiple sets of data that needs to be processed by some function. You have to wait for all webservices to complete before calling the function to process all the received data.</p>
+<p>A Scenario when this could be useful is if you have multiple webservice calls that all need to finish before continuing. For example, you need to download multiple sets of data that needs to be processed by some function. You have to wait for all webservices to complete before calling the function to process all the received data.</p>
+
+<p><strong>Swift 3</strong></p>
 
 <pre><code>func doLongTasksAndWait () {
     print(&quot;starting long running tasks&quot;)
@@ -571,9 +576,10 @@ long task 2 done!
 all tasks done!
 </code></pre>
 
-<h2 id="toc_2">Serial vs Concurrent Dispatch Queues (串行,并行)</h2>
+<h2 id="toc_2">Serial vs Concurrent Dispatch Queues</h2>
 
-<h3 id="toc_3">Serial Queue</h3>
+<p><a href="https://stackoverflow.com/documentation/ios/4626/gcd-grand-central-dispatch/28286/serial-vs-concurrent-dispatch-queues">Stack Overflow地址</a><br/>
+<strong>Serial Queue</strong></p>
 
 <pre><code>func serialQueues () {
     let serialQueue = DispatchQueue(label: &quot;com.example.serial&quot;) //default queue type is a serial queue
@@ -596,7 +602,7 @@ serial long task 2 done! total time taken: 6.23209798336029
 serial long task 3 done! total time taken: 8.30682599544525
 </code></pre>
 
-<h3 id="toc_4">Concurrent Queue</h3>
+<p><strong>Concurrent Queue</strong></p>
 
 <pre><code>func concurrentQueues () {
     let concurrentQueue = DispatchQueue(label: &quot;com.example.concurrent&quot;, attributes: .concurrent) //explicitly specify the queue to be a concurrent queue
