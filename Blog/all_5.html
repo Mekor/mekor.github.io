@@ -263,6 +263,8 @@
         <li><label>Documentation</label></li>
 
           
+            <li><a title="Custom UIViews from XIB files" href="15036540820094.html">Custom UIViews from XIB files</a></li>
+          
             <li><a title="UIBezierPath" href="15036524793322.html">UIBezierPath</a></li>
           
             <li><a title="GCD(Grand Central Dispatch)" href="15035627499170.html">GCD(Grand Central Dispatch)</a></li>
@@ -486,6 +488,8 @@
                     
                       <li class="side-title"><span>Documentation</span></li>
                         
+                          <li><a title="Custom UIViews from XIB files" href="15036540820094.html">Custom UIViews from XIB files</a></li>
+                        
                           <li><a title="UIBezierPath" href="15036524793322.html">UIBezierPath</a></li>
                         
                           <li><a title="GCD(Grand Central Dispatch)" href="15035627499170.html">GCD(Grand Central Dispatch)</a></li>
@@ -504,39 +508,48 @@
 
 	
 		<div class="markdown-body">
-		<h1>iOS8之后设置PopoverController</h1>
+		<h1>Swift - 上周问题总结</h1>
 
-		<p>直接上代码:</p>
+		<h2 id="toc_0">懒加载的正确姿势</h2>
 
-<pre><code>    @IBOutlet weak var popoverButton: UIButton!
-    @IBAction func popoverClick(_ sender: Any) {
-        
-        // 需要被展示的控制器
-        let popover = PopoverViewController()
-        // 设置呈现样式
-        popover.modalPresentationStyle = .popover
-        // 对应原来PopoverController中的rect
-        popover.popoverPresentationController?.sourceRect = self.popoverButton.bounds
-        // 对应原来PopoverController中的inView
-        popover.popoverPresentationController?.sourceView = self.popoverButton
-        // 展示
-        self.present(popover, animated: true, completion: nil)
-    }
+<blockquote>
+<p>使用Swift的时候用懒加载,但是我发现我使用的时候不能再懒加载中调用本文件中声明的属性,原因是我在写懒加载的时候没有注明类型,正确的姿势应该是:</p>
+</blockquote>
+
+<pre><code>    lazy var &lt;#property name#&gt;: &lt;#type name#&gt; = {
+        &lt;#statements#&gt;
+        return &lt;#value#&gt;
+    }()
 </code></pre>
 
-<p>在被呈现的控制器中设置显示的大小:</p>
+<p>快捷键<br/>
+<img src="media/14815534553600/14815536582812.jpg" alt=""/><br/>
+采用这种方式声明的懒加载能够在内部使用self</p>
 
-<pre><code>class PopoverViewController: UIViewController {
+<h2 id="toc_1">OC中用KVC赋值,使NSString类型指向了NSNumber,导致Swift中调用崩溃</h2>
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        /// 设置呈现大小
-        self.preferredContentSize = CGSize(width: 400, height: 400)
-    }
-}
-</code></pre>
+<blockquote>
+<p>崩溃信息:<code>reason: &#39;-[__NSCFNumber length]: unrecognized selector sent to instance 0x00000XXXX</code></p>
+</blockquote>
 
-<p>以上设置,如果是iPhone的话,模态弹出视图,popover属性就会被忽略.iPad则会Popover弹出</p>
+<p>原因分析:NSString指向的数据类型为NSNumber的数据,取值时崩溃.第一种方案找到赋值有误的地方修改,第二不修改原有的代码,提出一种解决方案,重写NSString数据的<code>set</code>方法,赋值前判断数据类型,如果是NSNumber类型就转换成NSString类型.ß®</p>
+
+<h2 id="toc_2">视图层级深,内部视图如何通知控制器数据更新?</h2>
+
+<p>我想到的一种方法是把函数当做参数来传递,这样能够在一定程度上减少层级结构.甲冠提出设置一个属性,然后在属性的<code>didSet</code>中调用方法.目前还没有做实践,目测层级结构没有任何减少,但是代码量会少些.需要实验验证下.</p>
+
+<p><strong>注:</strong>讨论中间有讨论MVC框架,这里附上苹果多MVC的介绍:<a href="https://developer.apple.com/library/content/documentation/General/Conceptual/CocoaEncyclopedia/Model-View-Controller/Model-View-Controller.html#//apple_ref/doc/uid/TP40010810-CH14-SW1">https://developer.apple.com/library/content/documentation/General/Conceptual/CocoaEncyclopedia/Model-View-Controller/Model-View-Controller.html#//apple_ref/doc/uid/TP40010810-CH14-SW1</a></p>
+
+<p>传统:<br/>
+<img src="media/14815534553600/14815566784560.gif" alt=""/></p>
+
+<p>Cocoa:<br/>
+<img src="media/14815534553600/14815567675257.gif" alt=""/></p>
+
+<h2 id="toc_3">Xcode升级后部分第三方库报错</h2>
+
+<p><img src="media/14815534553600/Snip20161215_3.png" alt="Snip20161215_3"/><br/>
+让第三方库不跟随Xcode的swift版本®</p>
 
 
 		</div>
