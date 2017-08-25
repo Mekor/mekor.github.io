@@ -1,0 +1,670 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+    
+  Swift - 函数式编程 - 李小争
+  
+  </title>
+ <meta name="description" content="记录开发中遇到的一些问题">
+ <link href="atom.xml" rel="alternate" title="李小争" type="application/atom+xml">
+    <link rel="stylesheet" href="asset/css/foundation.min.css" />
+    <link rel="stylesheet" href="asset/css/docs.css" />
+
+    <script src="asset/js/vendor/modernizr.js"></script>
+    <script src="asset/js/vendor/jquery.js"></script>
+    <script src="asset/highlightjs/highlight.pack.js"></script>
+    <link href="asset/highlightjs/styles/github.css" media="screen, projection" rel="stylesheet" type="text/css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+  </head>
+  <body class="antialiased hide-extras">
+    
+    <div class="marketing off-canvas-wrap" data-offcanvas>
+      <div class="inner-wrap">
+
+
+<nav class="top-bar docs-bar hide-for-small" data-topbar>
+
+<div id="header">
+    <h1><a href="index.html">李小争</a></h1>
+</div>
+
+</nav>
+        <nav class="tab-bar show-for-small">
+  <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
+    <span> &nbsp; 李小争</span>
+  </a>
+</nav>
+
+<aside class="left-off-canvas-menu">
+      <ul class="off-canvas-list">
+      <li><a href="index.html">Home</a></li>
+      
+        <li class="divider"></li>
+        <li><label>原理探究</label></li>
+
+          
+            <li><a title="转发机制" href="14733118707964.html">转发机制</a></li>
+          
+            <li><a title="RunLoop" href="14731740142157.html">RunLoop</a></li>
+          
+            <li><a title="runtime(内部分享草稿)" href="14727863232294.html">runtime(内部分享草稿)</a></li>
+          
+            <li><a title="KVO内部实现原理" href="14726525723684.html">KVO内部实现原理</a></li>
+          
+            <li><a title="runtime小结" href="14717809514175.html">runtime小结</a></li>
+          
+
+      
+        <li class="divider"></li>
+        <li><label>技巧</label></li>
+
+          
+            <li><a title="Mac zsh 使用命令打开sublime" href="14907559721950.html">Mac zsh 使用命令打开sublime</a></li>
+          
+            <li><a title="数组传递" href="14878335740172.html">数组传递</a></li>
+          
+            <li><a title="synchronized(object)" href="14877545165696.html">synchronized(object)</a></li>
+          
+            <li><a title="全屏返回手势小技巧" href="14823239811290.html">全屏返回手势小技巧</a></li>
+          
+            <li><a title="Scroll UICollectionView to section header view" href="14810139766101.html">Scroll UICollectionView to section header view</a></li>
+          
+            <li><a title="隐藏tabBar的小技巧" href="14793034700265.html">隐藏tabBar的小技巧</a></li>
+          
+            <li><a title="安装tree命令" href="14781615036446.html">安装tree命令</a></li>
+          
+            <li><a title="获取当前显示的UIViewController" href="14781433227076.html">获取当前显示的UIViewController</a></li>
+          
+            <li><a title="UITableView优化方案(收集)" href="14766308131126.html">UITableView优化方案(收集)</a></li>
+          
+            <li><a title="iOS 模拟器 添加图片到相册的小技巧" href="14765420394973.html">iOS 模拟器 添加图片到相册的小技巧</a></li>
+          
+            <li><a title="字符串frame相关" href="14765391593705.html">字符串frame相关</a></li>
+          
+            <li><a title="在包含UITableView视图中添加单击手势" href="14762437833792.html">在包含UITableView视图中添加单击手势</a></li>
+          
+            <li><a title="怎样让内存缓存变稳定" href="14752152861722.html">怎样让内存缓存变稳定</a></li>
+          
+            <li><a title="如何在UIBarButtonItem上显示数字(BadgeValue)" href="14747835330079.html">如何在UIBarButtonItem上显示数字(BadgeValue)</a></li>
+          
+            <li><a title="const,static,extern简介" href="14718293013293.html">const,static,extern简介</a></li>
+          
+            <li><a title="iOS Tips" href="14700440944204.html">iOS Tips</a></li>
+          
+            <li><a title="Mac 下面Python 自动补全" href="14685034880390.html">Mac 下面Python 自动补全</a></li>
+          
+            <li><a title="如何给View添加点击事件" href="14682407498601.html">如何给View添加点击事件</a></li>
+          
+            <li><a title="关于tableViewCell加载图片优化" href="14678597180657.html">关于tableViewCell加载图片优化</a></li>
+          
+            <li><a title="AFN3.0 如何实现operation.responseString" href="14676870942237.html">AFN3.0 如何实现operation.responseString</a></li>
+          
+            <li><a title="Coding中检测系统授权状态，关闭提示用户去隐私设置中打开" href="14676111126987.html">Coding中检测系统授权状态，关闭提示用户去隐私设置中打开</a></li>
+          
+            <li><a title="忽略编译器警告" href="14676105703423.html">忽略编译器警告</a></li>
+          
+            <li><a title="百度坐标&火星坐标转换" href="14676101998537.html">百度坐标&火星坐标转换</a></li>
+          
+
+      
+        <li class="divider"></li>
+        <li><label>教程</label></li>
+
+          
+            <li><a title="获取崩溃信息" href="14816416025061.html">获取崩溃信息</a></li>
+          
+            <li><a title="iOS8之后设置PopoverController" href="14813828036514.html">iOS8之后设置PopoverController</a></li>
+          
+            <li><a title="左右联动效果再实现" href="14807724917867.html">左右联动效果再实现</a></li>
+          
+            <li><a title="Git学习" href="14793607171148.html">Git学习</a></li>
+          
+            <li><a title="如何获取手机上安装的所有App" href="14778331858080.html">如何获取手机上安装的所有App</a></li>
+          
+            <li><a title="计算老虎机中奖等级-NSCountedSet" href="14778318573153.html">计算老虎机中奖等级-NSCountedSet</a></li>
+          
+            <li><a title="使用Qt创建桌面应用程序" href="14771170894039.html">使用Qt创建桌面应用程序</a></li>
+          
+            <li><a title="使用 chisel 提高 LLDB 调试效率" href="14766672567296.html">使用 chisel 提高 LLDB 调试效率</a></li>
+          
+            <li><a title="vim 学习" href="14764220018619.html">vim 学习</a></li>
+          
+            <li><a title="优秀文章链接收藏" href="14760921807707.html">优秀文章链接收藏</a></li>
+          
+            <li><a title="Cocoapods的安装" href="14751288042220.html">Cocoapods的安装</a></li>
+          
+            <li><a title="GCD(Grand Central Dispatch)使用" href="14747868502733.html">GCD(Grand Central Dispatch)使用</a></li>
+          
+            <li><a title="iOS10 遇到问题总结" href="14743674179375.html">iOS10 遇到问题总结</a></li>
+          
+            <li><a title="UIWebView可能的优化方案" href="14731574655770.html">UIWebView可能的优化方案</a></li>
+          
+            <li><a title="MKNetWork简介" href="14719458588528.html">MKNetWork简介</a></li>
+          
+            <li><a title="Android Studio 中如何查看帮助文档" href="14693652209160.html">Android Studio 中如何查看帮助文档</a></li>
+          
+            <li><a title="关于签名(Certificate),Identifiers,Device和Provisioning Profile" href="14689910761027.html">关于签名(Certificate),Identifiers,Device和Provisioning Profile</a></li>
+          
+            <li><a title="Python爬网站上的图片" href="14689829459214.html">Python爬网站上的图片</a></li>
+          
+            <li><a title="为项目添加podspec" href="14676996936809.html">为项目添加podspec</a></li>
+          
+
+      
+        <li class="divider"></li>
+        <li><label>遇到Bug</label></li>
+
+          
+            <li><a title="打包后出现 Undefined symbols for architecture i386" href="14963702971919.html">打包后出现 Undefined symbols for architecture i386</a></li>
+          
+            <li><a title="xib报错" href="14802973825600.html">xib报错</a></li>
+          
+            <li><a title="UILabel边缘出现黑线" href="14766298858600.html">UILabel边缘出现黑线</a></li>
+          
+            <li><a title="升级到Xcode8后Qt无法正常使用" href="14761943627170.html">升级到Xcode8后Qt无法正常使用</a></li>
+          
+            <li><a title="如何解决json字符串中包含制表符" href="14747833011771.html">如何解决json字符串中包含制表符</a></li>
+          
+            <li><a title="键盘消失后又再次显示并立即消失问题" href="14677030322532.html">键盘消失后又再次显示并立即消失问题</a></li>
+          
+
+      
+        <li class="divider"></li>
+        <li><label>杂记</label></li>
+
+          
+            <li><a title="项目优化记录" href="14919624884376.html">项目优化记录</a></li>
+          
+            <li><a title="设计模式 读书笔记" href="14907835920803.html">设计模式 读书笔记</a></li>
+          
+            <li><a title="点菜逻辑梳理" href="14829045788456.html">点菜逻辑梳理</a></li>
+          
+            <li><a title="数据库复习" href="14817245458052.html">数据库复习</a></li>
+          
+            <li><a title="会议记录(培训)" href="14787398225011.html">会议记录(培训)</a></li>
+          
+
+      
+        <li class="divider"></li>
+        <li><label>Swift</label></li>
+
+          
+            <li><a title="GCD(Grand Central Dispatch)" href="15035627499170.html">GCD(Grand Central Dispatch)</a></li>
+          
+            <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
+          
+            <li><a title="Swift - 最近遇到的问题(3.8)" href="14888974267202.html">Swift - 最近遇到的问题(3.8)</a></li>
+          
+            <li><a title="Swift - 春节前问题总结" href="14861891967085.html">Swift - 春节前问题总结</a></li>
+          
+            <li><a title="Swift - Swift Talk: Networking" href="14860911508877.html">Swift - Swift Talk: Networking</a></li>
+          
+            <li><a title="Swift - Swift与JavaScript交互实战[转]" href="14836656405837.html">Swift - Swift与JavaScript交互实战[转]</a></li>
+          
+            <li><a title="Swift - 上周总结(12.30)" href="14830040423390.html">Swift - 上周总结(12.30)</a></li>
+          
+            <li><a title="Swift - 上周问题总结" href="14815534553600.html">Swift - 上周问题总结</a></li>
+          
+            <li><a title="Swift - 面向协议编程" href="14799970254990.html">Swift - 面向协议编程</a></li>
+          
+            <li><a title="Swift - 函数式编程" href="14799126696997.html">Swift - 函数式编程</a></li>
+          
+            <li><a title="Swift - 使用代理和闭包传值" href="14796301513904.html">Swift - 使用代理和闭包传值</a></li>
+          
+            <li><a title="Swift - 在swift中如何使用 hexcolor 值表示颜色" href="14796201135474.html">Swift - 在swift中如何使用 hexcolor 值表示颜色</a></li>
+          
+            <li><a title="Swift - 自定义tableViewCell" href="14793055516073.html">Swift - 自定义tableViewCell</a></li>
+          
+            <li><a title="iOS依赖库管理工具：Carthage" href="14791335483032.html">iOS依赖库管理工具：Carthage</a></li>
+          
+            <li><a title="Swift - 懒加载 lazy" href="14791319119586.html">Swift - 懒加载 lazy</a></li>
+          
+            <li><a title="Swift - convenience 便利构造函数" href="14790461560134.html">Swift - convenience 便利构造函数</a></li>
+          
+            <li><a title="Swift - KVC 和 运行时获取属性列表" href="14790381443417.html">Swift - KVC 和 运行时获取属性列表</a></li>
+          
+            <li><a title="Swift - 函数" href="14790175059723.html">Swift - 函数</a></li>
+          
+            <li><a title="Swift - 字典中的增删改,遍历与合并" href="14789481799893.html">Swift - 字典中的增删改,遍历与合并</a></li>
+          
+            <li><a title="Swift - 数组中的增删改与合并" href="14789459811464.html">Swift - 数组中的增删改与合并</a></li>
+          
+            <li><a title="Swift - 数组遍历" href="14789442794521.html">Swift - 数组遍历</a></li>
+          
+
+      
+        <li class="divider"></li>
+        <li><label>C/C++</label></li>
+
+          
+            <li><a title="C++Primer笔记 - 初识输入输出" href="14866104685305.html">C++Primer笔记 - 初识输入输出</a></li>
+          
+            <li><a title="C++Primer笔记 - 如何获取 `main`的返回值" href="14866089688413.html">C++Primer笔记 - 如何获取 `main`的返回值</a></li>
+          
+            <li><a title="C/C++ - 回调函数中比较大小为啥0不行?" href="14834570124499.html">C/C++ - 回调函数中比较大小为啥0不行?</a></li>
+          
+
+      
+        <li class="divider"></li>
+        <li><label>Linux</label></li>
+
+          
+            <li><a title="Linux - 文件、磁盘管理" href="14954528363090.html">Linux - 文件、磁盘管理</a></li>
+          
+            <li><a title="Linux - 常用基本命令" href="14954518367171.html">Linux - 常用基本命令</a></li>
+          
+            <li><a title="Linux - 文件和目录" href="14954377078014.html">Linux - 文件和目录</a></li>
+          
+
+      
+      </ul>
+    </aside>
+
+<a class="exit-off-canvas" href="#"></a>
+
+        <section id="main-content" role="main" class="scroll-container">
+
+          <div class="row">
+            <div class="large-3 medium-3 columns">
+              <div class="hide-for-small">
+                <div class="sidebar">
+                <nav>
+                  <ul id="side-nav" class="side-nav">
+
+                    
+                      <li class="side-title"><span>原理探究</span></li>
+                        
+                          <li><a title="转发机制" href="14733118707964.html">转发机制</a></li>
+                        
+                          <li><a title="RunLoop" href="14731740142157.html">RunLoop</a></li>
+                        
+                          <li><a title="runtime(内部分享草稿)" href="14727863232294.html">runtime(内部分享草稿)</a></li>
+                        
+                          <li><a title="KVO内部实现原理" href="14726525723684.html">KVO内部实现原理</a></li>
+                        
+                          <li><a title="runtime小结" href="14717809514175.html">runtime小结</a></li>
+                        
+
+                    
+                      <li class="side-title"><span>技巧</span></li>
+                        
+                          <li><a title="Mac zsh 使用命令打开sublime" href="14907559721950.html">Mac zsh 使用命令打开sublime</a></li>
+                        
+                          <li><a title="数组传递" href="14878335740172.html">数组传递</a></li>
+                        
+                          <li><a title="synchronized(object)" href="14877545165696.html">synchronized(object)</a></li>
+                        
+                          <li><a title="全屏返回手势小技巧" href="14823239811290.html">全屏返回手势小技巧</a></li>
+                        
+                          <li><a title="Scroll UICollectionView to section header view" href="14810139766101.html">Scroll UICollectionView to section header view</a></li>
+                        
+                          <li><a title="隐藏tabBar的小技巧" href="14793034700265.html">隐藏tabBar的小技巧</a></li>
+                        
+                          <li><a title="安装tree命令" href="14781615036446.html">安装tree命令</a></li>
+                        
+                          <li><a title="获取当前显示的UIViewController" href="14781433227076.html">获取当前显示的UIViewController</a></li>
+                        
+                          <li><a title="UITableView优化方案(收集)" href="14766308131126.html">UITableView优化方案(收集)</a></li>
+                        
+                          <li><a title="iOS 模拟器 添加图片到相册的小技巧" href="14765420394973.html">iOS 模拟器 添加图片到相册的小技巧</a></li>
+                        
+                          <li><a title="字符串frame相关" href="14765391593705.html">字符串frame相关</a></li>
+                        
+                          <li><a title="在包含UITableView视图中添加单击手势" href="14762437833792.html">在包含UITableView视图中添加单击手势</a></li>
+                        
+                          <li><a title="怎样让内存缓存变稳定" href="14752152861722.html">怎样让内存缓存变稳定</a></li>
+                        
+                          <li><a title="如何在UIBarButtonItem上显示数字(BadgeValue)" href="14747835330079.html">如何在UIBarButtonItem上显示数字(BadgeValue)</a></li>
+                        
+                          <li><a title="const,static,extern简介" href="14718293013293.html">const,static,extern简介</a></li>
+                        
+                          <li><a title="iOS Tips" href="14700440944204.html">iOS Tips</a></li>
+                        
+                          <li><a title="Mac 下面Python 自动补全" href="14685034880390.html">Mac 下面Python 自动补全</a></li>
+                        
+                          <li><a title="如何给View添加点击事件" href="14682407498601.html">如何给View添加点击事件</a></li>
+                        
+                          <li><a title="关于tableViewCell加载图片优化" href="14678597180657.html">关于tableViewCell加载图片优化</a></li>
+                        
+                          <li><a title="AFN3.0 如何实现operation.responseString" href="14676870942237.html">AFN3.0 如何实现operation.responseString</a></li>
+                        
+                          <li><a title="Coding中检测系统授权状态，关闭提示用户去隐私设置中打开" href="14676111126987.html">Coding中检测系统授权状态，关闭提示用户去隐私设置中打开</a></li>
+                        
+                          <li><a title="忽略编译器警告" href="14676105703423.html">忽略编译器警告</a></li>
+                        
+                          <li><a title="百度坐标&火星坐标转换" href="14676101998537.html">百度坐标&火星坐标转换</a></li>
+                        
+
+                    
+                      <li class="side-title"><span>教程</span></li>
+                        
+                          <li><a title="获取崩溃信息" href="14816416025061.html">获取崩溃信息</a></li>
+                        
+                          <li><a title="iOS8之后设置PopoverController" href="14813828036514.html">iOS8之后设置PopoverController</a></li>
+                        
+                          <li><a title="左右联动效果再实现" href="14807724917867.html">左右联动效果再实现</a></li>
+                        
+                          <li><a title="Git学习" href="14793607171148.html">Git学习</a></li>
+                        
+                          <li><a title="如何获取手机上安装的所有App" href="14778331858080.html">如何获取手机上安装的所有App</a></li>
+                        
+                          <li><a title="计算老虎机中奖等级-NSCountedSet" href="14778318573153.html">计算老虎机中奖等级-NSCountedSet</a></li>
+                        
+                          <li><a title="使用Qt创建桌面应用程序" href="14771170894039.html">使用Qt创建桌面应用程序</a></li>
+                        
+                          <li><a title="使用 chisel 提高 LLDB 调试效率" href="14766672567296.html">使用 chisel 提高 LLDB 调试效率</a></li>
+                        
+                          <li><a title="vim 学习" href="14764220018619.html">vim 学习</a></li>
+                        
+                          <li><a title="优秀文章链接收藏" href="14760921807707.html">优秀文章链接收藏</a></li>
+                        
+                          <li><a title="Cocoapods的安装" href="14751288042220.html">Cocoapods的安装</a></li>
+                        
+                          <li><a title="GCD(Grand Central Dispatch)使用" href="14747868502733.html">GCD(Grand Central Dispatch)使用</a></li>
+                        
+                          <li><a title="iOS10 遇到问题总结" href="14743674179375.html">iOS10 遇到问题总结</a></li>
+                        
+                          <li><a title="UIWebView可能的优化方案" href="14731574655770.html">UIWebView可能的优化方案</a></li>
+                        
+                          <li><a title="MKNetWork简介" href="14719458588528.html">MKNetWork简介</a></li>
+                        
+                          <li><a title="Android Studio 中如何查看帮助文档" href="14693652209160.html">Android Studio 中如何查看帮助文档</a></li>
+                        
+                          <li><a title="关于签名(Certificate),Identifiers,Device和Provisioning Profile" href="14689910761027.html">关于签名(Certificate),Identifiers,Device和Provisioning Profile</a></li>
+                        
+                          <li><a title="Python爬网站上的图片" href="14689829459214.html">Python爬网站上的图片</a></li>
+                        
+                          <li><a title="为项目添加podspec" href="14676996936809.html">为项目添加podspec</a></li>
+                        
+
+                    
+                      <li class="side-title"><span>遇到Bug</span></li>
+                        
+                          <li><a title="打包后出现 Undefined symbols for architecture i386" href="14963702971919.html">打包后出现 Undefined symbols for architecture i386</a></li>
+                        
+                          <li><a title="xib报错" href="14802973825600.html">xib报错</a></li>
+                        
+                          <li><a title="UILabel边缘出现黑线" href="14766298858600.html">UILabel边缘出现黑线</a></li>
+                        
+                          <li><a title="升级到Xcode8后Qt无法正常使用" href="14761943627170.html">升级到Xcode8后Qt无法正常使用</a></li>
+                        
+                          <li><a title="如何解决json字符串中包含制表符" href="14747833011771.html">如何解决json字符串中包含制表符</a></li>
+                        
+                          <li><a title="键盘消失后又再次显示并立即消失问题" href="14677030322532.html">键盘消失后又再次显示并立即消失问题</a></li>
+                        
+
+                    
+                      <li class="side-title"><span>杂记</span></li>
+                        
+                          <li><a title="项目优化记录" href="14919624884376.html">项目优化记录</a></li>
+                        
+                          <li><a title="设计模式 读书笔记" href="14907835920803.html">设计模式 读书笔记</a></li>
+                        
+                          <li><a title="点菜逻辑梳理" href="14829045788456.html">点菜逻辑梳理</a></li>
+                        
+                          <li><a title="数据库复习" href="14817245458052.html">数据库复习</a></li>
+                        
+                          <li><a title="会议记录(培训)" href="14787398225011.html">会议记录(培训)</a></li>
+                        
+
+                    
+                      <li class="side-title"><span>Swift</span></li>
+                        
+                          <li><a title="GCD(Grand Central Dispatch)" href="15035627499170.html">GCD(Grand Central Dispatch)</a></li>
+                        
+                          <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
+                        
+                          <li><a title="Swift - 最近遇到的问题(3.8)" href="14888974267202.html">Swift - 最近遇到的问题(3.8)</a></li>
+                        
+                          <li><a title="Swift - 春节前问题总结" href="14861891967085.html">Swift - 春节前问题总结</a></li>
+                        
+                          <li><a title="Swift - Swift Talk: Networking" href="14860911508877.html">Swift - Swift Talk: Networking</a></li>
+                        
+                          <li><a title="Swift - Swift与JavaScript交互实战[转]" href="14836656405837.html">Swift - Swift与JavaScript交互实战[转]</a></li>
+                        
+                          <li><a title="Swift - 上周总结(12.30)" href="14830040423390.html">Swift - 上周总结(12.30)</a></li>
+                        
+                          <li><a title="Swift - 上周问题总结" href="14815534553600.html">Swift - 上周问题总结</a></li>
+                        
+                          <li><a title="Swift - 面向协议编程" href="14799970254990.html">Swift - 面向协议编程</a></li>
+                        
+                          <li><a title="Swift - 函数式编程" href="14799126696997.html">Swift - 函数式编程</a></li>
+                        
+                          <li><a title="Swift - 使用代理和闭包传值" href="14796301513904.html">Swift - 使用代理和闭包传值</a></li>
+                        
+                          <li><a title="Swift - 在swift中如何使用 hexcolor 值表示颜色" href="14796201135474.html">Swift - 在swift中如何使用 hexcolor 值表示颜色</a></li>
+                        
+                          <li><a title="Swift - 自定义tableViewCell" href="14793055516073.html">Swift - 自定义tableViewCell</a></li>
+                        
+                          <li><a title="iOS依赖库管理工具：Carthage" href="14791335483032.html">iOS依赖库管理工具：Carthage</a></li>
+                        
+                          <li><a title="Swift - 懒加载 lazy" href="14791319119586.html">Swift - 懒加载 lazy</a></li>
+                        
+                          <li><a title="Swift - convenience 便利构造函数" href="14790461560134.html">Swift - convenience 便利构造函数</a></li>
+                        
+                          <li><a title="Swift - KVC 和 运行时获取属性列表" href="14790381443417.html">Swift - KVC 和 运行时获取属性列表</a></li>
+                        
+                          <li><a title="Swift - 函数" href="14790175059723.html">Swift - 函数</a></li>
+                        
+                          <li><a title="Swift - 字典中的增删改,遍历与合并" href="14789481799893.html">Swift - 字典中的增删改,遍历与合并</a></li>
+                        
+                          <li><a title="Swift - 数组中的增删改与合并" href="14789459811464.html">Swift - 数组中的增删改与合并</a></li>
+                        
+                          <li><a title="Swift - 数组遍历" href="14789442794521.html">Swift - 数组遍历</a></li>
+                        
+
+                    
+                      <li class="side-title"><span>C/C++</span></li>
+                        
+                          <li><a title="C++Primer笔记 - 初识输入输出" href="14866104685305.html">C++Primer笔记 - 初识输入输出</a></li>
+                        
+                          <li><a title="C++Primer笔记 - 如何获取 `main`的返回值" href="14866089688413.html">C++Primer笔记 - 如何获取 `main`的返回值</a></li>
+                        
+                          <li><a title="C/C++ - 回调函数中比较大小为啥0不行?" href="14834570124499.html">C/C++ - 回调函数中比较大小为啥0不行?</a></li>
+                        
+
+                    
+                      <li class="side-title"><span>Linux</span></li>
+                        
+                          <li><a title="Linux - 文件、磁盘管理" href="14954528363090.html">Linux - 文件、磁盘管理</a></li>
+                        
+                          <li><a title="Linux - 常用基本命令" href="14954518367171.html">Linux - 常用基本命令</a></li>
+                        
+                          <li><a title="Linux - 文件和目录" href="14954377078014.html">Linux - 文件和目录</a></li>
+                        
+
+                    
+                  </ul>
+                </nav>
+                </div>
+              </div>
+            </div>
+            <div class="large-9 medium-9 columns">
+
+ <div class="markdown-body">
+<h1>Swift - 函数式编程</h1>
+
+<p>一般情况:</p>
+
+<pre><code>struct User {
+    func login(password: String){
+        print(password)
+    }
+}
+
+let passwd = &quot;123123123&quot;
+let usr = User()
+
+usr.login(password: passwd)
+</code></pre>
+
+<p>函数式编程</p>
+
+<pre><code>struct User {
+    func login(password: String){
+        print(password)
+    }
+}
+
+let passwd = &quot;123123123&quot;
+let usr = User()
+
+User.login(usr)(password: passwd)
+</code></pre>
+
+<p>由此可见: <code>usr.login(password: passwd)</code> == <code>User.login(usr)(password: passwd)</code></p>
+
+<p>如果忽略外部参数</p>
+
+<pre><code>struct User {
+    func login(_ password: String){
+        print(password)
+    }
+}
+
+let passwd = &quot;123123123&quot;
+let usr = User()
+usr.login(passwd)
+User.login(usr)(passwd)
+</code></pre>
+
+<p>这样就更简洁了</p>
+
+<hr/>
+
+<p>&mdash; 11.24更 &ndash;</p>
+
+<h2 id="toc_0">柯里化(Currying)</h2>
+
+<pre><code>// 柯里化(Currying)
+
+func addOne(num:Int) -&gt;Int {
+    return num + 1
+}
+
+print(addOne(num: 10))
+
+func addTo(_ adder:Int) -&gt;(_ num:Int) -&gt; Int {
+    return {
+        num in
+        return num + adder
+    }
+}
+
+let addTwo = addTo(2)
+
+print(addTwo(6))
+
+// 更简单的调用方式
+print(addTo(9)(1))
+
+</code></pre>
+
+<p>&mdash;-12.8&mdash;-<br/>
+说到函数式编程,我突然想起了今天实现一个功能所用到的技术,这里只做简单记录.</p>
+
+<p>项目中遇到一个问题:根据参数创建相应个数的视图,视图中按钮的点击事件还要回调..我一开始想用代理来做,发现如果层级结构比较深的话代理不是很好用.既然否定了代理那么怎样还能实现该效果呢?我尝试用函数(闭包).</p>
+
+<p>需要传递的数据<br/>
+<code><br/>
+let dict = [<br/>
+    [&quot;title&quot;:GLOBAL_LANGUAGE(&quot;历史锅底&quot;) ,<br/>
+     &quot;subtitle&quot;:GLOBAL_LANGUAGE(&quot;上次的定制锅底,再来一单&quot;),<br/>
+     &quot;imagename&quot;:&quot;OrderDishOrPot1&quot;,<br/>
+     &quot;callback&quot;:historyPotsList!]  // callback 中存放的就是函数名或者闭包名<br/>
+]<br/>
+</code></p>
+
+<pre><code>let showTitle =  data[i][&quot;title&quot;] as! String
+let showSubTitle = data[i][&quot;subtitle&quot;] as! String
+let imageName = data[i][&quot;imagename&quot;] as! String
+let callBack = data[i][&quot;callback&quot;] as! (()-&gt;()) // 这里就是我需要的闭包
+
+//=======
+
+callBack() // 闭包调用
+
+</code></pre>
+
+<p>只需要这样我就能实现需求了&hellip;函数的传递虽然不像👆所说的那样函数式编程,但是还是有必要记录下,swift跟OC比还是灵活了很多.</p>
+
+<p>&mdash;-未完待续&mdash;</p>
+
+
+</div>
+
+<br /><br />
+<hr />
+
+<div class="row clearfix">
+  <div class="large-6 columns">
+	<div class="text-left" style="padding:15px 0px;">
+		
+	        <a href="14799970254990.html"  title="Previous Post: Swift - 面向协议编程">&laquo; Swift - 面向协议编程</a>
+	    
+	</div>
+  </div>
+  <div class="large-6 columns">
+	<div class="text-right" style="padding:15px 0px;">
+		
+	        <a href="14796301513904.html" 
+	        title="Next Post: Swift - 使用代理和闭包传值">Swift - 使用代理和闭包传值 &raquo;</a>
+	    
+	</div>
+  </div>
+</div>
+
+<div class="row">
+<div style="padding:0px 0.93em;" class="share-comments">
+
+</div>
+</div>
+<script type="text/javascript">
+	$(function(){
+		var currentURL = '14799126696997.html';
+		$('#side-nav a').each(function(){
+			if($(this).attr('href') == currentURL){
+				$(this).parent().addClass('active');
+			}
+		});
+	});
+</script>  
+</div></div>
+
+
+<div class="page-bottom">
+  <div class="row">
+  <hr />
+  <div class="small-9 columns">
+  <p class="copyright">Copyright &copy; 2015
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a>,&nbsp; 
+Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
+  </div>
+  <div class="small-3 columns">
+  <p class="copyright text-right"><a href="#header">TOP</a></p>
+  </div>
+   
+  </div>
+</div>
+
+        </section>
+      </div>
+    </div>
+    
+    
+    <script src="asset/js/foundation.min.js"></script>
+    <script src="asset/js/foundation/foundation.offcanvas.js"></script>
+    <script>
+      $(document).foundation();
+
+     
+    </script>
+    <script src="asset/chart/all-min.js"></script><script type="text/javascript">$(function(){    var mwebii=0;    var mwebChartEleId = 'mweb-chart-ele-';    $('pre>code').each(function(){        mwebii++;        var eleiid = mwebChartEleId+mwebii;        if($(this).hasClass('language-sequence')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = Diagram.parse($(this).text());            diagram.drawSVG(eleiid,{theme: 'simple'});        }else if($(this).hasClass('language-flow')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = flowchart.parse($(this).text());            diagram.drawSVG(eleiid);        }    });});</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
+
+  </body>
+</html>
