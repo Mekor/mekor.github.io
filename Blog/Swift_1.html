@@ -193,8 +193,6 @@
         <li><label>Swift</label></li>
 
           
-            <li><a title="GCD(Grand Central Dispatch)" href="15035627499170.html">GCD(Grand Central Dispatch)</a></li>
-          
             <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
           
             <li><a title="Swift - 最近遇到的问题(3.8)" href="14888974267202.html">Swift - 最近遇到的问题(3.8)</a></li>
@@ -258,6 +256,14 @@
             <li><a title="Linux - 常用基本命令" href="14954518367171.html">Linux - 常用基本命令</a></li>
           
             <li><a title="Linux - 文件和目录" href="14954377078014.html">Linux - 文件和目录</a></li>
+          
+
+      
+        <li class="divider"></li>
+        <li><label>Documentation</label></li>
+
+          
+            <li><a title="GCD(Grand Central Dispatch)" href="15035627499170.html">GCD(Grand Central Dispatch)</a></li>
           
 
       
@@ -414,8 +420,6 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
-                          <li><a title="GCD(Grand Central Dispatch)" href="15035627499170.html">GCD(Grand Central Dispatch)</a></li>
-                        
                           <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
                         
                           <li><a title="Swift - 最近遇到的问题(3.8)" href="14888974267202.html">Swift - 最近遇到的问题(3.8)</a></li>
@@ -478,6 +482,12 @@
                         
 
                     
+                      <li class="side-title"><span>Documentation</span></li>
+                        
+                          <li><a title="GCD(Grand Central Dispatch)" href="15035627499170.html">GCD(Grand Central Dispatch)</a></li>
+                        
+
+                    
                   </ul>
                 </nav>
                 </div>
@@ -490,169 +500,102 @@
 
 	
 		<div class="markdown-body">
-		<h1>Swift - Swift与JavaScript交互实战[转]</h1>
+		<h1>Swift - 上周总结(12.30)</h1>
 
-		<blockquote>
-<p>原地址:<a href="http://mp.weixin.qq.com/s?__biz=MzIzMzA4NjA5Mw==&amp;mid=214070747&amp;idx=1&amp;sn=57b45fa293d0500365d9a0a4ff74a4e1#rd">Swift与JavaScript交互实战（Swift版）</a></p>
-</blockquote>
+		<h2 id="toc_0">规范问题</h2>
 
-<h2 id="toc_0">前言</h2>
+<p>关于视图该不该把控件暴露出去?<br/>
+通常情况下不能,原因:为了<del>部落</del>封闭性.</p>
 
-<p>Swift与Js交互是常见的需求，可对于新手或者所谓的高手而言，其实并不是那么简单明了。这里只介绍iOS7.0后出来的JavaScriptCore framework。</p>
+<p>我的理解,每个视图都是一个盒子,如果有需要我可以给外面提供一个update接口来更改数据.视图中的点击事件可以通过<code>Target-Action</code>实现,当然闭包&amp;代理同样可以.非常符合<code>Cocoa</code>提倡的<code>MVC</code>模式</p>
 
-<h2 id="toc_1">关于JavaScriptCore</h2>
+<p><img src="media/14830040423390/14834530948549.jpg" alt=""/></p>
 
-<p>本教程中所涉及到的几种类型：</p>
+<p>关于视图中空间是否暴露出去,默认都是<code>private</code>,我认为苹果<code>Cocoa Touch</code>中<code>UIKit</code>部分控件设计的不是很好,举个🌰:<br/>
+<code>UIButton</code>如果设置字体的大小,需要通过<code>titleLabel?.font</code>来设置.我认为这样是不好的,通过一个方法来设置font感觉更合适.</p>
 
-<ul>
-<li><strong>JSContext</strong>, JSContext是代表JS的执行环境，通过-evaluateScript:方法就可以执行一JS代码</li>
-<li><strong>JSValue</strong>, JSValue封装了JS与ObjC中的对应的类型，以及调用JS的API等</li>
-<li><strong>JSExport</strong>, JSExport是一个协议，遵守此协议，就可以定义我们自己的协议，在协议中声明的API都会在JS中暴露出来，才能调用</li>
-</ul>
+<h2 id="toc_1">更Swift</h2>
 
-<h2 id="toc_2">Swift与JS交互方式</h2>
+<p>毕竟大部分同学都是刚接触Swift,整个项目感觉有点像翻译,还是<code>OC</code>的味道,关于这个问题讨论了两点,一个是面向协议编程,一个是函数式编程</p>
 
-<p>通过JSContext，我们有两种调用JS代码的方法：</p>
+<h3 id="toc_2">面向协议编程</h3>
 
-<ul>
-<li>1、直接调用JS代码</li>
-<li>2、在Swift中通过JSContext<strong>注入模型</strong>，然后调用模型的方法</li>
-</ul>
+<p>问题:某一个视图是其他视图所需要的一部分,现在的做法是将共有的视图抽取出来,成为一个视图,然后其他视图包含这个视图.<br/>
+面向协议:公共的子视图设置为一个协议,然后给一个默认的实现.像搭积木一样做视图的拼接.</p>
 
-<h3 id="toc_3">直接调用JS代码</h3>
+<p>参考资料:<a href="https://github.com/atConf/atswift-2016-resources">atswift-2016大会</a>中<code>李洁信_Pop in Swift</code>这个section可以参考.</p>
 
-<p>我们可以不通过模型来调用方法，也可以直接调用方法</p>
+<h3 id="toc_3">函数式编程</h3>
 
-<pre><code>let context = JSContext() 
-context.evaluateScript(“var num = 10”)
-context.evaluateScript(“function square(value) { return value * 2}”)
+<p>周欣对自己代码优化的时候发现的问题:<br/>
+一开始的逻辑:</p>
 
-// 直接调用
-let squareValue = context.evaluateScript(“square(num)”)
-print(squareValue)
-
-// 通过下标来获取到JS方法。
-let squareFunc = context.objectForKeyedSubscript(“square”)
-print(squareFunc.callWithArguments([“10”]).toString());
+<pre><code>class func fetchAllDish() -&gt; [Any] {
+        var mutableBigCategorys = [Any]()
+        let bigCategorys = DatabaseManager.shared.fetchAllDishCategory()
+        for bigCategory in bigCategorys {
+            var bigCategory = bigCategory
+            var mutableSubCategorys = [Any]()
+            let subCategorys = DatabaseManager.shared.fetchSubCategorys(byCategroyID: bigCategory[&quot;CATEGORYID&quot;] as! String)
+            for subCategory in subCategorys {
+                var subCategory = subCategory
+                let dishes = DatabaseManager.shared.fetchDishes(bySubCategoryID: subCategory[&quot;CLASSID&quot;] as! String)
+                if dishes.count &gt; 0 {
+                    subCategory[&quot;dishes&quot;] = dishes
+                    mutableSubCategorys.append(subCategory)
+                }
+            }
+            if mutableSubCategorys.count &gt; 0 {
+                bigCategory[&quot;subCategorys&quot;] = mutableSubCategorys
+                mutableBigCategorys.append(bigCategory)
+            }
+        }
+        return mutableBigCategorys
+    }
 </code></pre>
 
-<p>这种方式是没有注入模型到JS中的。这种方式使用起来不太合适，通常在JS中有很多全局的函数，为了防止名字重名，使用模型的方式是最好不过了。通过我们协商好的模型名称，在JS中直接通过模型来调用我们在Swift中所定义的模型所公开的API。</p>
+<p>优化后的:</p>
 
-<h2 id="toc_4">注入模型的交互</h2>
-
-<p>首先，我们需要先定义一个协议，而且这个协议必须要遵守JSExport协议。</p>
-
-<p>All methods that should apply in Javascript,should be in the following protocol.注意，这里必须使用@objc，因为JavaScriptCore库是ObjectiveC版本的。如果不加@objc，则调用无效果。</p>
-
-<pre><code>@objc protocol JavaScriptSwiftDelegate: JSExport { 
- func callSystemCamera();
- func showAlert(title: String, msg: String);
- func callWithDict(dict: [String: AnyObject]);
- func jsCallObjcAndObjcCallJsWithDict(dict: [String: AnyObject]);
-}
+<pre><code>class func fetchAllDish() -&gt; [Any] {
+        let bigCategorys = DatabaseManager.shared.fetchAllDishCategory()
+        let results = bigCategorys.map { (bigCategory) -&gt; [String: Any] in
+            var bigCategory = bigCategory
+            let subCategory = DatabaseManager.shared.fetchSubCategorys(byCategroyID: bigCategory[&quot;CATEGORYID&quot;] as! String)
+            let subResults = subCategory.map({ (subCategory) -&gt; [String: Any] in
+                var subCategory = subCategory
+                let dishes = DatabaseManager.shared.fetchDishes(bySubCategoryID: subCategory[&quot;CLASSID&quot;] as! String)
+                subCategory[&quot;dishes&quot;] = dishes
+                return subCategory
+            }).filter({ $0.count &gt; 0 })
+            bigCategory[&quot;subCategorys&quot;] = subResults
+            return bigCategory
+        }.filter({ $0.count &gt; 0 })
+        return results
+    }
 </code></pre>
 
-<p>接下来，我们还需要定义一个模型：</p>
+<p>通过<code>map</code>与<code>filter</code>的灵活使用,使代码逻辑更清晰,同时也减少了不必要的临时变量.</p>
 
-<pre><code>@objc classJSObjCModel: NSObject, JavaScriptSwiftDelegate { 
-  weak var controller: UIViewController? 
-  weak var jsContext: JSContext? 
+<h3 id="toc_4">元组</h3>
 
-  func callSystemCamera() {   
-    print(“js call objc method: callSystemCamera”);
-    let jsFunc = self.jsContext?.objectForKeyedSubscript(“jsFunc”); 
-    jsFunc?.callWithArguments([]);  
-  }
+<p>这个甲冠用的比较6..代码参见<code>NeoSubDishDetailView.swift</code>简单🌰:</p>
 
-  func showAlert(title: String, msg: String) {     
-    dispatch_async(dispatch_get_main_queue()) { () -&gt; Void in   
-      let alert = UIAlertController(title: title, message: msg, preferredStyle: .Alert)   
-      alert.addAction(UIAlertAction(title: “ok”, style: .Default, handler: nil))      
-      self.controller?.presentViewController(alert, animated: true, completion: nil)   
-    }   
-  }  
+<pre><code>    func refreshInfo(data : (UIButton,DishTypeModel)){
+        dishNameLabel.text = data.1.name
+        moneyLabel.text = data.1.price
+        numLabel.text = String(data.1.num)
+        if data.1.num &lt;= 0{
+            self.cutButton.isHidden = true
+            self.numLabel.isHidden = true
+        }else{
+            self.cutButton.isHidden = false
+            self.numLabel.isHidden = false
+        }
+    }
 
-  // JS调用了我们的方法   
-  func callWithDict(dict: [String : AnyObject]) {   
-    print(“js call objc method: callWithDict, args: %@”, dict) 
-  }
-
-  // JS调用了我们的就去  
-  func jsCallObjcAndObjcCallJsWithDict(dict: [String : AnyObject]) {     
-    print(“js call objc method: jsCallObjcAndObjcCallJsWithDict, args: %@”, dict) 
-    let jsParamFunc = self.jsContext?.objectForKeyedSubscript(“jsParamFunc”); 
-    let dict = NSDictionary(dictionary: [“age”: 18, “height”: 168, “name”: “lili”])
-    jsParamFunc?.callWithArguments([dict]) 
-  }
-}
 </code></pre>
 
-<p>接下来，我们在controller中在webview加载完成的代理中，给JS注入模型。</p>
-
-<pre><code>// MARK: - UIWebViewDelegate
-func webViewDidFinishLoad(webView: UIWebView) {
-  let context = webView.valueForKeyPath(“documentView.webView.mainFrame.javaScriptContext”) as? JSContextlet 
-  model = JSObjCModel() 
-  model.controller = self
-  model.jsContext = context
-  self.jsContext = context
-
-  // 这一步是将OCModel这个模型注入到JS中，在JS就
-  // 可以通过OCModel调用我们公暴露的方法了。
-  self.jsContext?.setObject(model, forKeyedSubscript: “OCModel”)
-  self.jsContext?.exceptionHandler = { (context, exception) in 
-     print(“exception @”, exception) 
-  }
-}
-</code></pre>
-
-<p>我们是通过webView的valueForKeyPath获取的，其路径为documentView.webView.mainFrame.javaScriptContext。<br/>
-这样就可以获取到JS的context，然后为这个context注入我们的模型对象。<br/>
-我们先写两个JS方法：</p>
-
-<pre><code>var jsFunc = function() {
-  alert(‘Objective-C call js to show alert’);
-}
-
-var jsParamFunc = function(argument) {
-  document.getElementById(‘jsParamFuncSpan’).innerHTML
-  = argument[‘name’];
-}
-</code></pre>
-
-<p>这里我们定义了两个JS方法，一个是jsFunc，不带参数。<br/>
-另一个是jsParamFunc，带一个参数。<br/>
-接下来，我们在html中的body中添加以下代码：</p>
-
-<p><code>Test how to use objective-c call js</code></p>
-
-<p>现在就可以测试代码了。</p>
-
-<p>当我们点击第一个按钮：Call ObjC system camera时，<br/>
-通过OCModel.callSystemCamera()，就可以在HTML中通过JS调用OC的方法。<br/>
-在Swift代码中，我们的callSystemCamera方法体中，添加了以下两行代码，就是获取HTML中所定义的JS就去jsFunc，然后调用它。</p>
-
-<pre><code>let jsFunc = self.jsContext?.objectForKeyedSubscript(“jsFunc”); jsFunc?.callWithArguments([]);
-</code></pre>
-
-<p>这样就可以在JS调用Siwft方法时，也让Swift反馈给JS。<br/>
-注意：这里是通过objectForKeyedSubscript方法来获取变量jsFunc。<br/>
-方法也是变量。看看下面传字典参数：</p>
-
-<pre><code>(void)jsCallObjcAndObjcCallJsWithDict:(NSDictionary )params {
-    NSLog(@”jsCallObjcAndObjcCallJsWithDict was called, params is %@”, params);
-    // 调用JS的方法
-    JSValue jsParamFunc = self.jsContext[@”jsParamFunc”];
-    [jsParamFunc callWithArguments:@[@{@”age”: @10, @”name”: @”lili”, @”height”: @158}]];
-}
-</code></pre>
-
-<p>获取我们在HTML中定义的jsParamFunc方法，然后调用它并传了一个字典作为参数。<br/>
-好了，就讲这么多吧，如果想要Demo源代码，请到</p>
-
-<ul>
-<li>github：<strong><a href="https://github.com/CoderJackyHuang/IOSCallJsOrJsCallIOS">https://github.com/CoderJackyHuang/IOSCallJsOrJsCallIOS</a></strong></li>
-</ul>
+<p>还有好多地方使用,这个文件可以好好观摩一下,很Swift&hellip;</p>
 
 
 		</div>

@@ -193,8 +193,6 @@
         <li><label>Swift</label></li>
 
           
-            <li><a title="GCD(Grand Central Dispatch)" href="15035627499170.html">GCD(Grand Central Dispatch)</a></li>
-          
             <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
           
             <li><a title="Swift - 最近遇到的问题(3.8)" href="14888974267202.html">Swift - 最近遇到的问题(3.8)</a></li>
@@ -258,6 +256,14 @@
             <li><a title="Linux - 常用基本命令" href="14954518367171.html">Linux - 常用基本命令</a></li>
           
             <li><a title="Linux - 文件和目录" href="14954377078014.html">Linux - 文件和目录</a></li>
+          
+
+      
+        <li class="divider"></li>
+        <li><label>Documentation</label></li>
+
+          
+            <li><a title="GCD(Grand Central Dispatch)" href="15035627499170.html">GCD(Grand Central Dispatch)</a></li>
           
 
       
@@ -414,8 +420,6 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
-                          <li><a title="GCD(Grand Central Dispatch)" href="15035627499170.html">GCD(Grand Central Dispatch)</a></li>
-                        
                           <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
                         
                           <li><a title="Swift - 最近遇到的问题(3.8)" href="14888974267202.html">Swift - 最近遇到的问题(3.8)</a></li>
@@ -478,6 +482,12 @@
                         
 
                     
+                      <li class="side-title"><span>Documentation</span></li>
+                        
+                          <li><a title="GCD(Grand Central Dispatch)" href="15035627499170.html">GCD(Grand Central Dispatch)</a></li>
+                        
+
+                    
                   </ul>
                 </nav>
                 </div>
@@ -490,56 +500,36 @@
 
 	
 		<div class="markdown-body">
-		<h1>Swift - 使用代理和闭包传值</h1>
+		<h1>Swift - 在swift中如何使用 hexcolor 值表示颜色</h1>
 
-		<h2 id="toc_0">代理传值</h2>
+		<blockquote>
+<p>结果来自<a href="http://stackoverflow.com/questions/24263007/how-to-use-hex-colour-values-in-swift-ios">How to use hex colour values in Swift, iOS</a></p>
+</blockquote>
 
-<p>声明协议:</p>
-
-<pre><code>protocol FunctionButtonViewDelegate {
-    func gotoViewController(vcString:String)
-}
-</code></pre>
-
-<pre><code>var delegate :FunctionButtonViewDelegate?
-</code></pre>
-
-<p>这里<code>?</code>就具有<code>weak</code>的作用</p>
-
-<p>传值:</p>
-
-<pre><code>delegate?.gotoViewController(vcString: button.currentTitle!)
-</code></pre>
-
-<p>实现代理方法</p>
-
-<pre><code>extension PersonalCenterViewController:FunctionButtonViewDelegate {
-    //MARK: - 跳转到对应的功能模块
-    func gotoViewController(vcString: String) {
-        print(vcString)
+<pre><code>extension UIColor {
+    convenience init(hexString: String) {
+        let hex = hexString.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
+        var int = UInt32()
+        Scanner(string: hex).scanHexInt32(&amp;int)
+        let a, r, g, b: UInt32
+        switch hex.characters.count {
+        case 3: // RGB (12-bit)
+            (a, r, g, b) = (255, (int &gt;&gt; 8) * 17, (int &gt;&gt; 4 &amp; 0xF) * 17, (int &amp; 0xF) * 17)
+        case 6: // RGB (24-bit)
+            (a, r, g, b) = (255, int &gt;&gt; 16, int &gt;&gt; 8 &amp; 0xFF, int &amp; 0xFF)
+        case 8: // ARGB (32-bit)
+            (a, r, g, b) = (int &gt;&gt; 24, int &gt;&gt; 16 &amp; 0xFF, int &gt;&gt; 8 &amp; 0xFF, int &amp; 0xFF)
+        default:
+            (a, r, g, b) = (255, 0, 0, 0)
+        }
+        self.init(red: CGFloat(r) / 255, green: CGFloat(g) / 255, blue: CGFloat(b) / 255, alpha: CGFloat(a) / 255)
     }
 }
 </code></pre>
 
-<h2 id="toc_1">闭包传值</h2>
+<p>使用方法:</p>
 
-<p>声明:</p>
-
-<pre><code>var callback : ((Int?) -&gt; Void)?
-</code></pre>
-
-<p>传值</p>
-
-<pre><code>if let cb = callback {
-    cb(200)
-}
-</code></pre>
-
-<p>实现:</p>
-
-<pre><code>bottomView.callback = { (num)-&gt;Void in
-    print(num ?? 0)
-}
+<pre><code>let darkGrey = UIColor(hexString: &quot;#757575&quot;)
 </code></pre>
 
 
