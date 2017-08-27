@@ -263,6 +263,8 @@
         <li><label>Documentation</label></li>
 
           
+            <li><a title="CAGradientLayer" href="15038463059094.html">CAGradientLayer</a></li>
+          
             <li><a title="Custom UIViews from XIB files" href="15036540820094.html">Custom UIViews from XIB files</a></li>
           
             <li><a title="UIBezierPath" href="15036524793322.html">UIBezierPath</a></li>
@@ -488,6 +490,8 @@
                     
                       <li class="side-title"><span>Documentation</span></li>
                         
+                          <li><a title="CAGradientLayer" href="15038463059094.html">CAGradientLayer</a></li>
+                        
                           <li><a title="Custom UIViews from XIB files" href="15036540820094.html">Custom UIViews from XIB files</a></li>
                         
                           <li><a title="UIBezierPath" href="15036524793322.html">UIBezierPath</a></li>
@@ -508,31 +512,22 @@
 
 	
 		<div class="markdown-body">
-		<h1>怎样让内存缓存变稳定</h1>
+		<h1>优秀文章链接收藏</h1>
 
-		<p>项目中如果显示图片比较多,会遇到内存涨的比较厉害,项目中用到 SDWebImage, 所以可以很简单的让内存缓存变稳定:</p>
+		<h2 id="toc_0">优化</h2>
 
-<pre><code>-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    [[SDImageCache sharedImageCache] clearMemory];
-}
-</code></pre>
+<p><a href="http://www.mulle-kybernetik.com/artikel/Optimization/opti-3-imp-deluxe.html">极致优化</a></p>
 
-<p>原理:</p>
+<p>美团点评技术团队: <a href="http://tech.meituan.com/DiveIntoMethodCache.html">深入理解Objective-C：方法缓存</a></p>
 
-<pre><code>- (void)clearMemory {
-    [self.memCache removeAllObjects];
-}
-</code></pre>
+<h2 id="toc_1">Runloop</h2>
 
-<p>_memCache 是 NSCache 类型的,</p>
+<p><a href="http://blog.ibireme.com/2015/05/18/runloop/">深入理解RunLoop</a>  &mdash; 内部分享文章runloop中使用了该文章中的一张图.</p>
 
-<p>没有做任何操作的时候大概是这个样子的<br/>
-<img src="media/14752152861722/14752174866625.jpg" alt=""/></p>
+<h2 id="toc_2">GCD</h2>
 
-<p>添加clearMemory后:<br/>
-<img src="media/14752152861722/14752177858503.jpg" alt=""/></p>
-
-<p>这也是为什么滚动后屏幕上还显示图片的原因.</p>
+<p><a href="http://www.raywenderlich.com/60749/grand-central-dispatch-in-depth-part-1">GCD 深入理解：第一部分</a> 中文翻译:<a href="https://github.com/nixzhu/dev-blog/blob/master/2014-04-19-grand-central-dispatch-in-depth-part-1.md">译文</a><br/>
+<a href="https://github.com/nixzhu/dev-blog/blob/master/2014-05-14-grand-central-dispatch-in-depth-part-2.md">GCD 深入理解：第二部分</a></p>
 
 
 		</div>

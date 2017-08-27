@@ -263,6 +263,8 @@
         <li><label>Documentation</label></li>
 
           
+            <li><a title="CAGradientLayer" href="15038463059094.html">CAGradientLayer</a></li>
+          
             <li><a title="Custom UIViews from XIB files" href="15036540820094.html">Custom UIViews from XIB files</a></li>
           
             <li><a title="UIBezierPath" href="15036524793322.html">UIBezierPath</a></li>
@@ -488,6 +490,8 @@
                     
                       <li class="side-title"><span>Documentation</span></li>
                         
+                          <li><a title="CAGradientLayer" href="15038463059094.html">CAGradientLayer</a></li>
+                        
                           <li><a title="Custom UIViews from XIB files" href="15036540820094.html">Custom UIViews from XIB files</a></li>
                         
                           <li><a title="UIBezierPath" href="15036524793322.html">UIBezierPath</a></li>
@@ -508,34 +512,32 @@
 
 	
 		<div class="markdown-body">
-		<h1>C++Primer笔记 - 如何获取 `main`的返回值</h1>
+		<h1>C++Primer笔记 - 初识输入输出</h1>
 
-		<p>访问<code>main</code>的返回值的方法依赖于系统.在UNIX和Windows系统中,执行完一个程序后,都可以通过echo命令获得其返回值.<br/>
-在UNIX中通过<code>echo $?</code><br/>
-在Windows中通过<code>echo %ERRORLEVEL%</code></p>
+		<blockquote>
+<p>使用<code>iostream</code>库.<code>iostream</code>中包含两个基础类型<code>istream</code>和<code>ostream</code>,分别表示输入流和输出流</p>
 
-<p>使用方式:<br/>
-在terminal中, <code>vim prog1.cc</code> ,然后在vim下输入(<code>i</code>是插入键)</p>
+<h2 id="toc_0">标准输入输出对象</h2>
 
-<pre><code> int main()
- {
-     return 0;
- }
+<p>标准库中定义了4个IO对象.为了处理输入,我们使用了一个名为<code>cin</code>的<code>istream</code>类型的对象.这个对象也被称为<strong>标准输入</strong>.对于输出,我们使用一个名为<code>cout</code>的<code>ostream</code>类型的对象.此对象也被称为<strong>标准输出</strong>.标准库中还定义了其他两个<code>ostream</code>对象,名为<code>cerr</code>和<code>clog</code>.我们通常用<code>cerr</code>来输出警告和错误信心,因此它也被称为<strong>标准错误</strong>,而<code>clog</code>用来输出程序运行时的一般性信息.</p>
+</blockquote>
+
+<p>系统通常将程序所运行的窗口与这些对象关联起来.因此,当我们读取cin,数据将从程序正在运行的窗口读入,当我们像cout,cerr,clog写入数据的时候,将会写到同一个窗口.</p>
+
+<h2 id="toc_1">Demo</h2>
+
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+int main(int argc, char *argv[])
+{
+    std::cout &lt;&lt; &quot;Enter two numbers:&quot; &lt;&lt; std::endl;
+    int v1 = 0, v2 = 0;
+    std::cin &gt;&gt; v1 &gt;&gt; v2;
+    std::cout &lt;&lt; &quot;The sun of &quot; &lt;&lt; v1 &lt;&lt; &quot;and&quot; &lt;&lt; v2 &lt;&lt; &quot;is&quot; &lt;&lt; v1 + v2 &lt;&lt; std::endl;
+    return 0;
+}
 </code></pre>
-
-<p>退出编辑器(先按<code>esc</code>,然后<code>:wq</code>)<br/>
-在terminal中运行</p>
-
-<pre><code>cc prog1.cc
-./a.out
-echo $?
-</code></pre>
-
-<p>最终会得到我们的返回值<code>0</code></p>
-
-<p><strong>1.1节练习</strong><br/>
-1.2: main中返回-1.返回值-1通常被当做程序错误的标识.重新编译运行我再次获取错误值为255<br/>
-<img src="media/14866089688413/14866102127236.jpg" alt=""/></p>
 
 
 		</div>
