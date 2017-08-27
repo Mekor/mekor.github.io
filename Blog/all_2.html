@@ -263,6 +263,8 @@
         <li><label>Documentation</label></li>
 
           
+            <li><a title="3D Touch" href="15038471972999.html">3D Touch</a></li>
+          
             <li><a title="CAGradientLayer" href="15038463059094.html">CAGradientLayer</a></li>
           
             <li><a title="Custom UIViews from XIB files" href="15036540820094.html">Custom UIViews from XIB files</a></li>
@@ -490,6 +492,8 @@
                     
                       <li class="side-title"><span>Documentation</span></li>
                         
+                          <li><a title="3D Touch" href="15038471972999.html">3D Touch</a></li>
+                        
                           <li><a title="CAGradientLayer" href="15038463059094.html">CAGradientLayer</a></li>
                         
                           <li><a title="Custom UIViews from XIB files" href="15036540820094.html">Custom UIViews from XIB files</a></li>
@@ -512,29 +516,11 @@
 
 	
 		<div class="markdown-body">
-		<h1>设计模式 读书笔记</h1>
+		<h1>Swift - 关于信号量</h1>
 
-		<h2 id="toc_0">单一职责原则(Single Responsibility Principe 简称SRP)</h2>
+		<p>信号量的使用</p>
 
-<blockquote>
-<p>定义: 应该有且仅有一个原因引起类的变更.. </p>
-</blockquote>
-
-<h3 id="toc_1">对职责的定义,什么是类的职责,以及怎么划分类的职责.</h3>
-
-<p>图书中 &lt;图1-1用户信息IUserInfo位图类图&gt; 中设计的有问题:<br/>
-用户的属性和用户的行为没有分开,这是一个严重的错误.. 应该把用户的信息抽取成一个BO(Bussiness Object,业务对象),把行为抽取成一个Biz(Bussiness Logic,业务逻辑)</p>
-
-<p>重新拆封成两个接口. IUserBO 负责用户的属性,简单的说就是收集和反馈用户的属性信息.IUserBiz负责用户的行为,完成用户信息的维护和变更.</p>
-
-<h3 id="toc_2">好处</h3>
-
-<ol>
-<li>类的复杂性降低.实现什么职责都有清晰明确的定义了;</li>
-<li>可读性提高.复杂性降低,当然可读性提高了;</li>
-<li>可维护性提高.可读性提高,那当然更容易维护了;</li>
-<li>变更引起的风险降低,变更时必不可少的.如果接口的单一职责做的好,一个接口的修改只对相应的实现类有影响,对其他的接口无影响,这对系统的扩展性和维护性都有非常大的帮助.</li>
-</ol>
+<p><img src="media/14916349354566/%E4%BF%A1%E5%8F%B7%E9%87%8F.gif" alt="信号量"/></p>
 
 
 		</div>

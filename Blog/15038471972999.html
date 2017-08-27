@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  杂记 - 李小争
+  3D Touch - 李小争
   
   </title>
  <meta name="description" content="记录开发中遇到的一些问题">
@@ -511,64 +511,138 @@
             </div>
             <div class="large-9 medium-9 columns">
 
- 
+ <div class="markdown-body">
+<h1>3D Touch</h1>
 
+<h2 id="toc_0"><a href="https://stackoverflow.com/documentation/ios/6705/3d-touch/22813/3d-touch-with-swift">3D Touch with Swift</a></h2>
 
-	
-		<div class="markdown-body">
-		<h1>项目优化记录</h1>
+<p>3D touch has been introduced with iPhone 6s Plus. There are two behaviors added with this new interface layer: Peek and Pop.</p>
 
-		<h2 id="toc_0">首页显示</h2>
+<p><strong>Peek and Pop in a nutshell</strong></p>
 
-<p>重点: 数据处理放在获取数据的时候,尽管这样数据不会实时更新,但是保证了数据显示的速度.<br/>
-关于Cache, 目前使用数据库.关于异步访问要用 <code>safeAsync</code></p>
+<p>Peek - Press hard</p>
 
-<pre><code>extension DispatchQueue {
-    // This method will dispatch the `block` to self.
-    // If `self` is the main queue, and current thread is main thread, the block
-    // will be invoked immediately instead of being dispatched.
-    func safeAsync(_ block: @escaping ()-&gt;()) {
-        if self === DispatchQueue.main &amp;&amp; Thread.isMainThread {
-            block()
-        } else {
-            async { block() }
-        }
-    }
+<p>Pop - Press really hard</p>
+
+<p><strong>Checking for 3D support</strong></p>
+
+<p>You should check if the device has a 3D touch support. You can do this by checking the value of <em>forceTouchCapability</em> property of a <em>UITraitCollection</em> object. UITraitCollection describes the iOS interface environment for your app.</p>
+
+<pre><code>if (traitCollection.forceTouchCapability == .Available) {    
+    registerForPreviewingWithDelegate(self, sourceView: view)
 }
 </code></pre>
 
-<h2 id="toc_1">Topbar 移除</h2>
+<p><strong>Implementing the delegate</strong></p>
 
-<p>这个原有的导航对项目入侵太深,已经忍无可忍了&hellip;这周终于下决心移除它用原生的导航栏和自定义视图代替她..进展非常顺利.写了一天自定义控件,然后让大家各自把自己的控制过滤一遍.总耗时,我自己一天,其他同事不到1个小时.还是非常顺利的.用比较少的时间完成了项目中的毒瘤.</p>
+<p>You need to implement the two methods of <em>UIViewControllerPreviewingDelegate</em> in your class. One of the methods is for <em>peek</em> and the other one is for <em>pop</em> behavior.</p>
 
-<h2 id="toc_2">下拉刷新封装</h2>
+<p>The method to be implemented for the <em>peek</em> is <em>previewingContext</em>.</p>
 
-<p>老版本使用的是<code>MJRefresh</code> 但是需要定制, 在老项目中我是通过继承完成的功能修改,这样做的原因是老项目是OC和Swift混编的,而且都是把第三方库源文件拖到项目中的方式进行的. 在重构的时候我把第三方库放到了公司的git上,然后更改源码.再打包成成库调用.</p>
+<pre><code>func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -&gt; UIViewController? {
 
-<h2 id="toc_3">关于时间比较</h2>
+    guard let indexPath = self.tableView.indexPathForRowAtPoint(location), cell = self.tableView.cellForRowAtIndexPath(indexPath) as? &lt;YourTableViewCell&gt; else {
+        return nil
+    }
 
-<p>新项目中存在一个功能比如 <code>10:00:00</code> 到 <code>11:59:59</code> 算早市,需要判断当前时间是否是早市. 一种更方便的处理方式:</p>
+    guard let datailVC = storyboard?.instantiateViewControllerWithIdentifier(&quot;&lt;YourViewControllerIdentifier&gt;&quot;) as? &lt;YourViewController&gt; else {
+        return nil
+    }
 
-<p>时间格式 <code>HH:mm:ss</code> 一共6位数字,我们可以去掉中间的<code>:</code>,这样时间就是一个整数了,然后三个整数之间进行比较比 先比小时再比分钟最后比秒数要方便很多.</p>
+    datailVC.peekActive = true
+    previewingContext.sourceRect = cell.frame
+
+    // Do the stuff
+
+    return datailVC
+
+}
+</code></pre>
+
+<p>The method to be implemented for the <em>pop</em> is <em>previewingContext</em>. :)</p>
+
+<pre><code>func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController) {
+
+    let balanceViewController = viewControllerToCommit as! &lt;YourViewController&gt;
+
+    // Do the stuff
+
+    navigationController?.pushViewController(balanceViewController, animated: true)
+
+}
+</code></pre>
+
+<p>As you can see they are overloaded methods. You can use 3D touch in any way implementing these methods.</p>
+
+<p><strong>Objective-C</strong></p>
+
+<pre><code>//Checking for 3-D Touch availability
+if ([self.traitCollection respondsToSelector:@selector(forceTouchCapability)] &amp;&amp;
+        (self.traitCollection.forceTouchCapability == UIForceTouchCapabilityAvailable))
+    {
+        [self registerForPreviewingWithDelegate:self sourceView:self.view];
+    }
+//Peek
+- (UIViewController *)previewingContext:(id&lt;UIViewControllerPreviewing&gt;)previewingContext
+              viewControllerForLocation:(CGPoint)location {
+
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
+    Country *country = [self countryForIndexPath:indexPath];
+    if (country) {
+        CountryCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+        if (cell) {
+            previewingContext.sourceRect = cell.frame;
+            UINavigationController *navController = [self.storyboard instantiateViewControllerWithIdentifier:@&quot;UYLCountryNavController&quot;];
+            [self configureNavigationController:navController withCountry:country];
+            return navController;
+        }
+    }
+    return nil;
+}
+//Pop
+- (void)previewingContext:(id&lt;UIViewControllerPreviewing&gt;)previewingContext commitViewController:(UIViewController *)viewControllerToCommit {
+
+    [self showDetailViewController:viewControllerToCommit sender:self];
+}
+</code></pre>
 
 
-		</div>
-	
+</div>
 
- 
-	
+<br /><br />
+<hr />
 
- 
-	
+<div class="row clearfix">
+  <div class="large-6 columns">
+	<div class="text-left" style="padding:15px 0px;">
+		
+	</div>
+  </div>
+  <div class="large-6 columns">
+	<div class="text-right" style="padding:15px 0px;">
+		
+	        <a href="15038463059094.html" 
+	        title="Next Post: CAGradientLayer">CAGradientLayer &raquo;</a>
+	    
+	</div>
+  </div>
+</div>
 
- 
-	
+<div class="row">
+<div style="padding:0px 0.93em;" class="share-comments">
 
- 
-	
-
-  
-  
+</div>
+</div>
+<script type="text/javascript">
+	$(function(){
+		var currentURL = '15038471972999.html';
+		$('#side-nav a').each(function(){
+			if($(this).attr('href') == currentURL){
+				$(this).parent().addClass('active');
+			}
+		});
+	});
+</script>  
 </div></div>
 
 
