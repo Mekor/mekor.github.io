@@ -63,6 +63,8 @@
         <li><label>技巧</label></li>
 
           
+            <li><a title="优化iPad 2 总结" href="15058021769287.html">优化iPad 2 总结</a></li>
+          
             <li><a title="Mac zsh 使用命令打开sublime" href="14907559721950.html">Mac zsh 使用命令打开sublime</a></li>
           
             <li><a title="数组传递" href="14878335740172.html">数组传递</a></li>
@@ -239,6 +241,8 @@
         <li><label>C/C++</label></li>
 
           
+            <li><a title="指针" href="15052686192490.html">指针</a></li>
+          
             <li><a title="C++Primer笔记 - 初识输入输出" href="14866104685305.html">C++Primer笔记 - 初识输入输出</a></li>
           
             <li><a title="C++Primer笔记 - 如何获取 `main`的返回值" href="14866089688413.html">C++Primer笔记 - 如何获取 `main`的返回值</a></li>
@@ -305,6 +309,8 @@
 
                     
                       <li class="side-title"><span>技巧</span></li>
+                        
+                          <li><a title="优化iPad 2 总结" href="15058021769287.html">优化iPad 2 总结</a></li>
                         
                           <li><a title="Mac zsh 使用命令打开sublime" href="14907559721950.html">Mac zsh 使用命令打开sublime</a></li>
                         
@@ -472,6 +478,8 @@
                     
                       <li class="side-title"><span>C/C++</span></li>
                         
+                          <li><a title="指针" href="15052686192490.html">指针</a></li>
+                        
                           <li><a title="C++Primer笔记 - 初识输入输出" href="14866104685305.html">C++Primer笔记 - 初识输入输出</a></li>
                         
                           <li><a title="C++Primer笔记 - 如何获取 `main`的返回值" href="14866089688413.html">C++Primer笔记 - 如何获取 `main`的返回值</a></li>
@@ -516,13 +524,58 @@
 
 	
 		<div class="markdown-body">
-		<h1>UILabel边缘出现黑线</h1>
+		<h1>使用 chisel 提高 LLDB 调试效率</h1>
 
-		<p>问题:代码实现 UILabel 时出现的边缘黑线问题<br/>
-原因:当 UILabel 的宽高出现浮点型数字时,在高清屏下有可能出现右侧边缘黑线问题, 解决方法是使用 <code>CGRectIntegral()</code> 方法确保 <code>frame</code> 中不存在非整形数值</p>
+		<blockquote>
+<p><a href="https://github.com/facebook/chisel">https://github.com/facebook/chisel</a> 英文版使用说明</p>
+</blockquote>
 
-<pre><code>label.frame = CGRectIntegral(CGRectMake(0, 0, ceil(width),40));
+<h2 id="toc_0">安装</h2>
+
+<ol>
+<li>安装 <a href="http://brew.sh/index_zh-cn.html">Homebrew</a> (如果已经安装了,可以跳过这一步)</li>
+</ol>
+
+<pre><code>/usr/bin/ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;
 </code></pre>
+
+<ol>
+<li>更新 Homebrew (如果已经最新了,可以跳过这一步)</li>
+</ol>
+
+<pre><code>brew update
+</code></pre>
+
+<ol>
+<li>通过 Homebrew 安装 chisel</li>
+</ol>
+
+<pre><code>brew install chisel
+</code></pre>
+
+<ol>
+<li>添加 chisel 命令至 ~/.lldbinit</li>
+</ol>
+
+<pre><code>touch ~/.lldbinit echo &quot;command script import /usr/local/opt/chisel/libexec/fblldb.py&quot; &gt;&gt; ~/.lldbinit
+</code></pre>
+
+<ol>
+<li>更新 chisel</li>
+</ol>
+
+<pre><code>brew upgrade chisel
+</code></pre>
+
+<h2 id="toc_1">使用</h2>
+
+<ol>
+<li>通过 <code>pviews</code> 命令直接查看页面层级关系</li>
+</ol>
+
+<hr/>
+
+<p>未完&hellip; </p>
 
 
 		</div>

@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2017-09-05T17:13:05+08:00</updated>
+  <updated>2017-09-06T10:55:25+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -12,6 +12,82 @@
   </author>
   <generator uri="http://www.mweb.im">MWeb</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[优化iPad 2 总结]]></title>
+    <link href="http://www.citynight.cn/Blog/15058021769287.html"/>
+    <updated>2017-09-19T14:22:56+08:00</updated>
+    <id>http://www.citynight.cn/Blog/15058021769287.html</id>
+    <content type="html"><![CDATA[
+<p>实施反馈项目在<code>iPad 2</code>上比较卡顿,所以要对项目进行优化.</p>
+
+<h2 id="toc_0">优化集中点为collectionView</h2>
+
+<p>项目有两种显示效果,一种是图片模式,一种是纯文字模式. 纯文字模式滑动起来还不错,图片模式就比较卡了.经分析,项目做了部分修改,使滑动效果比较顺畅.</p>
+
+<ol>
+<li>栅格化: 目的是离屏渲染,不过还是卡顿</li>
+</ol>
+
+<pre><code>    self.layer.shouldRasterize = true
+    self.layer.rasterizationScale = UIScreen.main.scale
+    self.layer.drawsAsynchronously = true
+</code></pre>
+
+<p>2.Color Blended Layers 处理<br/>
+<img src="media/15058021769287/15058027400968.jpg" alt=""/><br/>
+发现部分UILabel存在问题,解决方案:<br/>
+<img src="media/15058021769287/15058028256147.jpg" alt=""/></p>
+
+<p>添加 <code>label.layer.masksToBounds = true</code>,效果还是不行.</p>
+
+<ol>
+<li><p>上面优化后效果不是很明显,最后采取了<strong>以空间换时间</strong>的方式优化图片列表页<br/>
+提前用<code>Kingfisher</code>下载图片(这个过程原先就有)下载过图片也做了不再下载的处理,由于图片过多导致不会有太多列表页的图片缓存中内存中. 针对这个问题,我采用了每次进入app就把列表页的图片使用<code>NSCache&lt;NSString, UIImage&gt;</code>缓存起来,效果很明显.</p>
+
+<h2 id="toc_1">目前还存在问题</h2>
+
+<p>下载图片失败率还是很高的,我设置的超时时间为60s <code>downloader.downloadTimeout = 60</code> 但是还是有很多图片下载超时,导致首次加载的时候需要下载图片滑动卡顿.<br/>
+由于<code>NSCache</code>的特殊性,不能保证图片一直在内存中,正在考虑是否替换成Dictionary,然后自己处理内存警告.这个稍后验证下.</p></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[指针]]></title>
+    <link href="http://www.citynight.cn/Blog/15052686192490.html"/>
+    <updated>2017-09-13T10:10:19+08:00</updated>
+    <id>http://www.citynight.cn/Blog/15052686192490.html</id>
+    <content type="html"><![CDATA[
+<h2 id="toc_0">1. 指针是一种数据类型</h2>
+
+<ol>
+<li>指针也是一种变量,占有内存空间,用来保存内存地址  指针的大小&ndash;&gt; 32位: 4  64位: 8</li>
+<li><p><code>*p</code> 操作内存</p>
+
+<pre><code>在指针声明时,`*`号表示所声明的变量为指针
+在指针使用时,`*`号表示**操作**指针所指向的内存空间中的值
+`*p`相当于通过地址(p变量的值)找到一块内存,然后操作内存
+`*p`放在等号左边赋值(给内存赋值)
+`*p`放在等号右边取值(从内存获取值)
+</code></pre></li>
+<li><p>指针变量和它指向的内存块是两个不同的概念</p>
+
+<pre><code>含义1: 给p赋值 p = 0x1111; 只会改变指针变量值,不会改变所指的内容; p = p+1
+含义2: 给`*p`赋值 *p = &#39;a&#39;;不会改变指针变量的值,只会改变所指的内存块的值
+保证所指向的内存空间能修改()
+*就像一把钥匙,通过一个地址(&amp;a),去修改a变量的标示的内存空间
+</code></pre></li>
+<li><p>指针是一种数据类型,是指它指向的内存空间的数据类型</p>
+
+<pre><code>指针步长(p++),根据所指内存空间的数据类型类确定
+p++ = ---&gt; p+sizeof(a)
+</code></pre></li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[3D Touch]]></title>
@@ -2502,45 +2578,6 @@ echo $?
 <p><strong>1.1节练习</strong><br/>
 1.2: main中返回-1.返回值-1通常被当做程序错误的标识.重新编译运行我再次获取错误值为255<br/>
 <img src="media/14866089688413/14866102127236.jpg" alt=""/></p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Swift - 春节前问题总结]]></title>
-    <link href="http://www.citynight.cn/Blog/14861891967085.html"/>
-    <updated>2017-02-04T14:19:56+08:00</updated>
-    <id>http://www.citynight.cn/Blog/14861891967085.html</id>
-    <content type="html"><![CDATA[
-<ol>
-<li><p><code>#selector集中起来管理</code><br/>
-参考<a href="http://weibo.com/3321824014/ErQJDdL4L?type=repost#_rnd1486189248963">微博</a>中第二点<br/>
-<img src="media/14861891967085/14861893764185.jpg" alt=""/></p></li>
-<li><p>关于Xib的使用问题<br/>
-老生常谈的问题了,看个人喜好,不过尽量让其他人看懂,遵守xib规范.<br/>
-备注:<br/>
-    1. <a href="http://nshipster.cn/ibinspectable-ibdesignable/">IBInspectable / IBDesignable</a><br/>
-    2. <a href="http://tips.producter.io/you-ya-di-zi-ding-yi-xibview/">优雅地自定义XibView</a></p></li>
-<li><p>关于什么时候提取出方法<br/>
-一个函数如果行数过长不便于阅读,可以按照步骤抽取出字方法<br/>
-如果一个功能有2个以上地方用到需要抽取为一个方法</p></li>
-<li><p>多种样式Cell如何配置</p></li>
-</ol>
-
-<p>撕逼未完&hellip;.</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Swift - Swift Talk: Networking]]></title>
-    <link href="http://www.citynight.cn/Blog/14860911508877.html"/>
-    <updated>2017-02-03T11:05:50+08:00</updated>
-    <id>http://www.citynight.cn/Blog/14860911508877.html</id>
-    <content type="html"><![CDATA[
-<blockquote>
-<p>Swift Talk 学习笔记,<a href="https://talk.objc.io/episodes/S01E01-networking">https://talk.objc.io/episodes/S01E01-networking</a></p>
-</blockquote>
 
 ]]></content>
   </entry>

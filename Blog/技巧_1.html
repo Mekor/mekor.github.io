@@ -63,6 +63,8 @@
         <li><label>技巧</label></li>
 
           
+            <li><a title="优化iPad 2 总结" href="15058021769287.html">优化iPad 2 总结</a></li>
+          
             <li><a title="Mac zsh 使用命令打开sublime" href="14907559721950.html">Mac zsh 使用命令打开sublime</a></li>
           
             <li><a title="数组传递" href="14878335740172.html">数组传递</a></li>
@@ -239,6 +241,8 @@
         <li><label>C/C++</label></li>
 
           
+            <li><a title="指针" href="15052686192490.html">指针</a></li>
+          
             <li><a title="C++Primer笔记 - 初识输入输出" href="14866104685305.html">C++Primer笔记 - 初识输入输出</a></li>
           
             <li><a title="C++Primer笔记 - 如何获取 `main`的返回值" href="14866089688413.html">C++Primer笔记 - 如何获取 `main`的返回值</a></li>
@@ -305,6 +309,8 @@
 
                     
                       <li class="side-title"><span>技巧</span></li>
+                        
+                          <li><a title="优化iPad 2 总结" href="15058021769287.html">优化iPad 2 总结</a></li>
                         
                           <li><a title="Mac zsh 使用命令打开sublime" href="14907559721950.html">Mac zsh 使用命令打开sublime</a></li>
                         
@@ -472,6 +478,8 @@
                     
                       <li class="side-title"><span>C/C++</span></li>
                         
+                          <li><a title="指针" href="15052686192490.html">指针</a></li>
+                        
                           <li><a title="C++Primer笔记 - 初识输入输出" href="14866104685305.html">C++Primer笔记 - 初识输入输出</a></li>
                         
                           <li><a title="C++Primer笔记 - 如何获取 `main`的返回值" href="14866089688413.html">C++Primer笔记 - 如何获取 `main`的返回值</a></li>
@@ -516,24 +524,18 @@
 
 	
 		<div class="markdown-body">
-		<h1>隐藏tabBar的小技巧</h1>
+		<h1>Scroll UICollectionView to section header view</h1>
 
-		<p>突然想起来 <code>微指App</code> 里面控制 tabBar 显示与隐藏非常麻烦,在控制器中的 <code>viewWillAppear</code> 和 <code>viewWillDisappear</code>中做处理,这样能保证在控制器中控制 tabBar 的显示与隐藏,但是也非常麻烦,每个控制器都需要控制..</p>
+		<p>新界面左右联动的时候遇到了一个问题,怎么在左侧tableView点击某一cell的时候右侧collectionView跳转到对应的section</p>
 
-<p>一劳永逸的做法:</p>
+<p>如果没有section header View 的时候直接跳转到这个section的第一个Item就ok了,但是如果有section header View 的时候就需要注意了,不能这样进行跳转了,下面👇是经过测试的方法能够完美跳转到相应的section:</p>
 
-<pre><code>    // 重写 push 方法
-    override func pushViewController(_ viewController: UIViewController, animated: Bool) {
-        // 如果不是栈底控制器才需要隐藏, 根控制器 不需要处理
-        if childViewControllers.count &gt; 0 {
-            // 隐藏底部的 TabBar
-            viewController.hidesBottomBarWhenPushed = true
-        }
-        super.pushViewController(viewController, animated: true)
-    }
+<pre><code>let attributes = self.collectionView.collectionViewLayout.layoutAttributesForSupplementaryViewOfKind(UICollectionElementKindSectionHeader, atIndexPath: NSIndexPath(forItem: 0, inSection: index))
+
+self.collectionView.setContentOffset(CGPointMake(0, attributes!.frame.origin.y - self.collectionView.contentInset.top), animated: true)
 </code></pre>
 
-<p>在导航控制器中重写 <code>push</code> 方法,这样就能省去好多麻烦..</p>
+<p>参见:<a href="http://stackoverflow.com/questions/22100227/scroll-uicollectionview-to-section-header-view">Scroll UICollectionView to section header view</a></p>
 
 
 		</div>

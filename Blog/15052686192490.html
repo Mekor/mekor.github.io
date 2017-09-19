@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  C/C++ - 回调函数中比较大小为啥0不行? - 李小争
+  指针 - 李小争
   
   </title>
  <meta name="description" content="记录开发中遇到的一些问题">
@@ -520,85 +520,33 @@
             <div class="large-9 medium-9 columns">
 
  <div class="markdown-body">
-<h1>C/C++ - 回调函数中比较大小为啥0不行?</h1>
+<h1>指针</h1>
 
-<p>在C语言中我们判断真假经常使用非0为真,0为假.但是在回调函数中我设置返回非0与0代表真假的时候出现了问题:</p>
+<h2 id="toc_0">1. 指针是一种数据类型</h2>
 
-<pre><code>#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
+<ol>
+<li>指针也是一种变量,占有内存空间,用来保存内存地址  指针的大小&ndash;&gt; 32位: 4  64位: 8</li>
+<li><p><code>*p</code> 操作内存</p>
 
-int callBackCompare(void * pa, void * pb)
-{
-    return *(int *)pa &lt; *(int *)pb ? 1 : -1;
-}
+<pre><code>在指针声明时,`*`号表示所声明的变量为指针
+在指针使用时,`*`号表示**操作**指针所指向的内存空间中的值
+`*p`相当于通过地址(p变量的值)找到一块内存,然后操作内存
+`*p`放在等号左边赋值(给内存赋值)
+`*p`放在等号右边取值(从内存获取值)
+</code></pre></li>
+<li><p>指针变量和它指向的内存块是两个不同的概念</p>
 
-void selectSort(int *p, int n, int (*pf)(int a, int b))
-{
-    for(int i = 0; i &lt; n-1; i++)
-    {
-        for(int j = i+1; j&lt;n; j++)
-        {
-            if(pf(p[i],p[j]))
-            {
-                p[i] = p[i]^p[j];
-                p[j] = p[i]^p[j];
-                p[i] = p[i]^p[j];
-            }
-        }
-    }
-}
+<pre><code>含义1: 给p赋值 p = 0x1111; 只会改变指针变量值,不会改变所指的内容; p = p+1
+含义2: 给`*p`赋值 *p = &#39;a&#39;;不会改变指针变量的值,只会改变所指的内存块的值
+保证所指向的内存空间能修改()
+*就像一把钥匙,通过一个地址(&amp;a),去修改a变量的标示的内存空间
+</code></pre></li>
+<li><p>指针是一种数据类型,是指它指向的内存空间的数据类型</p>
 
-int main(int argc, char *argv[])
-{
-    int arr[10] = {1,2,3,4,5,9,8,7,6,0};
-
-    qsort(arr,sizeof(arr)/sizeof(int),sizeof(int),callBackCompare);
-
-    for(int i = 0; i&lt;10; i++)
-    {
-        printf(&quot;%d\n&quot;,arr[i]);
-    }
-    return 0;
-}
-
-</code></pre>
-
-<p>callBack中这样写能够得到结果</p>
-
-<pre><code>9
-8
-7
-6
-5
-4
-3
-2
-1
-0
-</code></pre>
-
-<p>但是如果我把callback函数中的-1换成0则返回错误结果</p>
-
-<pre><code>0
-2
-3
-4
-5
-9
-8
-7
-6
-1
-</code></pre>
-
-<p>这是为什么呢?</p>
-
-<p>&mdash;17.1.3&mdash;-<br/>
-搞懂了,0不能代表升降&hellip;</p>
-
-<blockquote>
-<p>假设是对 int 排序的话，如果是升序， 那么就是如果 a 比 b 大返回一个正值，小则负值，相等返回 0; 假设是对 int 排序的话，如果是降序， 那么就是如果 a 比 b 大返回一个负值，小则正值，相等返回 0;</p>
-</blockquote>
+<pre><code>指针步长(p++),根据所指内存空间的数据类型类确定
+p++ = ---&gt; p+sizeof(a)
+</code></pre></li>
+</ol>
 
 
 </div>
@@ -610,15 +558,15 @@ int main(int argc, char *argv[])
   <div class="large-6 columns">
 	<div class="text-left" style="padding:15px 0px;">
 		
-	        <a href="14836656405837.html"  title="Previous Post: Swift - Swift与JavaScript交互实战[转]">&laquo; Swift - Swift与JavaScript交互实战[转]</a>
+	        <a href="15058021769287.html"  title="Previous Post: 优化iPad 2 总结">&laquo; 优化iPad 2 总结</a>
 	    
 	</div>
   </div>
   <div class="large-6 columns">
 	<div class="text-right" style="padding:15px 0px;">
 		
-	        <a href="14830040423390.html" 
-	        title="Next Post: Swift - 上周总结(12.30)">Swift - 上周总结(12.30) &raquo;</a>
+	        <a href="15038471972999.html" 
+	        title="Next Post: 3D Touch">3D Touch &raquo;</a>
 	    
 	</div>
   </div>
@@ -631,7 +579,7 @@ int main(int argc, char *argv[])
 </div>
 <script type="text/javascript">
 	$(function(){
-		var currentURL = '14834570124499.html';
+		var currentURL = '15052686192490.html';
 		$('#side-nav a').each(function(){
 			if($(this).attr('href') == currentURL){
 				$(this).parent().addClass('active');
