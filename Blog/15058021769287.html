@@ -117,6 +117,8 @@
         <li><label>教程</label></li>
 
           
+            <li><a title="[转]浅析 iOS 应用开发中的断点续传" href="15060704391596.html">[转]浅析 iOS 应用开发中的断点续传</a></li>
+          
             <li><a title="获取崩溃信息" href="14816416025061.html">获取崩溃信息</a></li>
           
             <li><a title="iOS8之后设置PopoverController" href="14813828036514.html">iOS8之后设置PopoverController</a></li>
@@ -362,6 +364,8 @@
                     
                       <li class="side-title"><span>教程</span></li>
                         
+                          <li><a title="[转]浅析 iOS 应用开发中的断点续传" href="15060704391596.html">[转]浅析 iOS 应用开发中的断点续传</a></li>
+                        
                           <li><a title="获取崩溃信息" href="14816416025061.html">获取崩溃信息</a></li>
                         
                           <li><a title="iOS8之后设置PopoverController" href="14813828036514.html">iOS8之后设置PopoverController</a></li>
@@ -545,14 +549,14 @@
 <p>添加 <code>label.layer.masksToBounds = true</code>,效果还是不行.</p>
 
 <ol>
-<li><p>上面优化后效果不是很明显,最后采取了<strong>以空间换时间</strong>的方式优化图片列表页<br/>
-提前用<code>Kingfisher</code>下载图片(这个过程原先就有)下载过图片也做了不再下载的处理,由于图片过多导致不会有太多列表页的图片缓存中内存中. 针对这个问题,我采用了每次进入app就把列表页的图片使用<code>NSCache&lt;NSString, UIImage&gt;</code>缓存起来,效果很明显.</p>
+<li>上面优化后效果不是很明显,最后采取了<strong>以空间换时间</strong>的方式优化图片列表页
+提前用<code>Kingfisher</code>下载图片(这个过程原先就有)下载过图片也做了不再下载的处理,由于图片过多导致不会有太多列表页的图片缓存中内存中. 针对这个问题,我采用了每次进入app就把列表页的图片使用<code>NSCache&lt;NSString, UIImage&gt;</code>缓存起来,效果很明显.</li>
+</ol>
 
 <h2 id="toc_1">目前还存在问题</h2>
 
 <p>下载图片失败率还是很高的,我设置的超时时间为60s <code>downloader.downloadTimeout = 60</code> 但是还是有很多图片下载超时,导致首次加载的时候需要下载图片滑动卡顿.<br/>
-由于<code>NSCache</code>的特殊性,不能保证图片一直在内存中,正在考虑是否替换成Dictionary,然后自己处理内存警告.这个稍后验证下.</p></li>
-</ol>
+由于<code>NSCache</code>的特殊性,不能保证图片一直在内存中,正在考虑是否替换成Dictionary,然后自己处理内存警告.这个稍后验证下.</p>
 
 
 </div>
@@ -564,6 +568,8 @@
   <div class="large-6 columns">
 	<div class="text-left" style="padding:15px 0px;">
 		
+	        <a href="15060704391596.html"  title="Previous Post: [转]浅析 iOS 应用开发中的断点续传">&laquo; [转]浅析 iOS 应用开发中的断点续传</a>
+	    
 	</div>
   </div>
   <div class="large-6 columns">
