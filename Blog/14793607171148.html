@@ -712,7 +712,21 @@ git branch -r -d origin/branch-name
 git push origin :branch-name
 
 冒号前面的空格不能少，原理是把一个空分支push到server上，相当于删除该分支。
+
 </code></pre>
+
+<h2 id="toc_9">更换远程</h2>
+
+<p>先查看remote的名字</p>
+
+<pre><code>git branch -r
+</code></pre>
+
+<p>假设你的remote是origin，用git remote set_url 更换地址<br/>
+<code><br/>
+git remote set-url origin remote_git_address<br/>
+</code><br/>
+remote_git_address更换成你的新的仓库地址</p>
 
 <p>删除修改返回到上次提交状态</p>
 

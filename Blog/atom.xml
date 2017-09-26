@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2017-09-19T14:57:55+08:00</updated>
+  <updated>2017-09-22T16:59:11+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -264,178 +264,51 @@ func URLSession(session: NSURLSession, task: NSURLSessionTask,
 
 <h5 id="toc_20">清单 4. NSURLSessionDownloadTask 的实现</h5>
 
-<p>|<br/><br/>
-1</p>
-
-<p>2</p>
-
-<p>3</p>
-
-<p>4</p>
-
-<p>5</p>
-
-<p>6</p>
-
-<p>7</p>
-
-<p>8</p>
-
-<p>9</p>
-
-<p>10</p>
-
-<p>11</p>
-
-<p>12</p>
-
-<p>13</p>
-
-<p>14</p>
-
-<p>15</p>
-
-<p>16</p>
-
-<p>17</p>
-
-<p>18</p>
-
-<p>19</p>
-
-<p>20</p>
-
-<p>21</p>
-
-<p>22</p>
-
-<p>23</p>
-
-<p>24</p>
-
-<p>25</p>
-
-<p>26</p>
-
-<p>27</p>
-
-<p>28</p>
-
-<p>29</p>
-
-<p>30</p>
-
-<p>31</p>
-
-<p>32</p>
-
-<p>33</p>
-
-<p>34</p>
-
-<p>35</p>
-
-<p>36</p>
-
-<p>37</p>
-
-<p>38</p>
-
-<p>39</p>
-
-<p>40</p>
-
-<p>41</p>
-
-<p>42</p>
-
-<p>43</p>
-
-<p>44</p>
-
-<p>|  </p>
-
-<p><code>//SWIFT</code></p>
-
-<p><code>//UI 触发 pause</code></p>
-
-<p><code>func pause(){</code></p>
-
-<p><code>self.downloadTask?.cancelByProducingResumeData({data -&gt; Void in</code></p>
-
-<p><code>if data != nil {</code></p>
-
-<p><code>data!.writeToFile(FileManager.instance.cacheFilePath(self.fileName!),</code></p>
-
-<p><code>atomically: false)</code></p>
-
-<p><code>}</code></p>
-
-<p><code>})</code></p>
-
-<p><code>self.downloadTask = nil</code></p>
-
-<p><code>}</code></p>
-
-<p><code>// MARK: - NSURLSessionDownloadDelegate</code></p>
-
-<p><code>func URLSession(session: NSURLSession, downloadTask:</code></p>
-
-<p><code>NSURLSessionDownloadTask, didWriteData bytesWritten: Int64,</code></p>
-
-<p><code>totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {</code></p>
-
-<p><code>if (self.downloadProgressHandler != nil) {</code></p>
-
-<p><code>self.downloadProgressHandler(bytes: Int(bytesWritten),</code></p>
-
-<p><code>totalBytes: totalBytesWritten, totalBytesExpected: totalBytesExpectedToWrite)</code></p>
-
-<p><code>}</code></p>
-
-<p><code>}</code></p>
-
-<p><code>func URLSession(session: NSURLSession, task: NSURLSessionTask,</code></p>
-
-<p><code>didCompleteWithError error: NSError?) {</code></p>
-
-<p><code>if error != nil {//real error</code></p>
-
-<p><code>self.failureHandler(error:error!)</code></p>
-
-<p><code>}</code></p>
-
-<p><code>}</code></p>
-
-<p><code>func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask,</code></p>
-
-<p><code>didFinishDownloadingToURL location: NSURL) {</code></p>
-
-<p><code>let cacheFilePath = FileManager.instance.cacheFilePath(self.fileName!)</code></p>
-
-<p><code>let documenFilePath = FileManager.instance.documentFilePath(self.fileName!)</code></p>
-
-<p><code>do {</code></p>
-
-<p><code>if FileManager.instance.fileExistsAtPath(cacheFilePath){</code></p>
-
-<p><code>try FileManager.instance.removeItemAtPath(cacheFilePath)</code></p>
-
-<p><code>}</code></p>
-
-<p><code>try FileManager.instance.moveItemAtPath(location.path!, toPath: documenFilePath)</code></p>
-
-<p><code>} catch let e as NSError {</code></p>
-
-<p><code>print(&quot;Error occurred when to move file: \(e)&quot;)</code></p>
-
-<p><code>}</code></p>
-
-<p><code>self.successHandler(responseObject:documenFilePath)</code></p>
-
-<p><code>}</code></p>
-
-<p>|</p>
+<pre><code>//SWIFT 
+ 
+//UI 触发 pause 
+func pause(){ 
+   self.downloadTask?.cancelByProducingResumeData({data -&gt; Void in 
+       if data != nil { 
+data!.writeToFile(FileManager.instance.cacheFilePath(self.fileName!), 
+atomically: false) 
+} 
+       }) 
+   self.downloadTask = nil 
+} 
+ 
+// MARK: - NSURLSessionDownloadDelegate 
+func URLSession(session: NSURLSession, downloadTask: 
+NSURLSessionDownloadTask, didWriteData bytesWritten: Int64, 
+totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) { 
+   if (self.downloadProgressHandler != nil) { 
+       self.downloadProgressHandler(bytes: Int(bytesWritten), 
+        totalBytes: totalBytesWritten, totalBytesExpected: totalBytesExpectedToWrite) 
+   } 
+} 
+ 
+func URLSession(session: NSURLSession, task: NSURLSessionTask, 
+didCompleteWithError error: NSError?) { 
+   if error != nil {//real error 
+       self.failureHandler(error:error!) 
+   } 
+} 
+ 
+func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, 
+ didFinishDownloadingToURL location: NSURL) { 
+   let cacheFilePath = FileManager.instance.cacheFilePath(self.fileName!) 
+   let documenFilePath = FileManager.instance.documentFilePath(self.fileName!) 
+   do { 
+       if FileManager.instance.fileExistsAtPath(cacheFilePath){ 
+           try FileManager.instance.removeItemAtPath(cacheFilePath) 
+       } 
+       try FileManager.instance.moveItemAtPath(location.path!, toPath: documenFilePath) 
+   } catch let e as NSError { 
+       print(&quot;Error occurred when to move file: \(e)&quot;) 
+   } 
+   self.successHandler(responseObject:documenFilePath) 
+}
+</code></pre>
 
 <p>实现效果如图 10 所示：</p>
 
