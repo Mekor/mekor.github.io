@@ -8,17 +8,23 @@
   Documentation - 李小争
   
   </title>
- <meta name="description" content="记录开发中遇到的一些问题">
- <link href="atom.xml" rel="alternate" title="李小争" type="application/atom+xml">
+  
+  
+  <link href="atom.xml" rel="alternate" title="李小争" type="application/atom+xml">
     <link rel="stylesheet" href="asset/css/foundation.min.css" />
     <link rel="stylesheet" href="asset/css/docs.css" />
-
     <script src="asset/js/vendor/modernizr.js"></script>
     <script src="asset/js/vendor/jquery.js"></script>
-    <script src="asset/highlightjs/highlight.pack.js"></script>
-    <link href="asset/highlightjs/styles/github.css" media="screen, projection" rel="stylesheet" type="text/css">
-    <script>hljs.initHighlightingOnLoad();</script>
-    
+  <script src="asset/highlightjs/highlight.pack.js"></script>
+  <link href="asset/highlightjs/styles/github.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+  function before_search(){
+    var searchVal = 'site:www.citynight.cn/Blog ' + document.getElementById('search_input').value;
+    document.getElementById('search_q').value = searchVal;
+    return true;
+  }
+</script>
   </head>
   <body class="antialiased hide-extras">
     
@@ -28,11 +34,32 @@
 
 <nav class="top-bar docs-bar hide-for-small" data-topbar>
 
-<div id="header">
-    <h1><a href="index.html">李小争</a></h1>
-</div>
+
+  <section class="top-bar-section">
+  <div class="row">
+      <div style="position: relative;width:100%;"><div style="position: absolute; width:100%;">
+        <ul id="main-menu" class="left">
+        
+        <li id=""><a target="self" href="index.html">Home</a></li>
+        
+        <li id=""><a target="_self" href="archives.html">Archives</a></li>
+        
+        </ul>
+
+        <ul class="right" id="search-wrap">
+          <li>
+<form target="_blank" onsubmit="return before_search();" action="http://google.com/search" method="get">
+    <input type="hidden" id="search_q" name="q" value="" />
+    <input tabindex="1" type="search" id="search_input"  placeholder="Search"/>
+</form>
+</li>
+          </ul>
+      </div></div>
+  </div>
+  </section>
 
 </nav>
+
         <nav class="tab-bar show-for-small">
   <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
     <span> &nbsp; 李小争</span>
@@ -41,500 +68,61 @@
 
 <aside class="left-off-canvas-menu">
       <ul class="off-canvas-list">
-      <li><a href="index.html">Home</a></li>
-      
-        <li class="divider"></li>
-        <li><label>原理探究</label></li>
+       
+       <li><a href="index.html">HOME</a></li>
+    <li><a href="archives.html">Archives</a></li>
+    <li><a href="about.html">ABOUT</a></li>
 
-          
-            <li><a title="转发机制" href="14733118707964.html">转发机制</a></li>
-          
-            <li><a title="RunLoop" href="14731740142157.html">RunLoop</a></li>
-          
-            <li><a title="runtime(内部分享草稿)" href="14727863232294.html">runtime(内部分享草稿)</a></li>
-          
-            <li><a title="KVO内部实现原理" href="14726525723684.html">KVO内部实现原理</a></li>
-          
-            <li><a title="runtime小结" href="14717809514175.html">runtime小结</a></li>
-          
+    <li><label>Categories</label></li>
 
-      
-        <li class="divider"></li>
-        <li><label>技巧</label></li>
+        
+            <li><a href="%E5%8E%9F%E7%90%86%E6%8E%A2%E7%A9%B6.html">原理探究</a></li>
+        
+            <li><a href="%E6%8A%80%E5%B7%A7.html">技巧</a></li>
+        
+            <li><a href="%E6%95%99%E7%A8%8B.html">教程</a></li>
+        
+            <li><a href="%E9%81%87%E5%88%B0Bug.html">遇到Bug</a></li>
+        
+            <li><a href="%E6%9D%82%E8%AE%B0.html">杂记</a></li>
+        
+            <li><a href="Swift.html">Swift</a></li>
+        
+            <li><a href="C/C++.html">C/C++</a></li>
+        
+            <li><a href="Linux.html">Linux</a></li>
+        
+            <li><a href="Documentation.html">Documentation</a></li>
+         
 
-          
-            <li><a title="优化iPad 2 总结" href="15058021769287.html">优化iPad 2 总结</a></li>
-          
-            <li><a title="Mac zsh 使用命令打开sublime" href="14907559721950.html">Mac zsh 使用命令打开sublime</a></li>
-          
-            <li><a title="数组传递" href="14878335740172.html">数组传递</a></li>
-          
-            <li><a title="synchronized(object)" href="14877545165696.html">synchronized(object)</a></li>
-          
-            <li><a title="全屏返回手势小技巧" href="14823239811290.html">全屏返回手势小技巧</a></li>
-          
-            <li><a title="Scroll UICollectionView to section header view" href="14810139766101.html">Scroll UICollectionView to section header view</a></li>
-          
-            <li><a title="隐藏tabBar的小技巧" href="14793034700265.html">隐藏tabBar的小技巧</a></li>
-          
-            <li><a title="安装tree命令" href="14781615036446.html">安装tree命令</a></li>
-          
-            <li><a title="获取当前显示的UIViewController" href="14781433227076.html">获取当前显示的UIViewController</a></li>
-          
-            <li><a title="UITableView优化方案(收集)" href="14766308131126.html">UITableView优化方案(收集)</a></li>
-          
-            <li><a title="iOS 模拟器 添加图片到相册的小技巧" href="14765420394973.html">iOS 模拟器 添加图片到相册的小技巧</a></li>
-          
-            <li><a title="字符串frame相关" href="14765391593705.html">字符串frame相关</a></li>
-          
-            <li><a title="在包含UITableView视图中添加单击手势" href="14762437833792.html">在包含UITableView视图中添加单击手势</a></li>
-          
-            <li><a title="怎样让内存缓存变稳定" href="14752152861722.html">怎样让内存缓存变稳定</a></li>
-          
-            <li><a title="如何在UIBarButtonItem上显示数字(BadgeValue)" href="14747835330079.html">如何在UIBarButtonItem上显示数字(BadgeValue)</a></li>
-          
-            <li><a title="const,static,extern简介" href="14718293013293.html">const,static,extern简介</a></li>
-          
-            <li><a title="iOS Tips" href="14700440944204.html">iOS Tips</a></li>
-          
-            <li><a title="Mac 下面Python 自动补全" href="14685034880390.html">Mac 下面Python 自动补全</a></li>
-          
-            <li><a title="如何给View添加点击事件" href="14682407498601.html">如何给View添加点击事件</a></li>
-          
-            <li><a title="关于tableViewCell加载图片优化" href="14678597180657.html">关于tableViewCell加载图片优化</a></li>
-          
-            <li><a title="AFN3.0 如何实现operation.responseString" href="14676870942237.html">AFN3.0 如何实现operation.responseString</a></li>
-          
-            <li><a title="Coding中检测系统授权状态，关闭提示用户去隐私设置中打开" href="14676111126987.html">Coding中检测系统授权状态，关闭提示用户去隐私设置中打开</a></li>
-          
-            <li><a title="忽略编译器警告" href="14676105703423.html">忽略编译器警告</a></li>
-          
-            <li><a title="百度坐标&火星坐标转换" href="14676101998537.html">百度坐标&火星坐标转换</a></li>
-          
-
-      
-        <li class="divider"></li>
-        <li><label>教程</label></li>
-
-          
-            <li><a title="[转]浅析 iOS 应用开发中的断点续传" href="15060704391596.html">[转]浅析 iOS 应用开发中的断点续传</a></li>
-          
-            <li><a title="获取崩溃信息" href="14816416025061.html">获取崩溃信息</a></li>
-          
-            <li><a title="iOS8之后设置PopoverController" href="14813828036514.html">iOS8之后设置PopoverController</a></li>
-          
-            <li><a title="左右联动效果再实现" href="14807724917867.html">左右联动效果再实现</a></li>
-          
-            <li><a title="Git学习" href="14793607171148.html">Git学习</a></li>
-          
-            <li><a title="如何获取手机上安装的所有App" href="14778331858080.html">如何获取手机上安装的所有App</a></li>
-          
-            <li><a title="计算老虎机中奖等级-NSCountedSet" href="14778318573153.html">计算老虎机中奖等级-NSCountedSet</a></li>
-          
-            <li><a title="使用Qt创建桌面应用程序" href="14771170894039.html">使用Qt创建桌面应用程序</a></li>
-          
-            <li><a title="使用 chisel 提高 LLDB 调试效率" href="14766672567296.html">使用 chisel 提高 LLDB 调试效率</a></li>
-          
-            <li><a title="vim 学习" href="14764220018619.html">vim 学习</a></li>
-          
-            <li><a title="优秀文章链接收藏" href="14760921807707.html">优秀文章链接收藏</a></li>
-          
-            <li><a title="Cocoapods的安装" href="14751288042220.html">Cocoapods的安装</a></li>
-          
-            <li><a title="GCD(Grand Central Dispatch)使用" href="14747868502733.html">GCD(Grand Central Dispatch)使用</a></li>
-          
-            <li><a title="iOS10 遇到问题总结" href="14743674179375.html">iOS10 遇到问题总结</a></li>
-          
-            <li><a title="UIWebView可能的优化方案" href="14731574655770.html">UIWebView可能的优化方案</a></li>
-          
-            <li><a title="MKNetWork简介" href="14719458588528.html">MKNetWork简介</a></li>
-          
-            <li><a title="Android Studio 中如何查看帮助文档" href="14693652209160.html">Android Studio 中如何查看帮助文档</a></li>
-          
-            <li><a title="关于签名(Certificate),Identifiers,Device和Provisioning Profile" href="14689910761027.html">关于签名(Certificate),Identifiers,Device和Provisioning Profile</a></li>
-          
-            <li><a title="Python爬网站上的图片" href="14689829459214.html">Python爬网站上的图片</a></li>
-          
-            <li><a title="为项目添加podspec" href="14676996936809.html">为项目添加podspec</a></li>
-          
-
-      
-        <li class="divider"></li>
-        <li><label>遇到Bug</label></li>
-
-          
-            <li><a title="打包后出现 Undefined symbols for architecture i386" href="14963702971919.html">打包后出现 Undefined symbols for architecture i386</a></li>
-          
-            <li><a title="xib报错" href="14802973825600.html">xib报错</a></li>
-          
-            <li><a title="UILabel边缘出现黑线" href="14766298858600.html">UILabel边缘出现黑线</a></li>
-          
-            <li><a title="升级到Xcode8后Qt无法正常使用" href="14761943627170.html">升级到Xcode8后Qt无法正常使用</a></li>
-          
-            <li><a title="如何解决json字符串中包含制表符" href="14747833011771.html">如何解决json字符串中包含制表符</a></li>
-          
-            <li><a title="键盘消失后又再次显示并立即消失问题" href="14677030322532.html">键盘消失后又再次显示并立即消失问题</a></li>
-          
-
-      
-        <li class="divider"></li>
-        <li><label>杂记</label></li>
-
-          
-            <li><a title="collectionView自定义layout" href="15096779127051.html">collectionView自定义layout</a></li>
-          
-            <li><a title="项目优化记录" href="14919624884376.html">项目优化记录</a></li>
-          
-            <li><a title="设计模式 读书笔记" href="14907835920803.html">设计模式 读书笔记</a></li>
-          
-            <li><a title="点菜逻辑梳理" href="14829045788456.html">点菜逻辑梳理</a></li>
-          
-            <li><a title="数据库复习" href="14817245458052.html">数据库复习</a></li>
-          
-            <li><a title="会议记录(培训)" href="14787398225011.html">会议记录(培训)</a></li>
-          
-
-      
-        <li class="divider"></li>
-        <li><label>Swift</label></li>
-
-          
-            <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
-          
-            <li><a title="Swift - 最近遇到的问题(3.8)" href="14888974267202.html">Swift - 最近遇到的问题(3.8)</a></li>
-          
-            <li><a title="Swift - 春节前问题总结" href="14861891967085.html">Swift - 春节前问题总结</a></li>
-          
-            <li><a title="Swift - Swift Talk: Networking" href="14860911508877.html">Swift - Swift Talk: Networking</a></li>
-          
-            <li><a title="Swift - Swift与JavaScript交互实战[转]" href="14836656405837.html">Swift - Swift与JavaScript交互实战[转]</a></li>
-          
-            <li><a title="Swift - 上周总结(12.30)" href="14830040423390.html">Swift - 上周总结(12.30)</a></li>
-          
-            <li><a title="Swift - 上周问题总结" href="14815534553600.html">Swift - 上周问题总结</a></li>
-          
-            <li><a title="Swift - 面向协议编程" href="14799970254990.html">Swift - 面向协议编程</a></li>
-          
-            <li><a title="Swift - 函数式编程" href="14799126696997.html">Swift - 函数式编程</a></li>
-          
-            <li><a title="Swift - 使用代理和闭包传值" href="14796301513904.html">Swift - 使用代理和闭包传值</a></li>
-          
-            <li><a title="Swift - 在swift中如何使用 hexcolor 值表示颜色" href="14796201135474.html">Swift - 在swift中如何使用 hexcolor 值表示颜色</a></li>
-          
-            <li><a title="Swift - 自定义tableViewCell" href="14793055516073.html">Swift - 自定义tableViewCell</a></li>
-          
-            <li><a title="iOS依赖库管理工具：Carthage" href="14791335483032.html">iOS依赖库管理工具：Carthage</a></li>
-          
-            <li><a title="Swift - 懒加载 lazy" href="14791319119586.html">Swift - 懒加载 lazy</a></li>
-          
-            <li><a title="Swift - convenience 便利构造函数" href="14790461560134.html">Swift - convenience 便利构造函数</a></li>
-          
-            <li><a title="Swift - KVC 和 运行时获取属性列表" href="14790381443417.html">Swift - KVC 和 运行时获取属性列表</a></li>
-          
-            <li><a title="Swift - 函数" href="14790175059723.html">Swift - 函数</a></li>
-          
-            <li><a title="Swift - 字典中的增删改,遍历与合并" href="14789481799893.html">Swift - 字典中的增删改,遍历与合并</a></li>
-          
-            <li><a title="Swift - 数组中的增删改与合并" href="14789459811464.html">Swift - 数组中的增删改与合并</a></li>
-          
-            <li><a title="Swift - 数组遍历" href="14789442794521.html">Swift - 数组遍历</a></li>
-          
-
-      
-        <li class="divider"></li>
-        <li><label>C/C++</label></li>
-
-          
-            <li><a title="指针" href="15052686192490.html">指针</a></li>
-          
-            <li><a title="C++Primer笔记 - 初识输入输出" href="14866104685305.html">C++Primer笔记 - 初识输入输出</a></li>
-          
-            <li><a title="C++Primer笔记 - 如何获取 `main`的返回值" href="14866089688413.html">C++Primer笔记 - 如何获取 `main`的返回值</a></li>
-          
-            <li><a title="C/C++ - 回调函数中比较大小为啥0不行?" href="14834570124499.html">C/C++ - 回调函数中比较大小为啥0不行?</a></li>
-          
-
-      
-        <li class="divider"></li>
-        <li><label>Linux</label></li>
-
-          
-            <li><a title="Linux - 文件、磁盘管理" href="14954528363090.html">Linux - 文件、磁盘管理</a></li>
-          
-            <li><a title="Linux - 常用基本命令" href="14954518367171.html">Linux - 常用基本命令</a></li>
-          
-            <li><a title="Linux - 文件和目录" href="14954377078014.html">Linux - 文件和目录</a></li>
-          
-
-      
-        <li class="divider"></li>
-        <li><label>Documentation</label></li>
-
-          
-            <li><a title="3D Touch" href="15038471972999.html">3D Touch</a></li>
-          
-            <li><a title="CAGradientLayer" href="15038463059094.html">CAGradientLayer</a></li>
-          
-            <li><a title="Custom UIViews from XIB files" href="15036540820094.html">Custom UIViews from XIB files</a></li>
-          
-            <li><a title="UIBezierPath" href="15036524793322.html">UIBezierPath</a></li>
-          
-            <li><a title="GCD(Grand Central Dispatch)" href="15035627499170.html">GCD(Grand Central Dispatch)</a></li>
-          
-
-      
       </ul>
     </aside>
 
 <a class="exit-off-canvas" href="#"></a>
 
+
         <section id="main-content" role="main" class="scroll-container">
+        
+       
 
-          <div class="row">
-            <div class="large-3 medium-3 columns">
-              <div class="hide-for-small">
-                <div class="sidebar">
-                <nav>
-                  <ul id="side-nav" class="side-nav">
-
-                    
-                      <li class="side-title"><span>原理探究</span></li>
-                        
-                          <li><a title="转发机制" href="14733118707964.html">转发机制</a></li>
-                        
-                          <li><a title="RunLoop" href="14731740142157.html">RunLoop</a></li>
-                        
-                          <li><a title="runtime(内部分享草稿)" href="14727863232294.html">runtime(内部分享草稿)</a></li>
-                        
-                          <li><a title="KVO内部实现原理" href="14726525723684.html">KVO内部实现原理</a></li>
-                        
-                          <li><a title="runtime小结" href="14717809514175.html">runtime小结</a></li>
-                        
-
-                    
-                      <li class="side-title"><span>技巧</span></li>
-                        
-                          <li><a title="优化iPad 2 总结" href="15058021769287.html">优化iPad 2 总结</a></li>
-                        
-                          <li><a title="Mac zsh 使用命令打开sublime" href="14907559721950.html">Mac zsh 使用命令打开sublime</a></li>
-                        
-                          <li><a title="数组传递" href="14878335740172.html">数组传递</a></li>
-                        
-                          <li><a title="synchronized(object)" href="14877545165696.html">synchronized(object)</a></li>
-                        
-                          <li><a title="全屏返回手势小技巧" href="14823239811290.html">全屏返回手势小技巧</a></li>
-                        
-                          <li><a title="Scroll UICollectionView to section header view" href="14810139766101.html">Scroll UICollectionView to section header view</a></li>
-                        
-                          <li><a title="隐藏tabBar的小技巧" href="14793034700265.html">隐藏tabBar的小技巧</a></li>
-                        
-                          <li><a title="安装tree命令" href="14781615036446.html">安装tree命令</a></li>
-                        
-                          <li><a title="获取当前显示的UIViewController" href="14781433227076.html">获取当前显示的UIViewController</a></li>
-                        
-                          <li><a title="UITableView优化方案(收集)" href="14766308131126.html">UITableView优化方案(收集)</a></li>
-                        
-                          <li><a title="iOS 模拟器 添加图片到相册的小技巧" href="14765420394973.html">iOS 模拟器 添加图片到相册的小技巧</a></li>
-                        
-                          <li><a title="字符串frame相关" href="14765391593705.html">字符串frame相关</a></li>
-                        
-                          <li><a title="在包含UITableView视图中添加单击手势" href="14762437833792.html">在包含UITableView视图中添加单击手势</a></li>
-                        
-                          <li><a title="怎样让内存缓存变稳定" href="14752152861722.html">怎样让内存缓存变稳定</a></li>
-                        
-                          <li><a title="如何在UIBarButtonItem上显示数字(BadgeValue)" href="14747835330079.html">如何在UIBarButtonItem上显示数字(BadgeValue)</a></li>
-                        
-                          <li><a title="const,static,extern简介" href="14718293013293.html">const,static,extern简介</a></li>
-                        
-                          <li><a title="iOS Tips" href="14700440944204.html">iOS Tips</a></li>
-                        
-                          <li><a title="Mac 下面Python 自动补全" href="14685034880390.html">Mac 下面Python 自动补全</a></li>
-                        
-                          <li><a title="如何给View添加点击事件" href="14682407498601.html">如何给View添加点击事件</a></li>
-                        
-                          <li><a title="关于tableViewCell加载图片优化" href="14678597180657.html">关于tableViewCell加载图片优化</a></li>
-                        
-                          <li><a title="AFN3.0 如何实现operation.responseString" href="14676870942237.html">AFN3.0 如何实现operation.responseString</a></li>
-                        
-                          <li><a title="Coding中检测系统授权状态，关闭提示用户去隐私设置中打开" href="14676111126987.html">Coding中检测系统授权状态，关闭提示用户去隐私设置中打开</a></li>
-                        
-                          <li><a title="忽略编译器警告" href="14676105703423.html">忽略编译器警告</a></li>
-                        
-                          <li><a title="百度坐标&火星坐标转换" href="14676101998537.html">百度坐标&火星坐标转换</a></li>
-                        
-
-                    
-                      <li class="side-title"><span>教程</span></li>
-                        
-                          <li><a title="[转]浅析 iOS 应用开发中的断点续传" href="15060704391596.html">[转]浅析 iOS 应用开发中的断点续传</a></li>
-                        
-                          <li><a title="获取崩溃信息" href="14816416025061.html">获取崩溃信息</a></li>
-                        
-                          <li><a title="iOS8之后设置PopoverController" href="14813828036514.html">iOS8之后设置PopoverController</a></li>
-                        
-                          <li><a title="左右联动效果再实现" href="14807724917867.html">左右联动效果再实现</a></li>
-                        
-                          <li><a title="Git学习" href="14793607171148.html">Git学习</a></li>
-                        
-                          <li><a title="如何获取手机上安装的所有App" href="14778331858080.html">如何获取手机上安装的所有App</a></li>
-                        
-                          <li><a title="计算老虎机中奖等级-NSCountedSet" href="14778318573153.html">计算老虎机中奖等级-NSCountedSet</a></li>
-                        
-                          <li><a title="使用Qt创建桌面应用程序" href="14771170894039.html">使用Qt创建桌面应用程序</a></li>
-                        
-                          <li><a title="使用 chisel 提高 LLDB 调试效率" href="14766672567296.html">使用 chisel 提高 LLDB 调试效率</a></li>
-                        
-                          <li><a title="vim 学习" href="14764220018619.html">vim 学习</a></li>
-                        
-                          <li><a title="优秀文章链接收藏" href="14760921807707.html">优秀文章链接收藏</a></li>
-                        
-                          <li><a title="Cocoapods的安装" href="14751288042220.html">Cocoapods的安装</a></li>
-                        
-                          <li><a title="GCD(Grand Central Dispatch)使用" href="14747868502733.html">GCD(Grand Central Dispatch)使用</a></li>
-                        
-                          <li><a title="iOS10 遇到问题总结" href="14743674179375.html">iOS10 遇到问题总结</a></li>
-                        
-                          <li><a title="UIWebView可能的优化方案" href="14731574655770.html">UIWebView可能的优化方案</a></li>
-                        
-                          <li><a title="MKNetWork简介" href="14719458588528.html">MKNetWork简介</a></li>
-                        
-                          <li><a title="Android Studio 中如何查看帮助文档" href="14693652209160.html">Android Studio 中如何查看帮助文档</a></li>
-                        
-                          <li><a title="关于签名(Certificate),Identifiers,Device和Provisioning Profile" href="14689910761027.html">关于签名(Certificate),Identifiers,Device和Provisioning Profile</a></li>
-                        
-                          <li><a title="Python爬网站上的图片" href="14689829459214.html">Python爬网站上的图片</a></li>
-                        
-                          <li><a title="为项目添加podspec" href="14676996936809.html">为项目添加podspec</a></li>
-                        
-
-                    
-                      <li class="side-title"><span>遇到Bug</span></li>
-                        
-                          <li><a title="打包后出现 Undefined symbols for architecture i386" href="14963702971919.html">打包后出现 Undefined symbols for architecture i386</a></li>
-                        
-                          <li><a title="xib报错" href="14802973825600.html">xib报错</a></li>
-                        
-                          <li><a title="UILabel边缘出现黑线" href="14766298858600.html">UILabel边缘出现黑线</a></li>
-                        
-                          <li><a title="升级到Xcode8后Qt无法正常使用" href="14761943627170.html">升级到Xcode8后Qt无法正常使用</a></li>
-                        
-                          <li><a title="如何解决json字符串中包含制表符" href="14747833011771.html">如何解决json字符串中包含制表符</a></li>
-                        
-                          <li><a title="键盘消失后又再次显示并立即消失问题" href="14677030322532.html">键盘消失后又再次显示并立即消失问题</a></li>
-                        
-
-                    
-                      <li class="side-title"><span>杂记</span></li>
-                        
-                          <li><a title="collectionView自定义layout" href="15096779127051.html">collectionView自定义layout</a></li>
-                        
-                          <li><a title="项目优化记录" href="14919624884376.html">项目优化记录</a></li>
-                        
-                          <li><a title="设计模式 读书笔记" href="14907835920803.html">设计模式 读书笔记</a></li>
-                        
-                          <li><a title="点菜逻辑梳理" href="14829045788456.html">点菜逻辑梳理</a></li>
-                        
-                          <li><a title="数据库复习" href="14817245458052.html">数据库复习</a></li>
-                        
-                          <li><a title="会议记录(培训)" href="14787398225011.html">会议记录(培训)</a></li>
-                        
-
-                    
-                      <li class="side-title"><span>Swift</span></li>
-                        
-                          <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
-                        
-                          <li><a title="Swift - 最近遇到的问题(3.8)" href="14888974267202.html">Swift - 最近遇到的问题(3.8)</a></li>
-                        
-                          <li><a title="Swift - 春节前问题总结" href="14861891967085.html">Swift - 春节前问题总结</a></li>
-                        
-                          <li><a title="Swift - Swift Talk: Networking" href="14860911508877.html">Swift - Swift Talk: Networking</a></li>
-                        
-                          <li><a title="Swift - Swift与JavaScript交互实战[转]" href="14836656405837.html">Swift - Swift与JavaScript交互实战[转]</a></li>
-                        
-                          <li><a title="Swift - 上周总结(12.30)" href="14830040423390.html">Swift - 上周总结(12.30)</a></li>
-                        
-                          <li><a title="Swift - 上周问题总结" href="14815534553600.html">Swift - 上周问题总结</a></li>
-                        
-                          <li><a title="Swift - 面向协议编程" href="14799970254990.html">Swift - 面向协议编程</a></li>
-                        
-                          <li><a title="Swift - 函数式编程" href="14799126696997.html">Swift - 函数式编程</a></li>
-                        
-                          <li><a title="Swift - 使用代理和闭包传值" href="14796301513904.html">Swift - 使用代理和闭包传值</a></li>
-                        
-                          <li><a title="Swift - 在swift中如何使用 hexcolor 值表示颜色" href="14796201135474.html">Swift - 在swift中如何使用 hexcolor 值表示颜色</a></li>
-                        
-                          <li><a title="Swift - 自定义tableViewCell" href="14793055516073.html">Swift - 自定义tableViewCell</a></li>
-                        
-                          <li><a title="iOS依赖库管理工具：Carthage" href="14791335483032.html">iOS依赖库管理工具：Carthage</a></li>
-                        
-                          <li><a title="Swift - 懒加载 lazy" href="14791319119586.html">Swift - 懒加载 lazy</a></li>
-                        
-                          <li><a title="Swift - convenience 便利构造函数" href="14790461560134.html">Swift - convenience 便利构造函数</a></li>
-                        
-                          <li><a title="Swift - KVC 和 运行时获取属性列表" href="14790381443417.html">Swift - KVC 和 运行时获取属性列表</a></li>
-                        
-                          <li><a title="Swift - 函数" href="14790175059723.html">Swift - 函数</a></li>
-                        
-                          <li><a title="Swift - 字典中的增删改,遍历与合并" href="14789481799893.html">Swift - 字典中的增删改,遍历与合并</a></li>
-                        
-                          <li><a title="Swift - 数组中的增删改与合并" href="14789459811464.html">Swift - 数组中的增删改与合并</a></li>
-                        
-                          <li><a title="Swift - 数组遍历" href="14789442794521.html">Swift - 数组遍历</a></li>
-                        
-
-                    
-                      <li class="side-title"><span>C/C++</span></li>
-                        
-                          <li><a title="指针" href="15052686192490.html">指针</a></li>
-                        
-                          <li><a title="C++Primer笔记 - 初识输入输出" href="14866104685305.html">C++Primer笔记 - 初识输入输出</a></li>
-                        
-                          <li><a title="C++Primer笔记 - 如何获取 `main`的返回值" href="14866089688413.html">C++Primer笔记 - 如何获取 `main`的返回值</a></li>
-                        
-                          <li><a title="C/C++ - 回调函数中比较大小为啥0不行?" href="14834570124499.html">C/C++ - 回调函数中比较大小为啥0不行?</a></li>
-                        
-
-                    
-                      <li class="side-title"><span>Linux</span></li>
-                        
-                          <li><a title="Linux - 文件、磁盘管理" href="14954528363090.html">Linux - 文件、磁盘管理</a></li>
-                        
-                          <li><a title="Linux - 常用基本命令" href="14954518367171.html">Linux - 常用基本命令</a></li>
-                        
-                          <li><a title="Linux - 文件和目录" href="14954377078014.html">Linux - 文件和目录</a></li>
-                        
-
-                    
-                      <li class="side-title"><span>Documentation</span></li>
-                        
-                          <li><a title="3D Touch" href="15038471972999.html">3D Touch</a></li>
-                        
-                          <li><a title="CAGradientLayer" href="15038463059094.html">CAGradientLayer</a></li>
-                        
-                          <li><a title="Custom UIViews from XIB files" href="15036540820094.html">Custom UIViews from XIB files</a></li>
-                        
-                          <li><a title="UIBezierPath" href="15036524793322.html">UIBezierPath</a></li>
-                        
-                          <li><a title="GCD(Grand Central Dispatch)" href="15035627499170.html">GCD(Grand Central Dispatch)</a></li>
-                        
-
-                    
-                  </ul>
-                </nav>
-                </div>
-              </div>
-            </div>
-            <div class="large-9 medium-9 columns">
-
- 
-
-
-	
-		<div class="markdown-body">
-		<h1>3D Touch</h1>
-
-		<h2 id="toc_0"><a href="https://stackoverflow.com/documentation/ios/6705/3d-touch/22813/3d-touch-with-swift">3D Touch with Swift</a></h2>
+ <script type="text/javascript">
+	$(function(){
+		$('#menu_item_index').addClass('is_active');
+	});
+</script>
+<div class="row">
+	<div class="large-8 medium-8 columns">
+		<div class="markdown-body home-categories">
+		
+			<div class="article">
+                <a class="clearlink" href="15038471972999.html">
+                
+                  <h1>3D Touch</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<h2 id="toc_0"><a href="https://stackoverflow.com/documentation/ios/6705/3d-touch/22813/3d-touch-with-swift">3D Touch with Swift</a></h2>
 
 <p>3D touch has been introduced with iPhone 6s Plus. There are two behaviors added with this new interface layer: Peek and Pop.</p>
 
@@ -626,56 +214,1645 @@ if ([self.traitCollection respondsToSelector:@selector(forceTouchCapability)] &a
 }
 </code></pre>
 
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2017/8/27</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='Documentation.html'>Documentation</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
 
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="15038463059094.html">
+                
+                  <h1>CAGradientLayer</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<h2 id="toc_0"><a href="https://stackoverflow.com/documentation/ios/1190/cagradientlayer/3856/creating-a-cagradientlayer">Creating a CAGradientLayer</a></h2>
+
+<pre><code>// View to hold the CAGradientLayer.
+let view: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 320))
+
+// Initialize gradient layer.
+let gradientLayer: CAGradientLayer = CAGradientLayer()
+
+// Set frame of gradient layer.
+gradientLayer.frame = view.bounds
+
+// Color at the top of the gradient.
+let topColor: CGColor = UIColor.red.cgColor
+
+// Color at the bottom of the gradient.
+let bottomColor: CGColor = UIColor.yellow.cgColor
+
+// Set colors.
+gradientLayer.colors = [topColor, bottomColor]
+
+// Set locations of the colors.
+gradientLayer.locations = [0.0, 1.0]
+
+// Insert gradient layer into view&#39;s layer heirarchy.
+view.layer.insertSublayer(gradientLayer, at: 0)
+</code></pre>
+
+<p>Result :</p>
+
+<p><img src="media/15038463059094/q26bv.png" alt="Simple CAGradientLayer."/></p>
+
+<h2 id="toc_1"><a href="https://stackoverflow.com/documentation/ios/1190/cagradientlayer/12652/animating-a-color-change-in-cagradientlayer">Animating a color change in CAGradientLayer.</a></h2>
+
+<pre><code>// Get the current colors of the gradient.
+let oldColors = self.gradientLayer.colors
+
+// Define the new colors for the gradient.
+let newColors = [UIColor.red.cgColor, UIColor.yellow.cgColor]
+
+// Set the new colors of the gradient.
+self.gradientLayer.colors = newColors
+
+// Initialize new animation for changing the colors of the gradient.
+let animation: CABasicAnimation = CABasicAnimation(keyPath: &quot;colors&quot;)
+
+// Set current color value.
+animation.fromValue = oldColors
+
+// Set new color value.
+animation.toValue = newColors
+
+// Set duration of animation.
+animation.duration = 0.3
+
+// Set animation to remove once its completed.
+animation.isRemovedOnCompletion = true
+
+// Set receiver to remain visible in its final state when the animation is completed.
+animation.fillMode = kCAFillModeForwards
+
+// Set linear pacing, which causes an animation to occur evenly over its duration.
+animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+
+// Set delegate of animation.
+animation.delegate = self
+
+// Add the animation.
+self.gradientLayer.addAnimation(animation, forKey: &quot;animateGradientColorChange&quot;)
+</code></pre>
+
+<p>Result :</p>
+
+<p><img src="media/15038463059094/AquKd.gif" alt="Basic CAGradientLayer color change animation."/></p>
+
+<h2 id="toc_2"><a href="https://stackoverflow.com/documentation/ios/1190/cagradientlayer/4229/creating-a-horizontal-cagradientlayer-with-multiple-colors">Creating a horizontal CAGradientLayer with multiple colors.</a></h2>
+
+<pre><code>// View to hold the CAGradientLayer.
+let view: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 320))
+
+// Initialize gradient layer.
+let gradientLayer: CAGradientLayer = CAGradientLayer()
+
+// Set frame of gradient layer.
+gradientLayer.frame = view.bounds
+
+// Color at the top of the gradient.
+let topColor: CGColor = UIColor.greenColor().CGColor
+
+// Color at the middle of the gradient.
+let middleColor: CGColor = UIColor.blueColor().CGColor
+
+// Color at the bottom of the gradient.
+let bottomColor: CGColor = UIColor.blackColor().CGColor
+
+// Set colors.
+gradientLayer.colors = [topColor, middleColor, bottomColor]
+
+// Set start point.
+gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
+
+// Set end point.
+gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
+
+// Insert gradient layer into view&#39;s layer heirarchy.
+view.layer.insertSublayer(gradientLayer, atIndex: 0)
+</code></pre>
+
+<p>Result :</p>
+
+<p><img src="media/15038463059094/I4OGH.png" alt="enter image description here"/></p>
+
+<h2 id="toc_3"><a href="https://stackoverflow.com/documentation/ios/1190/cagradientlayer/4228/creating-a-horizontal-cagradientlayer">Creating a horizontal CAGradientLayer.</a></h2>
+
+<pre><code>// View to hold the CAGradientLayer.
+let view: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 320))
+
+// Initialize gradient layer.
+let gradientLayer: CAGradientLayer = CAGradientLayer()
+
+// Set frame of gradient layer.
+gradientLayer.frame = view.bounds
+
+// Color at the top of the gradient.
+let topColor: CGColor = UIColor.redColor().CGColor
+
+// Color at the bottom of the gradient.
+let bottomColor: CGColor = UIColor.yellowColor().CGColor
+
+// Set colors.
+gradientLayer.colors = [topColor, bottomColor]
+
+// Set start point.
+gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
+
+// Set end point.
+gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
+
+// Insert gradient layer into view&#39;s layer heirarchy.
+view.layer.insertSublayer(gradientLayer, atIndex: 0)
+</code></pre>
+
+<p>Result :</p>
+
+<p><img src="media/15038463059094/7VCnW.png" alt="Horizontal CAGradientLayer."/></p>
+
+<h2 id="toc_4"><a href="https://stackoverflow.com/documentation/ios/1190/cagradientlayer/4227/creating-a-cggradientlayer-with-multiple-colors">Creating a CGGradientLayer with multiple colors.</a></h2>
+
+<pre><code>// View to hold the CAGradientLayer.
+let view: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 320))
+
+// Initialize gradient layer.
+let gradientLayer: CAGradientLayer = CAGradientLayer()
+
+// Set frame of gradient layer.
+gradientLayer.frame = view.bounds
+
+// Color at the top of the gradient.
+let topColor: CGColor = UIColor.blue.cgColor
+
+// Color at the middle of the gradient.
+let middleColor: CGColor = UIColor.yellow.cgColor
+
+// Color at the bottom of the gradient.
+let bottomColor: CGColor = UIColor.green.cgColor
+
+// Set colors.
+gradientLayer.colors = [topColor, middleColor, bottomColor]
+
+// Set locations of the colors.
+gradientLayer.locations = [0.0, 0.5, 1.0]
+
+// Insert gradient layer into view&#39;s layer heirarchy.
+view.layer.insertSublayer(gradientLayer, at: 0)
+</code></pre>
+
+<p>Result :</p>
+
+<p><img src="media/15038463059094/tV4OL.png" alt="Complex CAGradientLayer."/></p>
+
+<hr/>
+
+<h2 id="toc_5">Syntax</h2>
+
+<pre><code>CAGradientLayer() // Returns an initialized CALayer object.
+-------------------
+CAGradientLayer(layer: layer) // Override to copy or initialize custom fields of the specified layer.
+</code></pre>
+
+<h2 id="toc_6">Parameters</h2>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">Parameter</th>
+<th style="text-align: left">Details</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">color</td>
+<td style="text-align: left">An array of <code>CGColorRef</code> objects defining the color of each gradient stop. Animatable.</td>
+</tr>
+<tr>
+<td style="text-align: left">locations</td>
+<td style="text-align: left">An optional array of <code>NSNumber</code> objects defining the location of each gradient stop. Animatable.</td>
+</tr>
+<tr>
+<td style="text-align: left">endPoint</td>
+<td style="text-align: left">The end point of the gradient when drawn in the layer’s coordinate space. Animatable.</td>
+</tr>
+<tr>
+<td style="text-align: left">startPoint</td>
+<td style="text-align: left">The start point of the gradient when drawn in the layer’s coordinate space. Animatable.</td>
+</tr>
+<tr>
+<td style="text-align: left">type</td>
+<td style="text-align: left">Style of gradient drawn by the layer. Defaults to <code>kCAGradientLayerAxial</code>.</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="toc_7">Remarks</h2>
+
+<ul>
+<li>Use <code>startPoint</code> and <code>endPoint</code> to change the orientation of the <code>CAGradientLayer</code>.</li>
+<li>Use the <code>locations</code> to affect the spread/positions of the colors.</li>
+</ul>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2017/8/27</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='Documentation.html'>Documentation</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="15036540820094.html">
+                
+                  <h1>Custom UIViews from XIB files</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<h2 id="toc_0"><a href="https://stackoverflow.com/documentation/ios/1362/custom-uiviews-from-xib-files/4443/wiring-elements">Wiring elements</a></h2>
+
+<ul>
+<li><blockquote>
+<p>Create a XIB file</p>
+</blockquote>
+
+<p>Xcode Menu Bar &gt; File &gt; New &gt; File.<br/>
+Select iOS, User Interface and then &ldquo;View&rdquo;:</p>
+
+<p><a href="media/15036540820094/RSkzu.png"><img src="media/15036540820094/RSkzu.png" alt="First step"/></a></p>
+
+<p>Give your XIB a name (yes, we are doing a Pokemon example 👾).<br/>
+<strong>Remember to check your target</strong> and hit &ldquo;Create&rdquo;.</p>
+
+<p><a href="media/15036540820094/oJ1s1.png"><img src="media/15036540820094/oJ1s1.png" alt="Second step"/></a></p>
+
+<blockquote>
+<p>Design your view</p>
+</blockquote>
+
+<p>To make things easier, set:</p>
+
+<ul>
+<li>Size: Freeform</li>
+<li>Status Bar: None</li>
+<li>Top Bar: None</li>
+<li>Bottom Bar: None</li>
+</ul>
+
+<p><a href="media/15036540820094/Gy0KD.png"><img src="media/15036540820094/Gy0KD.png" alt="Third step"/></a></p>
+
+<p>Click on the Size Inspector and resize the view.<br/>
+For this example we&rsquo;ll be using width 321 and height 256.</p>
+
+<p><a href="media/15036540820094/PNIek.png"><img src="media/15036540820094/PNIek.png" alt="Fourth step"/></a></p>
+
+<p>Drop some elements into your XIB file like shown below.<br/>
+Here we&rsquo;ll be adding an <strong>Image View</strong> (256x256) and a <strong>Switch</strong>.</p>
+
+<p><a href="media/15036540820094/6u3pd.png"><img src="media/15036540820094/6u3pd.png" alt="Fifth step"/></a></p>
+
+<p>Add Auto-Layout constraints by clicking on &ldquo;Resolve Auto Layout Issues&rdquo; (bottom-right) and selecting &ldquo;Add Missing Constraints&rdquo; under &ldquo;All Views&rdquo;.</p>
+
+<p><a href="media/15036540820094/esZhQ.png"><img src="media/15036540820094/esZhQ.png" alt="Sixth step"/></a></p>
+
+<p>Preview the changes you made by clicking on &ldquo;Show the Assistant Editor&rdquo; (top-right), then &ldquo;Preview&rdquo;.<br/>
+You can add iPhone screens by clicking on the &ldquo;Plus&rdquo; button.<br/>
+The preview should look like this:</p>
+
+<p><a href="media/15036540820094/D3rac.png"><img src="media/15036540820094/D3rac.png" alt="Seventh step"/></a></p>
+
+<blockquote>
+<p>Subclass UIView</p>
+</blockquote>
+
+<p>Create the class that is going to manage the XIB file.<br/>
+Xcode Menu Bar &gt; File &gt; New &gt; File.<br/>
+Select iOS / Source / Cocoa Touch Class. Hit &ldquo;Next&rdquo;.</p>
+
+<p><a href="media/15036540820094/0EyHy.png"><img src="media/15036540820094/0EyHy.png" alt="Eighth step"/></a></p>
+
+<p>Give the class a name, which must be the same name as the XIB file (Pokemon).<br/>
+Select UIView as the subclass type, then hit &ldquo;Next&rdquo;.</p>
+
+<p><a href="media/15036540820094/qbo3s.png"><img src="media/15036540820094/qbo3s.png" alt="Nineth step"/></a></p>
+
+<p>On the next window, select your target and hit &ldquo;Create&rdquo;.</p>
+
+<p><a href="media/15036540820094/Ks9Tu.png"><img src="media/15036540820094/Ks9Tu.png" alt="Tenth step"/></a></p>
+
+<blockquote>
+<p>Connect Pokemon.xib to Pokemon.swift via &ldquo;File’s Owner&rdquo; attribute</p>
+</blockquote>
+
+<p>Click on the Pokemon.xib file in Xcode.<br/>
+Click on the &ldquo;File&rsquo;s Owner&rdquo; outlet.<br/>
+On the &ldquo;Identity inspector&rdquo; (top-right), set the Class to our recently created Pokemon.swift file.</p>
+
+<p><a href="media/15036540820094/4YT3i.png"><img src="media/15036540820094/4YT3i.png" alt="Eleventh step"/></a></p>
+
+<blockquote>
+<p>POKEMONS!!!</p>
+</blockquote>
+
+<p>Yes! Drag and drop some Pokemons into your project to finish up our &ldquo;infrastructure&rdquo;.<br/>
+Here we are adding two PGN files, 256x256, transparent.</p>
+
+<p><a href="media/15036540820094/ibqxZ.png"><img src="media/15036540820094/ibqxZ.png" alt="Twelfth step"/></a></p>
+
+<blockquote>
+<p>Show me code already.</p>
+</blockquote>
+
+<p>All right, all right.<br/>
+Time to add some code to our Pokemon.swift class.</p>
+
+<p>It&rsquo;s actually pretty simple:</p>
+
+<ol>
+<li>Implement required initializers</li>
+<li>Load the XIB file</li>
+<li>Configure the view that will display the XIB file</li>
+<li>Show the above view</li>
+</ol>
+
+<p>Add the following code to the Pokemon.swift class:</p>
+
+<pre><code>import UIKit
+
+class Pokemon: UIView {
+
+    // MARK: - Initializers
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupView()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setupView()
+    }
+
+    // MARK: - Private Helper Methods
+
+    // Performs the initial setup.
+    private func setupView() {
+        let view = viewFromNibForClass()
+        view.frame = bounds
+
+        // Auto-layout stuff.
+        view.autoresizingMask = [
+            UIViewAutoresizing.flexibleWidth,
+            UIViewAutoresizing.flexibleHeight
+        ]
+
+        // Show the view.
+        addSubview(view)
+    }
+
+    // Loads a XIB file into a view and returns this view.
+    private func viewFromNibForClass() -&gt; UIView {
+
+        let bundle = Bundle(for: type(of: self))
+        let nib = UINib(nibName: String(describing: type(of: self)), bundle: bundle)
+        let view = nib.instantiate(withOwner: self, options: nil).first as! UIView
+
+        /* Usage for swift &lt; 3.x
+        let bundle = NSBundle(forClass: self.dynamicType)
+        let nib = UINib(nibName: String(self.dynamicType), bundle: bundle)
+        let view = nib.instantiateWithOwner(self, options: nil)[0] as! UIView
+        */
+
+        return view
+    }
+}
+
+</code></pre>
+
+<blockquote>
+<p>@IBDesignable and @IBInspectable</p>
+</blockquote>
+
+<p>By adding <code>@IBDesignable</code> to your class, you make possible for it to live-render in Interface Builder.<br/>
+By adding <code>@IBInspectable</code> to the properties of your class, you can see your custom views changing in Interface Builder as soon as you modify those properties.</p>
+
+<p>Let&rsquo;s make the <code>Image View</code> of our custom view &ldquo;Inspectable&rdquo;.</p>
+
+<p>First, hook up the <code>Image View</code> from the Pokemon.xib file to the Pokemon.swift class.</p>
+
+<p><a href="media/15036540820094/Dxyv2.png"><img src="media/15036540820094/Dxyv2.png" alt="Thirteenth step"/></a></p>
+
+<p>Call the outlet <code>imageView</code> and then add the following code (notice the <code>@IBDesignable</code> before the class name):</p>
+
+<pre><code>@IBDesignable class Pokemon: UIView {
+
+    // MARK: - Properties
+
+    @IBOutlet weak var imageView: UIImageView!
+
+    @IBInspectable var image: UIImage? {
+        get {
+            return imageView.image
+        }
+        set(image) {
+            imageView.image = image
+        }
+    }
+
+    // MARK: - Initializers
+    ...
+
+</code></pre>
+
+<blockquote>
+<p>Using your Custom Views</p>
+</blockquote>
+
+<p>Got to your Main storyboard file, drag a UIView into it.<br/>
+Resize the view to, say 200x200. Centralize.<br/>
+Go to the Identity inspector (top-right) and set the Class to Pokemon.</p>
+
+<p><a href="media/15036540820094/Iah3Y.png"><img src="media/15036540820094/Iah3Y.png" alt="Fourteenth steps"/></a></p>
+
+<p>To select a Pokemon, go to the Attribute Inspector (top-right) and select one of the Pokemon images you previously added using the awesome <code>@IBInspectable</code> image property.</p>
+
+<p><a href="media/15036540820094/727mm.png"><img src="media/15036540820094/727mm.png" alt="Fifteenth step"/></a></p>
+
+<p>Now duplicate your custom Pokemon view.<br/>
+Give it a different size, say 150x150.<br/>
+Choose another Pokemon image, observe:</p>
+
+<p><a href="media/15036540820094/xrTXw.png"><img src="media/15036540820094/xrTXw.png" alt="Sixteenth step"/></a></p>
+
+<p>Now we are going to add more logic to that self-containing custom UI element.<br/>
+The button will allow Pokemons to be enabled/disabled.</p>
+
+<p>Create an <code>IBAction</code> from the Switch button to the Pokemon.swift class.<br/>
+Call the action something like <code>switchTapped</code>.<br/>
+Add the following code to it:</p>
+
+<pre><code>// MARK: - Actions
+
+@IBAction func switchTapped(sender: UISwitch) {
+    imageView.alpha = sender.on ? 1.0 : 0.2
+}
+
+// MARK: - Initializers
+...
+
+</code></pre>
+
+<p>Final result:</p>
+
+<p><a href="media/15036540820094/DQJvO.gif"><img src="media/15036540820094/DQJvO.gif" alt="Final"/></a></p>
+
+<p>You are done!<br/>
+Now you can create complex custom views and reuse them anywhere you want.<br/>
+This will increase productivity while isolating code into self-contained UI elements.</p>
+
+<p><a href="https://github.com/singledev/custom-uiviews-from-xib">The final project can be cloned in Github.</a><br/>
+(<strong>Updated to Swift 3.1</strong>)</p></li>
+</ul>
+
+<h2 id="toc_1"><a href="https://stackoverflow.com/documentation/ios/1362/custom-uiviews-from-xib-files/11599/how-to-make-custom-reusable-uiview-using-xib">How to make custom reusable UIView using XIB</a></h2>
+
+<p>Following example shows steps involved in initializing a view from XIB.</p>
+
+<p>This is not a complex operation but exact steps need to be followed in order to do it right way first time, avoiding exceptions.</p>
+
+<p><a href="http://stackoverflow.com/questions/20323393/how-does-loadnibnamed-work-uiview-outlets-not-initializing-using-loadnibnamed">How does loadNibNamed Works</a></p>
+
+<p>Main steps are:</p>
+
+<ol>
+<li>Create XIB</li>
+<li>Create class .h and .m</li>
+<li>Define outlets in .h</li>
+<li><p>Connect outlets between .h and XIB</p>
+
+<p>See attached screenshot:</p>
+
+<p><a href="media/15036540820094/rSBw6.png"><img src="media/15036540820094/rSBw6.png" alt="Label Object connected to myLabel IBOutlet UILabel variable"/></a></p></li>
+<li><p>Invoke loadNibNamed inside initWithCoder function of .m file. This is needed to ensure you can directly place UIView object into storyboard / Parent UIView XIB file and define it as your custom view. No other initialization code is needed once you load the storyboard / parent XIB. Your custom view can be added to other views just like other built-in Objective C view objects given in XCode.</p></li>
+</ol>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2017/8/25</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='Documentation.html'>Documentation</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="15036524793322.html">
+                
+                  <h1>UIBezierPath</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<blockquote>
+<p>由于Stack Overflow中Documentation将要关闭,所以我将部分内容转载至这里</p>
+</blockquote>
+
+<h2 id="toc_0"><a href="https://stackoverflow.com/documentation/ios/3186/uibezierpath/13624/designing-and-drawing-a-bezier-path">Designing and drawing a Bezier Path</a></h2>
+
+<p>This example shows the process from designing the shape you want to drawing it on a view. A specific shap is used but the concepts you learn can be applied to any shape.</p>
+
+<h3 id="toc_1">How to draw a <a href="https://developer.apple.com/library/ios/documentation/2DDrawing/Conceptual/DrawingPrintingiOS/BezierPaths/BezierPaths.html">Bézier path</a> in a custom view</h3>
+
+<p>These are the main steps:</p>
+
+<ol>
+<li>Design the outline of the shape you want.</li>
+<li>Divide the outline path into segments of lines, arcs, and curves.</li>
+<li>Build that path programmatically.</li>
+<li>Draw the path either in <code>drawRect</code> or using a <code>CAShapeLayer</code>.</li>
+</ol>
+
+<h3 id="toc_2">Design shape outline</h3>
+
+<p>You could do anything, but as an example I have chosen the shape below. It could be a popup key on a keyboard.</p>
+
+<p><a href="media/15036524793322/geckR.png"><img src="media/15036524793322/geckR.png" alt="enter image description here"/></a></p>
+
+<h3 id="toc_3">Divide the path into segments</h3>
+
+<p>Look back at your shape design and break it down into simpler elements of lines (for straight lines), arcs (for circles and round corners), and curves (for anything else).</p>
+
+<p>Here is what our example design would look like:</p>
+
+<p><a href="media/15036524793322/4mkcI.png"><img src="media/15036524793322/4mkcI.png" alt="enter image description here"/></a></p>
+
+<ul>
+<li>Black are line segments</li>
+<li>Light blue are arc segments</li>
+<li>Red are curves</li>
+<li>Orange dots are the control points for the curves</li>
+<li>Green dots are the points between path segments</li>
+<li>Dotted lines show the bounding rectangle</li>
+<li>Dark blue numbers are the segments in the order that they will be added programmatically</li>
+</ul>
+
+<h3 id="toc_4">Build the path programmatically</h3>
+
+<p>We&rsquo;ll arbitrarily start in the bottom left corner and work clockwise. I&rsquo;ll use the grid in the image to get the x and y values for the points. I&rsquo;ll hardcode everything here, but of course you wouldn&rsquo;t do that in a real project.</p>
+
+<p>The basic process is:</p>
+
+<ol>
+<li>Create a new <code>UIBezierPath</code></li>
+<li>Choose a starting point on the path with <code>moveToPoint</code></li>
+<li><p>Add segments to the path</p></li>
+</ol>
+
+<ul>
+<li>line: <code>addLineToPoint</code></li>
+<li>arc: <code>addArcWithCenter</code></li>
+<li><p>curve: <code>addCurveToPoint</code></p></li>
+</ul>
+
+<ol>
+<li>Close the path with <code>closePath</code></li>
+</ol>
+
+<p>Here is the code to make the path in the image above.</p>
+
+<pre><code>func createBezierPath() -&gt; UIBezierPath {
+
+    // create a new path
+    let path = UIBezierPath()
+
+    // starting point for the path (bottom left)
+    path.moveToPoint(CGPoint(x: 2, y: 26))
+
+    // *********************
+    // ***** Left side *****
+    // *********************
+
+    // segment 1: line
+    path.addLineToPoint(CGPoint(x: 2, y: 15))
+
+    // segment 2: curve
+    path.addCurveToPoint(CGPoint(x: 0, y: 12), // ending point
+        controlPoint1: CGPoint(x: 2, y: 14),
+        controlPoint2: CGPoint(x: 0, y: 14))
+
+    // segment 3: line
+    path.addLineToPoint(CGPoint(x: 0, y: 2))
+
+    // *********************
+    // ****** Top side *****
+    // *********************
+
+    // segment 4: arc
+    path.addArcWithCenter(CGPoint(x: 2, y: 2), // center point of circle
+        radius: 2, // this will make it meet our path line
+        startAngle: CGFloat(M_PI), // π radians = 180 degrees = straight left
+        endAngle: CGFloat(3*M_PI_2), // 3π/2 radians = 270 degrees = straight up
+        clockwise: true) // startAngle to endAngle goes in a clockwise direction
+
+    // segment 5: line
+    path.addLineToPoint(CGPoint(x: 8, y: 0))
+
+    // segment 6: arc
+    path.addArcWithCenter(CGPoint(x: 8, y: 2),
+        radius: 2,
+        startAngle: CGFloat(3*M_PI_2), // straight up
+        endAngle: CGFloat(0), // 0 radians = straight right
+        clockwise: true)
+
+    // *********************
+    // ***** Right side ****
+    // *********************
+
+    // segment 7: line
+    path.addLineToPoint(CGPoint(x: 10, y: 12))
+
+    // segment 8: curve
+    path.addCurveToPoint(CGPoint(x: 8, y: 15), // ending point
+        controlPoint1: CGPoint(x: 10, y: 14),
+        controlPoint2: CGPoint(x: 8, y: 14))
+
+    // segment 9: line
+    path.addLineToPoint(CGPoint(x: 8, y: 26))
+
+    // *********************
+    // **** Bottom side ****
+    // *********************
+
+    // segment 10: line
+    path.closePath() // draws the final line to close the path
+
+    return path
+}
+</code></pre>
+
+<p>Note: Some of the above code can be reduced by adding a line and an arc in a single command (since the arc has an implied starting point). See <a href="http://ronnqvi.st/thinking-like-a-bzier-path/">here</a> for more details.</p>
+
+<h3 id="toc_5">Draw the path</h3>
+
+<p>We can draw the path either in a layer or in <code>drawRect</code>.</p>
+
+<p><strong>Method 1: Draw path in a layer</strong></p>
+
+<p>Our custom class looks like this. We add our Bezier path to a new <code>CAShapeLayer</code> when the view is initialized.</p>
+
+<pre><code>import UIKit
+class MyCustomView: UIView {
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setup()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setup()
+    }
+
+    func setup() {
+
+        // Create a CAShapeLayer
+        let shapeLayer = CAShapeLayer()
+
+        // The Bezier path that we made needs to be converted to 
+        // a CGPath before it can be used on a layer.
+        shapeLayer.path = createBezierPath().CGPath
+
+        // apply other properties related to the path
+        shapeLayer.strokeColor = UIColor.blueColor().CGColor
+        shapeLayer.fillColor = UIColor.whiteColor().CGColor
+        shapeLayer.lineWidth = 1.0
+        shapeLayer.position = CGPoint(x: 10, y: 10)
+
+        // add the new layer to our custom view
+        self.layer.addSublayer(shapeLayer)
+    }
+
+    func createBezierPath() -&gt; UIBezierPath {
+
+        // see previous code for creating the Bezier path
+    }
+}
+</code></pre>
+
+<p>And creating our view in the View Controller like this</p>
+
+<pre><code>override func viewDidLoad() {
+    super.viewDidLoad()
+
+    // create a new UIView and add it to the view controller
+    let myView = MyCustomView()
+    myView.frame = CGRect(x: 100, y: 100, width: 50, height: 50)
+    myView.backgroundColor = UIColor.yellowColor()
+    view.addSubview(myView)
+
+}
+</code></pre>
+
+<p>We get&hellip;</p>
+
+<p><a href="media/15036524793322/oELys.png"><img src="media/15036524793322/oELys.png" alt="enter image description here"/></a></p>
+
+<p>Hmm, that&rsquo;s a little small because I hardcoded all the numbers in. I can scale the path size up, though, like this:</p>
+
+<pre><code>let path = createBezierPath()
+let scale = CGAffineTransformMakeScale(2, 2)
+path.applyTransform(scale)
+shapeLayer.path = path.CGPath
+</code></pre>
+
+<p><a href="media/15036524793322/LXvPc.png"><img src="media/15036524793322/LXvPc.png" alt="enter image description here"/></a></p>
+
+<p><strong>Method 2: Draw path in <code>drawRect</code></strong></p>
+
+<p>Using <code>drawRect</code> is slower than drawing to the layer, so this is not the recommended method if you don&rsquo;t need it.</p>
+
+<p>Here is the revised code for our custom view:</p>
+
+<pre><code>import UIKit
+class MyCustomView: UIView {
+
+    override func drawRect(rect: CGRect) {
+
+        // create path (see previous code)
+        let path = createBezierPath()
+
+        // fill
+        let fillColor = UIColor.whiteColor()
+        fillColor.setFill()
+
+        // stroke
+        path.lineWidth = 1.0
+        let strokeColor = UIColor.blueColor()
+        strokeColor.setStroke()
+
+        // Move the path to a new location
+        path.applyTransform(CGAffineTransformMakeTranslation(10, 10))
+
+        // fill and stroke the path (always do these last)
+        path.fill()
+        path.stroke()
+
+    }
+
+    func createBezierPath() -&gt; UIBezierPath {
+
+        // see previous code for creating the Bezier path
+    }
+}
+</code></pre>
+
+<p>which gives us the same result&hellip;</p>
+
+<p><a href="media/15036524793322/2hqMa.png"><img src="media/15036524793322/2hqMa.png" alt="enter image description here"/></a></p>
+
+<h3 id="toc_6">Further study</h3>
+
+<p>Excellent articles for understanding Bezier paths.</p>
+
+<ul>
+<li><a href="http://ronnqvi.st/thinking-like-a-bzier-path/">Thinking like a Bézier path</a> (Everything I&rsquo;ve ever read from this author is good and the inspiration for my example above came from here.)</li>
+<li><a href="https://www.youtube.com/watch?v=dXECQRlmIaE">Coding Math: Episode 19 - Bezier Curves</a> (entertaining and good visual illustrations)</li>
+<li><a href="https://www.youtube.com/watch?v=Qu-QK3uoMdY">Bezier Curves</a> (how they are used in graphics applications)</li>
+<li><a href="https://www.youtube.com/watch?v=2HvH9cmHbG4">Bezier Curves</a> (good description of how the mathematical formulas are derived)</li>
+</ul>
+
+<h3 id="toc_7">Notes</h3>
+
+<ul>
+<li>This example originally comes from <a href="http://stackoverflow.com/a/34659468/3681880">this Stack Overflow answer</a>.</li>
+<li>In your actual projects you probably shouldn&rsquo;t use hard coded numbers, but rather get the sizes from your view&rsquo;s bounds.</li>
+</ul>
+
+<hr/>
+
+<h2 id="toc_8"><a href="https://stackoverflow.com/documentation/ios/3186/uibezierpath/10890/how-to-apply-corner-radius-to-rectangles-drawn-by-uibezierpath">How to apply corner radius to rectangles drawn by UIBezierPath</a></h2>
+
+<p><em>Corner radius for all 4 edges:</em></p>
+
+<p><a href="media/15036524793322/O8qTg.png"><img src="media/15036524793322/O8qTg.png" alt="enter image description here"/></a></p>
+
+<pre><code> UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRoundedRect: CGRectMake(x,y,width,height) cornerRadius: 11];
+[UIColor.grayColor setFill];
+[rectanglePath fill];
+</code></pre>
+
+<p><em>Corner radius for top-left edge:</em></p>
+
+<p><a href="media/15036524793322/OEOJa.png"><img src="media/15036524793322/OEOJa.png" alt="enter image description here"/></a></p>
+
+<pre><code> UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRoundedRect: CGRectMake(x,y,width,height) byRoundingCorners: UIRectCornerTopLeft cornerRadii: CGSizeMake(11, 11)];
+[rectanglePath closePath];
+[UIColor.grayColor setFill];
+[rectanglePath fill];
+</code></pre>
+
+<p><em>Corner radius for top-right edge:</em></p>
+
+<p><a href="media/15036524793322/1xhp8.png"><img src="media/15036524793322/1xhp8.png" alt="enter image description here"/></a></p>
+
+<pre><code>UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRoundedRect: CGRectMake(x,y,width,height) byRoundingCorners: UIRectCornerTopRight cornerRadii: CGSizeMake(11, 11)];
+[rectanglePath closePath];
+[UIColor.grayColor setFill];
+[rectanglePath fill];
+</code></pre>
+
+<p><em>corner radius for bottom-left edge:</em></p>
+
+<p><a href="media/15036524793322/yqd87.png"><img src="media/15036524793322/yqd87.png" alt="enter image description here"/></a></p>
+
+<pre><code>UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRoundedRect: CGRectMake(x,y,width,height) byRoundingCorners: UIRectCornerBottomLeft cornerRadii: CGSizeMake(11, 11)];
+[rectanglePath closePath];
+[UIColor.grayColor setFill];
+[rectanglePath fill];
+</code></pre>
+
+<p><em>corner radius for bottom-right edge:</em></p>
+
+<p><a href="media/15036524793322/AIgP0.png"><img src="media/15036524793322/AIgP0.png" alt="enter image description here"/></a></p>
+
+<pre><code> UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRoundedRect: CGRectMake(x,y,width,height) byRoundingCorners: UIRectCornerBottomRight cornerRadii: CGSizeMake(11, 11)];
+[rectanglePath closePath];
+[UIColor.grayColor setFill];
+[rectanglePath fill];
+</code></pre>
+
+<p><em>corner radius for bottom edges:</em></p>
+
+<p><a href="media/15036524793322/4BrrS.png"><img src="media/15036524793322/4BrrS.png" alt="enter image description here"/></a></p>
+
+<pre><code>UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRoundedRect: CGRectMake(x,y,width,height) byRoundingCorners: UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii: CGSizeMake(11, 11)];
+[rectanglePath closePath];
+[UIColor.grayColor setFill];
+[rectanglePath fill];
+</code></pre>
+
+<p><em>corner radius for top edges:</em></p>
+
+<p><a href="media/15036524793322/lecWo.png"><img src="media/15036524793322/lecWo.png" alt="enter image description here"/></a></p>
+
+<pre><code>UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRoundedRect: CGRectMake(x,y,width,height) byRoundingCorners: UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii: CGSizeMake(11, 11)];
+[rectanglePath closePath];
+[UIColor.grayColor setFill];
+[rectanglePath fill];
+</code></pre>
+
+<hr/>
+
+<h2 id="toc_9"><a href="https://stackoverflow.com/documentation/ios/3186/uibezierpath/10893/how-to-apply-shadows-to-uibezierpath">How to apply shadows to UIBezierPath</a></h2>
+
+<p>Consider a simple rectangle that is drawn by the bezier path.</p>
+
+<p><a href="media/15036524793322/imDTW.png"><img src="media/15036524793322/imDTW.png" alt="enter image description here"/></a></p>
+
+<pre><code> UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRect: CGRectMake(x,y,width,height)];
+ [UIColor.grayColor setFill];
+ [rectanglePath fill];
+</code></pre>
+
+<p><em>Basic Outer-fill shadow:</em></p>
+
+<p><a href="media/15036524793322/mqiIV.png"><img src="media/15036524793322/mqiIV.png" alt="enter image description here"/></a></p>
+
+<pre><code>CGContextRef context = UIGraphicsGetCurrentContext();
+
+NSShadow* shadow = [[NSShadow alloc] init];
+[shadow setShadowColor: UIColor.blackColor];
+[shadow setShadowOffset: CGSizeMake(7.1, 5.1)];
+[shadow setShadowBlurRadius: 5];
+
+UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRect: CGRectMake(x,y,width,height)];
+CGContextSaveGState(context);
+CGContextSetShadowWithColor(context, shadow.shadowOffset, shadow.shadowBlurRadius, [shadow.shadowColor CGColor]);
+[UIColor.grayColor setFill];
+[rectanglePath fill];
+CGContextRestoreGState(context);
+</code></pre>
+
+<p><em>Basic Inner fill shadow:</em></p>
+
+<p><a href="media/15036524793322/C1rZk.png"><img src="media/15036524793322/C1rZk.png" alt="enter image description here"/></a></p>
+
+<pre><code>CGContextRef context = UIGraphicsGetCurrentContext();
+
+NSShadow* shadow = [[NSShadow alloc] init];
+[shadow setShadowColor: UIColor.blackColor];
+[shadow setShadowOffset: CGSizeMake(9.1, -7.1)];
+[shadow setShadowBlurRadius: 6];
+
+UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRect: CGRectMake(x,y,width,height)];
+[UIColor.grayColor setFill];
+[rectanglePath fill];
+
+CGContextSaveGState(context);
+UIRectClip(rectanglePath.bounds);
+CGContextSetShadowWithColor(context, CGSizeZero, 0, NULL);
+
+CGContextSetAlpha(context, CGColorGetAlpha([shadow.shadowColor CGColor]));
+CGContextBeginTransparencyLayer(context, NULL);
+{
+    UIColor* opaqueShadow = [shadow.shadowColor colorWithAlphaComponent: 1];
+    CGContextSetShadowWithColor(context, shadow.shadowOffset, shadow.shadowBlurRadius, [opaqueShadow CGColor]);
+    CGContextSetBlendMode(context, kCGBlendModeSourceOut);
+    CGContextBeginTransparencyLayer(context, NULL);
+
+    [opaqueShadow setFill];
+    [rectanglePath fill];
+
+    CGContextEndTransparencyLayer(context);
+}
+CGContextEndTransparencyLayer(context);
+CGContextRestoreGState(context);
+</code></pre>
+
+<h2 id="toc_10"><a href="https://stackoverflow.com/documentation/ios/3186/uibezierpath/10891/how-to-create-a-simple-shapes-using-uibezierpath">How to create a simple shapes using UIBezierPath</a></h2>
+
+<p><em>For a simple circle:</em></p>
+
+<p><a href="media/15036524793322/ymoay.png"><img src="media/15036524793322/ymoay.png" alt="enter image description here"/></a></p>
+
+<pre><code>UIBezierPath* ovalPath = [UIBezierPath bezierPathWithOvalInRect: CGRectMake(0,0,50,50)];
+[UIColor.grayColor setFill];
+[ovalPath fill];
+</code></pre>
+
+<p>Swift:</p>
+
+<pre><code>let ovalPath = UIBezierPath(ovalInRect: CGRect(x: 0, y: 0, width: 50, height: 50))
+UIColor.grayColor().setFill()
+ovalPath.fill()
+</code></pre>
+
+<p><em>For a simple Rectangle:</em></p>
+
+<p><a href="media/15036524793322/C1GFH.png"><img src="media/15036524793322/C1GFH.png" alt="enter image description here"/></a></p>
+
+<pre><code>UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRect: CGRectMake(0,0,50,50)];
+[UIColor.grayColor setFill];
+[rectanglePath fill];
+</code></pre>
+
+<p>Swift:</p>
+
+<pre><code>let rectanglePath = UIBezierPath(rect: CGRect(x: 0, y: 0, width: 50, height: 50))
+UIColor.grayColor().setFill()
+rectanglePath.fill()
+</code></pre>
+
+<p><em>For a simple Line:</em></p>
+
+<p><a href="media/15036524793322/KIAOK.png"><img src="media/15036524793322/KIAOK.png" alt="enter image description here"/></a></p>
+
+<pre><code>UIBezierPath* bezierPath = [UIBezierPath bezierPath];
+[bezierPath moveToPoint: CGPointMake(x1,y1)];
+[bezierPath addLineToPoint: CGPointMake(x2,y2)];
+[UIColor.blackColor setStroke];
+bezierPath.lineWidth = 1;
+[bezierPath stroke];
+</code></pre>
+
+<p>Swift:</p>
+
+<pre><code>let bezierPath = UIBezierPath()
+bezierPath.moveToPoint(CGPoint(x: x1, y: y1))
+bezierPath.addLineToPoint(CGPoint(x: x2, y: y2))
+UIColor.blackColor().setStroke()
+bezierPath.lineWidth = 1
+bezierPath.stroke()
+</code></pre>
+
+<p><em>For a half circle:</em></p>
+
+<p><a href="media/15036524793322/3Nywj.png"><img src="media/15036524793322/3Nywj.png" alt="enter image description here"/></a></p>
+
+<pre><code> CGRect ovalRect = CGRectMake(x,y,width,height);
+UIBezierPath* ovalPath = [UIBezierPath bezierPath];
+[ovalPath addArcWithCenter: CGPointMake(0, 0) radius: CGRectGetWidth(ovalRect) / 2 startAngle: 180 * M_PI/180 endAngle: 0 * M_PI/180 clockwise: YES];
+[ovalPath addLineToPoint: CGPointMake(0, 0)];
+[ovalPath closePath];
+
+CGAffineTransform ovalTransform = CGAffineTransformMakeTranslation(CGRectGetMidX(ovalRect), CGRectGetMidY(ovalRect));
+ovalTransform = CGAffineTransformScale(ovalTransform, 1, CGRectGetHeight(ovalRect) / CGRectGetWidth(ovalRect));
+[ovalPath applyTransform: ovalTransform];
+
+[UIColor.grayColor setFill];
+[ovalPath fill];
+</code></pre>
+
+<p>Swift:</p>
+
+<pre><code>let ovalRect = CGRect(x: 0, y: 0, width: 50, height: 50)
+let ovalPath = UIBezierPath()
+ovalPath.addArcWithCenter(CGPoint.zero, radius: ovalRect.width / 2, startAngle: 180 * CGFloat(M_PI)/180, endAngle: 0 * CGFloat(M_PI)/180, clockwise: true)
+ovalPath.addLineToPoint(CGPoint.zero)
+ovalPath.closePath()
+
+var ovalTransform = CGAffineTransformMakeTranslation(CGRectGetMidX(ovalRect), CGRectGetMidY(ovalRect))
+ovalTransform = CGAffineTransformScale(ovalTransform, 1, ovalRect.height / ovalRect.width)
+ovalPath.applyTransform(ovalTransform)
+
+UIColor.grayColor().setFill()
+ovalPath.fill()
+</code></pre>
+
+<p><em>For a simple triangle:</em></p>
+
+<p><a href="media/15036524793322/5r6IE.png"><img src="media/15036524793322/5r6IE.png" alt="enter image description here"/></a></p>
+
+<pre><code>UIBezierPath* polygonPath = [UIBezierPath bezierPath];
+[polygonPath moveToPoint: CGPointMake(x1, y1)];
+[polygonPath addLineToPoint: CGPointMake(x2, y2)];
+[polygonPath addLineToPoint: CGPointMake(x3, y2)];
+[polygonPath closePath];
+[UIColor.grayColor setFill];
+[polygonPath fill];
+</code></pre>
+
+<p>Swift:</p>
+
+<pre><code>let polygonPath = UIBezierPath()
+polygonPath.moveToPoint(CGPoint(x: x1, y: y1))
+polygonPath.addLineToPoint(CGPoint(x: x2, y: y2))
+polygonPath.addLineToPoint(CGPoint(x: x3, y: y3))
+polygonPath.closePath()
+UIColor.grayColor().setFill()
+polygonPath.fill()
+</code></pre>
+
+<hr/>
+
+<h2 id="toc_11"><a href="https://stackoverflow.com/documentation/ios/3186/uibezierpath/18109/pie-view-column-view-with-uibezierpath">pie view &amp; column view with UIBezierPath</a></h2>
+
+<ul>
+<li>pie view
+<img src="media/15036524793322/oh0DL.png" alt="pie view"/></li>
+</ul>
+
+<pre><code>- (void)drawRect:(CGRect)rect {
+
+    NSArray *data = @[@30, @15, @5, @17, @3, @10, @20];
+
+    // 1\. context
+    CGContextRef cxtRef = UIGraphicsGetCurrentContext();
+
+    CGPoint center = CGPointMake(150, 150);
+    CGFloat radius = 150;
+    __block CGFloat startAngle = 0;
+    [data enumerateObjectsUsingBlock:^(NSNumber * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+
+        // 2\. create path
+        CGFloat endAngle = obj.floatValue / 100 * M_PI * 2 + startAngle;
+        UIBezierPath *circlePath = [UIBezierPath bezierPathWithArcCenter:center radius:radius startAngle:startAngle endAngle:endAngle clockwise:YES];
+        [circlePath addLineToPoint:center];
+
+        // 3\. add path
+        CGContextAddPath(cxtRef, circlePath.CGPath);
+
+        // set color
+        [[UIColor colorWithRed:((float)arc4random_uniform(256) / 255.0) green:((float)arc4random_uniform(256) / 255.0) blue:((float)arc4random_uniform(256) / 255.0) alpha:1.0] setFill];
+
+        // 4\. render
+        CGContextDrawPath(cxtRef, kCGPathFill);
+
+        // reset angle
+        startAngle = endAngle;
+    }];
+}
+
+
+override func draw(_ rect: CGRect) {
+    // define data to create pie chart
+    let data: [Int] = [30, 15, 5, 17, 3, 10, 20]
+
+    // 1\. find center of draw rect
+    let center: CGPoint = CGPoint(x: rect.midX, y: rect.midY)
+
+    // 2\. calculate radius of pie
+    let radius = min(rect.width, rect.height) / 2.0
+
+    var startAngle: CGFloat = 0.0
+    for value in data {
+
+      // 3\. calculate end angle for slice
+      let endAngle = CGFloat(value) / 100.0 * CGFloat.pi * 2.0 + startAngle
+
+      // 4\. create UIBezierPath for slide
+      let circlePath = UIBezierPath(arcCenter: center, radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: true)
+
+      // 5\. add line to center to close path
+      circlePath.addLine(to: center)
+
+      // 6\. set fill color for current slice
+      UIColor(red: (CGFloat(arc4random_uniform(256)) / 255.0), green: (CGFloat(arc4random_uniform(256)) / 255.0), blue: (CGFloat(arc4random_uniform(256)) / 255.0), alpha: 1.0).setFill()
+
+      // 7\. fill slice path
+      circlePath.fill()
+
+      // 8\. set end angle as start angle for next slice
+      startAngle = endAngle
+    }
+  }
+</code></pre>
+
+<ul>
+<li>column view
+<img src="media/15036524793322/ayD5Y.png" alt="column view"/></li>
+</ul>
+
+<pre><code>- (void)drawRect:(CGRect)rect {
+
+    NSArray *data = @[@300, @150.65, @55.3, @507.7, @95.8, @700, @650.65];
+
+    // 1.
+    CGContextRef cxtRef = UIGraphicsGetCurrentContext();
+
+    NSInteger columnCount = 7;
+    CGFloat width = self.bounds.size.width / (columnCount + columnCount - 1);
+    for (NSInteger i = 0; i 
+
+override func draw(_ rect: CGRect) {
+    // define data for chart
+    let data: [CGFloat] = [300, 150.65, 55.3, 507.7, 95.8, 700, 650.65]
+
+    // 1\. calculate number of columns
+    let columnCount = data.count
+
+    // 2\. calculate column width
+    let columnWidth = rect.width / CGFloat(columnCount + columnCount - 1)
+
+    for (columnIndex, value) in data.enumerated() {
+      // 3\. calculate column height
+      let columnHeight = value / 1000.0 * rect.height
+
+      // 4\. calculate column origin
+      let columnOrigin = CGPoint(x: (columnWidth * 2.0 * CGFloat(columnIndex)), y: (rect.height - columnHeight))
+
+      // 5\. create path for column
+      let columnPath = UIBezierPath(rect: CGRect(origin: columnOrigin, size: CGSize(width: columnWidth, height: columnHeight)))
+
+      // 6\. set fill color for current column
+      UIColor(red: (CGFloat(arc4random_uniform(256)) / 255.0), green: (CGFloat(arc4random_uniform(256)) / 255.0), blue: (CGFloat(arc4random_uniform(256)) / 255.0), alpha: 1.0).setFill()
+
+      // 7\. fill column path
+      columnPath.fill()
+    }
+  }
+</code></pre>
+
+<hr/>
+
+<h2 id="toc_12"><a href="https://stackoverflow.com/documentation/ios/3186/uibezierpath/10892/uibezierpath-autolayout">UIBezierPath + AutoLayout</a></h2>
+
+<p>For bezier path to get resized based on the view frame, override the drawRect of view that you are drawing the bezier path :</p>
+
+<pre><code>- (void)drawRect:(CGRect)frame
+{
+    UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRect: CGRectMake(CGRectGetMinX(frame), CGRectGetMinY(frame), CGRectGetWidth(frame), CGRectGetHeight(frame))];
+    [UIColor.grayColor setFill];
+    [rectanglePath fill];
+}
+</code></pre>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2017/8/25</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='Documentation.html'>Documentation</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="15035627499170.html">
+                
+                  <h1>GCD(Grand Central Dispatch)</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<blockquote>
+<p>由于Stack Overflow中Documentation将要关闭,所以我将部分内容转载至这里</p>
+</blockquote>
+
+<p>Grand Central Dispatch (GCD) is Apple&rsquo;s answer to multithreading. It is a lightweight framework for performing tasks synchronously or asynchronously in queues and handles CPU threads for you behind the scenes.</p>
+
+<h2 id="toc_0">Dispatch Semaphore</h2>
+
+<p><a href="https://stackoverflow.com/documentation/ios/4626/gcd-grand-central-dispatch/28284/dispatch-semaphore">Stack Overflow地址</a></p>
+
+<blockquote>
+<p>DispatchSemaphore provides an efficient implementation of a traditional counting semaphore, which can be used to control access to a resource across multiple execution contexts.</p>
+</blockquote>
+
+<p>A scenario for when to use a semaphore could be if you are doing some file reading/writing, if multiple tasks are trying to read and write from file at the same time, it could increase your performance to make each task wait its turn so as to not overburden the I/O controller.</p>
+
+<pre><code>func do2TasksAtATime () {
+    print(&quot;starting long running tasks (2 at a time)&quot;)
+    let sem = DispatchSemaphore(value: 2)            //this semaphore only allows 2 tasks to run at the same time (the resource count)
+    for i in 0...7 {                                 //launch a bunch of tasks
+        DispatchQueue.global().async {               //run tasks on a background thread
+            sem.wait()                               //wait here if no resources available
+            sleep(2)                                 //do some long task eg file access (here we are just sleeping for a 2 seconds for demonstration purposes)
+            print(&quot;long task \(i) done! \(Date())&quot;)
+            sem.signal()                             //let the semaphore know this resource is now available
+        }
+    }
+}
+</code></pre>
+
+<p>Example output: (notice the time stamps)</p>
+
+<pre><code>starting long running tasks (2 at a time)
+long task 0 done! 2017-02-16 07:11:53 +0000
+long task 1 done! 2017-02-16 07:11:53 +0000
+long task 2 done! 2017-02-16 07:11:55 +0000
+long task 3 done! 2017-02-16 07:11:55 +0000
+long task 5 done! 2017-02-16 07:11:57 +0000
+long task 4 done! 2017-02-16 07:11:57 +0000
+long task 6 done! 2017-02-16 07:11:59 +0000
+long task 7 done! 2017-02-16 07:11:59 +0000
+</code></pre>
+
+<h2 id="toc_1">Dispatch Group</h2>
+
+<p><a href="https://stackoverflow.com/documentation/ios/4626/gcd-grand-central-dispatch/28278/dispatch-group">Stack Overflow地址</a></p>
+
+<blockquote>
+<p>DispatchGroup allows for aggregate synchronization of work. You can use them to submit multiple different work items and track when they all complete, even though they might run on different queues. This behavior can be helpful when progress can’t be made until all of the specified tasks are complete.</p>
+</blockquote>
+
+<p>A Scenario when this could be useful is if you have multiple webservice calls that all need to finish before continuing. For example, you need to download multiple sets of data that needs to be processed by some function. You have to wait for all webservices to complete before calling the function to process all the received data.</p>
+
+<p><strong>Swift 3</strong></p>
+
+<pre><code>func doLongTasksAndWait () {
+    print(&quot;starting long running tasks&quot;)
+    let group = DispatchGroup()          //create a group for a bunch of tasks we are about to do
+    for i in 0...3 {                     //launch a bunch of tasks (eg a bunch of webservice calls that all need to be finished before proceeding to the next ViewController)
+        group.enter()                    //let the group know that something is being added
+        DispatchQueue.global().async {   //run tasks on a background thread
+            sleep(arc4random() % 4)      //do some long task eg webservice or database lookup (here we are just sleeping for a random amount of time for demonstration purposes)
+            print(&quot;long task \(i) done!&quot;)
+            group.leave()                //let group know that the task is finished
+        }
+    }
+    group.wait()                         //will block whatever thread we are on here until all the above tasks have finished (so maybe dont use this function on your main thread)
+    print(&quot;all tasks done!&quot;)
+}
+</code></pre>
+
+<p>Alternatively, if you do not want to wait for the groups to finish, but instead want to run a function once all the tasks have completed, use the <code>notify</code> function in place of the <code>group.wait()</code></p>
+
+<pre><code>group.notify(queue: DispatchQueue.main) { //the queue: parameter is which queue this block will run on, if you need to do UI updates, use the main queue
+    print(&quot;all tasks done!&quot;)              //this will execute when all tasks have left the group
+}
+</code></pre>
+
+<p>Example output:</p>
+
+<pre><code>starting long running tasks
+long task 0 done!
+long task 3 done!
+long task 1 done!
+long task 2 done!
+all tasks done!
+</code></pre>
+
+<h2 id="toc_2">Serial vs Concurrent Dispatch Queues</h2>
+
+<p><a href="https://stackoverflow.com/documentation/ios/4626/gcd-grand-central-dispatch/28286/serial-vs-concurrent-dispatch-queues">Stack Overflow地址</a><br/>
+<strong>Serial Queue</strong></p>
+
+<pre><code>func serialQueues () {
+    let serialQueue = DispatchQueue(label: &quot;com.example.serial&quot;) //default queue type is a serial queue
+    let start = Date ()
+    for i in 0...3 {                                             //launch a bunch of tasks
+        serialQueue.async {                                      //run tasks on a background thread, using our serial queue
+            sleep(2)                                             //do some long task eg webservice or database lookup
+            let timeTaken = Date().timeIntervalSince(start)
+            print(&quot;serial long task \(i) done! total time taken: \(timeTaken)&quot;)
+        }
+    }
+}
+</code></pre>
+
+<p>Example output:</p>
+
+<pre><code>serial long task 0 done! total time taken: 2.07241100072861
+serial long task 1 done! total time taken: 4.16347700357437
+serial long task 2 done! total time taken: 6.23209798336029
+serial long task 3 done! total time taken: 8.30682599544525
+</code></pre>
+
+<p><strong>Concurrent Queue</strong></p>
+
+<pre><code>func concurrentQueues () {
+    let concurrentQueue = DispatchQueue(label: &quot;com.example.concurrent&quot;, attributes: .concurrent) //explicitly specify the queue to be a concurrent queue
+    let start = Date ()
+    for i in 0...3 {            //launch a bunch of tasks
+        concurrentQueue.async { //run tasks on a background thread, using our concurrent queue
+            sleep(2)            //do some long task eg webservice or database lookup
+            let timeTaken = Date().timeIntervalSince(start)
+            print(&quot;concurrent long task \(i) done! total time taken: \(timeTaken)&quot;)
+        }
+    }
+}
+</code></pre>
+
+<p>Example output:</p>
+
+<pre><code>concurrent long task 3 done! total time taken: 2.07092100381851
+concurrent long task 0 done! total time taken: 2.07087397575378
+concurrent long task 2 done! total time taken: 2.07086700201035
+concurrent long task 1 done! total time taken: 2.07089096307755
+</code></pre>
+
+<p><strong>Discussion</strong></p>
+
+<p>As we can see from the examples above, a serial queue will complete each task in the order they are submitted to the queue. Each task will wait for the previous task to finish before executing. As for the concurrent queue, each task does not wait on the others in the queue and executes as soon as possible; the advantage is that all tasks on the queue will run at the same time on separate threads, making a concurrent queue take less time than a serial queue.</p>
+
+<p>If order of execution of tasks is not important, always use a concurrent queue for the best efficiency.</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2017/8/24</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='Documentation.html'>Documentation</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+              
+
+
+			<div class="row">
+			  <div class="large-6 columns">
+			  <p class="text-left" style="padding-top:25px;">
+			   
+			  </p>
+			  </div>
+			  <div class="large-6 columns">
+			<p class="text-right" style="padding-top:25px;">
+			
+			</p>
+			  </div>
+			</div>
 		</div>
-	
+	</div><!-- large 8 -->
 
- 
-	
-
- 
-	
-
- 
-	
-
- 
-	
-
-  
-  
-</div></div>
+ <div class="large-4 medium-4 columns">
+  <div class="hide-for-small">
+    <div id="sidebar" class="sidebar">
+          <div id="site-info" class="site-info">
+            
+                <div class="site-a-logo"><img src="https://raw.githubusercontent.com/Mekor/mekor.github.io/master/Blog/asset/icon.jpg" /></div>
+            
+                <h1>李小争</h1>
+                <div class="site-des">记录开发中遇到的一些问题</div>
+                <div class="social">
 
 
-<div class="page-bottom">
+
+
+
+
+
+
+
+
+
+  <a target="_blank" class="rss" href="atom.xml" title="RSS">RSS</a>
+                
+              	 </div>
+          	</div>
+
+             
+
+              <div id="site-categories" class="side-item ">
+                <div class="side-header">
+                  <h2>Categories</h2>
+                </div>
+                <div class="side-content">
+
+      	<p class="cat-list">
+        
+            <a href="%E5%8E%9F%E7%90%86%E6%8E%A2%E7%A9%B6.html"><strong>原理探究</strong></a>
+        
+            <a href="%E6%8A%80%E5%B7%A7.html"><strong>技巧</strong></a>
+        
+            <a href="%E6%95%99%E7%A8%8B.html"><strong>教程</strong></a>
+        
+            <a href="%E9%81%87%E5%88%B0Bug.html"><strong>遇到Bug</strong></a>
+        
+            <a href="%E6%9D%82%E8%AE%B0.html"><strong>杂记</strong></a>
+        
+            <a href="Swift.html"><strong>Swift</strong></a>
+        
+            <a href="C/C++.html"><strong>C/C++</strong></a>
+        
+            <a href="Linux.html"><strong>Linux</strong></a>
+        
+            <a href="Documentation.html"><strong>Documentation</strong></a>
+         
+        </p>
+
+
+                </div>
+              </div>
+
+              <div id="site-categories" class="side-item">
+                <div class="side-header">
+                  <h2>Recent Posts</h2>
+                </div>
+                <div class="side-content">
+                <ul class="posts-list">
+	      
+		      
+			      <li class="post">
+			        <a href="15096779127051.html">collectionView自定义layout</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="15060704391596.html">[转]浅析 iOS 应用开发中的断点续传</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="15058021769287.html">优化iPad 2 总结</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="15052686192490.html">指针</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="15038471972999.html">3D Touch</a>
+			      </li>
+		     
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		   
+		  		</ul>
+                </div>
+              </div>
+        </div><!-- sidebar -->
+      </div><!-- hide for small -->
+</div><!-- large 4 -->
+
+</div><!-- row -->
+
+ <div class="page-bottom clearfix">
   <div class="row">
-  <hr />
-  <div class="small-9 columns">
-  <p class="copyright">Copyright &copy; 2015
+   <p class="copyright">Copyright &copy; 2015
 Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a>,&nbsp; 
 Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
-  </div>
-  <div class="small-3 columns">
-  <p class="copyright text-right"><a href="#header">TOP</a></p>
-  </div>
-   
   </div>
 </div>
 
         </section>
       </div>
     </div>
+
+  
     
-    
+
     <script src="asset/js/foundation.min.js"></script>
-    <script src="asset/js/foundation/foundation.offcanvas.js"></script>
     <script>
       $(document).foundation();
-
+      function fixSidebarHeight(){
+        var w1 = $('.markdown-body').height();
+          var w2 = $('#sidebar').height();
+          if (w1 > w2) { $('#sidebar').height(w1); };
+      }
+      $(function(){
+        fixSidebarHeight();
+      })
+      $(window).load(function(){
+          fixSidebarHeight();
+      });
      
     </script>
+
     <script src="asset/chart/all-min.js"></script><script type="text/javascript">$(function(){    var mwebii=0;    var mwebChartEleId = 'mweb-chart-ele-';    $('pre>code').each(function(){        mwebii++;        var eleiid = mwebChartEleId+mwebii;        if($(this).hasClass('language-sequence')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = Diagram.parse($(this).text());            diagram.drawSVG(eleiid,{theme: 'simple'});        }else if($(this).hasClass('language-flow')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = flowchart.parse($(this).text());            diagram.drawSVG(eleiid);        }    });});</script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
+
 
   </body>
 </html>
