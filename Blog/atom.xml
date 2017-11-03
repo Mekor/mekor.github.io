@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2017-11-03T13:32:29+08:00</updated>
+  <updated>2017-11-03T14:12:31+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -14,13 +14,13 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Custom Collection View Layouts in iOS]]></title>
+    <title type="html"><![CDATA[collectionView自定义layout]]></title>
     <link href="http://www.citynight.cn/Blog/15096779127051.html"/>
     <updated>2017-11-03T10:58:32+08:00</updated>
     <id>http://www.citynight.cn/Blog/15096779127051.html</id>
     <content type="html"><![CDATA[
 <blockquote>
-<p>今天,YouTube推荐了一个自定义layout的视频,看了一下挺简单明了的,而且基本的操作都包含了. <br/>
+<p>今天,YouTube推荐了一个自定义layout的视频( Custom Collection View Layouts in iOS),看了一下挺简单明了的,而且基本的操作都包含了. <br/>
 <strong>视频地址:</strong> <a href="https://www.youtube.com/watch?v=DIxyCh55SqQ">Pinterest Basic Layout - Custom Collection View Layouts in iOS - raywenderlich.com</a><br/>
 <strong>github地址:</strong> <a href="https://github.com/AZCoder2/Pinterest">Pinterest</a></p>
 </blockquote>
