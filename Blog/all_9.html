@@ -197,6 +197,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="Custom Collection View Layouts in iOS" href="15096779127051.html">Custom Collection View Layouts in iOS</a></li>
+          
             <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
           
             <li><a title="Swift - 最近遇到的问题(3.8)" href="14888974267202.html">Swift - 最近遇到的问题(3.8)</a></li>
@@ -438,6 +440,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="Custom Collection View Layouts in iOS" href="15096779127051.html">Custom Collection View Layouts in iOS</a></li>
+                        
                           <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
                         
                           <li><a title="Swift - 最近遇到的问题(3.8)" href="14888974267202.html">Swift - 最近遇到的问题(3.8)</a></li>
@@ -528,103 +532,37 @@
 
 	
 		<div class="markdown-body">
-		<h1>Swift - KVC 和 运行时获取属性列表</h1>
+		<h1>Swift - convenience 便利构造函数</h1>
 
-		<h2 id="toc_0">Swift中如何使用KVC</h2>
+		<blockquote>
+<p>具体解释可以参见 <strong>Swifter</strong> 中<code>Designated，Convenience 和 Required</code></p>
+</blockquote>
+
+<p>使用遍历工造函数的好处可以参见如下代码:</p>
 
 <pre><code>import UIKit
 
-class Person: NSObject {
-    var name:String?
-    var age: Int = 0
-    var title:String?
-    
-    init(dict:[String:Any]) {
-        super.init()
-        setValuesForKeys(dict)
-    }
-    
-    
-    override func setValue(_ value: Any?, forUndefinedKey key: String) {
+extension UITextField {
+    convenience init(frame:CGRect, placeholder:String,fontSize:CGFloat = 14) {
+        self.init(frame:frame)
         
-    }
-}
-</code></pre>
-
-<p>注意:基本数据类型一开始要设置默认值.</p>
-
-<h2 id="toc_1">Swift中运行时获取属性列表</h2>
-
-<pre><code>class Person: NSObject {
-    var name:String?
-    var age: Int = 0
-    var title:String?
-    
-    init(dict:[String:Any]) {
-        super.init()
-        setValuesForKeys(dict)
-    }
-    
-    
-    override func setValue(_ value: Any?, forUndefinedKey key: String) {
-        
-    }
-    
-    class func propertyList() -&gt; [String] {
-        var count:UInt32 = 0
-        
-        let list = class_copyPropertyList(self,&amp;count)
-        
-        var array:[String] = [];
-        
-        for i in 0..&lt;Int(count) {
-            
-            // 获取属性
-            let pty = list?[i]
-            
-            // 获取属性名称
-            let cName = property_getName(pty)
-            let name = String(utf8String: cName!)
-            array.append(name!)
-        }
-        free(list)
-        return array
+        self.borderStyle = .roundedRect
+        self.placeholder = placeholder
+        self.font = UIFont.systemFont(ofSize: fontSize)
     }
 }
 
 </code></pre>
 
-<p>上面是OC写法,可以改进的更Swift一点:</p>
+<p><strong>好处:</strong><br/>
+1. 判断条件,只有满足条件才实例化对象,可以防止造成不必要的内存开销<br/>
+2. 简化对象的创建  -&gt;利用<code>extension</code>抽取控件创建方法<br/>
+3. 本身不负责属性的创建和初始化工作<br/>
+4. 可以返回nil</p>
 
-<pre><code>    class func propertyList() -&gt; [String] {
-        var count:UInt32 = 0
-        
-        let list = class_copyPropertyList(self,&amp;count)
-        
-        var array:[String] = [];
-        
-        for i in 0..&lt;Int(count) {
-            
-            guard let pty = list?[i],
-                let cName = property_getName(pty),
-                let name = String(utf8String: cName)
-                else {
-                    // 继续遍历下一个
-                    continue
-            }
-            array.append(name)
-        }
-        free(list)
-        return array
-    }
-</code></pre>
-
-<p>通过运行时可以发现:</p>
-
-<ol>
-<li>基本数据类型如果设置成可选类型则运行时获取不到(在OC中没有可选)&hellip;.  这就说明了上面的注意点,否则使用<code>KVC</code>会崩溃 </li>
-<li>如果属性为<code>private</code>同样获取不到属性(可以获取到ivar),同样会让<code>KVC</code>崩溃</li>
-</ol>
+<p><strong>注意点:</strong><br/>
+1. 必须调用本类的 <code>self.init</code>,不能调用父类的<code>super.init</code><br/>
+2. 不能被重写</p>
 
 
 		</div>

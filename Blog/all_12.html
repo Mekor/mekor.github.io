@@ -197,6 +197,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="Custom Collection View Layouts in iOS" href="15096779127051.html">Custom Collection View Layouts in iOS</a></li>
+          
             <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
           
             <li><a title="Swift - 最近遇到的问题(3.8)" href="14888974267202.html">Swift - 最近遇到的问题(3.8)</a></li>
@@ -438,6 +440,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="Custom Collection View Layouts in iOS" href="15096779127051.html">Custom Collection View Layouts in iOS</a></li>
+                        
                           <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
                         
                           <li><a title="Swift - 最近遇到的问题(3.8)" href="14888974267202.html">Swift - 最近遇到的问题(3.8)</a></li>
@@ -528,39 +532,10 @@
 
 	
 		<div class="markdown-body">
-		<h1>字符串frame相关</h1>
+		<h1>iOS 模拟器 添加图片到相册的小技巧</h1>
 
-		<p>开发中常用到计算字符串的size或者rect</p>
-
-<p>经常见到如下接口:</p>
-
-<pre><code>- (CGSize)sizeWithAttributes:(nullable NSDictionary&lt;NSString *, id&gt; *)attrs NS_AVAILABLE(10_0, 7_0);
-
-- (CGRect)boundingRectWithSize:(CGSize)size options:(NSStringDrawingOptions)options attributes:(nullable NSDictionary&lt;NSString *, id&gt; *)attributes context:(nullable NSStringDrawingContext *)context NS_AVAILABLE(10_11, 7_0);
-</code></pre>
-
-<p>项目中使用的例子:</p>
-
-<pre><code>    // shopNameLabel frame
-    {
-        CGSize stringSize = [self.shopNameLabel.text sizeWithAttributes:@{NSFontAttributeName: self.shopNameLabel.font}];
-        self.shopNameLabel.frame = CGRectMake(margin, margin, ceil(stringSize.width), ceil(stringSize.height));
-    }
-</code></pre>
-
-<pre><code>    // addressLabel frame
-    {
-        CGFloat lwidth = width - imageWH - 3*margin;
-        
-        CGSize stringSize = [self.addressLabel.text boundingRectWithSize:CGSizeMake(lwidth, self.addressLabel.font.lineHeight *self.addressLabel.numberOfLines) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: self.addressLabel.font} context:nil].size;
-        self.addressLabel.frame = CGRectMake(margin, ceil(CGRectGetMaxY(self.juliLabel.frame) + margin), stringSize.width, stringSize.height);
-    }
-
-</code></pre>
-
-<p>由于经常使用,所以我把这些都抽取成代码块,方便调用.</p>
-
-<p>其中由于需要预估字符串的高度,<code>boundingRectWithSize</code>,由于iOS所提供的默认字体是可能变化的,所以这里我们不能凭借经验10号字体默认高度就是10,这是不准确的.使用<code>self.addressLabel.font.lineHeight</code>应该使用行高来计算.并且显示的行数也不要写死,需要写成 <code>self.addressLabel.numberOfLines</code>.这样做才能得到想要的效果.</p>
+		<p>把图片拖到模拟器主屏幕,或者Safari中,保存图片7 <br/>
+<img src="media/14765420394973/tips.gif" alt="tips"/></p>
 
 
 		</div>
