@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  数据库复习 - 李小争
+  使用 Runloop 遇到的问题 - 李小争
   
   </title>
  <meta name="description" content="记录开发中遇到的一些问题">
@@ -532,97 +532,49 @@
             <div class="large-9 medium-9 columns">
 
  <div class="markdown-body">
-<h1>数据库复习</h1>
+<h1>使用 Runloop 遇到的问题</h1>
 
-<blockquote>
-<p>项目中部分功能打算使用数据库进行数据本地存储,所以复习了下数据库语句</p>
-</blockquote>
+<p>首先: <code>swift</code> 与 <code>C</code> 兼容不如 <code>OC</code> <br/>
+1. 生成<code>CFRunLoopObserverContext</code>比<code>OC</code>艰难好多&hellip;</p>
 
-<h2 id="toc_0">DDL</h2>
-
-<pre><code>/*
-删除表,如果存在表就删除表
-*/
-DROP TABLE IF EXISTS &#39;t_student&#39;;
-
-/*
-创建表
-*/
-
-CREATE TABLE IF NOT EXISTS &#39;t_student&#39; (
-    &#39;id&#39; INTEGER NOT NULL PRIMARY KEY  AUTOINCREMENT,
-    &#39;name&#39; TEXT,
-    &#39;age&#39; INTEGER
-);
+<pre><code>func addRunloopObserver() {
+        autoreleasepool {
+            guard let runloop = CFRunLoopGetCurrent() else {return}
+            let unmanaged = Unmanaged.passRetained(self)
+            let uptr = unmanaged.toOpaque()
+            let vptr = UnsafeMutableRawPointer(uptr)
+            var content = CFRunLoopObserverContext(version: 0, info: vptr, retain: nil, release: nil, copyDescription: nil)
+            guard let obserber = CFRunLoopObserverCreate(kCFAllocatorDefault, CFRunLoopActivity.beforeWaiting.rawValue, true, Int.max - 999, observerCallbackFunc(), &amp;content) else {return}
+            CFRunLoopAddObserver(runloop, obserber, CFRunLoopMode.defaultMode)
+        }
+    }
 </code></pre>
 
-<h2 id="toc_1">DML</h2>
+<p>注意 content ,真是比OC复杂啊</p>
 
-<pre><code>/*
-插入数据
-*/
-/*
-INSERT INTO &#39;t_student&#39; (name, age) VALUES (&#39;lxz1&#39;, 18);
-INSERT INTO &#39;t_student&#39; (name, age) VALUES (&#39;lxz2&#39;, 19);
-INSERT INTO &#39;t_student&#39; (name, age) VALUES (&#39;lxz3&#39;, 21);
-INSERT INTO &#39;t_student&#39; (name, age) VALUES (&#39;lxz4&#39;, 22);
-*/
+<ol>
+<li>强转也变了&hellip;</li>
+</ol>
 
-/*更新*/
--- UPDATE t_student SET age = 20 WHERE name = &#39;lxz1&#39;
-UPDATE t_student SET name = &#39;xxx&#39; WHERE age &gt; 20
-
-
-/*删除*/
-DELETE FROM t_student WHERE name = &#39;xxx&#39;
-</code></pre>
-
-<h2 id="toc_2">DQL</h2>
-
-<pre><code>/*查询语句*/
--- SELECT * FROM t_student;
-
-/*查询特殊的字段*/
--- SELECT name,age FROM t_student;
-
-/*通过条件来查询语句*/
--- SELECT name, age FROM t_student WHERE age &lt; 20;
-
-/*模糊查询*/
--- SELECT name,age FROM t_student WHERE name LIKE &#39;%l%&#39;
-
-/*多个条件的查询
-AND 并且
-OR 或者
-*/
--- SELECT name, age FROM t_student WHERE name LIKE &#39;%l%&#39; AND age &lt; 20;
-
-/*计算个数*/
--- SELECT count(*) FROM t_student WHERE age &lt; 20
-
-/*排序
-升序 ASC
-降序 DESC
-*/
--- SELECT * FROM t_student ORDER BY age DESC
-
--- SELECT * FROM t_student ORDER BY age ASC, name DESC;
-
-/*起别名*/
--- 给表起别名
-SELECT s.name, s.age FROM t_student AS s;
--- 给字段起别名
-SELECT name AS myName, age AS myAge FROM t_student;
-
-
-/*分页查询 limt
-数字1的意思是前面跳过多少条数据
-数字2的意思是本次查询多少条数据
-SELECT * FROM t_student LIMIT 数字1,数字2
-
-跳过0条数据查询5条数据
-SELECT * FROM t_student LIMIT 5
-*/
+<pre><code>func observerCallbackFunc() -&gt; CFRunLoopObserverCallBack {
+        
+        return {(observer, activity, context) -&gt; Void in
+            guard let context = context else {
+                return
+            }
+            let work = Unmanaged&lt;RunLoopWorker&gt;.fromOpaque(context).takeUnretainedValue()
+            
+            if work.tasks.count == 0 { return }
+            var result = false
+            while result == false &amp;&amp; work.tasks.count &gt; 0 {
+                // 取出任务
+                if let unit = work.tasks.first,unit.values.count &gt; 0 {
+                    result = unit.values.first!()
+                    work.tasks.removeFirst()
+                }
+            }
+        }
+    }
 </code></pre>
 
 
@@ -635,15 +587,13 @@ SELECT * FROM t_student LIMIT 5
   <div class="large-6 columns">
 	<div class="text-left" style="padding:15px 0px;">
 		
-	        <a href="14823239811290.html"  title="Previous Post: 全屏返回手势小技巧">&laquo; 全屏返回手势小技巧</a>
-	    
 	</div>
   </div>
   <div class="large-6 columns">
 	<div class="text-right" style="padding:15px 0px;">
 		
-	        <a href="14816416025061.html" 
-	        title="Next Post: 获取崩溃信息">获取崩溃信息 &raquo;</a>
+	        <a href="15096779127051.html" 
+	        title="Next Post: collectionView自定义layout">collectionView自定义layout &raquo;</a>
 	    
 	</div>
   </div>
@@ -656,7 +606,7 @@ SELECT * FROM t_student LIMIT 5
 </div>
 <script type="text/javascript">
 	$(function(){
-		var currentURL = '14817245458052.html';
+		var currentURL = '15101967456310.html';
 		$('#side-nav a').each(function(){
 			if($(this).attr('href') == currentURL){
 				$(this).parent().addClass('active');
