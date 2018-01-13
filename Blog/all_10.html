@@ -63,6 +63,8 @@
         <li><label>技巧</label></li>
 
           
+            <li><a title="Swift - 集中处理@objc" href="15158138774013.html">Swift - 集中处理@objc</a></li>
+          
             <li><a title="优化iPad 2 总结" href="15058021769287.html">优化iPad 2 总结</a></li>
           
             <li><a title="Mac zsh 使用命令打开sublime" href="14907559721950.html">Mac zsh 使用命令打开sublime</a></li>
@@ -273,6 +275,8 @@
         <li><label>Documentation</label></li>
 
           
+            <li><a title="企业证书需要" href="15132354899270.html">企业证书需要</a></li>
+          
             <li><a title="3D Touch" href="15038471972999.html">3D Touch</a></li>
           
             <li><a title="CAGradientLayer" href="15038463059094.html">CAGradientLayer</a></li>
@@ -315,6 +319,8 @@
 
                     
                       <li class="side-title"><span>技巧</span></li>
+                        
+                          <li><a title="Swift - 集中处理@objc" href="15158138774013.html">Swift - 集中处理@objc</a></li>
                         
                           <li><a title="优化iPad 2 总结" href="15058021769287.html">优化iPad 2 总结</a></li>
                         
@@ -512,6 +518,8 @@
                     
                       <li class="side-title"><span>Documentation</span></li>
                         
+                          <li><a title="企业证书需要" href="15132354899270.html">企业证书需要</a></li>
+                        
                           <li><a title="3D Touch" href="15038471972999.html">3D Touch</a></li>
                         
                           <li><a title="CAGradientLayer" href="15038463059094.html">CAGradientLayer</a></li>
@@ -536,84 +544,90 @@
 
 	
 		<div class="markdown-body">
-		<h1>Swift - 数组中的增删改与合并</h1>
+		<h1>Swift - 函数</h1>
 
-		<blockquote>
-<p>第一篇写了数组遍历的几种情况,这篇主要就是数组中的增删改,也是开发中常用的</p>
+		<h2 id="toc_0">函数的几种情况</h2>
+
+<pre><code>// 正常
+func sum(x:Int, y:Int) -&gt; Int {
+    return x+y
+}
+print(sum(x: 10, y: 20))
+
+// 去掉形参
+func sum(_ x:Int,_ y:Int) -&gt; Int {
+    return x+y
+}
+print(sum(10, 20))
+
+// 外部参数
+func sum(num1 x:Int,num2 y:Int) -&gt; Int {
+    return x+y
+}
+print(sum(num1: 10, num2: 20))
+
+// 函数带默认值
+func sum(x:Int = 1, y:Int = 2) -&gt; Int {
+    return x+y
+}
+print(sum())
+</code></pre>
+
+<h2 id="toc_1">闭包</h2>
+
+<blockquote>
+<p>闭包类似于OC中的block,但应用更广. 与OC对比, OC中block是特殊的函数,在Swift中函数是特殊的闭包</p>
 </blockquote>
 
-<p>OC中数组分为可变(NSMutableArray)和不可变(NSArray) 相应的在Swift中就是 var &amp; let</p>
+<pre><code>// 最简单的闭包
+// 定义
+let foo = {
+    print(&quot;最简单的闭包&quot;)
+}
+// 调用
+foo()
 
-<h2 id="toc_0">追加元素</h2>
+// 带参数无返回值
+let foo = { (x:Int) -&gt; () in
+    print(x)
+}
+foo(100)
 
-<p>首先定义一个可变数组</p>
-
-<pre><code>var array = [&quot;张三&quot;,&quot;李四&quot;,&quot;王五&quot;]
+// 带参数有返回值
+let foo = { (x:Int) -&gt; Int in
+    return x+1
+}
+foo(10)
 </code></pre>
 
-<p>追加一个元素</p>
+<p>block常用在异步执行,回调&hellip;Swift中异步跟OC稍微有些区别.</p>
 
-<pre><code>// 追加元素
-array.append(&quot;赵六&quot;)
-print(array)
+<h3 id="toc_2">模拟异步加载</h3>
+
+<pre><code>    /// 加载数据
+    func loadData(completion:@escaping (_ result: [String])-&gt;()) {
+        
+        DispatchQueue.global().async {
+            print(&quot;耗时操作\(Thread.current)&quot;)
+            
+            DispatchQueue.main.async {
+                print(&quot;主线程更新\(Thread.current)&quot;)
+                let json = [&quot;头条&quot;,&quot;八卦&quot;,&quot;出大事了&quot;]
+                completion(json)
+            }
+        }
+    }
 </code></pre>
 
-<h2 id="toc_1">修改元素</h2>
+<p>注:关于<strong>@escaping</strong>参见 Swifter 中<code>@escaping</code></p>
 
-<p>通过下标进行修改</p>
+<h3 id="toc_3">尾随闭包</h3>
 
-<pre><code>array[0] = &quot;赵四&quot;
-print(array)
-</code></pre>
+<pre><code>        // 如果函数的最后一个参数是闭包,函数参数可以提前结束,最后一个参数直接使用{}包装闭包的代码
+        loadData { (JSON) in
+            print(JSON)
+        }
 
-<p>结果:</p>
-
-<pre><code>[&quot;赵四&quot;, &quot;李四&quot;, &quot;王五&quot;, &quot;赵六&quot;]
-</code></pre>
-
-<h2 id="toc_2">删除</h2>
-
-<pre><code>// 删除元素
-array.remove(at: 0)
-print(array)
-</code></pre>
-
-<p>结果:</p>
-
-<pre><code>[&quot;赵四&quot;, &quot;李四&quot;, &quot;王五&quot;, &quot;赵六&quot;]
-[&quot;李四&quot;, &quot;王五&quot;, &quot;赵六&quot;]
-</code></pre>
-
-<p>remove 的方法由很多,移除首/尾,移除范围&hellip;</p>
-
-<pre><code>array.removeAll(keepingCapacity: true)
-print(&quot;数组中的元素\(array) 数组容量\(array.capacity)&quot;)
-</code></pre>
-
-<p>结果:</p>
-
-<pre><code>数组中的元素[] 数组容量6
-</code></pre>
-
-<h2 id="toc_3">数组合并</h2>
-
-<pre><code>var arr0 = [1,2,3]
-let arr1 = [3,4,5]
-arr0 += arr1
-print(arr0)
-</code></pre>
-
-<p>结果:</p>
-
-<pre><code>[1, 2, 3, 3, 4, 5]
-</code></pre>
-
-<p>注意: 要合并的数组的类型必须一致,如果不一致会出错. 比如:</p>
-
-<pre><code>var arr0:[Any] = [1,2,3]
-let arr1:[Any] = [&quot;2&quot;,3,4,5]
-arr0 += arr1
-print(arr0)
 </code></pre>
 
 

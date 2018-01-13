@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2017-11-20T14:37:33+08:00</updated>
+  <updated>2017-11-20T14:38:15+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -12,6 +12,31 @@
   </author>
   <generator uri="http://www.mweb.im">MWeb</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Swift - 集中处理@objc]]></title>
+    <link href="http://www.citynight.cn/Blog/15158138774013.html"/>
+    <updated>2018-01-13T11:24:37+08:00</updated>
+    <id>http://www.citynight.cn/Blog/15158138774013.html</id>
+    <content type="html"><![CDATA[
+<p><img src="media/15158138774013/WX20180113-112401@2x.png" alt="WX20180113-112401@2x"/></p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[企业证书需要]]></title>
+    <link href="http://www.citynight.cn/Blog/15132354899270.html"/>
+    <updated>2017-12-14T15:11:29+08:00</updated>
+    <id>http://www.citynight.cn/Blog/15132354899270.html</id>
+    <content type="html"><![CDATA[
+<ol>
+<li>邓白氏码  不清楚公司是否申请过,如果没有申请过可能需要半个月左右时间(最快1周)</li>
+<li>申请企业证书, 现在苹果对国内企业证书申请比较严格最快1周可能需要半个月甚至更久(美国快过圣诞节和元旦了)</li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[使用 Runloop 遇到的问题]]></title>
@@ -3068,35 +3093,6 @@ ls abc/def
 
 <p>输入：<br/>
     <code>subl test.txt</code> 就可以打开文件</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Swift - 最近遇到的问题(3.8)]]></title>
-    <link href="http://www.citynight.cn/Blog/14888974267202.html"/>
-    <updated>2017-03-07T22:37:06+08:00</updated>
-    <id>http://www.citynight.cn/Blog/14888974267202.html</id>
-    <content type="html"><![CDATA[
-<h2 id="toc_0">把函数名当参数传递不释放</h2>
-
-<p>控制器A 有一个函数 func  有一个视图 View ,如果控制器A 把函数 func 传递给 View 那么 控制器不释放</p>
-
-<h2 id="toc_1">*** Assertion failure in -[UITableView dequeueReusableCellWithIdentifier:forIndexPath:]</h2>
-
-<p>产生原因: 同一个控制器,里面有一个代码添加的tableView,然后这个控制器又添加了一个xib视图,xib视图中有tableView,并且设置tableView的数据源和代理方法为filesowner,导致崩溃.  </p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[数组传递]]></title>
-    <link href="http://www.citynight.cn/Blog/14878335740172.html"/>
-    <updated>2017-02-23T15:06:14+08:00</updated>
-    <id>http://www.citynight.cn/Blog/14878335740172.html</id>
-    <content type="html"><![CDATA[
-<p>把A控制器中的数组 传递给 B  ,然后 B 再把数据传递给 C <br/>
-这时如果 A中数组进行了修改,那么 C 中数据也会修改</p>
 
 ]]></content>
   </entry>

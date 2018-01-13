@@ -63,6 +63,8 @@
         <li><label>技巧</label></li>
 
           
+            <li><a title="Swift - 集中处理@objc" href="15158138774013.html">Swift - 集中处理@objc</a></li>
+          
             <li><a title="优化iPad 2 总结" href="15058021769287.html">优化iPad 2 总结</a></li>
           
             <li><a title="Mac zsh 使用命令打开sublime" href="14907559721950.html">Mac zsh 使用命令打开sublime</a></li>
@@ -273,6 +275,8 @@
         <li><label>Documentation</label></li>
 
           
+            <li><a title="企业证书需要" href="15132354899270.html">企业证书需要</a></li>
+          
             <li><a title="3D Touch" href="15038471972999.html">3D Touch</a></li>
           
             <li><a title="CAGradientLayer" href="15038463059094.html">CAGradientLayer</a></li>
@@ -315,6 +319,8 @@
 
                     
                       <li class="side-title"><span>技巧</span></li>
+                        
+                          <li><a title="Swift - 集中处理@objc" href="15158138774013.html">Swift - 集中处理@objc</a></li>
                         
                           <li><a title="优化iPad 2 总结" href="15058021769287.html">优化iPad 2 总结</a></li>
                         
@@ -512,6 +518,8 @@
                     
                       <li class="side-title"><span>Documentation</span></li>
                         
+                          <li><a title="企业证书需要" href="15132354899270.html">企业证书需要</a></li>
+                        
                           <li><a title="3D Touch" href="15038471972999.html">3D Touch</a></li>
                         
                           <li><a title="CAGradientLayer" href="15038463059094.html">CAGradientLayer</a></li>
@@ -536,18 +544,75 @@
 
 	
 		<div class="markdown-body">
-		<h1>Scroll UICollectionView to section header view</h1>
+		<h1>全屏返回手势小技巧</h1>
 
-		<p>新界面左右联动的时候遇到了一个问题,怎么在左侧tableView点击某一cell的时候右侧collectionView跳转到对应的section</p>
+		<blockquote>
+<p>这片文章可以和<a href="http://www.citynight.cn/Blog/14790381443417.html">Swift - KVC 和 运行时获取属性列表</a> 一起看,当然配上<a href="http://www.citynight.cn/Blog/14793034700265.html">隐藏tabBar的小技巧</a>就更好了😀</p>
+</blockquote>
 
-<p>如果没有section header View 的时候直接跳转到这个section的第一个Item就ok了,但是如果有section header View 的时候就需要注意了,不能这样进行跳转了,下面👇是经过测试的方法能够完美跳转到相应的section:</p>
+<h2 id="toc_0">第一种: 通过<code>runtime</code>与<code>KVC</code>配合完成</h2>
 
-<pre><code>let attributes = self.collectionView.collectionViewLayout.layoutAttributesForSupplementaryViewOfKind(UICollectionElementKindSectionHeader, atIndexPath: NSIndexPath(forItem: 0, inSection: index))
+<p>在<code>UINavigationController</code>的<code>viewDidLoad</code>方法中:</p>
 
-self.collectionView.setContentOffset(CGPointMake(0, attributes!.frame.origin.y - self.collectionView.contentInset.top), animated: true)
+<pre><code>// 获取系统的手势
+let gest = self.interactivePopGestureRecognizer!
+// 禁用系统的手势
+interactivePopGestureRecognizer?.isEnabled = false
+
+// 通过KVC获取target 属性是通过runtime获取的,具体方法参见`Swift - KVC 和 运行时获取属性列表`
+guard let targets = gest.value(forKey: &quot;_targets&quot;) as? [AnyObject] else {
+    return
+}
+let target = targets[0].value(forKey: &quot;_target&quot;)
+
+// 给视图添加点击事件
+let pan = UIPanGestureRecognizer(target: target, action: NSSelectorFromString(&quot;handleNavigationTransition:&quot;))
+view.addGestureRecognizer(pan)
 </code></pre>
 
-<p>参见:<a href="http://stackoverflow.com/questions/22100227/scroll-uicollectionview-to-section-header-view">Scroll UICollectionView to section header view</a></p>
+<h2 id="toc_1">第二种: 通过原有的代理完成</h2>
+
+<p>直接上代码:</p>
+
+<pre><code>class BaseNavigationController: UINavigationController {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        // 获取系统的手势的代理
+        guard let target = interactivePopGestureRecognizer?.delegate else {
+            return
+        }
+        
+        // 禁用系统的手势
+        interactivePopGestureRecognizer?.isEnabled = false
+        
+        // 给视图添加点击事件
+        let pan = UIPanGestureRecognizer(target: target, action: NSSelectorFromString(&quot;handleNavigationTransition:&quot;))
+        pan.delegate = self
+        view.addGestureRecognizer(pan)
+    }
+}
+
+extension BaseNavigationController:UIGestureRecognizerDelegate {
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -&gt; Bool {
+        // 当是跟控制器的时候不让返回,非跟控制器可以返回
+        return viewControllers.count &gt; 1
+    }
+}
+
+</code></pre>
+
+<p>第一种也应该设置代理,不设置代理的话跟控制出现手势就会有bug</p>
+
+<p>简单比较一下,第二种更简洁.不过应用了一个小技巧,看代码:</p>
+
+<pre><code>    let pan = UIPanGestureRecognizer(target: self, action: NSSelectorFromString(&quot;handleNavigationTransition:&quot;))
+    pan.delegate = self
+    view.addGestureRecognizer(pan)
+</code></pre>
+
+<p>可见<code>target</code>&amp;<code>delegate</code>通常都是同一个对象,当让也可以是不同的,这里应用这个小技巧让代码变得更简洁.</p>
 
 
 		</div>

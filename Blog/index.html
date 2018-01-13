@@ -63,6 +63,8 @@
         <li><label>技巧</label></li>
 
           
+            <li><a title="Swift - 集中处理@objc" href="15158138774013.html">Swift - 集中处理@objc</a></li>
+          
             <li><a title="优化iPad 2 总结" href="15058021769287.html">优化iPad 2 总结</a></li>
           
             <li><a title="Mac zsh 使用命令打开sublime" href="14907559721950.html">Mac zsh 使用命令打开sublime</a></li>
@@ -273,6 +275,8 @@
         <li><label>Documentation</label></li>
 
           
+            <li><a title="企业证书需要" href="15132354899270.html">企业证书需要</a></li>
+          
             <li><a title="3D Touch" href="15038471972999.html">3D Touch</a></li>
           
             <li><a title="CAGradientLayer" href="15038463059094.html">CAGradientLayer</a></li>
@@ -315,6 +319,8 @@
 
                     
                       <li class="side-title"><span>技巧</span></li>
+                        
+                          <li><a title="Swift - 集中处理@objc" href="15158138774013.html">Swift - 集中处理@objc</a></li>
                         
                           <li><a title="优化iPad 2 总结" href="15058021769287.html">优化iPad 2 总结</a></li>
                         
@@ -512,6 +518,8 @@
                     
                       <li class="side-title"><span>Documentation</span></li>
                         
+                          <li><a title="企业证书需要" href="15132354899270.html">企业证书需要</a></li>
+                        
                           <li><a title="3D Touch" href="15038471972999.html">3D Touch</a></li>
                         
                           <li><a title="CAGradientLayer" href="15038463059094.html">CAGradientLayer</a></li>
@@ -536,50 +544,9 @@
 
 	
 		<div class="markdown-body">
-		<h1>使用 Runloop 遇到的问题</h1>
+		<h1>Swift - 集中处理@objc</h1>
 
-		<p>首先: <code>swift</code> 与 <code>C</code> 兼容不如 <code>OC</code> <br/>
-1. 生成<code>CFRunLoopObserverContext</code>比<code>OC</code>艰难好多&hellip;</p>
-
-<pre><code>func addRunloopObserver() {
-        autoreleasepool {
-            guard let runloop = CFRunLoopGetCurrent() else {return}
-            let unmanaged = Unmanaged.passRetained(self)
-            let uptr = unmanaged.toOpaque()
-            let vptr = UnsafeMutableRawPointer(uptr)
-            var content = CFRunLoopObserverContext(version: 0, info: vptr, retain: nil, release: nil, copyDescription: nil)
-            guard let obserber = CFRunLoopObserverCreate(kCFAllocatorDefault, CFRunLoopActivity.beforeWaiting.rawValue, true, Int.max - 999, observerCallbackFunc(), &amp;content) else {return}
-            CFRunLoopAddObserver(runloop, obserber, CFRunLoopMode.defaultMode)
-        }
-    }
-</code></pre>
-
-<p>注意 content ,真是比OC复杂啊</p>
-
-<ol>
-<li>强转也变了&hellip;</li>
-</ol>
-
-<pre><code>func observerCallbackFunc() -&gt; CFRunLoopObserverCallBack {
-        
-        return {(observer, activity, context) -&gt; Void in
-            guard let context = context else {
-                return
-            }
-            let work = Unmanaged&lt;RunLoopWorker&gt;.fromOpaque(context).takeUnretainedValue()
-            
-            if work.tasks.count == 0 { return }
-            var result = false
-            while result == false &amp;&amp; work.tasks.count &gt; 0 {
-                // 取出任务
-                if let unit = work.tasks.first,unit.values.count &gt; 0 {
-                    result = unit.values.first!()
-                    work.tasks.removeFirst()
-                }
-            }
-        }
-    }
-</code></pre>
+		<p><img src="media/15158138774013/WX20180113-112401@2x.png" alt="WX20180113-112401@2x"/></p>
 
 
 		</div>
