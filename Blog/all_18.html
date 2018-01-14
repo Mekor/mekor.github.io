@@ -8,23 +8,17 @@
   李小争
   
   </title>
-  
-  
-  <link href="atom.xml" rel="alternate" title="李小争" type="application/atom+xml">
+ <meta name="description" content="记录开发中遇到的一些问题">
+ <link href="atom.xml" rel="alternate" title="李小争" type="application/atom+xml">
     <link rel="stylesheet" href="asset/css/foundation.min.css" />
     <link rel="stylesheet" href="asset/css/docs.css" />
+
     <script src="asset/js/vendor/modernizr.js"></script>
     <script src="asset/js/vendor/jquery.js"></script>
-  <script src="asset/highlightjs/highlight.pack.js"></script>
-  <link href="asset/highlightjs/styles/github.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script>hljs.initHighlightingOnLoad();</script>
-<script type="text/javascript">
-  function before_search(){
-    var searchVal = 'site:www.citynight.cn/Blog ' + document.getElementById('search_input').value;
-    document.getElementById('search_q').value = searchVal;
-    return true;
-  }
-</script>
+    <script src="asset/highlightjs/highlight.pack.js"></script>
+    <link href="asset/highlightjs/styles/github.css" media="screen, projection" rel="stylesheet" type="text/css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    
   </head>
   <body class="antialiased hide-extras">
     
@@ -34,32 +28,11 @@
 
 <nav class="top-bar docs-bar hide-for-small" data-topbar>
 
-
-  <section class="top-bar-section">
-  <div class="row">
-      <div style="position: relative;width:100%;"><div style="position: absolute; width:100%;">
-        <ul id="main-menu" class="left">
-        
-        <li id=""><a target="self" href="index.html">Home</a></li>
-        
-        <li id=""><a target="_self" href="archives.html">Archives</a></li>
-        
-        </ul>
-
-        <ul class="right" id="search-wrap">
-          <li>
-<form target="_blank" onsubmit="return before_search();" action="http://google.com/search" method="get">
-    <input type="hidden" id="search_q" name="q" value="" />
-    <input tabindex="1" type="search" id="search_input"  placeholder="Search"/>
-</form>
-</li>
-          </ul>
-      </div></div>
-  </div>
-  </section>
+<div id="header">
+    <h1><a href="index.html">李小争</a></h1>
+</div>
 
 </nav>
-
         <nav class="tab-bar show-for-small">
   <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
     <span> &nbsp; 李小争</span>
@@ -68,740 +41,571 @@
 
 <aside class="left-off-canvas-menu">
       <ul class="off-canvas-list">
-       
-       <li><a href="index.html">HOME</a></li>
-    <li><a href="archives.html">Archives</a></li>
-    <li><a href="about.html">ABOUT</a></li>
+      <li><a href="index.html">Home</a></li>
+      
+        <li class="divider"></li>
+        <li><label>原理探究</label></li>
 
-    <li><label>Categories</label></li>
+          
+            <li><a title="转发机制" href="14733118707964.html">转发机制</a></li>
+          
+            <li><a title="RunLoop" href="14731740142157.html">RunLoop</a></li>
+          
+            <li><a title="runtime(内部分享草稿)" href="14727863232294.html">runtime(内部分享草稿)</a></li>
+          
+            <li><a title="KVO内部实现原理" href="14726525723684.html">KVO内部实现原理</a></li>
+          
+            <li><a title="runtime小结" href="14717809514175.html">runtime小结</a></li>
+          
 
-        
-            <li><a href="%E5%8E%9F%E7%90%86%E6%8E%A2%E7%A9%B6.html">原理探究</a></li>
-        
-            <li><a href="%E6%8A%80%E5%B7%A7.html">技巧</a></li>
-        
-            <li><a href="%E6%95%99%E7%A8%8B.html">教程</a></li>
-        
-            <li><a href="%E9%81%87%E5%88%B0Bug.html">遇到Bug</a></li>
-        
-            <li><a href="%E6%9D%82%E8%AE%B0.html">杂记</a></li>
-        
-            <li><a href="Swift.html">Swift</a></li>
-        
-            <li><a href="C/C++.html">C/C++</a></li>
-        
-            <li><a href="Linux.html">Linux</a></li>
-        
-            <li><a href="Documentation.html">Documentation</a></li>
-         
+      
+        <li class="divider"></li>
+        <li><label>技巧</label></li>
 
+          
+            <li><a title="Swift - 集中处理@objc" href="15158138774013.html">Swift - 集中处理@objc</a></li>
+          
+            <li><a title="优化iPad 2 总结" href="15058021769287.html">优化iPad 2 总结</a></li>
+          
+            <li><a title="Mac zsh 使用命令打开sublime" href="14907559721950.html">Mac zsh 使用命令打开sublime</a></li>
+          
+            <li><a title="数组传递" href="14878335740172.html">数组传递</a></li>
+          
+            <li><a title="synchronized(object)" href="14877545165696.html">synchronized(object)</a></li>
+          
+            <li><a title="全屏返回手势小技巧" href="14823239811290.html">全屏返回手势小技巧</a></li>
+          
+            <li><a title="Scroll UICollectionView to section header view" href="14810139766101.html">Scroll UICollectionView to section header view</a></li>
+          
+            <li><a title="隐藏tabBar的小技巧" href="14793034700265.html">隐藏tabBar的小技巧</a></li>
+          
+            <li><a title="安装tree命令" href="14781615036446.html">安装tree命令</a></li>
+          
+            <li><a title="获取当前显示的UIViewController" href="14781433227076.html">获取当前显示的UIViewController</a></li>
+          
+            <li><a title="UITableView优化方案(收集)" href="14766308131126.html">UITableView优化方案(收集)</a></li>
+          
+            <li><a title="iOS 模拟器 添加图片到相册的小技巧" href="14765420394973.html">iOS 模拟器 添加图片到相册的小技巧</a></li>
+          
+            <li><a title="字符串frame相关" href="14765391593705.html">字符串frame相关</a></li>
+          
+            <li><a title="在包含UITableView视图中添加单击手势" href="14762437833792.html">在包含UITableView视图中添加单击手势</a></li>
+          
+            <li><a title="怎样让内存缓存变稳定" href="14752152861722.html">怎样让内存缓存变稳定</a></li>
+          
+            <li><a title="如何在UIBarButtonItem上显示数字(BadgeValue)" href="14747835330079.html">如何在UIBarButtonItem上显示数字(BadgeValue)</a></li>
+          
+            <li><a title="const,static,extern简介" href="14718293013293.html">const,static,extern简介</a></li>
+          
+            <li><a title="iOS Tips" href="14700440944204.html">iOS Tips</a></li>
+          
+            <li><a title="Mac 下面Python 自动补全" href="14685034880390.html">Mac 下面Python 自动补全</a></li>
+          
+            <li><a title="如何给View添加点击事件" href="14682407498601.html">如何给View添加点击事件</a></li>
+          
+            <li><a title="关于tableViewCell加载图片优化" href="14678597180657.html">关于tableViewCell加载图片优化</a></li>
+          
+            <li><a title="AFN3.0 如何实现operation.responseString" href="14676870942237.html">AFN3.0 如何实现operation.responseString</a></li>
+          
+            <li><a title="Coding中检测系统授权状态，关闭提示用户去隐私设置中打开" href="14676111126987.html">Coding中检测系统授权状态，关闭提示用户去隐私设置中打开</a></li>
+          
+            <li><a title="忽略编译器警告" href="14676105703423.html">忽略编译器警告</a></li>
+          
+            <li><a title="百度坐标&火星坐标转换" href="14676101998537.html">百度坐标&火星坐标转换</a></li>
+          
+
+      
+        <li class="divider"></li>
+        <li><label>教程</label></li>
+
+          
+            <li><a title="[转]浅析 iOS 应用开发中的断点续传" href="15060704391596.html">[转]浅析 iOS 应用开发中的断点续传</a></li>
+          
+            <li><a title="获取崩溃信息" href="14816416025061.html">获取崩溃信息</a></li>
+          
+            <li><a title="iOS8之后设置PopoverController" href="14813828036514.html">iOS8之后设置PopoverController</a></li>
+          
+            <li><a title="左右联动效果再实现" href="14807724917867.html">左右联动效果再实现</a></li>
+          
+            <li><a title="Git学习" href="14793607171148.html">Git学习</a></li>
+          
+            <li><a title="如何获取手机上安装的所有App" href="14778331858080.html">如何获取手机上安装的所有App</a></li>
+          
+            <li><a title="计算老虎机中奖等级-NSCountedSet" href="14778318573153.html">计算老虎机中奖等级-NSCountedSet</a></li>
+          
+            <li><a title="使用Qt创建桌面应用程序" href="14771170894039.html">使用Qt创建桌面应用程序</a></li>
+          
+            <li><a title="使用 chisel 提高 LLDB 调试效率" href="14766672567296.html">使用 chisel 提高 LLDB 调试效率</a></li>
+          
+            <li><a title="vim 学习" href="14764220018619.html">vim 学习</a></li>
+          
+            <li><a title="优秀文章链接收藏" href="14760921807707.html">优秀文章链接收藏</a></li>
+          
+            <li><a title="Cocoapods的安装" href="14751288042220.html">Cocoapods的安装</a></li>
+          
+            <li><a title="GCD(Grand Central Dispatch)使用" href="14747868502733.html">GCD(Grand Central Dispatch)使用</a></li>
+          
+            <li><a title="iOS10 遇到问题总结" href="14743674179375.html">iOS10 遇到问题总结</a></li>
+          
+            <li><a title="UIWebView可能的优化方案" href="14731574655770.html">UIWebView可能的优化方案</a></li>
+          
+            <li><a title="MKNetWork简介" href="14719458588528.html">MKNetWork简介</a></li>
+          
+            <li><a title="Android Studio 中如何查看帮助文档" href="14693652209160.html">Android Studio 中如何查看帮助文档</a></li>
+          
+            <li><a title="关于签名(Certificate),Identifiers,Device和Provisioning Profile" href="14689910761027.html">关于签名(Certificate),Identifiers,Device和Provisioning Profile</a></li>
+          
+            <li><a title="Python爬网站上的图片" href="14689829459214.html">Python爬网站上的图片</a></li>
+          
+            <li><a title="为项目添加podspec" href="14676996936809.html">为项目添加podspec</a></li>
+          
+
+      
+        <li class="divider"></li>
+        <li><label>遇到Bug</label></li>
+
+          
+            <li><a title="使用 Runloop 遇到的问题" href="15101967456310.html">使用 Runloop 遇到的问题</a></li>
+          
+            <li><a title="打包后出现 Undefined symbols for architecture i386" href="14963702971919.html">打包后出现 Undefined symbols for architecture i386</a></li>
+          
+            <li><a title="xib报错" href="14802973825600.html">xib报错</a></li>
+          
+            <li><a title="UILabel边缘出现黑线" href="14766298858600.html">UILabel边缘出现黑线</a></li>
+          
+            <li><a title="升级到Xcode8后Qt无法正常使用" href="14761943627170.html">升级到Xcode8后Qt无法正常使用</a></li>
+          
+            <li><a title="如何解决json字符串中包含制表符" href="14747833011771.html">如何解决json字符串中包含制表符</a></li>
+          
+            <li><a title="键盘消失后又再次显示并立即消失问题" href="14677030322532.html">键盘消失后又再次显示并立即消失问题</a></li>
+          
+
+      
+        <li class="divider"></li>
+        <li><label>杂记</label></li>
+
+          
+            <li><a title="collectionView自定义layout" href="15096779127051.html">collectionView自定义layout</a></li>
+          
+            <li><a title="项目优化记录" href="14919624884376.html">项目优化记录</a></li>
+          
+            <li><a title="设计模式 读书笔记" href="14907835920803.html">设计模式 读书笔记</a></li>
+          
+            <li><a title="点菜逻辑梳理" href="14829045788456.html">点菜逻辑梳理</a></li>
+          
+            <li><a title="数据库复习" href="14817245458052.html">数据库复习</a></li>
+          
+            <li><a title="会议记录(培训)" href="14787398225011.html">会议记录(培训)</a></li>
+          
+
+      
+        <li class="divider"></li>
+        <li><label>Swift</label></li>
+
+          
+            <li><a title="Swift - 集中处理@objc" href="15158138774013.html">Swift - 集中处理@objc</a></li>
+          
+            <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
+          
+            <li><a title="Swift - 最近遇到的问题(3.8)" href="14888974267202.html">Swift - 最近遇到的问题(3.8)</a></li>
+          
+            <li><a title="Swift - 春节前问题总结" href="14861891967085.html">Swift - 春节前问题总结</a></li>
+          
+            <li><a title="Swift - Swift Talk: Networking" href="14860911508877.html">Swift - Swift Talk: Networking</a></li>
+          
+            <li><a title="Swift - Swift与JavaScript交互实战[转]" href="14836656405837.html">Swift - Swift与JavaScript交互实战[转]</a></li>
+          
+            <li><a title="Swift - 上周总结(12.30)" href="14830040423390.html">Swift - 上周总结(12.30)</a></li>
+          
+            <li><a title="Swift - 上周问题总结" href="14815534553600.html">Swift - 上周问题总结</a></li>
+          
+            <li><a title="Swift - 面向协议编程" href="14799970254990.html">Swift - 面向协议编程</a></li>
+          
+            <li><a title="Swift - 函数式编程" href="14799126696997.html">Swift - 函数式编程</a></li>
+          
+            <li><a title="Swift - 使用代理和闭包传值" href="14796301513904.html">Swift - 使用代理和闭包传值</a></li>
+          
+            <li><a title="Swift - 在swift中如何使用 hexcolor 值表示颜色" href="14796201135474.html">Swift - 在swift中如何使用 hexcolor 值表示颜色</a></li>
+          
+            <li><a title="Swift - 自定义tableViewCell" href="14793055516073.html">Swift - 自定义tableViewCell</a></li>
+          
+            <li><a title="iOS依赖库管理工具：Carthage" href="14791335483032.html">iOS依赖库管理工具：Carthage</a></li>
+          
+            <li><a title="Swift - 懒加载 lazy" href="14791319119586.html">Swift - 懒加载 lazy</a></li>
+          
+            <li><a title="Swift - convenience 便利构造函数" href="14790461560134.html">Swift - convenience 便利构造函数</a></li>
+          
+            <li><a title="Swift - KVC 和 运行时获取属性列表" href="14790381443417.html">Swift - KVC 和 运行时获取属性列表</a></li>
+          
+            <li><a title="Swift - 函数" href="14790175059723.html">Swift - 函数</a></li>
+          
+            <li><a title="Swift - 字典中的增删改,遍历与合并" href="14789481799893.html">Swift - 字典中的增删改,遍历与合并</a></li>
+          
+            <li><a title="Swift - 数组中的增删改与合并" href="14789459811464.html">Swift - 数组中的增删改与合并</a></li>
+          
+            <li><a title="Swift - 数组遍历" href="14789442794521.html">Swift - 数组遍历</a></li>
+          
+
+      
+        <li class="divider"></li>
+        <li><label>C/C++</label></li>
+
+          
+            <li><a title="指针" href="15052686192490.html">指针</a></li>
+          
+            <li><a title="C++Primer笔记 - 初识输入输出" href="14866104685305.html">C++Primer笔记 - 初识输入输出</a></li>
+          
+            <li><a title="C++Primer笔记 - 如何获取 `main`的返回值" href="14866089688413.html">C++Primer笔记 - 如何获取 `main`的返回值</a></li>
+          
+            <li><a title="C/C++ - 回调函数中比较大小为啥0不行?" href="14834570124499.html">C/C++ - 回调函数中比较大小为啥0不行?</a></li>
+          
+
+      
+        <li class="divider"></li>
+        <li><label>Linux</label></li>
+
+          
+            <li><a title="Linux - 文件、磁盘管理" href="14954528363090.html">Linux - 文件、磁盘管理</a></li>
+          
+            <li><a title="Linux - 常用基本命令" href="14954518367171.html">Linux - 常用基本命令</a></li>
+          
+            <li><a title="Linux - 文件和目录" href="14954377078014.html">Linux - 文件和目录</a></li>
+          
+
+      
+        <li class="divider"></li>
+        <li><label>Documentation</label></li>
+
+          
+            <li><a title="企业证书需要" href="15132354899270.html">企业证书需要</a></li>
+          
+            <li><a title="3D Touch" href="15038471972999.html">3D Touch</a></li>
+          
+            <li><a title="CAGradientLayer" href="15038463059094.html">CAGradientLayer</a></li>
+          
+            <li><a title="Custom UIViews from XIB files" href="15036540820094.html">Custom UIViews from XIB files</a></li>
+          
+            <li><a title="UIBezierPath" href="15036524793322.html">UIBezierPath</a></li>
+          
+            <li><a title="GCD(Grand Central Dispatch)" href="15035627499170.html">GCD(Grand Central Dispatch)</a></li>
+          
+
+      
       </ul>
     </aside>
 
 <a class="exit-off-canvas" href="#"></a>
 
-
         <section id="main-content" role="main" class="scroll-container">
-        
-       
 
- <script type="text/javascript">
-	$(function(){
-		$('#menu_item_index').addClass('is_active');
-	});
-</script>
-<div class="row">
-	<div class="large-8 medium-8 columns">
-		<div class="markdown-body home-categories">
-		
-			<div class="article">
-                <a class="clearlink" href="14689910761027.html">
-                
-                  <h1>关于签名(Certificate),Identifiers,Device和Provisioning Profile</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
+          <div class="row">
+            <div class="large-3 medium-3 columns">
+              <div class="hide-for-small">
+                <div class="sidebar">
+                <nav>
+                  <ul id="side-nav" class="side-nav">
+
+                    
+                      <li class="side-title"><span>原理探究</span></li>
                         
-                        	<p>直接上图:</p>
+                          <li><a title="转发机制" href="14733118707964.html">转发机制</a></li>
+                        
+                          <li><a title="RunLoop" href="14731740142157.html">RunLoop</a></li>
+                        
+                          <li><a title="runtime(内部分享草稿)" href="14727863232294.html">runtime(内部分享草稿)</a></li>
+                        
+                          <li><a title="KVO内部实现原理" href="14726525723684.html">KVO内部实现原理</a></li>
+                        
+                          <li><a title="runtime小结" href="14717809514175.html">runtime小结</a></li>
+                        
+
+                    
+                      <li class="side-title"><span>技巧</span></li>
+                        
+                          <li><a title="Swift - 集中处理@objc" href="15158138774013.html">Swift - 集中处理@objc</a></li>
+                        
+                          <li><a title="优化iPad 2 总结" href="15058021769287.html">优化iPad 2 总结</a></li>
+                        
+                          <li><a title="Mac zsh 使用命令打开sublime" href="14907559721950.html">Mac zsh 使用命令打开sublime</a></li>
+                        
+                          <li><a title="数组传递" href="14878335740172.html">数组传递</a></li>
+                        
+                          <li><a title="synchronized(object)" href="14877545165696.html">synchronized(object)</a></li>
+                        
+                          <li><a title="全屏返回手势小技巧" href="14823239811290.html">全屏返回手势小技巧</a></li>
+                        
+                          <li><a title="Scroll UICollectionView to section header view" href="14810139766101.html">Scroll UICollectionView to section header view</a></li>
+                        
+                          <li><a title="隐藏tabBar的小技巧" href="14793034700265.html">隐藏tabBar的小技巧</a></li>
+                        
+                          <li><a title="安装tree命令" href="14781615036446.html">安装tree命令</a></li>
+                        
+                          <li><a title="获取当前显示的UIViewController" href="14781433227076.html">获取当前显示的UIViewController</a></li>
+                        
+                          <li><a title="UITableView优化方案(收集)" href="14766308131126.html">UITableView优化方案(收集)</a></li>
+                        
+                          <li><a title="iOS 模拟器 添加图片到相册的小技巧" href="14765420394973.html">iOS 模拟器 添加图片到相册的小技巧</a></li>
+                        
+                          <li><a title="字符串frame相关" href="14765391593705.html">字符串frame相关</a></li>
+                        
+                          <li><a title="在包含UITableView视图中添加单击手势" href="14762437833792.html">在包含UITableView视图中添加单击手势</a></li>
+                        
+                          <li><a title="怎样让内存缓存变稳定" href="14752152861722.html">怎样让内存缓存变稳定</a></li>
+                        
+                          <li><a title="如何在UIBarButtonItem上显示数字(BadgeValue)" href="14747835330079.html">如何在UIBarButtonItem上显示数字(BadgeValue)</a></li>
+                        
+                          <li><a title="const,static,extern简介" href="14718293013293.html">const,static,extern简介</a></li>
+                        
+                          <li><a title="iOS Tips" href="14700440944204.html">iOS Tips</a></li>
+                        
+                          <li><a title="Mac 下面Python 自动补全" href="14685034880390.html">Mac 下面Python 自动补全</a></li>
+                        
+                          <li><a title="如何给View添加点击事件" href="14682407498601.html">如何给View添加点击事件</a></li>
+                        
+                          <li><a title="关于tableViewCell加载图片优化" href="14678597180657.html">关于tableViewCell加载图片优化</a></li>
+                        
+                          <li><a title="AFN3.0 如何实现operation.responseString" href="14676870942237.html">AFN3.0 如何实现operation.responseString</a></li>
+                        
+                          <li><a title="Coding中检测系统授权状态，关闭提示用户去隐私设置中打开" href="14676111126987.html">Coding中检测系统授权状态，关闭提示用户去隐私设置中打开</a></li>
+                        
+                          <li><a title="忽略编译器警告" href="14676105703423.html">忽略编译器警告</a></li>
+                        
+                          <li><a title="百度坐标&火星坐标转换" href="14676101998537.html">百度坐标&火星坐标转换</a></li>
+                        
+
+                    
+                      <li class="side-title"><span>教程</span></li>
+                        
+                          <li><a title="[转]浅析 iOS 应用开发中的断点续传" href="15060704391596.html">[转]浅析 iOS 应用开发中的断点续传</a></li>
+                        
+                          <li><a title="获取崩溃信息" href="14816416025061.html">获取崩溃信息</a></li>
+                        
+                          <li><a title="iOS8之后设置PopoverController" href="14813828036514.html">iOS8之后设置PopoverController</a></li>
+                        
+                          <li><a title="左右联动效果再实现" href="14807724917867.html">左右联动效果再实现</a></li>
+                        
+                          <li><a title="Git学习" href="14793607171148.html">Git学习</a></li>
+                        
+                          <li><a title="如何获取手机上安装的所有App" href="14778331858080.html">如何获取手机上安装的所有App</a></li>
+                        
+                          <li><a title="计算老虎机中奖等级-NSCountedSet" href="14778318573153.html">计算老虎机中奖等级-NSCountedSet</a></li>
+                        
+                          <li><a title="使用Qt创建桌面应用程序" href="14771170894039.html">使用Qt创建桌面应用程序</a></li>
+                        
+                          <li><a title="使用 chisel 提高 LLDB 调试效率" href="14766672567296.html">使用 chisel 提高 LLDB 调试效率</a></li>
+                        
+                          <li><a title="vim 学习" href="14764220018619.html">vim 学习</a></li>
+                        
+                          <li><a title="优秀文章链接收藏" href="14760921807707.html">优秀文章链接收藏</a></li>
+                        
+                          <li><a title="Cocoapods的安装" href="14751288042220.html">Cocoapods的安装</a></li>
+                        
+                          <li><a title="GCD(Grand Central Dispatch)使用" href="14747868502733.html">GCD(Grand Central Dispatch)使用</a></li>
+                        
+                          <li><a title="iOS10 遇到问题总结" href="14743674179375.html">iOS10 遇到问题总结</a></li>
+                        
+                          <li><a title="UIWebView可能的优化方案" href="14731574655770.html">UIWebView可能的优化方案</a></li>
+                        
+                          <li><a title="MKNetWork简介" href="14719458588528.html">MKNetWork简介</a></li>
+                        
+                          <li><a title="Android Studio 中如何查看帮助文档" href="14693652209160.html">Android Studio 中如何查看帮助文档</a></li>
+                        
+                          <li><a title="关于签名(Certificate),Identifiers,Device和Provisioning Profile" href="14689910761027.html">关于签名(Certificate),Identifiers,Device和Provisioning Profile</a></li>
+                        
+                          <li><a title="Python爬网站上的图片" href="14689829459214.html">Python爬网站上的图片</a></li>
+                        
+                          <li><a title="为项目添加podspec" href="14676996936809.html">为项目添加podspec</a></li>
+                        
+
+                    
+                      <li class="side-title"><span>遇到Bug</span></li>
+                        
+                          <li><a title="使用 Runloop 遇到的问题" href="15101967456310.html">使用 Runloop 遇到的问题</a></li>
+                        
+                          <li><a title="打包后出现 Undefined symbols for architecture i386" href="14963702971919.html">打包后出现 Undefined symbols for architecture i386</a></li>
+                        
+                          <li><a title="xib报错" href="14802973825600.html">xib报错</a></li>
+                        
+                          <li><a title="UILabel边缘出现黑线" href="14766298858600.html">UILabel边缘出现黑线</a></li>
+                        
+                          <li><a title="升级到Xcode8后Qt无法正常使用" href="14761943627170.html">升级到Xcode8后Qt无法正常使用</a></li>
+                        
+                          <li><a title="如何解决json字符串中包含制表符" href="14747833011771.html">如何解决json字符串中包含制表符</a></li>
+                        
+                          <li><a title="键盘消失后又再次显示并立即消失问题" href="14677030322532.html">键盘消失后又再次显示并立即消失问题</a></li>
+                        
+
+                    
+                      <li class="side-title"><span>杂记</span></li>
+                        
+                          <li><a title="collectionView自定义layout" href="15096779127051.html">collectionView自定义layout</a></li>
+                        
+                          <li><a title="项目优化记录" href="14919624884376.html">项目优化记录</a></li>
+                        
+                          <li><a title="设计模式 读书笔记" href="14907835920803.html">设计模式 读书笔记</a></li>
+                        
+                          <li><a title="点菜逻辑梳理" href="14829045788456.html">点菜逻辑梳理</a></li>
+                        
+                          <li><a title="数据库复习" href="14817245458052.html">数据库复习</a></li>
+                        
+                          <li><a title="会议记录(培训)" href="14787398225011.html">会议记录(培训)</a></li>
+                        
+
+                    
+                      <li class="side-title"><span>Swift</span></li>
+                        
+                          <li><a title="Swift - 集中处理@objc" href="15158138774013.html">Swift - 集中处理@objc</a></li>
+                        
+                          <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
+                        
+                          <li><a title="Swift - 最近遇到的问题(3.8)" href="14888974267202.html">Swift - 最近遇到的问题(3.8)</a></li>
+                        
+                          <li><a title="Swift - 春节前问题总结" href="14861891967085.html">Swift - 春节前问题总结</a></li>
+                        
+                          <li><a title="Swift - Swift Talk: Networking" href="14860911508877.html">Swift - Swift Talk: Networking</a></li>
+                        
+                          <li><a title="Swift - Swift与JavaScript交互实战[转]" href="14836656405837.html">Swift - Swift与JavaScript交互实战[转]</a></li>
+                        
+                          <li><a title="Swift - 上周总结(12.30)" href="14830040423390.html">Swift - 上周总结(12.30)</a></li>
+                        
+                          <li><a title="Swift - 上周问题总结" href="14815534553600.html">Swift - 上周问题总结</a></li>
+                        
+                          <li><a title="Swift - 面向协议编程" href="14799970254990.html">Swift - 面向协议编程</a></li>
+                        
+                          <li><a title="Swift - 函数式编程" href="14799126696997.html">Swift - 函数式编程</a></li>
+                        
+                          <li><a title="Swift - 使用代理和闭包传值" href="14796301513904.html">Swift - 使用代理和闭包传值</a></li>
+                        
+                          <li><a title="Swift - 在swift中如何使用 hexcolor 值表示颜色" href="14796201135474.html">Swift - 在swift中如何使用 hexcolor 值表示颜色</a></li>
+                        
+                          <li><a title="Swift - 自定义tableViewCell" href="14793055516073.html">Swift - 自定义tableViewCell</a></li>
+                        
+                          <li><a title="iOS依赖库管理工具：Carthage" href="14791335483032.html">iOS依赖库管理工具：Carthage</a></li>
+                        
+                          <li><a title="Swift - 懒加载 lazy" href="14791319119586.html">Swift - 懒加载 lazy</a></li>
+                        
+                          <li><a title="Swift - convenience 便利构造函数" href="14790461560134.html">Swift - convenience 便利构造函数</a></li>
+                        
+                          <li><a title="Swift - KVC 和 运行时获取属性列表" href="14790381443417.html">Swift - KVC 和 运行时获取属性列表</a></li>
+                        
+                          <li><a title="Swift - 函数" href="14790175059723.html">Swift - 函数</a></li>
+                        
+                          <li><a title="Swift - 字典中的增删改,遍历与合并" href="14789481799893.html">Swift - 字典中的增删改,遍历与合并</a></li>
+                        
+                          <li><a title="Swift - 数组中的增删改与合并" href="14789459811464.html">Swift - 数组中的增删改与合并</a></li>
+                        
+                          <li><a title="Swift - 数组遍历" href="14789442794521.html">Swift - 数组遍历</a></li>
+                        
+
+                    
+                      <li class="side-title"><span>C/C++</span></li>
+                        
+                          <li><a title="指针" href="15052686192490.html">指针</a></li>
+                        
+                          <li><a title="C++Primer笔记 - 初识输入输出" href="14866104685305.html">C++Primer笔记 - 初识输入输出</a></li>
+                        
+                          <li><a title="C++Primer笔记 - 如何获取 `main`的返回值" href="14866089688413.html">C++Primer笔记 - 如何获取 `main`的返回值</a></li>
+                        
+                          <li><a title="C/C++ - 回调函数中比较大小为啥0不行?" href="14834570124499.html">C/C++ - 回调函数中比较大小为啥0不行?</a></li>
+                        
+
+                    
+                      <li class="side-title"><span>Linux</span></li>
+                        
+                          <li><a title="Linux - 文件、磁盘管理" href="14954528363090.html">Linux - 文件、磁盘管理</a></li>
+                        
+                          <li><a title="Linux - 常用基本命令" href="14954518367171.html">Linux - 常用基本命令</a></li>
+                        
+                          <li><a title="Linux - 文件和目录" href="14954377078014.html">Linux - 文件和目录</a></li>
+                        
+
+                    
+                      <li class="side-title"><span>Documentation</span></li>
+                        
+                          <li><a title="企业证书需要" href="15132354899270.html">企业证书需要</a></li>
+                        
+                          <li><a title="3D Touch" href="15038471972999.html">3D Touch</a></li>
+                        
+                          <li><a title="CAGradientLayer" href="15038463059094.html">CAGradientLayer</a></li>
+                        
+                          <li><a title="Custom UIViews from XIB files" href="15036540820094.html">Custom UIViews from XIB files</a></li>
+                        
+                          <li><a title="UIBezierPath" href="15036524793322.html">UIBezierPath</a></li>
+                        
+                          <li><a title="GCD(Grand Central Dispatch)" href="15035627499170.html">GCD(Grand Central Dispatch)</a></li>
+                        
+
+                    
+                  </ul>
+                </nav>
+                </div>
+              </div>
+            </div>
+            <div class="large-9 medium-9 columns">
+
+ 
+
+
+	
+		<div class="markdown-body">
+		<h1>关于签名(Certificate),Identifiers,Device和Provisioning Profile</h1>
+
+		<p>直接上图:</p>
 
 <p><img src="media/14689910761027/%E6%80%BB%E7%BB%93.png" alt="总结"/></p>
 
 <p>应该很详细了</p>
 
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2016/7/20</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='%E6%95%99%E7%A8%8B.html'>教程</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
 
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
-                <a class="clearlink" href="14689829459214.html">
-                
-                  <h1>Python爬网站上的图片</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<p>以<a href="http://ppt.geekbang.org">极客邦PPT大全</a>为例,比如我想下载<a href="http://ppt.geekbang.org/slide/show/204">美团iOS客户端的构建思考与实践</a></p>
-
-<ol>
-<li>查看图片url
-<img src="media/14689829459214/14689832970971.jpg" alt=""/></li>
-<li>图片url的格式<a href="http://7xiox7.com2.z0.glb.qiniucdn.com/576e52fb28bf9-01.jpg">http://7xiox7.com2.z0.glb.qiniucdn.com/576e52fb28bf9-01.jpg</a>  总共101张图片</li>
-<li>根据这些编写Python文件</li>
-</ol>
-
-<pre><code>#!/usr/bin/python
-#coding:utf-8
-
-import urllib
-import urllib2
-import os
-
-basepicurl=&quot;http://7xiox7.com2.z0.glb.qiniucdn.com/576e52fb28bf9-&quot;
-save_path=&quot;/Users/mekor/Desktop/images/&quot;
-for i in range(1,102,1):
-    s = &quot;%02d&quot; % i
-    picurl = basepicurl + s + &quot;.jpg&quot;
-    imgData = urllib2.urlopen(picurl).read()
-    # 给定图片存放名称
-    fileName = save_path + s + &quot;.jpg&quot;
-    # 文件名是否存在
-    #if os.path.exists(fileName):
-    output = open(fileName,&#39;wb+&#39;)
-    output.write(imgData)
-    output.close()
-    print &quot;Finished download&quot;+ s
-
-print &quot;运行完成&quot;
-</code></pre>
-
-<p>这样就能够把所有的图片爬到本地了.</p>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2016/7/20</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='%E6%95%99%E7%A8%8B.html'>教程</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
-                <a class="clearlink" href="14685034880390.html">
-                
-                  <h1>Mac 下面Python 自动补全</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<p>网上有很多tab自动补全的脚本,但是在Mac上面都不能正常的运行,在<a href="http://stackoverflow.com/questions/7116038/python-tab-completion-mac-osx-10-7-lion">stackoverflow</a>找到一个能用的.</p>
-
-<pre><code>import readline
-import rlcompleter
-if &#39;libedit&#39; in readline.__doc__:
-    readline.parse_and_bind(&quot;bind ^I rl_complete&quot;)
-else:
-    readline.parse_and_bind(&quot;tab: complete&quot;)
-
-</code></pre>
-
-<p>进入Python后直接import tab 就可以了</p>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2016/7/14</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='%E6%8A%80%E5%B7%A7.html'>技巧</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
-                <a class="clearlink" href="14682407498601.html">
-                
-                  <h1>如何给View添加点击事件</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<p>项目中有很多地方需要添加点击事件,重复代码很多,所以做了一个UIView的分类,专门做点击事件使用.<br/>
-项目地址:<a href="https://github.com/Mekor/UIView-Tap">UIView-Tap</a></p>
-
-<p>代码很简单,主要有一点就是注意分类不能直接添加属性,需要用到运行时相关内容.</p>
-
-<p>代码如下:</p>
-
-<pre><code>\\UIView+Tap.h文件
-@interface UIView (Tap)
-- (void)addTapBlock:(void(^)(id obj))tapAction;
-@end
-
-\\UIView+Tap.m文件
-#import &lt;objc/runtime.h&gt;
-
-static const void* tagValue = &amp;tagValue;
-
-@interface UIView ()
-@property (nonatomic, copy) void(^tapAction)(id);
-@end
-
-@implementation UIView (Tap)
-- (void)tap{
-    if (self.tapAction) {
-        self.tapAction(self);
-    }
-}
-- (void)addTapBlock:(void(^)(id obj))tapAction{
-    self.tapAction = tapAction;
-    if (![self gestureRecognizers]) {
-        self.userInteractionEnabled = YES;
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap)];
-        [self addGestureRecognizer:tap];
-    }
-}
-
--(void)setTapAction:(void (^)(id))tapAction {
-    objc_setAssociatedObject(self, tagValue, tapAction, OBJC_ASSOCIATION_COPY_NONATOMIC);
-}
--(void (^)(id))tapAction {
-    return objc_getAssociatedObject(self, tagValue);
-}
-@end
-</code></pre>
-
-<p>正如大家所见,如果要接收点击事件,必须userInteractionEnabled设置为YES,所以不管怎么只要确认要给视图添加点击事件,都会被设置为<code>userInteractionEnabled = YES</code></p>
-
-<p>简单实用:</p>
-
-<pre><code>UIView *redView = [[UIView alloc]initWithFrame:CGRectMake(100, 100, 100, 100)];
-redView.backgroundColor = [UIColor redColor];
-[redView addTapBlock:^(UIView* obj) {
-    NSLog(@&quot;redView%@&quot;,obj.backgroundColor);
-}];
-[self.view addSubview:redView];
-
-UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(50, 250, 100, 100)];
-imageView.image = [UIImage imageNamed:@&quot;icon&quot;];
-[imageView addTapBlock:^(UIImageView* obj) {
-    NSLog(@&quot;imageView:\n%@&quot;,obj.image);
-}];
-[self.view addSubview:imageView];
-
-UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(150, 400, 100, 100)];
-label.text = @&quot;这是label,点击这里...&quot;;
-[label addTapBlock:^(UILabel* obj) {
-    NSLog(@&quot;label:\n%@&quot;,obj.text);
-}];
-[self.view addSubview:label];
-
-</code></pre>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2016/7/11</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='%E6%8A%80%E5%B7%A7.html'>技巧</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
-                <a class="clearlink" href="14678597180657.html">
-                
-                  <h1>关于tableViewCell加载图片优化</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<p>cell的创建</p>
-
-<pre><code>- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-</code></pre>
-
-<p>数据处理建议在这里进行:</p>
-
-<pre><code>-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-</code></pre>
-
-<p>cell将要显示的时候我们进行一些处理(来自苹果Demo)</p>
-
-<pre><code>// Only load cached images; defer new downloads until scrolling ends
-if (!appRecord.appIcon)
-{
-    if (self.tableView.dragging == NO &amp;&amp; self.tableView.decelerating == NO)
-    {
-        [self startIconDownload:appRecord forIndexPath:indexPath];
-    }
-    // if a download is deferred or in progress, return a placeholder image
-    cell.imageView.image = [UIImage imageNamed:@&quot;Placeholder.png&quot;];
-}
-else
-{
-    cell.imageView.image = appRecord.appIcon;
-}
-</code></pre>
-
-<p>这里可以看出,拖拽和滚动的时候不进行图片下载,只有停止的时候才进行.当然我们还需要在scrollView停止滚动和拖拽的时候进行下载</p>
-
-<pre><code>#pragma mark - UIScrollViewDelegate
-
-// -------------------------------------------------------------------------------
-//  scrollViewDidEndDragging:willDecelerate:
-//  Load images for all onscreen rows when scrolling is finished.
-// -------------------------------------------------------------------------------
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-{
-    if (!decelerate)
-    {
-        [self loadImagesForOnscreenRows];
-    }
-}
-
-// -------------------------------------------------------------------------------
-//  scrollViewDidEndDecelerating:scrollView
-//  When scrolling stops, proceed to load the app icons that are on screen.
-// -------------------------------------------------------------------------------
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-    [self loadImagesForOnscreenRows];
-}
-
-</code></pre>
-
-<p>下载显示cell的图片</p>
-
-<pre><code>// -------------------------------------------------------------------------------
-//  loadImagesForOnscreenRows
-//  This method is used in case the user scrolled into a set of cells that don&#39;t
-//  have their app icons yet.
-// -------------------------------------------------------------------------------
-- (void)loadImagesForOnscreenRows
-{
-    if (self.entries.count &gt; 0)
-    {
-        NSArray *visiblePaths = [self.tableView indexPathsForVisibleRows];
-        for (NSIndexPath *indexPath in visiblePaths)
-        {
-            AppRecord *appRecord = (self.entries)[indexPath.row];
-            
-            if (!appRecord.appIcon)
-            // Avoid the app icon download if the app already has an icon
-            {
-                [self startIconDownload:appRecord forIndexPath:indexPath];
-            }
-        }
-    }
-}
-</code></pre>
-
-<p>具体下载:</p>
-
-<pre><code>#pragma mark - Table cell image support
-
-// -------------------------------------------------------------------------------
-//  startIconDownload:forIndexPath:
-// -------------------------------------------------------------------------------
-- (void)startIconDownload:(AppRecord *)appRecord forIndexPath:(NSIndexPath *)indexPath
-{
-    NSLog(@&quot;下载图片&quot;);
-    IconDownloader *iconDownloader = (self.imageDownloadsInProgress)[indexPath];
-    if (iconDownloader == nil) 
-    {
-        iconDownloader = [[IconDownloader alloc] init];
-        iconDownloader.appRecord = appRecord;
-        [iconDownloader setCompletionHandler:^{
-            
-            UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-            
-            // Display the newly loaded image
-            cell.imageView.image = appRecord.appIcon;
-            
-            // Remove the IconDownloader from the in progress list.
-            // This will result in it being deallocated.
-            [self.imageDownloadsInProgress removeObjectForKey:indexPath];
-            
-        }];
-        (self.imageDownloadsInProgress)[indexPath] = iconDownloader;
-        [iconDownloader startDownload];  
-    }
-}
-</code></pre>
-
-<p>IconDownloader文件</p>
-
-<pre><code>//.h文件
-@class AppRecord;
-
-@interface IconDownloader : NSObject
-
-@property (nonatomic, strong) AppRecord *appRecord;
-@property (nonatomic, copy) void (^completionHandler)(void);
-
-- (void)startDownload;
-- (void)cancelDownload;
-
-@end
-
-
-//.m文件
-#import &quot;IconDownloader.h&quot;
-#import &quot;AppRecord.h&quot;
-
-#define kAppIconSize 48
-
-
-@interface IconDownloader ()
-
-@property (nonatomic, strong) NSURLSessionDataTask *sessionTask;
-
-@end
-
-
-#pragma mark -
-
-@implementation IconDownloader
-
-// -------------------------------------------------------------------------------
-//  startDownload
-// -------------------------------------------------------------------------------
-- (void)startDownload
-{
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.appRecord.imageURLString]];
-
-    // create an session data task to obtain and download the app icon
-    _sessionTask = [[NSURLSession sharedSession] dataTaskWithRequest:request
-                                                   completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        
-        // in case we want to know the response status code
-        //NSInteger HTTPStatusCode = [(NSHTTPURLResponse *)response statusCode];
-
-        if (error != nil)
-        {
-            if ([error code] == NSURLErrorAppTransportSecurityRequiresSecureConnection)
-            {
-                // if you get error NSURLErrorAppTransportSecurityRequiresSecureConnection (-1022),
-                // then your Info.plist has not been properly configured to match the target server.
-                //
-                abort();
-            }
-        }
-                                                       
-        [[NSOperationQueue mainQueue] addOperationWithBlock: ^{
-            
-            // Set appIcon and clear temporary data/image
-            UIImage *image = [[UIImage alloc] initWithData:data];
-            
-            if (image.size.width != kAppIconSize || image.size.height != kAppIconSize)
-            {
-                CGSize itemSize = CGSizeMake(kAppIconSize, kAppIconSize);
-                UIGraphicsBeginImageContextWithOptions(itemSize, NO, 0.0f);
-                CGRect imageRect = CGRectMake(0.0, 0.0, itemSize.width, itemSize.height);
-                [image drawInRect:imageRect];
-                self.appRecord.appIcon = UIGraphicsGetImageFromCurrentImageContext();
-                UIGraphicsEndImageContext();
-            }
-            else
-            {
-                self.appRecord.appIcon = image;
-            }
-            
-            // call our completion handler to tell our client that our icon is ready for display
-            if (self.completionHandler != nil)
-            {
-                self.completionHandler();
-            }
-        }];
-    }];
-    
-    [self.sessionTask resume];
-}
-
-// -------------------------------------------------------------------------------
-//  cancelDownload
-// -------------------------------------------------------------------------------
-- (void)cancelDownload
-{
-    [self.sessionTask cancel];
-    _sessionTask = nil;
-}
-</code></pre>
-
-<blockquote>
-<p><a href="https://developer.apple.com/library/ios/samplecode/LazyTableImages/Introduction/Intro.html">Apple Demo</a></p>
-</blockquote>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2016/7/7</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='%E6%8A%80%E5%B7%A7.html'>技巧</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-              
-
-
-			<div class="row">
-			  <div class="large-6 columns">
-			  <p class="text-left" style="padding-top:25px;">
-			   <a href="all_17.html">&laquo; Prev Page</a>  
-			  </p>
-			  </div>
-			  <div class="large-6 columns">
-			<p class="text-right" style="padding-top:25px;">
-			 <a href="all_19.html">&raquo; Next Page</a> 
-			</p>
-			  </div>
-			</div>
 		</div>
-	</div><!-- large 8 -->
+	
 
- <div class="large-4 medium-4 columns">
-  <div class="hide-for-small">
-    <div id="sidebar" class="sidebar">
-          <div id="site-info" class="site-info">
-            
-                <div class="site-a-logo"><img src="https://raw.githubusercontent.com/Mekor/mekor.github.io/master/Blog/asset/icon.jpg" /></div>
-            
-                <h1>李小争</h1>
-                <div class="site-des">记录开发中遇到的一些问题</div>
-                <div class="social">
+ 
+	
 
+ 
+	
 
+ 
+	
 
+ 
+	
 
-
-
-
+  
+  
+</div></div>
 
 
-
-
-  <a target="_blank" class="rss" href="atom.xml" title="RSS">RSS</a>
-                
-              	 </div>
-          	</div>
-
-             
-
-              <div id="site-categories" class="side-item ">
-                <div class="side-header">
-                  <h2>Categories</h2>
-                </div>
-                <div class="side-content">
-
-      	<p class="cat-list">
-        
-            <a href="%E5%8E%9F%E7%90%86%E6%8E%A2%E7%A9%B6.html"><strong>原理探究</strong></a>
-        
-            <a href="%E6%8A%80%E5%B7%A7.html"><strong>技巧</strong></a>
-        
-            <a href="%E6%95%99%E7%A8%8B.html"><strong>教程</strong></a>
-        
-            <a href="%E9%81%87%E5%88%B0Bug.html"><strong>遇到Bug</strong></a>
-        
-            <a href="%E6%9D%82%E8%AE%B0.html"><strong>杂记</strong></a>
-        
-            <a href="Swift.html"><strong>Swift</strong></a>
-        
-            <a href="C/C++.html"><strong>C/C++</strong></a>
-        
-            <a href="Linux.html"><strong>Linux</strong></a>
-        
-            <a href="Documentation.html"><strong>Documentation</strong></a>
-         
-        </p>
-
-
-                </div>
-              </div>
-
-              <div id="site-categories" class="side-item">
-                <div class="side-header">
-                  <h2>Recent Posts</h2>
-                </div>
-                <div class="side-content">
-                <ul class="posts-list">
-	      
-		      
-			      <li class="post">
-			        <a href="15158138774013.html">Swift - 集中处理@objc</a>
-			      </li>
-		     
-		  
-		      
-			      <li class="post">
-			        <a href="15132354899270.html">企业证书需要</a>
-			      </li>
-		     
-		  
-		      
-			      <li class="post">
-			        <a href="15101967456310.html">使用 Runloop 遇到的问题</a>
-			      </li>
-		     
-		  
-		      
-			      <li class="post">
-			        <a href="15096779127051.html">collectionView自定义layout</a>
-			      </li>
-		     
-		  
-		      
-			      <li class="post">
-			        <a href="15060704391596.html">[转]浅析 iOS 应用开发中的断点续传</a>
-			      </li>
-		     
-		  
-		      
-		  
-		      
-		  
-		      
-		  
-		      
-		  
-		      
-		  
-		      
-		  
-		      
-		  
-		      
-		  
-		      
-		  
-		      
-		  
-		      
-		  
-		      
-		  
-		      
-		  
-		      
-		  
-		      
-		   
-		  		</ul>
-                </div>
-              </div>
-        </div><!-- sidebar -->
-      </div><!-- hide for small -->
-</div><!-- large 4 -->
-
-</div><!-- row -->
-
- <div class="page-bottom clearfix">
+<div class="page-bottom">
   <div class="row">
-   <p class="copyright">Copyright &copy; 2015
+  <hr />
+  <div class="small-9 columns">
+  <p class="copyright">Copyright &copy; 2015
 Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a>,&nbsp; 
 Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
+  </div>
+  <div class="small-3 columns">
+  <p class="copyright text-right"><a href="#header">TOP</a></p>
+  </div>
+   
   </div>
 </div>
 
         </section>
       </div>
     </div>
-
-  
     
-
+    
     <script src="asset/js/foundation.min.js"></script>
+    <script src="asset/js/foundation/foundation.offcanvas.js"></script>
     <script>
       $(document).foundation();
-      function fixSidebarHeight(){
-        var w1 = $('.markdown-body').height();
-          var w2 = $('#sidebar').height();
-          if (w1 > w2) { $('#sidebar').height(w1); };
-      }
-      $(function(){
-        fixSidebarHeight();
-      })
-      $(window).load(function(){
-          fixSidebarHeight();
-      });
+
      
     </script>
-
     <script src="asset/chart/all-min.js"></script><script type="text/javascript">$(function(){    var mwebii=0;    var mwebChartEleId = 'mweb-chart-ele-';    $('pre>code').each(function(){        mwebii++;        var eleiid = mwebChartEleId+mwebii;        if($(this).hasClass('language-sequence')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = Diagram.parse($(this).text());            diagram.drawSVG(eleiid,{theme: 'simple'});        }else if($(this).hasClass('language-flow')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = flowchart.parse($(this).text());            diagram.drawSVG(eleiid);        }    });});</script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
-
 
   </body>
 </html>

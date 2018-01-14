@@ -8,23 +8,17 @@
   李小争
   
   </title>
-  
-  
-  <link href="atom.xml" rel="alternate" title="李小争" type="application/atom+xml">
+ <meta name="description" content="记录开发中遇到的一些问题">
+ <link href="atom.xml" rel="alternate" title="李小争" type="application/atom+xml">
     <link rel="stylesheet" href="asset/css/foundation.min.css" />
     <link rel="stylesheet" href="asset/css/docs.css" />
+
     <script src="asset/js/vendor/modernizr.js"></script>
     <script src="asset/js/vendor/jquery.js"></script>
-  <script src="asset/highlightjs/highlight.pack.js"></script>
-  <link href="asset/highlightjs/styles/github.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script>hljs.initHighlightingOnLoad();</script>
-<script type="text/javascript">
-  function before_search(){
-    var searchVal = 'site:www.citynight.cn/Blog ' + document.getElementById('search_input').value;
-    document.getElementById('search_q').value = searchVal;
-    return true;
-  }
-</script>
+    <script src="asset/highlightjs/highlight.pack.js"></script>
+    <link href="asset/highlightjs/styles/github.css" media="screen, projection" rel="stylesheet" type="text/css">
+    <script>hljs.initHighlightingOnLoad();</script>
+    
   </head>
   <body class="antialiased hide-extras">
     
@@ -34,32 +28,11 @@
 
 <nav class="top-bar docs-bar hide-for-small" data-topbar>
 
-
-  <section class="top-bar-section">
-  <div class="row">
-      <div style="position: relative;width:100%;"><div style="position: absolute; width:100%;">
-        <ul id="main-menu" class="left">
-        
-        <li id=""><a target="self" href="index.html">Home</a></li>
-        
-        <li id=""><a target="_self" href="archives.html">Archives</a></li>
-        
-        </ul>
-
-        <ul class="right" id="search-wrap">
-          <li>
-<form target="_blank" onsubmit="return before_search();" action="http://google.com/search" method="get">
-    <input type="hidden" id="search_q" name="q" value="" />
-    <input tabindex="1" type="search" id="search_input"  placeholder="Search"/>
-</form>
-</li>
-          </ul>
-      </div></div>
-  </div>
-  </section>
+<div id="header">
+    <h1><a href="index.html">李小争</a></h1>
+</div>
 
 </nav>
-
         <nav class="tab-bar show-for-small">
   <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
     <span> &nbsp; 李小争</span>
@@ -68,1017 +41,567 @@
 
 <aside class="left-off-canvas-menu">
       <ul class="off-canvas-list">
-       
-       <li><a href="index.html">HOME</a></li>
-    <li><a href="archives.html">Archives</a></li>
-    <li><a href="about.html">ABOUT</a></li>
+      <li><a href="index.html">Home</a></li>
+      
+        <li class="divider"></li>
+        <li><label>原理探究</label></li>
 
-    <li><label>Categories</label></li>
+          
+            <li><a title="转发机制" href="14733118707964.html">转发机制</a></li>
+          
+            <li><a title="RunLoop" href="14731740142157.html">RunLoop</a></li>
+          
+            <li><a title="runtime(内部分享草稿)" href="14727863232294.html">runtime(内部分享草稿)</a></li>
+          
+            <li><a title="KVO内部实现原理" href="14726525723684.html">KVO内部实现原理</a></li>
+          
+            <li><a title="runtime小结" href="14717809514175.html">runtime小结</a></li>
+          
 
-        
-            <li><a href="%E5%8E%9F%E7%90%86%E6%8E%A2%E7%A9%B6.html">原理探究</a></li>
-        
-            <li><a href="%E6%8A%80%E5%B7%A7.html">技巧</a></li>
-        
-            <li><a href="%E6%95%99%E7%A8%8B.html">教程</a></li>
-        
-            <li><a href="%E9%81%87%E5%88%B0Bug.html">遇到Bug</a></li>
-        
-            <li><a href="%E6%9D%82%E8%AE%B0.html">杂记</a></li>
-        
-            <li><a href="Swift.html">Swift</a></li>
-        
-            <li><a href="C/C++.html">C/C++</a></li>
-        
-            <li><a href="Linux.html">Linux</a></li>
-        
-            <li><a href="Documentation.html">Documentation</a></li>
-         
+      
+        <li class="divider"></li>
+        <li><label>技巧</label></li>
 
+          
+            <li><a title="Swift - 集中处理@objc" href="15158138774013.html">Swift - 集中处理@objc</a></li>
+          
+            <li><a title="优化iPad 2 总结" href="15058021769287.html">优化iPad 2 总结</a></li>
+          
+            <li><a title="Mac zsh 使用命令打开sublime" href="14907559721950.html">Mac zsh 使用命令打开sublime</a></li>
+          
+            <li><a title="数组传递" href="14878335740172.html">数组传递</a></li>
+          
+            <li><a title="synchronized(object)" href="14877545165696.html">synchronized(object)</a></li>
+          
+            <li><a title="全屏返回手势小技巧" href="14823239811290.html">全屏返回手势小技巧</a></li>
+          
+            <li><a title="Scroll UICollectionView to section header view" href="14810139766101.html">Scroll UICollectionView to section header view</a></li>
+          
+            <li><a title="隐藏tabBar的小技巧" href="14793034700265.html">隐藏tabBar的小技巧</a></li>
+          
+            <li><a title="安装tree命令" href="14781615036446.html">安装tree命令</a></li>
+          
+            <li><a title="获取当前显示的UIViewController" href="14781433227076.html">获取当前显示的UIViewController</a></li>
+          
+            <li><a title="UITableView优化方案(收集)" href="14766308131126.html">UITableView优化方案(收集)</a></li>
+          
+            <li><a title="iOS 模拟器 添加图片到相册的小技巧" href="14765420394973.html">iOS 模拟器 添加图片到相册的小技巧</a></li>
+          
+            <li><a title="字符串frame相关" href="14765391593705.html">字符串frame相关</a></li>
+          
+            <li><a title="在包含UITableView视图中添加单击手势" href="14762437833792.html">在包含UITableView视图中添加单击手势</a></li>
+          
+            <li><a title="怎样让内存缓存变稳定" href="14752152861722.html">怎样让内存缓存变稳定</a></li>
+          
+            <li><a title="如何在UIBarButtonItem上显示数字(BadgeValue)" href="14747835330079.html">如何在UIBarButtonItem上显示数字(BadgeValue)</a></li>
+          
+            <li><a title="const,static,extern简介" href="14718293013293.html">const,static,extern简介</a></li>
+          
+            <li><a title="iOS Tips" href="14700440944204.html">iOS Tips</a></li>
+          
+            <li><a title="Mac 下面Python 自动补全" href="14685034880390.html">Mac 下面Python 自动补全</a></li>
+          
+            <li><a title="如何给View添加点击事件" href="14682407498601.html">如何给View添加点击事件</a></li>
+          
+            <li><a title="关于tableViewCell加载图片优化" href="14678597180657.html">关于tableViewCell加载图片优化</a></li>
+          
+            <li><a title="AFN3.0 如何实现operation.responseString" href="14676870942237.html">AFN3.0 如何实现operation.responseString</a></li>
+          
+            <li><a title="Coding中检测系统授权状态，关闭提示用户去隐私设置中打开" href="14676111126987.html">Coding中检测系统授权状态，关闭提示用户去隐私设置中打开</a></li>
+          
+            <li><a title="忽略编译器警告" href="14676105703423.html">忽略编译器警告</a></li>
+          
+            <li><a title="百度坐标&火星坐标转换" href="14676101998537.html">百度坐标&火星坐标转换</a></li>
+          
+
+      
+        <li class="divider"></li>
+        <li><label>教程</label></li>
+
+          
+            <li><a title="[转]浅析 iOS 应用开发中的断点续传" href="15060704391596.html">[转]浅析 iOS 应用开发中的断点续传</a></li>
+          
+            <li><a title="获取崩溃信息" href="14816416025061.html">获取崩溃信息</a></li>
+          
+            <li><a title="iOS8之后设置PopoverController" href="14813828036514.html">iOS8之后设置PopoverController</a></li>
+          
+            <li><a title="左右联动效果再实现" href="14807724917867.html">左右联动效果再实现</a></li>
+          
+            <li><a title="Git学习" href="14793607171148.html">Git学习</a></li>
+          
+            <li><a title="如何获取手机上安装的所有App" href="14778331858080.html">如何获取手机上安装的所有App</a></li>
+          
+            <li><a title="计算老虎机中奖等级-NSCountedSet" href="14778318573153.html">计算老虎机中奖等级-NSCountedSet</a></li>
+          
+            <li><a title="使用Qt创建桌面应用程序" href="14771170894039.html">使用Qt创建桌面应用程序</a></li>
+          
+            <li><a title="使用 chisel 提高 LLDB 调试效率" href="14766672567296.html">使用 chisel 提高 LLDB 调试效率</a></li>
+          
+            <li><a title="vim 学习" href="14764220018619.html">vim 学习</a></li>
+          
+            <li><a title="优秀文章链接收藏" href="14760921807707.html">优秀文章链接收藏</a></li>
+          
+            <li><a title="Cocoapods的安装" href="14751288042220.html">Cocoapods的安装</a></li>
+          
+            <li><a title="GCD(Grand Central Dispatch)使用" href="14747868502733.html">GCD(Grand Central Dispatch)使用</a></li>
+          
+            <li><a title="iOS10 遇到问题总结" href="14743674179375.html">iOS10 遇到问题总结</a></li>
+          
+            <li><a title="UIWebView可能的优化方案" href="14731574655770.html">UIWebView可能的优化方案</a></li>
+          
+            <li><a title="MKNetWork简介" href="14719458588528.html">MKNetWork简介</a></li>
+          
+            <li><a title="Android Studio 中如何查看帮助文档" href="14693652209160.html">Android Studio 中如何查看帮助文档</a></li>
+          
+            <li><a title="关于签名(Certificate),Identifiers,Device和Provisioning Profile" href="14689910761027.html">关于签名(Certificate),Identifiers,Device和Provisioning Profile</a></li>
+          
+            <li><a title="Python爬网站上的图片" href="14689829459214.html">Python爬网站上的图片</a></li>
+          
+            <li><a title="为项目添加podspec" href="14676996936809.html">为项目添加podspec</a></li>
+          
+
+      
+        <li class="divider"></li>
+        <li><label>遇到Bug</label></li>
+
+          
+            <li><a title="使用 Runloop 遇到的问题" href="15101967456310.html">使用 Runloop 遇到的问题</a></li>
+          
+            <li><a title="打包后出现 Undefined symbols for architecture i386" href="14963702971919.html">打包后出现 Undefined symbols for architecture i386</a></li>
+          
+            <li><a title="xib报错" href="14802973825600.html">xib报错</a></li>
+          
+            <li><a title="UILabel边缘出现黑线" href="14766298858600.html">UILabel边缘出现黑线</a></li>
+          
+            <li><a title="升级到Xcode8后Qt无法正常使用" href="14761943627170.html">升级到Xcode8后Qt无法正常使用</a></li>
+          
+            <li><a title="如何解决json字符串中包含制表符" href="14747833011771.html">如何解决json字符串中包含制表符</a></li>
+          
+            <li><a title="键盘消失后又再次显示并立即消失问题" href="14677030322532.html">键盘消失后又再次显示并立即消失问题</a></li>
+          
+
+      
+        <li class="divider"></li>
+        <li><label>杂记</label></li>
+
+          
+            <li><a title="collectionView自定义layout" href="15096779127051.html">collectionView自定义layout</a></li>
+          
+            <li><a title="项目优化记录" href="14919624884376.html">项目优化记录</a></li>
+          
+            <li><a title="设计模式 读书笔记" href="14907835920803.html">设计模式 读书笔记</a></li>
+          
+            <li><a title="点菜逻辑梳理" href="14829045788456.html">点菜逻辑梳理</a></li>
+          
+            <li><a title="数据库复习" href="14817245458052.html">数据库复习</a></li>
+          
+            <li><a title="会议记录(培训)" href="14787398225011.html">会议记录(培训)</a></li>
+          
+
+      
+        <li class="divider"></li>
+        <li><label>Swift</label></li>
+
+          
+            <li><a title="Swift - 集中处理@objc" href="15158138774013.html">Swift - 集中处理@objc</a></li>
+          
+            <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
+          
+            <li><a title="Swift - 最近遇到的问题(3.8)" href="14888974267202.html">Swift - 最近遇到的问题(3.8)</a></li>
+          
+            <li><a title="Swift - 春节前问题总结" href="14861891967085.html">Swift - 春节前问题总结</a></li>
+          
+            <li><a title="Swift - Swift Talk: Networking" href="14860911508877.html">Swift - Swift Talk: Networking</a></li>
+          
+            <li><a title="Swift - Swift与JavaScript交互实战[转]" href="14836656405837.html">Swift - Swift与JavaScript交互实战[转]</a></li>
+          
+            <li><a title="Swift - 上周总结(12.30)" href="14830040423390.html">Swift - 上周总结(12.30)</a></li>
+          
+            <li><a title="Swift - 上周问题总结" href="14815534553600.html">Swift - 上周问题总结</a></li>
+          
+            <li><a title="Swift - 面向协议编程" href="14799970254990.html">Swift - 面向协议编程</a></li>
+          
+            <li><a title="Swift - 函数式编程" href="14799126696997.html">Swift - 函数式编程</a></li>
+          
+            <li><a title="Swift - 使用代理和闭包传值" href="14796301513904.html">Swift - 使用代理和闭包传值</a></li>
+          
+            <li><a title="Swift - 在swift中如何使用 hexcolor 值表示颜色" href="14796201135474.html">Swift - 在swift中如何使用 hexcolor 值表示颜色</a></li>
+          
+            <li><a title="Swift - 自定义tableViewCell" href="14793055516073.html">Swift - 自定义tableViewCell</a></li>
+          
+            <li><a title="iOS依赖库管理工具：Carthage" href="14791335483032.html">iOS依赖库管理工具：Carthage</a></li>
+          
+            <li><a title="Swift - 懒加载 lazy" href="14791319119586.html">Swift - 懒加载 lazy</a></li>
+          
+            <li><a title="Swift - convenience 便利构造函数" href="14790461560134.html">Swift - convenience 便利构造函数</a></li>
+          
+            <li><a title="Swift - KVC 和 运行时获取属性列表" href="14790381443417.html">Swift - KVC 和 运行时获取属性列表</a></li>
+          
+            <li><a title="Swift - 函数" href="14790175059723.html">Swift - 函数</a></li>
+          
+            <li><a title="Swift - 字典中的增删改,遍历与合并" href="14789481799893.html">Swift - 字典中的增删改,遍历与合并</a></li>
+          
+            <li><a title="Swift - 数组中的增删改与合并" href="14789459811464.html">Swift - 数组中的增删改与合并</a></li>
+          
+            <li><a title="Swift - 数组遍历" href="14789442794521.html">Swift - 数组遍历</a></li>
+          
+
+      
+        <li class="divider"></li>
+        <li><label>C/C++</label></li>
+
+          
+            <li><a title="指针" href="15052686192490.html">指针</a></li>
+          
+            <li><a title="C++Primer笔记 - 初识输入输出" href="14866104685305.html">C++Primer笔记 - 初识输入输出</a></li>
+          
+            <li><a title="C++Primer笔记 - 如何获取 `main`的返回值" href="14866089688413.html">C++Primer笔记 - 如何获取 `main`的返回值</a></li>
+          
+            <li><a title="C/C++ - 回调函数中比较大小为啥0不行?" href="14834570124499.html">C/C++ - 回调函数中比较大小为啥0不行?</a></li>
+          
+
+      
+        <li class="divider"></li>
+        <li><label>Linux</label></li>
+
+          
+            <li><a title="Linux - 文件、磁盘管理" href="14954528363090.html">Linux - 文件、磁盘管理</a></li>
+          
+            <li><a title="Linux - 常用基本命令" href="14954518367171.html">Linux - 常用基本命令</a></li>
+          
+            <li><a title="Linux - 文件和目录" href="14954377078014.html">Linux - 文件和目录</a></li>
+          
+
+      
+        <li class="divider"></li>
+        <li><label>Documentation</label></li>
+
+          
+            <li><a title="企业证书需要" href="15132354899270.html">企业证书需要</a></li>
+          
+            <li><a title="3D Touch" href="15038471972999.html">3D Touch</a></li>
+          
+            <li><a title="CAGradientLayer" href="15038463059094.html">CAGradientLayer</a></li>
+          
+            <li><a title="Custom UIViews from XIB files" href="15036540820094.html">Custom UIViews from XIB files</a></li>
+          
+            <li><a title="UIBezierPath" href="15036524793322.html">UIBezierPath</a></li>
+          
+            <li><a title="GCD(Grand Central Dispatch)" href="15035627499170.html">GCD(Grand Central Dispatch)</a></li>
+          
+
+      
       </ul>
     </aside>
 
 <a class="exit-off-canvas" href="#"></a>
 
-
         <section id="main-content" role="main" class="scroll-container">
-        
-       
 
- <script type="text/javascript">
-	$(function(){
-		$('#menu_item_index').addClass('is_active');
-	});
-</script>
-<div class="row">
-	<div class="large-8 medium-8 columns">
-		<div class="markdown-body home-categories">
-		
-			<div class="article">
-                <a class="clearlink" href="15158138774013.html">
-                
-                  <h1>Swift - 集中处理@objc</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
+          <div class="row">
+            <div class="large-3 medium-3 columns">
+              <div class="hide-for-small">
+                <div class="sidebar">
+                <nav>
+                  <ul id="side-nav" class="side-nav">
+
+                    
+                      <li class="side-title"><span>原理探究</span></li>
                         
-                        	<p><img src="media/15158138774013/WX20180113-112401@2x.png" alt="WX20180113-112401@2x"/></p>
-
+                          <li><a title="转发机制" href="14733118707964.html">转发机制</a></li>
                         
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2018/1/13</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='%E6%8A%80%E5%B7%A7.html'>技巧</a></span>
-          				  
-          					    <span class="posted-in"><a href='Swift.html'>Swift</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
+                          <li><a title="RunLoop" href="14731740142157.html">RunLoop</a></li>
+                        
+                          <li><a title="runtime(内部分享草稿)" href="14727863232294.html">runtime(内部分享草稿)</a></li>
+                        
+                          <li><a title="KVO内部实现原理" href="14726525723684.html">KVO内部实现原理</a></li>
+                        
+                          <li><a title="runtime小结" href="14717809514175.html">runtime小结</a></li>
+                        
 
-                       
-                  </span>
-                  </div>
+                    
+                      <li class="side-title"><span>技巧</span></li>
+                        
+                          <li><a title="Swift - 集中处理@objc" href="15158138774013.html">Swift - 集中处理@objc</a></li>
+                        
+                          <li><a title="优化iPad 2 总结" href="15058021769287.html">优化iPad 2 总结</a></li>
+                        
+                          <li><a title="Mac zsh 使用命令打开sublime" href="14907559721950.html">Mac zsh 使用命令打开sublime</a></li>
+                        
+                          <li><a title="数组传递" href="14878335740172.html">数组传递</a></li>
+                        
+                          <li><a title="synchronized(object)" href="14877545165696.html">synchronized(object)</a></li>
+                        
+                          <li><a title="全屏返回手势小技巧" href="14823239811290.html">全屏返回手势小技巧</a></li>
+                        
+                          <li><a title="Scroll UICollectionView to section header view" href="14810139766101.html">Scroll UICollectionView to section header view</a></li>
+                        
+                          <li><a title="隐藏tabBar的小技巧" href="14793034700265.html">隐藏tabBar的小技巧</a></li>
+                        
+                          <li><a title="安装tree命令" href="14781615036446.html">安装tree命令</a></li>
+                        
+                          <li><a title="获取当前显示的UIViewController" href="14781433227076.html">获取当前显示的UIViewController</a></li>
+                        
+                          <li><a title="UITableView优化方案(收集)" href="14766308131126.html">UITableView优化方案(收集)</a></li>
+                        
+                          <li><a title="iOS 模拟器 添加图片到相册的小技巧" href="14765420394973.html">iOS 模拟器 添加图片到相册的小技巧</a></li>
+                        
+                          <li><a title="字符串frame相关" href="14765391593705.html">字符串frame相关</a></li>
+                        
+                          <li><a title="在包含UITableView视图中添加单击手势" href="14762437833792.html">在包含UITableView视图中添加单击手势</a></li>
+                        
+                          <li><a title="怎样让内存缓存变稳定" href="14752152861722.html">怎样让内存缓存变稳定</a></li>
+                        
+                          <li><a title="如何在UIBarButtonItem上显示数字(BadgeValue)" href="14747835330079.html">如何在UIBarButtonItem上显示数字(BadgeValue)</a></li>
+                        
+                          <li><a title="const,static,extern简介" href="14718293013293.html">const,static,extern简介</a></li>
+                        
+                          <li><a title="iOS Tips" href="14700440944204.html">iOS Tips</a></li>
+                        
+                          <li><a title="Mac 下面Python 自动补全" href="14685034880390.html">Mac 下面Python 自动补全</a></li>
+                        
+                          <li><a title="如何给View添加点击事件" href="14682407498601.html">如何给View添加点击事件</a></li>
+                        
+                          <li><a title="关于tableViewCell加载图片优化" href="14678597180657.html">关于tableViewCell加载图片优化</a></li>
+                        
+                          <li><a title="AFN3.0 如何实现operation.responseString" href="14676870942237.html">AFN3.0 如何实现operation.responseString</a></li>
+                        
+                          <li><a title="Coding中检测系统授权状态，关闭提示用户去隐私设置中打开" href="14676111126987.html">Coding中检测系统授权状态，关闭提示用户去隐私设置中打开</a></li>
+                        
+                          <li><a title="忽略编译器警告" href="14676105703423.html">忽略编译器警告</a></li>
+                        
+                          <li><a title="百度坐标&火星坐标转换" href="14676101998537.html">百度坐标&火星坐标转换</a></li>
+                        
+
+                    
+                      <li class="side-title"><span>教程</span></li>
+                        
+                          <li><a title="[转]浅析 iOS 应用开发中的断点续传" href="15060704391596.html">[转]浅析 iOS 应用开发中的断点续传</a></li>
+                        
+                          <li><a title="获取崩溃信息" href="14816416025061.html">获取崩溃信息</a></li>
+                        
+                          <li><a title="iOS8之后设置PopoverController" href="14813828036514.html">iOS8之后设置PopoverController</a></li>
+                        
+                          <li><a title="左右联动效果再实现" href="14807724917867.html">左右联动效果再实现</a></li>
+                        
+                          <li><a title="Git学习" href="14793607171148.html">Git学习</a></li>
+                        
+                          <li><a title="如何获取手机上安装的所有App" href="14778331858080.html">如何获取手机上安装的所有App</a></li>
+                        
+                          <li><a title="计算老虎机中奖等级-NSCountedSet" href="14778318573153.html">计算老虎机中奖等级-NSCountedSet</a></li>
+                        
+                          <li><a title="使用Qt创建桌面应用程序" href="14771170894039.html">使用Qt创建桌面应用程序</a></li>
+                        
+                          <li><a title="使用 chisel 提高 LLDB 调试效率" href="14766672567296.html">使用 chisel 提高 LLDB 调试效率</a></li>
+                        
+                          <li><a title="vim 学习" href="14764220018619.html">vim 学习</a></li>
+                        
+                          <li><a title="优秀文章链接收藏" href="14760921807707.html">优秀文章链接收藏</a></li>
+                        
+                          <li><a title="Cocoapods的安装" href="14751288042220.html">Cocoapods的安装</a></li>
+                        
+                          <li><a title="GCD(Grand Central Dispatch)使用" href="14747868502733.html">GCD(Grand Central Dispatch)使用</a></li>
+                        
+                          <li><a title="iOS10 遇到问题总结" href="14743674179375.html">iOS10 遇到问题总结</a></li>
+                        
+                          <li><a title="UIWebView可能的优化方案" href="14731574655770.html">UIWebView可能的优化方案</a></li>
+                        
+                          <li><a title="MKNetWork简介" href="14719458588528.html">MKNetWork简介</a></li>
+                        
+                          <li><a title="Android Studio 中如何查看帮助文档" href="14693652209160.html">Android Studio 中如何查看帮助文档</a></li>
+                        
+                          <li><a title="关于签名(Certificate),Identifiers,Device和Provisioning Profile" href="14689910761027.html">关于签名(Certificate),Identifiers,Device和Provisioning Profile</a></li>
+                        
+                          <li><a title="Python爬网站上的图片" href="14689829459214.html">Python爬网站上的图片</a></li>
+                        
+                          <li><a title="为项目添加podspec" href="14676996936809.html">为项目添加podspec</a></li>
+                        
+
+                    
+                      <li class="side-title"><span>遇到Bug</span></li>
+                        
+                          <li><a title="使用 Runloop 遇到的问题" href="15101967456310.html">使用 Runloop 遇到的问题</a></li>
+                        
+                          <li><a title="打包后出现 Undefined symbols for architecture i386" href="14963702971919.html">打包后出现 Undefined symbols for architecture i386</a></li>
+                        
+                          <li><a title="xib报错" href="14802973825600.html">xib报错</a></li>
+                        
+                          <li><a title="UILabel边缘出现黑线" href="14766298858600.html">UILabel边缘出现黑线</a></li>
+                        
+                          <li><a title="升级到Xcode8后Qt无法正常使用" href="14761943627170.html">升级到Xcode8后Qt无法正常使用</a></li>
+                        
+                          <li><a title="如何解决json字符串中包含制表符" href="14747833011771.html">如何解决json字符串中包含制表符</a></li>
+                        
+                          <li><a title="键盘消失后又再次显示并立即消失问题" href="14677030322532.html">键盘消失后又再次显示并立即消失问题</a></li>
+                        
+
+                    
+                      <li class="side-title"><span>杂记</span></li>
+                        
+                          <li><a title="collectionView自定义layout" href="15096779127051.html">collectionView自定义layout</a></li>
+                        
+                          <li><a title="项目优化记录" href="14919624884376.html">项目优化记录</a></li>
+                        
+                          <li><a title="设计模式 读书笔记" href="14907835920803.html">设计模式 读书笔记</a></li>
+                        
+                          <li><a title="点菜逻辑梳理" href="14829045788456.html">点菜逻辑梳理</a></li>
+                        
+                          <li><a title="数据库复习" href="14817245458052.html">数据库复习</a></li>
+                        
+                          <li><a title="会议记录(培训)" href="14787398225011.html">会议记录(培训)</a></li>
+                        
+
+                    
+                      <li class="side-title"><span>Swift</span></li>
+                        
+                          <li><a title="Swift - 集中处理@objc" href="15158138774013.html">Swift - 集中处理@objc</a></li>
+                        
+                          <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
+                        
+                          <li><a title="Swift - 最近遇到的问题(3.8)" href="14888974267202.html">Swift - 最近遇到的问题(3.8)</a></li>
+                        
+                          <li><a title="Swift - 春节前问题总结" href="14861891967085.html">Swift - 春节前问题总结</a></li>
+                        
+                          <li><a title="Swift - Swift Talk: Networking" href="14860911508877.html">Swift - Swift Talk: Networking</a></li>
+                        
+                          <li><a title="Swift - Swift与JavaScript交互实战[转]" href="14836656405837.html">Swift - Swift与JavaScript交互实战[转]</a></li>
+                        
+                          <li><a title="Swift - 上周总结(12.30)" href="14830040423390.html">Swift - 上周总结(12.30)</a></li>
+                        
+                          <li><a title="Swift - 上周问题总结" href="14815534553600.html">Swift - 上周问题总结</a></li>
+                        
+                          <li><a title="Swift - 面向协议编程" href="14799970254990.html">Swift - 面向协议编程</a></li>
+                        
+                          <li><a title="Swift - 函数式编程" href="14799126696997.html">Swift - 函数式编程</a></li>
+                        
+                          <li><a title="Swift - 使用代理和闭包传值" href="14796301513904.html">Swift - 使用代理和闭包传值</a></li>
+                        
+                          <li><a title="Swift - 在swift中如何使用 hexcolor 值表示颜色" href="14796201135474.html">Swift - 在swift中如何使用 hexcolor 值表示颜色</a></li>
+                        
+                          <li><a title="Swift - 自定义tableViewCell" href="14793055516073.html">Swift - 自定义tableViewCell</a></li>
+                        
+                          <li><a title="iOS依赖库管理工具：Carthage" href="14791335483032.html">iOS依赖库管理工具：Carthage</a></li>
+                        
+                          <li><a title="Swift - 懒加载 lazy" href="14791319119586.html">Swift - 懒加载 lazy</a></li>
+                        
+                          <li><a title="Swift - convenience 便利构造函数" href="14790461560134.html">Swift - convenience 便利构造函数</a></li>
+                        
+                          <li><a title="Swift - KVC 和 运行时获取属性列表" href="14790381443417.html">Swift - KVC 和 运行时获取属性列表</a></li>
+                        
+                          <li><a title="Swift - 函数" href="14790175059723.html">Swift - 函数</a></li>
+                        
+                          <li><a title="Swift - 字典中的增删改,遍历与合并" href="14789481799893.html">Swift - 字典中的增删改,遍历与合并</a></li>
+                        
+                          <li><a title="Swift - 数组中的增删改与合并" href="14789459811464.html">Swift - 数组中的增删改与合并</a></li>
+                        
+                          <li><a title="Swift - 数组遍历" href="14789442794521.html">Swift - 数组遍历</a></li>
+                        
+
+                    
+                      <li class="side-title"><span>C/C++</span></li>
+                        
+                          <li><a title="指针" href="15052686192490.html">指针</a></li>
+                        
+                          <li><a title="C++Primer笔记 - 初识输入输出" href="14866104685305.html">C++Primer笔记 - 初识输入输出</a></li>
+                        
+                          <li><a title="C++Primer笔记 - 如何获取 `main`的返回值" href="14866089688413.html">C++Primer笔记 - 如何获取 `main`的返回值</a></li>
+                        
+                          <li><a title="C/C++ - 回调函数中比较大小为啥0不行?" href="14834570124499.html">C/C++ - 回调函数中比较大小为啥0不行?</a></li>
+                        
+
+                    
+                      <li class="side-title"><span>Linux</span></li>
+                        
+                          <li><a title="Linux - 文件、磁盘管理" href="14954528363090.html">Linux - 文件、磁盘管理</a></li>
+                        
+                          <li><a title="Linux - 常用基本命令" href="14954518367171.html">Linux - 常用基本命令</a></li>
+                        
+                          <li><a title="Linux - 文件和目录" href="14954377078014.html">Linux - 文件和目录</a></li>
+                        
+
+                    
+                      <li class="side-title"><span>Documentation</span></li>
+                        
+                          <li><a title="企业证书需要" href="15132354899270.html">企业证书需要</a></li>
+                        
+                          <li><a title="3D Touch" href="15038471972999.html">3D Touch</a></li>
+                        
+                          <li><a title="CAGradientLayer" href="15038463059094.html">CAGradientLayer</a></li>
+                        
+                          <li><a title="Custom UIViews from XIB files" href="15036540820094.html">Custom UIViews from XIB files</a></li>
+                        
+                          <li><a title="UIBezierPath" href="15036524793322.html">UIBezierPath</a></li>
+                        
+                          <li><a title="GCD(Grand Central Dispatch)" href="15035627499170.html">GCD(Grand Central Dispatch)</a></li>
+                        
+
+                    
+                  </ul>
+                </nav>
                 </div>
-              </div><!-- article -->
-        
-			<div class="article">
-                <a class="clearlink" href="15132354899270.html">
-                
-                  <h1>企业证书需要</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<ol>
-<li>邓白氏码  不清楚公司是否申请过,如果没有申请过可能需要半个月左右时间(最快1周)</li>
-<li>申请企业证书, 现在苹果对国内企业证书申请比较严格最快1周可能需要半个月甚至更久(美国快过圣诞节和元旦了)</li>
-</ol>
+              </div>
+            </div>
+            <div class="large-9 medium-9 columns">
 
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2017/12/14</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='Documentation.html'>Documentation</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
-                <a class="clearlink" href="15101967456310.html">
-                
-                  <h1>使用 Runloop 遇到的问题</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<p>首先: <code>swift</code> 与 <code>C</code> 兼容不如 <code>OC</code> <br/>
-1. 生成<code>CFRunLoopObserverContext</code>比<code>OC</code>艰难好多&hellip;</p>
-
-<pre><code>func addRunloopObserver() {
-        autoreleasepool {
-            guard let runloop = CFRunLoopGetCurrent() else {return}
-            let unmanaged = Unmanaged.passRetained(self)
-            let uptr = unmanaged.toOpaque()
-            let vptr = UnsafeMutableRawPointer(uptr)
-            var content = CFRunLoopObserverContext(version: 0, info: vptr, retain: nil, release: nil, copyDescription: nil)
-            guard let obserber = CFRunLoopObserverCreate(kCFAllocatorDefault, CFRunLoopActivity.beforeWaiting.rawValue, true, Int.max - 999, observerCallbackFunc(), &amp;content) else {return}
-            CFRunLoopAddObserver(runloop, obserber, CFRunLoopMode.defaultMode)
-        }
-    }
-</code></pre>
-
-<p>注意 content ,真是比OC复杂啊</p>
-
-<ol>
-<li>强转也变了&hellip;</li>
-</ol>
-
-<pre><code>func observerCallbackFunc() -&gt; CFRunLoopObserverCallBack {
-        
-        return {(observer, activity, context) -&gt; Void in
-            guard let context = context else {
-                return
-            }
-            let work = Unmanaged&lt;RunLoopWorker&gt;.fromOpaque(context).takeUnretainedValue()
-            
-            if work.tasks.count == 0 { return }
-            var result = false
-            while result == false &amp;&amp; work.tasks.count &gt; 0 {
-                // 取出任务
-                if let unit = work.tasks.first,unit.values.count &gt; 0 {
-                    result = unit.values.first!()
-                    work.tasks.removeFirst()
-                }
-            }
-        }
-    }
-</code></pre>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2017/11/9</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='%E9%81%87%E5%88%B0Bug.html'>遇到Bug</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
-                <a class="clearlink" href="15096779127051.html">
-                
-                  <h1>collectionView自定义layout</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<blockquote>
-<p>今天,YouTube推荐了一个自定义layout的视频( Custom Collection View Layouts in iOS),看了一下挺简单明了的,而且基本的操作都包含了. <br/>
-<strong>视频地址:</strong> <a href="https://www.youtube.com/watch?v=DIxyCh55SqQ">Pinterest Basic Layout - Custom Collection View Layouts in iOS - raywenderlich.com</a><br/>
-<strong>github地址:</strong> <a href="https://github.com/AZCoder2/Pinterest">Pinterest</a></p>
-</blockquote>
-
-<p>核心代码:</p>
-
-<pre><code>//
-//  PinterestLayout.swift
-//  Pinterest
-//
-//  Created by Tom Ranalli on 12/25/16.
-//  Copyright © 2016 Razeware LLC. All rights reserved.
-//
-
-import UIKit
-
-// MARK: - Protocols
-protocol PinterestLayoutDelegate {
-  
-  // Request height of photo
-  func collectionView(_ collectionView:UICollectionView, heightForPhotoAtIndexPath indexPath:NSIndexPath,
-                      withWidth:CGFloat) -&gt; CGFloat
-  
-  // Request annotation for photo
-  func collectionView(_ collectionView: UICollectionView,
-                      heightForAnnotationAtIndexPath indexPath: NSIndexPath, withWidth width: CGFloat) -&gt; CGFloat
-}
-
-class PinterestLayoutAttributes: UICollectionViewLayoutAttributes {
-  
-  // This declares the photoHeight property that the cell will use to resize its image view
-  var photoHeight: CGFloat = 0.0
-  
-  /* This overrides copy(_with:)
-   
-     Subclasses of UICollectionViewLayoutAttributes need to conform to the NSCopying protocol 
-     because the attribute’s objects can be copied internally. You override this method to 
-     guarantee that the photoHeight property is set when the object is copied.
-  */
-  
-  override func copy(with zone: NSZone? = nil) -&gt; Any {
-    let copy = super.copy(with: zone) as! PinterestLayoutAttributes
-    copy.photoHeight = photoHeight
-    return copy
-  }
-  
-  /* This overrides isEqual(_:), and it’s mandatory as well.
  
-     The collection view determines whether the attributes have changed by comparing the old 
-     and new attribute objects using isEqual(_:). You must implement it to compare the custom
-     properties of your subclass. The code compares the photoHeight of both instances, and
-     if they are equal, calls super to determine if the inherited attributes are the same;
-     if the photo heights are different, it returns false
-  */
 
-  override func isEqual(_ object: Any?) -&gt; Bool {
-    if let attributes = object as? PinterestLayoutAttributes {
-      if( attributes.photoHeight == photoHeight  ) {
-        return super.isEqual(object)
-      }
-    }
-    return false
-  }
-}
 
-// MARK: - Class definition
-class PinterestLayout: UICollectionViewLayout {
-  
-  // MARK: - Properties
-  
-  // Keep reference to the delegate
-  var delegate: PinterestLayoutDelegate!
-  
-  // Configure number of columns and cell padding
-  var numberOfColumns = 2
-  var cellPadding: CGFloat = 6.0
-  
-  // This is an array to cache the calculated attributes. 
-  
-  /* When you call prepareLayout(), you’ll calculate the attributes for all items and add them to the cache. When the collection view later requests the layout attributes, you can be efficient and query the cache instead of recalculating them every time
-  */
-  
-  private var cache = [PinterestLayoutAttributes]()
-  
-  // This declares two properties to store the content size.
-  // contentHeight is incremented as photos are added
-  private var contentHeight: CGFloat  = 0.0
-  
-  // contentWidth is calculated based on the collection view width and its content inset.
-  private var contentWidth: CGFloat {
-    let insets = collectionView!.contentInset
-    return collectionView!.bounds.width - (insets.left + insets.right)
-  }
-  
-  // Variable overrides
-  
-  /* This overrides collectionViewContentSize variable of the abstract parent class, and returns the size of the collection view’s contents. To do this, you use both contentWidth and contentHeight calculated in the previous steps.
-  */
- 
-  override var collectionViewContentSize: CGSize {
-    return CGSize(width: contentWidth, height: contentHeight)
-  }
-  
-  /* This overrides layoutAttributesClass variable to tell the collection view to use PinterestLayoutAttributes whenever it creates layout attributes objects.
-  */
-  
-  override class var layoutAttributesClass: AnyClass {
-    return PinterestLayoutAttributes.self
-  }
-  
-  // MARK: - Overrides
-  
-  override func prepare() {
-    
-    // Only calculate if cache is empty
-    if cache.isEmpty {
-      
-      /*  This declares and fills the xOffset array with the x-coordinate for every column based on the column widths.
-      */
-      let columnWidth = contentWidth / CGFloat(numberOfColumns)
-      
-      var xOffset = [CGFloat]()
-      
-      for column in 0 ..&lt; numberOfColumns {
-        xOffset.append(CGFloat(column) * columnWidth )
-      }
-      
-      /*  The yOffset array tracks the y-position for every column. You initialize each value in yOffset to 0, since this is the offset of the first item in each column.
-      */
-      var column = 0
-      var yOffset = [CGFloat](repeating: 0, count: numberOfColumns)
-      
-      // This loops through all the items in the first section, as this particular 
-      // layout has only one section
-      for item in 0 ..&lt; collectionView!.numberOfItems(inSection: 0) {
-        
-        let indexPath = NSIndexPath(item: item, section: 0)
-        
-        // This is where you perform the frame calculation
-        // Width is the previously calculated cellWidth, with the padding between cells removed
-        let width = columnWidth - cellPadding * 2
-        
-        // You ask the delegate for the height of the image
-        let photoHeight = delegate.collectionView(collectionView!,
-                                                  heightForPhotoAtIndexPath: indexPath,
-                                                  withWidth:width)
+	
+		<div class="markdown-body">
+		<h1>Swift - 集中处理@objc</h1>
 
-        // You ask the delegate for the height of the annotation
-        let annotationHeight = delegate.collectionView(collectionView!,
-                                    heightForAnnotationAtIndexPath: indexPath,
-                                    withWidth: width)
-        
-        // Calculate the frame height based on those heights and the predefined cellPadding 
-        // for the top and bottom
-        let height = cellPadding +  photoHeight + annotationHeight + cellPadding
-        
-        // Combine this with the x and y offsets of the current column to create the
-        // insetFrame used by the attribute
-        let frame = CGRect(x: xOffset[column], y: yOffset[column], width: columnWidth, height: height)
-        let insetFrame = frame.insetBy(dx: cellPadding, dy: cellPadding)
-        
-        // This creates an instance of PinterestLayoutAttributes
-        let attributes = PinterestLayoutAttributes(forCellWith: indexPath as IndexPath)
-        attributes.photoHeight = photoHeight
-        
-        // Sets its frame using insetFrame
-        attributes.frame = insetFrame
-        
-        // Append the attributes to cache
-        cache.append(attributes)
-        
-        // This expands contentHeight to account for the frame of the newly calculated item
-        contentHeight = max(contentHeight, frame.maxY)
-        
-        // It then advances the yOffset for the current column based on the frame
-        yOffset[column] = yOffset[column] + height
-        
-        // Finally, it advances the column so that the next item will be placed in the next column.
-        if column &gt;= numberOfColumns - 1 {
-          column = 0
-        } else {
-          column = column + 1
-        }
-        
-      }
-    }
-  }
-  
-  override func layoutAttributesForElements(in rect: CGRect) -&gt; [UICollectionViewLayoutAttributes]? {
-    
-    var layoutAttributes = [UICollectionViewLayoutAttributes]()
-    
-    //  Iterate through the attributes in cache and check if their frames intersect with rect
-    for attributes in cache {
-      if attributes.frame.intersects(rect) {
-        layoutAttributes.append(attributes) // Add in any attributes for display
-      }
-    }
-    return layoutAttributes
-  }
+		<p><img src="media/15158138774013/WX20180113-112401@2x.png" alt="WX20180113-112401@2x"/></p>
 
-}
 
-</code></pre>
-
-<p>比较有意思的一个计算高度方式:</p>
-
-<pre><code>  // This provides the height of the photos
-  
-  /* It uses AVMakeRectWithAspectRatioInsideRect() from AVFoundation to calculate a height that retains the photo’s aspect ratio, restricted to the cell’s width.
-   */
-  
-  func collectionView(_ collectionView:UICollectionView,
-                      heightForPhotoAtIndexPath indexPath: NSIndexPath,
-                      withWidth width: CGFloat) -&gt; CGFloat {
-    
-    let photo = photos[indexPath.item]
-    let boundingRect =  CGRect(x: 0, y: 0, width: width, height: CGFloat(MAXFLOAT))
-    let rect  = AVMakeRect(aspectRatio: photo.image.size, insideRect: boundingRect)
-    
-    return rect.size.height
-  }
-</code></pre>
-
-<p>图片解压:</p>
-
-<pre><code>extension UIImage {
-  
-  var decompressedImage: UIImage {
-    UIGraphicsBeginImageContextWithOptions(size, true, 0)
-    draw(at: CGPoint.zero)
-    let decompressedImage = UIGraphicsGetImageFromCurrentImageContext()
-    UIGraphicsEndImageContext()
-    return decompressedImage!
-  }
-  
-}
-</code></pre>
-
-<p>一个从前没有用过的Api:</p>
-
-<pre><code>  /* 
-   This code calls the super implementation to make sure that the standard attributes are applied. Then, it casts the attributes object into an instance of PinterestLayoutAttributes to obtain the photo height and then changes the image view height by setting the imageViewHeightLayoutConstraint constant value.
-  */
-  
-  override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
-    super.apply(layoutAttributes)
-    
-    if let attributes = layoutAttributes as? PinterestLayoutAttributes {
-      imageViewHeightLayoutConstraint.constant = attributes.photoHeight
-    }
-  }
-</code></pre>
-
-<p>===========<mark>完</mark>=========</p>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2017/11/3</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='%E6%9D%82%E8%AE%B0.html'>杂记</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
-                <a class="clearlink" href="15060704391596.html">
-                
-                  <h1>[转]浅析 iOS 应用开发中的断点续传</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<blockquote>
-<p>原贴地址<a href="https://www.ibm.com/developerworks/cn/mobile/mo-cn-breakpoint/index.html">IBM developerWorks</a></p>
-</blockquote>
-
-<h2 id="toc_0">断点续传概述</h2>
-
-<p>断点续传就是从文件上次中断的地方开始重新下载或上传数据，而不是从文件开头。（本文的断点续传仅涉及下载，上传不在讨论之内）当下载大文件的时候，如果没有实现断点续传功能，那么每次出现异常或者用户主动的暂停，都会去重头下载，这样很浪费时间。所以项目中要实现大文件下载，断点续传功能就必不可少了。当然，断点续传有一种特殊的情况，就是 iOS 应用被用户 kill 掉或者应用 crash，要实现应用重启之后的断点续传。这种特殊情况是本文要解决的问题。</p>
-
-<h2 id="toc_1">断点续传原理</h2>
-
-<p>要实现断点续传 , 服务器必须支持。目前最常见的是两种方式：FTP 和 HTTP。下面来简单介绍 HTTP 断点续传的原理。</p>
-
-<h3 id="toc_2">HTTP</h3>
-
-<p>通过 HTTP，可以非常方便的实现断点续传。断点续传主要依赖于 HTTP 头部定义的 Range 来完成。具体 Range 的说明参见 <a href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html">RFC2616</a>中 14.35.2 节，在请求某范围内的资源时，可以更有效地对大资源发出请求或从传输错误中恢复下载。有了 Range，应用可以通过 HTTP 请求曾经获取失败的资源的某一个返回或者是部分，来恢复下载该资源。当然并不是所有的服务器都支持 Range，但大多数服务器是可以的。Range 是以字节计算的，请求的时候不必给出结尾字节数，因为请求方并不一定知道资源的大小。Range 的定义如图 1 所示：</p>
-
-<h5 id="toc_3">图 1. HTTP-Range</h5>
-
-<p><img src="media/15060704391596/image001.png" alt="HTTP-Range"/></p>
-
-<p>图 2 展示了 HTTP request 的头部信息：</p>
-
-<h5 id="toc_4">图 2. HTTP request 例子</h5>
-
-<p><img src="media/15060704391596/image002.png" alt="HTTP request 例子"/></p>
-
-<p>在上面的例子中的“Range: bytes=1208765-”表示请求资源开头 1208765 字节之后的部分。</p>
-
-<p>图 3 展示了 HTTP response 的头部信息：</p>
-
-<h5 id="toc_5">图 3. HTTP response 例子</h5>
-
-<p><img src="media/15060704391596/image003.png" alt="HTTP response 例子"/></p>
-
-<p>上面例子中的”Accept-Ranges: bytes”表示服务器端接受请求资源的某一个范围，并允许对指定资源进行字节类型访问。”Content-Range: bytes 1208765-20489997/20489998”说明了返回提供了请求资源所在的原始实体内的位置，还给出了整个资源的长度。这里需要注意的是 HTTP return code 是 206 而不是 200。</p>
-
-<h2 id="toc_6">断点续传分析 -AFHTTPRequestOperation</h2>
-
-<p>了解了断点续传的原理之后，我们就可以动手来实现 iOS 应用中的断点续传了。由于笔者项目的资源都是部署在 HTTP 服务器上 , 所以断点续传功能也是基于 HTTP 实现的。首先来看下第三方网络框架 AFNetworking 中提供的实现。清单 1 示例代码是用来实现断点续传部分的代码：</p>
-
-<h5 id="toc_7">清单 1. 使用 AFHTTPRequestOperation 实现断点续传的代码</h5>
-
-<pre><code>// 1 指定下载文件地址 URLString 
-// 2 获取保存的文件路径 filePath 
-// 3 创建 NSURLRequest 
-NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:URLString]]; 
-unsigned long long downloadedBytes = 0; 
- 
-if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) { 
-// 3.1 若之前下载过 , 则在 HTTP 请求头部加入 Range 
-   // 获取已下载文件的 size 
-   downloadedBytes = [self fileSizeForPath:filePath]; 
-        
-   // 验证是否下载过文件
-   if (downloadedBytes &gt; 0) { 
-       // 若下载过 , 断点续传的时候修改 HTTP 头部部分的 Range 
-       NSMutableURLRequest *mutableURLRequest = [request mutableCopy]; 
-       NSString *requestRange = 
-       [NSString stringWithFormat:@&quot;bytes=%llu-&quot;, downloadedBytes]; 
-       [mutableURLRequest setValue:requestRange forHTTPHeaderField:@&quot;Range&quot;]; 
-       request = mutableURLRequest; 
-   } 
-} 
- 
-// 4 创建 AFHTTPRequestOperation 
-AFHTTPRequestOperation *operation 
- = [[AFHTTPRequestOperation alloc] initWithRequest:request]; 
- 
-// 5 设置操作输出流 , 保存在第 2 步的文件中
-operation.outputStream = [NSOutputStream 
-outputStreamToFileAtPath:filePath append:YES]; 
- 
-// 6 设置下载进度处理 block 
-[operation setDownloadProgressBlock:^(NSUInteger bytesRead, 
-long long totalBytesRead, long long totalBytesExpectedToRead) { 
-// bytesRead 当前读取的字节数
-// totalBytesRead 读取的总字节数 , 包含断点续传之前的
-// totalBytesExpectedToRead 文件总大小
-}]; 
- 
-// 7 设置 success 和 failure 处理 block 
-[operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation 
-*operation, id responseObject) { 
- 
-} failure:^(AFHTTPRequestOperation *operation, NSError *error) { 
- 
-}]; 
- 
-// 8 启动 operation 
-[operation start];
-</code></pre>
-
-<p>使用以上代码 , 断点续传功能就实现了，应用重新启动或者出现异常情况下 , 都可以基于已经下载的部分开始继续下载。关键的地方就是把已经下载的数据持久化。接下来简单看下 AFHTTPRequestOperation 是怎么实现的。通过查看源码 , 我们发现 AFHTTPRequestOperation 继承自 AFURLConnectionOperation , 而 AFURLConnectionOperation 实现了 NSURLConnectionDataDelegate 协议。处理流程如图 4 所示：</p>
-
-<h5 id="toc_8">图 4. AFURLHTTPrequestOperation 处理流程</h5>
-
-<p><img src="media/15060704391596/image004.png" alt="AFURLHTTPrequestOperation 处理流程"/></p>
-
-<p>这里 AFNetworking 为什么采取子线程调异步接口的方式 , 是因为直接在主线程调用异步接口 , 会有一个 Runloop 的问题。当主线程调用 [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES] 时 , 请求发出之后的监听任务会加入到主线程的 Runloop 中 ,RunloopMode 默认为 NSDefaultRunLoopMode, 这个表示只有当前线程的 Runloop 处理 NSDefaultRunLoopMode 时，这个任务才会被执行。而当用户在滚动 TableView 和 ScrollView 的时候，主线程的 Runloop 处于 NSEventTrackingRunLoop 模式下，就不会执行 NSDefaultRunLoopMode 的任务。</p>
-
-<p>另外由于采取子线程调用接口的方式 , 所以这边的 DownloadProgressBlock,success 和 failure Block 都需要回到主线程来处理。</p>
-
-<h2 id="toc_9">断点续传实战</h2>
-
-<p>了解了原理和 AFHTTPRequestOperation 的例子之后 , 来看下实现断点续传的三种方式：</p>
-
-<h3 id="toc_10">NSURLConnection</h3>
-
-<p>基于 NSURLConnection 实现断点续传 , 关键是满足 NSURLConnectionDataDelegate 协议，主要实现了如下三个方法：</p>
-
-<h5 id="toc_11">清单 2. NSURLConnection 的实现</h5>
-
-<pre><code>// SWIFT 
-// 请求失败处理
-func connection(connection: NSURLConnection, 
-didFailWithError error: NSError) { 
-   self.failureHandler(error: error) 
-} 
- 
-// 接收到服务器响应是调用
-func connection(connection: NSURLConnection, 
- didReceiveResponse response: NSURLResponse) { 
-   if self.totalLength != 0 { 
-       return 
-   } 
- 
-   self.writeHandle = NSFileHandle(forWritingAtPath: 
-   FileManager.instance.cacheFilePath(self.fileName!)) 
- 
-   self.totalLength = response.expectedContentLength + self.currentLength 
-} 
- 
-// 当服务器返回实体数据是调用
-func connection(connection: NSURLConnection, didReceiveData data: NSData) { 
-   let length = data.length 
-    
-   // move to the end of file 
-   self.writeHandle.seekToEndOfFile() 
-    
-   // write data to sanbox 
-   self.writeHandle.writeData(data) 
-    
-   // calculate data length 
-   self.currentLength = self.currentLength + length 
-    
-   print(&quot;currentLength\(self.currentLength)-totalLength\(self.totalLength)&quot;) 
-    
-   if (self.downloadProgressHandler != nil) { 
-       self.downloadProgressHandler(bytes: length, totalBytes: 
-       self.currentLength, totalBytesExpected: self.totalLength) 
-   } 
-} 
- 
-// 下载完毕后调用
-func connectionDidFinishLoading(connection: NSURLConnection) { 
-   self.currentLength = 0 
-   self.totalLength = 0 
- 
-   //close write handle 
-   self.writeHandle.closeFile() 
-   self.writeHandle = nil 
- 
-   let cacheFilePath = FileManager.instance.cacheFilePath(self.fileName!) 
-   let documenFilePath = FileManager.instance.documentFilePath(self.fileName!) 
-        
-   do { 
-       try FileManager.instance.moveItemAtPath(cacheFilePath, toPath: documenFilePath) 
-   } catch let e as NSError { 
-       print(&quot;Error occurred when to move file: \(e)&quot;) 
-   } 
-    
-   self.successHandler(responseObject:fileName!) 
-}
-</code></pre>
-
-<p>如图 5 所示 , 说明了 NSURLConnection 的一般处理流程。（代码详见下载包）</p>
-
-<h5 id="toc_12">图 5. NSURLConnection 流程</h5>
-
-<p><img src="media/15060704391596/image005.png" alt="NSURLConnection 流程"/></p>
-
-<p>根据图 5 的一般流程，在 didReceiveResponse 中初始化 fileHandler, 在 didReceiveData 中 , 将接收到的数据持久化的文件中 , 在 connectionDidFinishLoading 中，清空数据和关闭 fileHandler，并将文件保存到 Document 目录下。所以当请求出现异常或应用被用户杀掉，都可以通过持久化的中间文件来断点续传。初始化 NSURLConnection 的时候要注意设置 scheduleInRunLoop 为 NSRunLoopCommonModes，不然就会出现进度条 UI 无法更新的现象。实现效果如图 6 所示：</p>
-
-<h5 id="toc_13">图 6. NSURLConnection 演示</h5>
-
-<p><img src="media/15060704391596/image006.gif" alt="NSURLConnection 演示"/></p>
-
-<h3 id="toc_14">NSURLSessionDataTask</h3>
-
-<p>苹果在 iOS7 开始，推出了一个新的类 NSURLSession, 它具备了 NSURLConnection 所具备的方法，并且更强大。由于通过 NSURLConnection 从 2015 年开始被弃用了，所以读者推荐基于 NSURLSession 去实现续传。NSURLConnection 和 NSURLSession delegate 方法的映射关系 , 如图 7 所示。所以关键是要满足 NSURLSessionDataDelegate 和 NSURLsessionTaskDelegate。</p>
-
-<h5 id="toc_15">图 7. 协议之间映射关系</h5>
-
-<p><img src="media/15060704391596/image007.png" alt="协议之间映射关系"/></p>
-
-<p>代码如清单 3 所示 , 基本和 NSURLConnection 实现的一样。</p>
-
-<h5 id="toc_16">清单 3. NSURLSessionDataTask 的实现</h5>
-
-<pre><code>// SWIFT 
-// 接收数据
-func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, 
-idReceiveData data: NSData) { 
-   //. . . 
-} 
-// 接收服务器响应
-func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, 
-didReceiveResponse response: NSURLResponse, completionHandler: 
- (NSURLSessionResponseDisposition) -&gt; Void) { 
-   // . . . 
-   completionHandler(.Allow) 
-} 
- 
-// 请求完成
-func URLSession(session: NSURLSession, task: NSURLSessionTask, 
- didCompleteWithError error: NSError?) { 
-   if error == nil { 
-       // . . . 
-       self.successHandler(responseObject:self.fileName!) 
-   } else { 
-       self.failureHandler(error:error!) 
-   } 
-}
-</code></pre>
-
-<p>区别在与 didComleteWithError, 它将 NSURLConnection 中的 connection:didFailWithError:</p>
-
-<p>和 connectionDidFinishLoading: 整合到了一起 , 所以这边要根据 error 区分执行成功的 Block 和失败的 Block。实现效果如图 8 所示：</p>
-
-<h5 id="toc_17">图 8. NSURLSessionDataTask 演示</h5>
-
-<p><img src="media/15060704391596/image008.gif" alt="NSURLSessionDataTask 演示"/></p>
-
-<h3 id="toc_18">NSURLSessionDownTask</h3>
-
-<p>最后来看下 NSURLSession 中用来下载的类 NSURLSessionDownloadTask，对应的协议是 NSURLSessionDownloadDelegate，如图 9 所示：</p>
-
-<h5 id="toc_19">图 9. NSURLSessionDownloadDelegate 协议</h5>
-
-<p><img src="media/15060704391596/image009.png" alt="NSURLSessionDownloadDelegate 协议"/></p>
-
-<p>其中在退出 didFinishDownloadingToURL 后，会自动删除 temp 目录下对应的文件。所以有关文件操作必须要在这个方法里面处理。之前笔者曾想找到这个 tmp 文件 , 基于这个文件做断点续传 , 无奈一直找不到这个文件的路径。等以后 SWIFT 公布 NSURLSession 的源码之后，兴许会有方法找到。基于 NSURLSessionDownloadTask 来实现的话 , 需要在 cancelByProducingResumeData 中保存已经下载的数据。进度通知就非常简单了，直接在 URLSession:downloadTask:didWriteData:totalBytesWritten:totalBytesWritten:totalBytesExpectedToWrite: 实现即可。代码如清单 4 所示：</p>
-
-<h5 id="toc_20">清单 4. NSURLSessionDownloadTask 的实现</h5>
-
-<pre><code>//SWIFT 
- 
-//UI 触发 pause 
-func pause(){ 
-   self.downloadTask?.cancelByProducingResumeData({data -&gt; Void in 
-       if data != nil { 
-data!.writeToFile(FileManager.instance.cacheFilePath(self.fileName!), 
-atomically: false) 
-} 
-       }) 
-   self.downloadTask = nil 
-} 
- 
-// MARK: - NSURLSessionDownloadDelegate 
-func URLSession(session: NSURLSession, downloadTask: 
-NSURLSessionDownloadTask, didWriteData bytesWritten: Int64, 
-totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) { 
-   if (self.downloadProgressHandler != nil) { 
-       self.downloadProgressHandler(bytes: Int(bytesWritten), 
-        totalBytes: totalBytesWritten, totalBytesExpected: totalBytesExpectedToWrite) 
-   } 
-} 
- 
-func URLSession(session: NSURLSession, task: NSURLSessionTask, 
-didCompleteWithError error: NSError?) { 
-   if error != nil {//real error 
-       self.failureHandler(error:error!) 
-   } 
-} 
- 
-func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, 
- didFinishDownloadingToURL location: NSURL) { 
-   let cacheFilePath = FileManager.instance.cacheFilePath(self.fileName!) 
-   let documenFilePath = FileManager.instance.documentFilePath(self.fileName!) 
-   do { 
-       if FileManager.instance.fileExistsAtPath(cacheFilePath){ 
-           try FileManager.instance.removeItemAtPath(cacheFilePath) 
-       } 
-       try FileManager.instance.moveItemAtPath(location.path!, toPath: documenFilePath) 
-   } catch let e as NSError { 
-       print(&quot;Error occurred when to move file: \(e)&quot;) 
-   } 
-   self.successHandler(responseObject:documenFilePath) 
-}
-</code></pre>
-
-<p>实现效果如图 10 所示：</p>
-
-<h5 id="toc_21">图 10. NSURLSessionDownloadTask 演示</h5>
-
-<p><img src="media/15060704391596/image010.gif" alt="NSURLSessionDownloadTask 演示"/></p>
-
-<h2 id="toc_22">总结</h2>
-
-<p>本文从断点续传概述开始，介绍了断点续传的应用背景，通过原理的描述，相信读者对断点续传有了基本的认识和理解。接着笔者介绍了通过 AFHTTPRequestOpeartion 实现的代码，并对 AFHTTPRequestOpeartion 做了简单的分析。最后笔者结合的实际需求，基于 NSURLConnection, NSURLSeesionDataTask 和 NSURLSessionDownloadtask。其实，下载的实现远不止这些内容，本文只介绍了简单的使用。希望在进一步的学习和应用中能继续与大家分享。</p>
-
-<h4 id="toc_23">相关主题</h4>
-
-<ul>
-<li>参考 <a href="https://www.w3.org/Protocols/rfc959/4_FileTransfer.html">RFC959</a>，了解 FTP 协议文本的说明。</li>
-<li>参考 <a href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html">RFC2616</a>，了解 HTTP 的说明。</li>
-<li>参考 <a href="https://github.com/AFNetworking/AFNetworking/blob/2.x/AFNetworking/AFHTTPRequestOperation.m">AFHTTPRequestOperation</a>, 了解源码。</li>
-<li>参考 <a href="https://developer.apple.com/library/ios/documentation/Cocoa/Reference/Foundation/ObjC_classic/index.html#//apple_ref/doc/uid/20001091">iOSDeveloperLibrary</a>，了解 Apple 官方文档对 NSURLConnection, NSURLSeesionDownloadTask 和 NSURLSeesionDataTask 的说明。</li>
-<li>访问 developerWorks <a href="http://www.ibm.com/developerworks/cn/mobile/">Mobile 专区</a>，了解关于信息管理的更多信息，获取技术文档、how-to 文章、培训、下载、产品信息以及其他资源。</li>
-</ul>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2017/9/22</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='%E6%95%99%E7%A8%8B.html'>教程</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-              
-
-
-			<div class="row">
-			  <div class="large-6 columns">
-			  <p class="text-left" style="padding-top:25px;">
-			   
-			  </p>
-			  </div>
-			  <div class="large-6 columns">
-			<p class="text-right" style="padding-top:25px;">
-			 <a href="all_1.html">&raquo; Next Page</a> 
-			</p>
-			  </div>
-			</div>
 		</div>
-	</div><!-- large 8 -->
+	
 
- <div class="large-4 medium-4 columns">
-  <div class="hide-for-small">
-    <div id="sidebar" class="sidebar">
-          <div id="site-info" class="site-info">
-            
-                <div class="site-a-logo"><img src="https://raw.githubusercontent.com/Mekor/mekor.github.io/master/Blog/asset/icon.jpg" /></div>
-            
-                <h1>李小争</h1>
-                <div class="site-des">记录开发中遇到的一些问题</div>
-                <div class="social">
+ 
+	
 
+ 
+	
 
+ 
+	
 
+ 
+	
 
-
-
-
+  
+  
+</div></div>
 
 
-
-
-  <a target="_blank" class="rss" href="atom.xml" title="RSS">RSS</a>
-                
-              	 </div>
-          	</div>
-
-             
-
-              <div id="site-categories" class="side-item ">
-                <div class="side-header">
-                  <h2>Categories</h2>
-                </div>
-                <div class="side-content">
-
-      	<p class="cat-list">
-        
-            <a href="%E5%8E%9F%E7%90%86%E6%8E%A2%E7%A9%B6.html"><strong>原理探究</strong></a>
-        
-            <a href="%E6%8A%80%E5%B7%A7.html"><strong>技巧</strong></a>
-        
-            <a href="%E6%95%99%E7%A8%8B.html"><strong>教程</strong></a>
-        
-            <a href="%E9%81%87%E5%88%B0Bug.html"><strong>遇到Bug</strong></a>
-        
-            <a href="%E6%9D%82%E8%AE%B0.html"><strong>杂记</strong></a>
-        
-            <a href="Swift.html"><strong>Swift</strong></a>
-        
-            <a href="C/C++.html"><strong>C/C++</strong></a>
-        
-            <a href="Linux.html"><strong>Linux</strong></a>
-        
-            <a href="Documentation.html"><strong>Documentation</strong></a>
-         
-        </p>
-
-
-                </div>
-              </div>
-
-              <div id="site-categories" class="side-item">
-                <div class="side-header">
-                  <h2>Recent Posts</h2>
-                </div>
-                <div class="side-content">
-                <ul class="posts-list">
-	      
-		      
-			      <li class="post">
-			        <a href="15158138774013.html">Swift - 集中处理@objc</a>
-			      </li>
-		     
-		  
-		      
-			      <li class="post">
-			        <a href="15132354899270.html">企业证书需要</a>
-			      </li>
-		     
-		  
-		      
-			      <li class="post">
-			        <a href="15101967456310.html">使用 Runloop 遇到的问题</a>
-			      </li>
-		     
-		  
-		      
-			      <li class="post">
-			        <a href="15096779127051.html">collectionView自定义layout</a>
-			      </li>
-		     
-		  
-		      
-			      <li class="post">
-			        <a href="15060704391596.html">[转]浅析 iOS 应用开发中的断点续传</a>
-			      </li>
-		     
-		  
-		      
-		  
-		      
-		  
-		      
-		  
-		      
-		  
-		      
-		  
-		      
-		  
-		      
-		  
-		      
-		  
-		      
-		  
-		      
-		  
-		      
-		  
-		      
-		  
-		      
-		  
-		      
-		  
-		      
-		   
-		  		</ul>
-                </div>
-              </div>
-        </div><!-- sidebar -->
-      </div><!-- hide for small -->
-</div><!-- large 4 -->
-
-</div><!-- row -->
-
- <div class="page-bottom clearfix">
+<div class="page-bottom">
   <div class="row">
-   <p class="copyright">Copyright &copy; 2015
+  <hr />
+  <div class="small-9 columns">
+  <p class="copyright">Copyright &copy; 2015
 Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a>,&nbsp; 
 Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
+  </div>
+  <div class="small-3 columns">
+  <p class="copyright text-right"><a href="#header">TOP</a></p>
+  </div>
+   
   </div>
 </div>
 
         </section>
       </div>
     </div>
-
-  
     
-
+    
     <script src="asset/js/foundation.min.js"></script>
+    <script src="asset/js/foundation/foundation.offcanvas.js"></script>
     <script>
       $(document).foundation();
-      function fixSidebarHeight(){
-        var w1 = $('.markdown-body').height();
-          var w2 = $('#sidebar').height();
-          if (w1 > w2) { $('#sidebar').height(w1); };
-      }
-      $(function(){
-        fixSidebarHeight();
-      })
-      $(window).load(function(){
-          fixSidebarHeight();
-      });
+
      
     </script>
-
     <script src="asset/chart/all-min.js"></script><script type="text/javascript">$(function(){    var mwebii=0;    var mwebChartEleId = 'mweb-chart-ele-';    $('pre>code').each(function(){        mwebii++;        var eleiid = mwebChartEleId+mwebii;        if($(this).hasClass('language-sequence')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = Diagram.parse($(this).text());            diagram.drawSVG(eleiid,{theme: 'simple'});        }else if($(this).hasClass('language-flow')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = flowchart.parse($(this).text());            diagram.drawSVG(eleiid);        }    });});</script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
-
 
   </body>
 </html>
