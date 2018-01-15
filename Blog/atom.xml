@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2018-01-15T11:25:14+08:00</updated>
+  <updated>2018-01-15T11:26:19+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -14,12 +14,18 @@
 
   
   <entry>
-    <title type="html"><![CDATA[SwiftTips - 集中处理@objc]]></title>
+    <title type="html"><![CDATA[SwiftTips - 集中处理]]></title>
     <link href="http://www.citynight.cn/Blog/15158138774013.html"/>
     <updated>2018-01-13T11:24:37+08:00</updated>
     <id>http://www.citynight.cn/Blog/15158138774013.html</id>
     <content type="html"><![CDATA[
+<h2 id="toc_0">集中处理@objc</h2>
+
 <p><img src="media/15158138774013/WX20180113-112401@2x.png" alt="WX20180113-112401@2x"/></p>
+
+<h2 id="toc_1">模拟器不能执行的代码单独处理</h2>
+
+<p><img src="media/15158138774013/15159872783257.jpg" alt=""/></p>
 
 ]]></content>
   </entry>
