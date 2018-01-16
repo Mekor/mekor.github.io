@@ -552,13 +552,16 @@
 <li>Run loops 是线程相关的的基础框架的一部分。一个 run loop 就是一个事件处理 的循环,用来不停的调度工作以及处理输入事件。使用 run loop 的目的是让你的线程在有工作的时候忙于工作,而没工作的时候处于休眠状态。</li>
 <li>runloop就是运行循环(内部do-while),它的基本作用就是让程序持续运行,处理App中的各种事件(触摸,定时器,Selector).</li>
 <li>main函数中UIApplicationMain内部就启动了一个runloop,这样UIApplicationMain就会一直没有返回值,保持了程序的持续运行.这个默认的runloop是跟主线程相关联的.</li>
-<li>runloop 只能选择一个模式(Mode)启动,如果想切换其他模式只能退出当前循环再切换其他模式.如果当前模式中没有任何Source,timer,observer就会退出runloop
-## 2. RunLoop与线程
-每条线程都有唯一的一个与之对应的RunLoop对象,主线程的RunLoop启动的时候已经默认创建好了,其他线程的RunLoop需要主动创建(RunLoop在第一次获取的时候创建,在线程结束的时候销毁)
-## 3. RunLoop对象</li>
+<li>runloop 只能选择一个模式(Mode)启动,如果想切换其他模式只能退出当前循环再切换其他模式.如果当前模式中没有任何Source,timer,observer就会退出runloop</li>
 </ul>
 
-<h4 id="toc_1">iOS中有2套API来访问和使用runloop</h4>
+<h2 id="toc_1">2. RunLoop与线程</h2>
+
+<p>每条线程都有唯一的一个与之对应的RunLoop对象,主线程的RunLoop启动的时候已经默认创建好了,其他线程的RunLoop需要主动创建(RunLoop在第一次获取的时候创建,在线程结束的时候销毁)</p>
+
+<h2 id="toc_2">3. RunLoop对象</h2>
+
+<h4 id="toc_3">iOS中有2套API来访问和使用runloop</h4>
 
 <ul>
 <li> Foundation -&gt; NSRunLoop</li>
@@ -567,7 +570,7 @@
 
 <p>NSRunLoop和CFRunLoopRef都是runloop对象.NSRunLoop是基于CFRunLoopRef的一层OC封装</p>
 
-<h4 id="toc_2">获得RunLoop对象</h4>
+<h4 id="toc_4">获得RunLoop对象</h4>
 
 <ul>
 <li><p>Foundation </p>
@@ -582,9 +585,9 @@ CFRunLoopGetMain(): //获得主线程的RunLoop对象
 </code></pre></li>
 </ul>
 
-<h2 id="toc_3">4. RunLoop相关类</h2>
+<h2 id="toc_5">4. RunLoop相关类</h2>
 
-<h3 id="toc_4">Core Foundation中关于RunLoop的5个类</h3>
+<h3 id="toc_6">Core Foundation中关于RunLoop的5个类</h3>
 
 <ul>
 <li>CFRunLoopRef</li>
@@ -597,13 +600,13 @@ CFRunLoopGetMain(): //获得主线程的RunLoop对象
 <p>网上其他人博客总结(图一):<br/>
 <img src="media/14731740142157/14731758243846.jpg" alt=""/></p>
 
-<h3 id="toc_5">CFRunLoopModeRef(Run Loop 模式)</h3>
+<h3 id="toc_7">CFRunLoopModeRef(Run Loop 模式)</h3>
 
 <p><strong>CFRunLoopModeRef代表RunLoop的运行模式</strong>  一个RunLoop包含若干个Mode,每个Mode又包含若干个Source/Timer/Observer. 每次RunLoop启动时,只能指定其中一个Mode,这个Mode被称之为CurrentMode. 如果需要切换Mode,只能退出Loop,再重新指定一个Mode进入. 这样做主要是为了分隔开不同组的Source/Timer/Observer,让他们互不影响.</p>
 
 <p>Run loop 模式是所有要监视的输入源和定时源以及要通知的 run loop 注册观察者的集合。每次运行你的 run loop,你都要指定(无论显示还是隐式)其运行个模式。在 run loop 运行过程中,只有和模式相关的源才会被监视并允许他们传递事件消息。(类似的,只有和模式相关的观察者会通知 run loop 的进程)。和其他模式关联的源只有在 run loop 运行在其模式下才会运行,否则处于暂停状态。</p>
 
-<h3 id="toc_6">CFRunLoopModeRef</h3>
+<h3 id="toc_8">CFRunLoopModeRef</h3>
 
 <p><strong>系统默认注册了5个Mode:</strong></p>
 
@@ -618,7 +621,7 @@ CFRunLoopGetMain(): //获得主线程的RunLoop对象
 <p>Cocoa 和 Core foundation 定义了一个默认的和一些常用的模式,通常在代码中都是用字符串来标识这些模式。当然你也可以给模式名称指定一个字符串来自定义模式.<br/>
 runloop一启动就会选中一种模式，当选中了一种模式之后其它的模式就都不鸟。一个mode里面可以添加多个NSTimer(见上面图一),也就是说以后当创建NSTimer的时候，可以指定它是在什么模式下运行的。</p>
 
-<h3 id="toc_7">CFRunLoopSourceRef</h3>
+<h3 id="toc_9">CFRunLoopSourceRef</h3>
 
 <p><strong>CFRunLoopSourceRef是事件源（输入源）</strong></p>
 
@@ -635,11 +638,11 @@ Cocoa Perform Selector Sources</p>
 Source0：非基于Port的<br/>
 Source1：基于Port的</p>
 
-<h3 id="toc_8">CFRunLoopTimerRef</h3>
+<h3 id="toc_10">CFRunLoopTimerRef</h3>
 
 <p><strong>CFRunLoopTimerRef是基于时间的触发器</strong></p>
 
-<h4 id="toc_9">NSTimer:</h4>
+<h4 id="toc_11">NSTimer:</h4>
 
 <pre><code>- (void)timer2
 {
@@ -682,7 +685,7 @@ Source1：基于Port的</p>
 }
 </code></pre>
 
-<h4 id="toc_10">GCD中的定时器</h4>
+<h4 id="toc_12">GCD中的定时器</h4>
 
 <pre><code>//0.创建一个队列
     dispatch_queue_t queue = dispatch_get_global_queue(0, 0);
@@ -746,7 +749,7 @@ GCD定时器补充
  */
 </code></pre>
 
-<h3 id="toc_11">CFRunLoopObserverRef</h3>
+<h3 id="toc_13">CFRunLoopObserverRef</h3>
 
 <p><strong>CFRunLoopObserverRef是观察者，能够监听RunLoop的状态改变</strong></p>
 
@@ -778,7 +781,7 @@ typedef CF_OPTIONS(CFOptionFlags, CFRunLoopActivity) {
     CFRelease(observer);
 </code></pre>
 
-<h2 id="toc_12">5. RunLoop处理逻辑</h2>
+<h2 id="toc_14">5. RunLoop处理逻辑</h2>
 
 <p><img src="media/14731740142157/14732109138343.jpg" alt=""/><br/>
 <img src="media/14731740142157/14732110397325.jpg" alt=""/></p>
@@ -786,7 +789,7 @@ typedef CF_OPTIONS(CFOptionFlags, CFRunLoopActivity) {
 <p>网友整理如下:<br/>
 <img src="media/14731740142157/14732111027007.jpg" alt=""/></p>
 
-<h2 id="toc_13">6.RunLoop应用</h2>
+<h2 id="toc_15">6.RunLoop应用</h2>
 
 <ul>
 <li>NSTimer</li>
@@ -814,7 +817,7 @@ typedef CF_OPTIONS(CFOptionFlags, CFRunLoopActivity) {
 CFRunLoopRef<a href="http://opensource.apple.com/source/CF/CF-1151.16/">源代码</a></li>
 </ul>
 
-<h3 id="toc_14">最后给出几个学习链接</h3>
+<h3 id="toc_16">最后给出几个学习链接</h3>
 
 <p><a href="http://www.jianshu.com/p/20d3bb3e8df5">RunLoop深度探究（一）</a></p>
 
