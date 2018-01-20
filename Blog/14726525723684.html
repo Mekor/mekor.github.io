@@ -566,6 +566,13 @@
 
 <p>可以看出mi_0 &amp; mi_1之间就是Person &amp; NSKVONotifying_Person之间的关系.</p>
 
+<p>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-2018.1.20更新&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;<br/>
+KVC 通过实现名为NSKeyValueCoding的非正式协议,使开发者可以通过键直接设置和获取对象属性,而不需要调用对象的存取方法(Cocoa为该协议提供了默认的实现).键通常和被访问对象中的实例变量或存取方法的名称相对应.</p>
+
+<p>KVC主要利用一种使用字符串标识符,简介访问属性的机制,他是很多技术的基础.主要有<code>setValue: forKey</code>,<code>valueForKey</code>和<code>setValue: forKeyPath</code>,<code>valueForKeyPath</code></p>
+
+<p>key 与keyPath 基本一样,只是keyPath的值是一个路径,路径之间用<code>.</code>分割,比如数据成员就是对象自己,寻值过程就会向下深入下去.<img src="media/14726525723684/WechatIMG26.png" alt="WechatIMG26"/></p>
+
 
 </div>
 
