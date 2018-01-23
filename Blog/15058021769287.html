@@ -556,26 +556,48 @@
 
 <p>项目有两种显示效果,一种是图片模式,一种是纯文字模式. 纯文字模式滑动起来还不错,图片模式就比较卡了.经分析,项目做了部分修改,使滑动效果比较顺畅.</p>
 
-<ol>
+<ul>
 <li>栅格化: 目的是离屏渲染,不过还是卡顿</li>
-</ol>
+</ul>
 
 <pre><code>    self.layer.shouldRasterize = true
     self.layer.rasterizationScale = UIScreen.main.scale
     self.layer.drawsAsynchronously = true
 </code></pre>
 
-<p>2.Color Blended Layers 处理<br/>
-<img src="media/15058021769287/15058027400968.jpg" alt=""/><br/>
-发现部分UILabel存在问题,解决方案:<br/>
-<img src="media/15058021769287/15058028256147.jpg" alt=""/></p>
+<ul>
+<li>Color Blended Layers 处理
+<img src="media/15058021769287/15058027400968.jpg" alt=""/>
+发现部分UILabel存在问题,解决方案:
+<img src="media/15058021769287/15058028256147.jpg" alt=""/></li>
+</ul>
 
 <p>添加 <code>label.layer.masksToBounds = true</code>,效果还是不行.</p>
 
-<ol>
+<ul>
+<li> 使用iOS最新的API<code>UICollectionViewDataSourcePrefetching</code></li>
+</ul>
+
+<pre><code>extension DishesViewController: UICollectionViewDataSourcePrefetching {
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        let urls = indexPaths.flatMap { (index) -&gt; URL? in
+            let big = dishsArray[index.section]
+            let key = big.keys.first!
+            let small = big[key]!
+            let item = small[index.item]
+            return URL(string: item.dishModel.smallImageUrl)
+        }
+        
+        ImagePrefetcher(urls: urls).start()
+    }
+}
+
+</code></pre>
+
+<ul>
 <li>上面优化后效果不是很明显,最后采取了<strong>以空间换时间</strong>的方式优化图片列表页
 提前用<code>Kingfisher</code>下载图片(这个过程原先就有)下载过图片也做了不再下载的处理,由于图片过多导致不会有太多列表页的图片缓存中内存中. 针对这个问题,我采用了每次进入app就把列表页的图片使用<code>NSCache&lt;NSString, UIImage&gt;</code>缓存起来,效果很明显.</li>
-</ol>
+</ul>
 
 <h2 id="toc_1">目前还存在问题</h2>
 
