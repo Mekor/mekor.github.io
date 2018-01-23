@@ -808,20 +808,27 @@ typedef CF_OPTIONS(CFOptionFlags, CFRunLoopActivity) {
 <li>其它创建和释放：当runloop即将休眠的时候会把之前的自动释放池释放，然后重新创建一个新的释放池
 ### 常见问题
 &gt; 自动释放池什么时候释放?
-在runloop睡眠之前释放(kCFRunLoopBeforeWaiting)
-&gt; 在开发中如何使用runloop?</li>
+通过Obserber监听在runloop的状态,一旦监听到runloop即将进行睡眠等待状态(kCFRunLoopBeforeWaiting),就释放
+<img src="media/14731740142157/15167055358673.jpg" alt=""/></li>
 </ul></li>
-<li>开启一个常驻线程(让一个子线程不进入消亡状态,等待从其他线程发来的消息,处理各种事件)举例:1&gt;在子线程中开启一个定时器 2&gt; 在子线程中进行一些场景监控</li>
-<li>可以控制定时器在那种模式下运行</li>
-<li>可以让某些事件(行为,任务)在特定模式下执行(performSelector)</li>
-<li>可以添加observer监听runloop的一些状态,比如监听点击事件的处理(在所有点击事件处理之前做一些事情)
-###参考资料:
-&mdash;
-官方文档 <a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/Multithreading/RunLoopManagement/RunLoopManagement.html">Threading Programming Guide</a><br/>
-CFRunLoopRef<a href="http://opensource.apple.com/source/CF/CF-1151.16/">源代码</a></li>
 </ul>
 
-<h3 id="toc_16">最后给出几个学习链接</h3>
+<blockquote>
+<p>在开发中如何使用runloop?<br/>
+1. 开启一个常驻线程(让一个子线程不进入消亡状态,等待从其他线程发来的消息,处理各种事件)举例:1&gt;在子线程中开启一个定时器 2&gt; 在子线程中进行一些场景监控<br/>
+2. 可以控制定时器在那种模式下运行<br/>
+3. 可以让某些事件(行为,任务)在特定模式下执行(performSelector)<br/>
+4. 可以添加observer监听runloop的一些状态,比如监听点击事件的处理(在所有点击事件处理之前做一些事情)</p>
+
+<h3 id="toc_16">参考资料:</h3>
+
+<hr/>
+
+<p>官方文档 <a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/Multithreading/RunLoopManagement/RunLoopManagement.html">Threading Programming Guide</a><br/><br/>
+CFRunLoopRef<a href="http://opensource.apple.com/source/CF/CF-1151.16/">源代码</a></p>
+</blockquote>
+
+<h3 id="toc_17">最后给出几个学习链接</h3>
 
 <p><a href="http://www.jianshu.com/p/20d3bb3e8df5">RunLoop深度探究（一）</a></p>
 
