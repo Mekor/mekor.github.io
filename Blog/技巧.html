@@ -63,6 +63,8 @@
         <li><label>技巧</label></li>
 
           
+            <li><a title="显示中划线,下划线" href="15166722537296.html">显示中划线,下划线</a></li>
+          
             <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
           
             <li><a title="优化iPad 2 总结" href="15058021769287.html">优化iPad 2 总结</a></li>
@@ -322,6 +324,8 @@
                     
                       <li class="side-title"><span>技巧</span></li>
                         
+                          <li><a title="显示中划线,下划线" href="15166722537296.html">显示中划线,下划线</a></li>
+                        
                           <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
                         
                           <li><a title="优化iPad 2 总结" href="15058021769287.html">优化iPad 2 总结</a></li>
@@ -548,15 +552,44 @@
 
 	
 		<div class="markdown-body">
-		<h1>SwiftTips - 集中处理</h1>
+		<h1>显示中划线,下划线</h1>
 
-		<h2 id="toc_0">集中处理@objc</h2>
+		<h3 id="toc_0">OC中显示</h3>
 
-<p><img src="media/15158138774013/WX20180113-112401@2x.png" alt="WX20180113-112401@2x"/></p>
+<h5 id="toc_1">添加中划线:</h5>
 
-<h2 id="toc_1">模拟器不能执行的代码单独处理</h2>
+<pre><code>  UILabel * strikeLabel = [[UILabel alloc] initWithFrame:(CGRectMake(10, 10, 50, 30))];
+  NSString *textStr = [NSString stringWithFormat:@&quot;%@元&quot;, primeCost];
 
-<p><img src="media/15158138774013/15159872783257.jpg" alt=""/></p>
+  //中划线
+  NSDictionary *attribtDic = @{NSStrikethroughStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
+  NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:textStr attributes:attribtDic];
+
+  // 赋值
+  strikeLabel.attributedText = attribtStr;
+
+  [self.view addSubview:strikeLabel];
+</code></pre>
+
+<h5 id="toc_2">添加下划线:</h5>
+
+<pre><code>  UILabel *underlineLabel = [[UILabel alloc] initWithFrame:(CGRectMake(10, 10, 50, 30))];
+  NSString *textStr = [NSString stringWithFormat:@&quot;%@元&quot;, primeCost];
+
+  // 下划线
+  NSDictionary *attribtDic = @{NSUnderlineStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
+  NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:textStr attributes:attribtDic];
+
+  //赋值
+  underlineLabel.attributedText = attribtStr;
+
+  [self.view addSubview:underlineLabel];
+</code></pre>
+
+<h3 id="toc_3">Swift中显示</h3>
+
+<pre><code>let attributedText = NSAttributedString(string: &quot;被划线文字&quot;, attributes: [NSAttributedStringKey.underlineStyle:NSUnderlineStyle.styleSingle])
+</code></pre>
 
 
 		</div>

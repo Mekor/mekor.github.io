@@ -63,6 +63,8 @@
         <li><label>技巧</label></li>
 
           
+            <li><a title="显示中划线,下划线" href="15166722537296.html">显示中划线,下划线</a></li>
+          
             <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
           
             <li><a title="优化iPad 2 总结" href="15058021769287.html">优化iPad 2 总结</a></li>
@@ -322,6 +324,8 @@
                     
                       <li class="side-title"><span>技巧</span></li>
                         
+                          <li><a title="显示中划线,下划线" href="15166722537296.html">显示中划线,下划线</a></li>
+                        
                           <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
                         
                           <li><a title="优化iPad 2 总结" href="15058021769287.html">优化iPad 2 总结</a></li>
@@ -548,75 +552,48 @@
 
 	
 		<div class="markdown-body">
-		<h1>全屏返回手势小技巧</h1>
+		<h1>synchronized(object)</h1>
 
 		<blockquote>
-<p>这片文章可以和<a href="http://www.citynight.cn/Blog/14790381443417.html">Swift - KVC 和 运行时获取属性列表</a> 一起看,当然配上<a href="http://www.citynight.cn/Blog/14793034700265.html">隐藏tabBar的小技巧</a>就更好了😀</p>
+<p>synchronized关键字代表这个方法加锁,相当于不管哪一个线 程A每次运行到这个法时,都要检查有没有其它正在用这个方法的线程B（或者C D等）,有的话要等正在使用这个方法的线程B（或者C D）运行完这个方法后再运行此线程A,没有的话,直接运行 它包括两种用法：synchronized 方法和 synchronized 块。</p>
 </blockquote>
 
-<h2 id="toc_0">第一种: 通过<code>runtime</code>与<code>KVC</code>配合完成</h2>
+<h2 id="toc_0">1. synchronized 方法：</h2>
 
-<p>在<code>UINavigationController</code>的<code>viewDidLoad</code>方法中:</p>
+<p>通过在方法声明中加入 synchronized关键字来声明 synchronized 方法。如： <br/>
+　　<code>public synchronized void accessVal(int newVal);</code><br/>
+　　synchronized 方法控制对类成员变量的访问：每个类实例对应一把锁，每个 synchronized 方法都必须获得调用该方法的类实例的锁方能执行，否则所属线程阻塞，方法一旦执行，就独占该锁，直到从该方法返回时才将锁释放，此后被阻塞的线程方能获得 该锁，重新进入可执行状态。这种机制确保了同一时刻对于每一个类实例，其所有声明为 synchronized 的成员函数中至多只有一个处于可执行状态（因为至多只有一个能够获得该类实例对应的锁），从而有效避免了类成员变量的访问冲突（只要所有可能访问类成员变 量的方法均被声明为 synchronized）。 <br/>
+　　在 Java 中，不光是类实例，每一个类也对应一把锁，这样我们也可将类的静态成员函数声明为 synchronized ，以控制其对类的静态成员变量的访问。 <br/>
+　　synchronized 方法的缺陷：若将一个大的方法声明为synchronized 将会大大影响效率，典型地，若将线程类的方法 run() 声明为 synchronized ，由于在线程的整个生命期内它一直在运行，因此将导致它对本类任何 synchronized 方法的调用都永远不会成功。当然我们可以通过将访问类成员变量的代码放到专门的方法中，将其声明为 synchronized ，并在主方法中调用来解决这一问题，但是 Java 为我们提供了更好的解决办法，那就是 synchronized 块。 <br/>
+　　</p>
 
-<pre><code>// 获取系统的手势
-let gest = self.interactivePopGestureRecognizer!
-// 禁用系统的手势
-interactivePopGestureRecognizer?.isEnabled = false
+<h2 id="toc_1">2. synchronized 块：</h2>
 
-// 通过KVC获取target 属性是通过runtime获取的,具体方法参见`Swift - KVC 和 运行时获取属性列表`
-guard let targets = gest.value(forKey: &quot;_targets&quot;) as? [AnyObject] else {
-    return
-}
-let target = targets[0].value(forKey: &quot;_target&quot;)
+<p>通过 synchronized关键字来声明synchronized 块。语法如下： </p>
 
-// 给视图添加点击事件
-let pan = UIPanGestureRecognizer(target: target, action: NSSelectorFromString(&quot;handleNavigationTransition:&quot;))
-view.addGestureRecognizer(pan)
+<pre><code>　　synchronized(syncObject) { 
+　　//允许访问控制的代码 
+　　}
 </code></pre>
 
-<h2 id="toc_1">第二种: 通过原有的代理完成</h2>
+<p>　　<br/>
+　　synchronized 块是这样一个代码块，其中的代码必须获得对象 syncObject （如前所述，可以是类实例或类）的锁方能执行，具体机制同前所述。由于可以针对任意代码块，且可任意指定上锁的对象，故灵活性较高<br/>
+　　</p>
 
-<p>直接上代码:</p>
+<h2 id="toc_2">对synchronized(object)的一些理解</h2>
 
-<pre><code>class BaseNavigationController: UINavigationController {
+<p>　<br/>
+<strong>一、</strong>当两个并发线程访问同一个对象object中的这个synchronized(this) 同步代码块时，一个时间内只能有一个线程得到执行。另一个线程必须等待当前线程执行完这个代码块以后才能执行该代码块。 </p>
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+<p><strong>二、</strong>当一个线程访问object的一个synchronized(this)同步代码块时，其 他线程对object中所有其它synchronized(this)同步代码块的访问将被阻塞。</p>
 
-        // 获取系统的手势的代理
-        guard let target = interactivePopGestureRecognizer?.delegate else {
-            return
-        }
-        
-        // 禁用系统的手势
-        interactivePopGestureRecognizer?.isEnabled = false
-        
-        // 给视图添加点击事件
-        let pan = UIPanGestureRecognizer(target: target, action: NSSelectorFromString(&quot;handleNavigationTransition:&quot;))
-        pan.delegate = self
-        view.addGestureRecognizer(pan)
-    }
-}
+<p><strong>三、</strong>然而，当一个线程访问object的一个synchronized(this)同步代码块 时，另一个线程仍然可以访问该object中的除synchronized(this)同步代码块以外的部分。 </p>
 
-extension BaseNavigationController:UIGestureRecognizerDelegate {
-    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -&gt; Bool {
-        // 当是跟控制器的时候不让返回,非跟控制器可以返回
-        return viewControllers.count &gt; 1
-    }
-}
+<p><strong>四、</strong>第三个例子同样适用其它同步代码块。也就是说，当一个线程访问object的一个 synchronized(this)同步代码块时，它就获得了这个object的对象锁。结果，其它线程对该object对象 所有同步代码部分的访问都被暂时阻塞。 </p>
 
-</code></pre>
+<p><strong>五、</strong>以上规则对其它对象锁同样适用 </p>
 
-<p>第一种也应该设置代理,不设置代理的话跟控制出现手势就会有bug</p>
-
-<p>简单比较一下,第二种更简洁.不过应用了一个小技巧,看代码:</p>
-
-<pre><code>    let pan = UIPanGestureRecognizer(target: self, action: NSSelectorFromString(&quot;handleNavigationTransition:&quot;))
-    pan.delegate = self
-    view.addGestureRecognizer(pan)
-</code></pre>
-
-<p>可见<code>target</code>&amp;<code>delegate</code>通常都是同一个对象,当让也可以是不同的,这里应用这个小技巧让代码变得更简洁.</p>
+<p>原文: <a href="http://fei263.blog.163.com/blog/static/9279372420103752814/">http://fei263.blog.163.com/blog/static/9279372420103752814/</a></p>
 
 
 		</div>

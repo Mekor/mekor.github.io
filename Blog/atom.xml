@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2018-01-20T12:19:33+08:00</updated>
+  <updated>2018-01-20T12:21:26+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -12,6 +12,52 @@
   </author>
   <generator uri="http://www.mweb.im">MWeb</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[显示中划线,下划线]]></title>
+    <link href="http://www.citynight.cn/Blog/15166722537296.html"/>
+    <updated>2018-01-23T09:50:53+08:00</updated>
+    <id>http://www.citynight.cn/Blog/15166722537296.html</id>
+    <content type="html"><![CDATA[
+<h3 id="toc_0">OC中显示</h3>
+
+<h5 id="toc_1">添加中划线:</h5>
+
+<pre><code>  UILabel * strikeLabel = [[UILabel alloc] initWithFrame:(CGRectMake(10, 10, 50, 30))];
+  NSString *textStr = [NSString stringWithFormat:@&quot;%@元&quot;, primeCost];
+
+  //中划线
+  NSDictionary *attribtDic = @{NSStrikethroughStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
+  NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:textStr attributes:attribtDic];
+
+  // 赋值
+  strikeLabel.attributedText = attribtStr;
+
+  [self.view addSubview:strikeLabel];
+</code></pre>
+
+<h5 id="toc_2">添加下划线:</h5>
+
+<pre><code>  UILabel *underlineLabel = [[UILabel alloc] initWithFrame:(CGRectMake(10, 10, 50, 30))];
+  NSString *textStr = [NSString stringWithFormat:@&quot;%@元&quot;, primeCost];
+
+  // 下划线
+  NSDictionary *attribtDic = @{NSUnderlineStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
+  NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:textStr attributes:attribtDic];
+
+  //赋值
+  underlineLabel.attributedText = attribtStr;
+
+  [self.view addSubview:underlineLabel];
+</code></pre>
+
+<h3 id="toc_3">Swift中显示</h3>
+
+<pre><code>let attributedText = NSAttributedString(string: &quot;被划线文字&quot;, attributes: [NSAttributedStringKey.underlineStyle:NSUnderlineStyle.styleSingle])
+</code></pre>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[SwiftTips - 集中处理]]></title>
@@ -3069,36 +3115,6 @@ ls abc/def
 <li>可维护性提高.可读性提高,那当然更容易维护了;</li>
 <li>变更引起的风险降低,变更时必不可少的.如果接口的单一职责做的好,一个接口的修改只对相应的实现类有影响,对其他的接口无影响,这对系统的扩展性和维护性都有非常大的帮助.</li>
 </ol>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Mac zsh 使用命令打开sublime]]></title>
-    <link href="http://www.citynight.cn/Blog/14907559721950.html"/>
-    <updated>2017-03-29T10:52:52+08:00</updated>
-    <id>http://www.citynight.cn/Blog/14907559721950.html</id>
-    <content type="html"><![CDATA[
-<h2 id="toc_0">1/添加</h2>
-
-<p><code>vim .zshrc</code></p>
-
-<p>添加 <br/>
- <code>alias subl=&quot;open -a Sublime\ Text&quot;</code>（如果你是Sublime Text ）<br/>
-  或者<br/>
-<code>alias subl=&quot;open -a Sublime\ Text\ 2&quot;</code> （如果你是Sublime Text 2）</p>
-
-<h2 id="toc_1">2/生效</h2>
-
-<p><code>source ~/.zshrc</code></p>
-
-<h2 id="toc_2">3/测试</h2>
-
-<p>在命令行输入：<br/>
-    <code>subl</code>     就可以打开sublime</p>
-
-<p>输入：<br/>
-    <code>subl test.txt</code> 就可以打开文件</p>
 
 ]]></content>
   </entry>

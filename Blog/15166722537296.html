@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  Swift - 面向协议编程 - 李小争
+  显示中划线,下划线 - 李小争
   
   </title>
  <meta name="description" content="记录开发中遇到的一些问题">
@@ -548,37 +548,44 @@
             <div class="large-9 medium-9 columns">
 
  <div class="markdown-body">
-<h1>Swift - 面向协议编程</h1>
+<h1>显示中划线,下划线</h1>
 
-<p>跟全部写在base中比较:</p>
+<h3 id="toc_0">OC中显示</h3>
 
-<ol>
-<li>代码没有增多,却更复用</li>
-<li>面向协议(接口),而不是实现,充分解耦</li>
-<li>静态类型检查版主在编译时发现问题</li>
-<li>写代码像搭积木,先设计接口,再逐一实现</li>
-<li>依赖少,更容易调试</li>
-</ol>
+<h5 id="toc_1">添加中划线:</h5>
 
-<pre><code>protocol Hello {
-    func sayHello()
-}
+<pre><code>  UILabel * strikeLabel = [[UILabel alloc] initWithFrame:(CGRectMake(10, 10, 50, 30))];
+  NSString *textStr = [NSString stringWithFormat:@&quot;%@元&quot;, primeCost];
 
-extension Hello {
-    func sayHello() {
-        print(&quot;Hello!&quot;)
-    }
-}
+  //中划线
+  NSDictionary *attribtDic = @{NSStrikethroughStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
+  NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:textStr attributes:attribtDic];
 
-struct Person: Hello {
-    
-}
+  // 赋值
+  strikeLabel.attributedText = attribtStr;
 
-let p = Person()
-p.sayHello()
+  [self.view addSubview:strikeLabel];
 </code></pre>
 
-<p>创建一个协议,并且做一个默认实现.使用的时候可以直接调用</p>
+<h5 id="toc_2">添加下划线:</h5>
+
+<pre><code>  UILabel *underlineLabel = [[UILabel alloc] initWithFrame:(CGRectMake(10, 10, 50, 30))];
+  NSString *textStr = [NSString stringWithFormat:@&quot;%@元&quot;, primeCost];
+
+  // 下划线
+  NSDictionary *attribtDic = @{NSUnderlineStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
+  NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:textStr attributes:attribtDic];
+
+  //赋值
+  underlineLabel.attributedText = attribtStr;
+
+  [self.view addSubview:underlineLabel];
+</code></pre>
+
+<h3 id="toc_3">Swift中显示</h3>
+
+<pre><code>let attributedText = NSAttributedString(string: &quot;被划线文字&quot;, attributes: [NSAttributedStringKey.underlineStyle:NSUnderlineStyle.styleSingle])
+</code></pre>
 
 
 </div>
@@ -590,15 +597,13 @@ p.sayHello()
   <div class="large-6 columns">
 	<div class="text-left" style="padding:15px 0px;">
 		
-	        <a href="14802973825600.html"  title="Previous Post: xib报错">&laquo; xib报错</a>
-	    
 	</div>
   </div>
   <div class="large-6 columns">
 	<div class="text-right" style="padding:15px 0px;">
 		
-	        <a href="14799126696997.html" 
-	        title="Next Post: Swift - 函数式编程">Swift - 函数式编程 &raquo;</a>
+	        <a href="15158138774013.html" 
+	        title="Next Post: SwiftTips - 集中处理">SwiftTips - 集中处理 &raquo;</a>
 	    
 	</div>
   </div>
@@ -611,7 +616,7 @@ p.sayHello()
 </div>
 <script type="text/javascript">
 	$(function(){
-		var currentURL = '14799970254990.html';
+		var currentURL = '15166722537296.html';
 		$('#side-nav a').each(function(){
 			if($(this).attr('href') == currentURL){
 				$(this).parent().addClass('active');
