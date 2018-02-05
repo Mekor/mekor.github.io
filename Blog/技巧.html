@@ -588,7 +588,9 @@
 
 <h3 id="toc_3">Swift中显示</h3>
 
-<pre><code>let attributedText = NSAttributedString(string: &quot;被划线文字&quot;, attributes: [NSAttributedStringKey.underlineStyle:NSUnderlineStyle.styleSingle])
+<pre><code>let myAttributes: [NSAttributedStringKey : Any] = [NSAttributedStringKey.strikethroughStyle: NSUnderlineStyle.styleSingle.rawValue]
+            
+let attributedText = NSAttributedString(string: &quot;被划线文字&quot;, attributes: myAttributes)
 </code></pre>
 
 

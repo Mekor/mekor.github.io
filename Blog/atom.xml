@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2018-01-23T19:15:29+08:00</updated>
+  <updated>2018-01-23T22:55:57+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -53,7 +53,9 @@
 
 <h3 id="toc_3">Swift中显示</h3>
 
-<pre><code>let attributedText = NSAttributedString(string: &quot;被划线文字&quot;, attributes: [NSAttributedStringKey.underlineStyle:NSUnderlineStyle.styleSingle])
+<pre><code>let myAttributes: [NSAttributedStringKey : Any] = [NSAttributedStringKey.strikethroughStyle: NSUnderlineStyle.styleSingle.rawValue]
+            
+let attributedText = NSAttributedString(string: &quot;被划线文字&quot;, attributes: myAttributes)
 </code></pre>
 
 ]]></content>
