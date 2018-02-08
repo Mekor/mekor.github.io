@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2018-02-08T13:41:57+08:00</updated>
+  <updated>2018-02-08T13:42:23+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -58,6 +58,22 @@
         self.weakTimer = nil
         // HHTSwitchGlobalData.shared.waiterLoginTimeOut
         self.weakTimer = WeakTimer.scheduledTimer(timeInterval: HHTSwitchGlobalData.shared.waiterLoginTimeOut, target: self, selector: #selector(autoDismiss), userInfo: nil, repeats: true)
+    }
+</code></pre>
+
+<p>第三方库 Kingfisher 中的处理办法</p>
+
+<pre><code>    /// Proxy object for prevending a reference cycle between the CADDisplayLink and AnimatedImageView.
+    class TargetProxy {
+        private weak var target: AnimatedImageView?
+        
+        init(target: AnimatedImageView) {
+            self.target = target
+        }
+        
+        @objc func onScreenUpdate() {
+            target?.updateFrame()
+        }
     }
 </code></pre>
 

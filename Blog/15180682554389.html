@@ -596,6 +596,22 @@
     }
 </code></pre>
 
+<p>第三方库 Kingfisher 中的处理办法</p>
+
+<pre><code>    /// Proxy object for prevending a reference cycle between the CADDisplayLink and AnimatedImageView.
+    class TargetProxy {
+        private weak var target: AnimatedImageView?
+        
+        init(target: AnimatedImageView) {
+            self.target = target
+        }
+        
+        @objc func onScreenUpdate() {
+            target?.updateFrame()
+        }
+    }
+</code></pre>
+
 
 </div>
 
