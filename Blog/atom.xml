@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2018-02-08T13:42:23+08:00</updated>
+  <updated>2018-02-26T21:48:50+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -12,6 +12,22 @@
   </author>
   <generator uri="http://www.mweb.im">MWeb</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[MWeb 如何恢复备份文件]]></title>
+    <link href="http://www.citynight.cn/Blog/15196526566480.html"/>
+    <updated>2018-02-26T21:44:16+08:00</updated>
+    <id>http://www.citynight.cn/Blog/15196526566480.html</id>
+    <content type="html"><![CDATA[
+<p>在 </p>
+
+<pre><code>/Users/lixzzzzzz/Library/Containers/com.coderforart.MWeb/Data/Documents/mainlib
+</code></pre>
+
+<p>中使用备份的 <code>mainlib</code> 并重新启动app</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[防止Timer 与控制器耦合导致控制器不释放]]></title>
@@ -75,6 +91,17 @@
             target?.updateFrame()
         }
     }
+</code></pre>
+
+<p>应用:</p>
+
+<pre><code>private lazy var displayLink: CADisplayLink = {
+        self.isDisplayLinkInitialized = true
+        let displayLink = CADisplayLink(target: TargetProxy(target: self), selector: #selector(TargetProxy.onScreenUpdate))
+        displayLink.add(to: .main, forMode: self.runLoopMode)
+        displayLink.isPaused = true
+        return displayLink
+    }()
 </code></pre>
 
 ]]></content>
@@ -166,7 +193,7 @@ let attributedText = NSAttributedString(string: &quot;被划线文字&quot;, att
     <id>http://www.citynight.cn/Blog/15101967456310.html</id>
     <content type="html"><![CDATA[
 <p>首先: <code>swift</code> 与 <code>C</code> 兼容不如 <code>OC</code> <br/>
-1. 生成<code>CFRunLoopObserverContext</code>比<code>OC</code>艰难好多&hellip;</p>
+1. 生成<code>CFRunLoopObserverContext</code>比<code>OC</code>艰难好多...</p>
 
 <pre><code>func addRunloopObserver() {
         autoreleasepool {
@@ -184,7 +211,7 @@ let attributedText = NSAttributedString(string: &quot;被划线文字&quot;, att
 <p>注意 content ,真是比OC复杂啊</p>
 
 <ol>
-<li>强转也变了&hellip;</li>
+<li>强转也变了...</li>
 </ol>
 
 <pre><code>func observerCallbackFunc() -&gt; CFRunLoopObserverCallBack {
@@ -870,7 +897,7 @@ func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask,
 <h2 id="toc_0">1. 指针是一种数据类型</h2>
 
 <ol>
-<li>指针也是一种变量,占有内存空间,用来保存内存地址  指针的大小&ndash;&gt; 32位: 4  64位: 8</li>
+<li>指针也是一种变量,占有内存空间,用来保存内存地址  指针的大小--&gt; 32位: 4  64位: 8</li>
 <li><p><code>*p</code> 操作内存</p>
 
 <pre><code>在指针声明时,`*`号表示所声明的变量为指针
@@ -1249,12 +1276,12 @@ CAGradientLayer(layer: layer) // Override to copy or initialize custom fields of
 </blockquote>
 
 <p>Xcode Menu Bar &gt; File &gt; New &gt; File.<br/>
-Select iOS, User Interface and then &ldquo;View&rdquo;:</p>
+Select iOS, User Interface and then &quot;View&quot;:</p>
 
 <p><a href="media/15036540820094/RSkzu.png"><img src="media/15036540820094/RSkzu.png" alt="First step"/></a></p>
 
 <p>Give your XIB a name (yes, we are doing a Pokemon example 👾).<br/>
-<strong>Remember to check your target</strong> and hit &ldquo;Create&rdquo;.</p>
+<strong>Remember to check your target</strong> and hit &quot;Create&quot;.</p>
 
 <p><a href="media/15036540820094/oJ1s1.png"><img src="media/15036540820094/oJ1s1.png" alt="Second step"/></a></p>
 
@@ -1274,21 +1301,21 @@ Select iOS, User Interface and then &ldquo;View&rdquo;:</p>
 <p><a href="media/15036540820094/Gy0KD.png"><img src="media/15036540820094/Gy0KD.png" alt="Third step"/></a></p>
 
 <p>Click on the Size Inspector and resize the view.<br/>
-For this example we&rsquo;ll be using width 321 and height 256.</p>
+For this example we&#39;ll be using width 321 and height 256.</p>
 
 <p><a href="media/15036540820094/PNIek.png"><img src="media/15036540820094/PNIek.png" alt="Fourth step"/></a></p>
 
 <p>Drop some elements into your XIB file like shown below.<br/>
-Here we&rsquo;ll be adding an <strong>Image View</strong> (256x256) and a <strong>Switch</strong>.</p>
+Here we&#39;ll be adding an <strong>Image View</strong> (256x256) and a <strong>Switch</strong>.</p>
 
 <p><a href="media/15036540820094/6u3pd.png"><img src="media/15036540820094/6u3pd.png" alt="Fifth step"/></a></p>
 
-<p>Add Auto-Layout constraints by clicking on &ldquo;Resolve Auto Layout Issues&rdquo; (bottom-right) and selecting &ldquo;Add Missing Constraints&rdquo; under &ldquo;All Views&rdquo;.</p>
+<p>Add Auto-Layout constraints by clicking on &quot;Resolve Auto Layout Issues&quot; (bottom-right) and selecting &quot;Add Missing Constraints&quot; under &quot;All Views&quot;.</p>
 
 <p><a href="media/15036540820094/esZhQ.png"><img src="media/15036540820094/esZhQ.png" alt="Sixth step"/></a></p>
 
-<p>Preview the changes you made by clicking on &ldquo;Show the Assistant Editor&rdquo; (top-right), then &ldquo;Preview&rdquo;.<br/>
-You can add iPhone screens by clicking on the &ldquo;Plus&rdquo; button.<br/>
+<p>Preview the changes you made by clicking on &quot;Show the Assistant Editor&quot; (top-right), then &quot;Preview&quot;.<br/>
+You can add iPhone screens by clicking on the &quot;Plus&quot; button.<br/>
 The preview should look like this:</p>
 
 <p><a href="media/15036540820094/D3rac.png"><img src="media/15036540820094/D3rac.png" alt="Seventh step"/></a></p>
@@ -1299,26 +1326,26 @@ The preview should look like this:</p>
 
 <p>Create the class that is going to manage the XIB file.<br/>
 Xcode Menu Bar &gt; File &gt; New &gt; File.<br/>
-Select iOS / Source / Cocoa Touch Class. Hit &ldquo;Next&rdquo;.</p>
+Select iOS / Source / Cocoa Touch Class. Hit &quot;Next&quot;.</p>
 
 <p><a href="media/15036540820094/0EyHy.png"><img src="media/15036540820094/0EyHy.png" alt="Eighth step"/></a></p>
 
 <p>Give the class a name, which must be the same name as the XIB file (Pokemon).<br/>
-Select UIView as the subclass type, then hit &ldquo;Next&rdquo;.</p>
+Select UIView as the subclass type, then hit &quot;Next&quot;.</p>
 
 <p><a href="media/15036540820094/qbo3s.png"><img src="media/15036540820094/qbo3s.png" alt="Nineth step"/></a></p>
 
-<p>On the next window, select your target and hit &ldquo;Create&rdquo;.</p>
+<p>On the next window, select your target and hit &quot;Create&quot;.</p>
 
 <p><a href="media/15036540820094/Ks9Tu.png"><img src="media/15036540820094/Ks9Tu.png" alt="Tenth step"/></a></p>
 
 <blockquote>
-<p>Connect Pokemon.xib to Pokemon.swift via &ldquo;File’s Owner&rdquo; attribute</p>
+<p>Connect Pokemon.xib to Pokemon.swift via &quot;File’s Owner&quot; attribute</p>
 </blockquote>
 
 <p>Click on the Pokemon.xib file in Xcode.<br/>
-Click on the &ldquo;File&rsquo;s Owner&rdquo; outlet.<br/>
-On the &ldquo;Identity inspector&rdquo; (top-right), set the Class to our recently created Pokemon.swift file.</p>
+Click on the &quot;File&#39;s Owner&quot; outlet.<br/>
+On the &quot;Identity inspector&quot; (top-right), set the Class to our recently created Pokemon.swift file.</p>
 
 <p><a href="media/15036540820094/4YT3i.png"><img src="media/15036540820094/4YT3i.png" alt="Eleventh step"/></a></p>
 
@@ -1326,7 +1353,7 @@ On the &ldquo;Identity inspector&rdquo; (top-right), set the Class to our recent
 <p>POKEMONS!!!</p>
 </blockquote>
 
-<p>Yes! Drag and drop some Pokemons into your project to finish up our &ldquo;infrastructure&rdquo;.<br/>
+<p>Yes! Drag and drop some Pokemons into your project to finish up our &quot;infrastructure&quot;.<br/>
 Here we are adding two PGN files, 256x256, transparent.</p>
 
 <p><a href="media/15036540820094/ibqxZ.png"><img src="media/15036540820094/ibqxZ.png" alt="Twelfth step"/></a></p>
@@ -1338,7 +1365,7 @@ Here we are adding two PGN files, 256x256, transparent.</p>
 <p>All right, all right.<br/>
 Time to add some code to our Pokemon.swift class.</p>
 
-<p>It&rsquo;s actually pretty simple:</p>
+<p>It&#39;s actually pretty simple:</p>
 
 <ol>
 <li>Implement required initializers</li>
@@ -1408,7 +1435,7 @@ class Pokemon: UIView {
 <p>By adding <code>@IBDesignable</code> to your class, you make possible for it to live-render in Interface Builder.<br/>
 By adding <code>@IBInspectable</code> to the properties of your class, you can see your custom views changing in Interface Builder as soon as you modify those properties.</p>
 
-<p>Let&rsquo;s make the <code>Image View</code> of our custom view &ldquo;Inspectable&rdquo;.</p>
+<p>Let&#39;s make the <code>Image View</code> of our custom view &quot;Inspectable&quot;.</p>
 
 <p>First, hook up the <code>Image View</code> from the Pokemon.xib file to the Pokemon.swift class.</p>
 
@@ -1562,7 +1589,7 @@ This will increase productivity while isolating code into self-contained UI elem
 
 <h3 id="toc_4">Build the path programmatically</h3>
 
-<p>We&rsquo;ll arbitrarily start in the bottom left corner and work clockwise. I&rsquo;ll use the grid in the image to get the x and y values for the points. I&rsquo;ll hardcode everything here, but of course you wouldn&rsquo;t do that in a real project.</p>
+<p>We&#39;ll arbitrarily start in the bottom left corner and work clockwise. I&#39;ll use the grid in the image to get the x and y values for the points. I&#39;ll hardcode everything here, but of course you wouldn&#39;t do that in a real project.</p>
 
 <p>The basic process is:</p>
 
@@ -1717,11 +1744,11 @@ class MyCustomView: UIView {
 }
 </code></pre>
 
-<p>We get&hellip;</p>
+<p>We get...</p>
 
 <p><a href="media/15036524793322/oELys.png"><img src="media/15036524793322/oELys.png" alt="enter image description here"/></a></p>
 
-<p>Hmm, that&rsquo;s a little small because I hardcoded all the numbers in. I can scale the path size up, though, like this:</p>
+<p>Hmm, that&#39;s a little small because I hardcoded all the numbers in. I can scale the path size up, though, like this:</p>
 
 <pre><code>let path = createBezierPath()
 let scale = CGAffineTransformMakeScale(2, 2)
@@ -1733,7 +1760,7 @@ shapeLayer.path = path.CGPath
 
 <p><strong>Method 2: Draw path in <code>drawRect</code></strong></p>
 
-<p>Using <code>drawRect</code> is slower than drawing to the layer, so this is not the recommended method if you don&rsquo;t need it.</p>
+<p>Using <code>drawRect</code> is slower than drawing to the layer, so this is not the recommended method if you don&#39;t need it.</p>
 
 <p>Here is the revised code for our custom view:</p>
 
@@ -1770,7 +1797,7 @@ class MyCustomView: UIView {
 }
 </code></pre>
 
-<p>which gives us the same result&hellip;</p>
+<p>which gives us the same result...</p>
 
 <p><a href="media/15036524793322/2hqMa.png"><img src="media/15036524793322/2hqMa.png" alt="enter image description here"/></a></p>
 
@@ -1779,7 +1806,7 @@ class MyCustomView: UIView {
 <p>Excellent articles for understanding Bezier paths.</p>
 
 <ul>
-<li><a href="http://ronnqvi.st/thinking-like-a-bzier-path/">Thinking like a Bézier path</a> (Everything I&rsquo;ve ever read from this author is good and the inspiration for my example above came from here.)</li>
+<li><a href="http://ronnqvi.st/thinking-like-a-bzier-path/">Thinking like a Bézier path</a> (Everything I&#39;ve ever read from this author is good and the inspiration for my example above came from here.)</li>
 <li><a href="https://www.youtube.com/watch?v=dXECQRlmIaE">Coding Math: Episode 19 - Bezier Curves</a> (entertaining and good visual illustrations)</li>
 <li><a href="https://www.youtube.com/watch?v=Qu-QK3uoMdY">Bezier Curves</a> (how they are used in graphics applications)</li>
 <li><a href="https://www.youtube.com/watch?v=2HvH9cmHbG4">Bezier Curves</a> (good description of how the mathematical formulas are derived)</li>
@@ -1789,7 +1816,7 @@ class MyCustomView: UIView {
 
 <ul>
 <li>This example originally comes from <a href="http://stackoverflow.com/a/34659468/3681880">this Stack Overflow answer</a>.</li>
-<li>In your actual projects you probably shouldn&rsquo;t use hard coded numbers, but rather get the sizes from your view&rsquo;s bounds.</li>
+<li>In your actual projects you probably shouldn&#39;t use hard coded numbers, but rather get the sizes from your view&#39;s bounds.</li>
 </ul>
 
 <hr/>
@@ -2194,7 +2221,7 @@ override func draw(_ rect: CGRect) {
 <p>由于Stack Overflow中Documentation将要关闭,所以我将部分内容转载至这里</p>
 </blockquote>
 
-<p>Grand Central Dispatch (GCD) is Apple&rsquo;s answer to multithreading. It is a lightweight framework for performing tasks synchronously or asynchronously in queues and handles CPU threads for you behind the scenes.</p>
+<p>Grand Central Dispatch (GCD) is Apple&#39;s answer to multithreading. It is a lightweight framework for performing tasks synchronously or asynchronously in queues and handles CPU threads for you behind the scenes.</p>
 
 <h2 id="toc_0">Dispatch Semaphore</h2>
 
@@ -2668,19 +2695,19 @@ ln -s 源文件 链接文件
 <tbody>
 <tr>
 <td style="text-align: left"><sup>a</sup></td>
-<td>行首,搜寻以 m 开头的行；grep -n &lsquo;<sup>a&rsquo;</sup> 1.txt</td>
+<td>行首,搜寻以 m 开头的行；grep -n &#39;<sup>a&#39;</sup> 1.txt</td>
 </tr>
 <tr>
 <td style="text-align: left">ke$</td>
-<td>行尾,搜寻以 ke 结束的行；grep -n &lsquo;ke$&rsquo; 1.txt</td>
+<td>行尾,搜寻以 ke 结束的行；grep -n &#39;ke$&#39; 1.txt</td>
 </tr>
 <tr>
 <td style="text-align: left">[Ss]igna[Ll]</td>
-<td>匹配 [] 里中一系列字符中的一个；搜寻匹配单词signal、signaL、Signal、SignaL的行；grep -n &lsquo;[Ss]igna[Ll]&rsquo; 1.txt</td>
+<td>匹配 [] 里中一系列字符中的一个；搜寻匹配单词signal、signaL、Signal、SignaL的行；grep -n &#39;[Ss]igna[Ll]&#39; 1.txt</td>
 </tr>
 <tr>
 <td style="text-align: left">.</td>
-<td>(点)匹配一个非换行符的字符；匹配 e 和 e 之间有任意一个字符，可以匹配 eee，eae，eve，但是不匹配 ee，eaae；grep -n &lsquo;e.e&rsquo; 1.txt</td>
+<td>(点)匹配一个非换行符的字符；匹配 e 和 e 之间有任意一个字符，可以匹配 eee，eae，eve，但是不匹配 ee，eaae；grep -n &#39;e.e&#39; 1.txt</td>
 </tr>
 </tbody>
 </table>
@@ -2705,11 +2732,11 @@ ln -s 源文件 链接文件
 <td>查找当前目录下所有名为test.sh的文件</td>
 </tr>
 <tr>
-<td style="text-align: left">find ./ -name &lsquo;*.sh&rsquo;</td>
+<td style="text-align: left">find ./ -name &#39;*.sh&#39;</td>
 <td>查找当前目录下所有后缀为.sh的文件</td>
 </tr>
 <tr>
-<td style="text-align: left">find ./ -name &ldquo;[A-Z]*&rdquo;</td>
+<td style="text-align: left">find ./ -name &quot;[A-Z]*&quot;</td>
 <td>查找当前目录下所有以大写字母开头的文件</td>
 </tr>
 <tr>
@@ -2869,7 +2896,7 @@ ln -s 源文件 链接文件
 
 <p>tar这个命令并没有压缩的功能，它只是一个打包的命令，但是在tar命令中增加一个选项(-z)可以调用gzip实现了一个压缩的功能，实行一个先打包后压缩的过程。</p>
 
-<p>压缩用法：tar cvzf 压缩包包名 文件1 文件2 &hellip;</p>
+<p>压缩用法：tar cvzf 压缩包包名 文件1 文件2 ...</p>
 
 <pre><code>-z ：指定压缩包的格式为：file.tar.gz
 
@@ -2906,11 +2933,11 @@ ln -s 源文件 链接文件
 
 <h2 id="toc_1">2.查看帮助文档</h2>
 
-<h3 id="toc_2"><1> &ndash;help</h3>
+<h3 id="toc_2"><1> --help</h3>
 
 <p>一般是linux命令自带的帮助信息</p>
 
-<p>如：ls &ndash;help</p>
+<p>如：ls --help</p>
 
 <h3 id="toc_3"><2> man(有问题找男人，manual)</h3>
 
@@ -3151,7 +3178,7 @@ ls abc/def
 
 <h2 id="toc_1">Topbar 移除</h2>
 
-<p>这个原有的导航对项目入侵太深,已经忍无可忍了&hellip;这周终于下决心移除它用原生的导航栏和自定义视图代替她..进展非常顺利.写了一天自定义控件,然后让大家各自把自己的控制过滤一遍.总耗时,我自己一天,其他同事不到1个小时.还是非常顺利的.用比较少的时间完成了项目中的毒瘤.</p>
+<p>这个原有的导航对项目入侵太深,已经忍无可忍了...这周终于下决心移除它用原生的导航栏和自定义视图代替她..进展非常顺利.写了一天自定义控件,然后让大家各自把自己的控制过滤一遍.总耗时,我自己一天,其他同事不到1个小时.还是非常顺利的.用比较少的时间完成了项目中的毒瘤.</p>
 
 <h2 id="toc_2">下拉刷新封装</h2>
 
@@ -3162,19 +3189,6 @@ ls abc/def
 <p>新项目中存在一个功能比如 <code>10:00:00</code> 到 <code>11:59:59</code> 算早市,需要判断当前时间是否是早市. 一种更方便的处理方式:</p>
 
 <p>时间格式 <code>HH:mm:ss</code> 一共6位数字,我们可以去掉中间的<code>:</code>,这样时间就是一个整数了,然后三个整数之间进行比较比 先比小时再比分钟最后比秒数要方便很多.</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Swift - 关于信号量]]></title>
-    <link href="http://www.citynight.cn/Blog/14916349354566.html"/>
-    <updated>2017-04-08T15:02:15+08:00</updated>
-    <id>http://www.citynight.cn/Blog/14916349354566.html</id>
-    <content type="html"><![CDATA[
-<p>信号量的使用</p>
-
-<p><img src="media/14916349354566/%E4%BF%A1%E5%8F%B7%E9%87%8F.gif" alt="信号量"/></p>
 
 ]]></content>
   </entry>

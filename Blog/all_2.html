@@ -189,6 +189,8 @@
         <li><label>杂记</label></li>
 
           
+            <li><a title="MWeb 如何恢复备份文件" href="15196526566480.html">MWeb 如何恢复备份文件</a></li>
+          
             <li><a title="collectionView自定义layout" href="15096779127051.html">collectionView自定义layout</a></li>
           
             <li><a title="项目优化记录" href="14919624884376.html">项目优化记录</a></li>
@@ -446,6 +448,8 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
+                          <li><a title="MWeb 如何恢复备份文件" href="15196526566480.html">MWeb 如何恢复备份文件</a></li>
+                        
                           <li><a title="collectionView自定义layout" href="15096779127051.html">collectionView自定义layout</a></li>
                         
                           <li><a title="项目优化记录" href="14919624884376.html">项目优化记录</a></li>
@@ -556,236 +560,99 @@
 
 	
 		<div class="markdown-body">
-		<h1>CAGradientLayer</h1>
+		<h1>3D Touch</h1>
 
-		<h2 id="toc_0"><a href="https://stackoverflow.com/documentation/ios/1190/cagradientlayer/3856/creating-a-cagradientlayer">Creating a CAGradientLayer</a></h2>
+		<h2 id="toc_0"><a href="https://stackoverflow.com/documentation/ios/6705/3d-touch/22813/3d-touch-with-swift">3D Touch with Swift</a></h2>
 
-<pre><code>// View to hold the CAGradientLayer.
-let view: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 320))
+<p>3D touch has been introduced with iPhone 6s Plus. There are two behaviors added with this new interface layer: Peek and Pop.</p>
 
-// Initialize gradient layer.
-let gradientLayer: CAGradientLayer = CAGradientLayer()
+<p><strong>Peek and Pop in a nutshell</strong></p>
 
-// Set frame of gradient layer.
-gradientLayer.frame = view.bounds
+<p>Peek - Press hard</p>
 
-// Color at the top of the gradient.
-let topColor: CGColor = UIColor.red.cgColor
+<p>Pop - Press really hard</p>
 
-// Color at the bottom of the gradient.
-let bottomColor: CGColor = UIColor.yellow.cgColor
+<p><strong>Checking for 3D support</strong></p>
 
-// Set colors.
-gradientLayer.colors = [topColor, bottomColor]
+<p>You should check if the device has a 3D touch support. You can do this by checking the value of <em>forceTouchCapability</em> property of a <em>UITraitCollection</em> object. UITraitCollection describes the iOS interface environment for your app.</p>
 
-// Set locations of the colors.
-gradientLayer.locations = [0.0, 1.0]
-
-// Insert gradient layer into view&#39;s layer heirarchy.
-view.layer.insertSublayer(gradientLayer, at: 0)
+<pre><code>if (traitCollection.forceTouchCapability == .Available) {    
+    registerForPreviewingWithDelegate(self, sourceView: view)
+}
 </code></pre>
 
-<p>Result :</p>
+<p><strong>Implementing the delegate</strong></p>
 
-<p><img src="media/15038463059094/q26bv.png" alt="Simple CAGradientLayer."/></p>
+<p>You need to implement the two methods of <em>UIViewControllerPreviewingDelegate</em> in your class. One of the methods is for <em>peek</em> and the other one is for <em>pop</em> behavior.</p>
 
-<h2 id="toc_1"><a href="https://stackoverflow.com/documentation/ios/1190/cagradientlayer/12652/animating-a-color-change-in-cagradientlayer">Animating a color change in CAGradientLayer.</a></h2>
+<p>The method to be implemented for the <em>peek</em> is <em>previewingContext</em>.</p>
 
-<pre><code>// Get the current colors of the gradient.
-let oldColors = self.gradientLayer.colors
+<pre><code>func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -&gt; UIViewController? {
 
-// Define the new colors for the gradient.
-let newColors = [UIColor.red.cgColor, UIColor.yellow.cgColor]
+    guard let indexPath = self.tableView.indexPathForRowAtPoint(location), cell = self.tableView.cellForRowAtIndexPath(indexPath) as? &lt;YourTableViewCell&gt; else {
+        return nil
+    }
 
-// Set the new colors of the gradient.
-self.gradientLayer.colors = newColors
+    guard let datailVC = storyboard?.instantiateViewControllerWithIdentifier(&quot;&lt;YourViewControllerIdentifier&gt;&quot;) as? &lt;YourViewController&gt; else {
+        return nil
+    }
 
-// Initialize new animation for changing the colors of the gradient.
-let animation: CABasicAnimation = CABasicAnimation(keyPath: &quot;colors&quot;)
+    datailVC.peekActive = true
+    previewingContext.sourceRect = cell.frame
 
-// Set current color value.
-animation.fromValue = oldColors
+    // Do the stuff
 
-// Set new color value.
-animation.toValue = newColors
+    return datailVC
 
-// Set duration of animation.
-animation.duration = 0.3
-
-// Set animation to remove once its completed.
-animation.isRemovedOnCompletion = true
-
-// Set receiver to remain visible in its final state when the animation is completed.
-animation.fillMode = kCAFillModeForwards
-
-// Set linear pacing, which causes an animation to occur evenly over its duration.
-animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
-
-// Set delegate of animation.
-animation.delegate = self
-
-// Add the animation.
-self.gradientLayer.addAnimation(animation, forKey: &quot;animateGradientColorChange&quot;)
+}
 </code></pre>
 
-<p>Result :</p>
+<p>The method to be implemented for the <em>pop</em> is <em>previewingContext</em>. :)</p>
 
-<p><img src="media/15038463059094/AquKd.gif" alt="Basic CAGradientLayer color change animation."/></p>
+<pre><code>func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController) {
 
-<h2 id="toc_2"><a href="https://stackoverflow.com/documentation/ios/1190/cagradientlayer/4229/creating-a-horizontal-cagradientlayer-with-multiple-colors">Creating a horizontal CAGradientLayer with multiple colors.</a></h2>
+    let balanceViewController = viewControllerToCommit as! &lt;YourViewController&gt;
 
-<pre><code>// View to hold the CAGradientLayer.
-let view: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 320))
+    // Do the stuff
 
-// Initialize gradient layer.
-let gradientLayer: CAGradientLayer = CAGradientLayer()
+    navigationController?.pushViewController(balanceViewController, animated: true)
 
-// Set frame of gradient layer.
-gradientLayer.frame = view.bounds
-
-// Color at the top of the gradient.
-let topColor: CGColor = UIColor.greenColor().CGColor
-
-// Color at the middle of the gradient.
-let middleColor: CGColor = UIColor.blueColor().CGColor
-
-// Color at the bottom of the gradient.
-let bottomColor: CGColor = UIColor.blackColor().CGColor
-
-// Set colors.
-gradientLayer.colors = [topColor, middleColor, bottomColor]
-
-// Set start point.
-gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
-
-// Set end point.
-gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
-
-// Insert gradient layer into view&#39;s layer heirarchy.
-view.layer.insertSublayer(gradientLayer, atIndex: 0)
+}
 </code></pre>
 
-<p>Result :</p>
+<p>As you can see they are overloaded methods. You can use 3D touch in any way implementing these methods.</p>
 
-<p><img src="media/15038463059094/I4OGH.png" alt="enter image description here"/></p>
+<p><strong>Objective-C</strong></p>
 
-<h2 id="toc_3"><a href="https://stackoverflow.com/documentation/ios/1190/cagradientlayer/4228/creating-a-horizontal-cagradientlayer">Creating a horizontal CAGradientLayer.</a></h2>
+<pre><code>//Checking for 3-D Touch availability
+if ([self.traitCollection respondsToSelector:@selector(forceTouchCapability)] &amp;&amp;
+        (self.traitCollection.forceTouchCapability == UIForceTouchCapabilityAvailable))
+    {
+        [self registerForPreviewingWithDelegate:self sourceView:self.view];
+    }
+//Peek
+- (UIViewController *)previewingContext:(id&lt;UIViewControllerPreviewing&gt;)previewingContext
+              viewControllerForLocation:(CGPoint)location {
 
-<pre><code>// View to hold the CAGradientLayer.
-let view: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 320))
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
+    Country *country = [self countryForIndexPath:indexPath];
+    if (country) {
+        CountryCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+        if (cell) {
+            previewingContext.sourceRect = cell.frame;
+            UINavigationController *navController = [self.storyboard instantiateViewControllerWithIdentifier:@&quot;UYLCountryNavController&quot;];
+            [self configureNavigationController:navController withCountry:country];
+            return navController;
+        }
+    }
+    return nil;
+}
+//Pop
+- (void)previewingContext:(id&lt;UIViewControllerPreviewing&gt;)previewingContext commitViewController:(UIViewController *)viewControllerToCommit {
 
-// Initialize gradient layer.
-let gradientLayer: CAGradientLayer = CAGradientLayer()
-
-// Set frame of gradient layer.
-gradientLayer.frame = view.bounds
-
-// Color at the top of the gradient.
-let topColor: CGColor = UIColor.redColor().CGColor
-
-// Color at the bottom of the gradient.
-let bottomColor: CGColor = UIColor.yellowColor().CGColor
-
-// Set colors.
-gradientLayer.colors = [topColor, bottomColor]
-
-// Set start point.
-gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
-
-// Set end point.
-gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
-
-// Insert gradient layer into view&#39;s layer heirarchy.
-view.layer.insertSublayer(gradientLayer, atIndex: 0)
+    [self showDetailViewController:viewControllerToCommit sender:self];
+}
 </code></pre>
-
-<p>Result :</p>
-
-<p><img src="media/15038463059094/7VCnW.png" alt="Horizontal CAGradientLayer."/></p>
-
-<h2 id="toc_4"><a href="https://stackoverflow.com/documentation/ios/1190/cagradientlayer/4227/creating-a-cggradientlayer-with-multiple-colors">Creating a CGGradientLayer with multiple colors.</a></h2>
-
-<pre><code>// View to hold the CAGradientLayer.
-let view: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 320))
-
-// Initialize gradient layer.
-let gradientLayer: CAGradientLayer = CAGradientLayer()
-
-// Set frame of gradient layer.
-gradientLayer.frame = view.bounds
-
-// Color at the top of the gradient.
-let topColor: CGColor = UIColor.blue.cgColor
-
-// Color at the middle of the gradient.
-let middleColor: CGColor = UIColor.yellow.cgColor
-
-// Color at the bottom of the gradient.
-let bottomColor: CGColor = UIColor.green.cgColor
-
-// Set colors.
-gradientLayer.colors = [topColor, middleColor, bottomColor]
-
-// Set locations of the colors.
-gradientLayer.locations = [0.0, 0.5, 1.0]
-
-// Insert gradient layer into view&#39;s layer heirarchy.
-view.layer.insertSublayer(gradientLayer, at: 0)
-</code></pre>
-
-<p>Result :</p>
-
-<p><img src="media/15038463059094/tV4OL.png" alt="Complex CAGradientLayer."/></p>
-
-<hr/>
-
-<h2 id="toc_5">Syntax</h2>
-
-<pre><code>CAGradientLayer() // Returns an initialized CALayer object.
--------------------
-CAGradientLayer(layer: layer) // Override to copy or initialize custom fields of the specified layer.
-</code></pre>
-
-<h2 id="toc_6">Parameters</h2>
-
-<table>
-<thead>
-<tr>
-<th style="text-align: left">Parameter</th>
-<th style="text-align: left">Details</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td style="text-align: left">color</td>
-<td style="text-align: left">An array of <code>CGColorRef</code> objects defining the color of each gradient stop. Animatable.</td>
-</tr>
-<tr>
-<td style="text-align: left">locations</td>
-<td style="text-align: left">An optional array of <code>NSNumber</code> objects defining the location of each gradient stop. Animatable.</td>
-</tr>
-<tr>
-<td style="text-align: left">endPoint</td>
-<td style="text-align: left">The end point of the gradient when drawn in the layer’s coordinate space. Animatable.</td>
-</tr>
-<tr>
-<td style="text-align: left">startPoint</td>
-<td style="text-align: left">The start point of the gradient when drawn in the layer’s coordinate space. Animatable.</td>
-</tr>
-<tr>
-<td style="text-align: left">type</td>
-<td style="text-align: left">Style of gradient drawn by the layer. Defaults to <code>kCAGradientLayerAxial</code>.</td>
-</tr>
-</tbody>
-</table>
-
-<h2 id="toc_7">Remarks</h2>
-
-<ul>
-<li>Use <code>startPoint</code> and <code>endPoint</code> to change the orientation of the <code>CAGradientLayer</code>.</li>
-<li>Use the <code>locations</code> to affect the spread/positions of the colors.</li>
-</ul>
 
 
 		</div>

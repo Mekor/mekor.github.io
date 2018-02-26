@@ -189,6 +189,8 @@
         <li><label>杂记</label></li>
 
           
+            <li><a title="MWeb 如何恢复备份文件" href="15196526566480.html">MWeb 如何恢复备份文件</a></li>
+          
             <li><a title="collectionView自定义layout" href="15096779127051.html">collectionView自定义layout</a></li>
           
             <li><a title="项目优化记录" href="14919624884376.html">项目优化记录</a></li>
@@ -446,6 +448,8 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
+                          <li><a title="MWeb 如何恢复备份文件" href="15196526566480.html">MWeb 如何恢复备份文件</a></li>
+                        
                           <li><a title="collectionView自定义layout" href="15096779127051.html">collectionView自定义layout</a></li>
                         
                           <li><a title="项目优化记录" href="14919624884376.html">项目优化记录</a></li>
@@ -587,7 +591,7 @@
 <p>毫无疑问，kvo是一种非常便捷的回调方式，但是编译器是怎么完成监听这个任务的呢？先来看看苹果文档对于KVO的实现描述</p>
 
 <blockquote>
-<p>Automatic key-value observing is implemented using a technique called isa-swizzling&hellip; When an observer is registered for an attribute of an object the isa pointer of the observed object is modified, pointing to an intermediate class rather than at the true class ..</p>
+<p>Automatic key-value observing is implemented using a technique called isa-swizzling... When an observer is registered for an attribute of an object the isa pointer of the observed object is modified, pointing to an intermediate class rather than at the true class ..</p>
 </blockquote>
 
 <p>简要的来说，在我们对某个对象完成监听的注册后，编译器会修改监听对象（上文中的tableView）的isa指针，让这个指针指向一个新生成的中间类。从某个意义上来说，这是一场骗局。</p>

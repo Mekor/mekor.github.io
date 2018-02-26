@@ -189,6 +189,8 @@
         <li><label>杂记</label></li>
 
           
+            <li><a title="MWeb 如何恢复备份文件" href="15196526566480.html">MWeb 如何恢复备份文件</a></li>
+          
             <li><a title="collectionView自定义layout" href="15096779127051.html">collectionView自定义layout</a></li>
           
             <li><a title="项目优化记录" href="14919624884376.html">项目优化记录</a></li>
@@ -446,6 +448,8 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
+                          <li><a title="MWeb 如何恢复备份文件" href="15196526566480.html">MWeb 如何恢复备份文件</a></li>
+                        
                           <li><a title="collectionView自定义layout" href="15096779127051.html">collectionView自定义layout</a></li>
                         
                           <li><a title="项目优化记录" href="14919624884376.html">项目优化记录</a></li>
@@ -629,7 +633,7 @@ Student中写个text方法,然后打印下这两个隐藏参数.<br/>
 
 <h2 id="toc_2">动态添加方法</h2>
 
-<p>上面说了一些貌似和runtime没有什么关系,runtime基础知识类似类的构成,对象的构成这里不再介绍,可以自己去看定义.当然也可以去<a href="http://opensource.apple.com/source/objc4/objc4-680/runtime/">苹果的开源网站</a>查看,如果网站不方便可以去苹果的<a href="https://github.com/opensource-apple/objc4">github</a>下载开源代码研究&hellip;  &hellip;继续&hellip;那么根据上面所说的方法说下动态添加方法.</p>
+<p>上面说了一些貌似和runtime没有什么关系,runtime基础知识类似类的构成,对象的构成这里不再介绍,可以自己去看定义.当然也可以去<a href="http://opensource.apple.com/source/objc4/objc4-680/runtime/">苹果的开源网站</a>查看,如果网站不方便可以去苹果的<a href="https://github.com/opensource-apple/objc4">github</a>下载开源代码研究...  ...继续...那么根据上面所说的方法说下动态添加方法.</p>
 
 <blockquote>
 <p>思考一下,咱们new项目中将采用路由模式进行页面跳转,从网页跳转进入app调用一个方法,一般情况下都是移动端和后台协议好的内容,这样跳转不会出现问题.但是如果后台写错了或者传输中出现问题导致url中包含的方法名不是规定的方法名.这时怎么办?</p>
@@ -657,14 +661,14 @@ Student中写个text方法,然后打印下这两个隐藏参数.<br/>
 
 <p><img src="media/14727863232294/14729983827897.jpg" alt=""/><br/>
 上面是动态添加对象方法的例子,动态添加类方法也是一样的<code>+(BOOL)resolveClassMethod:(SEL)sel</code><br/>
-<strong>注意:</strong>上面函数类型,有人可能好奇这块为什么写成&quot;v@:&ldquo;  ?参见:函数类型, 更多关于转发机制参见:<a href="http://www.citynight.cn/Blog/14733118707964.html">转发机制</a></p>
+<strong>注意:</strong>上面函数类型,有人可能好奇这块为什么写成&quot;v@:&quot;  ?参见:函数类型, 更多关于转发机制参见:<a href="http://www.citynight.cn/Blog/14733118707964.html">转发机制</a></p>
 
 <h3 id="toc_4">关于函数类型</h3>
 
 <p>先看文档:<br/>
 <img src="media/14727863232294/14730056768742.jpg" alt=""/><br/>
 查看<code>Objective-C type encodings</code> <img src="media/14727863232294/14730058881001.jpg" alt=""/><br/>
-所以上面void eat(&hellip;)应该表述成 <code>&quot;v@:&quot;</code></p>
+所以上面void eat(...)应该表述成 <code>&quot;v@:&quot;</code></p>
 
 <p><strong>补充:</strong> 动态调用方法系统默认提供一到两个参数的方法调用, <del>这里封装了一个无限参数的方法调用.<a href="https://github.com/Mekor/NSObject-SEL">NSObject-SEL****</a></del>  我把一些扩展进行了总结,还不完善,地址<a href="https://github.com/Mekor/MKExtension">MKExtension</a></p>
 

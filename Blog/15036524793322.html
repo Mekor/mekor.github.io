@@ -189,6 +189,8 @@
         <li><label>杂记</label></li>
 
           
+            <li><a title="MWeb 如何恢复备份文件" href="15196526566480.html">MWeb 如何恢复备份文件</a></li>
+          
             <li><a title="collectionView自定义layout" href="15096779127051.html">collectionView自定义layout</a></li>
           
             <li><a title="项目优化记录" href="14919624884376.html">项目优化记录</a></li>
@@ -446,6 +448,8 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
+                          <li><a title="MWeb 如何恢复备份文件" href="15196526566480.html">MWeb 如何恢复备份文件</a></li>
+                        
                           <li><a title="collectionView自定义layout" href="15096779127051.html">collectionView自定义layout</a></li>
                         
                           <li><a title="项目优化记录" href="14919624884376.html">项目优化记录</a></li>
@@ -599,7 +603,7 @@
 
 <h3 id="toc_4">Build the path programmatically</h3>
 
-<p>We&rsquo;ll arbitrarily start in the bottom left corner and work clockwise. I&rsquo;ll use the grid in the image to get the x and y values for the points. I&rsquo;ll hardcode everything here, but of course you wouldn&rsquo;t do that in a real project.</p>
+<p>We&#39;ll arbitrarily start in the bottom left corner and work clockwise. I&#39;ll use the grid in the image to get the x and y values for the points. I&#39;ll hardcode everything here, but of course you wouldn&#39;t do that in a real project.</p>
 
 <p>The basic process is:</p>
 
@@ -754,11 +758,11 @@ class MyCustomView: UIView {
 }
 </code></pre>
 
-<p>We get&hellip;</p>
+<p>We get...</p>
 
 <p><a href="media/15036524793322/oELys.png"><img src="media/15036524793322/oELys.png" alt="enter image description here"/></a></p>
 
-<p>Hmm, that&rsquo;s a little small because I hardcoded all the numbers in. I can scale the path size up, though, like this:</p>
+<p>Hmm, that&#39;s a little small because I hardcoded all the numbers in. I can scale the path size up, though, like this:</p>
 
 <pre><code>let path = createBezierPath()
 let scale = CGAffineTransformMakeScale(2, 2)
@@ -770,7 +774,7 @@ shapeLayer.path = path.CGPath
 
 <p><strong>Method 2: Draw path in <code>drawRect</code></strong></p>
 
-<p>Using <code>drawRect</code> is slower than drawing to the layer, so this is not the recommended method if you don&rsquo;t need it.</p>
+<p>Using <code>drawRect</code> is slower than drawing to the layer, so this is not the recommended method if you don&#39;t need it.</p>
 
 <p>Here is the revised code for our custom view:</p>
 
@@ -807,7 +811,7 @@ class MyCustomView: UIView {
 }
 </code></pre>
 
-<p>which gives us the same result&hellip;</p>
+<p>which gives us the same result...</p>
 
 <p><a href="media/15036524793322/2hqMa.png"><img src="media/15036524793322/2hqMa.png" alt="enter image description here"/></a></p>
 
@@ -816,7 +820,7 @@ class MyCustomView: UIView {
 <p>Excellent articles for understanding Bezier paths.</p>
 
 <ul>
-<li><a href="http://ronnqvi.st/thinking-like-a-bzier-path/">Thinking like a Bézier path</a> (Everything I&rsquo;ve ever read from this author is good and the inspiration for my example above came from here.)</li>
+<li><a href="http://ronnqvi.st/thinking-like-a-bzier-path/">Thinking like a Bézier path</a> (Everything I&#39;ve ever read from this author is good and the inspiration for my example above came from here.)</li>
 <li><a href="https://www.youtube.com/watch?v=dXECQRlmIaE">Coding Math: Episode 19 - Bezier Curves</a> (entertaining and good visual illustrations)</li>
 <li><a href="https://www.youtube.com/watch?v=Qu-QK3uoMdY">Bezier Curves</a> (how they are used in graphics applications)</li>
 <li><a href="https://www.youtube.com/watch?v=2HvH9cmHbG4">Bezier Curves</a> (good description of how the mathematical formulas are derived)</li>
@@ -826,7 +830,7 @@ class MyCustomView: UIView {
 
 <ul>
 <li>This example originally comes from <a href="http://stackoverflow.com/a/34659468/3681880">this Stack Overflow answer</a>.</li>
-<li>In your actual projects you probably shouldn&rsquo;t use hard coded numbers, but rather get the sizes from your view&rsquo;s bounds.</li>
+<li>In your actual projects you probably shouldn&#39;t use hard coded numbers, but rather get the sizes from your view&#39;s bounds.</li>
 </ul>
 
 <hr/>

@@ -189,6 +189,8 @@
         <li><label>杂记</label></li>
 
           
+            <li><a title="MWeb 如何恢复备份文件" href="15196526566480.html">MWeb 如何恢复备份文件</a></li>
+          
             <li><a title="collectionView自定义layout" href="15096779127051.html">collectionView自定义layout</a></li>
           
             <li><a title="项目优化记录" href="14919624884376.html">项目优化记录</a></li>
@@ -446,6 +448,8 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
+                          <li><a title="MWeb 如何恢复备份文件" href="15196526566480.html">MWeb 如何恢复备份文件</a></li>
+                        
                           <li><a title="collectionView自定义layout" href="15096779127051.html">collectionView自定义layout</a></li>
                         
                           <li><a title="项目优化记录" href="14919624884376.html">项目优化记录</a></li>
@@ -556,65 +560,14 @@
 
 	
 		<div class="markdown-body">
-		<h1>防止Timer 与控制器耦合导致控制器不释放</h1>
+		<h1>MWeb 如何恢复备份文件</h1>
 
-		<pre><code>class WeakTimer: NSObject {
-    
-    private weak var target: NSObject?
-    private weak var timer: Timer?
-    private var selector: Selector
-    
-    private var userInfo: Any?
-    
-    init(withTimeInterval ti: TimeInterval, target aTarget: NSObject, selector aSelector: Selector, userInfo: Any?, repeats yesOrNo: Bool) {
-        self.target = aTarget
-        self.selector = aSelector
-        self.userInfo = userInfo
-        super.init()
-        timer = Timer.scheduledTimer(timeInterval: ti, target: self, selector: #selector(test), userInfo: userInfo, repeats: yesOrNo)
-    }
-    
-    @objc private func test() {
-        target?.perform(selector, with: self.userInfo, afterDelay: 0)
-    }
-    
-    open class func scheduledTimer(timeInterval ti: TimeInterval, target aTarget: NSObject, selector aSelector: Selector, userInfo: Any?, repeats yesOrNo: Bool) -&gt; WeakTimer {
-        let weakTimer = WeakTimer(withTimeInterval: ti, target: aTarget, selector: aSelector, userInfo: userInfo, repeats: yesOrNo)
-        
-        return weakTimer
-    }
-    
-    open func invalidate() {
-        timer?.invalidate()
-    }
-}
+		<p>在 </p>
+
+<pre><code>/Users/lixzzzzzz/Library/Containers/com.coderforart.MWeb/Data/Documents/mainlib
 </code></pre>
 
-<p>应用</p>
-
-<pre><code>    @objc private func dismissSelf() {
-        self.weakTimer?.invalidate()
-        self.weakTimer = nil
-        // HHTSwitchGlobalData.shared.waiterLoginTimeOut
-        self.weakTimer = WeakTimer.scheduledTimer(timeInterval: HHTSwitchGlobalData.shared.waiterLoginTimeOut, target: self, selector: #selector(autoDismiss), userInfo: nil, repeats: true)
-    }
-</code></pre>
-
-<p>第三方库 Kingfisher 中的处理办法</p>
-
-<pre><code>    /// Proxy object for prevending a reference cycle between the CADDisplayLink and AnimatedImageView.
-    class TargetProxy {
-        private weak var target: AnimatedImageView?
-        
-        init(target: AnimatedImageView) {
-            self.target = target
-        }
-        
-        @objc func onScreenUpdate() {
-            target?.updateFrame()
-        }
-    }
-</code></pre>
+<p>中使用备份的 <code>mainlib</code> 并重新启动app</p>
 
 
 		</div>
