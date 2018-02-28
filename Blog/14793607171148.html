@@ -728,6 +728,11 @@ $ git checkout v1.0
 # 从签出状态创建v1.0bugfix分支
 $ git checkout -b bugfix1.0
 
+# 删除tag
+$ git tag -d v1.0
+# 删除远程仓库中的tag
+$ git push origin :v1.0
+
 # 查看远程分支
 $ git branch -r
 # 删除远程分支
