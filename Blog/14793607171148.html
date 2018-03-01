@@ -189,6 +189,8 @@
         <li><label>杂记</label></li>
 
           
+            <li><a title="carthage 不能正常更新" href="15199149659223.html">carthage 不能正常更新</a></li>
+          
             <li><a title="" href="15196537271626.html"></a></li>
           
             <li><a title="collectionView自定义layout" href="15096779127051.html">collectionView自定义layout</a></li>
@@ -447,6 +449,8 @@
 
                     
                       <li class="side-title"><span>杂记</span></li>
+                        
+                          <li><a title="carthage 不能正常更新" href="15199149659223.html">carthage 不能正常更新</a></li>
                         
                           <li><a title="" href="15196537271626.html"></a></li>
                         
@@ -782,7 +786,7 @@ git remote -v
 
 <h3 id="toc_10">Git 命令快速查询</h3>
 
-<h4 id="toc_11"><a href="https://github.com/BaiduHiDeviOS/Git#git-config"></a>git config</h4>
+<h4 id="toc_11">git config</h4>
 
 <pre><code class="language-source-shell">$ git config --global alias.co checkout 
 $ git config --global alias.br branch 
@@ -795,14 +799,14 @@ $ git config user.email &quot;donganyuan@baidu.com&quot;
 $ git config --global core.editor &quot;atom --wait&quot;
 </code></pre>
 
-<h4 id="toc_12"><a href="https://github.com/BaiduHiDeviOS/Git#git-commit"></a>git commit</h4>
+<h4 id="toc_12">git commit</h4>
 
 <pre><code class="language-source-shell">$ git commit -a -m &quot;comment&quot; //添加并提交
 $ git commit --amend //修改上次commit, do not amend your last commit if you have already pushed it
 
 </code></pre>
 
-<h4 id="toc_13"><a href="https://github.com/BaiduHiDeviOS/Git#git-merge"></a>git merge</h4>
+<h4 id="toc_13">git merge</h4>
 
 <pre><code class="language-source-shell">$ git merge [branch name]
 
@@ -810,7 +814,7 @@ $ git commit --amend //修改上次commit, do not amend your last commit if you 
 $ git merge --no-ff -m &quot;comment&quot; branch_name
 </code></pre>
 
-<h4 id="toc_14"><a href="https://github.com/BaiduHiDeviOS/Git#git-log"></a>git log</h4>
+<h4 id="toc_14">git log</h4>
 
 <pre><code class="language-source-shell">$ git log -p -2 //查看每次提交的diff
 $ git log --since=2.weeks
@@ -823,7 +827,7 @@ $ git log --oneline --decorate // show you where the branch pointers are pointin
 $ git log origin/master..HEAD
 </code></pre>
 
-<h4 id="toc_15"><a href="https://github.com/BaiduHiDeviOS/Git#git-remote"></a>git remote</h4>
+<h4 id="toc_15">git remote</h4>
 
 <pre><code class="language-source-shell">查看远程仓库信息：
 $ git remote -v
@@ -831,7 +835,7 @@ $ git remote add dev https://github.com/ddd/git
 $ git remote show origin //inspecting a remote
 </code></pre>
 
-<h4 id="toc_16"><a href="https://github.com/BaiduHiDeviOS/Git#git-stash"></a>git stash</h4>
+<h4 id="toc_16">git stash</h4>
 
 <pre><code class="language-source-shell">$ git stash --保存未提交修改
 $ git stash list --查看当前stash
@@ -842,7 +846,7 @@ $ git stash drop
 $ git stash pop
 </code></pre>
 
-<h4 id="toc_17"><a href="https://github.com/BaiduHiDeviOS/Git#git-branch"></a>git branch</h4>
+<h4 id="toc_17">git branch</h4>
 
 <pre><code class="language-source-shell">分支管理：
 
@@ -867,7 +871,7 @@ $ git push origin branch_name
 $ git push origin --delete [branchname]
 </code></pre>
 
-<h4 id="toc_18"><a href="https://github.com/BaiduHiDeviOS/Git#undo"></a>undo</h4>
+<h4 id="toc_18">undo</h4>
 
 <pre><code class="language-source-shell">1.未add 修改文件时（工作区），撤销可以：
 $ git checkout -- [filename] 把文件在工作区的修改全部撤销， 把这个文件会退到最近一次commit或add状态
@@ -880,18 +884,18 @@ $ git reset HEAD [filename]
 $ git reset --hard HEAD^
 </code></pre>
 
-<h4 id="toc_19"><a href="https://github.com/BaiduHiDeviOS/Git#git-reflog"></a>git reflog</h4>
+<h4 id="toc_19">git reflog</h4>
 
 <pre><code class="language-source-shell">$ git reflog 记录每次命令
 </code></pre>
 
-<h4 id="toc_20"><a href="https://github.com/BaiduHiDeviOS/Git#git-diff"></a>git diff</h4>
+<h4 id="toc_20">git diff</h4>
 
 <pre><code class="language-source-shell">$ git diff //to see what you have changed but not yet staged
 $ git diff --staged or cache // compares your staged changes to your last commit.
 </code></pre>
 
-<h4 id="toc_21"><a href="https://github.com/BaiduHiDeviOS/Git#git-reset"></a>git reset</h4>
+<h4 id="toc_21">git reset</h4>
 
 <pre><code class="language-source-shell">$ git reset --hard HEAD^ 回退到上一次commit
 $ git reset --hard 3628164
@@ -907,7 +911,7 @@ $ git reset --hard //update working copy
 $ git reset --soft HEAD~2
 </code></pre>
 
-<h4 id="toc_22"><a href="https://github.com/BaiduHiDeviOS/Git#git-rm"></a>git rm</h4>
+<h4 id="toc_22">git rm</h4>
 
 <pre><code class="language-source-shell">$ git rm [filename]
 
@@ -915,7 +919,7 @@ $ git reset --soft HEAD~2
 $ git rm --cached filename
 </code></pre>
 
-<h4 id="toc_23"><a href="https://github.com/BaiduHiDeviOS/Git#git-tag"></a>git tag</h4>
+<h4 id="toc_23">git tag</h4>
 
 <pre><code class="language-source-shell">打标签,tag默认在本地，必须显示的push到服务器
 $ git tag v1.0

@@ -189,6 +189,8 @@
         <li><label>杂记</label></li>
 
           
+            <li><a title="carthage 不能正常更新" href="15199149659223.html">carthage 不能正常更新</a></li>
+          
             <li><a title="" href="15196537271626.html"></a></li>
           
             <li><a title="collectionView自定义layout" href="15096779127051.html">collectionView自定义layout</a></li>
@@ -448,6 +450,8 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
+                          <li><a title="carthage 不能正常更新" href="15199149659223.html">carthage 不能正常更新</a></li>
+                        
                           <li><a title="" href="15196537271626.html"></a></li>
                         
                           <li><a title="collectionView自定义layout" href="15096779127051.html">collectionView自定义layout</a></li>
@@ -560,101 +564,50 @@
 
 	
 		<div class="markdown-body">
-		<h1>数据库复习</h1>
+		<h1>点菜逻辑梳理</h1>
 
-		<blockquote>
-<p>项目中部分功能打算使用数据库进行数据本地存储,所以复习了下数据库语句</p>
-</blockquote>
+		<h2 id="toc_0">同步逻辑(全量上传):</h2>
 
-<h2 id="toc_0">DDL</h2>
+<p>原定: 切台\转台 全量上传<br/>
+现在: 轮询即上传(每次轮询信息都走这个接口),切台/轮询同样走这个接口</p>
 
-<pre><code>/*
-删除表,如果存在表就删除表
-*/
-DROP TABLE IF EXISTS &#39;t_student&#39;;
+<h2 id="toc_1">关于延时</h2>
 
-/*
-创建表
-*/
+<p>12.27泽祥刚跟海底捞确定逻辑和备注一致即这道菜如果半份延时了再次点这道菜不论整份半份都是延时的.</p>
 
-CREATE TABLE IF NOT EXISTS &#39;t_student&#39; (
-    &#39;id&#39; INTEGER NOT NULL PRIMARY KEY  AUTOINCREMENT,
-    &#39;name&#39; TEXT,
-    &#39;age&#39; INTEGER
-);
-</code></pre>
+<h2 id="toc_2">整份半份显示(如果新需求的话,可能还需要改变正在和泽祥确定中)</h2>
 
-<h2 id="toc_1">DML</h2>
+<p>需求:点菜点锅界面菜品包含整份与半份 购物车界面整份与半份是分开的.</p>
 
-<pre><code>/*
-插入数据
-*/
-/*
-INSERT INTO &#39;t_student&#39; (name, age) VALUES (&#39;lxz1&#39;, 18);
-INSERT INTO &#39;t_student&#39; (name, age) VALUES (&#39;lxz2&#39;, 19);
-INSERT INTO &#39;t_student&#39; (name, age) VALUES (&#39;lxz3&#39;, 21);
-INSERT INTO &#39;t_student&#39; (name, age) VALUES (&#39;lxz4&#39;, 22);
-*/
+<p>目前的做法: 购物车等地方如果调用<code>-(NSArray *)getLocalDishArray</code>这个操作会把数据拆分成整份半份给调用者.但是在点菜点锅页面,我会调用<code>configLocalDishArray</code> 这个操作会把整份半份整合成一个菜给调用者</p>
 
-/*更新*/
--- UPDATE t_student SET age = 20 WHERE name = &#39;lxz1&#39;
-UPDATE t_student SET name = &#39;xxx&#39; WHERE age &gt; 20
+<h2 id="toc_3">关于估清</h2>
 
+<p>原有逻辑就是根据数据库中获取菜品信息进行估清操作判断的,<strong>目前</strong>的逻辑是这样的,数据库返回字段和轮询回来的估清数据中只要有一个是估清就显示估清,显示需要调用<code>-(BOOL)judgeIsSellOutWithDish:(HTDishEntity *)dish</code></p>
 
-/*删除*/
-DELETE FROM t_student WHERE name = &#39;xxx&#39;
-</code></pre>
+<h2 id="toc_4">关于已点</h2>
 
-<h2 id="toc_2">DQL</h2>
+<p>新加菜&amp;已下单数据只要一个地方有该菜品都显示已点<code>-(BOOL)haveOrderThisDish:(NSString *)dishid</code></p>
 
-<pre><code>/*查询语句*/
--- SELECT * FROM t_student;
+<h2 id="toc_5">匹配菜品中整份半份数量</h2>
 
-/*查询特殊的字段*/
--- SELECT name,age FROM t_student;
+<p><code>-(nonnull HTDishEntity *)configNumberOfDish:(nonnull HTDishEntity *)dish</code><br/>
+会计算未下单数据中所有整份半份数量</p>
 
-/*通过条件来查询语句*/
--- SELECT name, age FROM t_student WHERE age &lt; 20;
+<h2 id="toc_6">延时倍增拆分等操作</h2>
 
-/*模糊查询*/
--- SELECT name,age FROM t_student WHERE name LIKE &#39;%l%&#39;
+<p>这里需要的菜品都是通过<code>getLocalDishArray</code>来获取否则有问题,详细逻辑大伟比较清楚</p>
 
-/*多个条件的查询
-AND 并且
-OR 或者
-*/
--- SELECT name, age FROM t_student WHERE name LIKE &#39;%l%&#39; AND age &lt; 20;
+<h2 id="toc_7">目前问题</h2>
 
-/*计算个数*/
--- SELECT count(*) FROM t_student WHERE age &lt; 20
-
-/*排序
-升序 ASC
-降序 DESC
-*/
--- SELECT * FROM t_student ORDER BY age DESC
-
--- SELECT * FROM t_student ORDER BY age ASC, name DESC;
-
-/*起别名*/
--- 给表起别名
-SELECT s.name, s.age FROM t_student AS s;
--- 给字段起别名
-SELECT name AS myName, age AS myAge FROM t_student;
-
-
-/*分页查询 limt
-数字1的意思是前面跳过多少条数据
-数字2的意思是本次查询多少条数据
-SELECT * FROM t_student LIMIT 数字1,数字2
-
-跳过0条数据查询5条数据
-SELECT * FROM t_student LIMIT 5
-*/
-</code></pre>
+<p>如果某一道菜设置延时了,将来这道菜每次进行数量的加减时都要同步到服务器,这个操作会不会导致网络请求发送比较频繁<br/>
+点锅后,使用最新的同步接口延时太久.吃饭前同步的数据,中午午休后发现数据回来了...点菜的数据同步很快..这个是接口用错了还是后台接口需要调整?</p>
 
 
 		</div>
+	
+
+ 
 	
 
  

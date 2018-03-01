@@ -189,6 +189,8 @@
         <li><label>杂记</label></li>
 
           
+            <li><a title="carthage 不能正常更新" href="15199149659223.html">carthage 不能正常更新</a></li>
+          
             <li><a title="" href="15196537271626.html"></a></li>
           
             <li><a title="collectionView自定义layout" href="15096779127051.html">collectionView自定义layout</a></li>
@@ -448,6 +450,8 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
+                          <li><a title="carthage 不能正常更新" href="15199149659223.html">carthage 不能正常更新</a></li>
+                        
                           <li><a title="" href="15196537271626.html"></a></li>
                         
                           <li><a title="collectionView自定义layout" href="15096779127051.html">collectionView自定义layout</a></li>
@@ -560,71 +564,567 @@
 
 	
 		<div class="markdown-body">
-		<h1>MKNetWork简介</h1>
+		<h1>转载iOS MJ讲解面试题,并修改里面错误</h1>
 
-		<p>用户版最新版本我将替换成最新的网络请求封装,这次我将封装一些常用的东西到网络请求中,让网络请求独立出一层,避免所有网络请求都写在控制器中.<br/>
-目录结构:</p>
+		<blockquote>
+<p>原文链接:<a href="http://www.jianshu.com/p/9050e523e278">http://www.jianshu.com/p/9050e523e278</a></p>
+</blockquote>
+
+<h4 id="toc_0">1、KVO内部实现原理</h4>
 
 <ul>
-<li><strong>MKBaseRequest</strong>     :所有的网络请求类需要继承于 <code>MKBaseRequest</code> 类，每一个<code>MKBaseRequest</code> 类的子类代表一种专门的网络请求。
-MKBaseRequest 的基本的思想是把每一个网络请求封装成对象。所以使用 MKNetWork，你的每一种请求都需要继承 MKBaseRequest类，通过覆盖父类的一些方法来构造指定的网络请求。把每一个网络请求封装成对象其实是使用了设计模式中的 Command 模式。
-每一种网络请求继承 MKBaseRequest 类后，需要用方法覆盖（overwrite）的方式，来指定网络请求的具体信息。例如:</li>
+<li>1.KVO是基于runtime机制实现的</li>
+<li>2.当某个类的对象第一次被观察时，系统就会在运行期动态地创建该类的一个派生类，在这个派生类中重写基类中任何被观察属性的setter方法。
+派生类在被重写的setter方法实现真正的通知机制（Person-&gt;NSKVONotifying_Person）</li>
 </ul>
 
-<pre><code>// 重写接口名称
--(NSString *)requestUrl {
-    return @&quot;geocode/regeo&quot;;
+<h4 id="toc_1">2、是否可以把比较耗时的操作放在NSNotificationCenter中</h4>
+
+<ul>
+<li>通知中心所做的操作在主线程，比较耗时的一般开启一个线程单独去跑</li>
+</ul>
+
+<h4 id="toc_2">3、KVO、NSNotification、代理的区别和用法是什么？什么时候该用那个？如果用protocol和delegate（或者delegate的Array）来实现类似的功能可能吗？如果能，会有什么潜在的问题？如果不能，为什么？</h4>
+
+<h5 id="toc_3">答案：</h5>
+
+<p>参考：<a href="http://blog.csdn.net/dqjyong/article/details/7685933">http://blog.csdn.net/dqjyong/article/details/7685933</a></p>
+
+<h6 id="toc_4">通知（NSNotification）：</h6>
+
+<ul>
+<li>比较灵活（1个通知能被多个对象接受，多个对象能接受多个通知）</li>
+<li>没有耦合性（Ａ发出的通知，谁去接收并不知道）</li>
+<li>缺点通知的Key容易被写错</li>
+</ul>
+
+<h6 id="toc_5">KVO</h6>
+
+<ul>
+<li>性能不好（底层对会Runtime动态产成新的类NSNotifying_xx）</li>
+<li>局限性（只能监听某个对象属性的改变，不推荐实用）</li>
+<li>1个对象的属性能被多个对象监听，1个对象能监听多个对象的其他属性</li>
+</ul>
+
+<h6 id="toc_6">代理</h6>
+
+<ul>
+<li>比较规范，所以安全性高</li>
+<li>默认是1对1监听，可以用代理数组 a.delegates = @[b, c, d];(千万别这样写，违背的设计模式，这样写还不如同消息通知)</li>
+</ul>
+
+<h4 id="toc_7">4、Runtime实现的机制是什么，怎么用，一般用于干嘛，你还记得你所使用的相关的头文件或者某些方法的名称吗？</h4>
+
+<p>运行时机制，runtime库里面包含了跟类、成员变量、方法相关的API，比如获取类里面的所有成员变量，为类动态添加成员变量，动态改变类的方法实现，为类动态添加新的方法等，需要导入</p>
+
+<h5 id="toc_8">1.什么是Runtime</h5>
+
+<ul>
+<li>runtime是一套比较低层的纯C语言API，属于1个C语言库，包含许多C底层的C语言的API</li>
+<li>平时编写的OC代码，在程序 运行过程中，其实最终都转换成了runtime的C语言代码，runtime算是OC的幕后工作者
+举例：
+OC:
+<code>[MJPerson alloc]init];</code>
+runtime：
+<code>objc_msgSend(objc_msgSend(&quot;MJPerson&quot;, &quot;alloc&quot;), &quot;init&quot;)</code></li>
+</ul>
+
+<h5 id="toc_9">2.用过么？怎么用？</h5>
+
+<ul>
+<li>1.runtime是属于OC底层，可以进行 一些非常的操作（OC无法实现的，不容易实现的）
+
+<ul>
+<li>在程序运行过程中，动态创建一个类（比如KVO底层实现）</li>
+<li>在程序运行过程中，动态地为某个类 添加属性、方法，修改属性值、方法</li>
+<li>便利一个类的 所以成员变量（属性）、方法</li>
+</ul></li>
+</ul>
+
+<h5 id="toc_10">3.相关应用</h5>
+
+<ul>
+<li><p>1.头文件</p>
+
+<p>调用底层的消息发送方法</p></li>
+<li><p>2.相关应用</p>
+
+<ul>
+<li>NSCoding（归档和解档，利用runtime遍历模型对象的所有属性）</li>
+<li>字典 -&gt;模型 （利用runtime遍历模型对象的所有属性，根据属性名从字典中取出对应的值，设置到模型的属性上）</li>
+<li>KVO（利用runtime动态产生一个类）</li>
+<li>用于封装框架（想怎么改，就怎么改）</li>
+</ul></li>
+<li><p>3.相关函数</p>
+
+<ul>
+<li>objc_msgSend ： 给对象发送消息</li>
+<li>class_copyMethodList ： 遍历某个所有方法</li>
+<li>class_copyIvarList ： 遍历某个类所以的成员变量</li>
+<li>class_addMethod ： 动态添加方法</li>
+<li>class_addIval ：动态添加成员变量</li>
+<li>class_.... class_开头的方法,是操作类的</li>
+</ul></li>
+</ul>
+
+<h6 id="toc_11">例：利用Runtime归档和解档</h6>
+
+<pre><code>//  MJPerson.m
+//  runtime进行归档和解档
+//
+//  Created by Zhanbo on 16/7/7.
+//  Copyright © 2016年 Zhanbo. All rights reserved.
+//
+
+#import &quot;MJPerson.h&quot;
+#import &lt;objc/runtime.h&gt;
+@implementation MJPerson
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+
+   unsigned int count = 0;
+  //参数1：那个类
+  //参数2：有几个成员变量
+   Ivar *ivars = class_copyIvarList([MJPerson class], &amp;count);
+
+    for (int i = 0; i &lt;count; i++) {
+        //取出i位置对应的成员变量
+        Ivar ivar = ivars[i];
+
+        //查看成员变量
+        const char *name = ivar_getName(ivar);
+        NSLog(@&quot;%s&quot;, name);
+
+        //归档
+        NSString *key = [NSString stringWithUTF8String:name];
+        id value = [self valueForKey:key];
+        [aCoder encodeObject:value forKey:key];
+
+    }
+    //在C语言中使用copy要释放
+    free(ivars);
 }
-// 重写请求方式
--(MKRequestMethod)requestMethod {
-    return MKRequestMethodGet;
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+
+    if (self = [super init]) {
+
+        unsigned int count = 0;
+        Ivar *ivars = class_copyIvarList([MJPerson class], &amp;count);
+
+        for (int i = 0; i &lt;count; i++) {
+            //取出i位置对应的成员变量
+            Ivar ivar = ivars[i];
+
+            //查看成员变量
+            const char *name = ivar_getName(ivar);
+            NSLog(@&quot;%s&quot;, name);
+
+            //解档
+            NSString *key = [NSString stringWithUTF8String:name];
+            id value = [aDecoder decodeObjectForKey:key];
+
+            //设置到成员变量身上
+            [self setValue:value forKey:key];
+
+        }
+        //在C语言中使用copy要释放
+        free(ivars);
+    }
+    return self;
 }
-// 重写想要的放回数据解析方式
--(MKRequestSerializerType)requestSerializerType {
-    return MKRequestSerializerTypeHTTP;
+
+@end
+</code></pre>
+
+<h5 id="toc_12">4.必备常识</h5>
+
+<ul>
+<li>1.Ivar ： 成员变量</li>
+<li>1. Method ： 成员方法</li>
+</ul>
+
+<h4 id="toc_13">5、Foundation对象与Core Foundation对象有什么区别？</h4>
+
+<ul>
+<li>1.Foundation对象是OC的，Core Foundation对象是C对象</li>
+<li><p>2.数据类型之间的转换(桥接)</p>
+
+<ul>
+<li><p>ARC：bridge_retained、 <u>bridge</u>transfer</p>
+
+<pre><code>CFArrayRef array3 = CFArrayCreate(NULL, NULL, 10, NULL);
+
+//Foundetion -&gt; Core Fountdation
+(__bridge_retained )
+
+//Core Fountdation -&gt; Foundetion
+(__bridge_transfer )
+NSArray *array4 = (__bridge_transfer NSArray *)array3);
+</code></pre></li>
+<li><p>MRC: _bridge</p>
+
+<pre><code>Foundation -&gt; Core Foundation
+NSArray *array1 = [NSArray array];
+CFArrayRef array2 = (__bridge CFArrayRef)array1;
+//记得释放内存
+[array1 release];
+</code></pre></li>
+</ul></li>
+</ul>
+
+<h4 id="toc_14">6、不用中间变量，用两种方法交换A和B的值</h4>
+
+<ul>
+<li>1. A = A + B
+    B = A - B
+    A = A- B</li>
+<li>2.使用位运算<sup>能交换两个变量的值</sup></li>
+</ul>
+
+<h4 id="toc_15">7、 什么是动态，举例说名</h4>
+
+<ul>
+<li>1.在线程运行过程才执行的操作，如Runtime动态创建成员变量和方法</li>
+</ul>
+
+<h4 id="toc_16">8、什么是多态</h4>
+
+<ul>
+<li><p>1.父类指针指向子类对象</p>
+
+<pre><code>NSObject *obj = [NSArray array];
+</code></pre></li>
+</ul>
+
+<h4 id="toc_17">9、怎么解决缓存池满的问题（cell）</h4>
+
+<ul>
+<li>iOS中不存在缓存池满的情况，应为通常我们在iOS开发，对象都是在需要的时候才会创建，有种常用的说法叫懒加载，还有在UITableView中一般只会创建刚开始出现在屏幕中的cell，之后都是从缓存池里取，不会创建新对象，缓存池里最多就一两个对象，缓存池满的这中情况一般在开发Java中比较常见，Java中一般把最近最少使用的对象先释放</li>
+<li>如果缓存池满了，判断哪个位置的cell是不经常使用的，先释放掉</li>
+</ul>
+
+<h3 id="toc_18">10、如何渲染自定义格式字符串的UILabel</h3>
+
+<ul>
+<li><p>1.通过NSAttributedString类</p>
+
+<pre><code>  //1种写法，也可以用字典
+NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:@&quot;哈哈哈啦啦啦哇哇哇&quot;];
+  //设置文字颜色
+  [str addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0, 3)];
+  [str addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:NSMakeRange(6, 3)];
+  //设置字体
+  [str addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:30] range:NSMakeRange(3, 3)];
+
+  _label.attributedText = str;
+</code></pre></li>
+</ul>
+
+<p><img src="media/14726092302553/1240." alt=""/></p>
+
+<p>效果</p>
+
+<h4 id="toc_19">11、scrollView的contentSize能在ViewDidLoad里设置吗，为什么？</h4>
+
+<ul>
+<li>1.能，在哪里都能设置</li>
+<li>2.但是最好不要在viewDidLoad里设置，因为视图刚创建不一定是我们想要的尺寸，在iPad开发中横竖屏是很好的例子</li>
+</ul>
+
+<h4 id="toc_20">12、控制器View的生命周期及相关函数什么？你在开发中是如何用的？</h4>
+
+<ul>
+<li>1.首先判断控制器是否有视图，如果没有就调用<strong>loadView</strong>方法创建：通过storyboard或者代码</li>
+<li>2.随后调用<strong>viewDidLoad</strong>，可以进行下一步的初始化操作：只会被调用一次</li>
+<li>3.在视图显示之前（即将显示）调用<strong>viewWillAppear</strong>，该函数可以多次调用</li>
+<li>4.在视图显示，会调用<strong>viewDidAppear</strong></li>
+<li>5.视图即将消失，调用<strong>viewWillDisappear</strong></li>
+<li>6.视图已经消失，调用<strong>viewDidDisappear</strong></li>
+<li>7.在布局变化前后，调用<strong>viewWillDidLayoutSubviews</strong>处理相关信息</li>
+</ul>
+
+<h4 id="toc_21">13、Block的内存管理</h4>
+
+<ul>
+<li>1.默认情况下，block的内存是在栈中
+
+<ul>
+<li>它不会对所引用的对象进行任何操作</li>
+</ul></li>
+<li>2.如果对block做一次copy操作，block的内存就会在堆中
+
+<ul>
+<li>它会对所引用的对象做一次retain操作</li>
+<li>ARC ：如果所引用的对象用了<strong>__unsafe_unretained</strong>或者<strong>__weak</strong>修饰，就不会做retain操作</li>
+<li>非ARC(MRC) ： 如果所引用的对象用<strong>__block</strong>修饰，就不会做retain操作；MRC记得释放blockBlock_release(_block);</li>
+</ul></li>
+</ul>
+
+<pre><code>- (void)dealloc {
+    //MRC记得在dealloc释放blcok，[super dealloc];要写最后
+    Block_release(_block);
+    [super dealloc];
 }
 </code></pre>
 
-<p>目前没有添加返回参数格式验证,如有需要可以在base中添加,让继承者重写.</p>
+<h4 id="toc_22">14、MRC中如何做开发</h4>
+
+<p>1.MRC中retain相当于ARC中strong<br/>
+assign相当于ARC中weak<br/>
+2.只要声明对象属性就要写retain</p>
+
+<pre><code>@property (nonatomic, retain)NSArray *array; +1(计数器 = 1)
+</code></pre>
+
+<p>3.声明控件、协议用assgin</p>
+
+<p>4.MRC的内存管理原则</p>
 
 <ul>
-<li><strong>MKNetWorkAgent</strong>    :MKNetWorkAgent最基础的网络请求封装,目前封装的AFN,如有必要可以替换</li>
-<li><strong>MKNetworkConfig</strong>   :用于统一设置网络请求的服务器和 CDN 的地址。在实际业务中，我们的测试需要切换不同的服务器地址来测试。统一设置服务器地址到 MKNetworkConfig 类中，也便于我们统一切换服务器地址。</li>
+<li>如果调用了alloc、new、copy产生了一个新对象，最后肯定要调用1次releace或者autorelease</li>
+<li>如果让一个对象做了retain操作（计数器+1），最后肯定要调用1次release或者autorelease</li>
+<li>原则：有+ 就有-</li>
 </ul>
 
-<pre><code> - (void)setupRequestFilters {
-    // 这里用高德Api进行测试
-    NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@&quot;CFBundleShortVersionString&quot;];
-    MKNetworkConfig *config = [MKNetworkConfig sharedInstance];
-    config.baseUrl = @&quot;http://restapi.amap.com/v3/&quot;;
-    MKUrlArgumentsFilter *urlFilter = [MKUrlArgumentsFilter filterWithArguments:@{@&quot;version&quot;: appVersion}];
-    [config addUrlFilter:urlFilter];
-}
-
-
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
-    [self setupRequestFilters];
-    
-    return YES;
-} 
+<pre><code>self.array = [NSArray alloc]init]autorelease];
+alloc后 +1(计数器 = 2)； autorelease后 -1(计数器 = 1)
+//或者这样写，就不需要写autorelease，系统内部自动写好
+self.array = [NSArray array];
 </code></pre>
 
 <ul>
-<li><strong>MKChainRequest</strong>    :用于管理有相互依赖的网络请求，它实际上最终可以用来管理多个拓扑排序后的网络请求。</li>
+<li>最后要在dealloc释放内存</li>
 </ul>
 
-<p>例如，我们有一个需求，需要用户在注册时，先发送注册的Api，然后:<br/>
-1. 如果注册成功，再发送读取用户信息的Api。并且，读取用户信息的Api需要使用注册成功返回的用户id号。<br/>
-2. 如果注册失败，则不发送读取用户信息的Api了。</p>
+<pre><code>//当控制器将被释放的时候对调用
+- (void)dealloc {
+//最好这样写
+self.array = nil;
+-1(计数器 = 0)
 
-<p><strong>不足:</strong><br/>
-1. 目前没有做缓存,由于项目中url是根据时间戳,可以使用已有的缓存作为补充.也可以写到网络层封装中.<br/>
-2. 串行网络请求封装了,但是由于默认就是并行网络请求,所以没有封装.如果需要限制最大并发数量,可以在<code>MKNetWorkAgent</code>中设置.<br/>
-3. 木有大量测试,可能存在bug</p>
+//也可以这样写
+self.array = [array release];
+//最后调用
+[supe dealloc];
+}
+</code></pre>
 
-<p><strong>注意事项:</strong><br/>
-基本没有啥需要注意的...,具体使用方法可以参见Demo,关于参数可以实现代理方法,也可以直接传参.如果直接传参,会覆盖掉代理中的数据源.  Demo中实现了简单的下拉加载中关于page的封装.扩展功能我都写成代理,然后需要什么功能实现以下就可以了,避免<code>MKBaseRequest</code>中包含太多功能,这样可以实现自定义组成自己需要的功能.</p>
+<p>如果是iOS版本在5.0之前要在3个地方释放内存</p>
+
+<pre><code>//控制器的View被卸载，会调用
+- (void)viewDidUnload {
+
+    [super viewDidUnload];
+    self.array = nil;
+}
+
+//接收到内存警告，会调用
+- (void)didReceiveMemoryWarning {
+
+    [super didReceiveMemoryWarning];
+    self.array = nil;
+}
+
+- (void)dealloc {
+
+    self.array = nil;
+
+    [super dealloc];
+}
+</code></pre>
+
+<h4 id="toc_23">15、多线程如何进行线之间通讯？</h4>
+
+<pre><code>//在主线程执行某个方法，传参（该方法用于子线程对主线程进行通讯）
+[self performSelectorOnMainThread: withObject: waitUntilDone:]
+
+//指定线程，调用方法，传参
+[self performSelector: onThread: withObject: waitUntilDone: modes: *)#&gt;
+
+//GCD在异步线程做事情
+dispatch_async(, )
+</code></pre>
+
+<h4 id="toc_24">16、用NSOperation和NSOperationQueue处理A,B,C三个线程，要求执行完A,B才能执行C，怎么做？</h4>
+
+<ul>
+<li>1.第一种方法添加依赖</li>
+</ul>
+
+<pre><code>//创建列队
+NSOperationQueue *queue = [NSOperationQueue alloc]init];
+//创建3个操作
+NSOperation *a = [NSBlockOperation blockOperationWithBlock:^{
+    NSLog(@&quot;operation1....&quot;);
+}];
+
+NSOperation *c = [NSBlockOperation blockOperationWithBlock:^{
+    NSLog(@&quot;operation2....&quot;);
+}];
+
+NSOperation *b = [NSBlockOperation blockOperationWithBlock:^{
+    NSLog(@&quot;operation3....&quot;);
+}];
+//======添加依赖=======
+//只有当a操作执行完毕后，才会执行c操作
+[c addDependency:a];
+//只有当b操作执行完毕后，才会执行c操作
+[c addDependency:b];
+
+[queue addOperation:a];
+[queue addOperation:b];
+[queue addOperation:c];
+</code></pre>
+
+<ul>
+<li>2.第二种方法 可 以设置优先级</li>
+</ul>
+
+<pre><code>- (NSOperationQueuePriority)queuePriority;
+</code></pre>
+
+<h4 id="toc_25">17、GCD内部怎么实现的</h4>
+
+<ul>
+<li>1.iSO和OS X的核心是XNU内核，GCD是基于XNU内核实现的</li>
+<li>2.GCD的API全部在libdispatch库中</li>
+<li>3.GCD的底层实现主要有Dispatch Queue和 Dispatch Source
+
+<ul>
+<li>Disatch Queue ：管理block（操作，block里的代码块，根据类型在哪个线程执行）</li>
+<li>Disatch Source ： 处理事件（底层实现，处理线程之间的事件，如主线程会到什么线程，异步线程回到什么线程）</li>
+</ul></li>
+</ul>
+
+<h4 id="toc_26">18、NSOperatinQueue和CGD的区别，什么情况下用NSOperationQueue，什么情况下用GCD</h4>
+
+<ul>
+<li>1.GCD是纯C语言的API，NSOperationQueue是基于GCD的OC版本封装</li>
+<li>2.GCD只支持FIFO的列队（先进先出），NSOperationQueue可以很方便地调整执行顺序（设置优先级 ），设置最大并发数量</li>
+<li>3.NSOperatinQueue可以轻松在Operation间设置依赖关系，而GCD需要些很多代码才能实现</li>
+<li>4.NSOperationQueue支持KVO，可以监听operation是否正在执行（isExecuted）、是否结束（isFinished），是否取消（isCanceld）；系统内部已经做好的KVO</li>
+<li>5.GCD的执行速度比NSOperationQueue快</li>
+<li>什么时候，用哪个
+
+<ul>
+<li>1.任务之间有依赖/或者要监听任务的执行情况：NSOperatinQueue（任务需要时刻监听；任务严格需要按顺序执行）</li>
+<li>2.任务之间不太相互依赖就用：CGD</li>
+</ul></li>
+</ul>
+
+<h4 id="toc_27">19、既然说到GCD，那么问下在使用GCD已经block需要注意什么？</h4>
+
+<ul>
+<li>1.GCD的注意18题已有说明</li>
+<li>2.Block的使用注意
+
+<ul>
+<li>1.block的内存管理(13题已有说明)</li>
+<li>2.防止循环retain
+
+<ul>
+<li>ARC：<strong>weak/</strong>unsafe_unretained</li>
+<li>MRC: __block 0</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<h4 id="toc_28">20、如果后期需要增加数据库中的字段怎么实现，如果不使用CoreData呢？</h4>
+
+<p>编写SQL语句来操作原来表中的字段</p>
+
+<ul>
+<li>1.增加表字段
+ALTER TABLE 表名 DROP COLUMN 字段名 字段类型</li>
+<li>2.删除表字段
+ALTER TABLE 表名 DROP COLUMN 字段名</li>
+<li>3.修改表字段
+ALTER TABLE 表名 RENAME COLUMN 旧字段名 TO 新字段名</li>
+</ul>
+
+<h4 id="toc_29">21、简单描述下客户端的缓存机制</h4>
+
+<ul>
+<li>1.缓存可以分为：内存数据缓存、数据库缓存、文件缓存</li>
+<li>2.每次想获取数据的时候
+
+<ul>
+<li>先检测内存中有无缓存</li>
+<li>在检测本地有无缓存（数据库/文件）</li>
+<li>最终发送网络请求</li>
+<li>将服务器返回的网络数据进行缓存（内存、数据库、文件），已便下次读取</li>
+</ul></li>
+</ul>
+
+<h4 id="toc_30">22、有些图片加载的比较慢怎么处理？你是怎么优化程序的性能的？</h4>
+
+<ul>
+<li>1.图片下载放在异步线程</li>
+<li>2.图片下载过程中使用占位图，提高用户的天</li>
+<li>3.如果图片比较大，可以考虑多线程断点下载（开辟多个线程下载一张图片，需要服务器设置请求体信息）</li>
+</ul>
+
+<h4 id="toc_31">23、你实现过一个框架或者库以供别人使用吗？如果有，请谈一谈构建框架或者库时候的经验；如果没有，请设想和设计框架的public的API，并指出大概需要如何做、需要注意一些什么方面，来使别人容易地使用你的框架。</h4>
+
+<ul>
+<li>1.提供给外界的接口功能是否实用、够用</li>
+<li>2.别人使用我的框架时，能不能根据类名、方法名就猜出接口的具体作用</li>
+<li>3.别人调用接口时，提供的参数是否够用、调用起来是否简单</li>
+<li>4.别人使用我的框架时，要不要再导入依赖其他的框架</li>
+</ul>
+
+<h4 id="toc_32">24、是否可以把比较耗时的操作放在NSNotificationCenter中？</h4>
+
+<ul>
+<li>1.如果在异步线程发的通知，那么可以执行比较耗时的操作</li>
+<li>2.如果在主线程发的通知，那么就不可以执行比较耗时的操作
+补充：NSNotificationCenter默认是主线程的，但是在异步线程发通知，那么NSNotificationCenter就会变成异步线程</li>
+</ul>
+
+<h4 id="toc_33">25、SDWebImage具体如何实现</h4>
+
+<ul>
+<li>1.利用NSOperationQueue和NSOperation下载图片，还使用了GCD的一些函数（解码GIF图片）</li>
+<li>2.利用URL作为key，NSOperation作为value</li>
+<li>3.利用URL作为key，UIImage作为value</li>
+</ul>
+
+<h4 id="toc_34">26、怎么解决sqlite锁定的问题</h4>
+
+<ul>
+<li>1.设置数据库锁定的处理函数</li>
+</ul>
+
+<pre><code>当数据库被锁时，会调用该方法
+//参数1传入数据库，
+//参数2传入函数名(在该函数中做操作)
+int sqlite3_busy_handler(sqlite3*, test);
+</code></pre>
+
+<ul>
+<li><p>2.设置锁定时的等待时间</p>
+
+<pre><code>int sqlite3_busy_timeout(sqlite3*, int ms);
+</code></pre></li>
+</ul>
+
+<h4 id="toc_35">27、cocoa中常见对几种多线程的实现，并谈谈多线程安全的几种解决办法及多线程安全怎么控制？</h4>
+
+<ul>
+<li>1.只在主线程刷新访问UI</li>
+<li>2.如果要防止资源抢夺，得用synchroized进行加锁保护</li>
+<li>3.如果异步操作要保证线程安全等问题，尽量使用GCD（有些函数默认就是安全的）</li>
+</ul>
+
+<h4 id="toc_36">28、什么是run loop？</h4>
+
+<ul>
+<li>1.runloop是消息循环，内部有定时源和输入源来运作</li>
+<li>2.在创建的程序不需要显示的创建run loop；每个线程，包括程序的主线程（main thread）都有与之相应的run loop对象，主线程会自行创建并运行run loop</li>
+<li>3.run loop处理的输入事件有两种不同的来源：输入源（input source）和定时源（timer source）</li>
+<li>4.输入源处理传递异步消息，通常来自于其他线程或者程序。定时源则处理传递同步消息，在特定时间或者一定的时间间隔发生</li>
+</ul>
 
 
 		</div>

@@ -189,6 +189,8 @@
         <li><label>杂记</label></li>
 
           
+            <li><a title="carthage 不能正常更新" href="15199149659223.html">carthage 不能正常更新</a></li>
+          
             <li><a title="" href="15196537271626.html"></a></li>
           
             <li><a title="collectionView自定义layout" href="15096779127051.html">collectionView自定义layout</a></li>
@@ -448,6 +450,8 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
+                          <li><a title="carthage 不能正常更新" href="15199149659223.html">carthage 不能正常更新</a></li>
+                        
                           <li><a title="" href="15196537271626.html"></a></li>
                         
                           <li><a title="collectionView自定义layout" href="15096779127051.html">collectionView自定义layout</a></li>
@@ -560,80 +564,52 @@
 
 	
 		<div class="markdown-body">
-		<h1>如何在UIBarButtonItem上显示数字(BadgeValue)</h1>
+		<h1>GCD(Grand Central Dispatch)使用</h1>
 
-		<blockquote>
-<p>原因：项目中想要实现购物车右上角显示购物车中上品数量，但是直接用UIBarButtonItem不能实现要求</p>
-</blockquote>
+		<p>可以让程序长时间压后台</p>
 
-<p>这里是实现后的效果图：</p>
+<pre><code>//  后台执行：
+dispatch_async(dispatch_get_global_queue(0, 0), ^{
+  // something
+});
 
-<p><img src="media/14747835330079/strip." alt="购物车动画"/></p>
+// 主线程执行：
+dispatch_async(dispatch_get_main_queue(), ^{
+  // something
+});
 
-<p>一开始直接创建的UIBarButtonItem，但是不能直接往上面添加想要的效果，因为</p>
+// 一次性执行：
+static dispatch_once_t onceToken;
+dispatch_once(&amp;onceToken, ^{
+  // code to be executed once
+});
 
-<pre><code>NS_CLASS_AVAILABLE_IOS(2_0) @interface UIBarButtonItem : UIBarItem &lt;NSCoding&gt;
+// 延迟2秒执行：
+double delayInSeconds = 2.0;
+dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+   // code to be executed on the main queue after delay
+});
+
+// 自定义dispatch_queue_t
+dispatch_queue_t urls_queue = dispatch_queue_create(&quot;blog.devtang.com&quot;, NULL);
+dispatch_async(urls_queue, ^{
+  // your code
+});
+dispatch_release(urls_queue);
+
+// 合并汇总结果
+dispatch_group_t group = dispatch_group_create();
+dispatch_group_async(group, dispatch_get_global_queue(0,0), ^{
+  // 并行执行的线程一
+});
+dispatch_group_async(group, dispatch_get_global_queue(0,0), ^{
+  // 并行执行的线程二
+});
+dispatch_group_notify(group, dispatch_get_global_queue(0,0), ^{
+  // 汇总结果
+});
 </code></pre>
-
-<p>而且</p>
-
-<pre><code>NS_CLASS_AVAILABLE_IOS(2_0) @interface UIBarItem : NSObject &lt;NSCoding, UIAppearance&gt;
-</code></pre>
-
-<p>退而求其次，我们知道UIBarButtonItem有一个属性</p>
-
-<pre><code>@property(nullable, nonatomic,strong)  __kindof UIView     *customView;       // default is nil
-</code></pre>
-
-<p>这说明我们可以使用UIButton来代替UIBarButtonItem，在UIButton上面添加想要的动画效果。</p>
-
-<pre><code>    static CGFloat const kButtonWidth = 43.0f;
-    static CGFloat const kButtonHeight = 43.0f;
-
-    UIImage *cartImage = [[UIImage imageNamed:@&quot;iconfont-cart&quot;]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-
-    UIButton *cartButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    cartButton.frame = CGRectMake(0.0f, 0.0f, kButtonWidth, kButtonHeight);
-    cartButton.backgroundColor = [UIColor clearColor];
-    [cartButton setImage:cartImage forState:UIControlStateNormal];
-    [cartButton setImageEdgeInsets:UIEdgeInsetsMake(0.0f,(kButtonHeight- cartImage.size.width), 0.0f, 0.0f)];
-    [cartButton addTarget:self action:@selector(changeStatus:) forControlEvents:UIControlEventTouchUpInside];
-    [cartButton addSubview:self.numberLabel];
-
-    UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:cartButton];
-    self.navigationItem.rightBarButtonItem = rightBarButtonItem;
-</code></pre>
-
-<p>创建Label使用懒加载：</p>
-
-<pre><code>#pragma mark 购物车上面显示的按钮
--(UILabel *)numberLabel
-{
-    if (!_numberLabel) {
-
-        static CGFloat const kNameLabelWidth = 14;
-        static CGFloat const kNameLabelHeight = 14;
-        static CGFloat const kNameLabelX = 40; // 父视图宽44，UI说改到这个位置
-        static CGFloat const kNameLabelY = 6;
-
-        _numberLabel = [UILabel new];
-        _numberLabel.hidden = YES;
-        _numberLabel.frame = CGRectMake(kNameLabelX, kNameLabelY, kNameLabelWidth, kNameLabelHeight);
-
-        _numberLabel.backgroundColor = [UIColor redColor];
-        _numberLabel.textColor = [UIColor whiteColor];
-        _numberLabel.font = [UIFont systemFontOfSize:9];
-        _numberLabel.textAlignment = NSTextAlignmentCenter;
-        _numberLabel.layer.cornerRadius = kNameLabelHeight * 0.5;
-        _numberLabel.layer.masksToBounds = YES;
-
-    }
-    return _numberLabel;
-}
-</code></pre>
-
-<p>这里说下为什么设置为hidden，因为要求数量为0的时候不显示，数量不为0显示，如果删除后还要添加不如直接控制hidden。<br/>
-其他的就是设置Label显示的数字了，这里就不写了。</p>
 
 
 		</div>
