@@ -63,6 +63,8 @@
         <li><label>技巧</label></li>
 
           
+            <li><a title="设置placeholder颜色" href="15206737456913.html">设置placeholder颜色</a></li>
+          
             <li><a title="防止Timer 与控制器耦合导致控制器不释放" href="15180682554389.html">防止Timer 与控制器耦合导致控制器不释放</a></li>
           
             <li><a title="显示中划线,下划线" href="15166722537296.html">显示中划线,下划线</a></li>
@@ -188,6 +190,8 @@
         <li class="divider"></li>
         <li><label>杂记</label></li>
 
+          
+            <li><a title="为了更节省时间而出的面试题" href="15203932580751.html">为了更节省时间而出的面试题</a></li>
           
             <li><a title="carthage 不能正常更新" href="15199149659223.html">carthage 不能正常更新</a></li>
           
@@ -330,6 +334,8 @@
                     
                       <li class="side-title"><span>技巧</span></li>
                         
+                          <li><a title="设置placeholder颜色" href="15206737456913.html">设置placeholder颜色</a></li>
+                        
                           <li><a title="防止Timer 与控制器耦合导致控制器不释放" href="15180682554389.html">防止Timer 与控制器耦合导致控制器不释放</a></li>
                         
                           <li><a title="显示中划线,下划线" href="15166722537296.html">显示中划线,下划线</a></li>
@@ -450,6 +456,8 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
+                          <li><a title="为了更节省时间而出的面试题" href="15203932580751.html">为了更节省时间而出的面试题</a></li>
+                        
                           <li><a title="carthage 不能正常更新" href="15199149659223.html">carthage 不能正常更新</a></li>
                         
                           <li><a title="" href="15196537271626.html"></a></li>
@@ -564,75 +572,102 @@
 
 	
 		<div class="markdown-body">
-		<h1>全屏返回手势小技巧</h1>
+		<h1>Swift - 上周总结(12.30)</h1>
 
-		<blockquote>
-<p>这片文章可以和<a href="http://www.citynight.cn/Blog/14790381443417.html">Swift - KVC 和 运行时获取属性列表</a> 一起看,当然配上<a href="http://www.citynight.cn/Blog/14793034700265.html">隐藏tabBar的小技巧</a>就更好了😀</p>
-</blockquote>
+		<h2 id="toc_0">规范问题</h2>
 
-<h2 id="toc_0">第一种: 通过<code>runtime</code>与<code>KVC</code>配合完成</h2>
+<p>关于视图该不该把控件暴露出去?<br/>
+通常情况下不能,原因:为了<del>部落</del>封闭性.</p>
 
-<p>在<code>UINavigationController</code>的<code>viewDidLoad</code>方法中:</p>
+<p>我的理解,每个视图都是一个盒子,如果有需要我可以给外面提供一个update接口来更改数据.视图中的点击事件可以通过<code>Target-Action</code>实现,当然闭包&amp;代理同样可以.非常符合<code>Cocoa</code>提倡的<code>MVC</code>模式</p>
 
-<pre><code>// 获取系统的手势
-let gest = self.interactivePopGestureRecognizer!
-// 禁用系统的手势
-interactivePopGestureRecognizer?.isEnabled = false
+<p><img src="media/14830040423390/14834530948549.jpg" alt=""/></p>
 
-// 通过KVC获取target 属性是通过runtime获取的,具体方法参见`Swift - KVC 和 运行时获取属性列表`
-guard let targets = gest.value(forKey: &quot;_targets&quot;) as? [AnyObject] else {
-    return
-}
-let target = targets[0].value(forKey: &quot;_target&quot;)
+<p>关于视图中空间是否暴露出去,默认都是<code>private</code>,我认为苹果<code>Cocoa Touch</code>中<code>UIKit</code>部分控件设计的不是很好,举个🌰:<br/>
+<code>UIButton</code>如果设置字体的大小,需要通过<code>titleLabel?.font</code>来设置.我认为这样是不好的,通过一个方法来设置font感觉更合适.</p>
 
-// 给视图添加点击事件
-let pan = UIPanGestureRecognizer(target: target, action: NSSelectorFromString(&quot;handleNavigationTransition:&quot;))
-view.addGestureRecognizer(pan)
-</code></pre>
+<h2 id="toc_1">更Swift</h2>
 
-<h2 id="toc_1">第二种: 通过原有的代理完成</h2>
+<p>毕竟大部分同学都是刚接触Swift,整个项目感觉有点像翻译,还是<code>OC</code>的味道,关于这个问题讨论了两点,一个是面向协议编程,一个是函数式编程</p>
 
-<p>直接上代码:</p>
+<h3 id="toc_2">面向协议编程</h3>
 
-<pre><code>class BaseNavigationController: UINavigationController {
+<p>问题:某一个视图是其他视图所需要的一部分,现在的做法是将共有的视图抽取出来,成为一个视图,然后其他视图包含这个视图.<br/>
+面向协议:公共的子视图设置为一个协议,然后给一个默认的实现.像搭积木一样做视图的拼接.</p>
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+<p>参考资料:<a href="https://github.com/atConf/atswift-2016-resources">atswift-2016大会</a>中<code>李洁信_Pop in Swift</code>这个section可以参考.</p>
 
-        // 获取系统的手势的代理
-        guard let target = interactivePopGestureRecognizer?.delegate else {
-            return
+<h3 id="toc_3">函数式编程</h3>
+
+<p>周欣对自己代码优化的时候发现的问题:<br/>
+一开始的逻辑:</p>
+
+<pre><code>class func fetchAllDish() -&gt; [Any] {
+        var mutableBigCategorys = [Any]()
+        let bigCategorys = DatabaseManager.shared.fetchAllDishCategory()
+        for bigCategory in bigCategorys {
+            var bigCategory = bigCategory
+            var mutableSubCategorys = [Any]()
+            let subCategorys = DatabaseManager.shared.fetchSubCategorys(byCategroyID: bigCategory[&quot;CATEGORYID&quot;] as! String)
+            for subCategory in subCategorys {
+                var subCategory = subCategory
+                let dishes = DatabaseManager.shared.fetchDishes(bySubCategoryID: subCategory[&quot;CLASSID&quot;] as! String)
+                if dishes.count &gt; 0 {
+                    subCategory[&quot;dishes&quot;] = dishes
+                    mutableSubCategorys.append(subCategory)
+                }
+            }
+            if mutableSubCategorys.count &gt; 0 {
+                bigCategory[&quot;subCategorys&quot;] = mutableSubCategorys
+                mutableBigCategorys.append(bigCategory)
+            }
         }
-        
-        // 禁用系统的手势
-        interactivePopGestureRecognizer?.isEnabled = false
-        
-        // 给视图添加点击事件
-        let pan = UIPanGestureRecognizer(target: target, action: NSSelectorFromString(&quot;handleNavigationTransition:&quot;))
-        pan.delegate = self
-        view.addGestureRecognizer(pan)
+        return mutableBigCategorys
     }
-}
+</code></pre>
 
-extension BaseNavigationController:UIGestureRecognizerDelegate {
-    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -&gt; Bool {
-        // 当是跟控制器的时候不让返回,非跟控制器可以返回
-        return viewControllers.count &gt; 1
+<p>优化后的:</p>
+
+<pre><code>class func fetchAllDish() -&gt; [Any] {
+        let bigCategorys = DatabaseManager.shared.fetchAllDishCategory()
+        let results = bigCategorys.map { (bigCategory) -&gt; [String: Any] in
+            var bigCategory = bigCategory
+            let subCategory = DatabaseManager.shared.fetchSubCategorys(byCategroyID: bigCategory[&quot;CATEGORYID&quot;] as! String)
+            let subResults = subCategory.map({ (subCategory) -&gt; [String: Any] in
+                var subCategory = subCategory
+                let dishes = DatabaseManager.shared.fetchDishes(bySubCategoryID: subCategory[&quot;CLASSID&quot;] as! String)
+                subCategory[&quot;dishes&quot;] = dishes
+                return subCategory
+            }).filter({ $0.count &gt; 0 })
+            bigCategory[&quot;subCategorys&quot;] = subResults
+            return bigCategory
+        }.filter({ $0.count &gt; 0 })
+        return results
     }
-}
+</code></pre>
+
+<p>通过<code>map</code>与<code>filter</code>的灵活使用,使代码逻辑更清晰,同时也减少了不必要的临时变量.</p>
+
+<h3 id="toc_4">元组</h3>
+
+<p>这个甲冠用的比较6..代码参见<code>NeoSubDishDetailView.swift</code>简单🌰:</p>
+
+<pre><code>    func refreshInfo(data : (UIButton,DishTypeModel)){
+        dishNameLabel.text = data.1.name
+        moneyLabel.text = data.1.price
+        numLabel.text = String(data.1.num)
+        if data.1.num &lt;= 0{
+            self.cutButton.isHidden = true
+            self.numLabel.isHidden = true
+        }else{
+            self.cutButton.isHidden = false
+            self.numLabel.isHidden = false
+        }
+    }
 
 </code></pre>
 
-<p>第一种也应该设置代理,不设置代理的话跟控制出现手势就会有bug</p>
-
-<p>简单比较一下,第二种更简洁.不过应用了一个小技巧,看代码:</p>
-
-<pre><code>    let pan = UIPanGestureRecognizer(target: self, action: NSSelectorFromString(&quot;handleNavigationTransition:&quot;))
-    pan.delegate = self
-    view.addGestureRecognizer(pan)
-</code></pre>
-
-<p>可见<code>target</code>&amp;<code>delegate</code>通常都是同一个对象,当让也可以是不同的,这里应用这个小技巧让代码变得更简洁.</p>
+<p>还有好多地方使用,这个文件可以好好观摩一下,很Swift...</p>
 
 
 		</div>

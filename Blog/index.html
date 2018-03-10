@@ -63,6 +63,8 @@
         <li><label>技巧</label></li>
 
           
+            <li><a title="设置placeholder颜色" href="15206737456913.html">设置placeholder颜色</a></li>
+          
             <li><a title="防止Timer 与控制器耦合导致控制器不释放" href="15180682554389.html">防止Timer 与控制器耦合导致控制器不释放</a></li>
           
             <li><a title="显示中划线,下划线" href="15166722537296.html">显示中划线,下划线</a></li>
@@ -188,6 +190,8 @@
         <li class="divider"></li>
         <li><label>杂记</label></li>
 
+          
+            <li><a title="为了更节省时间而出的面试题" href="15203932580751.html">为了更节省时间而出的面试题</a></li>
           
             <li><a title="carthage 不能正常更新" href="15199149659223.html">carthage 不能正常更新</a></li>
           
@@ -330,6 +334,8 @@
                     
                       <li class="side-title"><span>技巧</span></li>
                         
+                          <li><a title="设置placeholder颜色" href="15206737456913.html">设置placeholder颜色</a></li>
+                        
                           <li><a title="防止Timer 与控制器耦合导致控制器不释放" href="15180682554389.html">防止Timer 与控制器耦合导致控制器不释放</a></li>
                         
                           <li><a title="显示中划线,下划线" href="15166722537296.html">显示中划线,下划线</a></li>
@@ -450,6 +456,8 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
+                          <li><a title="为了更节省时间而出的面试题" href="15203932580751.html">为了更节省时间而出的面试题</a></li>
+                        
                           <li><a title="carthage 不能正常更新" href="15199149659223.html">carthage 不能正常更新</a></li>
                         
                           <li><a title="" href="15196537271626.html"></a></li>
@@ -564,21 +572,21 @@
 
 	
 		<div class="markdown-body">
-		<h1>carthage 不能正常更新</h1>
+		<h1>设置placeholder颜色</h1>
 
-		<p>报错<br/>
-<code><br/>
-➜  PersonalMusic git:(master) carthage update<br/>
-*** Cloning GCDWebServer<br/>
-A shell task (/usr/bin/env git clone --bare --quiet https://github.com/swisspol/GCDWebServer.git /Users/lixzzzzzz/Library/Caches/org.carthage.CarthageKit/dependencies/GCDWebServer) failed with exit code 128:<br/>
-fatal: unable to access &#39;https://github.com/swisspol/GCDWebServer.git/&#39;: LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to github.com:443<br/>
-</code></p>
+		<p>从前设置颜色可能是这样的：</p>
 
-<p>解决办法：</p>
+<pre><code>self.textField.setValue(UIColor.white., forKeyPath: &quot;_placeholderLabel.textColor&quot;)
 
-<p>清缓存</p>
+</code></pre>
 
-<pre><code>rm -rf ~/Library/Caches/org.carthage.CarthageKit
+<p>今天发现，居然有一个属性可以设置：</p>
+
+<pre><code>self.textField.attributedPlaceholder =
+            NSAttributedString(string: &quot;自定义金额&quot;,
+                               attributes:
+                [NSAttributedStringKey.foregroundColor: UIColor.white]
+        )
 </code></pre>
 
 

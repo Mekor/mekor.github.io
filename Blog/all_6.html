@@ -63,6 +63,8 @@
         <li><label>技巧</label></li>
 
           
+            <li><a title="设置placeholder颜色" href="15206737456913.html">设置placeholder颜色</a></li>
+          
             <li><a title="防止Timer 与控制器耦合导致控制器不释放" href="15180682554389.html">防止Timer 与控制器耦合导致控制器不释放</a></li>
           
             <li><a title="显示中划线,下划线" href="15166722537296.html">显示中划线,下划线</a></li>
@@ -188,6 +190,8 @@
         <li class="divider"></li>
         <li><label>杂记</label></li>
 
+          
+            <li><a title="为了更节省时间而出的面试题" href="15203932580751.html">为了更节省时间而出的面试题</a></li>
           
             <li><a title="carthage 不能正常更新" href="15199149659223.html">carthage 不能正常更新</a></li>
           
@@ -330,6 +334,8 @@
                     
                       <li class="side-title"><span>技巧</span></li>
                         
+                          <li><a title="设置placeholder颜色" href="15206737456913.html">设置placeholder颜色</a></li>
+                        
                           <li><a title="防止Timer 与控制器耦合导致控制器不释放" href="15180682554389.html">防止Timer 与控制器耦合导致控制器不释放</a></li>
                         
                           <li><a title="显示中划线,下划线" href="15166722537296.html">显示中划线,下划线</a></li>
@@ -450,6 +456,8 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
+                          <li><a title="为了更节省时间而出的面试题" href="15203932580751.html">为了更节省时间而出的面试题</a></li>
+                        
                           <li><a title="carthage 不能正常更新" href="15199149659223.html">carthage 不能正常更新</a></li>
                         
                           <li><a title="" href="15196537271626.html"></a></li>
@@ -564,11 +572,34 @@
 
 	
 		<div class="markdown-body">
-		<h1>Swift - Swift Talk: Networking</h1>
+		<h1>C++Primer笔记 - 如何获取 `main`的返回值</h1>
 
-		<blockquote>
-<p>Swift Talk 学习笔记,<a href="https://talk.objc.io/episodes/S01E01-networking">https://talk.objc.io/episodes/S01E01-networking</a></p>
-</blockquote>
+		<p>访问<code>main</code>的返回值的方法依赖于系统.在UNIX和Windows系统中,执行完一个程序后,都可以通过echo命令获得其返回值.<br/>
+在UNIX中通过<code>echo $?</code><br/>
+在Windows中通过<code>echo %ERRORLEVEL%</code></p>
+
+<p>使用方式:<br/>
+在terminal中, <code>vim prog1.cc</code> ,然后在vim下输入(<code>i</code>是插入键)</p>
+
+<pre><code> int main()
+ {
+     return 0;
+ }
+</code></pre>
+
+<p>退出编辑器(先按<code>esc</code>,然后<code>:wq</code>)<br/>
+在terminal中运行</p>
+
+<pre><code>cc prog1.cc
+./a.out
+echo $?
+</code></pre>
+
+<p>最终会得到我们的返回值<code>0</code></p>
+
+<p><strong>1.1节练习</strong><br/>
+1.2: main中返回-1.返回值-1通常被当做程序错误的标识.重新编译运行我再次获取错误值为255<br/>
+<img src="media/14866089688413/14866102127236.jpg" alt=""/></p>
 
 
 		</div>

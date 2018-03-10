@@ -63,6 +63,8 @@
         <li><label>技巧</label></li>
 
           
+            <li><a title="设置placeholder颜色" href="15206737456913.html">设置placeholder颜色</a></li>
+          
             <li><a title="防止Timer 与控制器耦合导致控制器不释放" href="15180682554389.html">防止Timer 与控制器耦合导致控制器不释放</a></li>
           
             <li><a title="显示中划线,下划线" href="15166722537296.html">显示中划线,下划线</a></li>
@@ -188,6 +190,8 @@
         <li class="divider"></li>
         <li><label>杂记</label></li>
 
+          
+            <li><a title="为了更节省时间而出的面试题" href="15203932580751.html">为了更节省时间而出的面试题</a></li>
           
             <li><a title="carthage 不能正常更新" href="15199149659223.html">carthage 不能正常更新</a></li>
           
@@ -330,6 +334,8 @@
                     
                       <li class="side-title"><span>技巧</span></li>
                         
+                          <li><a title="设置placeholder颜色" href="15206737456913.html">设置placeholder颜色</a></li>
+                        
                           <li><a title="防止Timer 与控制器耦合导致控制器不释放" href="15180682554389.html">防止Timer 与控制器耦合导致控制器不释放</a></li>
                         
                           <li><a title="显示中划线,下划线" href="15166722537296.html">显示中划线,下划线</a></li>
@@ -450,6 +456,8 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
+                          <li><a title="为了更节省时间而出的面试题" href="15203932580751.html">为了更节省时间而出的面试题</a></li>
+                        
                           <li><a title="carthage 不能正常更新" href="15199149659223.html">carthage 不能正常更新</a></li>
                         
                           <li><a title="" href="15196537271626.html"></a></li>
@@ -564,33 +572,39 @@
 
 	
 		<div class="markdown-body">
-		<h1>在包含UITableView视图中添加单击手势</h1>
+		<h1>字符串frame相关</h1>
 
-		<p>如果在包含UITableView视图中添加单击手势，这个单击手势会屏蔽掉UITableView的</p>
+		<p>开发中常用到计算字符串的size或者rect</p>
 
-<pre><code>- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath;
+<p>经常见到如下接口:</p>
+
+<pre><code>- (CGSize)sizeWithAttributes:(nullable NSDictionary&lt;NSString *, id&gt; *)attrs NS_AVAILABLE(10_0, 7_0);
+
+- (CGRect)boundingRectWithSize:(CGSize)size options:(NSStringDrawingOptions)options attributes:(nullable NSDictionary&lt;NSString *, id&gt; *)attributes context:(nullable NSStringDrawingContext *)context NS_AVAILABLE(10_11, 7_0);
 </code></pre>
 
-<p>可以利用<code>UIGestureRecognizer</code>的<code>Delegate</code>中的</p>
+<p>项目中使用的例子:</p>
 
-<pre><code>- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer;
-</code></pre>
-
-<p>在单击点位于UITableView内的时候取消响应</p>
-
-<pre><code>- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer{
-    CGPoint point = [gestureRecognizer locationInView:self];
-    if(CGRectContainsPoint(menuTableView.frame, point)){
-        return NO;
+<pre><code>    // shopNameLabel frame
+    {
+        CGSize stringSize = [self.shopNameLabel.text sizeWithAttributes:@{NSFontAttributeName: self.shopNameLabel.font}];
+        self.shopNameLabel.frame = CGRectMake(margin, margin, ceil(stringSize.width), ceil(stringSize.height));
     }
-    return YES;
-}
 </code></pre>
 
-<p>或者将单击手势的cancelsTouchesInView设置为NO</p>
+<pre><code>    // addressLabel frame
+    {
+        CGFloat lwidth = width - imageWH - 3*margin;
+        
+        CGSize stringSize = [self.addressLabel.text boundingRectWithSize:CGSizeMake(lwidth, self.addressLabel.font.lineHeight *self.addressLabel.numberOfLines) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: self.addressLabel.font} context:nil].size;
+        self.addressLabel.frame = CGRectMake(margin, ceil(CGRectGetMaxY(self.juliLabel.frame) + margin), stringSize.width, stringSize.height);
+    }
 
-<pre><code>singleTap.cancelsTouchesInView = NO;
 </code></pre>
+
+<p>由于经常使用,所以我把这些都抽取成代码块,方便调用.</p>
+
+<p>其中由于需要预估字符串的高度,<code>boundingRectWithSize</code>,由于iOS所提供的默认字体是可能变化的,所以这里我们不能凭借经验10号字体默认高度就是10,这是不准确的.使用<code>self.addressLabel.font.lineHeight</code>应该使用行高来计算.并且显示的行数也不要写死,需要写成 <code>self.addressLabel.numberOfLines</code>.这样做才能得到想要的效果.</p>
 
 
 		</div>

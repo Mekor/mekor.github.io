@@ -63,6 +63,8 @@
         <li><label>技巧</label></li>
 
           
+            <li><a title="设置placeholder颜色" href="15206737456913.html">设置placeholder颜色</a></li>
+          
             <li><a title="防止Timer 与控制器耦合导致控制器不释放" href="15180682554389.html">防止Timer 与控制器耦合导致控制器不释放</a></li>
           
             <li><a title="显示中划线,下划线" href="15166722537296.html">显示中划线,下划线</a></li>
@@ -188,6 +190,8 @@
         <li class="divider"></li>
         <li><label>杂记</label></li>
 
+          
+            <li><a title="为了更节省时间而出的面试题" href="15203932580751.html">为了更节省时间而出的面试题</a></li>
           
             <li><a title="carthage 不能正常更新" href="15199149659223.html">carthage 不能正常更新</a></li>
           
@@ -330,6 +334,8 @@
                     
                       <li class="side-title"><span>技巧</span></li>
                         
+                          <li><a title="设置placeholder颜色" href="15206737456913.html">设置placeholder颜色</a></li>
+                        
                           <li><a title="防止Timer 与控制器耦合导致控制器不释放" href="15180682554389.html">防止Timer 与控制器耦合导致控制器不释放</a></li>
                         
                           <li><a title="显示中划线,下划线" href="15166722537296.html">显示中划线,下划线</a></li>
@@ -450,6 +456,8 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
+                          <li><a title="为了更节省时间而出的面试题" href="15203932580751.html">为了更节省时间而出的面试题</a></li>
+                        
                           <li><a title="carthage 不能正常更新" href="15199149659223.html">carthage 不能正常更新</a></li>
                         
                           <li><a title="" href="15196537271626.html"></a></li>
@@ -564,12 +572,46 @@
 
 	
 		<div class="markdown-body">
-		<h1>企业证书需要</h1>
+		<h1>显示中划线,下划线</h1>
 
-		<ol>
-<li>邓白氏码  不清楚公司是否申请过,如果没有申请过可能需要半个月左右时间(最快1周)</li>
-<li>申请企业证书, 现在苹果对国内企业证书申请比较严格最快1周可能需要半个月甚至更久(美国快过圣诞节和元旦了)</li>
-</ol>
+		<h3 id="toc_0">OC中显示</h3>
+
+<h5 id="toc_1">添加中划线:</h5>
+
+<pre><code>  UILabel * strikeLabel = [[UILabel alloc] initWithFrame:(CGRectMake(10, 10, 50, 30))];
+  NSString *textStr = [NSString stringWithFormat:@&quot;%@元&quot;, primeCost];
+
+  //中划线
+  NSDictionary *attribtDic = @{NSStrikethroughStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
+  NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:textStr attributes:attribtDic];
+
+  // 赋值
+  strikeLabel.attributedText = attribtStr;
+
+  [self.view addSubview:strikeLabel];
+</code></pre>
+
+<h5 id="toc_2">添加下划线:</h5>
+
+<pre><code>  UILabel *underlineLabel = [[UILabel alloc] initWithFrame:(CGRectMake(10, 10, 50, 30))];
+  NSString *textStr = [NSString stringWithFormat:@&quot;%@元&quot;, primeCost];
+
+  // 下划线
+  NSDictionary *attribtDic = @{NSUnderlineStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
+  NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:textStr attributes:attribtDic];
+
+  //赋值
+  underlineLabel.attributedText = attribtStr;
+
+  [self.view addSubview:underlineLabel];
+</code></pre>
+
+<h3 id="toc_3">Swift中显示</h3>
+
+<pre><code>let myAttributes: [NSAttributedStringKey : Any] = [NSAttributedStringKey.strikethroughStyle: NSUnderlineStyle.styleSingle.rawValue]
+            
+let attributedText = NSAttributedString(string: &quot;被划线文字&quot;, attributes: myAttributes)
+</code></pre>
 
 
 		</div>
