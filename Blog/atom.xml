@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2018-03-02T09:24:52+08:00</updated>
+  <updated>2018-03-10T17:32:02+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -21,7 +21,7 @@
     <content type="html"><![CDATA[
 <p>从前设置颜色可能是这样的：</p>
 
-<pre><code>self.textField.setValue(UIColor.white., forKeyPath: &quot;_placeholderLabel.textColor&quot;)
+<pre><code>self.textField.setValue(UIColor.white, forKeyPath: &quot;_placeholderLabel.textColor&quot;)
 
 </code></pre>
 
