@@ -63,6 +63,8 @@
         <li><label>技巧</label></li>
 
           
+            <li><a title="懒加载的另一种写法" href="15222898362562.html">懒加载的另一种写法</a></li>
+          
             <li><a title="设置placeholder颜色" href="15206737456913.html">设置placeholder颜色</a></li>
           
             <li><a title="防止Timer 与控制器耦合导致控制器不释放" href="15180682554389.html">防止Timer 与控制器耦合导致控制器不释放</a></li>
@@ -334,6 +336,8 @@
                     
                       <li class="side-title"><span>技巧</span></li>
                         
+                          <li><a title="懒加载的另一种写法" href="15222898362562.html">懒加载的另一种写法</a></li>
+                        
                           <li><a title="设置placeholder颜色" href="15206737456913.html">设置placeholder颜色</a></li>
                         
                           <li><a title="防止Timer 与控制器耦合导致控制器不释放" href="15180682554389.html">防止Timer 与控制器耦合导致控制器不释放</a></li>
@@ -572,45 +576,75 @@
 
 	
 		<div class="markdown-body">
-		<h1>显示中划线,下划线</h1>
+		<h1>防止Timer 与控制器耦合导致控制器不释放</h1>
 
-		<h3 id="toc_0">OC中显示</h3>
-
-<h5 id="toc_1">添加中划线:</h5>
-
-<pre><code>  UILabel * strikeLabel = [[UILabel alloc] initWithFrame:(CGRectMake(10, 10, 50, 30))];
-  NSString *textStr = [NSString stringWithFormat:@&quot;%@元&quot;, primeCost];
-
-  //中划线
-  NSDictionary *attribtDic = @{NSStrikethroughStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
-  NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:textStr attributes:attribtDic];
-
-  // 赋值
-  strikeLabel.attributedText = attribtStr;
-
-  [self.view addSubview:strikeLabel];
+		<pre><code>class WeakTimer: NSObject {
+    
+    private weak var target: NSObject?
+    private weak var timer: Timer?
+    private var selector: Selector
+    
+    private var userInfo: Any?
+    
+    init(withTimeInterval ti: TimeInterval, target aTarget: NSObject, selector aSelector: Selector, userInfo: Any?, repeats yesOrNo: Bool) {
+        self.target = aTarget
+        self.selector = aSelector
+        self.userInfo = userInfo
+        super.init()
+        timer = Timer.scheduledTimer(timeInterval: ti, target: self, selector: #selector(test), userInfo: userInfo, repeats: yesOrNo)
+    }
+    
+    @objc private func test() {
+        target?.perform(selector, with: self.userInfo, afterDelay: 0)
+    }
+    
+    open class func scheduledTimer(timeInterval ti: TimeInterval, target aTarget: NSObject, selector aSelector: Selector, userInfo: Any?, repeats yesOrNo: Bool) -&gt; WeakTimer {
+        let weakTimer = WeakTimer(withTimeInterval: ti, target: aTarget, selector: aSelector, userInfo: userInfo, repeats: yesOrNo)
+        
+        return weakTimer
+    }
+    
+    open func invalidate() {
+        timer?.invalidate()
+    }
+}
 </code></pre>
 
-<h5 id="toc_2">添加下划线:</h5>
+<p>应用</p>
 
-<pre><code>  UILabel *underlineLabel = [[UILabel alloc] initWithFrame:(CGRectMake(10, 10, 50, 30))];
-  NSString *textStr = [NSString stringWithFormat:@&quot;%@元&quot;, primeCost];
-
-  // 下划线
-  NSDictionary *attribtDic = @{NSUnderlineStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
-  NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:textStr attributes:attribtDic];
-
-  //赋值
-  underlineLabel.attributedText = attribtStr;
-
-  [self.view addSubview:underlineLabel];
+<pre><code>    @objc private func dismissSelf() {
+        self.weakTimer?.invalidate()
+        self.weakTimer = nil
+        // HHTSwitchGlobalData.shared.waiterLoginTimeOut
+        self.weakTimer = WeakTimer.scheduledTimer(timeInterval: HHTSwitchGlobalData.shared.waiterLoginTimeOut, target: self, selector: #selector(autoDismiss), userInfo: nil, repeats: true)
+    }
 </code></pre>
 
-<h3 id="toc_3">Swift中显示</h3>
+<p>第三方库 Kingfisher 中的处理办法</p>
 
-<pre><code>let myAttributes: [NSAttributedStringKey : Any] = [NSAttributedStringKey.strikethroughStyle: NSUnderlineStyle.styleSingle.rawValue]
-            
-let attributedText = NSAttributedString(string: &quot;被划线文字&quot;, attributes: myAttributes)
+<pre><code>    /// Proxy object for prevending a reference cycle between the CADDisplayLink and AnimatedImageView.
+    class TargetProxy {
+        private weak var target: AnimatedImageView?
+        
+        init(target: AnimatedImageView) {
+            self.target = target
+        }
+        
+        @objc func onScreenUpdate() {
+            target?.updateFrame()
+        }
+    }
+</code></pre>
+
+<p>应用:</p>
+
+<pre><code>private lazy var displayLink: CADisplayLink = {
+        self.isDisplayLinkInitialized = true
+        let displayLink = CADisplayLink(target: TargetProxy(target: self), selector: #selector(TargetProxy.onScreenUpdate))
+        displayLink.add(to: .main, forMode: self.runLoopMode)
+        displayLink.isPaused = true
+        return displayLink
+    }()
 </code></pre>
 
 

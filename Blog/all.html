@@ -63,6 +63,8 @@
         <li><label>技巧</label></li>
 
           
+            <li><a title="懒加载的另一种写法" href="15222898362562.html">懒加载的另一种写法</a></li>
+          
             <li><a title="设置placeholder颜色" href="15206737456913.html">设置placeholder颜色</a></li>
           
             <li><a title="防止Timer 与控制器耦合导致控制器不释放" href="15180682554389.html">防止Timer 与控制器耦合导致控制器不释放</a></li>
@@ -334,6 +336,8 @@
                     
                       <li class="side-title"><span>技巧</span></li>
                         
+                          <li><a title="懒加载的另一种写法" href="15222898362562.html">懒加载的另一种写法</a></li>
+                        
                           <li><a title="设置placeholder颜色" href="15206737456913.html">设置placeholder颜色</a></li>
                         
                           <li><a title="防止Timer 与控制器耦合导致控制器不释放" href="15180682554389.html">防止Timer 与控制器耦合导致控制器不释放</a></li>
@@ -572,22 +576,18 @@
 
 	
 		<div class="markdown-body">
-		<h1>设置placeholder颜色</h1>
+		<h1>懒加载的另一种写法</h1>
 
-		<p>从前设置颜色可能是这样的：</p>
+		<p>原先我一直这样写：</p>
 
-<pre><code>self.textField.setValue(UIColor.white, forKeyPath: &quot;_placeholderLabel.textColor&quot;)
-
+<pre><code>    private lazy var imageView: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: &quot;placeholder&quot;))
+        imageView.contentMode = .center
+        return imageView
+    }()
 </code></pre>
 
-<p>今天发现，居然有一个属性可以设置：</p>
-
-<pre><code>self.textField.attributedPlaceholder =
-            NSAttributedString(string: &quot;自定义金额&quot;,
-                               attributes:
-                [NSAttributedStringKey.foregroundColor: UIColor.white]
-        )
-</code></pre>
+<p>今天看到了另一种比较简洁的写法</p>
 
 
 		</div>
