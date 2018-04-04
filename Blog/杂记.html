@@ -193,6 +193,8 @@
         <li><label>杂记</label></li>
 
           
+            <li><a title="mac 应用图标没有在launchpad里显示" href="15228053597311.html">mac 应用图标没有在launchpad里显示</a></li>
+          
             <li><a title="为了更节省时间而出的面试题" href="15203932580751.html">为了更节省时间而出的面试题</a></li>
           
             <li><a title="carthage 不能正常更新" href="15199149659223.html">carthage 不能正常更新</a></li>
@@ -460,6 +462,8 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
+                          <li><a title="mac 应用图标没有在launchpad里显示" href="15228053597311.html">mac 应用图标没有在launchpad里显示</a></li>
+                        
                           <li><a title="为了更节省时间而出的面试题" href="15203932580751.html">为了更节省时间而出的面试题</a></li>
                         
                           <li><a title="carthage 不能正常更新" href="15199149659223.html">carthage 不能正常更新</a></li>
@@ -576,32 +580,11 @@
 
 	
 		<div class="markdown-body">
-		<h1>为了更节省时间而出的面试题</h1>
+		<h1>mac 应用图标没有在launchpad里显示</h1>
 
-		<h3 id="toc_0">题目1. 代码有什么问题</h3>
+		<p>重置Launchpad</p>
 
-<pre><code>@implementation Person 
--(void)setAge:(int)newAge {
-    self.age = newAge;
-}
-@end
-</code></pre>
-
-<p><strong>答案：</strong></p>
-
-<pre><code>/*
-会死循环，会重复调用自己。把self.age 改为 _age即可
-名名不规范： setter方法中的newAge 应该为 age
-*/
-</code></pre>
-
-<h3 id="toc_1">isKindOfClass、isMemberOfClass、seleter 的作用是什么？</h3>
-
-<p><strong>答案：</strong></p>
-
-<pre><code>isKindOfClass: 某个对象属于某个类型或者继承自某个类型
-isMemberOfClass: 某个对象确切属于某个类型
-seleter: 通过方法名，获取在内存中的函数入口地址
+<pre><code>rm ~/Library/Application\ Support/Dock/*.db
 </code></pre>
 
 

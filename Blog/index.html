@@ -193,6 +193,8 @@
         <li><label>杂记</label></li>
 
           
+            <li><a title="mac 应用图标没有在launchpad里显示" href="15228053597311.html">mac 应用图标没有在launchpad里显示</a></li>
+          
             <li><a title="为了更节省时间而出的面试题" href="15203932580751.html">为了更节省时间而出的面试题</a></li>
           
             <li><a title="carthage 不能正常更新" href="15199149659223.html">carthage 不能正常更新</a></li>
@@ -460,6 +462,8 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
+                          <li><a title="mac 应用图标没有在launchpad里显示" href="15228053597311.html">mac 应用图标没有在launchpad里显示</a></li>
+                        
                           <li><a title="为了更节省时间而出的面试题" href="15203932580751.html">为了更节省时间而出的面试题</a></li>
                         
                           <li><a title="carthage 不能正常更新" href="15199149659223.html">carthage 不能正常更新</a></li>
@@ -576,18 +580,12 @@
 
 	
 		<div class="markdown-body">
-		<h1>懒加载的另一种写法</h1>
+		<h1>mac 应用图标没有在launchpad里显示</h1>
 
-		<p>原先我一直这样写：</p>
+		<p>重置Launchpad</p>
 
-<pre><code>    private lazy var imageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: &quot;placeholder&quot;))
-        imageView.contentMode = .center
-        return imageView
-    }()
+<pre><code>rm ~/Library/Application\ Support/Dock/*.db
 </code></pre>
-
-<p>今天看到了另一种比较简洁的写法</p>
 
 
 		</div>

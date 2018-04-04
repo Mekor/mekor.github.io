@@ -193,6 +193,8 @@
         <li><label>杂记</label></li>
 
           
+            <li><a title="mac 应用图标没有在launchpad里显示" href="15228053597311.html">mac 应用图标没有在launchpad里显示</a></li>
+          
             <li><a title="为了更节省时间而出的面试题" href="15203932580751.html">为了更节省时间而出的面试题</a></li>
           
             <li><a title="carthage 不能正常更新" href="15199149659223.html">carthage 不能正常更新</a></li>
@@ -460,6 +462,8 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
+                          <li><a title="mac 应用图标没有在launchpad里显示" href="15228053597311.html">mac 应用图标没有在launchpad里显示</a></li>
+                        
                           <li><a title="为了更节省时间而出的面试题" href="15203932580751.html">为了更节省时间而出的面试题</a></li>
                         
                           <li><a title="carthage 不能正常更新" href="15199149659223.html">carthage 不能正常更新</a></li>
@@ -588,6 +592,12 @@
 </code></pre>
 
 <p>今天看到了另一种比较简洁的写法</p>
+
+<pre><code>private lazy var imageView: UIImageView = {
+        $0.contentMode = .center
+        return $0
+    }(UIImageView())
+</code></pre>
 
 
 		</div>
