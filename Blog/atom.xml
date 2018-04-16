@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2018-04-04T09:31:11+08:00</updated>
+  <updated>2018-04-16T13:41:25+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -14,11 +14,13 @@
 
   
   <entry>
-    <title type="html"><![CDATA[死锁]]></title>
+    <title type="html"><![CDATA[线程需要注意的问题]]></title>
     <link href="http://www.citynight.cn/Blog/15238567947876.html"/>
     <updated>2018-04-16T13:33:14+08:00</updated>
     <id>http://www.citynight.cn/Blog/15238567947876.html</id>
     <content type="html"><![CDATA[
+<h2 id="toc_0">死锁</h2>
+
 <p>第一种情况：</p>
 
 <pre><code>let serialQueue = DispatchQueue(label:&quot;test&quot;)
@@ -43,8 +45,35 @@ operationB.addDependency(operationA)
 
 <ol>
 <li>少用依赖</li>
-<li>慎用同步</li>
+<li>慎用同步 </li>
 </ol>
+
+<h2 id="toc_1">优先倒置（Priority Inversion）</h2>
+
+<pre><code>var highPriorityQueue = DispatchQueue.global(qos: .userInitiated)
+var lowPriorityQueue = DispatchQueue.global(qos: .utility)
+
+let semaphore = DispatchSemaphore(value: 1)
+
+lowPriorityQueue.async {
+    semaphore.wait()
+    for i in 0...10 {
+        print(i)
+    }
+    semaphore.signal()
+}
+
+highPriorityQueue.async {
+    semaphore.wait()
+    for i in 11...20 {
+        print(1)
+    }
+}
+
+</code></pre>
+
+<p>解决办法：<br/>
+同一个资源用同一个Qos</p>
 
 ]]></content>
   </entry>

@@ -193,7 +193,7 @@
         <li><label>杂记</label></li>
 
           
-            <li><a title="死锁" href="15238567947876.html">死锁</a></li>
+            <li><a title="线程需要注意的问题" href="15238567947876.html">线程需要注意的问题</a></li>
           
             <li><a title="mac 应用图标没有在launchpad里显示" href="15228053597311.html">mac 应用图标没有在launchpad里显示</a></li>
           
@@ -464,7 +464,7 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
-                          <li><a title="死锁" href="15238567947876.html">死锁</a></li>
+                          <li><a title="线程需要注意的问题" href="15238567947876.html">线程需要注意的问题</a></li>
                         
                           <li><a title="mac 应用图标没有在launchpad里显示" href="15228053597311.html">mac 应用图标没有在launchpad里显示</a></li>
                         
@@ -584,9 +584,11 @@
 
 	
 		<div class="markdown-body">
-		<h1>死锁</h1>
+		<h1>线程需要注意的问题</h1>
 
-		<p>第一种情况：</p>
+		<h2 id="toc_0">死锁（Dead Lock）</h2>
+
+<p>第一种情况：</p>
 
 <pre><code>let serialQueue = DispatchQueue(label:&quot;test&quot;)
 serialQueue.async {
@@ -610,8 +612,35 @@ operationB.addDependency(operationA)
 
 <ol>
 <li>少用依赖</li>
-<li>慎用同步</li>
+<li>慎用同步 </li>
 </ol>
+
+<h2 id="toc_1">优先倒置（Priority Inversion）</h2>
+
+<pre><code>var highPriorityQueue = DispatchQueue.global(qos: .userInitiated)
+var lowPriorityQueue = DispatchQueue.global(qos: .utility)
+
+let semaphore = DispatchSemaphore(value: 1)
+
+lowPriorityQueue.async {
+    semaphore.wait()
+    for i in 0...10 {
+        print(i)
+    }
+    semaphore.signal()
+}
+
+highPriorityQueue.async {
+    semaphore.wait()
+    for i in 11...20 {
+        print(1)
+    }
+}
+
+</code></pre>
+
+<p>解决办法：<br/>
+同一个资源用同一个Qos</p>
 
 
 		</div>
