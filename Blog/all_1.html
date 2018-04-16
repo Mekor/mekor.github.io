@@ -193,6 +193,8 @@
         <li><label>杂记</label></li>
 
           
+            <li><a title="死锁" href="15238567947876.html">死锁</a></li>
+          
             <li><a title="mac 应用图标没有在launchpad里显示" href="15228053597311.html">mac 应用图标没有在launchpad里显示</a></li>
           
             <li><a title="为了更节省时间而出的面试题" href="15203932580751.html">为了更节省时间而出的面试题</a></li>
@@ -462,6 +464,8 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
+                          <li><a title="死锁" href="15238567947876.html">死锁</a></li>
+                        
                           <li><a title="mac 应用图标没有在launchpad里显示" href="15228053597311.html">mac 应用图标没有在launchpad里显示</a></li>
                         
                           <li><a title="为了更节省时间而出的面试题" href="15203932580751.html">为了更节省时间而出的面试题</a></li>
@@ -580,16 +584,22 @@
 
 	
 		<div class="markdown-body">
-		<h1></h1>
+		<h1>carthage 不能正常更新</h1>
 
-		<h1 id="toc_0">MWeb 如何恢复备份文件</h1>
+		<p>报错</p>
 
-<p>在 </p>
-
-<pre><code>/Users/lixzzzzzz/Library/Containers/com.coderforart.MWeb/Data/Documents/mainlib
+<pre><code>➜  PersonalMusic git:(master) carthage update
+*** Cloning GCDWebServer
+A shell task (/usr/bin/env git clone --bare --quiet https://github.com/swisspol/GCDWebServer.git /Users/lixzzzzzz/Library/Caches/org.carthage.CarthageKit/dependencies/GCDWebServer) failed with exit code 128:
+fatal: unable to access &#39;https://github.com/swisspol/GCDWebServer.git/&#39;: LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to github.com:443
 </code></pre>
 
-<p>中使用备份的 <code>mainlib</code> 并重新启动app</p>
+<p>解决办法：</p>
+
+<p>清缓存</p>
+
+<pre><code>rm -rf ~/Library/Caches/org.carthage.CarthageKit
+</code></pre>
 
 
 		</div>

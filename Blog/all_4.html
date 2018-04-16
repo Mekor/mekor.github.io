@@ -193,6 +193,8 @@
         <li><label>杂记</label></li>
 
           
+            <li><a title="死锁" href="15238567947876.html">死锁</a></li>
+          
             <li><a title="mac 应用图标没有在launchpad里显示" href="15228053597311.html">mac 应用图标没有在launchpad里显示</a></li>
           
             <li><a title="为了更节省时间而出的面试题" href="15203932580751.html">为了更节省时间而出的面试题</a></li>
@@ -462,6 +464,8 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
+                          <li><a title="死锁" href="15238567947876.html">死锁</a></li>
+                        
                           <li><a title="mac 应用图标没有在launchpad里显示" href="15228053597311.html">mac 应用图标没有在launchpad里显示</a></li>
                         
                           <li><a title="为了更节省时间而出的面试题" href="15203932580751.html">为了更节省时间而出的面试题</a></li>
@@ -580,21 +584,150 @@
 
 	
 		<div class="markdown-body">
-		<h1>打包后出现 Undefined symbols for architecture i386</h1>
+		<h1>GCD(Grand Central Dispatch)</h1>
 
-		<p>出现问题:<br/>
-自己打framework真机与模拟器合并后在使用的时候提示 <code>Undefined symbols for architecture i386</code></p>
+		<blockquote>
+<p>由于Stack Overflow中Documentation将要关闭,所以我将部分内容转载至这里</p>
+</blockquote>
 
-<p>原因: 打framework的时候使用的是<code>debug</code> 改为<code>release</code><br/>
-<img src="media/14963702971919/14963704118450.jpg" alt=""/></p>
+<p>Grand Central Dispatch (GCD) is Apple&#39;s answer to multithreading. It is a lightweight framework for performing tasks synchronously or asynchronously in queues and handles CPU threads for you behind the scenes.</p>
 
-<p><strong>合并命令:</strong></p>
+<h2 id="toc_0">Dispatch Semaphore</h2>
 
-<p><code>lipo -create 真机(或者模拟器)framework地址 模拟器(或者真机)ramework地址 -output 输出地址(一般我选择真机framework地址)</code></p>
+<p><a href="https://stackoverflow.com/documentation/ios/4626/gcd-grand-central-dispatch/28284/dispatch-semaphore">Stack Overflow地址</a></p>
 
-<p><strong>查看信息:</strong></p>
+<blockquote>
+<p>DispatchSemaphore provides an efficient implementation of a traditional counting semaphore, which can be used to control access to a resource across multiple execution contexts.</p>
+</blockquote>
 
-<p><code>lipo -info 真机(或者模拟器)framework地址</code></p>
+<p>A scenario for when to use a semaphore could be if you are doing some file reading/writing, if multiple tasks are trying to read and write from file at the same time, it could increase your performance to make each task wait its turn so as to not overburden the I/O controller.</p>
+
+<pre><code>func do2TasksAtATime () {
+    print(&quot;starting long running tasks (2 at a time)&quot;)
+    let sem = DispatchSemaphore(value: 2)            //this semaphore only allows 2 tasks to run at the same time (the resource count)
+    for i in 0...7 {                                 //launch a bunch of tasks
+        DispatchQueue.global().async {               //run tasks on a background thread
+            sem.wait()                               //wait here if no resources available
+            sleep(2)                                 //do some long task eg file access (here we are just sleeping for a 2 seconds for demonstration purposes)
+            print(&quot;long task \(i) done! \(Date())&quot;)
+            sem.signal()                             //let the semaphore know this resource is now available
+        }
+    }
+}
+</code></pre>
+
+<p>Example output: (notice the time stamps)</p>
+
+<pre><code>starting long running tasks (2 at a time)
+long task 0 done! 2017-02-16 07:11:53 +0000
+long task 1 done! 2017-02-16 07:11:53 +0000
+long task 2 done! 2017-02-16 07:11:55 +0000
+long task 3 done! 2017-02-16 07:11:55 +0000
+long task 5 done! 2017-02-16 07:11:57 +0000
+long task 4 done! 2017-02-16 07:11:57 +0000
+long task 6 done! 2017-02-16 07:11:59 +0000
+long task 7 done! 2017-02-16 07:11:59 +0000
+</code></pre>
+
+<h2 id="toc_1">Dispatch Group</h2>
+
+<p><a href="https://stackoverflow.com/documentation/ios/4626/gcd-grand-central-dispatch/28278/dispatch-group">Stack Overflow地址</a></p>
+
+<blockquote>
+<p>DispatchGroup allows for aggregate synchronization of work. You can use them to submit multiple different work items and track when they all complete, even though they might run on different queues. This behavior can be helpful when progress can’t be made until all of the specified tasks are complete.</p>
+</blockquote>
+
+<p>A Scenario when this could be useful is if you have multiple webservice calls that all need to finish before continuing. For example, you need to download multiple sets of data that needs to be processed by some function. You have to wait for all webservices to complete before calling the function to process all the received data.</p>
+
+<p><strong>Swift 3</strong></p>
+
+<pre><code>func doLongTasksAndWait () {
+    print(&quot;starting long running tasks&quot;)
+    let group = DispatchGroup()          //create a group for a bunch of tasks we are about to do
+    for i in 0...3 {                     //launch a bunch of tasks (eg a bunch of webservice calls that all need to be finished before proceeding to the next ViewController)
+        group.enter()                    //let the group know that something is being added
+        DispatchQueue.global().async {   //run tasks on a background thread
+            sleep(arc4random() % 4)      //do some long task eg webservice or database lookup (here we are just sleeping for a random amount of time for demonstration purposes)
+            print(&quot;long task \(i) done!&quot;)
+            group.leave()                //let group know that the task is finished
+        }
+    }
+    group.wait()                         //will block whatever thread we are on here until all the above tasks have finished (so maybe dont use this function on your main thread)
+    print(&quot;all tasks done!&quot;)
+}
+</code></pre>
+
+<p>Alternatively, if you do not want to wait for the groups to finish, but instead want to run a function once all the tasks have completed, use the <code>notify</code> function in place of the <code>group.wait()</code></p>
+
+<pre><code>group.notify(queue: DispatchQueue.main) { //the queue: parameter is which queue this block will run on, if you need to do UI updates, use the main queue
+    print(&quot;all tasks done!&quot;)              //this will execute when all tasks have left the group
+}
+</code></pre>
+
+<p>Example output:</p>
+
+<pre><code>starting long running tasks
+long task 0 done!
+long task 3 done!
+long task 1 done!
+long task 2 done!
+all tasks done!
+</code></pre>
+
+<h2 id="toc_2">Serial vs Concurrent Dispatch Queues</h2>
+
+<p><a href="https://stackoverflow.com/documentation/ios/4626/gcd-grand-central-dispatch/28286/serial-vs-concurrent-dispatch-queues">Stack Overflow地址</a><br/>
+<strong>Serial Queue</strong></p>
+
+<pre><code>func serialQueues () {
+    let serialQueue = DispatchQueue(label: &quot;com.example.serial&quot;) //default queue type is a serial queue
+    let start = Date ()
+    for i in 0...3 {                                             //launch a bunch of tasks
+        serialQueue.async {                                      //run tasks on a background thread, using our serial queue
+            sleep(2)                                             //do some long task eg webservice or database lookup
+            let timeTaken = Date().timeIntervalSince(start)
+            print(&quot;serial long task \(i) done! total time taken: \(timeTaken)&quot;)
+        }
+    }
+}
+</code></pre>
+
+<p>Example output:</p>
+
+<pre><code>serial long task 0 done! total time taken: 2.07241100072861
+serial long task 1 done! total time taken: 4.16347700357437
+serial long task 2 done! total time taken: 6.23209798336029
+serial long task 3 done! total time taken: 8.30682599544525
+</code></pre>
+
+<p><strong>Concurrent Queue</strong></p>
+
+<pre><code>func concurrentQueues () {
+    let concurrentQueue = DispatchQueue(label: &quot;com.example.concurrent&quot;, attributes: .concurrent) //explicitly specify the queue to be a concurrent queue
+    let start = Date ()
+    for i in 0...3 {            //launch a bunch of tasks
+        concurrentQueue.async { //run tasks on a background thread, using our concurrent queue
+            sleep(2)            //do some long task eg webservice or database lookup
+            let timeTaken = Date().timeIntervalSince(start)
+            print(&quot;concurrent long task \(i) done! total time taken: \(timeTaken)&quot;)
+        }
+    }
+}
+</code></pre>
+
+<p>Example output:</p>
+
+<pre><code>concurrent long task 3 done! total time taken: 2.07092100381851
+concurrent long task 0 done! total time taken: 2.07087397575378
+concurrent long task 2 done! total time taken: 2.07086700201035
+concurrent long task 1 done! total time taken: 2.07089096307755
+</code></pre>
+
+<p><strong>Discussion</strong></p>
+
+<p>As we can see from the examples above, a serial queue will complete each task in the order they are submitted to the queue. Each task will wait for the previous task to finish before executing. As for the concurrent queue, each task does not wait on the others in the queue and executes as soon as possible; the advantage is that all tasks on the queue will run at the same time on separate threads, making a concurrent queue take less time than a serial queue.</p>
+
+<p>If order of execution of tasks is not important, always use a concurrent queue for the best efficiency.</p>
 
 
 		</div>

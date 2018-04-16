@@ -193,6 +193,8 @@
         <li><label>杂记</label></li>
 
           
+            <li><a title="死锁" href="15238567947876.html">死锁</a></li>
+          
             <li><a title="mac 应用图标没有在launchpad里显示" href="15228053597311.html">mac 应用图标没有在launchpad里显示</a></li>
           
             <li><a title="为了更节省时间而出的面试题" href="15203932580751.html">为了更节省时间而出的面试题</a></li>
@@ -462,6 +464,8 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
+                          <li><a title="死锁" href="15238567947876.html">死锁</a></li>
+                        
                           <li><a title="mac 应用图标没有在launchpad里显示" href="15228053597311.html">mac 应用图标没有在launchpad里显示</a></li>
                         
                           <li><a title="为了更节省时间而出的面试题" href="15203932580751.html">为了更节省时间而出的面试题</a></li>
@@ -580,12 +584,34 @@
 
 	
 		<div class="markdown-body">
-		<h1>mac 应用图标没有在launchpad里显示</h1>
+		<h1>死锁</h1>
 
-		<p>重置Launchpad</p>
+		<p>第一种情况：</p>
 
-<pre><code>rm ~/Library/Application\ Support/Dock/*.db
+<pre><code>let serialQueue = DispatchQueue(label:&quot;test&quot;)
+serialQueue.async {
+    //.....
+    serialQueue.sync {
+        //...
+    }
+}
 </code></pre>
+
+<p>第二种情况：</p>
+
+<pre><code>let operationA = Operation()
+let operationB = Operation()
+operationA.addDependency(operationB)
+operationB.addDependency(operationA)
+
+</code></pre>
+
+<p>怎样避免死锁：</p>
+
+<ol>
+<li>少用依赖</li>
+<li>慎用同步</li>
+</ol>
 
 
 		</div>

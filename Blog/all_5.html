@@ -193,6 +193,8 @@
         <li><label>杂记</label></li>
 
           
+            <li><a title="死锁" href="15238567947876.html">死锁</a></li>
+          
             <li><a title="mac 应用图标没有在launchpad里显示" href="15228053597311.html">mac 应用图标没有在launchpad里显示</a></li>
           
             <li><a title="为了更节省时间而出的面试题" href="15203932580751.html">为了更节省时间而出的面试题</a></li>
@@ -462,6 +464,8 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
+                          <li><a title="死锁" href="15238567947876.html">死锁</a></li>
+                        
                           <li><a title="mac 应用图标没有在launchpad里显示" href="15228053597311.html">mac 应用图标没有在launchpad里显示</a></li>
                         
                           <li><a title="为了更节省时间而出的面试题" href="15203932580751.html">为了更节省时间而出的面试题</a></li>
@@ -580,11 +584,40 @@
 
 	
 		<div class="markdown-body">
-		<h1>Swift - 关于信号量</h1>
+		<h1>项目优化记录</h1>
 
-		<p>信号量的使用</p>
+		<h2 id="toc_0">首页显示</h2>
 
-<p><img src="media/14916349354566/%E4%BF%A1%E5%8F%B7%E9%87%8F.gif" alt="信号量"/></p>
+<p>重点: 数据处理放在获取数据的时候,尽管这样数据不会实时更新,但是保证了数据显示的速度.<br/>
+关于Cache, 目前使用数据库.关于异步访问要用 <code>safeAsync</code></p>
+
+<pre><code>extension DispatchQueue {
+    // This method will dispatch the `block` to self.
+    // If `self` is the main queue, and current thread is main thread, the block
+    // will be invoked immediately instead of being dispatched.
+    func safeAsync(_ block: @escaping ()-&gt;()) {
+        if self === DispatchQueue.main &amp;&amp; Thread.isMainThread {
+            block()
+        } else {
+            async { block() }
+        }
+    }
+}
+</code></pre>
+
+<h2 id="toc_1">Topbar 移除</h2>
+
+<p>这个原有的导航对项目入侵太深,已经忍无可忍了...这周终于下决心移除它用原生的导航栏和自定义视图代替她..进展非常顺利.写了一天自定义控件,然后让大家各自把自己的控制过滤一遍.总耗时,我自己一天,其他同事不到1个小时.还是非常顺利的.用比较少的时间完成了项目中的毒瘤.</p>
+
+<h2 id="toc_2">下拉刷新封装</h2>
+
+<p>老版本使用的是<code>MJRefresh</code> 但是需要定制, 在老项目中我是通过继承完成的功能修改,这样做的原因是老项目是OC和Swift混编的,而且都是把第三方库源文件拖到项目中的方式进行的. 在重构的时候我把第三方库放到了公司的git上,然后更改源码.再打包成成库调用.</p>
+
+<h2 id="toc_3">关于时间比较</h2>
+
+<p>新项目中存在一个功能比如 <code>10:00:00</code> 到 <code>11:59:59</code> 算早市,需要判断当前时间是否是早市. 一种更方便的处理方式:</p>
+
+<p>时间格式 <code>HH:mm:ss</code> 一共6位数字,我们可以去掉中间的<code>:</code>,这样时间就是一个整数了,然后三个整数之间进行比较比 先比小时再比分钟最后比秒数要方便很多.</p>
 
 
 		</div>
