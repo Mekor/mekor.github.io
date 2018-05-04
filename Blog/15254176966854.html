@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  Swift - convenience 便利构造函数 - 李小争
+  Mac 数据线链接断断续续问题 - 李小争
   
   </title>
  <meta name="description" content="记录开发中遇到的一些问题">
@@ -588,37 +588,8 @@
             <div class="large-9 medium-9 columns">
 
  <div class="markdown-body">
-<h1>Swift - convenience 便利构造函数</h1>
+<h1>Mac 数据线链接断断续续问题</h1>
 
-<blockquote>
-<p>具体解释可以参见 <strong>Swifter</strong> 中<code>Designated，Convenience 和 Required</code></p>
-</blockquote>
-
-<p>使用遍历工造函数的好处可以参见如下代码:</p>
-
-<pre><code>import UIKit
-
-extension UITextField {
-    convenience init(frame:CGRect, placeholder:String,fontSize:CGFloat = 14) {
-        self.init(frame:frame)
-        
-        self.borderStyle = .roundedRect
-        self.placeholder = placeholder
-        self.font = UIFont.systemFont(ofSize: fontSize)
-    }
-}
-
-</code></pre>
-
-<p><strong>好处:</strong><br/>
-1. 判断条件,只有满足条件才实例化对象,可以防止造成不必要的内存开销<br/>
-2. 简化对象的创建  -&gt;利用<code>extension</code>抽取控件创建方法<br/>
-3. 本身不负责属性的创建和初始化工作<br/>
-4. 可以返回nil</p>
-
-<p><strong>注意点:</strong><br/>
-1. 必须调用本类的 <code>self.init</code>,不能调用父类的<code>super.init</code><br/>
-2. 不能被重写</p>
 
 
 </div>
@@ -630,15 +601,13 @@ extension UITextField {
   <div class="large-6 columns">
 	<div class="text-left" style="padding:15px 0px;">
 		
-	        <a href="14791319119586.html"  title="Previous Post: Swift - 懒加载 lazy">&laquo; Swift - 懒加载 lazy</a>
-	    
 	</div>
   </div>
   <div class="large-6 columns">
 	<div class="text-right" style="padding:15px 0px;">
 		
-	        <a href="14790381443417.html" 
-	        title="Next Post: Swift - KVC 和 运行时获取属性列表">Swift - KVC 和 运行时获取属性列表 &raquo;</a>
+	        <a href="15254168501032.html" 
+	        title="Next Post: Cell点击时多次Push">Cell点击时多次Push &raquo;</a>
 	    
 	</div>
   </div>
@@ -651,7 +620,7 @@ extension UITextField {
 </div>
 <script type="text/javascript">
 	$(function(){
-		var currentURL = '14790461560134.html';
+		var currentURL = '15254176966854.html';
 		$('#side-nav a').each(function(){
 			if($(this).attr('href') == currentURL){
 				$(this).parent().addClass('active');

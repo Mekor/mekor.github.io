@@ -195,6 +195,8 @@
         <li><label>杂记</label></li>
 
           
+            <li><a title="Mac 数据线链接断断续续问题" href="15254176966854.html">Mac 数据线链接断断续续问题</a></li>
+          
             <li><a title="线程需要注意的问题" href="15238567947876.html">线程需要注意的问题</a></li>
           
             <li><a title="mac 应用图标没有在launchpad里显示" href="15228053597311.html">mac 应用图标没有在launchpad里显示</a></li>
@@ -468,6 +470,8 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
+                          <li><a title="Mac 数据线链接断断续续问题" href="15254176966854.html">Mac 数据线链接断断续续问题</a></li>
+                        
                           <li><a title="线程需要注意的问题" href="15238567947876.html">线程需要注意的问题</a></li>
                         
                           <li><a title="mac 应用图标没有在launchpad里显示" href="15228053597311.html">mac 应用图标没有在launchpad里显示</a></li>
@@ -588,15 +592,28 @@
 
 	
 		<div class="markdown-body">
-		<h1>Swift - 最近遇到的问题(3.8)</h1>
+		<h1>Mac zsh 使用命令打开sublime</h1>
 
-		<h2 id="toc_0">把函数名当参数传递不释放</h2>
+		<h2 id="toc_0">1/添加</h2>
 
-<p>控制器A 有一个函数 func  有一个视图 View ,如果控制器A 把函数 func 传递给 View 那么 控制器不释放</p>
+<p><code>vim .zshrc</code></p>
 
-<h2 id="toc_1">*** Assertion failure in -[UITableView dequeueReusableCellWithIdentifier:forIndexPath:]</h2>
+<p>添加 <br/>
+ <code>alias subl=&quot;open -a Sublime\ Text&quot;</code>（如果你是Sublime Text ）<br/>
+  或者<br/>
+<code>alias subl=&quot;open -a Sublime\ Text\ 2&quot;</code> （如果你是Sublime Text 2）</p>
 
-<p>产生原因: 同一个控制器,里面有一个代码添加的tableView,然后这个控制器又添加了一个xib视图,xib视图中有tableView,并且设置tableView的数据源和代理方法为filesowner,导致崩溃.  </p>
+<h2 id="toc_1">2/生效</h2>
+
+<p><code>source ~/.zshrc</code></p>
+
+<h2 id="toc_2">3/测试</h2>
+
+<p>在命令行输入：<br/>
+    <code>subl</code>     就可以打开sublime</p>
+
+<p>输入：<br/>
+    <code>subl test.txt</code> 就可以打开文件</p>
 
 
 		</div>

@@ -195,6 +195,8 @@
         <li><label>杂记</label></li>
 
           
+            <li><a title="Mac 数据线链接断断续续问题" href="15254176966854.html">Mac 数据线链接断断续续问题</a></li>
+          
             <li><a title="线程需要注意的问题" href="15238567947876.html">线程需要注意的问题</a></li>
           
             <li><a title="mac 应用图标没有在launchpad里显示" href="15228053597311.html">mac 应用图标没有在launchpad里显示</a></li>
@@ -468,6 +470,8 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
+                          <li><a title="Mac 数据线链接断断续续问题" href="15254176966854.html">Mac 数据线链接断断续续问题</a></li>
+                        
                           <li><a title="线程需要注意的问题" href="15238567947876.html">线程需要注意的问题</a></li>
                         
                           <li><a title="mac 应用图标没有在launchpad里显示" href="15228053597311.html">mac 应用图标没有在launchpad里显示</a></li>
@@ -588,63 +592,18 @@
 
 	
 		<div class="markdown-body">
-		<h1>线程需要注意的问题</h1>
+		<h1>Mac 数据线链接断断续续问题</h1>
 
-		<h2 id="toc_0">死锁（Dead Lock）</h2>
+		<p><strong>数据线链接断断续续的问题修复：</strong></p>
 
-<p>第一种情况：</p>
+<p><em>先关机</em></p>
 
-<pre><code>let serialQueue = DispatchQueue(label:&quot;test&quot;)
-serialQueue.async {
-    //.....
-    serialQueue.sync {
-        //...
-    }
-}
-</code></pre>
+<p>步骤一： Shift + control + opt  + 开机键 按住15秒 （应该没有反应，如果开机说明失败）</p>
 
-<p>第二种情况：</p>
+<p>步骤二：Opt + comd  + R + P 不松手 开机键点击一下<br/>
+出现4声Duang 松手</p>
 
-<pre><code>let operationA = Operation()
-let operationB = Operation()
-operationA.addDependency(operationB)
-operationB.addDependency(operationA)
-
-</code></pre>
-
-<p>怎样避免死锁：</p>
-
-<ol>
-<li>少用依赖</li>
-<li>慎用同步 </li>
-</ol>
-
-<h2 id="toc_1">优先倒置（Priority Inversion）</h2>
-
-<pre><code>var highPriorityQueue = DispatchQueue.global(qos: .userInitiated)
-var lowPriorityQueue = DispatchQueue.global(qos: .utility)
-
-let semaphore = DispatchSemaphore(value: 1)
-
-lowPriorityQueue.async {
-    semaphore.wait()
-    for i in 0...10 {
-        print(i)
-    }
-    semaphore.signal()
-}
-
-highPriorityQueue.async {
-    semaphore.wait()
-    for i in 11...20 {
-        print(1)
-    }
-}
-
-</code></pre>
-
-<p>解决办法：<br/>
-同一个资源用同一个Qos</p>
+<p>步骤三：关机按住shift 开机   进度条走到一半松手进入安全模式  链接数据线进行测试 </p>
 
 
 		</div>

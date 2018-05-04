@@ -195,6 +195,8 @@
         <li><label>杂记</label></li>
 
           
+            <li><a title="Mac 数据线链接断断续续问题" href="15254176966854.html">Mac 数据线链接断断续续问题</a></li>
+          
             <li><a title="线程需要注意的问题" href="15238567947876.html">线程需要注意的问题</a></li>
           
             <li><a title="mac 应用图标没有在launchpad里显示" href="15228053597311.html">mac 应用图标没有在launchpad里显示</a></li>
@@ -468,6 +470,8 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
+                          <li><a title="Mac 数据线链接断断续续问题" href="15254176966854.html">Mac 数据线链接断断续续问题</a></li>
+                        
                           <li><a title="线程需要注意的问题" href="15238567947876.html">线程需要注意的问题</a></li>
                         
                           <li><a title="mac 应用图标没有在launchpad里显示" href="15228053597311.html">mac 应用图标没有在launchpad里显示</a></li>
@@ -588,24 +592,34 @@
 
 	
 		<div class="markdown-body">
-		<h1>Swift - 春节前问题总结</h1>
+		<h1>C++Primer笔记 - 如何获取 `main`的返回值</h1>
 
-		<ol>
-<li><p><code>#selector集中起来管理</code><br/>
-参考<a href="http://weibo.com/3321824014/ErQJDdL4L?type=repost#_rnd1486189248963">微博</a>中第二点<br/>
-<img src="media/14861891967085/14861893764185.jpg" alt=""/></p></li>
-<li><p>关于Xib的使用问题<br/>
-老生常谈的问题了,看个人喜好,不过尽量让其他人看懂,遵守xib规范.<br/>
-备注:<br/>
-    1. <a href="http://nshipster.cn/ibinspectable-ibdesignable/">IBInspectable / IBDesignable</a><br/>
-    2. <a href="http://tips.producter.io/you-ya-di-zi-ding-yi-xibview/">优雅地自定义XibView</a></p></li>
-<li><p>关于什么时候提取出方法<br/>
-一个函数如果行数过长不便于阅读,可以按照步骤抽取出字方法<br/>
-如果一个功能有2个以上地方用到需要抽取为一个方法</p></li>
-<li><p>多种样式Cell如何配置</p></li>
-</ol>
+		<p>访问<code>main</code>的返回值的方法依赖于系统.在UNIX和Windows系统中,执行完一个程序后,都可以通过echo命令获得其返回值.<br/>
+在UNIX中通过<code>echo $?</code><br/>
+在Windows中通过<code>echo %ERRORLEVEL%</code></p>
 
-<p>撕逼未完....</p>
+<p>使用方式:<br/>
+在terminal中, <code>vim prog1.cc</code> ,然后在vim下输入(<code>i</code>是插入键)</p>
+
+<pre><code> int main()
+ {
+     return 0;
+ }
+</code></pre>
+
+<p>退出编辑器(先按<code>esc</code>,然后<code>:wq</code>)<br/>
+在terminal中运行</p>
+
+<pre><code>cc prog1.cc
+./a.out
+echo $?
+</code></pre>
+
+<p>最终会得到我们的返回值<code>0</code></p>
+
+<p><strong>1.1节练习</strong><br/>
+1.2: main中返回-1.返回值-1通常被当做程序错误的标识.重新编译运行我再次获取错误值为255<br/>
+<img src="media/14866089688413/14866102127236.jpg" alt=""/></p>
 
 
 		</div>
