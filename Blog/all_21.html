@@ -63,6 +63,8 @@
         <li><label>技巧</label></li>
 
           
+            <li><a title="Cell点击时多次Push" href="15254168501032.html">Cell点击时多次Push</a></li>
+          
             <li><a title="懒加载的另一种写法" href="15222898362562.html">懒加载的另一种写法</a></li>
           
             <li><a title="设置placeholder颜色" href="15206737456913.html">设置placeholder颜色</a></li>
@@ -340,6 +342,8 @@
                     
                       <li class="side-title"><span>技巧</span></li>
                         
+                          <li><a title="Cell点击时多次Push" href="15254168501032.html">Cell点击时多次Push</a></li>
+                        
                           <li><a title="懒加载的另一种写法" href="15222898362562.html">懒加载的另一种写法</a></li>
                         
                           <li><a title="设置placeholder颜色" href="15206737456913.html">设置placeholder颜色</a></li>
@@ -584,109 +588,28 @@
 
 	
 		<div class="markdown-body">
-		<h1>为项目添加podspec</h1>
+		<h1>键盘消失后又再次显示并立即消失问题</h1>
 
-		<blockquote>
-<p>全文来自:<a href="http://www.jianshu.com/p/d7d1942dd3f1">iOS开发-- 创建podspec文件，为自己的项目添加pod支持</a> 只是在文章中添加了原文没有说明的东西&amp;步骤</p>
+		<p>Keyboard will appeared automatically while displaying alertview or alertcontroller</p>
+
+<blockquote>
+<p><a href="http://stackoverflow.com/questions/30498972/keyboard-will-appeared-automatically-in-ios-8-3-while-displaying-alertview-or-al">stackoverflow</a></p>
 </blockquote>
 
-<h2 id="toc_0">1.clone项目源码</h2>
+<p>我采用其中</p>
 
-<p>项目如果没有在github仓库中,先上传到github仓库,然后clone到本地,已经存在就直接clone到本地</p>
+<pre><code> [YOUR_TEXT resignFirstResponder];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 
-<pre><code>// cd 到 想要存放项目的文件夹中执行
-git clone https://github.com/Mekor/MKScanner.git
-</code></pre>
 
-<p><code>https://github.com/Mekor/MKScanner.git</code>这个是我自己的仓库,这个仓库地址可以在这里找到<br/>
-<img src="media/14676996936809/Snip20160705_4.png" alt="Snip20160705_4"/></p>
+                    _alertVw = [[UIAlertView alloc] initWithTitle:@&quot;&quot; message:@&quot;message.&quot; delegate:self cancelButtonTitle:@&quot;Ok&quot; otherButtonTitles:nil, nil];
 
-<h2 id="toc_1">2. 创建项目的podspec文件</h2>
-
-<p>•   用终端命令cd到本地项目目录并执行如下命令:</p>
-
-<pre><code>$ pod spec create MKScanner
-</code></pre>
-
-<p>MKScanner替换为自己的项目名称,这时在本地就会生成一个MKScanner.podspec</p>
-
-<p>•   用编辑器打开.podspec文件 (我自己用Sublime Text)<br/>
-删除不必要的注释(这里只简单介绍基本用法，所以只用到一部分必须得字段 更多字段请移步<a href="http://guides.cocoapods.org/syntax/podspec.html">http://guides.cocoapods.org/syntax/podspec.html</a></p>
-
-<pre><code>Pod::Spec.new do |s|
-
-  s.name                 = &quot;MKScanner&quot;
-  s.version              = &quot;0.0.1&quot;
-  s.summary              = &quot;QRCode Scanner&quot;
-  s.homepage             = &quot;https://github.com/Mekor/MKScanner&quot;
-  s.license              = { :type =&gt; &quot;MIT&quot;, :file =&gt; &quot;LICENSE&quot; }
-  s.author             = { &quot;Mekor&quot; =&gt; &quot;mekor@live.cn&quot; }
-  s.social_media_url   = &quot;http://weibo.com/gliii&quot;
-  s.platform             = :ios, &quot;7.0&quot;
-  s.source               = { :git =&gt; &quot;https://github.com/Mekor/MKScanner.git&quot;, :tag =&gt; s.version }
-  s.source_files          = &quot;MKScanner/**/*.{h,m}&quot;
-  #s.resources          = &quot;MKScanner/**/*.png&quot;
-  s.requires_arc         = true
-
-end
-</code></pre>
-
-<p>•   验证podspec文件</p>
-
-<p>编辑完podspec文件后需要验证一下这个文件是否可用podspec文件不允许有任何的Warning或者Error<br/>
-执行命令</p>
-
-<pre><code>$ pod lib lint
-</code></pre>
-
-<p>如果出现</p>
-
-<pre><code>-&gt; MKScanner (0.0.1)
-MKScanner passed validation.
-</code></pre>
-
-<p>则说明验证通过， 否则， 根据提示修改podspec文件再次验证直到验证通过<br/>
-附带说一下，Xcode允许警告存在，所以可以通过命令屏蔽警告</p>
-
-<pre><code>$ pod lib lint --allow-warnings
-</code></pre>
-
-<p>如果出现Error但是提示信息不足，可以添加--verbose 以获取更多错误信息</p>
-
-<pre><code>$ pod lib lint --verbose
-</code></pre>
-
-<h2 id="toc_2">3. 打tag 上传podspec</h2>
-
-<p>podspec文件中需要指定的tag， 完成上述操作后给项目打tag</p>
-
-<pre><code>$ git tag -m&quot;first release MKScanner with podspec&quot; &quot;0.0.1&quot;
-$ git push --tags
+                    [_alertVw show];
+});
 
 </code></pre>
 
-<p>最后使用pod trunk命令，把podspec文件推送到CocoaPod官方库<br/>
-pod trunk 需要注册,参见:<a href="https://guides.cocoapods.org/making/getting-setup-with-trunk.html">https://guides.cocoapods.org/making/getting-setup-with-trunk.html</a><br/>
-其实很简单:</p>
-
-<pre><code>pod trunk register Mekor@live.cn &quot;Mekor&quot;
-</code></pre>
-
-<p>指明你的邮箱地址（spec文件中的）和名称<br/>
-CocoaPods 会给你填写的邮箱发送验证邮件，点击邮件中的链接就可通过验证。<br/>
-pod trunk 设置完毕后执行命令</p>
-
-<pre><code>$ pod trunk push MKScanner.podspec
-</code></pre>
-
-<p>这个过程可能会比较耗时，原因你懂的</p>
-
-<h2 id="toc_3">4. 最后</h2>
-
-<p>如果一切顺利</p>
-
-<pre><code>pod search MKScanner
-</code></pre>
+<p>这种方案解决的</p>
 
 
 		</div>

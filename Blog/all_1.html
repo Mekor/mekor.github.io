@@ -63,6 +63,8 @@
         <li><label>技巧</label></li>
 
           
+            <li><a title="Cell点击时多次Push" href="15254168501032.html">Cell点击时多次Push</a></li>
+          
             <li><a title="懒加载的另一种写法" href="15222898362562.html">懒加载的另一种写法</a></li>
           
             <li><a title="设置placeholder颜色" href="15206737456913.html">设置placeholder颜色</a></li>
@@ -340,6 +342,8 @@
                     
                       <li class="side-title"><span>技巧</span></li>
                         
+                          <li><a title="Cell点击时多次Push" href="15254168501032.html">Cell点击时多次Push</a></li>
+                        
                           <li><a title="懒加载的另一种写法" href="15222898362562.html">懒加载的另一种写法</a></li>
                         
                           <li><a title="设置placeholder颜色" href="15206737456913.html">设置placeholder颜色</a></li>
@@ -584,21 +588,32 @@
 
 	
 		<div class="markdown-body">
-		<h1>carthage 不能正常更新</h1>
+		<h1>为了更节省时间而出的面试题</h1>
 
-		<p>报错</p>
+		<h3 id="toc_0">题目1. 代码有什么问题</h3>
 
-<pre><code>➜  PersonalMusic git:(master) carthage update
-*** Cloning GCDWebServer
-A shell task (/usr/bin/env git clone --bare --quiet https://github.com/swisspol/GCDWebServer.git /Users/lixzzzzzz/Library/Caches/org.carthage.CarthageKit/dependencies/GCDWebServer) failed with exit code 128:
-fatal: unable to access &#39;https://github.com/swisspol/GCDWebServer.git/&#39;: LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to github.com:443
+<pre><code>@implementation Person 
+-(void)setAge:(int)newAge {
+    self.age = newAge;
+}
+@end
 </code></pre>
 
-<p>解决办法：</p>
+<p><strong>答案：</strong></p>
 
-<p>清缓存</p>
+<pre><code>/*
+会死循环，会重复调用自己。把self.age 改为 _age即可
+名名不规范： setter方法中的newAge 应该为 age
+*/
+</code></pre>
 
-<pre><code>rm -rf ~/Library/Caches/org.carthage.CarthageKit
+<h3 id="toc_1">isKindOfClass、isMemberOfClass、seleter 的作用是什么？</h3>
+
+<p><strong>答案：</strong></p>
+
+<pre><code>isKindOfClass: 某个对象属于某个类型或者继承自某个类型
+isMemberOfClass: 某个对象确切属于某个类型
+seleter: 通过方法名，获取在内存中的函数入口地址
 </code></pre>
 
 

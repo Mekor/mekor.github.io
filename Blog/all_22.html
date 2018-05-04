@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  CAGradientLayer - 李小争
+  李小争
   
   </title>
  <meta name="description" content="记录开发中遇到的一些问题">
@@ -583,277 +583,79 @@
             </div>
             <div class="large-9 medium-9 columns">
 
- <div class="markdown-body">
-<h1>CAGradientLayer</h1>
+ 
 
-<h2 id="toc_0"><a href="https://stackoverflow.com/documentation/ios/1190/cagradientlayer/3856/creating-a-cagradientlayer">Creating a CAGradientLayer</a></h2>
 
-<pre><code>// View to hold the CAGradientLayer.
-let view: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 320))
+	
+		<div class="markdown-body">
+		<h1>百度坐标&火星坐标转换</h1>
 
-// Initialize gradient layer.
-let gradientLayer: CAGradientLayer = CAGradientLayer()
+		<p>LocationHelper.h文件</p>
 
-// Set frame of gradient layer.
-gradientLayer.frame = view.bounds
+<pre><code>#import &lt;Foundation/Foundation.h&gt;
+#import &lt;CoreLocation/CoreLocation.h&gt;
 
-// Color at the top of the gradient.
-let topColor: CGColor = UIColor.red.cgColor
+@interface LocationHelper : NSObject
 
-// Color at the bottom of the gradient.
-let bottomColor: CGColor = UIColor.yellow.cgColor
+//百度转火星坐标
++ (CLLocationCoordinate2D )bdToGGEncrypt:(CLLocationCoordinate2D)coord;
+//火星转百度坐标
++ (CLLocationCoordinate2D )ggToBDEncrypt:(CLLocationCoordinate2D)coord;
 
-// Set colors.
-gradientLayer.colors = [topColor, bottomColor]
-
-// Set locations of the colors.
-gradientLayer.locations = [0.0, 1.0]
-
-// Insert gradient layer into view&#39;s layer heirarchy.
-view.layer.insertSublayer(gradientLayer, at: 0)
+@end
 </code></pre>
 
-<p>Result :</p>
+<p>LocationHelper.m文件</p>
 
-<p><img src="media/15038463059094/q26bv.png" alt="Simple CAGradientLayer."/></p>
+<pre><code>//
+//  LocationHelper.m
+//  Coding_iOS
+//
+//  Created by Kevin on 3/21/15.
+//  Copyright (c) 2015 Coding. All rights reserved.
+//
 
-<h2 id="toc_1"><a href="https://stackoverflow.com/documentation/ios/1190/cagradientlayer/12652/animating-a-color-change-in-cagradientlayer">Animating a color change in CAGradientLayer.</a></h2>
+#import &quot;LocationHelper.h&quot;
 
-<pre><code>// Get the current colors of the gradient.
-let oldColors = self.gradientLayer.colors
+@implementation LocationHelper
 
-// Define the new colors for the gradient.
-let newColors = [UIColor.red.cgColor, UIColor.yellow.cgColor]
+//百度转火星坐标
++ (CLLocationCoordinate2D )bdToGGEncrypt:(CLLocationCoordinate2D)coord
+{
+    double x = coord.longitude - 0.0065, y = coord.latitude - 0.006;
+    double z = sqrt(x * x + y * y) - 0.00002 * sin(y * M_PI);
+    double theta = atan2(y, x) - 0.000003 * cos(x * M_PI);
+    CLLocationCoordinate2D transformLocation ;
+    transformLocation.longitude = z * cos(theta);
+    transformLocation.latitude = z * sin(theta);
+    return transformLocation;
+}
 
-// Set the new colors of the gradient.
-self.gradientLayer.colors = newColors
+//火星坐标转百度坐标
++ (CLLocationCoordinate2D )ggToBDEncrypt:(CLLocationCoordinate2D)coord
+{
+    double x = coord.longitude, y = coord.latitude;
+    
+    double z = sqrt(x * x + y * y) + 0.00002 * sin(y * M_PI);
+    double theta = atan2(y, x) + 0.000003 * cos(x * M_PI);
+    
+    CLLocationCoordinate2D transformLocation ;
+    transformLocation.longitude = z * cos(theta) + 0.0065;
+    transformLocation.latitude = z * sin(theta) + 0.006;
+    
+    return transformLocation;
+}
 
-// Initialize new animation for changing the colors of the gradient.
-let animation: CABasicAnimation = CABasicAnimation(keyPath: &quot;colors&quot;)
+@end
 
-// Set current color value.
-animation.fromValue = oldColors
-
-// Set new color value.
-animation.toValue = newColors
-
-// Set duration of animation.
-animation.duration = 0.3
-
-// Set animation to remove once its completed.
-animation.isRemovedOnCompletion = true
-
-// Set receiver to remain visible in its final state when the animation is completed.
-animation.fillMode = kCAFillModeForwards
-
-// Set linear pacing, which causes an animation to occur evenly over its duration.
-animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
-
-// Set delegate of animation.
-animation.delegate = self
-
-// Add the animation.
-self.gradientLayer.addAnimation(animation, forKey: &quot;animateGradientColorChange&quot;)
 </code></pre>
 
-<p>Result :</p>
 
-<p><img src="media/15038463059094/AquKd.gif" alt="Basic CAGradientLayer color change animation."/></p>
+		</div>
+	
 
-<h2 id="toc_2"><a href="https://stackoverflow.com/documentation/ios/1190/cagradientlayer/4229/creating-a-horizontal-cagradientlayer-with-multiple-colors">Creating a horizontal CAGradientLayer with multiple colors.</a></h2>
-
-<pre><code>// View to hold the CAGradientLayer.
-let view: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 320))
-
-// Initialize gradient layer.
-let gradientLayer: CAGradientLayer = CAGradientLayer()
-
-// Set frame of gradient layer.
-gradientLayer.frame = view.bounds
-
-// Color at the top of the gradient.
-let topColor: CGColor = UIColor.greenColor().CGColor
-
-// Color at the middle of the gradient.
-let middleColor: CGColor = UIColor.blueColor().CGColor
-
-// Color at the bottom of the gradient.
-let bottomColor: CGColor = UIColor.blackColor().CGColor
-
-// Set colors.
-gradientLayer.colors = [topColor, middleColor, bottomColor]
-
-// Set start point.
-gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
-
-// Set end point.
-gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
-
-// Insert gradient layer into view&#39;s layer heirarchy.
-view.layer.insertSublayer(gradientLayer, atIndex: 0)
-</code></pre>
-
-<p>Result :</p>
-
-<p><img src="media/15038463059094/I4OGH.png" alt="enter image description here"/></p>
-
-<h2 id="toc_3"><a href="https://stackoverflow.com/documentation/ios/1190/cagradientlayer/4228/creating-a-horizontal-cagradientlayer">Creating a horizontal CAGradientLayer.</a></h2>
-
-<pre><code>// View to hold the CAGradientLayer.
-let view: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 320))
-
-// Initialize gradient layer.
-let gradientLayer: CAGradientLayer = CAGradientLayer()
-
-// Set frame of gradient layer.
-gradientLayer.frame = view.bounds
-
-// Color at the top of the gradient.
-let topColor: CGColor = UIColor.redColor().CGColor
-
-// Color at the bottom of the gradient.
-let bottomColor: CGColor = UIColor.yellowColor().CGColor
-
-// Set colors.
-gradientLayer.colors = [topColor, bottomColor]
-
-// Set start point.
-gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
-
-// Set end point.
-gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
-
-// Insert gradient layer into view&#39;s layer heirarchy.
-view.layer.insertSublayer(gradientLayer, atIndex: 0)
-</code></pre>
-
-<p>Result :</p>
-
-<p><img src="media/15038463059094/7VCnW.png" alt="Horizontal CAGradientLayer."/></p>
-
-<h2 id="toc_4"><a href="https://stackoverflow.com/documentation/ios/1190/cagradientlayer/4227/creating-a-cggradientlayer-with-multiple-colors">Creating a CGGradientLayer with multiple colors.</a></h2>
-
-<pre><code>// View to hold the CAGradientLayer.
-let view: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 320))
-
-// Initialize gradient layer.
-let gradientLayer: CAGradientLayer = CAGradientLayer()
-
-// Set frame of gradient layer.
-gradientLayer.frame = view.bounds
-
-// Color at the top of the gradient.
-let topColor: CGColor = UIColor.blue.cgColor
-
-// Color at the middle of the gradient.
-let middleColor: CGColor = UIColor.yellow.cgColor
-
-// Color at the bottom of the gradient.
-let bottomColor: CGColor = UIColor.green.cgColor
-
-// Set colors.
-gradientLayer.colors = [topColor, middleColor, bottomColor]
-
-// Set locations of the colors.
-gradientLayer.locations = [0.0, 0.5, 1.0]
-
-// Insert gradient layer into view&#39;s layer heirarchy.
-view.layer.insertSublayer(gradientLayer, at: 0)
-</code></pre>
-
-<p>Result :</p>
-
-<p><img src="media/15038463059094/tV4OL.png" alt="Complex CAGradientLayer."/></p>
-
-<hr/>
-
-<h2 id="toc_5">Syntax</h2>
-
-<pre><code>CAGradientLayer() // Returns an initialized CALayer object.
--------------------
-CAGradientLayer(layer: layer) // Override to copy or initialize custom fields of the specified layer.
-</code></pre>
-
-<h2 id="toc_6">Parameters</h2>
-
-<table>
-<thead>
-<tr>
-<th style="text-align: left">Parameter</th>
-<th style="text-align: left">Details</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td style="text-align: left">color</td>
-<td style="text-align: left">An array of <code>CGColorRef</code> objects defining the color of each gradient stop. Animatable.</td>
-</tr>
-<tr>
-<td style="text-align: left">locations</td>
-<td style="text-align: left">An optional array of <code>NSNumber</code> objects defining the location of each gradient stop. Animatable.</td>
-</tr>
-<tr>
-<td style="text-align: left">endPoint</td>
-<td style="text-align: left">The end point of the gradient when drawn in the layer’s coordinate space. Animatable.</td>
-</tr>
-<tr>
-<td style="text-align: left">startPoint</td>
-<td style="text-align: left">The start point of the gradient when drawn in the layer’s coordinate space. Animatable.</td>
-</tr>
-<tr>
-<td style="text-align: left">type</td>
-<td style="text-align: left">Style of gradient drawn by the layer. Defaults to <code>kCAGradientLayerAxial</code>.</td>
-</tr>
-</tbody>
-</table>
-
-<h2 id="toc_7">Remarks</h2>
-
-<ul>
-<li>Use <code>startPoint</code> and <code>endPoint</code> to change the orientation of the <code>CAGradientLayer</code>.</li>
-<li>Use the <code>locations</code> to affect the spread/positions of the colors.</li>
-</ul>
-
-
-</div>
-
-<br /><br />
-<hr />
-
-<div class="row clearfix">
-  <div class="large-6 columns">
-	<div class="text-left" style="padding:15px 0px;">
-		
-	        <a href="15038471972999.html"  title="Previous Post: 3D Touch">&laquo; 3D Touch</a>
-	    
-	</div>
-  </div>
-  <div class="large-6 columns">
-	<div class="text-right" style="padding:15px 0px;">
-		
-	        <a href="15036540820094.html" 
-	        title="Next Post: Custom UIViews from XIB files">Custom UIViews from XIB files &raquo;</a>
-	    
-	</div>
-  </div>
-</div>
-
-<div class="row">
-<div style="padding:0px 0.93em;" class="share-comments">
-
-</div>
-</div>
-<script type="text/javascript">
-	$(function(){
-		var currentURL = '15038463059094.html';
-		$('#side-nav a').each(function(){
-			if($(this).attr('href') == currentURL){
-				$(this).parent().addClass('active');
-			}
-		});
-	});
-</script>  
+  
+  
 </div></div>
 
 

@@ -63,6 +63,8 @@
         <li><label>技巧</label></li>
 
           
+            <li><a title="Cell点击时多次Push" href="15254168501032.html">Cell点击时多次Push</a></li>
+          
             <li><a title="懒加载的另一种写法" href="15222898362562.html">懒加载的另一种写法</a></li>
           
             <li><a title="设置placeholder颜色" href="15206737456913.html">设置placeholder颜色</a></li>
@@ -340,6 +342,8 @@
                     
                       <li class="side-title"><span>技巧</span></li>
                         
+                          <li><a title="Cell点击时多次Push" href="15254168501032.html">Cell点击时多次Push</a></li>
+                        
                           <li><a title="懒加载的另一种写法" href="15222898362562.html">懒加载的另一种写法</a></li>
                         
                           <li><a title="设置placeholder颜色" href="15206737456913.html">设置placeholder颜色</a></li>
@@ -584,23 +588,20 @@
 
 	
 		<div class="markdown-body">
-		<h1>懒加载的另一种写法</h1>
+		<h1>Cell点击时多次Push</h1>
 
-		<p>原先我一直这样写：</p>
+		<p><a href="https://stackoverflow.com/questions/5687991/uitableview-didselectrowatindexpath-called-twice">stackoverflow上面的解决方案</a></p>
 
-<pre><code>    private lazy var imageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: &quot;placeholder&quot;))
-        imageView.contentMode = .center
-        return imageView
-    }()
-</code></pre>
+<pre><code>func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    
+    tableView.deselectRowAtIndexPath(indexPath, animated: true)
 
-<p>今天看到了另一种比较简洁的写法</p>
-
-<pre><code>private lazy var imageView: UIImageView = {
-        $0.contentMode = .center
-        return $0
-    }(UIImageView())
+    if let navigationController = navigationController {
+        guard navigationController.topViewController == self else {
+            return
+        }
+    }
+}
 </code></pre>
 
 
