@@ -63,11 +63,11 @@
         <li><label>技巧</label></li>
 
           
-            <li><a title="Cell点击时多次Push" href="15254168501032.html">Cell点击时多次Push</a></li>
+            <li><a title="" href="15257015417604.html"></a></li>
           
-            <li><a title="懒加载的另一种写法" href="15222898362562.html">懒加载的另一种写法</a></li>
+            <li><a title="" href="15257015215231.html"></a></li>
           
-            <li><a title="设置placeholder颜色" href="15206737456913.html">设置placeholder颜色</a></li>
+            <li><a title="" href="15257014756710.html"></a></li>
           
             <li><a title="防止Timer 与控制器耦合导致控制器不释放" href="15180682554389.html">防止Timer 与控制器耦合导致控制器不释放</a></li>
           
@@ -195,17 +195,11 @@
         <li><label>杂记</label></li>
 
           
-            <li><a title="Mac 数据线链接断断续续问题" href="15254176966854.html">Mac 数据线链接断断续续问题</a></li>
+            <li><a title="线程需要注意的问题" href="15257017136249.html">线程需要注意的问题</a></li>
           
-            <li><a title="线程需要注意的问题" href="15238567947876.html">线程需要注意的问题</a></li>
+            <li><a title="Mac 应用图标没有在launchpad里显示" href="15257016488742.html">Mac 应用图标没有在launchpad里显示</a></li>
           
-            <li><a title="mac 应用图标没有在launchpad里显示" href="15228053597311.html">mac 应用图标没有在launchpad里显示</a></li>
-          
-            <li><a title="为了更节省时间而出的面试题" href="15203932580751.html">为了更节省时间而出的面试题</a></li>
-          
-            <li><a title="carthage 不能正常更新" href="15199149659223.html">carthage 不能正常更新</a></li>
-          
-            <li><a title="" href="15196537271626.html"></a></li>
+            <li><a title="Carthage 不能正常更新" href="15257016195473.html">Carthage 不能正常更新</a></li>
           
             <li><a title="collectionView自定义layout" href="15096779127051.html">collectionView自定义layout</a></li>
           
@@ -344,11 +338,11 @@
                     
                       <li class="side-title"><span>技巧</span></li>
                         
-                          <li><a title="Cell点击时多次Push" href="15254168501032.html">Cell点击时多次Push</a></li>
+                          <li><a title="" href="15257015417604.html"></a></li>
                         
-                          <li><a title="懒加载的另一种写法" href="15222898362562.html">懒加载的另一种写法</a></li>
+                          <li><a title="" href="15257015215231.html"></a></li>
                         
-                          <li><a title="设置placeholder颜色" href="15206737456913.html">设置placeholder颜色</a></li>
+                          <li><a title="" href="15257014756710.html"></a></li>
                         
                           <li><a title="防止Timer 与控制器耦合导致控制器不释放" href="15180682554389.html">防止Timer 与控制器耦合导致控制器不释放</a></li>
                         
@@ -470,17 +464,11 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
-                          <li><a title="Mac 数据线链接断断续续问题" href="15254176966854.html">Mac 数据线链接断断续续问题</a></li>
+                          <li><a title="线程需要注意的问题" href="15257017136249.html">线程需要注意的问题</a></li>
                         
-                          <li><a title="线程需要注意的问题" href="15238567947876.html">线程需要注意的问题</a></li>
+                          <li><a title="Mac 应用图标没有在launchpad里显示" href="15257016488742.html">Mac 应用图标没有在launchpad里显示</a></li>
                         
-                          <li><a title="mac 应用图标没有在launchpad里显示" href="15228053597311.html">mac 应用图标没有在launchpad里显示</a></li>
-                        
-                          <li><a title="为了更节省时间而出的面试题" href="15203932580751.html">为了更节省时间而出的面试题</a></li>
-                        
-                          <li><a title="carthage 不能正常更新" href="15199149659223.html">carthage 不能正常更新</a></li>
-                        
-                          <li><a title="" href="15196537271626.html"></a></li>
+                          <li><a title="Carthage 不能正常更新" href="15257016195473.html">Carthage 不能正常更新</a></li>
                         
                           <li><a title="collectionView自定义layout" href="15096779127051.html">collectionView自定义layout</a></li>
                         
@@ -592,102 +580,98 @@
 
 	
 		<div class="markdown-body">
-		<h1>Swift - 上周总结(12.30)</h1>
+		<h1>数据库复习</h1>
 
-		<h2 id="toc_0">规范问题</h2>
+		<blockquote>
+<p>项目中部分功能打算使用数据库进行数据本地存储,所以复习了下数据库语句</p>
+</blockquote>
 
-<p>关于视图该不该把控件暴露出去?<br/>
-通常情况下不能,原因:为了<del>部落</del>封闭性.</p>
+<h2 id="toc_0">DDL</h2>
 
-<p>我的理解,每个视图都是一个盒子,如果有需要我可以给外面提供一个update接口来更改数据.视图中的点击事件可以通过<code>Target-Action</code>实现,当然闭包&amp;代理同样可以.非常符合<code>Cocoa</code>提倡的<code>MVC</code>模式</p>
+<pre><code>/*
+删除表,如果存在表就删除表
+*/
+DROP TABLE IF EXISTS &#39;t_student&#39;;
 
-<p><img src="media/14830040423390/14834530948549.jpg" alt=""/></p>
+/*
+创建表
+*/
 
-<p>关于视图中空间是否暴露出去,默认都是<code>private</code>,我认为苹果<code>Cocoa Touch</code>中<code>UIKit</code>部分控件设计的不是很好,举个🌰:<br/>
-<code>UIButton</code>如果设置字体的大小,需要通过<code>titleLabel?.font</code>来设置.我认为这样是不好的,通过一个方法来设置font感觉更合适.</p>
-
-<h2 id="toc_1">更Swift</h2>
-
-<p>毕竟大部分同学都是刚接触Swift,整个项目感觉有点像翻译,还是<code>OC</code>的味道,关于这个问题讨论了两点,一个是面向协议编程,一个是函数式编程</p>
-
-<h3 id="toc_2">面向协议编程</h3>
-
-<p>问题:某一个视图是其他视图所需要的一部分,现在的做法是将共有的视图抽取出来,成为一个视图,然后其他视图包含这个视图.<br/>
-面向协议:公共的子视图设置为一个协议,然后给一个默认的实现.像搭积木一样做视图的拼接.</p>
-
-<p>参考资料:<a href="https://github.com/atConf/atswift-2016-resources">atswift-2016大会</a>中<code>李洁信_Pop in Swift</code>这个section可以参考.</p>
-
-<h3 id="toc_3">函数式编程</h3>
-
-<p>周欣对自己代码优化的时候发现的问题:<br/>
-一开始的逻辑:</p>
-
-<pre><code>class func fetchAllDish() -&gt; [Any] {
-        var mutableBigCategorys = [Any]()
-        let bigCategorys = DatabaseManager.shared.fetchAllDishCategory()
-        for bigCategory in bigCategorys {
-            var bigCategory = bigCategory
-            var mutableSubCategorys = [Any]()
-            let subCategorys = DatabaseManager.shared.fetchSubCategorys(byCategroyID: bigCategory[&quot;CATEGORYID&quot;] as! String)
-            for subCategory in subCategorys {
-                var subCategory = subCategory
-                let dishes = DatabaseManager.shared.fetchDishes(bySubCategoryID: subCategory[&quot;CLASSID&quot;] as! String)
-                if dishes.count &gt; 0 {
-                    subCategory[&quot;dishes&quot;] = dishes
-                    mutableSubCategorys.append(subCategory)
-                }
-            }
-            if mutableSubCategorys.count &gt; 0 {
-                bigCategory[&quot;subCategorys&quot;] = mutableSubCategorys
-                mutableBigCategorys.append(bigCategory)
-            }
-        }
-        return mutableBigCategorys
-    }
+CREATE TABLE IF NOT EXISTS &#39;t_student&#39; (
+    &#39;id&#39; INTEGER NOT NULL PRIMARY KEY  AUTOINCREMENT,
+    &#39;name&#39; TEXT,
+    &#39;age&#39; INTEGER
+);
 </code></pre>
 
-<p>优化后的:</p>
+<h2 id="toc_1">DML</h2>
 
-<pre><code>class func fetchAllDish() -&gt; [Any] {
-        let bigCategorys = DatabaseManager.shared.fetchAllDishCategory()
-        let results = bigCategorys.map { (bigCategory) -&gt; [String: Any] in
-            var bigCategory = bigCategory
-            let subCategory = DatabaseManager.shared.fetchSubCategorys(byCategroyID: bigCategory[&quot;CATEGORYID&quot;] as! String)
-            let subResults = subCategory.map({ (subCategory) -&gt; [String: Any] in
-                var subCategory = subCategory
-                let dishes = DatabaseManager.shared.fetchDishes(bySubCategoryID: subCategory[&quot;CLASSID&quot;] as! String)
-                subCategory[&quot;dishes&quot;] = dishes
-                return subCategory
-            }).filter({ $0.count &gt; 0 })
-            bigCategory[&quot;subCategorys&quot;] = subResults
-            return bigCategory
-        }.filter({ $0.count &gt; 0 })
-        return results
-    }
+<pre><code>/*
+插入数据
+*/
+/*
+INSERT INTO &#39;t_student&#39; (name, age) VALUES (&#39;lxz1&#39;, 18);
+INSERT INTO &#39;t_student&#39; (name, age) VALUES (&#39;lxz2&#39;, 19);
+INSERT INTO &#39;t_student&#39; (name, age) VALUES (&#39;lxz3&#39;, 21);
+INSERT INTO &#39;t_student&#39; (name, age) VALUES (&#39;lxz4&#39;, 22);
+*/
+
+/*更新*/
+-- UPDATE t_student SET age = 20 WHERE name = &#39;lxz1&#39;
+UPDATE t_student SET name = &#39;xxx&#39; WHERE age &gt; 20
+
+
+/*删除*/
+DELETE FROM t_student WHERE name = &#39;xxx&#39;
 </code></pre>
 
-<p>通过<code>map</code>与<code>filter</code>的灵活使用,使代码逻辑更清晰,同时也减少了不必要的临时变量.</p>
+<h2 id="toc_2">DQL</h2>
 
-<h3 id="toc_4">元组</h3>
+<pre><code>/*查询语句*/
+-- SELECT * FROM t_student;
 
-<p>这个甲冠用的比较6..代码参见<code>NeoSubDishDetailView.swift</code>简单🌰:</p>
+/*查询特殊的字段*/
+-- SELECT name,age FROM t_student;
 
-<pre><code>    func refreshInfo(data : (UIButton,DishTypeModel)){
-        dishNameLabel.text = data.1.name
-        moneyLabel.text = data.1.price
-        numLabel.text = String(data.1.num)
-        if data.1.num &lt;= 0{
-            self.cutButton.isHidden = true
-            self.numLabel.isHidden = true
-        }else{
-            self.cutButton.isHidden = false
-            self.numLabel.isHidden = false
-        }
-    }
+/*通过条件来查询语句*/
+-- SELECT name, age FROM t_student WHERE age &lt; 20;
 
+/*模糊查询*/
+-- SELECT name,age FROM t_student WHERE name LIKE &#39;%l%&#39;
+
+/*多个条件的查询
+AND 并且
+OR 或者
+*/
+-- SELECT name, age FROM t_student WHERE name LIKE &#39;%l%&#39; AND age &lt; 20;
+
+/*计算个数*/
+-- SELECT count(*) FROM t_student WHERE age &lt; 20
+
+/*排序
+升序 ASC
+降序 DESC
+*/
+-- SELECT * FROM t_student ORDER BY age DESC
+
+-- SELECT * FROM t_student ORDER BY age ASC, name DESC;
+
+/*起别名*/
+-- 给表起别名
+SELECT s.name, s.age FROM t_student AS s;
+-- 给字段起别名
+SELECT name AS myName, age AS myAge FROM t_student;
+
+
+/*分页查询 limt
+数字1的意思是前面跳过多少条数据
+数字2的意思是本次查询多少条数据
+SELECT * FROM t_student LIMIT 数字1,数字2
+
+跳过0条数据查询5条数据
+SELECT * FROM t_student LIMIT 5
+*/
 </code></pre>
-
-<p>还有好多地方使用,这个文件可以好好观摩一下,很Swift...</p>
 
 
 		</div>

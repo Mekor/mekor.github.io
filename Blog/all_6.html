@@ -63,11 +63,11 @@
         <li><label>技巧</label></li>
 
           
-            <li><a title="Cell点击时多次Push" href="15254168501032.html">Cell点击时多次Push</a></li>
+            <li><a title="" href="15257015417604.html"></a></li>
           
-            <li><a title="懒加载的另一种写法" href="15222898362562.html">懒加载的另一种写法</a></li>
+            <li><a title="" href="15257015215231.html"></a></li>
           
-            <li><a title="设置placeholder颜色" href="15206737456913.html">设置placeholder颜色</a></li>
+            <li><a title="" href="15257014756710.html"></a></li>
           
             <li><a title="防止Timer 与控制器耦合导致控制器不释放" href="15180682554389.html">防止Timer 与控制器耦合导致控制器不释放</a></li>
           
@@ -195,17 +195,11 @@
         <li><label>杂记</label></li>
 
           
-            <li><a title="Mac 数据线链接断断续续问题" href="15254176966854.html">Mac 数据线链接断断续续问题</a></li>
+            <li><a title="线程需要注意的问题" href="15257017136249.html">线程需要注意的问题</a></li>
           
-            <li><a title="线程需要注意的问题" href="15238567947876.html">线程需要注意的问题</a></li>
+            <li><a title="Mac 应用图标没有在launchpad里显示" href="15257016488742.html">Mac 应用图标没有在launchpad里显示</a></li>
           
-            <li><a title="mac 应用图标没有在launchpad里显示" href="15228053597311.html">mac 应用图标没有在launchpad里显示</a></li>
-          
-            <li><a title="为了更节省时间而出的面试题" href="15203932580751.html">为了更节省时间而出的面试题</a></li>
-          
-            <li><a title="carthage 不能正常更新" href="15199149659223.html">carthage 不能正常更新</a></li>
-          
-            <li><a title="" href="15196537271626.html"></a></li>
+            <li><a title="Carthage 不能正常更新" href="15257016195473.html">Carthage 不能正常更新</a></li>
           
             <li><a title="collectionView自定义layout" href="15096779127051.html">collectionView自定义layout</a></li>
           
@@ -344,11 +338,11 @@
                     
                       <li class="side-title"><span>技巧</span></li>
                         
-                          <li><a title="Cell点击时多次Push" href="15254168501032.html">Cell点击时多次Push</a></li>
+                          <li><a title="" href="15257015417604.html"></a></li>
                         
-                          <li><a title="懒加载的另一种写法" href="15222898362562.html">懒加载的另一种写法</a></li>
+                          <li><a title="" href="15257015215231.html"></a></li>
                         
-                          <li><a title="设置placeholder颜色" href="15206737456913.html">设置placeholder颜色</a></li>
+                          <li><a title="" href="15257014756710.html"></a></li>
                         
                           <li><a title="防止Timer 与控制器耦合导致控制器不释放" href="15180682554389.html">防止Timer 与控制器耦合导致控制器不释放</a></li>
                         
@@ -470,17 +464,11 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
-                          <li><a title="Mac 数据线链接断断续续问题" href="15254176966854.html">Mac 数据线链接断断续续问题</a></li>
+                          <li><a title="线程需要注意的问题" href="15257017136249.html">线程需要注意的问题</a></li>
                         
-                          <li><a title="线程需要注意的问题" href="15238567947876.html">线程需要注意的问题</a></li>
+                          <li><a title="Mac 应用图标没有在launchpad里显示" href="15257016488742.html">Mac 应用图标没有在launchpad里显示</a></li>
                         
-                          <li><a title="mac 应用图标没有在launchpad里显示" href="15228053597311.html">mac 应用图标没有在launchpad里显示</a></li>
-                        
-                          <li><a title="为了更节省时间而出的面试题" href="15203932580751.html">为了更节省时间而出的面试题</a></li>
-                        
-                          <li><a title="carthage 不能正常更新" href="15199149659223.html">carthage 不能正常更新</a></li>
-                        
-                          <li><a title="" href="15196537271626.html"></a></li>
+                          <li><a title="Carthage 不能正常更新" href="15257016195473.html">Carthage 不能正常更新</a></li>
                         
                           <li><a title="collectionView自定义layout" href="15096779127051.html">collectionView自定义layout</a></li>
                         
@@ -592,28 +580,48 @@
 
 	
 		<div class="markdown-body">
-		<h1>Mac zsh 使用命令打开sublime</h1>
+		<h1>synchronized(object)</h1>
 
-		<h2 id="toc_0">1/添加</h2>
+		<blockquote>
+<p>synchronized关键字代表这个方法加锁,相当于不管哪一个线 程A每次运行到这个法时,都要检查有没有其它正在用这个方法的线程B（或者C D等）,有的话要等正在使用这个方法的线程B（或者C D）运行完这个方法后再运行此线程A,没有的话,直接运行 它包括两种用法：synchronized 方法和 synchronized 块。</p>
+</blockquote>
 
-<p><code>vim .zshrc</code></p>
+<h2 id="toc_0">1. synchronized 方法：</h2>
 
-<p>添加 <br/>
- <code>alias subl=&quot;open -a Sublime\ Text&quot;</code>（如果你是Sublime Text ）<br/>
-  或者<br/>
-<code>alias subl=&quot;open -a Sublime\ Text\ 2&quot;</code> （如果你是Sublime Text 2）</p>
+<p>通过在方法声明中加入 synchronized关键字来声明 synchronized 方法。如： <br/>
+　　<code>public synchronized void accessVal(int newVal);</code><br/>
+　　synchronized 方法控制对类成员变量的访问：每个类实例对应一把锁，每个 synchronized 方法都必须获得调用该方法的类实例的锁方能执行，否则所属线程阻塞，方法一旦执行，就独占该锁，直到从该方法返回时才将锁释放，此后被阻塞的线程方能获得 该锁，重新进入可执行状态。这种机制确保了同一时刻对于每一个类实例，其所有声明为 synchronized 的成员函数中至多只有一个处于可执行状态（因为至多只有一个能够获得该类实例对应的锁），从而有效避免了类成员变量的访问冲突（只要所有可能访问类成员变 量的方法均被声明为 synchronized）。 <br/>
+　　在 Java 中，不光是类实例，每一个类也对应一把锁，这样我们也可将类的静态成员函数声明为 synchronized ，以控制其对类的静态成员变量的访问。 <br/>
+　　synchronized 方法的缺陷：若将一个大的方法声明为synchronized 将会大大影响效率，典型地，若将线程类的方法 run() 声明为 synchronized ，由于在线程的整个生命期内它一直在运行，因此将导致它对本类任何 synchronized 方法的调用都永远不会成功。当然我们可以通过将访问类成员变量的代码放到专门的方法中，将其声明为 synchronized ，并在主方法中调用来解决这一问题，但是 Java 为我们提供了更好的解决办法，那就是 synchronized 块。 <br/>
+　　</p>
 
-<h2 id="toc_1">2/生效</h2>
+<h2 id="toc_1">2. synchronized 块：</h2>
 
-<p><code>source ~/.zshrc</code></p>
+<p>通过 synchronized关键字来声明synchronized 块。语法如下： </p>
 
-<h2 id="toc_2">3/测试</h2>
+<pre><code>　　synchronized(syncObject) { 
+　　//允许访问控制的代码 
+　　}
+</code></pre>
 
-<p>在命令行输入：<br/>
-    <code>subl</code>     就可以打开sublime</p>
+<p>　　<br/>
+　　synchronized 块是这样一个代码块，其中的代码必须获得对象 syncObject （如前所述，可以是类实例或类）的锁方能执行，具体机制同前所述。由于可以针对任意代码块，且可任意指定上锁的对象，故灵活性较高<br/>
+　　</p>
 
-<p>输入：<br/>
-    <code>subl test.txt</code> 就可以打开文件</p>
+<h2 id="toc_2">对synchronized(object)的一些理解</h2>
+
+<p>　<br/>
+<strong>一、</strong>当两个并发线程访问同一个对象object中的这个synchronized(this) 同步代码块时，一个时间内只能有一个线程得到执行。另一个线程必须等待当前线程执行完这个代码块以后才能执行该代码块。 </p>
+
+<p><strong>二、</strong>当一个线程访问object的一个synchronized(this)同步代码块时，其 他线程对object中所有其它synchronized(this)同步代码块的访问将被阻塞。</p>
+
+<p><strong>三、</strong>然而，当一个线程访问object的一个synchronized(this)同步代码块 时，另一个线程仍然可以访问该object中的除synchronized(this)同步代码块以外的部分。 </p>
+
+<p><strong>四、</strong>第三个例子同样适用其它同步代码块。也就是说，当一个线程访问object的一个 synchronized(this)同步代码块时，它就获得了这个object的对象锁。结果，其它线程对该object对象 所有同步代码部分的访问都被暂时阻塞。 </p>
+
+<p><strong>五、</strong>以上规则对其它对象锁同样适用 </p>
+
+<p>原文: <a href="http://fei263.blog.163.com/blog/static/9279372420103752814/">http://fei263.blog.163.com/blog/static/9279372420103752814/</a></p>
 
 
 		</div>

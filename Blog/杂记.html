@@ -63,11 +63,11 @@
         <li><label>技巧</label></li>
 
           
-            <li><a title="Cell点击时多次Push" href="15254168501032.html">Cell点击时多次Push</a></li>
+            <li><a title="" href="15257015417604.html"></a></li>
           
-            <li><a title="懒加载的另一种写法" href="15222898362562.html">懒加载的另一种写法</a></li>
+            <li><a title="" href="15257015215231.html"></a></li>
           
-            <li><a title="设置placeholder颜色" href="15206737456913.html">设置placeholder颜色</a></li>
+            <li><a title="" href="15257014756710.html"></a></li>
           
             <li><a title="防止Timer 与控制器耦合导致控制器不释放" href="15180682554389.html">防止Timer 与控制器耦合导致控制器不释放</a></li>
           
@@ -195,17 +195,11 @@
         <li><label>杂记</label></li>
 
           
-            <li><a title="Mac 数据线链接断断续续问题" href="15254176966854.html">Mac 数据线链接断断续续问题</a></li>
+            <li><a title="线程需要注意的问题" href="15257017136249.html">线程需要注意的问题</a></li>
           
-            <li><a title="线程需要注意的问题" href="15238567947876.html">线程需要注意的问题</a></li>
+            <li><a title="Mac 应用图标没有在launchpad里显示" href="15257016488742.html">Mac 应用图标没有在launchpad里显示</a></li>
           
-            <li><a title="mac 应用图标没有在launchpad里显示" href="15228053597311.html">mac 应用图标没有在launchpad里显示</a></li>
-          
-            <li><a title="为了更节省时间而出的面试题" href="15203932580751.html">为了更节省时间而出的面试题</a></li>
-          
-            <li><a title="carthage 不能正常更新" href="15199149659223.html">carthage 不能正常更新</a></li>
-          
-            <li><a title="" href="15196537271626.html"></a></li>
+            <li><a title="Carthage 不能正常更新" href="15257016195473.html">Carthage 不能正常更新</a></li>
           
             <li><a title="collectionView自定义layout" href="15096779127051.html">collectionView自定义layout</a></li>
           
@@ -344,11 +338,11 @@
                     
                       <li class="side-title"><span>技巧</span></li>
                         
-                          <li><a title="Cell点击时多次Push" href="15254168501032.html">Cell点击时多次Push</a></li>
+                          <li><a title="" href="15257015417604.html"></a></li>
                         
-                          <li><a title="懒加载的另一种写法" href="15222898362562.html">懒加载的另一种写法</a></li>
+                          <li><a title="" href="15257015215231.html"></a></li>
                         
-                          <li><a title="设置placeholder颜色" href="15206737456913.html">设置placeholder颜色</a></li>
+                          <li><a title="" href="15257014756710.html"></a></li>
                         
                           <li><a title="防止Timer 与控制器耦合导致控制器不释放" href="15180682554389.html">防止Timer 与控制器耦合导致控制器不释放</a></li>
                         
@@ -470,17 +464,11 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
-                          <li><a title="Mac 数据线链接断断续续问题" href="15254176966854.html">Mac 数据线链接断断续续问题</a></li>
+                          <li><a title="线程需要注意的问题" href="15257017136249.html">线程需要注意的问题</a></li>
                         
-                          <li><a title="线程需要注意的问题" href="15238567947876.html">线程需要注意的问题</a></li>
+                          <li><a title="Mac 应用图标没有在launchpad里显示" href="15257016488742.html">Mac 应用图标没有在launchpad里显示</a></li>
                         
-                          <li><a title="mac 应用图标没有在launchpad里显示" href="15228053597311.html">mac 应用图标没有在launchpad里显示</a></li>
-                        
-                          <li><a title="为了更节省时间而出的面试题" href="15203932580751.html">为了更节省时间而出的面试题</a></li>
-                        
-                          <li><a title="carthage 不能正常更新" href="15199149659223.html">carthage 不能正常更新</a></li>
-                        
-                          <li><a title="" href="15196537271626.html"></a></li>
+                          <li><a title="Carthage 不能正常更新" href="15257016195473.html">Carthage 不能正常更新</a></li>
                         
                           <li><a title="collectionView自定义layout" href="15096779127051.html">collectionView自定义layout</a></li>
                         
@@ -592,18 +580,64 @@
 
 	
 		<div class="markdown-body">
-		<h1>Mac 数据线链接断断续续问题</h1>
+		<h1>线程需要注意的问题</h1>
 
-		<p><strong>数据线链接断断续续的问题修复：</strong></p>
+		<h2 id="toc_0">死锁（Dead Lock）</h2>
 
-<p><em>先关机</em></p>
+<p>第一种情况：</p>
 
-<p>步骤一： Shift + control + opt  + 开机键 按住15秒 （应该没有反应，如果开机说明失败）</p>
+<pre><code>let serialQueue = DispatchQueue(label:&quot;test&quot;)
+serialQueue.async {
+    //.....
+    serialQueue.sync {
+        //...
+    }
+}
 
-<p>步骤二：Opt + comd  + R + P 不松手 开机键点击一下<br/>
-出现4声Duang 松手</p>
+</code></pre>
 
-<p>步骤三：关机按住shift 开机   进度条走到一半松手进入安全模式  链接数据线进行测试 </p>
+<p>第二种情况：</p>
+
+<pre><code>let operationA = Operation()
+let operationB = Operation()
+operationA.addDependency(operationB)
+operationB.addDependency(operationA)
+
+</code></pre>
+
+<p>怎样避免死锁：</p>
+
+<ol>
+<li>少用依赖</li>
+<li>慎用同步</li>
+</ol>
+
+<h2 id="toc_1">优先倒置（Priority Inversion）</h2>
+
+<pre><code>var highPriorityQueue = DispatchQueue.global(qos: .userInitiated)
+var lowPriorityQueue = DispatchQueue.global(qos: .utility)
+
+let semaphore = DispatchSemaphore(value: 1)
+
+lowPriorityQueue.async {
+    semaphore.wait()
+    for i in 0...10 {
+        print(i)
+    }
+    semaphore.signal()
+}
+
+highPriorityQueue.async {
+    semaphore.wait()
+    for i in 11...20 {
+        print(1)
+    }
+}
+
+</code></pre>
+
+<p>解决办法：<br/>
+同一个资源用同一个Qos</p>
 
 
 		</div>

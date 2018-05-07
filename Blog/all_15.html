@@ -63,11 +63,11 @@
         <li><label>技巧</label></li>
 
           
-            <li><a title="Cell点击时多次Push" href="15254168501032.html">Cell点击时多次Push</a></li>
+            <li><a title="" href="15257015417604.html"></a></li>
           
-            <li><a title="懒加载的另一种写法" href="15222898362562.html">懒加载的另一种写法</a></li>
+            <li><a title="" href="15257015215231.html"></a></li>
           
-            <li><a title="设置placeholder颜色" href="15206737456913.html">设置placeholder颜色</a></li>
+            <li><a title="" href="15257014756710.html"></a></li>
           
             <li><a title="防止Timer 与控制器耦合导致控制器不释放" href="15180682554389.html">防止Timer 与控制器耦合导致控制器不释放</a></li>
           
@@ -195,17 +195,11 @@
         <li><label>杂记</label></li>
 
           
-            <li><a title="Mac 数据线链接断断续续问题" href="15254176966854.html">Mac 数据线链接断断续续问题</a></li>
+            <li><a title="线程需要注意的问题" href="15257017136249.html">线程需要注意的问题</a></li>
           
-            <li><a title="线程需要注意的问题" href="15238567947876.html">线程需要注意的问题</a></li>
+            <li><a title="Mac 应用图标没有在launchpad里显示" href="15257016488742.html">Mac 应用图标没有在launchpad里显示</a></li>
           
-            <li><a title="mac 应用图标没有在launchpad里显示" href="15228053597311.html">mac 应用图标没有在launchpad里显示</a></li>
-          
-            <li><a title="为了更节省时间而出的面试题" href="15203932580751.html">为了更节省时间而出的面试题</a></li>
-          
-            <li><a title="carthage 不能正常更新" href="15199149659223.html">carthage 不能正常更新</a></li>
-          
-            <li><a title="" href="15196537271626.html"></a></li>
+            <li><a title="Carthage 不能正常更新" href="15257016195473.html">Carthage 不能正常更新</a></li>
           
             <li><a title="collectionView自定义layout" href="15096779127051.html">collectionView自定义layout</a></li>
           
@@ -344,11 +338,11 @@
                     
                       <li class="side-title"><span>技巧</span></li>
                         
-                          <li><a title="Cell点击时多次Push" href="15254168501032.html">Cell点击时多次Push</a></li>
+                          <li><a title="" href="15257015417604.html"></a></li>
                         
-                          <li><a title="懒加载的另一种写法" href="15222898362562.html">懒加载的另一种写法</a></li>
+                          <li><a title="" href="15257015215231.html"></a></li>
                         
-                          <li><a title="设置placeholder颜色" href="15206737456913.html">设置placeholder颜色</a></li>
+                          <li><a title="" href="15257014756710.html"></a></li>
                         
                           <li><a title="防止Timer 与控制器耦合导致控制器不释放" href="15180682554389.html">防止Timer 与控制器耦合导致控制器不释放</a></li>
                         
@@ -470,17 +464,11 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
-                          <li><a title="Mac 数据线链接断断续续问题" href="15254176966854.html">Mac 数据线链接断断续续问题</a></li>
+                          <li><a title="线程需要注意的问题" href="15257017136249.html">线程需要注意的问题</a></li>
                         
-                          <li><a title="线程需要注意的问题" href="15238567947876.html">线程需要注意的问题</a></li>
+                          <li><a title="Mac 应用图标没有在launchpad里显示" href="15257016488742.html">Mac 应用图标没有在launchpad里显示</a></li>
                         
-                          <li><a title="mac 应用图标没有在launchpad里显示" href="15228053597311.html">mac 应用图标没有在launchpad里显示</a></li>
-                        
-                          <li><a title="为了更节省时间而出的面试题" href="15203932580751.html">为了更节省时间而出的面试题</a></li>
-                        
-                          <li><a title="carthage 不能正常更新" href="15199149659223.html">carthage 不能正常更新</a></li>
-                        
-                          <li><a title="" href="15196537271626.html"></a></li>
+                          <li><a title="Carthage 不能正常更新" href="15257016195473.html">Carthage 不能正常更新</a></li>
                         
                           <li><a title="collectionView自定义layout" href="15096779127051.html">collectionView自定义layout</a></li>
                         
@@ -592,39 +580,61 @@
 
 	
 		<div class="markdown-body">
-		<h1>字符串frame相关</h1>
+		<h1>升级到Xcode8后Qt无法正常使用</h1>
 
-		<p>开发中常用到计算字符串的size或者rect</p>
+		<p>错误信息:</p>
 
-<p>经常见到如下接口:</p>
+<blockquote>
+<p>Project ERROR: Xcode not set up properly. You may need to confirm the license agreement by running /usr/bin/xcodebuild.</p>
+</blockquote>
 
-<pre><code>- (CGSize)sizeWithAttributes:(nullable NSDictionary&lt;NSString *, id&gt; *)attrs NS_AVAILABLE(10_0, 7_0);
+<p>解决办法:<br/>
+<strong>&gt;= Xcode 8</strong></p>
 
-- (CGRect)boundingRectWithSize:(CGSize)size options:(NSStringDrawingOptions)options attributes:(nullable NSDictionary&lt;NSString *, id&gt; *)attributes context:(nullable NSStringDrawingContext *)context NS_AVAILABLE(10_11, 7_0);
+<p>In Xcode 8, as Bruce said, this happens when Qt tries to find <code>xcrun</code> when it should be looking for <code>xcodebuild</code>.</p>
+
+<p><strong>Step 1:</strong></p>
+
+<p>Open the file:</p>
+
+<pre><code>Qt_install_folder/5.7/clang_64/mkspecs/features/mac/default_pre.prf
 </code></pre>
 
-<p>项目中使用的例子:</p>
+<p><strong>Step 2:</strong></p>
 
-<pre><code>    // shopNameLabel frame
-    {
-        CGSize stringSize = [self.shopNameLabel.text sizeWithAttributes:@{NSFontAttributeName: self.shopNameLabel.font}];
-        self.shopNameLabel.frame = CGRectMake(margin, margin, ceil(stringSize.width), ceil(stringSize.height));
-    }
+<p>Replace:</p>
+
+<pre><code>isEmpty($$list($$system(&quot;/usr/bin/xcrun -find xcrun 2&gt;/dev/null&quot;)))
 </code></pre>
 
-<pre><code>    // addressLabel frame
-    {
-        CGFloat lwidth = width - imageWH - 3*margin;
-        
-        CGSize stringSize = [self.addressLabel.text boundingRectWithSize:CGSizeMake(lwidth, self.addressLabel.font.lineHeight *self.addressLabel.numberOfLines) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: self.addressLabel.font} context:nil].size;
-        self.addressLabel.frame = CGRectMake(margin, ceil(CGRectGetMaxY(self.juliLabel.frame) + margin), stringSize.width, stringSize.height);
-    }
+<p>With:</p>
 
+<pre><code>isEmpty($$list($$system(&quot;/usr/bin/xcrun -find xcodebuild 2&gt;/dev/null&quot;)))
 </code></pre>
 
-<p>由于经常使用,所以我把这些都抽取成代码块,方便调用.</p>
+<p><strong>~&gt; Xcode 8</strong></p>
 
-<p>其中由于需要预估字符串的高度,<code>boundingRectWithSize</code>,由于iOS所提供的默认字体是可能变化的,所以这里我们不能凭借经验10号字体默认高度就是10,这是不准确的.使用<code>self.addressLabel.font.lineHeight</code>应该使用行高来计算.并且显示的行数也不要写死,需要写成 <code>self.addressLabel.numberOfLines</code>.这样做才能得到想要的效果.</p>
+<p>Before Xcode 8, this problem occurs when command line tools are installed after Xcode is installed. What happens is the <code>Xcode-select</code> developer directory gets pointed to <code>/Library/Developer/CommandLineTools</code>.</p>
+
+<p><strong>Step 1:</strong></p>
+
+<p>Point <code>Xcode-select</code> to the correct Xcode Developer directory with the command:</p>
+
+<pre><code>sudo xcode-select -switch /Applications/Xcode.app/Contents/Developer
+</code></pre>
+
+<p><strong>Step 2:</strong></p>
+
+<p>Confirm the license agreement with the command:</p>
+
+<pre><code>xcodebuild -license
+</code></pre>
+
+<p>This will prompt you to read through the license agreement.</p>
+
+<p>Enter <code>agree</code> to accept the terms.</p>
+
+<p>详见stackoverflow 中 <a href="http://stackoverflow.com/questions/33728905/qt-creator-project-error-xcode-not-set-up-properly-you-may-need-to-confirm-t">Qt Creator - Project ERROR: Xcode not set up properly. You may need to confirm the license agreement by running /usr/bin/xcodebuild</a></p>
 
 
 		</div>

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  Custom UIViews from XIB files - 李小争
+  Mac 应用图标没有在launchpad里显示 - 李小争
   
   </title>
  <meta name="description" content="记录开发中遇到的一些问题">
@@ -576,274 +576,16 @@
             <div class="large-9 medium-9 columns">
 
  <div class="markdown-body">
-<h1>Custom UIViews from XIB files</h1>
+<h1>Mac 应用图标没有在launchpad里显示</h1>
 
-<h2 id="toc_0"><a href="https://stackoverflow.com/documentation/ios/1362/custom-uiviews-from-xib-files/4443/wiring-elements">Wiring elements</a></h2>
+<p>重置Launchpad</p>
 
-<ul>
-<li><blockquote>
-<p>Create a XIB file</p>
-</blockquote>
-
-<p>Xcode Menu Bar &gt; File &gt; New &gt; File.<br/>
-Select iOS, User Interface and then &quot;View&quot;:</p>
-
-<p><a href="media/15036540820094/RSkzu.png"><img src="media/15036540820094/RSkzu.png" alt="First step"/></a></p>
-
-<p>Give your XIB a name (yes, we are doing a Pokemon example 👾).<br/>
-<strong>Remember to check your target</strong> and hit &quot;Create&quot;.</p>
-
-<p><a href="media/15036540820094/oJ1s1.png"><img src="media/15036540820094/oJ1s1.png" alt="Second step"/></a></p>
-
-<blockquote>
-<p>Design your view</p>
-</blockquote>
-
-<p>To make things easier, set:</p>
-
-<ul>
-<li>Size: Freeform</li>
-<li>Status Bar: None</li>
-<li>Top Bar: None</li>
-<li>Bottom Bar: None</li>
-</ul>
-
-<p><a href="media/15036540820094/Gy0KD.png"><img src="media/15036540820094/Gy0KD.png" alt="Third step"/></a></p>
-
-<p>Click on the Size Inspector and resize the view.<br/>
-For this example we&#39;ll be using width 321 and height 256.</p>
-
-<p><a href="media/15036540820094/PNIek.png"><img src="media/15036540820094/PNIek.png" alt="Fourth step"/></a></p>
-
-<p>Drop some elements into your XIB file like shown below.<br/>
-Here we&#39;ll be adding an <strong>Image View</strong> (256x256) and a <strong>Switch</strong>.</p>
-
-<p><a href="media/15036540820094/6u3pd.png"><img src="media/15036540820094/6u3pd.png" alt="Fifth step"/></a></p>
-
-<p>Add Auto-Layout constraints by clicking on &quot;Resolve Auto Layout Issues&quot; (bottom-right) and selecting &quot;Add Missing Constraints&quot; under &quot;All Views&quot;.</p>
-
-<p><a href="media/15036540820094/esZhQ.png"><img src="media/15036540820094/esZhQ.png" alt="Sixth step"/></a></p>
-
-<p>Preview the changes you made by clicking on &quot;Show the Assistant Editor&quot; (top-right), then &quot;Preview&quot;.<br/>
-You can add iPhone screens by clicking on the &quot;Plus&quot; button.<br/>
-The preview should look like this:</p>
-
-<p><a href="media/15036540820094/D3rac.png"><img src="media/15036540820094/D3rac.png" alt="Seventh step"/></a></p>
-
-<blockquote>
-<p>Subclass UIView</p>
-</blockquote>
-
-<p>Create the class that is going to manage the XIB file.<br/>
-Xcode Menu Bar &gt; File &gt; New &gt; File.<br/>
-Select iOS / Source / Cocoa Touch Class. Hit &quot;Next&quot;.</p>
-
-<p><a href="media/15036540820094/0EyHy.png"><img src="media/15036540820094/0EyHy.png" alt="Eighth step"/></a></p>
-
-<p>Give the class a name, which must be the same name as the XIB file (Pokemon).<br/>
-Select UIView as the subclass type, then hit &quot;Next&quot;.</p>
-
-<p><a href="media/15036540820094/qbo3s.png"><img src="media/15036540820094/qbo3s.png" alt="Nineth step"/></a></p>
-
-<p>On the next window, select your target and hit &quot;Create&quot;.</p>
-
-<p><a href="media/15036540820094/Ks9Tu.png"><img src="media/15036540820094/Ks9Tu.png" alt="Tenth step"/></a></p>
-
-<blockquote>
-<p>Connect Pokemon.xib to Pokemon.swift via &quot;File’s Owner&quot; attribute</p>
-</blockquote>
-
-<p>Click on the Pokemon.xib file in Xcode.<br/>
-Click on the &quot;File&#39;s Owner&quot; outlet.<br/>
-On the &quot;Identity inspector&quot; (top-right), set the Class to our recently created Pokemon.swift file.</p>
-
-<p><a href="media/15036540820094/4YT3i.png"><img src="media/15036540820094/4YT3i.png" alt="Eleventh step"/></a></p>
-
-<blockquote>
-<p>POKEMONS!!!</p>
-</blockquote>
-
-<p>Yes! Drag and drop some Pokemons into your project to finish up our &quot;infrastructure&quot;.<br/>
-Here we are adding two PGN files, 256x256, transparent.</p>
-
-<p><a href="media/15036540820094/ibqxZ.png"><img src="media/15036540820094/ibqxZ.png" alt="Twelfth step"/></a></p>
-
-<blockquote>
-<p>Show me code already.</p>
-</blockquote>
-
-<p>All right, all right.<br/>
-Time to add some code to our Pokemon.swift class.</p>
-
-<p>It&#39;s actually pretty simple:</p>
-
-<ol>
-<li>Implement required initializers</li>
-<li>Load the XIB file</li>
-<li>Configure the view that will display the XIB file</li>
-<li>Show the above view</li>
-</ol>
-
-<p>Add the following code to the Pokemon.swift class:</p>
-
-<pre><code>import UIKit
-
-class Pokemon: UIView {
-
-    // MARK: - Initializers
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupView()
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        setupView()
-    }
-
-    // MARK: - Private Helper Methods
-
-    // Performs the initial setup.
-    private func setupView() {
-        let view = viewFromNibForClass()
-        view.frame = bounds
-
-        // Auto-layout stuff.
-        view.autoresizingMask = [
-            UIViewAutoresizing.flexibleWidth,
-            UIViewAutoresizing.flexibleHeight
-        ]
-
-        // Show the view.
-        addSubview(view)
-    }
-
-    // Loads a XIB file into a view and returns this view.
-    private func viewFromNibForClass() -&gt; UIView {
-
-        let bundle = Bundle(for: type(of: self))
-        let nib = UINib(nibName: String(describing: type(of: self)), bundle: bundle)
-        let view = nib.instantiate(withOwner: self, options: nil).first as! UIView
-
-        /* Usage for swift &lt; 3.x
-        let bundle = NSBundle(forClass: self.dynamicType)
-        let nib = UINib(nibName: String(self.dynamicType), bundle: bundle)
-        let view = nib.instantiateWithOwner(self, options: nil)[0] as! UIView
-        */
-
-        return view
-    }
-}
+<pre><code>rm ~/Library/Application\ Support/Dock/*.db
 
 </code></pre>
 
-<blockquote>
-<p>@IBDesignable and @IBInspectable</p>
-</blockquote>
-
-<p>By adding <code>@IBDesignable</code> to your class, you make possible for it to live-render in Interface Builder.<br/>
-By adding <code>@IBInspectable</code> to the properties of your class, you can see your custom views changing in Interface Builder as soon as you modify those properties.</p>
-
-<p>Let&#39;s make the <code>Image View</code> of our custom view &quot;Inspectable&quot;.</p>
-
-<p>First, hook up the <code>Image View</code> from the Pokemon.xib file to the Pokemon.swift class.</p>
-
-<p><a href="media/15036540820094/Dxyv2.png"><img src="media/15036540820094/Dxyv2.png" alt="Thirteenth step"/></a></p>
-
-<p>Call the outlet <code>imageView</code> and then add the following code (notice the <code>@IBDesignable</code> before the class name):</p>
-
-<pre><code>@IBDesignable class Pokemon: UIView {
-
-    // MARK: - Properties
-
-    @IBOutlet weak var imageView: UIImageView!
-
-    @IBInspectable var image: UIImage? {
-        get {
-            return imageView.image
-        }
-        set(image) {
-            imageView.image = image
-        }
-    }
-
-    // MARK: - Initializers
-    ...
-
+<pre><code>killall Dock
 </code></pre>
-
-<blockquote>
-<p>Using your Custom Views</p>
-</blockquote>
-
-<p>Got to your Main storyboard file, drag a UIView into it.<br/>
-Resize the view to, say 200x200. Centralize.<br/>
-Go to the Identity inspector (top-right) and set the Class to Pokemon.</p>
-
-<p><a href="media/15036540820094/Iah3Y.png"><img src="media/15036540820094/Iah3Y.png" alt="Fourteenth steps"/></a></p>
-
-<p>To select a Pokemon, go to the Attribute Inspector (top-right) and select one of the Pokemon images you previously added using the awesome <code>@IBInspectable</code> image property.</p>
-
-<p><a href="media/15036540820094/727mm.png"><img src="media/15036540820094/727mm.png" alt="Fifteenth step"/></a></p>
-
-<p>Now duplicate your custom Pokemon view.<br/>
-Give it a different size, say 150x150.<br/>
-Choose another Pokemon image, observe:</p>
-
-<p><a href="media/15036540820094/xrTXw.png"><img src="media/15036540820094/xrTXw.png" alt="Sixteenth step"/></a></p>
-
-<p>Now we are going to add more logic to that self-containing custom UI element.<br/>
-The button will allow Pokemons to be enabled/disabled.</p>
-
-<p>Create an <code>IBAction</code> from the Switch button to the Pokemon.swift class.<br/>
-Call the action something like <code>switchTapped</code>.<br/>
-Add the following code to it:</p>
-
-<pre><code>// MARK: - Actions
-
-@IBAction func switchTapped(sender: UISwitch) {
-    imageView.alpha = sender.on ? 1.0 : 0.2
-}
-
-// MARK: - Initializers
-...
-
-</code></pre>
-
-<p>Final result:</p>
-
-<p><a href="media/15036540820094/DQJvO.gif"><img src="media/15036540820094/DQJvO.gif" alt="Final"/></a></p>
-
-<p>You are done!<br/>
-Now you can create complex custom views and reuse them anywhere you want.<br/>
-This will increase productivity while isolating code into self-contained UI elements.</p>
-
-<p><a href="https://github.com/singledev/custom-uiviews-from-xib">The final project can be cloned in Github.</a><br/>
-(<strong>Updated to Swift 3.1</strong>)</p></li>
-</ul>
-
-<h2 id="toc_1"><a href="https://stackoverflow.com/documentation/ios/1362/custom-uiviews-from-xib-files/11599/how-to-make-custom-reusable-uiview-using-xib">How to make custom reusable UIView using XIB</a></h2>
-
-<p>Following example shows steps involved in initializing a view from XIB.</p>
-
-<p>This is not a complex operation but exact steps need to be followed in order to do it right way first time, avoiding exceptions.</p>
-
-<p><a href="http://stackoverflow.com/questions/20323393/how-does-loadnibnamed-work-uiview-outlets-not-initializing-using-loadnibnamed">How does loadNibNamed Works</a></p>
-
-<p>Main steps are:</p>
-
-<ol>
-<li>Create XIB</li>
-<li>Create class .h and .m</li>
-<li>Define outlets in .h</li>
-<li><p>Connect outlets between .h and XIB</p>
-
-<p>See attached screenshot:</p>
-
-<p><a href="media/15036540820094/rSBw6.png"><img src="media/15036540820094/rSBw6.png" alt="Label Object connected to myLabel IBOutlet UILabel variable"/></a></p></li>
-<li><p>Invoke loadNibNamed inside initWithCoder function of .m file. This is needed to ensure you can directly place UIView object into storyboard / Parent UIView XIB file and define it as your custom view. No other initialization code is needed once you load the storyboard / parent XIB. Your custom view can be added to other views just like other built-in Objective C view objects given in XCode.</p></li>
-</ol>
 
 
 </div>
@@ -855,15 +597,15 @@ This will increase productivity while isolating code into self-contained UI elem
   <div class="large-6 columns">
 	<div class="text-left" style="padding:15px 0px;">
 		
-	        <a href="15038463059094.html"  title="Previous Post: CAGradientLayer">&laquo; CAGradientLayer</a>
+	        <a href="15257017136249.html"  title="Previous Post: 线程需要注意的问题">&laquo; 线程需要注意的问题</a>
 	    
 	</div>
   </div>
   <div class="large-6 columns">
 	<div class="text-right" style="padding:15px 0px;">
 		
-	        <a href="15036524793322.html" 
-	        title="Next Post: UIBezierPath">UIBezierPath &raquo;</a>
+	        <a href="15257016195473.html" 
+	        title="Next Post: Carthage 不能正常更新">Carthage 不能正常更新 &raquo;</a>
 	    
 	</div>
   </div>
@@ -876,7 +618,7 @@ This will increase productivity while isolating code into self-contained UI elem
 </div>
 <script type="text/javascript">
 	$(function(){
-		var currentURL = '15036540820094.html';
+		var currentURL = '15257016488742.html';
 		$('#side-nav a').each(function(){
 			if($(this).attr('href') == currentURL){
 				$(this).parent().addClass('active');

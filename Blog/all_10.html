@@ -63,11 +63,11 @@
         <li><label>技巧</label></li>
 
           
-            <li><a title="Cell点击时多次Push" href="15254168501032.html">Cell点击时多次Push</a></li>
+            <li><a title="" href="15257015417604.html"></a></li>
           
-            <li><a title="懒加载的另一种写法" href="15222898362562.html">懒加载的另一种写法</a></li>
+            <li><a title="" href="15257015215231.html"></a></li>
           
-            <li><a title="设置placeholder颜色" href="15206737456913.html">设置placeholder颜色</a></li>
+            <li><a title="" href="15257014756710.html"></a></li>
           
             <li><a title="防止Timer 与控制器耦合导致控制器不释放" href="15180682554389.html">防止Timer 与控制器耦合导致控制器不释放</a></li>
           
@@ -195,17 +195,11 @@
         <li><label>杂记</label></li>
 
           
-            <li><a title="Mac 数据线链接断断续续问题" href="15254176966854.html">Mac 数据线链接断断续续问题</a></li>
+            <li><a title="线程需要注意的问题" href="15257017136249.html">线程需要注意的问题</a></li>
           
-            <li><a title="线程需要注意的问题" href="15238567947876.html">线程需要注意的问题</a></li>
+            <li><a title="Mac 应用图标没有在launchpad里显示" href="15257016488742.html">Mac 应用图标没有在launchpad里显示</a></li>
           
-            <li><a title="mac 应用图标没有在launchpad里显示" href="15228053597311.html">mac 应用图标没有在launchpad里显示</a></li>
-          
-            <li><a title="为了更节省时间而出的面试题" href="15203932580751.html">为了更节省时间而出的面试题</a></li>
-          
-            <li><a title="carthage 不能正常更新" href="15199149659223.html">carthage 不能正常更新</a></li>
-          
-            <li><a title="" href="15196537271626.html"></a></li>
+            <li><a title="Carthage 不能正常更新" href="15257016195473.html">Carthage 不能正常更新</a></li>
           
             <li><a title="collectionView自定义layout" href="15096779127051.html">collectionView自定义layout</a></li>
           
@@ -344,11 +338,11 @@
                     
                       <li class="side-title"><span>技巧</span></li>
                         
-                          <li><a title="Cell点击时多次Push" href="15254168501032.html">Cell点击时多次Push</a></li>
+                          <li><a title="" href="15257015417604.html"></a></li>
                         
-                          <li><a title="懒加载的另一种写法" href="15222898362562.html">懒加载的另一种写法</a></li>
+                          <li><a title="" href="15257015215231.html"></a></li>
                         
-                          <li><a title="设置placeholder颜色" href="15206737456913.html">设置placeholder颜色</a></li>
+                          <li><a title="" href="15257014756710.html"></a></li>
                         
                           <li><a title="防止Timer 与控制器耦合导致控制器不释放" href="15180682554389.html">防止Timer 与控制器耦合导致控制器不释放</a></li>
                         
@@ -470,17 +464,11 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
-                          <li><a title="Mac 数据线链接断断续续问题" href="15254176966854.html">Mac 数据线链接断断续续问题</a></li>
+                          <li><a title="线程需要注意的问题" href="15257017136249.html">线程需要注意的问题</a></li>
                         
-                          <li><a title="线程需要注意的问题" href="15238567947876.html">线程需要注意的问题</a></li>
+                          <li><a title="Mac 应用图标没有在launchpad里显示" href="15257016488742.html">Mac 应用图标没有在launchpad里显示</a></li>
                         
-                          <li><a title="mac 应用图标没有在launchpad里显示" href="15228053597311.html">mac 应用图标没有在launchpad里显示</a></li>
-                        
-                          <li><a title="为了更节省时间而出的面试题" href="15203932580751.html">为了更节省时间而出的面试题</a></li>
-                        
-                          <li><a title="carthage 不能正常更新" href="15199149659223.html">carthage 不能正常更新</a></li>
-                        
-                          <li><a title="" href="15196537271626.html"></a></li>
+                          <li><a title="Carthage 不能正常更新" href="15257016195473.html">Carthage 不能正常更新</a></li>
                         
                           <li><a title="collectionView自定义layout" href="15096779127051.html">collectionView自定义layout</a></li>
                         
@@ -592,37 +580,37 @@
 
 	
 		<div class="markdown-body">
-		<h1>Swift - 面向协议编程</h1>
+		<h1>Swift - 在swift中如何使用 hexcolor 值表示颜色</h1>
 
-		<p>跟全部写在base中比较:</p>
+		<blockquote>
+<p>结果来自<a href="http://stackoverflow.com/questions/24263007/how-to-use-hex-colour-values-in-swift-ios">How to use hex colour values in Swift, iOS</a></p>
+</blockquote>
 
-<ol>
-<li>代码没有增多,却更复用</li>
-<li>面向协议(接口),而不是实现,充分解耦</li>
-<li>静态类型检查版主在编译时发现问题</li>
-<li>写代码像搭积木,先设计接口,再逐一实现</li>
-<li>依赖少,更容易调试</li>
-</ol>
-
-<pre><code>protocol Hello {
-    func sayHello()
-}
-
-extension Hello {
-    func sayHello() {
-        print(&quot;Hello!&quot;)
+<pre><code>extension UIColor {
+    convenience init(hexString: String) {
+        let hex = hexString.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
+        var int = UInt32()
+        Scanner(string: hex).scanHexInt32(&amp;int)
+        let a, r, g, b: UInt32
+        switch hex.characters.count {
+        case 3: // RGB (12-bit)
+            (a, r, g, b) = (255, (int &gt;&gt; 8) * 17, (int &gt;&gt; 4 &amp; 0xF) * 17, (int &amp; 0xF) * 17)
+        case 6: // RGB (24-bit)
+            (a, r, g, b) = (255, int &gt;&gt; 16, int &gt;&gt; 8 &amp; 0xFF, int &amp; 0xFF)
+        case 8: // ARGB (32-bit)
+            (a, r, g, b) = (int &gt;&gt; 24, int &gt;&gt; 16 &amp; 0xFF, int &gt;&gt; 8 &amp; 0xFF, int &amp; 0xFF)
+        default:
+            (a, r, g, b) = (255, 0, 0, 0)
+        }
+        self.init(red: CGFloat(r) / 255, green: CGFloat(g) / 255, blue: CGFloat(b) / 255, alpha: CGFloat(a) / 255)
     }
 }
-
-struct Person: Hello {
-    
-}
-
-let p = Person()
-p.sayHello()
 </code></pre>
 
-<p>创建一个协议,并且做一个默认实现.使用的时候可以直接调用</p>
+<p>使用方法:</p>
+
+<pre><code>let darkGrey = UIColor(hexString: &quot;#757575&quot;)
+</code></pre>
 
 
 		</div>

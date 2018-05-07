@@ -63,11 +63,11 @@
         <li><label>技巧</label></li>
 
           
-            <li><a title="Cell点击时多次Push" href="15254168501032.html">Cell点击时多次Push</a></li>
+            <li><a title="" href="15257015417604.html"></a></li>
           
-            <li><a title="懒加载的另一种写法" href="15222898362562.html">懒加载的另一种写法</a></li>
+            <li><a title="" href="15257015215231.html"></a></li>
           
-            <li><a title="设置placeholder颜色" href="15206737456913.html">设置placeholder颜色</a></li>
+            <li><a title="" href="15257014756710.html"></a></li>
           
             <li><a title="防止Timer 与控制器耦合导致控制器不释放" href="15180682554389.html">防止Timer 与控制器耦合导致控制器不释放</a></li>
           
@@ -195,17 +195,11 @@
         <li><label>杂记</label></li>
 
           
-            <li><a title="Mac 数据线链接断断续续问题" href="15254176966854.html">Mac 数据线链接断断续续问题</a></li>
+            <li><a title="线程需要注意的问题" href="15257017136249.html">线程需要注意的问题</a></li>
           
-            <li><a title="线程需要注意的问题" href="15238567947876.html">线程需要注意的问题</a></li>
+            <li><a title="Mac 应用图标没有在launchpad里显示" href="15257016488742.html">Mac 应用图标没有在launchpad里显示</a></li>
           
-            <li><a title="mac 应用图标没有在launchpad里显示" href="15228053597311.html">mac 应用图标没有在launchpad里显示</a></li>
-          
-            <li><a title="为了更节省时间而出的面试题" href="15203932580751.html">为了更节省时间而出的面试题</a></li>
-          
-            <li><a title="carthage 不能正常更新" href="15199149659223.html">carthage 不能正常更新</a></li>
-          
-            <li><a title="" href="15196537271626.html"></a></li>
+            <li><a title="Carthage 不能正常更新" href="15257016195473.html">Carthage 不能正常更新</a></li>
           
             <li><a title="collectionView自定义layout" href="15096779127051.html">collectionView自定义layout</a></li>
           
@@ -344,11 +338,11 @@
                     
                       <li class="side-title"><span>技巧</span></li>
                         
-                          <li><a title="Cell点击时多次Push" href="15254168501032.html">Cell点击时多次Push</a></li>
+                          <li><a title="" href="15257015417604.html"></a></li>
                         
-                          <li><a title="懒加载的另一种写法" href="15222898362562.html">懒加载的另一种写法</a></li>
+                          <li><a title="" href="15257015215231.html"></a></li>
                         
-                          <li><a title="设置placeholder颜色" href="15206737456913.html">设置placeholder颜色</a></li>
+                          <li><a title="" href="15257014756710.html"></a></li>
                         
                           <li><a title="防止Timer 与控制器耦合导致控制器不释放" href="15180682554389.html">防止Timer 与控制器耦合导致控制器不释放</a></li>
                         
@@ -470,17 +464,11 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
-                          <li><a title="Mac 数据线链接断断续续问题" href="15254176966854.html">Mac 数据线链接断断续续问题</a></li>
+                          <li><a title="线程需要注意的问题" href="15257017136249.html">线程需要注意的问题</a></li>
                         
-                          <li><a title="线程需要注意的问题" href="15238567947876.html">线程需要注意的问题</a></li>
+                          <li><a title="Mac 应用图标没有在launchpad里显示" href="15257016488742.html">Mac 应用图标没有在launchpad里显示</a></li>
                         
-                          <li><a title="mac 应用图标没有在launchpad里显示" href="15228053597311.html">mac 应用图标没有在launchpad里显示</a></li>
-                        
-                          <li><a title="为了更节省时间而出的面试题" href="15203932580751.html">为了更节省时间而出的面试题</a></li>
-                        
-                          <li><a title="carthage 不能正常更新" href="15199149659223.html">carthage 不能正常更新</a></li>
-                        
-                          <li><a title="" href="15196537271626.html"></a></li>
+                          <li><a title="Carthage 不能正常更新" href="15257016195473.html">Carthage 不能正常更新</a></li>
                         
                           <li><a title="collectionView自定义layout" href="15096779127051.html">collectionView自定义layout</a></li>
                         
@@ -592,103 +580,85 @@
 
 	
 		<div class="markdown-body">
-		<h1>Swift - KVC 和 运行时获取属性列表</h1>
+		<h1>Swift - 数组中的增删改与合并</h1>
 
-		<h2 id="toc_0">Swift中如何使用KVC</h2>
+		<blockquote>
+<p>第一篇写了数组遍历的几种情况,这篇主要就是数组中的增删改,也是开发中常用的</p>
+</blockquote>
 
-<pre><code>import UIKit
+<p>OC中数组分为可变(NSMutableArray)和不可变(NSArray) 相应的在Swift中就是 var &amp; let</p>
 
-class Person: NSObject {
-    var name:String?
-    var age: Int = 0
-    var title:String?
-    
-    init(dict:[String:Any]) {
-        super.init()
-        setValuesForKeys(dict)
-    }
-    
-    
-    override func setValue(_ value: Any?, forUndefinedKey key: String) {
-        
-    }
-}
+<h2 id="toc_0">追加元素</h2>
+
+<p>首先定义一个可变数组</p>
+
+<pre><code>var array = [&quot;张三&quot;,&quot;李四&quot;,&quot;王五&quot;]
 </code></pre>
 
-<p>注意:基本数据类型一开始要设置默认值.</p>
+<p>追加一个元素</p>
 
-<h2 id="toc_1">Swift中运行时获取属性列表</h2>
-
-<pre><code>class Person: NSObject {
-    var name:String?
-    var age: Int = 0
-    var title:String?
-    
-    init(dict:[String:Any]) {
-        super.init()
-        setValuesForKeys(dict)
-    }
-    
-    
-    override func setValue(_ value: Any?, forUndefinedKey key: String) {
-        
-    }
-    
-    class func propertyList() -&gt; [String] {
-        var count:UInt32 = 0
-        
-        let list = class_copyPropertyList(self,&amp;count)
-        
-        var array:[String] = [];
-        
-        for i in 0..&lt;Int(count) {
-            
-            // 获取属性
-            let pty = list?[i]
-            
-            // 获取属性名称
-            let cName = property_getName(pty)
-            let name = String(utf8String: cName!)
-            array.append(name!)
-        }
-        free(list)
-        return array
-    }
-}
-
+<pre><code>// 追加元素
+array.append(&quot;赵六&quot;)
+print(array)
 </code></pre>
 
-<p>上面是OC写法,可以改进的更Swift一点:</p>
+<h2 id="toc_1">修改元素</h2>
 
-<pre><code>    class func propertyList() -&gt; [String] {
-        var count:UInt32 = 0
-        
-        let list = class_copyPropertyList(self,&amp;count)
-        
-        var array:[String] = [];
-        
-        for i in 0..&lt;Int(count) {
-            
-            guard let pty = list?[i],
-                let cName = property_getName(pty),
-                let name = String(utf8String: cName)
-                else {
-                    // 继续遍历下一个
-                    continue
-            }
-            array.append(name)
-        }
-        free(list)
-        return array
-    }
+<p>通过下标进行修改</p>
+
+<pre><code>array[0] = &quot;赵四&quot;
+print(array)
 </code></pre>
 
-<p>通过运行时可以发现:</p>
+<p>结果:</p>
 
-<ol>
-<li>基本数据类型如果设置成可选类型则运行时获取不到(在OC中没有可选)....  这就说明了上面的注意点,否则使用<code>KVC</code>会崩溃 </li>
-<li>如果属性为<code>private</code>同样获取不到属性(可以获取到ivar),同样会让<code>KVC</code>崩溃</li>
-</ol>
+<pre><code>[&quot;赵四&quot;, &quot;李四&quot;, &quot;王五&quot;, &quot;赵六&quot;]
+</code></pre>
+
+<h2 id="toc_2">删除</h2>
+
+<pre><code>// 删除元素
+array.remove(at: 0)
+print(array)
+</code></pre>
+
+<p>结果:</p>
+
+<pre><code>[&quot;赵四&quot;, &quot;李四&quot;, &quot;王五&quot;, &quot;赵六&quot;]
+[&quot;李四&quot;, &quot;王五&quot;, &quot;赵六&quot;]
+</code></pre>
+
+<p>remove 的方法由很多,移除首/尾,移除范围...</p>
+
+<pre><code>array.removeAll(keepingCapacity: true)
+print(&quot;数组中的元素\(array) 数组容量\(array.capacity)&quot;)
+</code></pre>
+
+<p>结果:</p>
+
+<pre><code>数组中的元素[] 数组容量6
+</code></pre>
+
+<h2 id="toc_3">数组合并</h2>
+
+<pre><code>var arr0 = [1,2,3]
+let arr1 = [3,4,5]
+arr0 += arr1
+print(arr0)
+</code></pre>
+
+<p>结果:</p>
+
+<pre><code>[1, 2, 3, 3, 4, 5]
+</code></pre>
+
+<p>注意: 要合并的数组的类型必须一致,如果不一致会出错. 比如:</p>
+
+<pre><code>var arr0:[Any] = [1,2,3]
+let arr1:[Any] = [&quot;2&quot;,3,4,5]
+arr0 += arr1
+print(arr0)
+</code></pre>
 
 
 		</div>
