@@ -63,11 +63,11 @@
         <li><label>技巧</label></li>
 
           
-            <li><a title="" href="15257015417604.html"></a></li>
+            <li><a title="设置placeholder颜色" href="15257015417604.html">设置placeholder颜色</a></li>
           
-            <li><a title="" href="15257015215231.html"></a></li>
+            <li><a title="懒加载的另一种写法" href="15257015215231.html">懒加载的另一种写法</a></li>
           
-            <li><a title="" href="15257014756710.html"></a></li>
+            <li><a title="Cell点击时多次Push" href="15257014756710.html">Cell点击时多次Push</a></li>
           
             <li><a title="防止Timer 与控制器耦合导致控制器不释放" href="15180682554389.html">防止Timer 与控制器耦合导致控制器不释放</a></li>
           
@@ -338,11 +338,11 @@
                     
                       <li class="side-title"><span>技巧</span></li>
                         
-                          <li><a title="" href="15257015417604.html"></a></li>
+                          <li><a title="设置placeholder颜色" href="15257015417604.html">设置placeholder颜色</a></li>
                         
-                          <li><a title="" href="15257015215231.html"></a></li>
+                          <li><a title="懒加载的另一种写法" href="15257015215231.html">懒加载的另一种写法</a></li>
                         
-                          <li><a title="" href="15257014756710.html"></a></li>
+                          <li><a title="Cell点击时多次Push" href="15257014756710.html">Cell点击时多次Push</a></li>
                         
                           <li><a title="防止Timer 与控制器耦合导致控制器不释放" href="15180682554389.html">防止Timer 与控制器耦合导致控制器不释放</a></li>
                         
@@ -578,6 +578,105 @@
  <div class="markdown-body">
 <h1>防止Timer 与控制器耦合导致控制器不释放</h1>
 
+<p>在<code>OC</code>中可以使用<code>NSProxy</code> 的转发机制防止timer强引用<br/>
+具体例子可以参考<a href="https://github.com/ibireme/YYKit/blob/3869686e0e560db0b27a7140188fad771e271508/YYKit/Utility/YYWeakProxy.h">YYKit</a>中的处理方式,代码如下：</p>
+
+<pre><code>#import &quot;YYWeakProxy.h&quot;
+
+
+@implementation YYWeakProxy
+
+- (instancetype)initWithTarget:(id)target {
+    _target = target;
+    return self;
+}
+
++ (instancetype)proxyWithTarget:(id)target {
+    return [[YYWeakProxy alloc] initWithTarget:target];
+}
+
+- (id)forwardingTargetForSelector:(SEL)selector {
+    return _target;
+}
+
+- (void)forwardInvocation:(NSInvocation *)invocation {
+    void *null = NULL;
+    [invocation setReturnValue:&amp;null];
+}
+
+- (NSMethodSignature *)methodSignatureForSelector:(SEL)selector {
+    return [NSObject instanceMethodSignatureForSelector:@selector(init)];
+}
+
+- (BOOL)respondsToSelector:(SEL)aSelector {
+    return [_target respondsToSelector:aSelector];
+}
+
+- (BOOL)isEqual:(id)object {
+    return [_target isEqual:object];
+}
+
+- (NSUInteger)hash {
+    return [_target hash];
+}
+
+- (Class)superclass {
+    return [_target superclass];
+}
+
+- (Class)class {
+    return [_target class];
+}
+
+- (BOOL)isKindOfClass:(Class)aClass {
+    return [_target isKindOfClass:aClass];
+}
+
+- (BOOL)isMemberOfClass:(Class)aClass {
+    return [_target isMemberOfClass:aClass];
+}
+
+- (BOOL)conformsToProtocol:(Protocol *)aProtocol {
+    return [_target conformsToProtocol:aProtocol];
+}
+
+- (BOOL)isProxy {
+    return YES;
+}
+
+- (NSString *)description {
+    return [_target description];
+}
+
+- (NSString *)debugDescription {
+    return [_target debugDescription];
+}
+</code></pre>
+
+<p>在Swift中怎么处理？王巍在<a href="https://gist.github.com/onevcat/2d1ceff1c657591eebde">Gist</a>中写了一种</p>
+
+<pre><code>private class Block&lt;T&gt; {
+    let f : T
+    init (_ f: T) { self.f = f }
+}
+
+extension NSTimer {
+    static func xxx_scheduledTimerWithTimeInterval(ti: NSTimeInterval, block: ()-&gt;(), repeats: Bool) -&gt; NSTimer {
+        return self.scheduledTimerWithTimeInterval(ti, target:
+            self, selector: &quot;xxx_blcokInvoke:&quot;, userInfo: Block(block), repeats: repeats)
+    }
+    
+    static func xxx_blcokInvoke(timer: NSTimer) {
+        if let block = timer.userInfo as? Block&lt;()-&gt;()&gt; {
+            block.f()
+        }
+    }
+}
+</code></pre>
+
+<p>当然还有其他的方式比如：<a href="https://stackoverflow.com/questions/44096793/how-to-set-cadisplaylink-in-swift-with-weak-reference-between-target-and-cadispl">How to set CADisplayLink in Swift with weak reference between target and CADisplayLink instance<br/>
+</a></p>
+
 <pre><code>class WeakTimer: NSObject {
     
     private weak var target: NSObject?
@@ -657,7 +756,7 @@
   <div class="large-6 columns">
 	<div class="text-left" style="padding:15px 0px;">
 		
-	        <a href="15257014756710.html"  title="Previous Post: ">&laquo; </a>
+	        <a href="15257014756710.html"  title="Previous Post: Cell点击时多次Push">&laquo; Cell点击时多次Push</a>
 	    
 	</div>
   </div>
