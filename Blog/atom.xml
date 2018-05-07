@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2018-05-07T22:09:53+08:00</updated>
+  <updated>2018-05-07T22:38:16+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -302,7 +302,9 @@ extension NSTimer {
 </code></pre>
 
 <p>当然还有其他的方式比如：<a href="https://stackoverflow.com/questions/44096793/how-to-set-cadisplaylink-in-swift-with-weak-reference-between-target-and-cadispl">How to set CADisplayLink in Swift with weak reference between target and CADisplayLink instance<br/>
-</a></p>
+</a> 等等。。。</p>
+
+<p>目前公司项目中采用的方式如下：</p>
 
 <pre><code>class WeakTimer: NSObject {
     
