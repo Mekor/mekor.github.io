@@ -195,6 +195,8 @@
         <li><label>杂记</label></li>
 
           
+            <li><a title="金额显示" href="15271249936113.html">金额显示</a></li>
+          
             <li><a title="线程需要注意的问题" href="15257017136249.html">线程需要注意的问题</a></li>
           
             <li><a title="Mac 应用图标没有在launchpad里显示" href="15257016488742.html">Mac 应用图标没有在launchpad里显示</a></li>
@@ -464,6 +466,8 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
+                          <li><a title="金额显示" href="15271249936113.html">金额显示</a></li>
+                        
                           <li><a title="线程需要注意的问题" href="15257017136249.html">线程需要注意的问题</a></li>
                         
                           <li><a title="Mac 应用图标没有在launchpad里显示" href="15257016488742.html">Mac 应用图标没有在launchpad里显示</a></li>
@@ -580,61 +584,33 @@
 
 	
 		<div class="markdown-body">
-		<h1>升级到Xcode8后Qt无法正常使用</h1>
+		<h1>在包含UITableView视图中添加单击手势</h1>
 
-		<p>错误信息:</p>
+		<p>如果在包含UITableView视图中添加单击手势，这个单击手势会屏蔽掉UITableView的</p>
 
-<blockquote>
-<p>Project ERROR: Xcode not set up properly. You may need to confirm the license agreement by running /usr/bin/xcodebuild.</p>
-</blockquote>
-
-<p>解决办法:<br/>
-<strong>&gt;= Xcode 8</strong></p>
-
-<p>In Xcode 8, as Bruce said, this happens when Qt tries to find <code>xcrun</code> when it should be looking for <code>xcodebuild</code>.</p>
-
-<p><strong>Step 1:</strong></p>
-
-<p>Open the file:</p>
-
-<pre><code>Qt_install_folder/5.7/clang_64/mkspecs/features/mac/default_pre.prf
+<pre><code>- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath;
 </code></pre>
 
-<p><strong>Step 2:</strong></p>
+<p>可以利用<code>UIGestureRecognizer</code>的<code>Delegate</code>中的</p>
 
-<p>Replace:</p>
-
-<pre><code>isEmpty($$list($$system(&quot;/usr/bin/xcrun -find xcrun 2&gt;/dev/null&quot;)))
+<pre><code>- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer;
 </code></pre>
 
-<p>With:</p>
+<p>在单击点位于UITableView内的时候取消响应</p>
 
-<pre><code>isEmpty($$list($$system(&quot;/usr/bin/xcrun -find xcodebuild 2&gt;/dev/null&quot;)))
+<pre><code>- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer{
+    CGPoint point = [gestureRecognizer locationInView:self];
+    if(CGRectContainsPoint(menuTableView.frame, point)){
+        return NO;
+    }
+    return YES;
+}
 </code></pre>
 
-<p><strong>~&gt; Xcode 8</strong></p>
+<p>或者将单击手势的cancelsTouchesInView设置为NO</p>
 
-<p>Before Xcode 8, this problem occurs when command line tools are installed after Xcode is installed. What happens is the <code>Xcode-select</code> developer directory gets pointed to <code>/Library/Developer/CommandLineTools</code>.</p>
-
-<p><strong>Step 1:</strong></p>
-
-<p>Point <code>Xcode-select</code> to the correct Xcode Developer directory with the command:</p>
-
-<pre><code>sudo xcode-select -switch /Applications/Xcode.app/Contents/Developer
+<pre><code>singleTap.cancelsTouchesInView = NO;
 </code></pre>
-
-<p><strong>Step 2:</strong></p>
-
-<p>Confirm the license agreement with the command:</p>
-
-<pre><code>xcodebuild -license
-</code></pre>
-
-<p>This will prompt you to read through the license agreement.</p>
-
-<p>Enter <code>agree</code> to accept the terms.</p>
-
-<p>详见stackoverflow 中 <a href="http://stackoverflow.com/questions/33728905/qt-creator-project-error-xcode-not-set-up-properly-you-may-need-to-confirm-t">Qt Creator - Project ERROR: Xcode not set up properly. You may need to confirm the license agreement by running /usr/bin/xcodebuild</a></p>
 
 
 		</div>

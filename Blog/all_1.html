@@ -195,6 +195,8 @@
         <li><label>杂记</label></li>
 
           
+            <li><a title="金额显示" href="15271249936113.html">金额显示</a></li>
+          
             <li><a title="线程需要注意的问题" href="15257017136249.html">线程需要注意的问题</a></li>
           
             <li><a title="Mac 应用图标没有在launchpad里显示" href="15257016488742.html">Mac 应用图标没有在launchpad里显示</a></li>
@@ -464,6 +466,8 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
+                          <li><a title="金额显示" href="15271249936113.html">金额显示</a></li>
+                        
                           <li><a title="线程需要注意的问题" href="15257017136249.html">线程需要注意的问题</a></li>
                         
                           <li><a title="Mac 应用图标没有在launchpad里显示" href="15257016488742.html">Mac 应用图标没有在launchpad里显示</a></li>
@@ -580,20 +584,24 @@
 
 	
 		<div class="markdown-body">
-		<h1>Cell点击时多次Push</h1>
+		<h1>懒加载的另一种写法</h1>
 
-		<p><a href="https://stackoverflow.com/questions/5687991/uitableview-didselectrowatindexpath-called-twice">stackoverflow上面的解决方案</a></p>
+		<p>原先我一直这样写：</p>
 
-<pre><code>func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+<pre><code>    private lazy var imageView: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: &quot;placeholder&quot;))
+        imageView.contentMode = .center
+        return imageView
+    }()
 
-    tableView.deselectRowAtIndexPath(indexPath, animated: true)
+</code></pre>
 
-    if let navigationController = navigationController {
-        guard navigationController.topViewController == self else {
-            return
-        }
-    }
-}
+<p>今天看到了另一种比较简洁的写法</p>
+
+<pre><code>private lazy var imageView: UIImageView = {
+        $0.contentMode = .center
+        return $0
+    }(UIImageView())
 
 </code></pre>
 

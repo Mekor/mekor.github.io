@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  忽略编译器警告 - 李小争
+  金额显示 - 李小争
   
   </title>
  <meta name="description" content="记录开发中遇到的一些问题">
@@ -580,43 +580,58 @@
             <div class="large-9 medium-9 columns">
 
  <div class="markdown-body">
-<h1>忽略编译器警告</h1>
+<h1>金额显示</h1>
 
-<h2 id="toc_0">第一种方法</h2>
+<pre><code>//初始化NumberFormatter
+let format = NumberFormatter()
+//设置numberStyle（有多种格式）
+format.numberStyle = .decimal
+//转换后的string
+let string = format.string(from: NSNumber(value: 1234567.89))
+//打印
+print(string)  //1,234,567.89
 
-<p>举例<br/>
-<img src="media/14672570618572/14672571503878.jpg" alt=""/><br/>
-<img src="media/14672570618572/14672573103735.jpg" alt=""/><br/>
-接下来,<br/>
-<img src="media/14672570618572/14672575411986.jpg" alt=""/><br/>
-<img src="media/14672570618572/14672577757507.jpg" alt=""/></p>
+//显示样式和输出样式
+numberStyle:
+public enum Style : UInt {  
 
-<h2 id="toc_1">第二种方法</h2>
+        case none //1234567.89
 
-<pre><code>#pragma clang diagnostic push
-#pragma clang diagnostic ignored&quot; -Wcompare-distinct-pointer-types&quot;
-    //写在这个中间的代码,都不会被编译器提示-Wcompare-distinct-pointer-types
-#pragma clang diagnostic pop 
+        case decimal //1,234,567.89
+
+        case currency //￥1,234,567.89
+
+        case percent //123,456,789%
+
+        case scientific //1.23456789E6
+
+        case spellOut //一百二十三万四千五百六十七点八九
+
+        @available(iOS 9.0, *)
+        case ordinal //第123,4568
+
+        @available(iOS 9.0, *)
+        case currencyISOCode //CNY1,234,567.89
+
+        @available(iOS 9.0, *)
+        case currencyPlural//1,234,567.89人民币
+
+        @available(iOS 9.0, *)
+        case currencyAccounting//￥1,234,567.89
+    }
+
+//输入123456789分别输出
+// 123456789
+// 123,456,789
+//￥123,456,789.00
+//12345678900%
+//1.23456789E8
+//一亿二千三百四十五万六千七百八十九
+//第1,2345,6789
+//CNY123,456,789.00
+//123,456,789.00人民币
+//￥123,456,789.00
 </code></pre>
-
-<h2 id="toc_2">Xib警告: This file is set to build for a version older than the deployment target. Functionality may be limited.</h2>
-
-<p>类似于这种<br/>
-<img src="media/14672570618572/14672589919425.jpg" alt=""/></p>
-
-<p>双击进入Xib文件<br/>
-<img src="media/14672570618572/14672592962938.jpg" alt=""/><br/>
-OK,这样就没有警告了</p>
-
-<h2 id="toc_3">非源文件参与编译错误</h2>
-
-<p><img src="media/14672570618572/Snip20160630_15.png" alt="Snip20160630_15"/><br/>
-项目中有一个README.md的文件,这个文件主要记录使用第三方的一些情况,默认就参与编译了,我们需要这样做</p>
-
-<p><img src="media/14672570618572/Snip20160630_16.png" alt="Snip20160630_16"/></p>
-
-<p>找到这个文件,然后移除,这样就不会有问题了.<br/>
-参考: <a href="http://stackoverflow.com/questions/6509600/compilation-warning-no-rule-to-process-file-for-architecture-i386">compilation warning: no rule to process file for architecture i386</a></p>
 
 
 </div>
@@ -628,15 +643,13 @@ OK,这样就没有警告了</p>
   <div class="large-6 columns">
 	<div class="text-left" style="padding:15px 0px;">
 		
-	        <a href="14676111126987.html"  title="Previous Post: Coding中检测系统授权状态，关闭提示用户去隐私设置中打开">&laquo; Coding中检测系统授权状态，关闭提示用户去隐私设置中打开</a>
-	    
 	</div>
   </div>
   <div class="large-6 columns">
 	<div class="text-right" style="padding:15px 0px;">
 		
-	        <a href="14676101998537.html" 
-	        title="Next Post: 百度坐标&火星坐标转换">百度坐标&火星坐标转换 &raquo;</a>
+	        <a href="15257017136249.html" 
+	        title="Next Post: 线程需要注意的问题">线程需要注意的问题 &raquo;</a>
 	    
 	</div>
   </div>
@@ -649,7 +662,7 @@ OK,这样就没有警告了</p>
 </div>
 <script type="text/javascript">
 	$(function(){
-		var currentURL = '14676105703423.html';
+		var currentURL = '15271249936113.html';
 		$('#side-nav a').each(function(){
 			if($(this).attr('href') == currentURL){
 				$(this).parent().addClass('active');
