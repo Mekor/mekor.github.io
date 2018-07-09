@@ -221,6 +221,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+          
             <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
           
             <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -490,6 +492,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+                        
                           <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
                         
                           <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -590,7 +594,7 @@
 
 <p>在海底捞Pad版本项目中,点菜和点锅是两种完全不同的东西,但是又都属于点菜类中,所以数据结构比较复杂:</p>
 
-<pre><code>点锅: 大分类 --&gt; 具体的锅底
+<pre><code class="language-text">点锅: 大分类 --&gt; 具体的锅底
 点菜: 大分类 --&gt; 小分类 --&gt; 具体菜品
 </code></pre>
 
@@ -614,7 +618,7 @@
 
 <p>所以我在设计<code>headerView</code>的时候让它在显示数据的时候也要传入当前的<code>index</code>:</p>
 
-<pre><code>    func setName(_ name: String, index: Int) {
+<pre><code class="language-text">    func setName(_ name: String, index: Int) {
         nameLabel.text = name
         self.index = index
     }
@@ -624,7 +628,7 @@
 
 <p>这样我自己记录下传入的<code>index</code>当点击事件的时候再告诉外界具体点击的是哪一个:</p>
 
-<pre><code>    @objc private func labelClick() {
+<pre><code class="language-text">    @objc private func labelClick() {
         delegate?.didSelectedHeader(section : self.index)
     }
 </code></pre>
@@ -637,7 +641,7 @@
 
 <p>接上,左侧显示的大分类与小分类都是统一的了,但是右侧的点菜与点锅是分开的<strong>锅是锅,菜是菜</strong>.怎样区分呢?使用两套数据源,然后随时切换&gt;?? 不行🚫...要求要像淘宝或者京东详情页那样,可以滚动到下一页还可以滚回到上一页...怎么办? 使用两个collection控制器,一个显示点锅数据,一个显示点菜数据.这样做能够尽量减少某一个单独的控制器中存在过多的逻辑代码.那么谁来承载这两个控制器呢?再创建一个控制器然后把这两个放进去? 这样也能实现,就是控制器太多了...我想用的是一个<code>scrollow</code>来包裹这两个控制器,好处是能够控制显示那个控制器,逻辑也比较简单..比如说滚到第一个视图:</p>
 
-<pre><code>        UIView.animate(withDuration: 0.25, delay: 0, options: .layoutSubviews, animations: ({
+<pre><code class="language-text">        UIView.animate(withDuration: 0.25, delay: 0, options: .layoutSubviews, animations: ({
             self.contentView.contentOffset = CGPoint(x: 0, y: 0)
         }), completion: nil)
 </code></pre>
@@ -669,7 +673,7 @@
 
 <p>在<code>scrollViewDidScroll</code>方法中获得当前显示的<code>Item</code>,具体计算方法如下:</p>
 
-<pre><code>    private func minCurrentSection(collectionView:UICollectionView) -&gt; Int {
+<pre><code class="language-text">    private func minCurrentSection(collectionView:UICollectionView) -&gt; Int {
         // 根据屏幕的某一坐标,获取当前的index
         // 将collectionView在控制器屏幕的点转化成collectionView上的坐标
         let topPoint = CGPoint(x: UIScreen.main.bounds.size.width*0.5, y: 64)
@@ -687,7 +691,7 @@
 <p>这样就能够得到当前<code>Item</code>的<code>section</code>,<code>点锅</code>数据就可以直接让row等于0 然后直接回调就OK了,点菜数据还有些差别:<br/>
 点菜需要返回具体的<code>indexPathNow</code>而不是只返回所在<code>section</code>,因为我们需要返回来的<code>index</code>寻找所在的<code>Item</code></p>
 
-<pre><code>guard let cell = collectionView?.cellForItem(at: index) as? OrderDishOrPotCollectionCell else {
+<pre><code class="language-text">guard let cell = collectionView?.cellForItem(at: index) as? OrderDishOrPotCollectionCell else {
             return
         }
         delegate?.orderDishCurrent(position: IndexPath(row:cell.index.row , section: cell.index.section))
@@ -695,7 +699,7 @@
 
 <p>如上,我在<code>cell</code>中存放一个使用元组的属性</p>
 
-<pre><code>    // 记录对应的大分类与小分类
+<pre><code class="language-text">    // 记录对应的大分类与小分类
     var index:(section:Int,row:Int) = (section: 0,row: 0)
 </code></pre>
 

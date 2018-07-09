@@ -221,6 +221,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+          
             <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
           
             <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -490,6 +492,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+                        
                           <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
                         
                           <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -596,22 +600,22 @@
 
 <p>一开始直接创建的UIBarButtonItem，但是不能直接往上面添加想要的效果，因为</p>
 
-<pre><code>NS_CLASS_AVAILABLE_IOS(2_0) @interface UIBarButtonItem : UIBarItem &lt;NSCoding&gt;
+<pre><code class="language-text">NS_CLASS_AVAILABLE_IOS(2_0) @interface UIBarButtonItem : UIBarItem &lt;NSCoding&gt;
 </code></pre>
 
 <p>而且</p>
 
-<pre><code>NS_CLASS_AVAILABLE_IOS(2_0) @interface UIBarItem : NSObject &lt;NSCoding, UIAppearance&gt;
+<pre><code class="language-text">NS_CLASS_AVAILABLE_IOS(2_0) @interface UIBarItem : NSObject &lt;NSCoding, UIAppearance&gt;
 </code></pre>
 
 <p>退而求其次，我们知道UIBarButtonItem有一个属性</p>
 
-<pre><code>@property(nullable, nonatomic,strong)  __kindof UIView     *customView;       // default is nil
+<pre><code class="language-text">@property(nullable, nonatomic,strong)  __kindof UIView     *customView;       // default is nil
 </code></pre>
 
 <p>这说明我们可以使用UIButton来代替UIBarButtonItem，在UIButton上面添加想要的动画效果。</p>
 
-<pre><code>    static CGFloat const kButtonWidth = 43.0f;
+<pre><code class="language-text">    static CGFloat const kButtonWidth = 43.0f;
     static CGFloat const kButtonHeight = 43.0f;
 
     UIImage *cartImage = [[UIImage imageNamed:@&quot;iconfont-cart&quot;]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
@@ -630,7 +634,7 @@
 
 <p>创建Label使用懒加载：</p>
 
-<pre><code>#pragma mark 购物车上面显示的按钮
+<pre><code class="language-text">#pragma mark 购物车上面显示的按钮
 -(UILabel *)numberLabel
 {
     if (!_numberLabel) {

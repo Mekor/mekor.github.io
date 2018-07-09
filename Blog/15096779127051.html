@@ -221,6 +221,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+          
             <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
           
             <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -490,6 +492,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+                        
                           <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
                         
                           <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -590,7 +594,7 @@
 
 <p>核心代码:</p>
 
-<pre><code>//
+<pre><code class="language-text">//
 //  PinterestLayout.swift
 //  Pinterest
 //
@@ -791,7 +795,7 @@ class PinterestLayout: UICollectionViewLayout {
 
 <p>比较有意思的一个计算高度方式:</p>
 
-<pre><code>  // This provides the height of the photos
+<pre><code class="language-text">  // This provides the height of the photos
   
   /* It uses AVMakeRectWithAspectRatioInsideRect() from AVFoundation to calculate a height that retains the photo’s aspect ratio, restricted to the cell’s width.
    */
@@ -810,7 +814,7 @@ class PinterestLayout: UICollectionViewLayout {
 
 <p>图片解压:</p>
 
-<pre><code>extension UIImage {
+<pre><code class="language-text">extension UIImage {
   
   var decompressedImage: UIImage {
     UIGraphicsBeginImageContextWithOptions(size, true, 0)
@@ -825,7 +829,7 @@ class PinterestLayout: UICollectionViewLayout {
 
 <p>一个从前没有用过的Api:</p>
 
-<pre><code>  /* 
+<pre><code class="language-text">  /* 
    This code calls the super implementation to make sure that the standard attributes are applied. Then, it casts the attributes object into an instance of PinterestLayoutAttributes to obtain the photo height and then changes the image view height by setting the imageViewHeightLayoutConstraint constant value.
   */
   

@@ -221,6 +221,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+          
             <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
           
             <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -490,6 +492,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+                        
                           <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
                         
                           <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -594,7 +598,7 @@
 
 <p>在<code>UINavigationController</code>的<code>viewDidLoad</code>方法中:</p>
 
-<pre><code>// 获取系统的手势
+<pre><code class="language-text">// 获取系统的手势
 let gest = self.interactivePopGestureRecognizer!
 // 禁用系统的手势
 interactivePopGestureRecognizer?.isEnabled = false
@@ -614,7 +618,7 @@ view.addGestureRecognizer(pan)
 
 <p>直接上代码:</p>
 
-<pre><code>class BaseNavigationController: UINavigationController {
+<pre><code class="language-text">class BaseNavigationController: UINavigationController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -647,7 +651,7 @@ extension BaseNavigationController:UIGestureRecognizerDelegate {
 
 <p>简单比较一下,第二种更简洁.不过应用了一个小技巧,看代码:</p>
 
-<pre><code>    let pan = UIPanGestureRecognizer(target: self, action: NSSelectorFromString(&quot;handleNavigationTransition:&quot;))
+<pre><code class="language-text">    let pan = UIPanGestureRecognizer(target: self, action: NSSelectorFromString(&quot;handleNavigationTransition:&quot;))
     pan.delegate = self
     view.addGestureRecognizer(pan)
 </code></pre>

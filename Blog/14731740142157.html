@@ -221,6 +221,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+          
             <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
           
             <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -490,6 +492,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+                        
                           <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
                         
                           <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -610,13 +614,11 @@
 
 <ul>
 <li><p>Foundation </p>
-
-<pre><code class="language-objc">[NSRunLoop currentRunLoop]; // 获得当前线程的RunLoop对象
+<pre><code class="language-objectivec">[NSRunLoop currentRunLoop]; // 获得当前线程的RunLoop对象
 [NSRunLoop mainRunLoop]; // 获得主线程的RunLoop对象
 </code></pre></li>
 <li><p>Core Foundation </p>
-
-<pre><code class="language-objc">CFRunLoopGetCurrent(): // 获得当前线程的RunLoop对象
+<pre><code class="language-objectivec">CFRunLoopGetCurrent(): // 获得当前线程的RunLoop对象
 CFRunLoopGetMain(): //获得主线程的RunLoop对象
 </code></pre></li>
 </ul>
@@ -680,7 +682,7 @@ Source1：基于Port的</p>
 
 <h4 id="toc_11">NSTimer:</h4>
 
-<pre><code>- (void)timer2
+<pre><code class="language-text">- (void)timer2
 {
     //NSTimer 调用了scheduledTimer方法，那么会自动添加到当前的runloop里面去，而且runloop的运行模式kCFRunLoopDefaultMode
 
@@ -723,7 +725,7 @@ Source1：基于Port的</p>
 
 <h4 id="toc_12">GCD中的定时器</h4>
 
-<pre><code>//0.创建一个队列
+<pre><code class="language-text">//0.创建一个队列
     dispatch_queue_t queue = dispatch_get_global_queue(0, 0);
 
     //1.创建一个GCD的定时器
@@ -791,7 +793,7 @@ GCD定时器补充
 
 <p>可以监听的时间点有以下几个</p>
 
-<pre><code>/* Run Loop Observer Activities */
+<pre><code class="language-text">/* Run Loop Observer Activities */
 typedef CF_OPTIONS(CFOptionFlags, CFRunLoopActivity) {
     kCFRunLoopEntry = (1UL &lt;&lt; 0),           // 即将进入 Loop
     kCFRunLoopBeforeTimers = (1UL &lt;&lt; 1),    // 即将处理 Timer
@@ -805,7 +807,7 @@ typedef CF_OPTIONS(CFOptionFlags, CFRunLoopActivity) {
 
 <p>如何监听:</p>
 
-<pre><code> //创建一个runloop监听者
+<pre><code class="language-text"> //创建一个runloop监听者
     CFRunLoopObserverRef observer = CFRunLoopObserverCreateWithHandler(CFAllocatorGetDefault(),kCFRunLoopAllActivities, YES, 0, ^(CFRunLoopObserverRef observer, CFRunLoopActivity activity) {
 
         NSLog(@&quot;监听runloop状态改变---%zd&quot;,activity);
@@ -833,7 +835,6 @@ typedef CF_OPTIONS(CFOptionFlags, CFRunLoopActivity) {
 <li>PerformSelector</li>
 <li>常驻线程 在子线程中开启一个runloop</li>
 <li>自动释放池
-
 <ul>
 <li>第一次创建：进入runloop的时候</li>
 <li>最后一次释放：runloop退出的时候</li>
@@ -859,9 +860,9 @@ typedef CF_OPTIONS(CFOptionFlags, CFRunLoopActivity) {
 <li>开启一个常驻线程(让一个子线程不进入消亡状态,等待从其他线程发来的消息,处理各种事件)举例:1&gt;在子线程中开启一个定时器 2&gt; 在子线程中进行一些场景监控</li>
 <li>可以控制定时器在那种模式下运行</li>
 <li>可以让某些事件(行为,任务)在特定模式下执行(performSelector)</li>
-<li>可以添加observer监听runloop的一些状态,比如监听点击事件的处理(在所有点击事件处理之前做一些事情)
-###参考资料:
----
+<li>可以添加observer监听runloop的一些状态,比如监听点击事件的处理(在所有点击事件处理之前做一些事情)<br/>
+###参考资料:<br/>
+---<br/>
 官方文档 <a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/Multithreading/RunLoopManagement/RunLoopManagement.html">Threading Programming Guide</a><br/>
 CFRunLoopRef<a href="http://opensource.apple.com/source/CF/CF-1151.16/">源代码</a></li>
 </ol>

@@ -221,6 +221,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+          
             <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
           
             <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -490,6 +492,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+                        
                           <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
                         
                           <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -584,7 +588,7 @@
 
 <p>日志详细信息:</p>
 
-<pre><code>static void exceptionHandler( NSException * exception )
+<pre><code class="language-text">static void exceptionHandler( NSException * exception )
 {
     NSString *date = [NSString stringWithFormat:@&quot;崩溃日志-%@&quot;, [[NSDate date] description]];
 
@@ -595,12 +599,12 @@
 
 <p>Appdelegate中调用:</p>
 
-<pre><code>NSSetUncaughtExceptionHandler( &amp;exceptionHandler );
+<pre><code class="language-text">NSSetUncaughtExceptionHandler( &amp;exceptionHandler );
 </code></pre>
 
 <p>当然也可以在日志信息中记录堆栈信息:</p>
 
-<pre><code>[exception callStackSymbols]
+<pre><code class="language-text">[exception callStackSymbols]
 </code></pre>
 
 

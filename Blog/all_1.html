@@ -221,6 +221,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+          
             <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
           
             <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -490,6 +492,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+                        
                           <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
                         
                           <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -584,24 +588,21 @@
 
 	
 		<div class="markdown-body">
-		<h1>懒加载的另一种写法</h1>
+		<h1>设置placeholder颜色</h1>
 
-		<p>原先我一直这样写：</p>
+		<p>从前设置颜色可能是这样的：</p>
 
-<pre><code>    private lazy var imageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: &quot;placeholder&quot;))
-        imageView.contentMode = .center
-        return imageView
-    }()
+<pre><code class="language-text">self.textField.setValue(UIColor.white, forKeyPath: &quot;_placeholderLabel.textColor&quot;)
 
 </code></pre>
 
-<p>今天看到了另一种比较简洁的写法</p>
+<p>今天发现，居然有一个属性可以设置：</p>
 
-<pre><code>private lazy var imageView: UIImageView = {
-        $0.contentMode = .center
-        return $0
-    }(UIImageView())
+<pre><code class="language-text">self.textField.attributedPlaceholder =
+            NSAttributedString(string: &quot;自定义金额&quot;,
+                               attributes:
+                [NSAttributedStringKey.foregroundColor: UIColor.white]
+        )
 
 </code></pre>
 

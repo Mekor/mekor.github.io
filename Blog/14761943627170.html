@@ -221,6 +221,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+          
             <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
           
             <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -490,6 +492,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+                        
                           <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
                         
                           <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -597,19 +601,19 @@
 
 <p>Open the file:</p>
 
-<pre><code>Qt_install_folder/5.7/clang_64/mkspecs/features/mac/default_pre.prf
+<pre><code class="language-text">Qt_install_folder/5.7/clang_64/mkspecs/features/mac/default_pre.prf
 </code></pre>
 
 <p><strong>Step 2:</strong></p>
 
 <p>Replace:</p>
 
-<pre><code>isEmpty($$list($$system(&quot;/usr/bin/xcrun -find xcrun 2&gt;/dev/null&quot;)))
+<pre><code class="language-text">isEmpty($$list($$system(&quot;/usr/bin/xcrun -find xcrun 2&gt;/dev/null&quot;)))
 </code></pre>
 
 <p>With:</p>
 
-<pre><code>isEmpty($$list($$system(&quot;/usr/bin/xcrun -find xcodebuild 2&gt;/dev/null&quot;)))
+<pre><code class="language-text">isEmpty($$list($$system(&quot;/usr/bin/xcrun -find xcodebuild 2&gt;/dev/null&quot;)))
 </code></pre>
 
 <p><strong>~&gt; Xcode 8</strong></p>
@@ -620,14 +624,14 @@
 
 <p>Point <code>Xcode-select</code> to the correct Xcode Developer directory with the command:</p>
 
-<pre><code>sudo xcode-select -switch /Applications/Xcode.app/Contents/Developer
+<pre><code class="language-text">sudo xcode-select -switch /Applications/Xcode.app/Contents/Developer
 </code></pre>
 
 <p><strong>Step 2:</strong></p>
 
 <p>Confirm the license agreement with the command:</p>
 
-<pre><code>xcodebuild -license
+<pre><code class="language-text">xcodebuild -license
 </code></pre>
 
 <p>This will prompt you to read through the license agreement.</p>

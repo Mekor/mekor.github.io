@@ -221,6 +221,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+          
             <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
           
             <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -490,6 +492,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+                        
                           <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
                         
                           <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -590,7 +594,7 @@
 
 <p>项目如果没有在github仓库中,先上传到github仓库,然后clone到本地,已经存在就直接clone到本地</p>
 
-<pre><code>// cd 到 想要存放项目的文件夹中执行
+<pre><code class="language-text">// cd 到 想要存放项目的文件夹中执行
 git clone https://github.com/Mekor/MKScanner.git
 </code></pre>
 
@@ -601,7 +605,7 @@ git clone https://github.com/Mekor/MKScanner.git
 
 <p>•   用终端命令cd到本地项目目录并执行如下命令:</p>
 
-<pre><code>$ pod spec create MKScanner
+<pre><code class="language-text">$ pod spec create MKScanner
 </code></pre>
 
 <p>MKScanner替换为自己的项目名称,这时在本地就会生成一个MKScanner.podspec</p>
@@ -609,7 +613,7 @@ git clone https://github.com/Mekor/MKScanner.git
 <p>•   用编辑器打开.podspec文件 (我自己用Sublime Text)<br/>
 删除不必要的注释(这里只简单介绍基本用法，所以只用到一部分必须得字段 更多字段请移步<a href="http://guides.cocoapods.org/syntax/podspec.html">http://guides.cocoapods.org/syntax/podspec.html</a></p>
 
-<pre><code>Pod::Spec.new do |s|
+<pre><code class="language-text">Pod::Spec.new do |s|
 
   s.name                 = &quot;MKScanner&quot;
   s.version              = &quot;0.0.1&quot;
@@ -632,31 +636,31 @@ end
 <p>编辑完podspec文件后需要验证一下这个文件是否可用podspec文件不允许有任何的Warning或者Error<br/>
 执行命令</p>
 
-<pre><code>$ pod lib lint
+<pre><code class="language-text">$ pod lib lint
 </code></pre>
 
 <p>如果出现</p>
 
-<pre><code>-&gt; MKScanner (0.0.1)
+<pre><code class="language-text">-&gt; MKScanner (0.0.1)
 MKScanner passed validation.
 </code></pre>
 
 <p>则说明验证通过， 否则， 根据提示修改podspec文件再次验证直到验证通过<br/>
 附带说一下，Xcode允许警告存在，所以可以通过命令屏蔽警告</p>
 
-<pre><code>$ pod lib lint --allow-warnings
+<pre><code class="language-text">$ pod lib lint --allow-warnings
 </code></pre>
 
 <p>如果出现Error但是提示信息不足，可以添加--verbose 以获取更多错误信息</p>
 
-<pre><code>$ pod lib lint --verbose
+<pre><code class="language-text">$ pod lib lint --verbose
 </code></pre>
 
 <h2 id="toc_2">3. 打tag 上传podspec</h2>
 
 <p>podspec文件中需要指定的tag， 完成上述操作后给项目打tag</p>
 
-<pre><code>$ git tag -m&quot;first release MKScanner with podspec&quot; &quot;0.0.1&quot;
+<pre><code class="language-text">$ git tag -m&quot;first release MKScanner with podspec&quot; &quot;0.0.1&quot;
 $ git push --tags
 
 </code></pre>
@@ -665,14 +669,14 @@ $ git push --tags
 pod trunk 需要注册,参见:<a href="https://guides.cocoapods.org/making/getting-setup-with-trunk.html">https://guides.cocoapods.org/making/getting-setup-with-trunk.html</a><br/>
 其实很简单:</p>
 
-<pre><code>pod trunk register Mekor@live.cn &quot;Mekor&quot;
+<pre><code class="language-text">pod trunk register Mekor@live.cn &quot;Mekor&quot;
 </code></pre>
 
 <p>指明你的邮箱地址（spec文件中的）和名称<br/>
 CocoaPods 会给你填写的邮箱发送验证邮件，点击邮件中的链接就可通过验证。<br/>
 pod trunk 设置完毕后执行命令</p>
 
-<pre><code>$ pod trunk push MKScanner.podspec
+<pre><code class="language-text">$ pod trunk push MKScanner.podspec
 </code></pre>
 
 <p>这个过程可能会比较耗时，原因你懂的</p>
@@ -681,7 +685,7 @@ pod trunk 设置完毕后执行命令</p>
 
 <p>如果一切顺利</p>
 
-<pre><code>pod search MKScanner
+<pre><code class="language-text">pod search MKScanner
 </code></pre>
 
 

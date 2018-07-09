@@ -221,6 +221,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+          
             <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
           
             <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -490,6 +492,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+                        
                           <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
                         
                           <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -584,14 +588,14 @@
 
 <p>项目中如果显示图片比较多,会遇到内存涨的比较厉害,项目中用到 SDWebImage, 所以可以很简单的让内存缓存变稳定:</p>
 
-<pre><code>-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+<pre><code class="language-text">-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
     [[SDImageCache sharedImageCache] clearMemory];
 }
 </code></pre>
 
 <p>原理:</p>
 
-<pre><code>- (void)clearMemory {
+<pre><code class="language-text">- (void)clearMemory {
     [self.memCache removeAllObjects];
 }
 </code></pre>

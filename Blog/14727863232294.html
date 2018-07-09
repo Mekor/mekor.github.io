@@ -221,6 +221,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+          
             <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
           
             <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -490,6 +492,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+                        
                           <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
                         
                           <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -590,7 +594,7 @@
 
 <p>创建一个Person里面有一个类方法:</p>
 
-<pre><code class="language-objc">#import &quot;Person.h&quot;
+<pre><code class="language-objectivec">#import &quot;Person.h&quot;
 
 @implementation Person
 +(void)study {
@@ -601,7 +605,7 @@
 
 <p>Student继承自Person,重写父类方法</p>
 
-<pre><code class="language-objc">#import &quot;Student.h&quot;
+<pre><code class="language-objectivec">#import &quot;Student.h&quot;
 
 @implementation Student
 +(void)study {
@@ -617,7 +621,7 @@
 
 <p>这时,我们在Student中用这样写:</p>
 
-<pre><code class="language-objc">#import &quot;Student.h&quot;
+<pre><code class="language-objectivec">#import &quot;Student.h&quot;
 
 @implementation Student
 +(void)study {
@@ -633,7 +637,7 @@
 
 <p>可以看出:</p>
 
-<pre><code class="language-objc">super：是编译器指示符，仅仅是一个标志,并不是指针，仅仅是标志的当前对象去调用父类的方法，本质还是当前对象调用
+<pre><code class="language-objectivec">super：是编译器指示符，仅仅是一个标志,并不是指针，仅仅是标志的当前对象去调用父类的方法，本质还是当前对象调用
 super:并不是让父类对象调用方法，调用者还是本身
 class：获取方法调用者的类
 superclass:获取方法调用者的父类
@@ -663,7 +667,7 @@ Student中写个text方法,然后打印下这两个隐藏参数.<br/>
 <p>思考一下,咱们new项目中将采用路由模式进行页面跳转,从网页跳转进入app调用一个方法,一般情况下都是移动端和后台协议好的内容,这样跳转不会出现问题.但是如果后台写错了或者传输中出现问题导致url中包含的方法名不是规定的方法名.这时怎么办?</p>
 </blockquote>
 
-<pre><code class="language-objc">    Student *s = [Student new];
+<pre><code class="language-objectivec">    Student *s = [Student new];
     
     // 1. 比如我们要调用 Student中的eat方法, 默认这样写[s eat]; 但是不行,因为我们没有定义.
 //    [s eat];
@@ -698,7 +702,7 @@ Student中写个text方法,然后打印下这两个隐藏参数.<br/>
 
 <h3 id="toc_5">关于IMP(函数指针)</h3>
 
-<pre><code class="language-objc">/// A pointer to the function of a method implementation. 
+<pre><code class="language-objectivec">/// A pointer to the function of a method implementation. 
 #if !OBJC_OLD_DISPATCH_PROTOTYPES
 typedef void (*IMP)(void /* id, SEL, ... */ ); 
 #else
@@ -712,7 +716,7 @@ typedef id (*IMP)(id, SEL, ...);
 
 <p>一般使用方法交换都是想给系统提供的方法添加一些其他的功能的时候使用.new中使用方法交换的例子:</p>
 
-<pre><code class="language-objc">#import &quot;UIActionSheet+Front.h&quot;
+<pre><code class="language-objectivec">#import &quot;UIActionSheet+Front.h&quot;
 
 #import &lt;objc/runtime.h&gt;
 
@@ -740,7 +744,7 @@ void swizzleAllActionSheet(){
 
 <p>关于方法交换,在new项目中已经封装好了,代码如下:</p>
 
-<pre><code class="language-objc">// ObjcRuntime.h文件
+<pre><code class="language-objectivec">// ObjcRuntime.h文件
 void Swizzle(Class c, SEL origSEL, SEL newSEL);
 
 //ObjcRuntime.m文件
@@ -777,7 +781,7 @@ void Swizzle(Class c, SEL origSEL, SEL newSEL)
 <p>用法(还是以Student为例):<br/>
 Student中添加两个对象方法,一个run,一个sleep.我们的目的是交换两个方法的实现</p>
 
-<pre><code class="language-objc">-(void)run {
+<pre><code class="language-objectivec">-(void)run {
     NSLog(@&quot;跑🏃&quot;);
 }
 -(void)sleep {
@@ -795,7 +799,7 @@ Student中添加两个对象方法,一个run,一个sleep.我们的目的是交�
 
 <p>动态添加属性用的最多的地方应该是给分类添加属性.  <del>我在项目中添加过一个分类<code>UIView+Tap</code>这个也可以在这里查看<a href="https://github.com/Mekor/UIView-Tap">UIView-Tap</a></del>  我把一些扩展进行了总结,还不完善,地址<a href="https://github.com/Mekor/MKExtension">MKExtension</a></p>
 
-<pre><code class="language-objc">#import &quot;UIView+Tap.h&quot;
+<pre><code class="language-objectivec">#import &quot;UIView+Tap.h&quot;
 #import &lt;objc/runtime.h&gt;
 
 static const void* tagValue = &amp;tagValue;
@@ -839,7 +843,7 @@ static const void* tagValue = &amp;tagValue;
 <li>字典转模型: 可以参看<code>MJExtension</code> 它的核心代码在:<code>NSObject+MJProperty.m</code>第150行开始</li>
 </ol>
 
-<pre><code class="language-objc">#pragma mark - 公共方法
+<pre><code class="language-objectivec">#pragma mark - 公共方法
 + (NSMutableArray *)properties
 {
     NSMutableArray *cachedProperties = [self dictForKey:&amp;MJCachedPropertiesKey][NSStringFromClass(self)];
@@ -876,7 +880,7 @@ static const void* tagValue = &amp;tagValue;
 
 <p>自定义字典转模型中log的输出可以参见Xcode插件<code>ESJsonFormat</code>中<code>ESJsonFormatManager.m</code>第47行:</p>
 
-<pre><code class="language-objc">/**
+<pre><code class="language-objectivec">/**
  *  格式化OC属性字符串
  *
  *  @param key       JSON里面key字段

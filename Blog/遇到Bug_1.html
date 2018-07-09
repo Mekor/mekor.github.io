@@ -221,6 +221,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+          
             <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
           
             <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -490,6 +492,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+                        
                           <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
                         
                           <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -588,13 +592,13 @@
 
 		<p>错误信息:</p>
 
-<pre><code>Error Domain=NSCocoaErrorDomain Code=3840 &quot;The operation couldn’t be completed. (Cocoa error 3840.)&quot; (Unescaped control character around character 135.) UserInfo=0x170e79d00 {NSDebugDescription=Unescaped control character around character 135.}
+<pre><code class="language-text">Error Domain=NSCocoaErrorDomain Code=3840 &quot;The operation couldn’t be completed. (Cocoa error 3840.)&quot; (Unescaped control character around character 135.) UserInfo=0x170e79d00 {NSDebugDescription=Unescaped control character around character 135.}
 </code></pre>
 
 <p><strong>如何处理</strong><br/>
 最关键的地方:</p>
 
-<pre><code>-(NSString *)removeUnescapedCharacter:(NSString *)inputStr
+<pre><code class="language-text">-(NSString *)removeUnescapedCharacter:(NSString *)inputStr
 {
     NSCharacterSet *controlChars = [NSCharacterSet controlCharacterSet];//获取那些特殊字符
     NSRange range = [inputStr rangeOfCharacterFromSet:controlChars];//寻找字符串中有没有这些特殊字符
@@ -614,7 +618,7 @@
 
 <p>举例:</p>
 
-<pre><code>    NSString *responseString = [NSMutableString stringWithString:[request responseString]];
+<pre><code class="language-text">    NSString *responseString = [NSMutableString stringWithString:[request responseString]];
     responseString =[self removeUnescapedCharacter:responseString];
     NSData *jsonData = [responseString dataUsingEncoding:NSUTF8StringEncoding];
     NSError *error;

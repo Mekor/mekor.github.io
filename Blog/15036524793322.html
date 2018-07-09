@@ -221,6 +221,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+          
             <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
           
             <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -490,6 +492,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+                        
                           <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
                         
                           <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -649,7 +653,7 @@
 
 <p>Here is the code to make the path in the image above.</p>
 
-<pre><code>func createBezierPath() -&gt; UIBezierPath {
+<pre><code class="language-text">func createBezierPath() -&gt; UIBezierPath {
 
     // create a new path
     let path = UIBezierPath()
@@ -729,7 +733,7 @@
 
 <p>Our custom class looks like this. We add our Bezier path to a new <code>CAShapeLayer</code> when the view is initialized.</p>
 
-<pre><code>import UIKit
+<pre><code class="language-text">import UIKit
 class MyCustomView: UIView {
 
     override init(frame: CGRect) {
@@ -770,7 +774,7 @@ class MyCustomView: UIView {
 
 <p>And creating our view in the View Controller like this</p>
 
-<pre><code>override func viewDidLoad() {
+<pre><code class="language-text">override func viewDidLoad() {
     super.viewDidLoad()
 
     // create a new UIView and add it to the view controller
@@ -788,7 +792,7 @@ class MyCustomView: UIView {
 
 <p>Hmm, that&#39;s a little small because I hardcoded all the numbers in. I can scale the path size up, though, like this:</p>
 
-<pre><code>let path = createBezierPath()
+<pre><code class="language-text">let path = createBezierPath()
 let scale = CGAffineTransformMakeScale(2, 2)
 path.applyTransform(scale)
 shapeLayer.path = path.CGPath
@@ -802,7 +806,7 @@ shapeLayer.path = path.CGPath
 
 <p>Here is the revised code for our custom view:</p>
 
-<pre><code>import UIKit
+<pre><code class="language-text">import UIKit
 class MyCustomView: UIView {
 
     override func drawRect(rect: CGRect) {
@@ -865,7 +869,7 @@ class MyCustomView: UIView {
 
 <p><a href="media/15036524793322/O8qTg.png"><img src="media/15036524793322/O8qTg.png" alt="enter image description here"/></a></p>
 
-<pre><code> UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRoundedRect: CGRectMake(x,y,width,height) cornerRadius: 11];
+<pre><code class="language-text"> UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRoundedRect: CGRectMake(x,y,width,height) cornerRadius: 11];
 [UIColor.grayColor setFill];
 [rectanglePath fill];
 </code></pre>
@@ -874,7 +878,7 @@ class MyCustomView: UIView {
 
 <p><a href="media/15036524793322/OEOJa.png"><img src="media/15036524793322/OEOJa.png" alt="enter image description here"/></a></p>
 
-<pre><code> UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRoundedRect: CGRectMake(x,y,width,height) byRoundingCorners: UIRectCornerTopLeft cornerRadii: CGSizeMake(11, 11)];
+<pre><code class="language-text"> UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRoundedRect: CGRectMake(x,y,width,height) byRoundingCorners: UIRectCornerTopLeft cornerRadii: CGSizeMake(11, 11)];
 [rectanglePath closePath];
 [UIColor.grayColor setFill];
 [rectanglePath fill];
@@ -884,7 +888,7 @@ class MyCustomView: UIView {
 
 <p><a href="media/15036524793322/1xhp8.png"><img src="media/15036524793322/1xhp8.png" alt="enter image description here"/></a></p>
 
-<pre><code>UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRoundedRect: CGRectMake(x,y,width,height) byRoundingCorners: UIRectCornerTopRight cornerRadii: CGSizeMake(11, 11)];
+<pre><code class="language-text">UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRoundedRect: CGRectMake(x,y,width,height) byRoundingCorners: UIRectCornerTopRight cornerRadii: CGSizeMake(11, 11)];
 [rectanglePath closePath];
 [UIColor.grayColor setFill];
 [rectanglePath fill];
@@ -894,7 +898,7 @@ class MyCustomView: UIView {
 
 <p><a href="media/15036524793322/yqd87.png"><img src="media/15036524793322/yqd87.png" alt="enter image description here"/></a></p>
 
-<pre><code>UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRoundedRect: CGRectMake(x,y,width,height) byRoundingCorners: UIRectCornerBottomLeft cornerRadii: CGSizeMake(11, 11)];
+<pre><code class="language-text">UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRoundedRect: CGRectMake(x,y,width,height) byRoundingCorners: UIRectCornerBottomLeft cornerRadii: CGSizeMake(11, 11)];
 [rectanglePath closePath];
 [UIColor.grayColor setFill];
 [rectanglePath fill];
@@ -904,7 +908,7 @@ class MyCustomView: UIView {
 
 <p><a href="media/15036524793322/AIgP0.png"><img src="media/15036524793322/AIgP0.png" alt="enter image description here"/></a></p>
 
-<pre><code> UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRoundedRect: CGRectMake(x,y,width,height) byRoundingCorners: UIRectCornerBottomRight cornerRadii: CGSizeMake(11, 11)];
+<pre><code class="language-text"> UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRoundedRect: CGRectMake(x,y,width,height) byRoundingCorners: UIRectCornerBottomRight cornerRadii: CGSizeMake(11, 11)];
 [rectanglePath closePath];
 [UIColor.grayColor setFill];
 [rectanglePath fill];
@@ -914,7 +918,7 @@ class MyCustomView: UIView {
 
 <p><a href="media/15036524793322/4BrrS.png"><img src="media/15036524793322/4BrrS.png" alt="enter image description here"/></a></p>
 
-<pre><code>UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRoundedRect: CGRectMake(x,y,width,height) byRoundingCorners: UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii: CGSizeMake(11, 11)];
+<pre><code class="language-text">UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRoundedRect: CGRectMake(x,y,width,height) byRoundingCorners: UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii: CGSizeMake(11, 11)];
 [rectanglePath closePath];
 [UIColor.grayColor setFill];
 [rectanglePath fill];
@@ -924,7 +928,7 @@ class MyCustomView: UIView {
 
 <p><a href="media/15036524793322/lecWo.png"><img src="media/15036524793322/lecWo.png" alt="enter image description here"/></a></p>
 
-<pre><code>UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRoundedRect: CGRectMake(x,y,width,height) byRoundingCorners: UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii: CGSizeMake(11, 11)];
+<pre><code class="language-text">UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRoundedRect: CGRectMake(x,y,width,height) byRoundingCorners: UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii: CGSizeMake(11, 11)];
 [rectanglePath closePath];
 [UIColor.grayColor setFill];
 [rectanglePath fill];
@@ -938,7 +942,7 @@ class MyCustomView: UIView {
 
 <p><a href="media/15036524793322/imDTW.png"><img src="media/15036524793322/imDTW.png" alt="enter image description here"/></a></p>
 
-<pre><code> UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRect: CGRectMake(x,y,width,height)];
+<pre><code class="language-text"> UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRect: CGRectMake(x,y,width,height)];
  [UIColor.grayColor setFill];
  [rectanglePath fill];
 </code></pre>
@@ -947,7 +951,7 @@ class MyCustomView: UIView {
 
 <p><a href="media/15036524793322/mqiIV.png"><img src="media/15036524793322/mqiIV.png" alt="enter image description here"/></a></p>
 
-<pre><code>CGContextRef context = UIGraphicsGetCurrentContext();
+<pre><code class="language-text">CGContextRef context = UIGraphicsGetCurrentContext();
 
 NSShadow* shadow = [[NSShadow alloc] init];
 [shadow setShadowColor: UIColor.blackColor];
@@ -966,7 +970,7 @@ CGContextRestoreGState(context);
 
 <p><a href="media/15036524793322/C1rZk.png"><img src="media/15036524793322/C1rZk.png" alt="enter image description here"/></a></p>
 
-<pre><code>CGContextRef context = UIGraphicsGetCurrentContext();
+<pre><code class="language-text">CGContextRef context = UIGraphicsGetCurrentContext();
 
 NSShadow* shadow = [[NSShadow alloc] init];
 [shadow setShadowColor: UIColor.blackColor];
@@ -1004,14 +1008,14 @@ CGContextRestoreGState(context);
 
 <p><a href="media/15036524793322/ymoay.png"><img src="media/15036524793322/ymoay.png" alt="enter image description here"/></a></p>
 
-<pre><code>UIBezierPath* ovalPath = [UIBezierPath bezierPathWithOvalInRect: CGRectMake(0,0,50,50)];
+<pre><code class="language-text">UIBezierPath* ovalPath = [UIBezierPath bezierPathWithOvalInRect: CGRectMake(0,0,50,50)];
 [UIColor.grayColor setFill];
 [ovalPath fill];
 </code></pre>
 
 <p>Swift:</p>
 
-<pre><code>let ovalPath = UIBezierPath(ovalInRect: CGRect(x: 0, y: 0, width: 50, height: 50))
+<pre><code class="language-text">let ovalPath = UIBezierPath(ovalInRect: CGRect(x: 0, y: 0, width: 50, height: 50))
 UIColor.grayColor().setFill()
 ovalPath.fill()
 </code></pre>
@@ -1020,14 +1024,14 @@ ovalPath.fill()
 
 <p><a href="media/15036524793322/C1GFH.png"><img src="media/15036524793322/C1GFH.png" alt="enter image description here"/></a></p>
 
-<pre><code>UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRect: CGRectMake(0,0,50,50)];
+<pre><code class="language-text">UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRect: CGRectMake(0,0,50,50)];
 [UIColor.grayColor setFill];
 [rectanglePath fill];
 </code></pre>
 
 <p>Swift:</p>
 
-<pre><code>let rectanglePath = UIBezierPath(rect: CGRect(x: 0, y: 0, width: 50, height: 50))
+<pre><code class="language-text">let rectanglePath = UIBezierPath(rect: CGRect(x: 0, y: 0, width: 50, height: 50))
 UIColor.grayColor().setFill()
 rectanglePath.fill()
 </code></pre>
@@ -1036,7 +1040,7 @@ rectanglePath.fill()
 
 <p><a href="media/15036524793322/KIAOK.png"><img src="media/15036524793322/KIAOK.png" alt="enter image description here"/></a></p>
 
-<pre><code>UIBezierPath* bezierPath = [UIBezierPath bezierPath];
+<pre><code class="language-text">UIBezierPath* bezierPath = [UIBezierPath bezierPath];
 [bezierPath moveToPoint: CGPointMake(x1,y1)];
 [bezierPath addLineToPoint: CGPointMake(x2,y2)];
 [UIColor.blackColor setStroke];
@@ -1046,7 +1050,7 @@ bezierPath.lineWidth = 1;
 
 <p>Swift:</p>
 
-<pre><code>let bezierPath = UIBezierPath()
+<pre><code class="language-text">let bezierPath = UIBezierPath()
 bezierPath.moveToPoint(CGPoint(x: x1, y: y1))
 bezierPath.addLineToPoint(CGPoint(x: x2, y: y2))
 UIColor.blackColor().setStroke()
@@ -1058,7 +1062,7 @@ bezierPath.stroke()
 
 <p><a href="media/15036524793322/3Nywj.png"><img src="media/15036524793322/3Nywj.png" alt="enter image description here"/></a></p>
 
-<pre><code> CGRect ovalRect = CGRectMake(x,y,width,height);
+<pre><code class="language-text"> CGRect ovalRect = CGRectMake(x,y,width,height);
 UIBezierPath* ovalPath = [UIBezierPath bezierPath];
 [ovalPath addArcWithCenter: CGPointMake(0, 0) radius: CGRectGetWidth(ovalRect) / 2 startAngle: 180 * M_PI/180 endAngle: 0 * M_PI/180 clockwise: YES];
 [ovalPath addLineToPoint: CGPointMake(0, 0)];
@@ -1074,7 +1078,7 @@ ovalTransform = CGAffineTransformScale(ovalTransform, 1, CGRectGetHeight(ovalRec
 
 <p>Swift:</p>
 
-<pre><code>let ovalRect = CGRect(x: 0, y: 0, width: 50, height: 50)
+<pre><code class="language-text">let ovalRect = CGRect(x: 0, y: 0, width: 50, height: 50)
 let ovalPath = UIBezierPath()
 ovalPath.addArcWithCenter(CGPoint.zero, radius: ovalRect.width / 2, startAngle: 180 * CGFloat(M_PI)/180, endAngle: 0 * CGFloat(M_PI)/180, clockwise: true)
 ovalPath.addLineToPoint(CGPoint.zero)
@@ -1092,7 +1096,7 @@ ovalPath.fill()
 
 <p><a href="media/15036524793322/5r6IE.png"><img src="media/15036524793322/5r6IE.png" alt="enter image description here"/></a></p>
 
-<pre><code>UIBezierPath* polygonPath = [UIBezierPath bezierPath];
+<pre><code class="language-text">UIBezierPath* polygonPath = [UIBezierPath bezierPath];
 [polygonPath moveToPoint: CGPointMake(x1, y1)];
 [polygonPath addLineToPoint: CGPointMake(x2, y2)];
 [polygonPath addLineToPoint: CGPointMake(x3, y2)];
@@ -1103,7 +1107,7 @@ ovalPath.fill()
 
 <p>Swift:</p>
 
-<pre><code>let polygonPath = UIBezierPath()
+<pre><code class="language-text">let polygonPath = UIBezierPath()
 polygonPath.moveToPoint(CGPoint(x: x1, y: y1))
 polygonPath.addLineToPoint(CGPoint(x: x2, y: y2))
 polygonPath.addLineToPoint(CGPoint(x: x3, y: y3))
@@ -1121,7 +1125,7 @@ polygonPath.fill()
 <img src="media/15036524793322/oh0DL.png" alt="pie view"/></li>
 </ul>
 
-<pre><code>- (void)drawRect:(CGRect)rect {
+<pre><code class="language-text">- (void)drawRect:(CGRect)rect {
 
     NSArray *data = @[@30, @15, @5, @17, @3, @10, @20];
 
@@ -1192,7 +1196,7 @@ override func draw(_ rect: CGRect) {
 <img src="media/15036524793322/ayD5Y.png" alt="column view"/></li>
 </ul>
 
-<pre><code>- (void)drawRect:(CGRect)rect {
+<pre><code class="language-text">- (void)drawRect:(CGRect)rect {
 
     NSArray *data = @[@300, @150.65, @55.3, @507.7, @95.8, @700, @650.65];
 
@@ -1238,7 +1242,7 @@ override func draw(_ rect: CGRect) {
 
 <p>For bezier path to get resized based on the view frame, override the drawRect of view that you are drawing the bezier path :</p>
 
-<pre><code>- (void)drawRect:(CGRect)frame
+<pre><code class="language-text">- (void)drawRect:(CGRect)frame
 {
     UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRect: CGRectMake(CGRectGetMinX(frame), CGRectGetMinY(frame), CGRectGetWidth(frame), CGRectGetHeight(frame))];
     [UIColor.grayColor setFill];

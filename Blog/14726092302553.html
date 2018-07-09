@@ -221,6 +221,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+          
             <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
           
             <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -490,6 +492,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+                        
                           <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
                         
                           <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -590,7 +594,7 @@
 
 <ul>
 <li>1.KVO是基于runtime机制实现的</li>
-<li>2.当某个类的对象第一次被观察时，系统就会在运行期动态地创建该类的一个派生类，在这个派生类中重写基类中任何被观察属性的setter方法。
+<li>2.当某个类的对象第一次被观察时，系统就会在运行期动态地创建该类的一个派生类，在这个派生类中重写基类中任何被观察属性的setter方法。<br/>
 派生类在被重写的setter方法实现真正的通知机制（Person-&gt;NSKVONotifying_Person）</li>
 </ul>
 
@@ -637,8 +641,8 @@
 
 <ul>
 <li>runtime是一套比较低层的纯C语言API，属于1个C语言库，包含许多C底层的C语言的API</li>
-<li>平时编写的OC代码，在程序 运行过程中，其实最终都转换成了runtime的C语言代码，runtime算是OC的幕后工作者
-举例：
+<li>平时编写的OC代码，在程序 运行过程中，其实最终都转换成了runtime的C语言代码，runtime算是OC的幕后工作者<br/>
+举例：<br/>
 OC:
 <code>[MJPerson alloc]init];</code>
 runtime：
@@ -649,7 +653,6 @@ runtime：
 
 <ul>
 <li>1.runtime是属于OC底层，可以进行 一些非常的操作（OC无法实现的，不容易实现的）
-
 <ul>
 <li>在程序运行过程中，动态创建一个类（比如KVO底层实现）</li>
 <li>在程序运行过程中，动态地为某个类 添加属性、方法，修改属性值、方法</li>
@@ -661,10 +664,8 @@ runtime：
 
 <ul>
 <li><p>1.头文件</p>
-
 <p>调用底层的消息发送方法</p></li>
 <li><p>2.相关应用</p>
-
 <ul>
 <li>NSCoding（归档和解档，利用runtime遍历模型对象的所有属性）</li>
 <li>字典 -&gt;模型 （利用runtime遍历模型对象的所有属性，根据属性名从字典中取出对应的值，设置到模型的属性上）</li>
@@ -672,7 +673,6 @@ runtime：
 <li>用于封装框架（想怎么改，就怎么改）</li>
 </ul></li>
 <li><p>3.相关函数</p>
-
 <ul>
 <li>objc_msgSend ： 给对象发送消息</li>
 <li>class_copyMethodList ： 遍历某个所有方法</li>
@@ -685,7 +685,7 @@ runtime：
 
 <h6 id="toc_11">例：利用Runtime归档和解档</h6>
 
-<pre><code>//  MJPerson.m
+<pre><code class="language-text">//  MJPerson.m
 //  runtime进行归档和解档
 //
 //  Created by Zhanbo on 16/7/7.
@@ -765,25 +765,20 @@ runtime：
 <ul>
 <li>1.Foundation对象是OC的，Core Foundation对象是C对象</li>
 <li><p>2.数据类型之间的转换(桥接)</p>
-
 <ul>
-<li><p>ARC：bridge_retained、 <u>bridge</u>transfer</p>
-
-<pre><code>CFArrayRef array3 = CFArrayCreate(NULL, NULL, 10, NULL);
-
-//Foundetion -&gt; Core Fountdation
-(__bridge_retained )
-
-//Core Fountdation -&gt; Foundetion
-(__bridge_transfer )
+<li><p>ARC：bridge_retained、 _bridge_transfer</p>
+<pre><code class="language-text">CFArrayRef array3 = CFArrayCreate(NULL, NULL, 10, NULL);
+//Foundetion -&gt; Core Fountdation<br/>
+(__bridge_retained )<br/>
+//Core Fountdation -&gt; Foundetion<br/>
+(__bridge_transfer )<br/>
 NSArray *array4 = (__bridge_transfer NSArray *)array3);
 </code></pre></li>
 <li><p>MRC: _bridge</p>
-
-<pre><code>Foundation -&gt; Core Foundation
-NSArray *array1 = [NSArray array];
-CFArrayRef array2 = (__bridge CFArrayRef)array1;
-//记得释放内存
+<pre><code class="language-text">Foundation -&gt; Core Foundation
+NSArray *array1 = [NSArray array];<br/>
+CFArrayRef array2 = (__bridge CFArrayRef)array1;<br/>
+//记得释放内存<br/>
 [array1 release];
 </code></pre></li>
 </ul></li>
@@ -792,8 +787,8 @@ CFArrayRef array2 = (__bridge CFArrayRef)array1;
 <h4 id="toc_14">6、不用中间变量，用两种方法交换A和B的值</h4>
 
 <ul>
-<li>1. A = A + B
-    B = A - B
+<li>1. A = A + B<br/>
+    B = A - B<br/>
     A = A- B</li>
 <li>2.使用位运算<sup>能交换两个变量的值</sup></li>
 </ul>
@@ -808,8 +803,7 @@ CFArrayRef array2 = (__bridge CFArrayRef)array1;
 
 <ul>
 <li><p>1.父类指针指向子类对象</p>
-
-<pre><code>NSObject *obj = [NSArray array];
+<pre><code class="language-text">NSObject *obj = [NSArray array];
 </code></pre></li>
 </ul>
 
@@ -824,15 +818,13 @@ CFArrayRef array2 = (__bridge CFArrayRef)array1;
 
 <ul>
 <li><p>1.通过NSAttributedString类</p>
-
-<pre><code>  //1种写法，也可以用字典
-NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:@&quot;哈哈哈啦啦啦哇哇哇&quot;];
-  //设置文字颜色
-  [str addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0, 3)];
-  [str addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:NSMakeRange(6, 3)];
-  //设置字体
-  [str addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:30] range:NSMakeRange(3, 3)];
-
+<pre><code class="language-text">  //1种写法，也可以用字典
+NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:@&quot;哈哈哈啦啦啦哇哇哇&quot;];<br/>
+  //设置文字颜色<br/>
+  [str addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0, 3)];<br/>
+  [str addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:NSMakeRange(6, 3)];<br/>
+  //设置字体<br/>
+  [str addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:30] range:NSMakeRange(3, 3)];<br/>
   _label.attributedText = str;
 </code></pre></li>
 </ul>
@@ -864,12 +856,10 @@ NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithStrin
 
 <ul>
 <li>1.默认情况下，block的内存是在栈中
-
 <ul>
 <li>它不会对所引用的对象进行任何操作</li>
 </ul></li>
 <li>2.如果对block做一次copy操作，block的内存就会在堆中
-
 <ul>
 <li>它会对所引用的对象做一次retain操作</li>
 <li>ARC ：如果所引用的对象用了<strong>__unsafe_unretained</strong>或者<strong>__weak</strong>修饰，就不会做retain操作</li>
@@ -877,7 +867,7 @@ NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithStrin
 </ul></li>
 </ul>
 
-<pre><code>- (void)dealloc {
+<pre><code class="language-text">- (void)dealloc {
     //MRC记得在dealloc释放blcok，[super dealloc];要写最后
     Block_release(_block);
     [super dealloc];
@@ -890,7 +880,7 @@ NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithStrin
 assign相当于ARC中weak<br/>
 2.只要声明对象属性就要写retain</p>
 
-<pre><code>@property (nonatomic, retain)NSArray *array; +1(计数器 = 1)
+<pre><code class="language-text">@property (nonatomic, retain)NSArray *array; +1(计数器 = 1)
 </code></pre>
 
 <p>3.声明控件、协议用assgin</p>
@@ -903,7 +893,7 @@ assign相当于ARC中weak<br/>
 <li>原则：有+ 就有-</li>
 </ul>
 
-<pre><code>self.array = [NSArray alloc]init]autorelease];
+<pre><code class="language-text">self.array = [NSArray alloc]init]autorelease];
 alloc后 +1(计数器 = 2)； autorelease后 -1(计数器 = 1)
 //或者这样写，就不需要写autorelease，系统内部自动写好
 self.array = [NSArray array];
@@ -913,7 +903,7 @@ self.array = [NSArray array];
 <li>最后要在dealloc释放内存</li>
 </ul>
 
-<pre><code>//当控制器将被释放的时候对调用
+<pre><code class="language-text">//当控制器将被释放的时候对调用
 - (void)dealloc {
 //最好这样写
 self.array = nil;
@@ -928,7 +918,7 @@ self.array = [array release];
 
 <p>如果是iOS版本在5.0之前要在3个地方释放内存</p>
 
-<pre><code>//控制器的View被卸载，会调用
+<pre><code class="language-text">//控制器的View被卸载，会调用
 - (void)viewDidUnload {
 
     [super viewDidUnload];
@@ -952,7 +942,7 @@ self.array = [array release];
 
 <h4 id="toc_23">15、多线程如何进行线之间通讯？</h4>
 
-<pre><code>//在主线程执行某个方法，传参（该方法用于子线程对主线程进行通讯）
+<pre><code class="language-text">//在主线程执行某个方法，传参（该方法用于子线程对主线程进行通讯）
 [self performSelectorOnMainThread: withObject: waitUntilDone:]
 
 //指定线程，调用方法，传参
@@ -968,7 +958,7 @@ dispatch_async(, )
 <li>1.第一种方法添加依赖</li>
 </ul>
 
-<pre><code>//创建列队
+<pre><code class="language-text">//创建列队
 NSOperationQueue *queue = [NSOperationQueue alloc]init];
 //创建3个操作
 NSOperation *a = [NSBlockOperation blockOperationWithBlock:^{
@@ -997,7 +987,7 @@ NSOperation *b = [NSBlockOperation blockOperationWithBlock:^{
 <li>2.第二种方法 可 以设置优先级</li>
 </ul>
 
-<pre><code>- (NSOperationQueuePriority)queuePriority;
+<pre><code class="language-text">- (NSOperationQueuePriority)queuePriority;
 </code></pre>
 
 <h4 id="toc_25">17、GCD内部怎么实现的</h4>
@@ -1006,7 +996,6 @@ NSOperation *b = [NSBlockOperation blockOperationWithBlock:^{
 <li>1.iSO和OS X的核心是XNU内核，GCD是基于XNU内核实现的</li>
 <li>2.GCD的API全部在libdispatch库中</li>
 <li>3.GCD的底层实现主要有Dispatch Queue和 Dispatch Source
-
 <ul>
 <li>Disatch Queue ：管理block（操作，block里的代码块，根据类型在哪个线程执行）</li>
 <li>Disatch Source ： 处理事件（底层实现，处理线程之间的事件，如主线程会到什么线程，异步线程回到什么线程）</li>
@@ -1022,7 +1011,6 @@ NSOperation *b = [NSBlockOperation blockOperationWithBlock:^{
 <li>4.NSOperationQueue支持KVO，可以监听operation是否正在执行（isExecuted）、是否结束（isFinished），是否取消（isCanceld）；系统内部已经做好的KVO</li>
 <li>5.GCD的执行速度比NSOperationQueue快</li>
 <li>什么时候，用哪个
-
 <ul>
 <li>1.任务之间有依赖/或者要监听任务的执行情况：NSOperatinQueue（任务需要时刻监听；任务严格需要按顺序执行）</li>
 <li>2.任务之间不太相互依赖就用：CGD</li>
@@ -1034,11 +1022,9 @@ NSOperation *b = [NSBlockOperation blockOperationWithBlock:^{
 <ul>
 <li>1.GCD的注意18题已有说明</li>
 <li>2.Block的使用注意
-
 <ul>
 <li>1.block的内存管理(13题已有说明)</li>
 <li>2.防止循环retain
-
 <ul>
 <li>ARC：<strong>weak/</strong>unsafe_unretained</li>
 <li>MRC: __block 0</li>
@@ -1051,11 +1037,11 @@ NSOperation *b = [NSBlockOperation blockOperationWithBlock:^{
 <p>编写SQL语句来操作原来表中的字段</p>
 
 <ul>
-<li>1.增加表字段
+<li>1.增加表字段<br/>
 ALTER TABLE 表名 DROP COLUMN 字段名 字段类型</li>
-<li>2.删除表字段
+<li>2.删除表字段<br/>
 ALTER TABLE 表名 DROP COLUMN 字段名</li>
-<li>3.修改表字段
+<li>3.修改表字段<br/>
 ALTER TABLE 表名 RENAME COLUMN 旧字段名 TO 新字段名</li>
 </ul>
 
@@ -1064,7 +1050,6 @@ ALTER TABLE 表名 RENAME COLUMN 旧字段名 TO 新字段名</li>
 <ul>
 <li>1.缓存可以分为：内存数据缓存、数据库缓存、文件缓存</li>
 <li>2.每次想获取数据的时候
-
 <ul>
 <li>先检测内存中有无缓存</li>
 <li>在检测本地有无缓存（数据库/文件）</li>
@@ -1094,7 +1079,7 @@ ALTER TABLE 表名 RENAME COLUMN 旧字段名 TO 新字段名</li>
 
 <ul>
 <li>1.如果在异步线程发的通知，那么可以执行比较耗时的操作</li>
-<li>2.如果在主线程发的通知，那么就不可以执行比较耗时的操作
+<li>2.如果在主线程发的通知，那么就不可以执行比较耗时的操作<br/>
 补充：NSNotificationCenter默认是主线程的，但是在异步线程发通知，那么NSNotificationCenter就会变成异步线程</li>
 </ul>
 
@@ -1112,7 +1097,7 @@ ALTER TABLE 表名 RENAME COLUMN 旧字段名 TO 新字段名</li>
 <li>1.设置数据库锁定的处理函数</li>
 </ul>
 
-<pre><code>当数据库被锁时，会调用该方法
+<pre><code class="language-text">当数据库被锁时，会调用该方法
 //参数1传入数据库，
 //参数2传入函数名(在该函数中做操作)
 int sqlite3_busy_handler(sqlite3*, test);
@@ -1120,8 +1105,7 @@ int sqlite3_busy_handler(sqlite3*, test);
 
 <ul>
 <li><p>2.设置锁定时的等待时间</p>
-
-<pre><code>int sqlite3_busy_timeout(sqlite3*, int ms);
+<pre><code class="language-text">int sqlite3_busy_timeout(sqlite3*, int ms);
 </code></pre></li>
 </ul>
 

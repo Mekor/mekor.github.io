@@ -221,6 +221,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+          
             <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
           
             <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -490,6 +492,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+                        
                           <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
                         
                           <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -594,7 +598,7 @@
 <li>使用终端安装</li>
 </ul>
 
-<pre><code>$brew update
+<pre><code class="language-text">$brew update
 $brew install carthage
 </code></pre>
 
@@ -604,7 +608,7 @@ $brew install carthage
 
 <p>安装好Carthage后，查看Carthage当前版本</p>
 
-<pre><code>$brew carthage version
+<pre><code class="language-text">$brew carthage version
 </code></pre>
 
 <h2 id="toc_1">使用Carthage</h2>
@@ -613,7 +617,7 @@ $brew install carthage
 <li>在项目所在文件夹中创建一个空的Carthage文件</li>
 </ul>
 
-<pre><code>$touch Cartfile  
+<pre><code class="language-text">$touch Cartfile  
 $vi Cartfile
 </code></pre>
 
@@ -625,7 +629,7 @@ $vi Cartfile
 <li>在Cartfile中加入一下内容，以Alamofire为例：</li>
 </ul>
 
-<pre><code>github &quot;Alamofire/Alamofire&quot; ~&gt; 3.0
+<pre><code class="language-text">github &quot;Alamofire/Alamofire&quot; ~&gt; 3.0
 </code></pre>
 
 <p>版本含义：<br/>
@@ -638,7 +642,7 @@ $vi Cartfile
 <li>保存并关闭Cartfile文件，在终端执行如下命令，carthage开始下载和编译所需要的第三方库，当命令执行完毕，项目文件夹中会创建一个名为Carthage的文件夹，并且在~/Carthage/Build/iOS中出现Alamofire.framework文件</li>
 </ul>
 
-<pre><code>$carthage update
+<pre><code class="language-text">$carthage update
 </code></pre>
 
 <ul>

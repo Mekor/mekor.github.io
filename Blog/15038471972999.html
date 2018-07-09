@@ -221,6 +221,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+          
             <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
           
             <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -490,6 +492,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+                        
                           <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
                         
                           <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -596,7 +600,7 @@
 
 <p>You should check if the device has a 3D touch support. You can do this by checking the value of <em>forceTouchCapability</em> property of a <em>UITraitCollection</em> object. UITraitCollection describes the iOS interface environment for your app.</p>
 
-<pre><code>if (traitCollection.forceTouchCapability == .Available) {    
+<pre><code class="language-text">if (traitCollection.forceTouchCapability == .Available) {    
     registerForPreviewingWithDelegate(self, sourceView: view)
 }
 </code></pre>
@@ -607,7 +611,7 @@
 
 <p>The method to be implemented for the <em>peek</em> is <em>previewingContext</em>.</p>
 
-<pre><code>func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -&gt; UIViewController? {
+<pre><code class="language-text">func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -&gt; UIViewController? {
 
     guard let indexPath = self.tableView.indexPathForRowAtPoint(location), cell = self.tableView.cellForRowAtIndexPath(indexPath) as? &lt;YourTableViewCell&gt; else {
         return nil
@@ -629,7 +633,7 @@
 
 <p>The method to be implemented for the <em>pop</em> is <em>previewingContext</em>. :)</p>
 
-<pre><code>func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController) {
+<pre><code class="language-text">func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController) {
 
     let balanceViewController = viewControllerToCommit as! &lt;YourViewController&gt;
 
@@ -644,7 +648,7 @@
 
 <p><strong>Objective-C</strong></p>
 
-<pre><code>//Checking for 3-D Touch availability
+<pre><code class="language-text">//Checking for 3-D Touch availability
 if ([self.traitCollection respondsToSelector:@selector(forceTouchCapability)] &amp;&amp;
         (self.traitCollection.forceTouchCapability == UIForceTouchCapabilityAvailable))
     {

@@ -221,6 +221,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+          
             <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
           
             <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -490,6 +492,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+                        
                           <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
                         
                           <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -584,17 +588,17 @@
 
 <p>如果在包含UITableView视图中添加单击手势，这个单击手势会屏蔽掉UITableView的</p>
 
-<pre><code>- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath;
+<pre><code class="language-text">- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath;
 </code></pre>
 
 <p>可以利用<code>UIGestureRecognizer</code>的<code>Delegate</code>中的</p>
 
-<pre><code>- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer;
+<pre><code class="language-text">- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer;
 </code></pre>
 
 <p>在单击点位于UITableView内的时候取消响应</p>
 
-<pre><code>- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer{
+<pre><code class="language-text">- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer{
     CGPoint point = [gestureRecognizer locationInView:self];
     if(CGRectContainsPoint(menuTableView.frame, point)){
         return NO;
@@ -605,7 +609,7 @@
 
 <p>或者将单击手势的cancelsTouchesInView设置为NO</p>
 
-<pre><code>singleTap.cancelsTouchesInView = NO;
+<pre><code class="language-text">singleTap.cancelsTouchesInView = NO;
 </code></pre>
 
 

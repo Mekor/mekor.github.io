@@ -221,6 +221,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+          
             <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
           
             <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -490,6 +492,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+                        
                           <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
                         
                           <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -586,10 +590,13 @@
 		<div class="markdown-body">
 		<h1>使用 Runloop 遇到的问题</h1>
 
-		<p>首先: <code>swift</code> 与 <code>C</code> 兼容不如 <code>OC</code> <br/>
-1. 生成<code>CFRunLoopObserverContext</code>比<code>OC</code>艰难好多...</p>
+		<p>首先: <code>swift</code> 与 <code>C</code> 兼容不如 <code>OC</code> </p>
 
-<pre><code>func addRunloopObserver() {
+<ol>
+<li>生成<code>CFRunLoopObserverContext</code>比<code>OC</code>艰难好多...</li>
+</ol>
+
+<pre><code class="language-text">func addRunloopObserver() {
         autoreleasepool {
             guard let runloop = CFRunLoopGetCurrent() else {return}
             let unmanaged = Unmanaged.passRetained(self)
@@ -608,7 +615,7 @@
 <li>强转也变了...</li>
 </ol>
 
-<pre><code>func observerCallbackFunc() -&gt; CFRunLoopObserverCallBack {
+<pre><code class="language-text">func observerCallbackFunc() -&gt; CFRunLoopObserverCallBack {
         
         return {(observer, activity, context) -&gt; Void in
             guard let context = context else {

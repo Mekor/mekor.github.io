@@ -221,6 +221,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+          
             <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
           
             <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -490,6 +492,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+                        
                           <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
                         
                           <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -600,7 +604,7 @@
 
 <p>上面已经说了什么是面向切面编程,那么网络中怎么切面?最主要的就是找到合适的方法,然后在它的前后都切一刀.由于项目中使用的是<a href="https://github.com/AFNetworking">AFNetworking</a>所以适合我们的特定方法应该是进行网络请求的关键代码,如下:</p>
 
-<pre><code>/**
+<pre><code class="language-text">/**
  Creates an `NSURLSessionDataTask` with the specified request.
 
  @param request The HTTP request for the request.
@@ -612,7 +616,7 @@
 
 <p>当然,如果需要上传下载进度的话</p>
 
-<pre><code>/**
+<pre><code class="language-text">/**
  Creates an `NSURLSessionDataTask` with the specified request.
 
  @param request The HTTP request for the request.
@@ -638,7 +642,7 @@
 
 <h3 id="toc_2">进行网络请求核心代码</h3>
 
-<pre><code>- (void)addRequest:(NSURLRequest *)request {
+<pre><code class="language-text">- (void)addRequest:(NSURLRequest *)request {
     NSLog(@&quot;\n==================================\n\nRequest Start: \n\n &quot;
           @&quot;%@\n\n==================================&quot;,
           request.URL);
@@ -680,7 +684,7 @@
 
 <p>需要NSMutableURLRequest参数,所以创建一个</p>
 
-<pre><code>    AFHTTPRequestSerializer *httpRequestSerializer = [AFHTTPRequestSerializer serializer];
+<pre><code class="language-text">    AFHTTPRequestSerializer *httpRequestSerializer = [AFHTTPRequestSerializer serializer];
     httpRequestSerializer.timeoutInterval = 20.0f;
     httpRequestSerializer.cachePolicy = NSURLRequestUseProtocolCachePolicy;
     /// 网络请求头部插入一些内容
@@ -695,7 +699,7 @@
 
 <p>对了,不要忘记设置<code>info.plist</code></p>
 
-<pre><code>&lt;key&gt;NSAppTransportSecurity&lt;/key&gt;
+<pre><code class="language-text">&lt;key&gt;NSAppTransportSecurity&lt;/key&gt;
     &lt;dict&gt;
         &lt;key&gt;NSAllowsArbitraryLoads&lt;/key&gt;
         &lt;true/&gt;
@@ -705,7 +709,7 @@
 
 <p>创建request然后请求,<code>[[MKNetWorkAgent sharedInstance] addRequest:request];</code>结果如下,百度HTML页面去除了部分代码:</p>
 
-<pre><code>2016-08-02 15:36:13.721 NetWorkDemo[56429:4922365] 
+<pre><code class="language-text">2016-08-02 15:36:13.721 NetWorkDemo[56429:4922365] 
 ==================================
 
 Request Start: 
@@ -758,18 +762,18 @@ Request Start:
 
 <p>在<code>MKBaseRequest</code>中添加:</p>
 
-<pre><code>/// 请求的URL
+<pre><code class="language-text">/// 请求的URL
 - (NSString *)requestUrl;
 </code></pre>
 
 <p>使用方法而不是属性的原因就是为了方便子类的重写.<code>- (void)addRequest:(MKBaseRequest *)request</code>实现中由于没有<code>NSURLRequest</code>所以需要根据<code>MKBaseRequest</code>提供的url进行创建,添加代码:</p>
 
-<pre><code>NSURLRequest *requestTest = [NSURLRequest requestWithURL:[NSURL URLWithString:[request requestUrl]]];
+<pre><code class="language-text">NSURLRequest *requestTest = [NSURLRequest requestWithURL:[NSURL URLWithString:[request requestUrl]]];
 </code></pre>
 
 <p>同理,我们还可以在<code>MKBaseRequest</code>中添加其他限制项,例如:</p>
 
-<pre><code>/// 请求的BaseURL
+<pre><code class="language-text">/// 请求的BaseURL
 - (NSString *)baseUrl;
 
 /// 请求的cdnURL
@@ -796,7 +800,7 @@ Request Start:
 
 <p>做个简单的模拟登陆登陆页面:</p>
 
-<pre><code>&lt;form action=&quot;welcome.php&quot; method=&quot;get&quot;&gt;&lt;br&gt;
+<pre><code class="language-text">&lt;form action=&quot;welcome.php&quot; method=&quot;get&quot;&gt;&lt;br&gt;
     Name: &lt;input type=&quot;text&quot; name=&quot;name&quot; /&gt;&lt;br&gt;
     PWD:  &lt;input type=&quot;text&quot; name=&quot;pwd&quot; /&gt;&lt;br&gt;
     &lt;input type=&quot;submit&quot; /&gt; &lt;/form&gt;
@@ -804,7 +808,7 @@ Request Start:
 
 <p>welecome.php中简单的输出刚刚输入的内容.</p>
 
-<pre><code>&lt;!DOCTYPE html&gt;
+<pre><code class="language-text">&lt;!DOCTYPE html&gt;
 &lt;html lang=&quot;en&quot;&gt;
 &lt;head&gt;
     &lt;meta charset=&quot;UTF-8&quot;&gt;
@@ -833,7 +837,7 @@ Request Start:
 
 <p>既然网页端没有问题,那么就修改成返回json格式数据给客户端</p>
 
-<pre><code>&lt;?php
+<pre><code class="language-text">&lt;?php
 $map = array(
     &#39;name&#39; =&gt; $_GET[&quot;name&quot;],
     &#39;pwd&#39; =&gt; $_GET[&quot;pwd&quot;]
@@ -846,14 +850,14 @@ echo json_encode($map);
 
 <h3 id="toc_5">怎样传递参数</h3>
 
-<pre><code>/// 请求的参数列表
+<pre><code class="language-text">/// 请求的参数列表
 - (nullable id)requestArgument;
 </code></pre>
 
 <p>上面是原先设置的传递参数的方式,我感觉这样做不是很方便,比如需要传递的参数是变化的,可能就需要init的时候添加参数,这时如果参数的数量还比较多可能就比较麻烦了.<br/>
 我现在采用的是通过代理的方法实现.</p>
 
-<pre><code>/// 数据源:获得所需要的参数
+<pre><code class="language-text">/// 数据源:获得所需要的参数
 @protocol MKRequestParamSource &lt;NSObject&gt;
 @required
 - (NSDictionary *)paramsForRequest:(MKBaseRequest *)request;
@@ -862,7 +866,7 @@ echo json_encode($map);
 
 <p>我们创建的时候如果需要参数必须设置代理,并实现</p>
 
-<pre><code>/// request paramSource
+<pre><code class="language-text">/// request paramSource
 @property (nonatomic, weak, nullable) id&lt;MKRequestParamSource&gt; paramSource;
 </code></pre>
 
@@ -876,11 +880,11 @@ echo json_encode($map);
 <p>开发中我们经常遇到需要上拉加载更多的需求,参数中的page是动态变化的.这个轮子也对此作了处理,如下:</p>
 </blockquote>
 
-<pre><code>/// MKNetWorkAgent中添加带参数的网络请求
+<pre><code class="language-text">/// MKNetWorkAgent中添加带参数的网络请求
 - (void)addRequest:(MKBaseRequest *)baseRequest WithParams:(nullable id)params;
 </code></pre>
 
-<pre><code>//MKBaseRequest 中添加方法用于获取当前状态
+<pre><code class="language-text">//MKBaseRequest 中添加方法用于获取当前状态
 /* 子类重写必须写 super 否则 isLoading 状态不会更改*/
 - (void)beforePerformRequestState;
 /// success: 判断成功还是失败

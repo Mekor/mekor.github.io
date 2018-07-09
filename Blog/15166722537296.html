@@ -221,6 +221,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+          
             <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
           
             <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -490,6 +492,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+                        
                           <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
                         
                           <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -586,7 +590,7 @@
 
 <h5 id="toc_1">添加中划线:</h5>
 
-<pre><code>  UILabel * strikeLabel = [[UILabel alloc] initWithFrame:(CGRectMake(10, 10, 50, 30))];
+<pre><code class="language-text">  UILabel * strikeLabel = [[UILabel alloc] initWithFrame:(CGRectMake(10, 10, 50, 30))];
   NSString *textStr = [NSString stringWithFormat:@&quot;%@元&quot;, primeCost];
 
   //中划线
@@ -601,7 +605,7 @@
 
 <h5 id="toc_2">添加下划线:</h5>
 
-<pre><code>  UILabel *underlineLabel = [[UILabel alloc] initWithFrame:(CGRectMake(10, 10, 50, 30))];
+<pre><code class="language-text">  UILabel *underlineLabel = [[UILabel alloc] initWithFrame:(CGRectMake(10, 10, 50, 30))];
   NSString *textStr = [NSString stringWithFormat:@&quot;%@元&quot;, primeCost];
 
   // 下划线
@@ -616,7 +620,7 @@
 
 <h3 id="toc_3">Swift中显示</h3>
 
-<pre><code>let myAttributes: [NSAttributedStringKey : Any] = [NSAttributedStringKey.strikethroughStyle: NSUnderlineStyle.styleSingle.rawValue]
+<pre><code class="language-text">let myAttributes: [NSAttributedStringKey : Any] = [NSAttributedStringKey.strikethroughStyle: NSUnderlineStyle.styleSingle.rawValue]
             
 let attributedText = NSAttributedString(string: &quot;被划线文字&quot;, attributes: myAttributes)
 </code></pre>

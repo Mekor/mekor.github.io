@@ -221,6 +221,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+          
             <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
           
             <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -490,6 +492,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+                        
                           <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
                         
                           <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -584,7 +588,7 @@
 
 <p>一般情况:</p>
 
-<pre><code>struct User {
+<pre><code class="language-text">struct User {
     func login(password: String){
         print(password)
     }
@@ -598,7 +602,7 @@ usr.login(password: passwd)
 
 <p>函数式编程</p>
 
-<pre><code>struct User {
+<pre><code class="language-text">struct User {
     func login(password: String){
         print(password)
     }
@@ -614,7 +618,7 @@ User.login(usr)(password: passwd)
 
 <p>如果忽略外部参数</p>
 
-<pre><code>struct User {
+<pre><code class="language-text">struct User {
     func login(_ password: String){
         print(password)
     }
@@ -634,7 +638,7 @@ User.login(usr)(passwd)
 
 <h2 id="toc_0">柯里化(Currying)</h2>
 
-<pre><code>// 柯里化(Currying)
+<pre><code class="language-text">// 柯里化(Currying)
 
 func addOne(num:Int) -&gt;Int {
     return num + 1
@@ -663,17 +667,17 @@ print(addTo(9)(1))
 
 <p>项目中遇到一个问题:根据参数创建相应个数的视图,视图中按钮的点击事件还要回调..我一开始想用代理来做,发现如果层级结构比较深的话代理不是很好用.既然否定了代理那么怎样还能实现该效果呢?我尝试用函数(闭包).</p>
 
-<p>需要传递的数据<br/>
-<code><br/>
-let dict = [<br/>
-    [&quot;title&quot;:GLOBAL_LANGUAGE(&quot;历史锅底&quot;) ,<br/>
-     &quot;subtitle&quot;:GLOBAL_LANGUAGE(&quot;上次的定制锅底,再来一单&quot;),<br/>
-     &quot;imagename&quot;:&quot;OrderDishOrPot1&quot;,<br/>
-     &quot;callback&quot;:historyPotsList!]  // callback 中存放的就是函数名或者闭包名<br/>
-]<br/>
-</code></p>
+<p>需要传递的数据</p>
 
-<pre><code>let showTitle =  data[i][&quot;title&quot;] as! String
+<pre><code class="language-text">let dict = [
+    [&quot;title&quot;:GLOBAL_LANGUAGE(&quot;历史锅底&quot;) ,
+     &quot;subtitle&quot;:GLOBAL_LANGUAGE(&quot;上次的定制锅底,再来一单&quot;),
+     &quot;imagename&quot;:&quot;OrderDishOrPot1&quot;,
+     &quot;callback&quot;:historyPotsList!]  // callback 中存放的就是函数名或者闭包名
+]
+</code></pre>
+
+<pre><code class="language-text">let showTitle =  data[i][&quot;title&quot;] as! String
 let showSubTitle = data[i][&quot;subtitle&quot;] as! String
 let imageName = data[i][&quot;imagename&quot;] as! String
 let callBack = data[i][&quot;callback&quot;] as! (()-&gt;()) // 这里就是我需要的闭包

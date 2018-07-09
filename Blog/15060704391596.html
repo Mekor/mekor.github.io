@@ -221,6 +221,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+          
             <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
           
             <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -490,6 +492,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+                        
                           <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
                         
                           <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -624,7 +628,7 @@
 
 <h5 id="toc_7">清单 1. 使用 AFHTTPRequestOperation 实现断点续传的代码</h5>
 
-<pre><code>// 1 指定下载文件地址 URLString 
+<pre><code class="language-text">// 1 指定下载文件地址 URLString 
 // 2 获取保存的文件路径 filePath 
 // 3 创建 NSURLRequest 
 NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:URLString]]; 
@@ -694,7 +698,7 @@ long long totalBytesRead, long long totalBytesExpectedToRead) {
 
 <h5 id="toc_11">清单 2. NSURLConnection 的实现</h5>
 
-<pre><code>// SWIFT 
+<pre><code class="language-text">// SWIFT 
 // 请求失败处理
 func connection(connection: NSURLConnection, 
 didFailWithError error: NSError) { 
@@ -781,7 +785,7 @@ func connectionDidFinishLoading(connection: NSURLConnection) {
 
 <h5 id="toc_16">清单 3. NSURLSessionDataTask 的实现</h5>
 
-<pre><code>// SWIFT 
+<pre><code class="language-text">// SWIFT 
 // 接收数据
 func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, 
 idReceiveData data: NSData) { 
@@ -827,7 +831,7 @@ func URLSession(session: NSURLSession, task: NSURLSessionTask,
 
 <h5 id="toc_20">清单 4. NSURLSessionDownloadTask 的实现</h5>
 
-<pre><code>//SWIFT 
+<pre><code class="language-text">//SWIFT 
  
 //UI 触发 pause 
 func pause(){ 

@@ -221,6 +221,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+          
             <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
           
             <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -490,6 +492,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+                        
                           <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
                         
                           <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -610,7 +614,7 @@
 <p>周欣对自己代码优化的时候发现的问题:<br/>
 一开始的逻辑:</p>
 
-<pre><code>class func fetchAllDish() -&gt; [Any] {
+<pre><code class="language-text">class func fetchAllDish() -&gt; [Any] {
         var mutableBigCategorys = [Any]()
         let bigCategorys = DatabaseManager.shared.fetchAllDishCategory()
         for bigCategory in bigCategorys {
@@ -636,7 +640,7 @@
 
 <p>优化后的:</p>
 
-<pre><code>class func fetchAllDish() -&gt; [Any] {
+<pre><code class="language-text">class func fetchAllDish() -&gt; [Any] {
         let bigCategorys = DatabaseManager.shared.fetchAllDishCategory()
         let results = bigCategorys.map { (bigCategory) -&gt; [String: Any] in
             var bigCategory = bigCategory
@@ -660,7 +664,7 @@
 
 <p>这个甲冠用的比较6..代码参见<code>NeoSubDishDetailView.swift</code>简单🌰:</p>
 
-<pre><code>    func refreshInfo(data : (UIButton,DishTypeModel)){
+<pre><code class="language-text">    func refreshInfo(data : (UIButton,DishTypeModel)){
         dishNameLabel.text = data.1.name
         moneyLabel.text = data.1.price
         numLabel.text = String(data.1.num)

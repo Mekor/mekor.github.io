@@ -221,6 +221,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+          
             <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
           
             <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -490,6 +492,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+                        
                           <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
                         
                           <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -586,24 +590,24 @@
 
 <p>声明协议:</p>
 
-<pre><code>protocol FunctionButtonViewDelegate {
+<pre><code class="language-text">protocol FunctionButtonViewDelegate {
     func gotoViewController(vcString:String)
 }
 </code></pre>
 
-<pre><code>var delegate :FunctionButtonViewDelegate?
+<pre><code class="language-text">var delegate :FunctionButtonViewDelegate?
 </code></pre>
 
 <p>这里<code>?</code>就具有<code>weak</code>的作用</p>
 
 <p>传值:</p>
 
-<pre><code>delegate?.gotoViewController(vcString: button.currentTitle!)
+<pre><code class="language-text">delegate?.gotoViewController(vcString: button.currentTitle!)
 </code></pre>
 
 <p>实现代理方法</p>
 
-<pre><code>extension PersonalCenterViewController:FunctionButtonViewDelegate {
+<pre><code class="language-text">extension PersonalCenterViewController:FunctionButtonViewDelegate {
     //MARK: - 跳转到对应的功能模块
     func gotoViewController(vcString: String) {
         print(vcString)
@@ -615,19 +619,19 @@
 
 <p>声明:</p>
 
-<pre><code>var callback : ((Int?) -&gt; Void)?
+<pre><code class="language-text">var callback : ((Int?) -&gt; Void)?
 </code></pre>
 
 <p>传值</p>
 
-<pre><code>if let cb = callback {
+<pre><code class="language-text">if let cb = callback {
     cb(200)
 }
 </code></pre>
 
 <p>实现:</p>
 
-<pre><code>bottomView.callback = { (num)-&gt;Void in
+<pre><code class="language-text">bottomView.callback = { (num)-&gt;Void in
     print(num ?? 0)
 }
 </code></pre>

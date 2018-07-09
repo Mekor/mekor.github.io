@@ -221,6 +221,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+          
             <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
           
             <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -490,6 +492,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+                        
                           <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
                         
                           <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -584,17 +588,17 @@
 
 <p>cell的创建</p>
 
-<pre><code>- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+<pre><code class="language-text">- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 </code></pre>
 
 <p>数据处理建议在这里进行:</p>
 
-<pre><code>-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+<pre><code class="language-text">-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 </code></pre>
 
 <p>cell将要显示的时候我们进行一些处理(来自苹果Demo)</p>
 
-<pre><code>// Only load cached images; defer new downloads until scrolling ends
+<pre><code class="language-text">// Only load cached images; defer new downloads until scrolling ends
 if (!appRecord.appIcon)
 {
     if (self.tableView.dragging == NO &amp;&amp; self.tableView.decelerating == NO)
@@ -612,7 +616,7 @@ else
 
 <p>这里可以看出,拖拽和滚动的时候不进行图片下载,只有停止的时候才进行.当然我们还需要在scrollView停止滚动和拖拽的时候进行下载</p>
 
-<pre><code>#pragma mark - UIScrollViewDelegate
+<pre><code class="language-text">#pragma mark - UIScrollViewDelegate
 
 // -------------------------------------------------------------------------------
 //  scrollViewDidEndDragging:willDecelerate:
@@ -639,7 +643,7 @@ else
 
 <p>下载显示cell的图片</p>
 
-<pre><code>// -------------------------------------------------------------------------------
+<pre><code class="language-text">// -------------------------------------------------------------------------------
 //  loadImagesForOnscreenRows
 //  This method is used in case the user scrolled into a set of cells that don&#39;t
 //  have their app icons yet.
@@ -665,7 +669,7 @@ else
 
 <p>具体下载:</p>
 
-<pre><code>#pragma mark - Table cell image support
+<pre><code class="language-text">#pragma mark - Table cell image support
 
 // -------------------------------------------------------------------------------
 //  startIconDownload:forIndexPath:
@@ -698,7 +702,7 @@ else
 
 <p>IconDownloader文件</p>
 
-<pre><code>//.h文件
+<pre><code class="language-text">//.h文件
 @class AppRecord;
 
 @interface IconDownloader : NSObject

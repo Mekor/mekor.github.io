@@ -221,6 +221,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+          
             <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
           
             <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -490,6 +492,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+                        
                           <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
                         
                           <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -585,7 +589,7 @@
 <p><strong>对象销毁</strong><br/>
 对象的销毁虽然消耗资源不多，但累积起来也是不容忽视的。通常当容器类持有大量对象时，其销毁时的资源消耗就非常明显。同样的，如果对象可以放到后台线程去释放，那就挪到后台线程去。这里有个小 Tip：把对象捕获到 block 中，然后扔到后台队列去随便发送个消息以避免编译器警告，就可以让对象在后台线程销毁了。</p>
 
-<pre><code>NSArray *tmp = self.array;
+<pre><code class="language-text">NSArray *tmp = self.array;
 self.array = nil;
 dispatch_async(queue, ^{
     [tmp class];
@@ -599,7 +603,7 @@ dispatch_async(queue, ^{
 <p><strong>拖拽收起键盘</strong><br/>
 UIScrollView有个keyboardDismissMode属性，设置成UIScrollViewKeyboardDismissModeOnDrag就可以在拖拽ScrollView的时候自动缩起键盘</p>
 
-<pre><code>@property(nonatomic) UIScrollViewKeyboardDismissMode keyboardDismissMode NS_AVAILABLE_IOS(7_0); // default is UIScrollViewKeyboardDismissModeNone
+<pre><code class="language-text">@property(nonatomic) UIScrollViewKeyboardDismissMode keyboardDismissMode NS_AVAILABLE_IOS(7_0); // default is UIScrollViewKeyboardDismissModeNone
 </code></pre>
 
 <p><strong>让view的一部分响应手势点击</strong><br/>
@@ -607,7 +611,7 @@ UIScrollView有个keyboardDismissMode属性，设置成UIScrollViewKeyboardDismi
 
 <p>在View中重写:</p>
 
-<pre><code>-(UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+<pre><code class="language-text">-(UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
     NSLog(@&quot;%@-------------&gt;&gt;&gt;&gt;&gt;&gt;&gt;point = %@&quot;,NSStringFromSelector(_cmd),NSStringFromCGPoint(point));
     
     // 设置能够点击的区域

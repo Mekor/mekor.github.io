@@ -221,6 +221,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+          
             <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
           
             <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -490,6 +492,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+                        
                           <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
                         
                           <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -613,7 +617,7 @@
 
 <p>我们可以不通过模型来调用方法，也可以直接调用方法</p>
 
-<pre><code>let context = JSContext() 
+<pre><code class="language-text">let context = JSContext() 
 context.evaluateScript(“var num = 10”)
 context.evaluateScript(“function square(value) { return value * 2}”)
 
@@ -634,7 +638,7 @@ print(squareFunc.callWithArguments([“10”]).toString());
 
 <p>All methods that should apply in Javascript,should be in the following protocol.注意，这里必须使用@objc，因为JavaScriptCore库是ObjectiveC版本的。如果不加@objc，则调用无效果。</p>
 
-<pre><code>@objc protocol JavaScriptSwiftDelegate: JSExport { 
+<pre><code class="language-text">@objc protocol JavaScriptSwiftDelegate: JSExport { 
  func callSystemCamera();
  func showAlert(title: String, msg: String);
  func callWithDict(dict: [String: AnyObject]);
@@ -644,7 +648,7 @@ print(squareFunc.callWithArguments([“10”]).toString());
 
 <p>接下来，我们还需要定义一个模型：</p>
 
-<pre><code>@objc classJSObjCModel: NSObject, JavaScriptSwiftDelegate { 
+<pre><code class="language-text">@objc classJSObjCModel: NSObject, JavaScriptSwiftDelegate { 
   weak var controller: UIViewController? 
   weak var jsContext: JSContext? 
 
@@ -679,7 +683,7 @@ print(squareFunc.callWithArguments([“10”]).toString());
 
 <p>接下来，我们在controller中在webview加载完成的代理中，给JS注入模型。</p>
 
-<pre><code>// MARK: - UIWebViewDelegate
+<pre><code class="language-text">// MARK: - UIWebViewDelegate
 func webViewDidFinishLoad(webView: UIWebView) {
   let context = webView.valueForKeyPath(“documentView.webView.mainFrame.javaScriptContext”) as? JSContextlet 
   model = JSObjCModel() 
@@ -700,7 +704,7 @@ func webViewDidFinishLoad(webView: UIWebView) {
 这样就可以获取到JS的context，然后为这个context注入我们的模型对象。<br/>
 我们先写两个JS方法：</p>
 
-<pre><code>var jsFunc = function() {
+<pre><code class="language-text">var jsFunc = function() {
   alert(‘Objective-C call js to show alert’);
 }
 
@@ -722,14 +726,14 @@ var jsParamFunc = function(argument) {
 通过OCModel.callSystemCamera()，就可以在HTML中通过JS调用OC的方法。<br/>
 在Swift代码中，我们的callSystemCamera方法体中，添加了以下两行代码，就是获取HTML中所定义的JS就去jsFunc，然后调用它。</p>
 
-<pre><code>let jsFunc = self.jsContext?.objectForKeyedSubscript(“jsFunc”); jsFunc?.callWithArguments([]);
+<pre><code class="language-text">let jsFunc = self.jsContext?.objectForKeyedSubscript(“jsFunc”); jsFunc?.callWithArguments([]);
 </code></pre>
 
 <p>这样就可以在JS调用Siwft方法时，也让Swift反馈给JS。<br/>
 注意：这里是通过objectForKeyedSubscript方法来获取变量jsFunc。<br/>
 方法也是变量。看看下面传字典参数：</p>
 
-<pre><code>(void)jsCallObjcAndObjcCallJsWithDict:(NSDictionary )params {
+<pre><code class="language-text">(void)jsCallObjcAndObjcCallJsWithDict:(NSDictionary )params {
     NSLog(@”jsCallObjcAndObjcCallJsWithDict was called, params is %@”, params);
     // 调用JS的方法
     JSValue jsParamFunc = self.jsContext[@”jsParamFunc”];

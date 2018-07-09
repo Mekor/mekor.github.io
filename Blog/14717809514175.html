@@ -221,6 +221,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+          
             <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
           
             <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -490,6 +492,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+                        
                           <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
                         
                           <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -589,7 +593,6 @@
 <li>对于C语言，<code>函数的调用在编译的时候会决定调用哪个函数</code>。</li>
 <li>对于OC的函数，属于<code>动态调用过程</code>，在编译的时候并不能决定真正调用哪个函数，只有在真正运行的时候才会根据函数的名称找到对应的函数来调用。</li>
 <li>事实证明：
-
 <ul>
 <li>在编译阶段，OC可以<code>调用任何函数</code>，即使这个函数并未实现，只要声明过就不会报错。</li>
 <li>在编译阶段，C语言调用<code>未实现的函数</code>就会报错。</li>
@@ -608,7 +611,7 @@
 <li>clang -rewrite-objc main.m 查看最终生成代码</li>
 </ul>
 
-<pre><code>    // 创建person对象
+<pre><code class="language-text">    // 创建person对象
     Person *p = [[Person alloc] init];
 
     // 调用对象方法
@@ -642,7 +645,7 @@
 <li>方式二:使用runtime,交换方法.</li>
 </ul>
 
-<pre><code>@implementation ViewController
+<pre><code class="language-text">@implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -695,7 +698,6 @@
 
 <ul>
 <li><p>交换原理：</p>
-
 <ul>
 <li><p>交换之前： <br/>
 <img src="media/14717809514175/14717892191490.jpg" alt=""/></p></li>
@@ -712,7 +714,7 @@
 <li>简单使用</li>
 </ul>
 
-<pre><code>@implementation ViewController
+<pre><code class="language-text">@implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -764,7 +766,7 @@ void eat(id self,SEL sel)
 <li>原理：给一个类声明属性，其实本质就是给这个类添加关联，并不是直接把这个值的内存空间添加到类存空间。</li>
 </ul>
 
-<pre><code>
+<pre><code class="language-text">
 @implementation ViewController
 
 - (void)viewDidLoad {
@@ -809,7 +811,6 @@ static const char *key = &quot;name&quot;;
 
 <ul>
 <li>设计模型：字典转模型的第一步
-
 <ul>
 <li>模型属性，通常需要跟字典中的key一一对应</li>
 <li>问题：一个一个的生成模型属性，很慢？</li>
@@ -818,7 +819,7 @@ static const char *key = &quot;name&quot;;
 </ul></li>
 </ul>
 
-<pre><code>    @implementation NSObject (Log)
+<pre><code class="language-text">    @implementation NSObject (Log)
 
 // 自动打印属性字符串
 + (void)resolveDict:(NSDictionary *)dict{
@@ -868,7 +869,7 @@ static const char *key = &quot;name&quot;;
 <li>字典转模型的方式一：KVC</li>
 </ul>
 
-<pre><code>@implementation Status
+<pre><code class="language-text">@implementation Status
 
 + (instancetype)statusWithDict:(NSDictionary *)dict
 {
@@ -886,7 +887,6 @@ static const char *key = &quot;name&quot;;
 
 <ul>
 <li>KVC字典转模型弊端：必须保证，模型中的属性和字典中的key一一对应。
-
 <ul>
 <li>如果不一致，就会调用<code>[ setValue:forUndefinedKey:]</code> 报<code>key</code>找不到的错。</li>
 <li>分析:模型中的属性和字典的key不一一对应，系统就会调用<code>setValue:forUndefinedKey:</code>报错。</li>
@@ -894,7 +894,7 @@ static const char *key = &quot;name&quot;;
 </ul></li>
 </ul>
 
-<pre><code>- (void)setValue:(id)value forUndefinedKey:(NSString *)key
+<pre><code class="language-text">- (void)setValue:(id)value forUndefinedKey:(NSString *)key
 {
 
 }
@@ -903,14 +903,13 @@ static const char *key = &quot;name&quot;;
 
 <ul>
 <li>字典转模型的方式二：Runtime
-
 <ul>
 <li>思路：利用运行时，遍历模型中所有属性，根据模型的属性名，去字典中查找key，取出对应的值，给模型的属性赋值。</li>
 <li>步骤：提供一个NSObject分类，专门字典转模型，以后所有模型都可以通过这个分类转。</li>
 </ul></li>
 </ul>
 
-<pre><code>
+<pre><code class="language-text">
 @implementation ViewController
 
 - (void)viewDidLoad {

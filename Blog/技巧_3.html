@@ -221,6 +221,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+          
             <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
           
             <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -490,6 +492,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+                        
                           <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
                         
                           <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -617,7 +621,7 @@
 
 <h4 id="toc_12">11. 正确使用 reuseIdentifier</h4>
 
-<pre><code>static NSString *CellIdentifier = @&quot;MyFancyCell&quot;;
+<pre><code class="language-text">static NSString *CellIdentifier = @&quot;MyFancyCell&quot;;
 UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
 
 </code></pre>
@@ -628,7 +632,7 @@ UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentif
 
 <h4 id="toc_15">14. 使用 shadowPath 来画阴影;</h4>
 
-<pre><code>#import &lt;QuartzCore/QuartzCore.h&gt;
+<pre><code class="language-text">#import &lt;QuartzCore/QuartzCore.h&gt;
 
 // Somewhere later ...
 UIView *view = [[UIView alloc] init];
@@ -645,7 +649,7 @@ view.layer.shadowOpacity = 0.6;
 
 <h4 id="toc_18">17. 使用 Autorelease Pool；</h4>
 
-<pre><code>NSArray *urls = &lt;# An array of file URLs #&gt;;
+<pre><code class="language-text">NSArray *urls = &lt;# An array of file URLs #&gt;;
 for (NSURL *url in urls) {
     @autoreleasepool {
         NSError *error;
@@ -657,7 +661,7 @@ for (NSURL *url in urls) {
 
 <h4 id="toc_19">18. 选择是否需要缓存；</h4>
 
-<pre><code>UIImage *img = [UIImage imageNamed:@&quot;myImage&quot;]; // caching
+<pre><code class="language-text">UIImage *img = [UIImage imageNamed:@&quot;myImage&quot;]; // caching
 
 // or
  UIImage *img = [UIImage imageWithContentsOfFile:@&quot;myImage&quot;]; // no caching

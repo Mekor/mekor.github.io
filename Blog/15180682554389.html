@@ -221,6 +221,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+          
             <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
           
             <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -490,6 +492,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+                        
                           <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
                         
                           <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -585,7 +589,7 @@
 <p>在<code>OC</code>中可以使用<code>NSProxy</code> 的转发机制防止timer强引用<br/>
 具体例子可以参考<a href="https://github.com/ibireme/YYKit/blob/3869686e0e560db0b27a7140188fad771e271508/YYKit/Utility/YYWeakProxy.h">YYKit</a>中的处理方式,代码如下：</p>
 
-<pre><code>#import &quot;YYWeakProxy.h&quot;
+<pre><code class="language-text">#import &quot;YYWeakProxy.h&quot;
 
 
 @implementation YYWeakProxy
@@ -659,7 +663,7 @@
 
 <p>在Swift中怎么处理？王巍的<a href="https://gist.github.com/onevcat/2d1ceff1c657591eebde">Gist</a>中写了一种</p>
 
-<pre><code>private class Block&lt;T&gt; {
+<pre><code class="language-text">private class Block&lt;T&gt; {
     let f : T
     init (_ f: T) { self.f = f }
 }
@@ -683,7 +687,7 @@ extension NSTimer {
 
 <p>目前公司项目中采用的方式如下：</p>
 
-<pre><code>class WeakTimer: NSObject {
+<pre><code class="language-text">class WeakTimer: NSObject {
     
     private weak var target: NSObject?
     private weak var timer: Timer?
@@ -717,7 +721,7 @@ extension NSTimer {
 
 <p>应用</p>
 
-<pre><code>    @objc private func dismissSelf() {
+<pre><code class="language-text">    @objc private func dismissSelf() {
         self.weakTimer?.invalidate()
         self.weakTimer = nil
         // HHTSwitchGlobalData.shared.waiterLoginTimeOut
@@ -727,7 +731,7 @@ extension NSTimer {
 
 <p>第三方库 Kingfisher 中的处理办法</p>
 
-<pre><code>    /// Proxy object for prevending a reference cycle between the CADDisplayLink and AnimatedImageView.
+<pre><code class="language-text">    /// Proxy object for prevending a reference cycle between the CADDisplayLink and AnimatedImageView.
     class TargetProxy {
         private weak var target: AnimatedImageView?
         
@@ -743,7 +747,7 @@ extension NSTimer {
 
 <p>应用:</p>
 
-<pre><code>private lazy var displayLink: CADisplayLink = {
+<pre><code class="language-text">private lazy var displayLink: CADisplayLink = {
         self.isDisplayLinkInitialized = true
         let displayLink = CADisplayLink(target: TargetProxy(target: self), selector: #selector(TargetProxy.onScreenUpdate))
         displayLink.add(to: .main, forMode: self.runLoopMode)

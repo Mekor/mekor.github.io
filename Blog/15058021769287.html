@@ -221,6 +221,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+          
             <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
           
             <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -490,6 +492,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+                        
                           <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
                         
                           <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -592,7 +596,7 @@
 <li>栅格化: 目的是离屏渲染,不过还是卡顿</li>
 </ul>
 
-<pre><code>    self.layer.shouldRasterize = true
+<pre><code class="language-text">    self.layer.shouldRasterize = true
     self.layer.rasterizationScale = UIScreen.main.scale
     self.layer.drawsAsynchronously = true
 </code></pre>
@@ -610,7 +614,7 @@
 <li> 使用iOS最新的API<code>UICollectionViewDataSourcePrefetching</code></li>
 </ul>
 
-<pre><code>extension DishesViewController: UICollectionViewDataSourcePrefetching {
+<pre><code class="language-text">extension DishesViewController: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         let urls = indexPaths.flatMap { (index) -&gt; URL? in
             let big = dishsArray[index.section]
@@ -627,7 +631,7 @@
 </code></pre>
 
 <ul>
-<li>上面优化后效果不是很明显,最后采取了<strong>以空间换时间</strong>的方式优化图片列表页
+<li>上面优化后效果不是很明显,最后采取了<strong>以空间换时间</strong>的方式优化图片列表页<br/>
 提前用<code>Kingfisher</code>下载图片(这个过程原先就有)下载过图片也做了不再下载的处理,由于图片过多导致不会有太多列表页的图片缓存中内存中. 针对这个问题,我采用了每次进入app就把列表页的图片使用<code>NSCache&lt;NSString, UIImage&gt;</code>缓存起来,效果很明显.</li>
 </ul>
 

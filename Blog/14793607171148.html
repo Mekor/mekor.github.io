@@ -221,6 +221,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+          
             <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
           
             <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -490,6 +492,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+                        
                           <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
                         
                           <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -598,12 +602,12 @@
 
 <h3 id="toc_2">git help</h3>
 
-<pre><code>$ git help
+<pre><code class="language-text">$ git help
 </code></pre>
 
 <p>查看git所有命令的帮助</p>
 
-<pre><code>$ git help 子命令
+<pre><code class="language-text">$ git help 子命令
 </code></pre>
 
 <p>要退出帮助信息，按<code>&quot;q&quot;</code><br/>
@@ -615,12 +619,12 @@
 
 <p>1&gt;  创建代码仓库</p>
 
-<pre><code>$ git init
+<pre><code class="language-text">$ git init
 </code></pre>
 
 <p>2&gt;  配置用户名和邮箱</p>
 
-<pre><code>$ git config user.name manager
+<pre><code class="language-text">$ git config user.name manager
 $ git config user.email manager@gmail.com
 </code></pre>
 
@@ -630,7 +634,7 @@ $ git config user.email manager@gmail.com
 
 <p>3&gt;  如果要一次性配置完成可以使用一下命令</p>
 
-<pre><code>$ git config --global user.name manager
+<pre><code class="language-text">$ git config --global user.name manager
 $ git config --global user.email manager@gmail.com
 </code></pre>
 
@@ -640,14 +644,14 @@ $ git config --global user.email manager@gmail.com
 
 <p>4&gt;  查看当前所有配置</p>
 
-<pre><code>$ git config -l
+<pre><code class="language-text">$ git config -l
 </code></pre>
 
 <h3 id="toc_4">开发中常用</h3>
 
 <p>1&gt;  创建代码，开始开发</p>
 
-<pre><code>$ touch main.c
+<pre><code class="language-text">$ touch main.c
 $ open main.c
 </code></pre>
 
@@ -662,12 +666,10 @@ $ git status
 <code>
 $ git add main.c
 </code></li>
-<li><p>将修改提交到代码库<br/>
-<code><br/>
-$ git commit -m &quot;添加了main.c&quot;<br/>
-</code><br/>
-提示：</p>
-
+<li><p>将修改提交到代码库</p>
+<pre><code class="language-text">$ git commit -m &quot;添加了main.c&quot;
+</code></pre>
+<p>提示：</p>
 <ul>
 <li>   在此一定要使用 -m 参数指定修改的备注信息</li>
 <li>   否则会进入 vim 编辑器，如果对vim不熟悉，会是很糟糕的事情</li>
@@ -678,7 +680,7 @@ $ git commit -m &quot;添加了main.c&quot;<br/>
 
 <p>3&gt;  添加多个文件</p>
 
-<pre><code>$ touch Person.h Person.m
+<pre><code class="language-text">$ touch Person.h Person.m
 $ git add .
 $ git commit -m &quot;添加了Person类&quot;
 $ open Person.h
@@ -698,7 +700,7 @@ $ git commit -m &quot;增加Person类属性&quot;
 
 <h2 id="toc_6">别名 &amp; 日志</h2>
 
-<pre><code>$ git config alias.st status
+<pre><code class="language-text">$ git config alias.st status
 $ git config alias.ci &quot;commit -m&quot;
 </code></pre>
 
@@ -706,24 +708,24 @@ $ git config alias.ci &quot;commit -m&quot;
 
 <p>查看所有版本库日志</p>
 
-<pre><code>$ git log
+<pre><code class="language-text">$ git log
 </code></pre>
 
 <p>查看指定文件的版本库日志</p>
 
-<pre><code>$ git log 文件名
+<pre><code class="language-text">$ git log 文件名
 </code></pre>
 
 <p>配置带颜色的log别名</p>
 
-<pre><code>git config --global alias.lg &quot;log --color --graph --pretty=format:&#39;%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset&#39; --abbrev-commit&quot;
+<pre><code class="language-text">git config --global alias.lg &quot;log --color --graph --pretty=format:&#39;%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset&#39; --abbrev-commit&quot;
 </code></pre>
 
 <p>提示：在git中，版本号是一个由SHA1生成的哈希值</p>
 
 <h2 id="toc_7">版本号，让我们在任意版本之间穿梭</h2>
 
-<pre><code># 回到当前版本，放弃所有没有提交的修改
+<pre><code class="language-text"># 回到当前版本，放弃所有没有提交的修改
 $ git reset --hard HEAD
 # 回到上一个版本
 $ git reset --hard HEAD^
@@ -739,7 +741,7 @@ $ git reflog
 
 <h2 id="toc_8">分支管理 - Tag</h2>
 
-<pre><code># 查看当前标签
+<pre><code class="language-text"># 查看当前标签
 $ git tag
 # 在本地代码库给项目打上一个标签
 $ git tag -a v1.0 -m &#39;Version 1.0&#39;
@@ -773,29 +775,29 @@ git push origin :branch-name
 
 <p>删除修改返回到上次提交状态</p>
 
-<pre><code>git checkout -f
+<pre><code class="language-text">git checkout -f
 </code></pre>
 
 <p>查看本地分支对应的远程分支</p>
 
-<pre><code>git branch -vv
+<pre><code class="language-text">git branch -vv
 </code></pre>
 
 <h2 id="toc_9">更换远程服务器地址</h2>
 
 <p>先查看remote的名字</p>
 
-<pre><code>git branch -r
+<pre><code class="language-text">git branch -r
 </code></pre>
 
 <p>假设你的remote是origin，用git remote set_url 更换地址</p>
 
-<pre><code>git remote set-url origin remote_git_address
+<pre><code class="language-text">git remote set-url origin remote_git_address
 </code></pre>
 
 <p><code>remote_git_address</code>更换成你的新的仓库地址</p>
 
-<pre><code>#查看远程地址
+<pre><code class="language-text">#查看远程地址
 git remote -v  
 </code></pre>
 

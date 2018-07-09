@@ -221,6 +221,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+          
             <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
           
             <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -490,6 +492,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+                        
                           <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
                         
                           <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -598,7 +602,7 @@
 
 <p>KVO的使用非常简单，使用KVO的要求是对象必须能支持kvc机制——所有NSObject的子类都支持这个机制。拿上面的渐变导航栏做??，我们为tableView添加了一个监听者controller，在我们滑动列表的时候，会计算当前列表的滚动偏移量，然后改变导航栏的背景色透明度。</p>
 
-<pre><code>//添加监听者
+<pre><code class="language-text">//添加监听者
 [self.tableView addObserver: self forKeyPath: @&quot;contentOffset&quot; options: NSKeyValueObservingOptionNew context: nil];
 /**
  * 监听属性值发生改变时回调
@@ -620,7 +624,7 @@
 
 <p>简要的来说，在我们对某个对象完成监听的注册后，编译器会修改监听对象（上文中的tableView）的isa指针，让这个指针指向一个新生成的中间类。从某个意义上来说，这是一场骗局。</p>
 
-<pre><code>typedef struct objc_class *Class;
+<pre><code class="language-text">typedef struct objc_class *Class;
 typedef struct objc_object {
     Class isa;
 } *id;
@@ -636,7 +640,7 @@ typedef struct objc_object {
 
 <p>根据苹果的说法，在对象完成监听注册后，修改了被监听对象的某些属性，并且改变了isa指针，那么我们可以在监听前后输出被监听对象的相关属性来进一步探索kvo的原理。为了保证能够得到对象的真实类型，我使用了object_getClass方法（class方法本质上是调用这个函数），这个方法在runtime.h头文件中</p>
 
-<pre><code>NSLog(@&quot;address: %p&quot;, self.tableView);
+<pre><code class="language-text">NSLog(@&quot;address: %p&quot;, self.tableView);
 NSLog(@&quot;class method: %@&quot;, self.tableView.class);
 NSLog(@&quot;description method: %@&quot;, self.tableView);
 NSLog(@&quot;use runtime to get class: %@&quot;, object_getClass(self.tableView));
@@ -650,7 +654,7 @@ NSLog(@&quot;use runtime to get class %@&quot;, object_getClass(self.tableView))
 
 <p>在看官们运行这段代码之前，可以先思考一下上面的代码会输出什么。</p>
 
-<pre><code>2015-12-12 23:02:33.216 LXDAlphaNavigationController[1487:63171] address: 0x7f927a81d200
+<pre><code class="language-text">2015-12-12 23:02:33.216 LXDAlphaNavigationController[1487:63171] address: 0x7f927a81d200
 2015-12-12 23:02:33.216 LXDAlphaNavigationController[1487:63171] class method: UITableView
 2015-12-12 23:02:33.217 LXDAlphaNavigationController[1487:63171] description method: 2015-12-12 23:02:33.217 LXDAlphaNavigationController[1487:63171] use runtime to get class: UITableView
 2015-12-12 23:02:33.217 LXDAlphaNavigationController[1487:63171] ===================================================
@@ -663,7 +667,7 @@ NSLog(@&quot;use runtime to get class %@&quot;, object_getClass(self.tableView))
 
 <p>这里可以通过一句小代码来说明一下：</p>
 
-<pre><code>NSLog(@&quot;%@, %@&quot;, self.class, super.class);
+<pre><code class="language-text">NSLog(@&quot;%@, %@&quot;, self.class, super.class);
 </code></pre>
 
 <p>上面这段代码不管你怎么输出，两个结果都是一样的。这是由于super本质上指向的是父类内存。这话说起来有点绕口，但是我们可以通过对象内存图来表示：</p>
@@ -680,7 +684,7 @@ NSLog(@&quot;use runtime to get class %@&quot;, object_getClass(self.tableView))
 
 <p>在创建新类之前，我们应该学习苹果的做法，判断当前是否存在这个类，如果不存在我们再进行创建，并且重新实现这个新类的class方法来掩盖具体实现。基于这些原则，我们用下面的方法来获取新类</p>
 
-<pre><code>- (Class)createKVOClassWithOriginalClassName: (NSString *)className
+<pre><code class="language-text">- (Class)createKVOClassWithOriginalClassName: (NSString *)className
 {
     NSString * kvoClassName = [kLXDkvoClassPrefix stringByAppendingString: className];
     Class observedClass = NSClassFromString(kvoClassName);
@@ -699,7 +703,7 @@ NSLog(@&quot;use runtime to get class %@&quot;, object_getClass(self.tableView))
 
 <p>另外，在判断是否需要中间类来完成监听的注册前，我们还要判断监听的属性的有效性。通过获取变量的setter方法名（将首字母大写并加上前缀set），以此来获取setter实现，如果不存在实现代码，则抛出异常使程序崩溃。</p>
 
-<pre><code>SEL setterSelector = NSSelectorFromString(setterForGetter(key));
+<pre><code class="language-text">SEL setterSelector = NSSelectorFromString(setterForGetter(key));
 Method setterMethod = class_getInstanceMethod([self class], setterSelector);
 if (!setterMethod) {
     @throw [NSException exceptionWithName: NSInvalidArgumentException reason: [NSString stringWithFormat: @&quot;unrecognized selector sent to instance %p&quot;, self] userInfo: nil];
@@ -721,7 +725,7 @@ class_addMethod(observedClass, setterSelector, (IMP)KVO_setter, types);
 
 <p>在重新实现setter方法的时候，有两个重要的方法：willChangeValueForKey和didChangeValueForKey，分别在赋值前后进行调用。此外，还要遍历所有的回调监听者，然后通知这些监听者：</p>
 
-<pre><code>static void KVO_setter(id self, SEL _cmd, id newValue)
+<pre><code class="language-text">static void KVO_setter(id self, SEL _cmd, id newValue)
 {
     NSString * setterName = NSStringFromSelector(_cmd);
     NSString * getterName = getterForSetter(setterName);
@@ -752,7 +756,7 @@ class_addMethod(observedClass, setterSelector, (IMP)KVO_setter, types);
 
 <p>所有的监听者通过动态绑定的方式将其存储起来，但这样也会产生强引用，所以我们还需要提供释放监听的方法：</p>
 
-<pre><code>- (void)LXD_removeObserver:(NSObject *)object forKey:(NSString *)key
+<pre><code class="language-text">- (void)LXD_removeObserver:(NSObject *)object forKey:(NSString *)key
 {
     NSMutableArray * observers = objc_getAssociatedObject(self, (__bridge void *)kLXDkvoAssiociateObserver);
     LXD_ObserverInfo * observerRemoved = nil;

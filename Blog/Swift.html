@@ -221,6 +221,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+          
             <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
           
             <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -490,6 +492,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+                        
                           <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
                         
                           <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -584,15 +588,17 @@
 
 	
 		<div class="markdown-body">
-		<h1>SwiftTips - 集中处理</h1>
+		<h1>图片加载方式</h1>
 
-		<h2 id="toc_0">集中处理@objc</h2>
+		<p><img src="media/15299939008214/15299939112098.jpg" alt=""/><br/>
+<img src="media/15299939008214/15299939172785.jpg" alt=""/></p>
 
-<p><img src="media/15158138774013/WX20180113-112401@2x.png" alt="WX20180113-112401@2x"/></p>
+<p>图像的降采样</p>
 
-<h2 id="toc_1">模拟器不能执行的代码单独处理</h2>
+<p>不要使用昂贵的UIImage：UIImage会解压原始的图片占用大量的内存<br/>
+内部的坐标变换也非常昂贵</p>
 
-<p><img src="media/15158138774013/15159872783257.jpg" alt=""/></p>
+<p>使用ImageIO的CGImageSourceCreateThumbnailAtIndex API: 无视原始图片尺寸，resize的内存开销只是目标尺寸（请看Session中后半部分的Demo）</p>
 
 
 		</div>

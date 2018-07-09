@@ -221,6 +221,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+          
             <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
           
             <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -490,6 +492,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+                        
                           <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
                         
                           <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -592,12 +596,12 @@
 
 <p>首先定义一个可变数组</p>
 
-<pre><code>var array = [&quot;张三&quot;,&quot;李四&quot;,&quot;王五&quot;]
+<pre><code class="language-text">var array = [&quot;张三&quot;,&quot;李四&quot;,&quot;王五&quot;]
 </code></pre>
 
 <p>追加一个元素</p>
 
-<pre><code>// 追加元素
+<pre><code class="language-text">// 追加元素
 array.append(&quot;赵六&quot;)
 print(array)
 </code></pre>
@@ -606,42 +610,42 @@ print(array)
 
 <p>通过下标进行修改</p>
 
-<pre><code>array[0] = &quot;赵四&quot;
+<pre><code class="language-text">array[0] = &quot;赵四&quot;
 print(array)
 </code></pre>
 
 <p>结果:</p>
 
-<pre><code>[&quot;赵四&quot;, &quot;李四&quot;, &quot;王五&quot;, &quot;赵六&quot;]
+<pre><code class="language-text">[&quot;赵四&quot;, &quot;李四&quot;, &quot;王五&quot;, &quot;赵六&quot;]
 </code></pre>
 
 <h2 id="toc_2">删除</h2>
 
-<pre><code>// 删除元素
+<pre><code class="language-text">// 删除元素
 array.remove(at: 0)
 print(array)
 </code></pre>
 
 <p>结果:</p>
 
-<pre><code>[&quot;赵四&quot;, &quot;李四&quot;, &quot;王五&quot;, &quot;赵六&quot;]
+<pre><code class="language-text">[&quot;赵四&quot;, &quot;李四&quot;, &quot;王五&quot;, &quot;赵六&quot;]
 [&quot;李四&quot;, &quot;王五&quot;, &quot;赵六&quot;]
 </code></pre>
 
 <p>remove 的方法由很多,移除首/尾,移除范围...</p>
 
-<pre><code>array.removeAll(keepingCapacity: true)
+<pre><code class="language-text">array.removeAll(keepingCapacity: true)
 print(&quot;数组中的元素\(array) 数组容量\(array.capacity)&quot;)
 </code></pre>
 
 <p>结果:</p>
 
-<pre><code>数组中的元素[] 数组容量6
+<pre><code class="language-text">数组中的元素[] 数组容量6
 </code></pre>
 
 <h2 id="toc_3">数组合并</h2>
 
-<pre><code>var arr0 = [1,2,3]
+<pre><code class="language-text">var arr0 = [1,2,3]
 let arr1 = [3,4,5]
 arr0 += arr1
 print(arr0)
@@ -649,12 +653,12 @@ print(arr0)
 
 <p>结果:</p>
 
-<pre><code>[1, 2, 3, 3, 4, 5]
+<pre><code class="language-text">[1, 2, 3, 3, 4, 5]
 </code></pre>
 
 <p>注意: 要合并的数组的类型必须一致,如果不一致会出错. 比如:</p>
 
-<pre><code>var arr0:[Any] = [1,2,3]
+<pre><code class="language-text">var arr0:[Any] = [1,2,3]
 let arr1:[Any] = [&quot;2&quot;,3,4,5]
 arr0 += arr1
 print(arr0)

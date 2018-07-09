@@ -221,6 +221,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+          
             <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
           
             <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -490,6 +492,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
+                        
                           <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
                         
                           <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
@@ -588,7 +592,7 @@
 
 <h2 id="toc_0">传统的下标遍历方法</h2>
 
-<pre><code>let array = [&quot;张三&quot;,&quot;李四&quot;,&quot;王五&quot;]
+<pre><code class="language-text">let array = [&quot;张三&quot;,&quot;李四&quot;,&quot;王五&quot;]
 
 // 第一种 下标遍历
 for i in 0..&lt;array.count {
@@ -598,7 +602,7 @@ for i in 0..&lt;array.count {
 
 <h2 id="toc_1">for in 遍历元素</h2>
 
-<pre><code>// 第二种 for in 遍历元素
+<pre><code class="language-text">// 第二种 for in 遍历元素
 for s in array {
     print(s)
 }
@@ -606,7 +610,7 @@ for s in array {
 
 <h2 id="toc_2">enum block遍历</h2>
 
-<pre><code>// 第三种 enum block 遍历
+<pre><code class="language-text">// 第三种 enum block 遍历
 for e in array.enumerated() {
     print(e)
 }
@@ -614,7 +618,7 @@ for e in array.enumerated() {
 
 <p>结果:</p>
 
-<pre><code>(0, &quot;张三&quot;)
+<pre><code class="language-text">(0, &quot;张三&quot;)
 (1, &quot;李四&quot;)
 (2, &quot;王五&quot;)
 </code></pre>
@@ -626,7 +630,7 @@ for e in array.enumerated() {
 
 <p>由上面第三种方法我们可以知道 e 的类型是元组,那么同样我们可以直接使用元组</p>
 
-<pre><code>// 第四种 元组使用
+<pre><code class="language-text">// 第四种 元组使用
 for (n,s) in array.enumerated() {
     print(&quot;\(n) \(s)&quot;)
 }
@@ -634,14 +638,14 @@ for (n,s) in array.enumerated() {
 
 <p>结果:</p>
 
-<pre><code>0 张三
+<pre><code class="language-text">0 张三
 1 李四
 2 王五
 </code></pre>
 
 <h2 id="toc_4">反序遍历</h2>
 
-<pre><code>// 第五种 反序遍历
+<pre><code class="language-text">// 第五种 反序遍历
 for i in array.reversed() {
     print(i)
 }
@@ -649,14 +653,14 @@ for i in array.reversed() {
 
 <p>结果</p>
 
-<pre><code>王五
+<pre><code class="language-text">王五
 李四
 张三
 </code></pre>
 
 <h2 id="toc_5">反序遍历 带索引</h2>
 
-<pre><code>// 第六种 反序遍历 带索引
+<pre><code class="language-text">// 第六种 反序遍历 带索引
 for (n,s) in array.enumerated().reversed() {
     print(&quot;\(n) \(s)&quot;)
 }
@@ -664,7 +668,7 @@ for (n,s) in array.enumerated().reversed() {
 
 <p>结果:</p>
 
-<pre><code>2 王五
+<pre><code class="language-text">2 王五
 1 李四
 0 张三
 </code></pre>
