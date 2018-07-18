@@ -175,6 +175,8 @@
         <li><label>遇到Bug</label></li>
 
           
+            <li><a title="解决UILabel 末尾的空格被忽略" href="15319018166027.html">解决UILabel 末尾的空格被忽略</a></li>
+          
             <li><a title="使用 Runloop 遇到的问题" href="15101967456310.html">使用 Runloop 遇到的问题</a></li>
           
             <li><a title="打包后出现 Undefined symbols for architecture i386" href="14963702971919.html">打包后出现 Undefined symbols for architecture i386</a></li>
@@ -450,6 +452,8 @@
                     
                       <li class="side-title"><span>遇到Bug</span></li>
                         
+                          <li><a title="解决UILabel 末尾的空格被忽略" href="15319018166027.html">解决UILabel 末尾的空格被忽略</a></li>
+                        
                           <li><a title="使用 Runloop 遇到的问题" href="15101967456310.html">使用 Runloop 遇到的问题</a></li>
                         
                           <li><a title="打包后出现 Undefined symbols for architecture i386" href="14963702971919.html">打包后出现 Undefined symbols for architecture i386</a></li>
@@ -588,52 +592,42 @@
 
 	
 		<div class="markdown-body">
-		<h1>使用 Runloop 遇到的问题</h1>
+		<h1>解决UILabel 末尾的空格被忽略</h1>
 
-		<p>首先: <code>swift</code> 与 <code>C</code> 兼容不如 <code>OC</code> </p>
+		<p>看到这篇文章<a href="https://www.lidaren.com/archives/1333">UILabel取消自动Trim空格和换行等空白字符</a></p>
 
-<ol>
-<li>生成<code>CFRunLoopObserverContext</code>比<code>OC</code>艰难好多...</li>
-</ol>
-
-<pre><code class="language-text">func addRunloopObserver() {
-        autoreleasepool {
-            guard let runloop = CFRunLoopGetCurrent() else {return}
-            let unmanaged = Unmanaged.passRetained(self)
-            let uptr = unmanaged.toOpaque()
-            let vptr = UnsafeMutableRawPointer(uptr)
-            var content = CFRunLoopObserverContext(version: 0, info: vptr, retain: nil, release: nil, copyDescription: nil)
-            guard let obserber = CFRunLoopObserverCreate(kCFAllocatorDefault, CFRunLoopActivity.beforeWaiting.rawValue, true, Int.max - 999, observerCallbackFunc(), &amp;content) else {return}
-            CFRunLoopAddObserver(runloop, obserber, CFRunLoopMode.defaultMode)
-        }
-    }
+<pre><code class="language-text">UILabel会自动清除的空白字符（UNICODE）
+\u0009 CHARACTER TABULATION
+\u000A LINE FEED
+\u000D CARRIAGE RETURN
+\u0020 SPACE
+\u0085 NEXT LINE
+\u00A0 NBSP
+\u1680 OGHAM SPACE MARK
+\u180E MONGOLIAN VOWEL SEPARATOR
+\u2000 EN QUAD
+\u200A HAIR SPACE
+\u200B ZERO WIDTH SPACE
+\u2028 LINE SEPARATOR
+\u2029 PARAGRAPH SEPARATOR
+\u202F NARROW NO-BREAK SPACE
+\u205F MEDIUM MATHEMATICAL SPACE
+\u3000 IDEOGRAPHIC SPACE
 </code></pre>
 
-<p>注意 content ,真是比OC复杂啊</p>
+<p>解决方案</p>
 
-<ol>
-<li>强转也变了...</li>
-</ol>
-
-<pre><code class="language-text">func observerCallbackFunc() -&gt; CFRunLoopObserverCallBack {
-        
-        return {(observer, activity, context) -&gt; Void in
-            guard let context = context else {
-                return
-            }
-            let work = Unmanaged&lt;RunLoopWorker&gt;.fromOpaque(context).takeUnretainedValue()
-            
-            if work.tasks.count == 0 { return }
-            var result = false
-            while result == false &amp;&amp; work.tasks.count &gt; 0 {
-                // 取出任务
-                if let unit = work.tasks.first,unit.values.count &gt; 0 {
-                    result = unit.values.first!()
-                    work.tasks.removeFirst()
-                }
-            }
-        }
-    }
+<pre><code class="language-text">    let paragraphStyle = NSMutableParagraphStyle()
+    paragraphStyle.alignment = .right
+    paragraphStyle.tailIndent = -10
+    let myMutableString = NSMutableAttributedString(
+        string: text,
+        attributes: [
+            NSAttributedStringKey.font: UIFont.systemFont(ofSize: 16),
+            NSAttributedStringKey.paragraphStyle: paragraphStyle
+        ]
+    )
+    label.attributedText = myMutableString
 </code></pre>
 
 

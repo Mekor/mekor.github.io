@@ -175,6 +175,8 @@
         <li><label>遇到Bug</label></li>
 
           
+            <li><a title="解决UILabel 末尾的空格被忽略" href="15319018166027.html">解决UILabel 末尾的空格被忽略</a></li>
+          
             <li><a title="使用 Runloop 遇到的问题" href="15101967456310.html">使用 Runloop 遇到的问题</a></li>
           
             <li><a title="打包后出现 Undefined symbols for architecture i386" href="14963702971919.html">打包后出现 Undefined symbols for architecture i386</a></li>
@@ -450,6 +452,8 @@
                     
                       <li class="side-title"><span>遇到Bug</span></li>
                         
+                          <li><a title="解决UILabel 末尾的空格被忽略" href="15319018166027.html">解决UILabel 末尾的空格被忽略</a></li>
+                        
                           <li><a title="使用 Runloop 遇到的问题" href="15101967456310.html">使用 Runloop 遇到的问题</a></li>
                         
                           <li><a title="打包后出现 Undefined symbols for architecture i386" href="14963702971919.html">打包后出现 Undefined symbols for architecture i386</a></li>
@@ -588,45 +592,67 @@
 
 	
 		<div class="markdown-body">
-		<h1>如何解决json字符串中包含制表符</h1>
+		<h1>升级到Xcode8后Qt无法正常使用</h1>
 
 		<p>错误信息:</p>
 
-<pre><code class="language-text">Error Domain=NSCocoaErrorDomain Code=3840 &quot;The operation couldn’t be completed. (Cocoa error 3840.)&quot; (Unescaped control character around character 135.) UserInfo=0x170e79d00 {NSDebugDescription=Unescaped control character around character 135.}
+<blockquote>
+<p>Project ERROR: Xcode not set up properly. You may need to confirm the license agreement by running /usr/bin/xcodebuild.</p>
+</blockquote>
+
+<p>解决办法:<br/>
+<strong>&gt;= Xcode 8</strong></p>
+
+<p>In Xcode 8, as Bruce said, this happens when Qt tries to find <code>xcrun</code> when it should be looking for <code>xcodebuild</code>.</p>
+
+<p><strong>Step 1:</strong></p>
+
+<p>Open the file:</p>
+
+<pre><code class="language-text">Qt_install_folder/5.7/clang_64/mkspecs/features/mac/default_pre.prf
 </code></pre>
 
-<p><strong>如何处理</strong><br/>
-最关键的地方:</p>
+<p><strong>Step 2:</strong></p>
 
-<pre><code class="language-text">-(NSString *)removeUnescapedCharacter:(NSString *)inputStr
-{
-    NSCharacterSet *controlChars = [NSCharacterSet controlCharacterSet];//获取那些特殊字符
-    NSRange range = [inputStr rangeOfCharacterFromSet:controlChars];//寻找字符串中有没有这些特殊字符
-    if (range.location != NSNotFound)
-        {
-        NSMutableString *mutable = [NSMutableString stringWithString:inputStr];
-        while (range.location != NSNotFound)
-            {
-            [mutable deleteCharactersInRange:range];//去掉这些特殊字符
-            range = [mutable rangeOfCharacterFromSet:controlChars];
-            }
-        return mutable;
-        }
-    return inputStr;
-}
+<p>Replace:</p>
+
+<pre><code class="language-text">isEmpty($$list($$system(&quot;/usr/bin/xcrun -find xcrun 2&gt;/dev/null&quot;)))
 </code></pre>
 
-<p>举例:</p>
+<p>With:</p>
 
-<pre><code class="language-text">    NSString *responseString = [NSMutableString stringWithString:[request responseString]];
-    responseString =[self removeUnescapedCharacter:responseString];
-    NSData *jsonData = [responseString dataUsingEncoding:NSUTF8StringEncoding];
-    NSError *error;
-    NSDictionary * dic = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&amp;error];
+<pre><code class="language-text">isEmpty($$list($$system(&quot;/usr/bin/xcrun -find xcodebuild 2&gt;/dev/null&quot;)))
 </code></pre>
+
+<p><strong>~&gt; Xcode 8</strong></p>
+
+<p>Before Xcode 8, this problem occurs when command line tools are installed after Xcode is installed. What happens is the <code>Xcode-select</code> developer directory gets pointed to <code>/Library/Developer/CommandLineTools</code>.</p>
+
+<p><strong>Step 1:</strong></p>
+
+<p>Point <code>Xcode-select</code> to the correct Xcode Developer directory with the command:</p>
+
+<pre><code class="language-text">sudo xcode-select -switch /Applications/Xcode.app/Contents/Developer
+</code></pre>
+
+<p><strong>Step 2:</strong></p>
+
+<p>Confirm the license agreement with the command:</p>
+
+<pre><code class="language-text">xcodebuild -license
+</code></pre>
+
+<p>This will prompt you to read through the license agreement.</p>
+
+<p>Enter <code>agree</code> to accept the terms.</p>
+
+<p>详见stackoverflow 中 <a href="http://stackoverflow.com/questions/33728905/qt-creator-project-error-xcode-not-set-up-properly-you-may-need-to-confirm-t">Qt Creator - Project ERROR: Xcode not set up properly. You may need to confirm the license agreement by running /usr/bin/xcodebuild</a></p>
 
 
 		</div>
+	
+
+ 
 	
 
  

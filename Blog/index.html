@@ -175,6 +175,8 @@
         <li><label>遇到Bug</label></li>
 
           
+            <li><a title="解决UILabel 末尾的空格被忽略" href="15319018166027.html">解决UILabel 末尾的空格被忽略</a></li>
+          
             <li><a title="使用 Runloop 遇到的问题" href="15101967456310.html">使用 Runloop 遇到的问题</a></li>
           
             <li><a title="打包后出现 Undefined symbols for architecture i386" href="14963702971919.html">打包后出现 Undefined symbols for architecture i386</a></li>
@@ -450,6 +452,8 @@
                     
                       <li class="side-title"><span>遇到Bug</span></li>
                         
+                          <li><a title="解决UILabel 末尾的空格被忽略" href="15319018166027.html">解决UILabel 末尾的空格被忽略</a></li>
+                        
                           <li><a title="使用 Runloop 遇到的问题" href="15101967456310.html">使用 Runloop 遇到的问题</a></li>
                         
                           <li><a title="打包后出现 Undefined symbols for architecture i386" href="14963702971919.html">打包后出现 Undefined symbols for architecture i386</a></li>
@@ -588,17 +592,43 @@
 
 	
 		<div class="markdown-body">
-		<h1>图片加载方式</h1>
+		<h1>解决UILabel 末尾的空格被忽略</h1>
 
-		<p><img src="media/15299939008214/15299939112098.jpg" alt=""/><br/>
-<img src="media/15299939008214/15299939172785.jpg" alt=""/></p>
+		<p>看到这篇文章<a href="https://www.lidaren.com/archives/1333">UILabel取消自动Trim空格和换行等空白字符</a></p>
 
-<p>图像的降采样</p>
+<pre><code class="language-text">UILabel会自动清除的空白字符（UNICODE）
+\u0009 CHARACTER TABULATION
+\u000A LINE FEED
+\u000D CARRIAGE RETURN
+\u0020 SPACE
+\u0085 NEXT LINE
+\u00A0 NBSP
+\u1680 OGHAM SPACE MARK
+\u180E MONGOLIAN VOWEL SEPARATOR
+\u2000 EN QUAD
+\u200A HAIR SPACE
+\u200B ZERO WIDTH SPACE
+\u2028 LINE SEPARATOR
+\u2029 PARAGRAPH SEPARATOR
+\u202F NARROW NO-BREAK SPACE
+\u205F MEDIUM MATHEMATICAL SPACE
+\u3000 IDEOGRAPHIC SPACE
+</code></pre>
 
-<p>不要使用昂贵的UIImage：UIImage会解压原始的图片占用大量的内存<br/>
-内部的坐标变换也非常昂贵</p>
+<p>解决方案</p>
 
-<p>使用ImageIO的CGImageSourceCreateThumbnailAtIndex API: 无视原始图片尺寸，resize的内存开销只是目标尺寸（请看Session中后半部分的Demo）</p>
+<pre><code class="language-text">    let paragraphStyle = NSMutableParagraphStyle()
+    paragraphStyle.alignment = .right
+    paragraphStyle.tailIndent = -10
+    let myMutableString = NSMutableAttributedString(
+        string: text,
+        attributes: [
+            NSAttributedStringKey.font: UIFont.systemFont(ofSize: 16),
+            NSAttributedStringKey.paragraphStyle: paragraphStyle
+        ]
+    )
+    label.attributedText = myMutableString
+</code></pre>
 
 
 		</div>

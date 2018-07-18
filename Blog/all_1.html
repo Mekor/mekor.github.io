@@ -175,6 +175,8 @@
         <li><label>遇到Bug</label></li>
 
           
+            <li><a title="解决UILabel 末尾的空格被忽略" href="15319018166027.html">解决UILabel 末尾的空格被忽略</a></li>
+          
             <li><a title="使用 Runloop 遇到的问题" href="15101967456310.html">使用 Runloop 遇到的问题</a></li>
           
             <li><a title="打包后出现 Undefined symbols for architecture i386" href="14963702971919.html">打包后出现 Undefined symbols for architecture i386</a></li>
@@ -450,6 +452,8 @@
                     
                       <li class="side-title"><span>遇到Bug</span></li>
                         
+                          <li><a title="解决UILabel 末尾的空格被忽略" href="15319018166027.html">解决UILabel 末尾的空格被忽略</a></li>
+                        
                           <li><a title="使用 Runloop 遇到的问题" href="15101967456310.html">使用 Runloop 遇到的问题</a></li>
                         
                           <li><a title="打包后出现 Undefined symbols for architecture i386" href="14963702971919.html">打包后出现 Undefined symbols for architecture i386</a></li>
@@ -588,22 +592,22 @@
 
 	
 		<div class="markdown-body">
-		<h1>设置placeholder颜色</h1>
+		<h1>Carthage 不能正常更新</h1>
 
-		<p>从前设置颜色可能是这样的：</p>
+		<p>报错</p>
 
-<pre><code class="language-text">self.textField.setValue(UIColor.white, forKeyPath: &quot;_placeholderLabel.textColor&quot;)
+<pre><code class="language-text">➜  PersonalMusic git:(master) carthage update
+*** Cloning GCDWebServer
+A shell task (/usr/bin/env git clone --bare --quiet https://github.com/swisspol/GCDWebServer.git /Users/lixzzzzzz/Library/Caches/org.carthage.CarthageKit/dependencies/GCDWebServer) failed with exit code 128:
+fatal: unable to access &#39;https://github.com/swisspol/GCDWebServer.git/&#39;: LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to github.com:443
 
 </code></pre>
 
-<p>今天发现，居然有一个属性可以设置：</p>
+<p>解决办法：</p>
 
-<pre><code class="language-text">self.textField.attributedPlaceholder =
-            NSAttributedString(string: &quot;自定义金额&quot;,
-                               attributes:
-                [NSAttributedStringKey.foregroundColor: UIColor.white]
-        )
+<p>清缓存</p>
 
+<pre><code class="language-text">rm -rf ~/Library/Caches/org.carthage.CarthageKit
 </code></pre>
 
 
