@@ -223,6 +223,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="算法总结" href="15323249439841.html">算法总结</a></li>
+          
             <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
           
             <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
@@ -496,6 +498,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="算法总结" href="15323249439841.html">算法总结</a></li>
+                        
                           <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
                         
                           <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
@@ -592,22 +596,15 @@
 
 	
 		<div class="markdown-body">
-		<h1>Carthage 不能正常更新</h1>
+		<h1>Mac 应用图标没有在launchpad里显示</h1>
 
-		<p>报错</p>
+		<p>重置Launchpad</p>
 
-<pre><code class="language-text">➜  PersonalMusic git:(master) carthage update
-*** Cloning GCDWebServer
-A shell task (/usr/bin/env git clone --bare --quiet https://github.com/swisspol/GCDWebServer.git /Users/lixzzzzzz/Library/Caches/org.carthage.CarthageKit/dependencies/GCDWebServer) failed with exit code 128:
-fatal: unable to access &#39;https://github.com/swisspol/GCDWebServer.git/&#39;: LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to github.com:443
+<pre><code class="language-text">rm ~/Library/Application\ Support/Dock/*.db
 
 </code></pre>
 
-<p>解决办法：</p>
-
-<p>清缓存</p>
-
-<pre><code class="language-text">rm -rf ~/Library/Caches/org.carthage.CarthageKit
+<pre><code class="language-text">killall Dock
 </code></pre>
 
 

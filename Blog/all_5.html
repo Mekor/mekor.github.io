@@ -223,6 +223,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="算法总结" href="15323249439841.html">算法总结</a></li>
+          
             <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
           
             <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
@@ -496,6 +498,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="算法总结" href="15323249439841.html">算法总结</a></li>
+                        
                           <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
                         
                           <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
@@ -592,109 +596,520 @@
 
 	
 		<div class="markdown-body">
-		<h1>Linux - 常用基本命令</h1>
+		<h1>Linux - 文件、磁盘管理</h1>
 
-		<h2 id="toc_0">1.命令使用方法</h2>
+		<h2 id="toc_0">1.文件管理</h2>
 
-<p>Linux命令格式:</p>
+<h3 id="toc_1">查看文件信息：ls</h3>
 
-<pre><code class="language-text">    command  [-options]  [parameter1]  …
-</code></pre>
+<p>ls是英文单词list的简写，其功能为列出目录的内容，是用户最常用的命令之一，它类似于DOS下的dir命令。</p>
 
-<p>说明：</p>
+<p><code>Linux文件或者目录名称最长可以有265个字符，“.”代表当前目录，“..”代表上一级目录，以“.”开头的文件为隐藏文件，需要用 -a 参数才能显示。</code></p>
 
-<ul>
-<li>command: 命令名,相应功能的英文单词或单词的缩写 [-options]：选项,可用来对命令进行控制，也可以省略，<code>[]代表可选</code> parameter1 …：传给命令的参数：可以是零个一个或多个</li>
-</ul>
-
-<p>例：</p>
-
-<p><img src="media/14954518367171/14954519660499.jpg" alt=""/></p>
-
-<h2 id="toc_1">2.查看帮助文档</h2>
-
-<h3 id="toc_2"><1> --help</h3>
-
-<p>一般是linux命令自带的帮助信息</p>
-
-<p>如：ls --help</p>
-
-<h3 id="toc_3"><2> man(有问题找男人，manual)</h3>
-
-<p>man是linux提供的一个手册，包含了绝大部分的命令、函数使用说明</p>
-
-<p>该手册分成很多章节（section），使用man时可以指定不同的章节来浏览。</p>
-
-<p>例：man ls ; man 2 printf</p>
-
-<p>man中各个section意义如下：</p>
-
-<ol>
-<li>Standard commands（标准命令）</li>
-<li>System calls（系统调用，如open,write）</li>
-<li>Library functions（库函数，如printf,fopen）</li>
-<li>Special devices（设备文件的说明，/dev下各种设备）</li>
-<li>File formats（文件格式，如passwd）</li>
-<li>Games and toys（游戏和娱乐）</li>
-<li>Miscellaneous（杂项、惯例与协定等，例如Linux档案系统、网络协定、ASCII 码；environ全局变量）</li>
-<li>Administrative Commands（管理员命令，如ifconfig）</li>
-</ol>
-
-<p>man是按照手册的章节号的顺序进行搜索的。</p>
-
-<p>man设置了如下的功能键：</p>
+<p>ls常用参数：</p>
 
 <table>
 <thead>
 <tr>
-<th style="text-align: center">功能键</th>
-<th>功能</th>
+<th style="text-align: center">参数</th>
+<th>含义</th>
 </tr>
 </thead>
 
 <tbody>
 <tr>
-<td style="text-align: center">空格键</td>
-<td>显示手册页的下一屏</td>
+<td style="text-align: center">-a</td>
+<td>显示指定目录下所有子目录与文件，包括隐藏文件</td>
 </tr>
 <tr>
-<td style="text-align: center">Enter键</td>
-<td>一次滚动手册页的一行</td>
+<td style="text-align: center">-l</td>
+<td>以列表方式显示文件的详细信息</td>
 </tr>
 <tr>
-<td style="text-align: center">b</td>
-<td>回滚一屏</td>
-</tr>
-<tr>
-<td style="text-align: center">f</td>
-<td>前滚一屏</td>
-</tr>
-<tr>
-<td style="text-align: center">q</td>
-<td>退出man命令</td>
-</tr>
-<tr>
-<td style="text-align: center">h</td>
-<td>列出所有功能键</td>
-</tr>
-<tr>
-<td style="text-align: center">/word</td>
-<td>搜索word字符串</td>
+<td style="text-align: center">-h</td>
+<td>配合 -l 以人性化的方式显示文件大小</td>
 </tr>
 </tbody>
 </table>
 
-<p><img src="media/14954518367171/14954525011190.jpg" alt=""/></p>
+<p><img src="media/14954528363090/14954529185223.jpg" alt=""/></p>
 
-<p>注意：实际上，我们不用指定第几个章节也用查看，如，man ls</p>
+<p>图中列出的信息含义如下图所示：</p>
 
-<h2 id="toc_4">3.自动补全：</h2>
+<p><img src="media/14954528363090/14954529393080.jpg" alt=""/></p>
 
-<p>在敲出命令的前几个字母的同时，按下tab键，系统会自动帮我们补全命令</p>
+<p>与DOS下的文件操作类似，在Unix/Linux系统中，也同样允许使用特殊字符来同时引用多个文件名，这些特殊字符被称为通配符。</p>
 
-<h2 id="toc_5">4.历史命令：</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left">通配符</th>
+<th>含义</th>
+</tr>
+</thead>
 
-<p>当系统执行过一些命令后，可按上下键翻看以前的命令，history将执行过的命令列举出来</p>
+<tbody>
+<tr>
+<td style="text-align: left">*</td>
+<td>文件代表文件名中所有字符</td>
+</tr>
+<tr>
+<td style="text-align: left">ls te*</td>
+<td>查找以te开头的文件</td>
+</tr>
+<tr>
+<td style="text-align: left">ls *html</td>
+<td>查找结尾为html的文件</td>
+</tr>
+<tr>
+<td style="text-align: left">？</td>
+<td>代表文件名中任意一个字符</td>
+</tr>
+<tr>
+<td style="text-align: left">ls ?.c</td>
+<td>只找第一个字符任意，后缀为.c的文件</td>
+</tr>
+<tr>
+<td style="text-align: left">ls a.?</td>
+<td>只找只有3个字符，前2字符为a.，最后一个字符任意的文件</td>
+</tr>
+<tr>
+<td style="text-align: left">[]</td>
+<td>[”和“]”将字符组括起来，表示可以匹配字符组中的任意一个。“-”用于表示字符范围。</td>
+</tr>
+<tr>
+<td style="text-align: left">[abc]</td>
+<td>匹配a、b、c中的任意一个</td>
+</tr>
+<tr>
+<td style="text-align: left">[a-f]</td>
+<td>匹配从a到f范围内的的任意一个字符</td>
+</tr>
+<tr>
+<td style="text-align: left">ls [a-f]*</td>
+<td>找到从a到f范围内的的任意一个字符开头的文件</td>
+</tr>
+<tr>
+<td style="text-align: left">ls a-f</td>
+<td>查找文件名为a-f的文件,当“-”处于方括号之外失去通配符的作用</td>
+</tr>
+<tr>
+<td style="text-align: left">\</td>
+<td>如果要使通配符作为普通字符使用，可以在其前面加上转义字符。“?”和“*”处于方括号内时不用使用转义字符就失去通配符的作用。</td>
+</tr>
+<tr>
+<td style="text-align: left">ls *a</td>
+<td>查找文件名为*a的文件</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="toc_2">输出重定向命令：&gt;</h3>
+
+<p>Linux允许将命令执行结果重定向到一个文件，本应显示在终端上的内容保存到指定文件中。</p>
+
+<p>如：ls &gt; test.txt ( test.txt 如果不存在，则创建，存在则覆盖其内容 )</p>
+
+<p><img src="media/14954528363090/14954530933243.jpg" alt=""/><br/>
+注意： <code>&gt;输出重定向会覆盖原来的内容，&gt;&gt;输出重定向则会追加到文件的尾部。</code></p>
+
+<h3 id="toc_3">分屏显示：more</h3>
+
+<p>查看内容时，在信息过长无法在一屏上显示时，会出现快速滚屏，使得用户无法看清文件的内容，此时可以使用more命令，每次只显示一页，按下空格键可以显示下一页，按下q键退出显示，按下h键可以获取帮助。</p>
+
+<p><img src="media/14954528363090/14954533115641.jpg" alt=""/></p>
+
+<h3 id="toc_4">管道：|</h3>
+
+<p>管道：一个命令的输出可以通过管道做为另一个命令的输入。</p>
+
+<p>管道我们可以理解现实生活中的管子，管子的一头塞东西进去，另一头取出来，这里“ | ”的左右分为两端，左端塞东西(写)，右端取东西(读)。</p>
+
+<p><img src="media/14954528363090/14954534699128.jpg" alt=""/></p>
+
+<h3 id="toc_5">清屏：clear</h3>
+
+<p>clear作用为清除终端上的显示(类似于DOS的cls清屏功能)，也可使用快捷键：Ctrl + l ( “l” 为字母 )。</p>
+
+<h3 id="toc_6">切换工作目录： cd</h3>
+
+<p>在使用Unix/Linux的时候，经常需要更换工作目录。cd命令可以帮助用户切换工作目录。<code>Linux所有的目录和文件名大小写敏感</code></p>
+
+<p>cd后面可跟绝对路径，也可以跟相对路径。如果省略目录，则默认切换到当前用户的主目录。</p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">命令</th>
+<th>含义</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">cd</td>
+<td>切换到当前用户的主目录(/home/用户目录)，用户登陆的时候，默认的目录就是用户的主目录。</td>
+</tr>
+<tr>
+<td style="text-align: left">cd ~</td>
+<td>切换到当前用户的主目录(/home/用户目录)</td>
+</tr>
+<tr>
+<td style="text-align: left">cd .</td>
+<td>切换到当前目录</td>
+</tr>
+<tr>
+<td style="text-align: left">cd ..</td>
+<td>切换到上级目录</td>
+</tr>
+<tr>
+<td style="text-align: left">cd -</td>
+<td>可进入上次所在的目录</td>
+</tr>
+</tbody>
+</table>
+
+<p><img src="media/14954528363090/14955894273051.jpg" alt=""/><br/>
+注意：</p>
+
+<ul>
+<li>如果路径是从根路径开始的，则路径的前面需要加上 “ / ”，如 “ /mnt ”，通常进入某个目录里的文件夹，前面不用加 “ / ”。</li>
+</ul>
+
+<p><img src="media/14954528363090/14955900895519.jpg" alt=""/></p>
+
+<h3 id="toc_7">显示当前路径：pwd</h3>
+
+<p>使用pwd命令可以显示当前的工作目录，该命令很简单，直接输入pwd即可，后面不带参数。</p>
+
+<h3 id="toc_8">创建目录：mkdir</h3>
+
+<p>通过mkdir命令可以创建一个新的目录。参数-p可递归创建目录。</p>
+
+<p>需要注意的是新建目录的名称不能与当前目录中已有的目录或文件同名，并且目录创建者必须对当前目录具有写权限。<br/>
+<img src="media/14954528363090/14955907314659.jpg" alt=""/></p>
+
+<h3 id="toc_9">删除目录：rmdir</h3>
+
+<p>可使用rmdir命令删除一个目录。必须离开目录，并且目录必须为空目录，不然提示删除失败。</p>
+
+<h3 id="toc_10">删除文件：rm</h3>
+
+<p>可通过rm删除文件或目录。使用rm命令要小心，因为文件删除后不能恢复。为了防止文件误删，可以在rm后使用-i参数以逐个确认要删除的文件。</p>
+
+<p>常用参数及含义如下表所示：</p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">参数</th>
+<th>含义</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">-i</td>
+<td>以进行交互式方式执行</td>
+</tr>
+<tr>
+<td style="text-align: left">-f</td>
+<td>强制删除，忽略不存在的文件，无需提示</td>
+</tr>
+<tr>
+<td style="text-align: left">-r</td>
+<td>递归地删除目录下的内容，删除文件夹时必须加此参数</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="toc_11">建立链接文件：ln</h3>
+
+<p>Linux链接文件类似于Windows下的快捷方式。</p>
+
+<p>链接文件分为软链接和硬链接。</p>
+
+<p>软链接：软链接不占用磁盘空间，源文件删除则软链接失效。</p>
+
+<p>硬链接：硬链接只能链接普通文件，不能链接目录。</p>
+
+<p>使用格式：</p>
+
+<pre><code class="language-text">ln 源文件 链接文件
+ln -s 源文件 链接文件
+
+</code></pre>
+
+<p>如果<code>没有-s</code>选项代表建立一个硬链接文件，两个文件占用相同大小的硬盘空间，即使删除了源文件，链接文件还是存在，所以-s选项是更常见的形式。</p>
+
+<p>注意：如果软链接文件和源文件不在同一个目录，源文件要使用绝对路径，不能使用相对路径。</p>
+
+<h3 id="toc_12">查看或者合并文件内容：cat</h3>
+
+<h3 id="toc_13">文本搜索：grep</h3>
+
+<p>Linux系统中grep命令是一种强大的文本搜索工具，grep允许对文本文件进行模式查找。如果找到匹配模式， grep打印包含模式的所有行。</p>
+
+<p>grep一般格式为：</p>
+
+<pre><code class="language-text">grep [-选项] ‘搜索内容串’文件名
+
+</code></pre>
+
+<p>在grep命令中输入字符串参数时，最好引号或双引号括起来。例如：grep‘a ’1.txt。</p>
+
+<p>常用选项说明：</p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">选项</th>
+<th>含义</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">-v</td>
+<td>显示不包含匹配文本的所有行（相当于求反）</td>
+</tr>
+<tr>
+<td style="text-align: left">-n</td>
+<td>显示匹配行及行号</td>
+</tr>
+<tr>
+<td style="text-align: left">-i</td>
+<td>忽略大小写</td>
+</tr>
+</tbody>
+</table>
+
+<p>grep搜索内容串可以是正则表达式。</p>
+
+<p>正则表达式是对字符串操作的一种逻辑公式，就是用事先定义好的一些特定字符、及这些特定字符的组合，组成一个“规则字符串”，这个“规则字符串”用来表达对字符串的一种过滤逻辑。</p>
+
+<p>grep常用正则表达式：</p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">参数</th>
+<th>含义</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left"><sup>a</sup></td>
+<td>行首,搜寻以 m 开头的行；grep -n &#39;<sup>a&#39;</sup> 1.txt</td>
+</tr>
+<tr>
+<td style="text-align: left">ke$</td>
+<td>行尾,搜寻以 ke 结束的行；grep -n &#39;ke$&#39; 1.txt</td>
+</tr>
+<tr>
+<td style="text-align: left">[Ss]igna[Ll]</td>
+<td>匹配 [] 里中一系列字符中的一个；搜寻匹配单词signal、signaL、Signal、SignaL的行；grep -n &#39;[Ss]igna[Ll]&#39; 1.txt</td>
+</tr>
+<tr>
+<td style="text-align: left">.</td>
+<td>(点)匹配一个非换行符的字符；匹配 e 和 e 之间有任意一个字符，可以匹配 eee，eae，eve，但是不匹配 ee，eaae；grep -n &#39;e.e&#39; 1.txt</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="toc_14">查找文件：find</h3>
+
+<p>find命令功能非常强大，通常用来在特定的目录下搜索符合条件的文件，也可以用来搜索特定用户属主的文件。</p>
+
+<p>常用用法：</p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">命令</th>
+<th>含义</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">find ./ -name test.sh</td>
+<td>查找当前目录下所有名为test.sh的文件</td>
+</tr>
+<tr>
+<td style="text-align: left">find ./ -name &#39;*.sh&#39;</td>
+<td>查找当前目录下所有后缀为.sh的文件</td>
+</tr>
+<tr>
+<td style="text-align: left">find ./ -name &quot;[A-Z]*&quot;</td>
+<td>查找当前目录下所有以大写字母开头的文件</td>
+</tr>
+<tr>
+<td style="text-align: left">find /tmp -size 2M</td>
+<td>查找在/tmp 目录下等于2M的文件</td>
+</tr>
+<tr>
+<td style="text-align: left">find /tmp -size +2M</td>
+<td>查找在/tmp 目录下大于2M的文件</td>
+</tr>
+<tr>
+<td style="text-align: left">find /tmp -size -2M</td>
+<td>查找在/tmp 目录下小于2M的文件</td>
+</tr>
+<tr>
+<td style="text-align: left">find ./ -size +4k -size -5M</td>
+<td>查找当前目录下大于4k，小于5M的文件</td>
+</tr>
+<tr>
+<td style="text-align: left">find ./ -perm 0777</td>
+<td>查找当前目录下权限为 777 的文件或目录</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="toc_15">拷贝文件：cp</h3>
+
+<p>cp命令的功能是将给出的文件或目录复制到另一个文件或目录中，相当于DOS下的copy命令。</p>
+
+<p>常用选项说明：</p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">选项</th>
+<th>含义</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">-a</td>
+<td>该选项通常在复制目录时使用，它保留链接、文件属性，并递归地复制目录，简单而言，保持文件原有属性。</td>
+</tr>
+<tr>
+<td style="text-align: left">-f</td>
+<td>已经存在的目标文件而不提示</td>
+</tr>
+<tr>
+<td style="text-align: left">-i</td>
+<td>交互式复制，在覆盖目标文件之前将给出提示要求用户确认</td>
+</tr>
+<tr>
+<td style="text-align: left">-r</td>
+<td>若给出的源文件是目录文件，则cp将递归复制该目录下的所有子目录和文件，目标文件必须为一个目录名。</td>
+</tr>
+<tr>
+<td style="text-align: left">-v</td>
+<td>显示拷贝进度</td>
+</tr>
+</tbody>
+</table>
+
+<p>cp vim_configure/ code/ -ivr 把文件夹 vim_configure 拷贝到 code 目录里：</p>
+
+<p><strong>暂时缺图稍后补</strong></p>
+
+<h3 id="toc_16">移动文件：mv</h3>
+
+<p>用户可以使用mv命令来移动文件或目录，也可以给文件或目录重命名。</p>
+
+<p>常用选项说明：</p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">选项</th>
+<th>含义</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">-f</td>
+<td>禁止交互式操作，如有覆盖也不会给出提示</td>
+</tr>
+<tr>
+<td style="text-align: left">-i</td>
+<td>确认交互方式操作，如果mv操作将导致对已存在的目标文件的覆盖，系统会询问是否重写，要求用户回答以避免误覆盖文件</td>
+</tr>
+<tr>
+<td style="text-align: left">-v</td>
+<td>显示移动进度</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="toc_17">归档管理：tar</h3>
+
+<p>计算机中的数据经常需要备份，tar是Unix/Linux中最常用的备份工具，此命令可以把一系列文件归档到一个大文件中，也可以把档案文件解开以恢复数据。</p>
+
+<p>tar使用格式 tar [参数] 打包文件名 文件</p>
+
+<p>tar命令很特殊，其参数前面可以使用“-”，也可以不使用。</p>
+
+<p>常用参数：</p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">参数</th>
+<th>含义</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">-c</td>
+<td>生成档案文件，创建打包文件</td>
+</tr>
+<tr>
+<td style="text-align: left">-v</td>
+<td>列出归档解档的详细过程，显示进度</td>
+</tr>
+<tr>
+<td style="text-align: left">-f</td>
+<td>指定档案文件名称，f后面一定是.tar文件，所以必须放选项最后</td>
+</tr>
+<tr>
+<td style="text-align: left">-t</td>
+<td>列出档案中包含的文件</td>
+</tr>
+<tr>
+<td style="text-align: left">-x</td>
+<td>解开档案文件</td>
+</tr>
+</tbody>
+</table>
+
+<p>注意：除了f需要放在参数的最后，其它参数的顺序任意。</p>
+
+<h3 id="toc_18">文件压缩解压：gzip</h3>
+
+<p>tar与gzip命令结合使用实现文件打包、压缩。 tar只负责打包文件，但不压缩，用gzip压缩tar打包后的文件，其扩展名一般用xxxx.tar.gz。</p>
+
+<p>gzip使用格式如下：</p>
+
+<pre><code class="language-text">gzip  [选项]  被压缩文件
+
+</code></pre>
+
+<p>常用选项：</p>
+
+<p>|选项|含义| |-d|解压| |-r|压缩所有子目录|</p>
+
+<p><strong>这里缺图</strong></p>
+
+<p>tar这个命令并没有压缩的功能，它只是一个打包的命令，但是在tar命令中增加一个选项(-z)可以调用gzip实现了一个压缩的功能，实行一个先打包后压缩的过程。</p>
+
+<p>压缩用法：tar cvzf 压缩包包名 文件1 文件2 ...</p>
+
+<pre><code class="language-text">-z ：指定压缩包的格式为：file.tar.gz
+
+</code></pre>
+
+<p>例如： tar zcvf test.tar.gz 1.c 2.c 3.c 4.c把 1.c 2.c 3.c 4.c 压缩成 test.tar.gz<br/>
+<strong>这里缺图</strong></p>
 
 
 		</div>

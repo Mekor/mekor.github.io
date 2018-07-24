@@ -223,6 +223,8 @@
         <li><label>Swift</label></li>
 
           
+            <li><a title="算法总结" href="15323249439841.html">算法总结</a></li>
+          
             <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
           
             <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
@@ -496,6 +498,8 @@
                     
                       <li class="side-title"><span>Swift</span></li>
                         
+                          <li><a title="算法总结" href="15323249439841.html">算法总结</a></li>
+                        
                           <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
                         
                           <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
@@ -592,17 +596,70 @@
 
 	
 		<div class="markdown-body">
-		<h1>图片加载方式</h1>
+		<h1>算法总结</h1>
 
-		<p><img src="media/15299939008214/15299939112098.jpg" alt=""/><br/>
-<img src="media/15299939008214/15299939172785.jpg" alt=""/></p>
+		<h2 id="toc_0">Fibonacci （斐波那契数列实现）</h2>
 
-<p>图像的降采样</p>
+<pre><code class="language-text">///Fibonacci （斐波那契数列实现）
+func fibonacci(_ n: Int) -&gt; Int{
+    let result = [0,1]
+    if n &lt; 2 {
+        return result[n]
+    }
+    
+    var fibNMinusOne = 1
+    var fibNMinusTwo = 0
+    var fibN = 0
+    
+    for _ in 2...n {
+        fibN = fibNMinusOne + fibNMinusTwo
+        fibNMinusTwo = fibNMinusOne
+        fibNMinusOne = fibN
+    }
+    return fibN
+}
+</code></pre>
 
-<p>不要使用昂贵的UIImage：UIImage会解压原始的图片占用大量的内存<br/>
-内部的坐标变换也非常昂贵</p>
+<h2 id="toc_1">BinarySearch (二分查找)</h2>
 
-<p>使用ImageIO的CGImageSourceCreateThumbnailAtIndex API: 无视原始图片尺寸，resize的内存开销只是目标尺寸（请看Session中后半部分的Demo）</p>
+<h3 id="toc_2">非递归</h3>
+
+<pre><code class="language-text">func binarySearch&lt;T: Comparable&gt;(_ a:[T], key: T) -&gt; Int {
+    print(key)
+    var lowerBound = 0
+    var upperBound = a.count
+    while lowerBound &lt; upperBound {
+
+        let midIndex = lowerBound + (upperBound - lowerBound)/2
+
+        if a[midIndex] == key {
+            return midIndex
+        }else if a[midIndex] &lt; key {
+            lowerBound = midIndex + 1
+        }else {
+            upperBound = midIndex
+        }
+    }
+    return -1
+}
+</code></pre>
+
+<h3 id="toc_3">递归</h3>
+
+<pre><code class="language-text">func binarySearch&lt;T : Comparable&gt;(startIndex: Int, endIndex: Int , arr:[T], key: T) -&gt; Int{
+    let mind = startIndex + (endIndex - startIndex) / 2
+    let mindValue = arr[mind]
+    if mindValue == key {
+        return mind
+    }
+    if mindValue &lt; key {
+        return binarySearch(startIndex: mind + 1, endIndex: endIndex, arr: arr, key: key)
+    } else if mindValue &gt; key {
+        return binarySearch(startIndex: 0, endIndex: mind, arr: arr, key: key)
+    }
+    return -1
+}
+</code></pre>
 
 
 		</div>
