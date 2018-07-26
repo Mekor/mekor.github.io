@@ -175,6 +175,8 @@
         <li><label>遇到Bug</label></li>
 
           
+            <li><a title="控制器透明，WebView透明" href="15323970557540.html">控制器透明，WebView透明</a></li>
+          
             <li><a title="解决UILabel 末尾的空格被忽略" href="15319018166027.html">解决UILabel 末尾的空格被忽略</a></li>
           
             <li><a title="使用 Runloop 遇到的问题" href="15101967456310.html">使用 Runloop 遇到的问题</a></li>
@@ -454,6 +456,8 @@
                     
                       <li class="side-title"><span>遇到Bug</span></li>
                         
+                          <li><a title="控制器透明，WebView透明" href="15323970557540.html">控制器透明，WebView透明</a></li>
+                        
                           <li><a title="解决UILabel 末尾的空格被忽略" href="15319018166027.html">解决UILabel 末尾的空格被忽略</a></li>
                         
                           <li><a title="使用 Runloop 遇到的问题" href="15101967456310.html">使用 Runloop 遇到的问题</a></li>
@@ -596,16 +600,64 @@
 
 	
 		<div class="markdown-body">
-		<h1>Mac 应用图标没有在launchpad里显示</h1>
+		<h1>线程需要注意的问题</h1>
 
-		<p>重置Launchpad</p>
+		<h2 id="toc_0">死锁（Dead Lock）</h2>
 
-<pre><code class="language-text">rm ~/Library/Application\ Support/Dock/*.db
+<p>第一种情况：</p>
+
+<pre><code class="language-text">let serialQueue = DispatchQueue(label:&quot;test&quot;)
+serialQueue.async {
+    //.....
+    serialQueue.sync {
+        //...
+    }
+}
 
 </code></pre>
 
-<pre><code class="language-text">killall Dock
+<p>第二种情况：</p>
+
+<pre><code class="language-text">let operationA = Operation()
+let operationB = Operation()
+operationA.addDependency(operationB)
+operationB.addDependency(operationA)
+
 </code></pre>
+
+<p>怎样避免死锁：</p>
+
+<ol>
+<li>少用依赖</li>
+<li>慎用同步</li>
+</ol>
+
+<h2 id="toc_1">优先倒置（Priority Inversion）</h2>
+
+<pre><code class="language-text">var highPriorityQueue = DispatchQueue.global(qos: .userInitiated)
+var lowPriorityQueue = DispatchQueue.global(qos: .utility)
+
+let semaphore = DispatchSemaphore(value: 1)
+
+lowPriorityQueue.async {
+    semaphore.wait()
+    for i in 0...10 {
+        print(i)
+    }
+    semaphore.signal()
+}
+
+highPriorityQueue.async {
+    semaphore.wait()
+    for i in 11...20 {
+        print(1)
+    }
+}
+
+</code></pre>
+
+<p>解决办法：<br/>
+同一个资源用同一个Qos</p>
 
 
 		</div>
@@ -655,7 +707,7 @@ Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
 
      
     </script>
-    <script src="asset/chart/all-min.js"></script><script type="text/javascript">$(function(){    var mwebii=0;    var mwebChartEleId = 'mweb-chart-ele-';    $('pre>code').each(function(){        mwebii++;        var eleiid = mwebChartEleId+mwebii;        if($(this).hasClass('language-sequence')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = Diagram.parse($(this).text());            diagram.drawSVG(eleiid,{theme: 'simple'});        }else if($(this).hasClass('language-flow')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = flowchart.parse($(this).text());            diagram.drawSVG(eleiid);        }    });});</script>
+    
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
 
   </body>

@@ -175,6 +175,8 @@
         <li><label>遇到Bug</label></li>
 
           
+            <li><a title="控制器透明，WebView透明" href="15323970557540.html">控制器透明，WebView透明</a></li>
+          
             <li><a title="解决UILabel 末尾的空格被忽略" href="15319018166027.html">解决UILabel 末尾的空格被忽略</a></li>
           
             <li><a title="使用 Runloop 遇到的问题" href="15101967456310.html">使用 Runloop 遇到的问题</a></li>
@@ -454,6 +456,8 @@
                     
                       <li class="side-title"><span>遇到Bug</span></li>
                         
+                          <li><a title="控制器透明，WebView透明" href="15323970557540.html">控制器透明，WebView透明</a></li>
+                        
                           <li><a title="解决UILabel 末尾的空格被忽略" href="15319018166027.html">解决UILabel 末尾的空格被忽略</a></li>
                         
                           <li><a title="使用 Runloop 遇到的问题" href="15101967456310.html">使用 Runloop 遇到的问题</a></li>
@@ -596,69 +600,15 @@
 
 	
 		<div class="markdown-body">
-		<h1>算法总结</h1>
+		<h1>控制器透明，WebView透明</h1>
 
-		<h2 id="toc_0">Fibonacci （斐波那契数列实现）</h2>
+		<p>设置控制器透明</p>
 
-<pre><code class="language-text">///Fibonacci （斐波那契数列实现）
-func fibonacci(_ n: Int) -&gt; Int{
-    let result = [0,1]
-    if n &lt; 2 {
-        return result[n]
-    }
-    
-    var fibNMinusOne = 1
-    var fibNMinusTwo = 0
-    var fibN = 0
-    
-    for _ in 2...n {
-        fibN = fibNMinusOne + fibNMinusTwo
-        fibNMinusTwo = fibNMinusOne
-        fibNMinusOne = fibN
-    }
-    return fibN
-}
-</code></pre>
-
-<h2 id="toc_1">BinarySearch (二分查找)</h2>
-
-<h3 id="toc_2">非递归</h3>
-
-<pre><code class="language-text">func binarySearch&lt;T: Comparable&gt;(_ a:[T], key: T) -&gt; Int {
-    print(key)
-    var lowerBound = 0
-    var upperBound = a.count
-    while lowerBound &lt; upperBound {
-
-        let midIndex = lowerBound + (upperBound - lowerBound)/2
-
-        if a[midIndex] == key {
-            return midIndex
-        }else if a[midIndex] &lt; key {
-            lowerBound = midIndex + 1
-        }else {
-            upperBound = midIndex
-        }
-    }
-    return -1
-}
-</code></pre>
-
-<h3 id="toc_3">递归</h3>
-
-<pre><code class="language-text">func binarySearch&lt;T : Comparable&gt;(startIndex: Int, endIndex: Int , arr:[T], key: T) -&gt; Int{
-    let mind = startIndex + (endIndex - startIndex) / 2
-    let mindValue = arr[mind]
-    if mindValue == key {
-        return mind
-    }
-    if mindValue &lt; key {
-        return binarySearch(startIndex: mind + 1, endIndex: endIndex, arr: arr, key: key)
-    } else if mindValue &gt; key {
-        return binarySearch(startIndex: 0, endIndex: mind, arr: arr, key: key)
-    }
-    return -1
-}
+<pre><code class="language-text">let vc = AfterOrderPotADViewController()
+self.definesPresentationContext = true
+vc.modalPresentationStyle = .overCurrentContext
+vc.view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3)
+self.present(vc, animated: false, completion: nil)
 </code></pre>
 
 
@@ -709,7 +659,7 @@ Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
 
      
     </script>
-    <script src="asset/chart/all-min.js"></script><script type="text/javascript">$(function(){    var mwebii=0;    var mwebChartEleId = 'mweb-chart-ele-';    $('pre>code').each(function(){        mwebii++;        var eleiid = mwebChartEleId+mwebii;        if($(this).hasClass('language-sequence')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = Diagram.parse($(this).text());            diagram.drawSVG(eleiid,{theme: 'simple'});        }else if($(this).hasClass('language-flow')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = flowchart.parse($(this).text());            diagram.drawSVG(eleiid);        }    });});</script>
+    
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
 
   </body>

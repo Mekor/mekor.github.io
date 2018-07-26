@@ -175,6 +175,8 @@
         <li><label>遇到Bug</label></li>
 
           
+            <li><a title="控制器透明，WebView透明" href="15323970557540.html">控制器透明，WebView透明</a></li>
+          
             <li><a title="解决UILabel 末尾的空格被忽略" href="15319018166027.html">解决UILabel 末尾的空格被忽略</a></li>
           
             <li><a title="使用 Runloop 遇到的问题" href="15101967456310.html">使用 Runloop 遇到的问题</a></li>
@@ -454,6 +456,8 @@
                     
                       <li class="side-title"><span>遇到Bug</span></li>
                         
+                          <li><a title="控制器透明，WebView透明" href="15323970557540.html">控制器透明，WebView透明</a></li>
+                        
                           <li><a title="解决UILabel 末尾的空格被忽略" href="15319018166027.html">解决UILabel 末尾的空格被忽略</a></li>
                         
                           <li><a title="使用 Runloop 遇到的问题" href="15101967456310.html">使用 Runloop 遇到的问题</a></li>
@@ -596,176 +600,21 @@
 
 	
 		<div class="markdown-body">
-		<h1>防止Timer 与控制器耦合导致控制器不释放</h1>
+		<h1>Cell点击时多次Push</h1>
 
-		<p>在<code>OC</code>中可以使用<code>NSProxy</code> 的转发机制防止timer强引用<br/>
-具体例子可以参考<a href="https://github.com/ibireme/YYKit/blob/3869686e0e560db0b27a7140188fad771e271508/YYKit/Utility/YYWeakProxy.h">YYKit</a>中的处理方式,代码如下：</p>
+		<p><a href="https://stackoverflow.com/questions/5687991/uitableview-didselectrowatindexpath-called-twice">stackoverflow上面的解决方案</a></p>
 
-<pre><code class="language-text">#import &quot;YYWeakProxy.h&quot;
+<pre><code class="language-text">func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 
+    tableView.deselectRowAtIndexPath(indexPath, animated: true)
 
-@implementation YYWeakProxy
-
-- (instancetype)initWithTarget:(id)target {
-    _target = target;
-    return self;
-}
-
-+ (instancetype)proxyWithTarget:(id)target {
-    return [[YYWeakProxy alloc] initWithTarget:target];
-}
-
-- (id)forwardingTargetForSelector:(SEL)selector {
-    return _target;
-}
-
-- (void)forwardInvocation:(NSInvocation *)invocation {
-    void *null = NULL;
-    [invocation setReturnValue:&amp;null];
-}
-
-- (NSMethodSignature *)methodSignatureForSelector:(SEL)selector {
-    return [NSObject instanceMethodSignatureForSelector:@selector(init)];
-}
-
-- (BOOL)respondsToSelector:(SEL)aSelector {
-    return [_target respondsToSelector:aSelector];
-}
-
-- (BOOL)isEqual:(id)object {
-    return [_target isEqual:object];
-}
-
-- (NSUInteger)hash {
-    return [_target hash];
-}
-
-- (Class)superclass {
-    return [_target superclass];
-}
-
-- (Class)class {
-    return [_target class];
-}
-
-- (BOOL)isKindOfClass:(Class)aClass {
-    return [_target isKindOfClass:aClass];
-}
-
-- (BOOL)isMemberOfClass:(Class)aClass {
-    return [_target isMemberOfClass:aClass];
-}
-
-- (BOOL)conformsToProtocol:(Protocol *)aProtocol {
-    return [_target conformsToProtocol:aProtocol];
-}
-
-- (BOOL)isProxy {
-    return YES;
-}
-
-- (NSString *)description {
-    return [_target description];
-}
-
-- (NSString *)debugDescription {
-    return [_target debugDescription];
-}
-</code></pre>
-
-<p>在Swift中怎么处理？王巍的<a href="https://gist.github.com/onevcat/2d1ceff1c657591eebde">Gist</a>中写了一种</p>
-
-<pre><code class="language-text">private class Block&lt;T&gt; {
-    let f : T
-    init (_ f: T) { self.f = f }
-}
-
-extension NSTimer {
-    static func xxx_scheduledTimerWithTimeInterval(ti: NSTimeInterval, block: ()-&gt;(), repeats: Bool) -&gt; NSTimer {
-        return self.scheduledTimerWithTimeInterval(ti, target:
-            self, selector: &quot;xxx_blcokInvoke:&quot;, userInfo: Block(block), repeats: repeats)
-    }
-    
-    static func xxx_blcokInvoke(timer: NSTimer) {
-        if let block = timer.userInfo as? Block&lt;()-&gt;()&gt; {
-            block.f()
+    if let navigationController = navigationController {
+        guard navigationController.topViewController == self else {
+            return
         }
     }
 }
-</code></pre>
 
-<p>当然还有其他的方式比如：<a href="https://stackoverflow.com/questions/44096793/how-to-set-cadisplaylink-in-swift-with-weak-reference-between-target-and-cadispl">How to set CADisplayLink in Swift with weak reference between target and CADisplayLink instance<br/>
-</a> 等等。。。</p>
-
-<p>目前公司项目中采用的方式如下：</p>
-
-<pre><code class="language-text">class WeakTimer: NSObject {
-    
-    private weak var target: NSObject?
-    private weak var timer: Timer?
-    private var selector: Selector
-    
-    private var userInfo: Any?
-    
-    init(withTimeInterval ti: TimeInterval, target aTarget: NSObject, selector aSelector: Selector, userInfo: Any?, repeats yesOrNo: Bool) {
-        self.target = aTarget
-        self.selector = aSelector
-        self.userInfo = userInfo
-        super.init()
-        timer = Timer.scheduledTimer(timeInterval: ti, target: self, selector: #selector(test), userInfo: userInfo, repeats: yesOrNo)
-    }
-    
-    @objc private func test() {
-        target?.perform(selector, with: self.userInfo, afterDelay: 0)
-    }
-    
-    open class func scheduledTimer(timeInterval ti: TimeInterval, target aTarget: NSObject, selector aSelector: Selector, userInfo: Any?, repeats yesOrNo: Bool) -&gt; WeakTimer {
-        let weakTimer = WeakTimer(withTimeInterval: ti, target: aTarget, selector: aSelector, userInfo: userInfo, repeats: yesOrNo)
-        
-        return weakTimer
-    }
-    
-    open func invalidate() {
-        timer?.invalidate()
-    }
-}
-</code></pre>
-
-<p>应用</p>
-
-<pre><code class="language-text">    @objc private func dismissSelf() {
-        self.weakTimer?.invalidate()
-        self.weakTimer = nil
-        // HHTSwitchGlobalData.shared.waiterLoginTimeOut
-        self.weakTimer = WeakTimer.scheduledTimer(timeInterval: HHTSwitchGlobalData.shared.waiterLoginTimeOut, target: self, selector: #selector(autoDismiss), userInfo: nil, repeats: true)
-    }
-</code></pre>
-
-<p>第三方库 Kingfisher 中的处理办法</p>
-
-<pre><code class="language-text">    /// Proxy object for prevending a reference cycle between the CADDisplayLink and AnimatedImageView.
-    class TargetProxy {
-        private weak var target: AnimatedImageView?
-        
-        init(target: AnimatedImageView) {
-            self.target = target
-        }
-        
-        @objc func onScreenUpdate() {
-            target?.updateFrame()
-        }
-    }
-</code></pre>
-
-<p>应用:</p>
-
-<pre><code class="language-text">private lazy var displayLink: CADisplayLink = {
-        self.isDisplayLinkInitialized = true
-        let displayLink = CADisplayLink(target: TargetProxy(target: self), selector: #selector(TargetProxy.onScreenUpdate))
-        displayLink.add(to: .main, forMode: self.runLoopMode)
-        displayLink.isPaused = true
-        return displayLink
-    }()
 </code></pre>
 
 
@@ -816,7 +665,7 @@ Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
 
      
     </script>
-    <script src="asset/chart/all-min.js"></script><script type="text/javascript">$(function(){    var mwebii=0;    var mwebChartEleId = 'mweb-chart-ele-';    $('pre>code').each(function(){        mwebii++;        var eleiid = mwebChartEleId+mwebii;        if($(this).hasClass('language-sequence')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = Diagram.parse($(this).text());            diagram.drawSVG(eleiid,{theme: 'simple'});        }else if($(this).hasClass('language-flow')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = flowchart.parse($(this).text());            diagram.drawSVG(eleiid);        }    });});</script>
+    
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
 
   </body>

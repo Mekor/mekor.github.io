@@ -175,6 +175,8 @@
         <li><label>遇到Bug</label></li>
 
           
+            <li><a title="控制器透明，WebView透明" href="15323970557540.html">控制器透明，WebView透明</a></li>
+          
             <li><a title="解决UILabel 末尾的空格被忽略" href="15319018166027.html">解决UILabel 末尾的空格被忽略</a></li>
           
             <li><a title="使用 Runloop 遇到的问题" href="15101967456310.html">使用 Runloop 遇到的问题</a></li>
@@ -454,6 +456,8 @@
                     
                       <li class="side-title"><span>遇到Bug</span></li>
                         
+                          <li><a title="控制器透明，WebView透明" href="15323970557540.html">控制器透明，WebView透明</a></li>
+                        
                           <li><a title="解决UILabel 末尾的空格被忽略" href="15319018166027.html">解决UILabel 末尾的空格被忽略</a></li>
                         
                           <li><a title="使用 Runloop 遇到的问题" href="15101967456310.html">使用 Runloop 遇到的问题</a></li>
@@ -596,42 +600,15 @@
 
 	
 		<div class="markdown-body">
-		<h1>解决UILabel 末尾的空格被忽略</h1>
+		<h1>控制器透明，WebView透明</h1>
 
-		<p>看到这篇文章<a href="https://www.lidaren.com/archives/1333">UILabel取消自动Trim空格和换行等空白字符</a></p>
+		<p>设置控制器透明</p>
 
-<pre><code class="language-text">UILabel会自动清除的空白字符（UNICODE）
-\u0009 CHARACTER TABULATION
-\u000A LINE FEED
-\u000D CARRIAGE RETURN
-\u0020 SPACE
-\u0085 NEXT LINE
-\u00A0 NBSP
-\u1680 OGHAM SPACE MARK
-\u180E MONGOLIAN VOWEL SEPARATOR
-\u2000 EN QUAD
-\u200A HAIR SPACE
-\u200B ZERO WIDTH SPACE
-\u2028 LINE SEPARATOR
-\u2029 PARAGRAPH SEPARATOR
-\u202F NARROW NO-BREAK SPACE
-\u205F MEDIUM MATHEMATICAL SPACE
-\u3000 IDEOGRAPHIC SPACE
-</code></pre>
-
-<p>解决方案</p>
-
-<pre><code class="language-text">    let paragraphStyle = NSMutableParagraphStyle()
-    paragraphStyle.alignment = .right
-    paragraphStyle.tailIndent = -10
-    let myMutableString = NSMutableAttributedString(
-        string: text,
-        attributes: [
-            NSAttributedStringKey.font: UIFont.systemFont(ofSize: 16),
-            NSAttributedStringKey.paragraphStyle: paragraphStyle
-        ]
-    )
-    label.attributedText = myMutableString
+<pre><code class="language-text">let vc = AfterOrderPotADViewController()
+self.definesPresentationContext = true
+vc.modalPresentationStyle = .overCurrentContext
+vc.view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3)
+self.present(vc, animated: false, completion: nil)
 </code></pre>
 
 
@@ -682,7 +659,7 @@ Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
 
      
     </script>
-    <script src="asset/chart/all-min.js"></script><script type="text/javascript">$(function(){    var mwebii=0;    var mwebChartEleId = 'mweb-chart-ele-';    $('pre>code').each(function(){        mwebii++;        var eleiid = mwebChartEleId+mwebii;        if($(this).hasClass('language-sequence')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = Diagram.parse($(this).text());            diagram.drawSVG(eleiid,{theme: 'simple'});        }else if($(this).hasClass('language-flow')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = flowchart.parse($(this).text());            diagram.drawSVG(eleiid);        }    });});</script>
+    
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
 
   </body>

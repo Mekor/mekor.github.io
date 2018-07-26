@@ -175,6 +175,8 @@
         <li><label>遇到Bug</label></li>
 
           
+            <li><a title="控制器透明，WebView透明" href="15323970557540.html">控制器透明，WebView透明</a></li>
+          
             <li><a title="解决UILabel 末尾的空格被忽略" href="15319018166027.html">解决UILabel 末尾的空格被忽略</a></li>
           
             <li><a title="使用 Runloop 遇到的问题" href="15101967456310.html">使用 Runloop 遇到的问题</a></li>
@@ -454,6 +456,8 @@
                     
                       <li class="side-title"><span>遇到Bug</span></li>
                         
+                          <li><a title="控制器透明，WebView透明" href="15323970557540.html">控制器透明，WebView透明</a></li>
+                        
                           <li><a title="解决UILabel 末尾的空格被忽略" href="15319018166027.html">解决UILabel 末尾的空格被忽略</a></li>
                         
                           <li><a title="使用 Runloop 遇到的问题" href="15101967456310.html">使用 Runloop 遇到的问题</a></li>
@@ -596,10 +600,13 @@
 
 	
 		<div class="markdown-body">
-		<h1>iOS 模拟器 添加图片到相册的小技巧</h1>
+		<h1>UILabel边缘出现黑线</h1>
 
-		<p>把图片拖到模拟器主屏幕,或者Safari中,保存图片7 <br/>
-<img src="media/14765420394973/tips.gif" alt="tips"/></p>
+		<p>问题:代码实现 UILabel 时出现的边缘黑线问题<br/>
+原因:当 UILabel 的宽高出现浮点型数字时,在高清屏下有可能出现右侧边缘黑线问题, 解决方法是使用 <code>CGRectIntegral()</code> 方法确保 <code>frame</code> 中不存在非整形数值</p>
+
+<pre><code class="language-text">label.frame = CGRectIntegral(CGRectMake(0, 0, ceil(width),40));
+</code></pre>
 
 
 		</div>
@@ -649,7 +656,7 @@ Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
 
      
     </script>
-    <script src="asset/chart/all-min.js"></script><script type="text/javascript">$(function(){    var mwebii=0;    var mwebChartEleId = 'mweb-chart-ele-';    $('pre>code').each(function(){        mwebii++;        var eleiid = mwebChartEleId+mwebii;        if($(this).hasClass('language-sequence')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = Diagram.parse($(this).text());            diagram.drawSVG(eleiid,{theme: 'simple'});        }else if($(this).hasClass('language-flow')){            var ele = $(this).addClass('nohighlight').parent();            $('<div id="'+eleiid+'"></div>').insertAfter(ele);            ele.hide();            var diagram = flowchart.parse($(this).text());            diagram.drawSVG(eleiid);        }    });});</script>
+    
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
 
   </body>
