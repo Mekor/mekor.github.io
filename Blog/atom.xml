@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2018-07-26T15:00:25+08:00</updated>
+  <updated>2018-07-26T15:07:31+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -104,6 +104,34 @@ func fibonacci(_ n: Int) -&gt; Int{
     }
     return -1
 }
+</code></pre>
+
+<h2 id="toc_4">快速排序</h2>
+
+<pre><code class="language-text">func quicksort&lt;T: Comparable&gt;(_ unsort:[T]) -&gt; [T] {
+    guard unsort.count &gt; 1 else {
+        return unsort
+    }
+    
+    let pivot = unsort[unsort.count / 2]
+    let less = unsort.filter { $0 &lt; pivot }
+    let equal = unsort.filter { $0 == pivot }
+    let greater = unsort.filter { $0 &gt; pivot }
+    
+    return quicksort(less) + equal + quicksort(greater)
+}
+</code></pre>
+
+<p>测试结果</p>
+
+<pre><code class="language-text">let list = [ 10, 0, 3, 9, 2, 14, 8, 27, 1, 5, 8, -1, 26 ]
+
+print(list)
+print(quicksort(list))
+--------------------
+[10, 0, 3, 9, 2, 14, 8, 27, 1, 5, 8, -1, 26]
+[-1, 0, 1, 2, 3, 5, 8, 8, 9, 10, 14, 26, 27]
+
 </code></pre>
 
 ]]></content>
