@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  李小争
+  UITableView 第0的sectionHeaderView 不显示 - 李小争
   
   </title>
  <meta name="description" content="记录开发中遇到的一些问题">
@@ -595,50 +595,55 @@
             </div>
             <div class="large-9 medium-9 columns">
 
- 
+ <div class="markdown-body">
+<h1>UITableView 第0的sectionHeaderView 不显示</h1>
+
+<p>只有当UITableView是Grouped样式，并且section的高度是通过sectionHeaderHeight设置的时候，第0个section的headerView才会丢失，通过代理设置不会丢失。如果UITableView是Plain样式就不会有任何问题。</p>
+
+<p>下面是不显示第0个sectionHeaderView的情况<br/>
+<img src="media/15336071866624/15336074512241.jpg" alt="" style="width:1406px;"/></p>
+
+<p>正常显示<br/>
+<img src="media/15336071866624/15336075291692.jpg" alt="" style="width:1394px;"/><br/>
+在正常显示的时候明显感觉到第0个section上面有间距，真机没有测试。</p>
 
 
-	
-		<div class="markdown-body">
-		<h1>懒加载的另一种写法</h1>
+</div>
 
-		<p>原先我一直这样写：</p>
+<br /><br />
+<hr />
 
-<pre><code class="language-text">    private lazy var imageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: &quot;placeholder&quot;))
-        imageView.contentMode = .center
-        return imageView
-    }()
+<div class="row clearfix">
+  <div class="large-6 columns">
+	<div class="text-left" style="padding:15px 0px;">
+		
+	</div>
+  </div>
+  <div class="large-6 columns">
+	<div class="text-right" style="padding:15px 0px;">
+		
+	        <a href="15323970557540.html" 
+	        title="Next Post: 控制器透明，WebView透明">控制器透明，WebView透明 &raquo;</a>
+	    
+	</div>
+  </div>
+</div>
 
-</code></pre>
+<div class="row">
+<div style="padding:0px 0.93em;" class="share-comments">
 
-<p>今天看到了另一种比较简洁的写法</p>
-
-<pre><code class="language-text">private lazy var imageView: UIImageView = {
-        $0.contentMode = .center
-        return $0
-    }(UIImageView())
-
-</code></pre>
-
-
-		</div>
-	
-
- 
-	
-
- 
-	
-
- 
-	
-
- 
-	
-
-  
-  
+</div>
+</div>
+<script type="text/javascript">
+	$(function(){
+		var currentURL = '15336071866624.html';
+		$('#side-nav a').each(function(){
+			if($(this).attr('href') == currentURL){
+				$(this).parent().addClass('active');
+			}
+		});
+	});
+</script>  
 </div></div>
 
 

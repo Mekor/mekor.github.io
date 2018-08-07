@@ -600,53 +600,12 @@
 
 	
 		<div class="markdown-body">
-		<h1>使用 Runloop 遇到的问题</h1>
+		<h1>企业证书需要</h1>
 
-		<p>首先: <code>swift</code> 与 <code>C</code> 兼容不如 <code>OC</code> </p>
-
-<ol>
-<li>生成<code>CFRunLoopObserverContext</code>比<code>OC</code>艰难好多...</li>
+		<ol>
+<li>邓白氏码  不清楚公司是否申请过,如果没有申请过可能需要半个月左右时间(最快1周)</li>
+<li>申请企业证书, 现在苹果对国内企业证书申请比较严格最快1周可能需要半个月甚至更久(美国快过圣诞节和元旦了)</li>
 </ol>
-
-<pre><code class="language-text">func addRunloopObserver() {
-        autoreleasepool {
-            guard let runloop = CFRunLoopGetCurrent() else {return}
-            let unmanaged = Unmanaged.passRetained(self)
-            let uptr = unmanaged.toOpaque()
-            let vptr = UnsafeMutableRawPointer(uptr)
-            var content = CFRunLoopObserverContext(version: 0, info: vptr, retain: nil, release: nil, copyDescription: nil)
-            guard let obserber = CFRunLoopObserverCreate(kCFAllocatorDefault, CFRunLoopActivity.beforeWaiting.rawValue, true, Int.max - 999, observerCallbackFunc(), &amp;content) else {return}
-            CFRunLoopAddObserver(runloop, obserber, CFRunLoopMode.defaultMode)
-        }
-    }
-</code></pre>
-
-<p>注意 content ,真是比OC复杂啊</p>
-
-<ol>
-<li>强转也变了...</li>
-</ol>
-
-<pre><code class="language-text">func observerCallbackFunc() -&gt; CFRunLoopObserverCallBack {
-        
-        return {(observer, activity, context) -&gt; Void in
-            guard let context = context else {
-                return
-            }
-            let work = Unmanaged&lt;RunLoopWorker&gt;.fromOpaque(context).takeUnretainedValue()
-            
-            if work.tasks.count == 0 { return }
-            var result = false
-            while result == false &amp;&amp; work.tasks.count &gt; 0 {
-                // 取出任务
-                if let unit = work.tasks.first,unit.values.count &gt; 0 {
-                    result = unit.values.first!()
-                    work.tasks.removeFirst()
-                }
-            }
-        }
-    }
-</code></pre>
 
 
 		</div>

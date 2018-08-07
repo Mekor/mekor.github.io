@@ -600,22 +600,16 @@
 
 	
 		<div class="markdown-body">
-		<h1>控制器透明，WebView透明</h1>
+		<h1>UITableView 第0的sectionHeaderView 不显示</h1>
 
-		<p>设置控制器透明</p>
+		<p>只有当UITableView是Grouped样式，并且section的高度是通过sectionHeaderHeight设置的时候，第0个section的headerView才会丢失，通过代理设置不会丢失。如果UITableView是Plain样式就不会有任何问题。</p>
 
-<pre><code class="language-text">let vc = AfterOrderPotADViewController()
-self.definesPresentationContext = true
-vc.modalPresentationStyle = .overCurrentContext
-vc.view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3)
-self.present(vc, animated: false, completion: nil)
-</code></pre>
+<p>下面是不显示第0个sectionHeaderView的情况<br/>
+<img src="media/15336071866624/15336074512241.jpg" alt="" style="width:1406px;"/></p>
 
-<p>webView 设置透明</p>
-
-<pre><code class="language-text">webView.backgroundColor = UIColor.clear
-webView.isOpaque = false
-</code></pre>
+<p>正常显示<br/>
+<img src="media/15336071866624/15336075291692.jpg" alt="" style="width:1394px;"/><br/>
+在正常显示的时候明显感觉到第0个section上面有间距，真机没有测试。</p>
 
 
 		</div>

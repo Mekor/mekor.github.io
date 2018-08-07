@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2018-07-26T15:07:31+08:00</updated>
+  <updated>2018-07-29T11:06:46+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -12,6 +12,24 @@
   </author>
   <generator uri="http://www.mweb.im">MWeb</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[UITableView 第0的sectionHeaderView 不显示]]></title>
+    <link href="http://www.citynight.cn/Blog/15336071866624.html"/>
+    <updated>2018-08-07T09:59:46+08:00</updated>
+    <id>http://www.citynight.cn/Blog/15336071866624.html</id>
+    <content type="html"><![CDATA[
+<p>只有当UITableView是Grouped样式，并且section的高度是通过sectionHeaderHeight设置的时候，第0个section的headerView才会丢失，通过代理设置不会丢失。如果UITableView是Plain样式就不会有任何问题。</p>
+
+<p>下面是不显示第0个sectionHeaderView的情况<br/>
+<img src="media/15336071866624/15336074512241.jpg" alt="" style="width:1406px;"/></p>
+
+<p>正常显示<br/>
+<img src="media/15336071866624/15336075291692.jpg" alt="" style="width:1394px;"/><br/>
+在正常显示的时候明显感觉到第0个section上面有间距，真机没有测试。</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[控制器透明，WebView透明]]></title>
@@ -1406,38 +1424,6 @@ func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask,
 
 <p>下载图片失败率还是很高的,我设置的超时时间为60s <code>downloader.downloadTimeout = 60</code> 但是还是有很多图片下载超时,导致首次加载的时候需要下载图片滑动卡顿.<br/>
 由于<code>NSCache</code>的特殊性,不能保证图片一直在内存中,正在考虑是否替换成Dictionary,然后自己处理内存警告.这个稍后验证下.</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[指针]]></title>
-    <link href="http://www.citynight.cn/Blog/15052686192490.html"/>
-    <updated>2017-09-13T10:10:19+08:00</updated>
-    <id>http://www.citynight.cn/Blog/15052686192490.html</id>
-    <content type="html"><![CDATA[
-<h2 id="toc_0">1. 指针是一种数据类型</h2>
-
-<ol>
-<li>指针也是一种变量,占有内存空间,用来保存内存地址  指针的大小--&gt; 32位: 4  64位: 8</li>
-<li><p><code>*p</code> 操作内存</p>
-<pre><code class="language-text">在指针声明时,`*`号表示所声明的变量为指针
-在指针使用时,`*`号表示**操作**指针所指向的内存空间中的值<br/>
-`*p`相当于通过地址(p变量的值)找到一块内存,然后操作内存<br/>
-`*p`放在等号左边赋值(给内存赋值)<br/>
-`*p`放在等号右边取值(从内存获取值)
-</code></pre></li>
-<li><p>指针变量和它指向的内存块是两个不同的概念</p>
-<pre><code class="language-text">含义1: 给p赋值 p = 0x1111; 只会改变指针变量值,不会改变所指的内容; p = p+1
-含义2: 给`*p`赋值 *p = &#39;a&#39;;不会改变指针变量的值,只会改变所指的内存块的值<br/>
-保证所指向的内存空间能修改()<br/>
-*就像一把钥匙,通过一个地址(&amp;a),去修改a变量的标示的内存空间
-</code></pre></li>
-<li><p>指针是一种数据类型,是指它指向的内存空间的数据类型</p>
-<pre><code class="language-text">指针步长(p++),根据所指内存空间的数据类型类确定
-p++ = ---&gt; p+sizeof(a)
-</code></pre></li>
-</ol>
 
 ]]></content>
   </entry>
