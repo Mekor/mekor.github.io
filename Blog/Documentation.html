@@ -303,6 +303,8 @@
         <li><label>Documentation</label></li>
 
           
+            <li><a title="framework脚本" href="15345002536089.html">framework脚本</a></li>
+          
             <li><a title="企业证书需要" href="15132354899270.html">企业证书需要</a></li>
           
             <li><a title="3D Touch" href="15038471972999.html">3D Touch</a></li>
@@ -574,6 +576,8 @@
                     
                       <li class="side-title"><span>Documentation</span></li>
                         
+                          <li><a title="framework脚本" href="15345002536089.html">framework脚本</a></li>
+                        
                           <li><a title="企业证书需要" href="15132354899270.html">企业证书需要</a></li>
                         
                           <li><a title="3D Touch" href="15038471972999.html">3D Touch</a></li>
@@ -600,12 +604,46 @@
 
 	
 		<div class="markdown-body">
-		<h1>企业证书需要</h1>
+		<h1>framework脚本</h1>
 
-		<ol>
-<li>邓白氏码  不清楚公司是否申请过,如果没有申请过可能需要半个月左右时间(最快1周)</li>
-<li>申请企业证书, 现在苹果对国内企业证书申请比较严格最快1周可能需要半个月甚至更久(美国快过圣诞节和元旦了)</li>
-</ol>
+		<pre><code class="language-text">if [ &quot;${ACTION}&quot; = &quot;build&quot; ]
+
+then
+
+INSTALL_DIR=${SRCROOT}/Products/${PROJECT_NAME}.framework
+
+DEVICE_DIR=${BUILD_ROOT}/${CONFIGURATION}-iphoneos/${PROJECT_NAME}.framework
+
+SIMULATOR_DIR=${BUILD_ROOT}/${CONFIGURATION}-iphonesimulator/${PROJECT_NAME}.framework
+
+SIMULATOR_SWIFT_MODULE_DIR=&quot;${SIMULATOR_DIR}/Modules/${PROJECT_NAME}.swiftmodule/*&quot;
+
+INSTALL_SWIFT_MODULE_DIR=${INSTALL_DIR}/Modules/${PROJECT_NAME}.swiftmodule/
+
+if [ -d &quot;${INSTALL_DIR}&quot; ]
+
+then
+
+rm -rf &quot;${INSTALL_DIR}&quot;
+
+fi
+
+mkdir -p &quot;${INSTALL_DIR}&quot;
+
+cp -R &quot;${DEVICE_DIR}/&quot; &quot;${INSTALL_DIR}/&quot;
+
+#ditto &quot;${DEVICE_DIR}/Headers&quot; &quot;${INSTALL_DIR}/Headers&quot;
+
+lipo -create &quot;${DEVICE_DIR}/${PROJECT_NAME}&quot; &quot;${SIMULATOR_DIR}/${PROJECT_NAME}&quot; -output &quot;${INSTALL_DIR}/${PROJECT_NAME}&quot;
+
+cp ${SIMULATOR_SWIFT_MODULE_DIR} &quot;${INSTALL_SWIFT_MODULE_DIR}&quot;
+
+#open &quot;${DEVICE_DIR}&quot;
+
+open &quot;${SRCROOT}/Products&quot;
+
+fi
+</code></pre>
 
 
 		</div>

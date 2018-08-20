@@ -303,6 +303,8 @@
         <li><label>Documentation</label></li>
 
           
+            <li><a title="framework脚本" href="15345002536089.html">framework脚本</a></li>
+          
             <li><a title="企业证书需要" href="15132354899270.html">企业证书需要</a></li>
           
             <li><a title="3D Touch" href="15038471972999.html">3D Touch</a></li>
@@ -574,6 +576,8 @@
                     
                       <li class="side-title"><span>Documentation</span></li>
                         
+                          <li><a title="framework脚本" href="15345002536089.html">framework脚本</a></li>
+                        
                           <li><a title="企业证书需要" href="15132354899270.html">企业证书需要</a></li>
                         
                           <li><a title="3D Touch" href="15038471972999.html">3D Touch</a></li>
@@ -600,10 +604,15 @@
 
 	
 		<div class="markdown-body">
-		<h1>数组传递</h1>
+		<h1>Swift - 最近遇到的问题(3.8)</h1>
 
-		<p>把A控制器中的数组 传递给 B  ,然后 B 再把数据传递给 C <br/>
-这时如果 A中数组进行了修改,那么 C 中数据也会修改</p>
+		<h2 id="toc_0">把函数名当参数传递不释放</h2>
+
+<p>控制器A 有一个函数 func  有一个视图 View ,如果控制器A 把函数 func 传递给 View 那么 控制器不释放</p>
+
+<h2 id="toc_1">*** Assertion failure in -[UITableView dequeueReusableCellWithIdentifier:forIndexPath:]</h2>
+
+<p>产生原因: 同一个控制器,里面有一个代码添加的tableView,然后这个控制器又添加了一个xib视图,xib视图中有tableView,并且设置tableView的数据源和代理方法为filesowner,导致崩溃.  </p>
 
 
 		</div>
