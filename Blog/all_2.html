@@ -199,6 +199,8 @@
         <li><label>杂记</label></li>
 
           
+            <li><a title="<禅与摩托车维修艺术>" href="15366461063408.html"><禅与摩托车维修艺术></a></li>
+          
             <li><a title="金额显示" href="15271249936113.html">金额显示</a></li>
           
             <li><a title="线程需要注意的问题" href="15257017136249.html">线程需要注意的问题</a></li>
@@ -480,6 +482,8 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
+                          <li><a title="<禅与摩托车维修艺术>" href="15366461063408.html"><禅与摩托车维修艺术></a></li>
+                        
                           <li><a title="金额显示" href="15271249936113.html">金额显示</a></li>
                         
                           <li><a title="线程需要注意的问题" href="15257017136249.html">线程需要注意的问题</a></li>
@@ -604,22 +608,22 @@
 
 	
 		<div class="markdown-body">
-		<h1>设置placeholder颜色</h1>
+		<h1>Carthage 不能正常更新</h1>
 
-		<p>从前设置颜色可能是这样的：</p>
+		<p>报错</p>
 
-<pre><code class="language-text">self.textField.setValue(UIColor.white, forKeyPath: &quot;_placeholderLabel.textColor&quot;)
+<pre><code class="language-text">➜  PersonalMusic git:(master) carthage update
+*** Cloning GCDWebServer
+A shell task (/usr/bin/env git clone --bare --quiet https://github.com/swisspol/GCDWebServer.git /Users/lixzzzzzz/Library/Caches/org.carthage.CarthageKit/dependencies/GCDWebServer) failed with exit code 128:
+fatal: unable to access &#39;https://github.com/swisspol/GCDWebServer.git/&#39;: LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to github.com:443
 
 </code></pre>
 
-<p>今天发现，居然有一个属性可以设置：</p>
+<p>解决办法：</p>
 
-<pre><code class="language-text">self.textField.attributedPlaceholder =
-            NSAttributedString(string: &quot;自定义金额&quot;,
-                               attributes:
-                [NSAttributedStringKey.foregroundColor: UIColor.white]
-        )
+<p>清缓存</p>
 
+<pre><code class="language-text">rm -rf ~/Library/Caches/org.carthage.CarthageKit
 </code></pre>
 
 

@@ -199,6 +199,8 @@
         <li><label>杂记</label></li>
 
           
+            <li><a title="<禅与摩托车维修艺术>" href="15366461063408.html"><禅与摩托车维修艺术></a></li>
+          
             <li><a title="金额显示" href="15271249936113.html">金额显示</a></li>
           
             <li><a title="线程需要注意的问题" href="15257017136249.html">线程需要注意的问题</a></li>
@@ -480,6 +482,8 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
+                          <li><a title="<禅与摩托车维修艺术>" href="15366461063408.html"><禅与摩托车维修艺术></a></li>
+                        
                           <li><a title="金额显示" href="15271249936113.html">金额显示</a></li>
                         
                           <li><a title="线程需要注意的问题" href="15257017136249.html">线程需要注意的问题</a></li>
@@ -604,34 +608,40 @@
 
 	
 		<div class="markdown-body">
-		<h1>KVO内部实现原理</h1>
+		<h1>基础拾遗</h1>
 
-		<ol>
-<li>KVO是基于runtime机制实现的</li>
-<li>当某个类的对象第一次被观察时,系统就会在运行期动态地创建该类的一个派生类,在这个派生类中重写基类中任何被观察属性的setter方法.派生类在被重写的setter方法实现真正的通知机制.</li>
+		<p><img src="media/14727432716172/14727432899236.jpg" alt=""/></p>
+
+<h2 id="toc_0">self和super区别</h2>
+
+<p>要点：</p>
+
+<ol>
+<li>self调用自己方法，super调用父类方法</li>
+<li>self是类，super是预编译指令</li>
+<li>【self class】和【super class】输出是一样的</li>
 </ol>
 
-<p>添加监听前:<br/>
-<img src="media/14726525723684/14726530320712.jpg" alt=""/></p>
+<p>self和super底层实现原理：</p>
 
-<p>添加监听后:(派生出:NSKVONotifying_Person)<br/>
-<img src="media/14726525723684/14726532061641.jpg" alt=""/></p>
+<ol>
+<li>当使用 self 调用方法时，会从当前类的方法列表中开始找，如果没有，就从父类中再找；而当使用 super 时，则从父类的方法列表中开始找，然后调用父类的这个方法。</li>
+<li>当使用 self 调用时，会使用 <code>objc_msgSend</code> 函数：<code>id objc_msgSend(id theReceiver, SEL theSelector, ...)</code>。第 一个参数是消息接收者，第二个参数是调用的具体类方法的 <code>selector</code>，后面是 <code>selector</code> 方法的可变参数。以 <code>[self setName:]</code> 为例，编译器会替换成调用 <code>objc_msgSend</code> 的函数调用，其中 <code>theReceiver</code> 是 <code>self</code>，<code>theSelector</code> 是 <code>@selector(setName:)</code>，这个 <code>selector</code> 是从当前 <code>self</code> 的 <code>class</code> 的方法列表开始找的 <code>setName</code>，当找到后把对应的 <code>selector</code> 传递过去。</li>
+<li>当使用 <code>super</code> 调用时，会使用 <code>objc_msgSendSuper</code> 函数：<code>id objc_msgSendSuper(struct objc_super *super, SEL op, ...)</code>第一个参数是个<code>objc_super</code>的结构体，第二个参数还是类似上面的类方法的<code>selector</code>，</li>
+</ol>
 
-<p>把前后两份代码全部转换成cpp文件,这时我们查找两个文件不同的地方.</p>
+<pre><code class="language-text">struct objc_super {
+      id receiver;
+      Class superClass;
+};
+</code></pre>
 
-<p><img src="media/14726525723684/14726564797185.jpg" alt=""/></p>
+<p>当编译器遇到  <code>[super setName:]</code> 时，开始做这几个事：</p>
 
-<p>经过简单整理的两份代码:<br/>
-<img src="media/14726525723684/14726568603743.jpg" alt=""/></p>
+<p>1）构建 <code>objc_super</code> 的结构体，此时这个结构体的第一个成员变量 <code>receiver</code> 就是子类，和 <code>self</code> 相同。而第二个成员变量 <code>superClass</code> 就是指父类<br/>
+调用 <code>objc_msgSendSuper</code> 的方法，将这个结构体和 <code>setName</code> 的 <code>sel</code> 传递过去。</p>
 
-<p>可以看出mi_0 &amp; mi_1之间就是Person &amp; NSKVONotifying_Person之间的关系.</p>
-
-<p>-------------------2018.1.20更新(读&lt;编写高质量代码&gt;)--------------------<br/>
-KVC 通过实现名为NSKeyValueCoding的非正式协议,使开发者可以通过键直接设置和获取对象属性,而不需要调用对象的存取方法(Cocoa为该协议提供了默认的实现).键通常和被访问对象中的实例变量或存取方法的名称相对应.</p>
-
-<p>KVC主要利用一种使用字符串标识符,简介访问属性的机制,他是很多技术的基础.主要有<code>setValue: forKey</code>,<code>valueForKey</code>和<code>setValue: forKeyPath</code>,<code>valueForKeyPath</code></p>
-
-<p>key 与keyPath 基本一样,只是keyPath的值是一个路径,路径之间用<code>.</code>分割,比如数据成员就是对象自己,寻值过程就会向下深入下去.<img src="media/14726525723684/WechatIMG26.png" alt="WechatIMG26"/></p>
+<p>2）函数里面在做的事情类似这样：从 <code>objc_super</code> 结构体指向的 <code>superClass</code> 的方法列表开始找 <code>setName</code> 的 <code>selector</code>，找到后再以 <code>objc_super-&gt;receiver</code> 去调用这个 <code>selector</code></p>
 
 
 		</div>
