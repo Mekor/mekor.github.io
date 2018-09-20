@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  李小争
+  CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法 - 李小争
   
   </title>
  <meta name="description" content="记录开发中遇到的一些问题">
@@ -607,397 +607,56 @@
             </div>
             <div class="large-9 medium-9 columns">
 
- 
+ <div class="markdown-body">
+<h1>CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法</h1>
 
+<p>在buildsetting中的以下两个路径中添加对应的设置，重现编译即可解决，stackoverflow地址：<a href="https://stackoverflow.com/questions/45779591/failed-to-emit-precompiled-header-for-bridging-header?answertab=votes#tab-top">Failed to emit precompiled header for bridging header</a></p>
 
-	
-		<div class="markdown-body">
-		<h1>runtime(内部分享草稿)</h1>
-
-		<blockquote>
-<p>本文涉及到的Demo地址 <a href="https://github.com/Mekor/runtimeDemo">https://github.com/Mekor/runtimeDemo</a></p>
-</blockquote>
-
-<h2 id="toc_0">理解self,super,class,superclass</h2>
-
-<p>创建一个Person里面有一个类方法:</p>
-
-<pre><code class="language-objectivec">#import &quot;Person.h&quot;
-
-@implementation Person
-+(void)study {
-    NSLog(@&quot;%@ %@ %@ %@&quot;,[self class],[self superclass],[super class],[super superclass]);
-}
-@end
+<pre><code class="language-text">Solution:
+1 I added $(inherited) non-recursive to Search Path -&gt; Header Search Paths
+2 Then added ${PODS_ROOT} recursive to Search Path -&gt; User Header Search Paths
+Both the above in my projects&#39; target build settings.
 </code></pre>
 
-<p>Student继承自Person,重写父类方法</p>
-
-<pre><code class="language-objectivec">#import &quot;Student.h&quot;
-
-@implementation Student
-+(void)study {
-    NSLog(@&quot;%@ %@ %@ %@&quot;,[self class],[self superclass],[super class],[super superclass]);
-}
-@end
-</code></pre>
-
-<!--more-->
-
-<p>这两个输出的都是什么?<br/>
-<img src="media/14727863232294/14729913552743.jpg" alt=""/></p>
-
-<p>这时,我们在Student中用这样写:</p>
-
-<pre><code class="language-objectivec">#import &quot;Student.h&quot;
-
-@implementation Student
-+(void)study {
-//    NSLog(@&quot;%@ %@ %@ %@&quot;,[self class],[self superclass],[super class],[super superclass]);
-    
-    [super study];
-}
-@end
-</code></pre>
-
-<p>打断点我们可以看到:<br/>
-<img src="media/14727863232294/14729934417192.jpg" alt=""/></p>
-
-<p>可以看出:</p>
-
-<pre><code class="language-objectivec">super：是编译器指示符，仅仅是一个标志,并不是指针，仅仅是标志的当前对象去调用父类的方法，本质还是当前对象调用
-super:并不是让父类对象调用方法，调用者还是本身
-class：获取方法调用者的类
-superclass:获取方法调用者的父类
-</code></pre>
-
-<p>消息机制:(来自:<a href="https://developer.apple.com/library/prerelease/content/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtHowMessagingWorks.html">官方文档</a>)<br/>
-<img src="media/14727863232294/messaging1.gif" alt="消息框架"/></p>
-
-<p>当对象收到消息时,消息函数首先根据该对象的 isa 指针找到该对象所对应的类的方法表,并从表中寻找 该消息对应的方法选标。如果找不到,objc_msgSend 将继续从父类中寻找,直到 NSObject 类。一旦找到了方法选标, objc_msgSend 则以消息接收者对象为参数调用,调用该选标对应的方法实现。</p>
-
-<h2 id="toc_1">self是从哪里来的?</h2>
-
-<blockquote>
-<p>官方解释:<a href="https://developer.apple.com/library/prerelease/content/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtHowMessagingWorks.html">Objective-C Runtime Programming Guide</a><img src="media/14727863232294/14729941396965.jpg" alt=""/></p>
-</blockquote>
-
-<p>简单说每个方法都存在并且隐藏的两个参数(self,_cmd),随便写个方法看下:<br/>
-Student中写个text方法,然后打印下这两个隐藏参数.<br/>
-<img src="media/14727863232294/14729960900273.jpg" alt=""/><br/>
-<img src="media/14727863232294/14729961142923.jpg" alt=""/></p>
-
-<h2 id="toc_2">动态添加方法</h2>
-
-<p>上面说了一些貌似和runtime没有什么关系,runtime基础知识类似类的构成,对象的构成这里不再介绍,可以自己去看定义.当然也可以去<a href="http://opensource.apple.com/source/objc4/objc4-680/runtime/">苹果的开源网站</a>查看,如果网站不方便可以去苹果的<a href="https://github.com/opensource-apple/objc4">github</a>下载开源代码研究...  ...继续...那么根据上面所说的方法说下动态添加方法.</p>
-
-<blockquote>
-<p>思考一下,咱们new项目中将采用路由模式进行页面跳转,从网页跳转进入app调用一个方法,一般情况下都是移动端和后台协议好的内容,这样跳转不会出现问题.但是如果后台写错了或者传输中出现问题导致url中包含的方法名不是规定的方法名.这时怎么办?</p>
-</blockquote>
-
-<pre><code class="language-objectivec">    Student *s = [Student new];
-    
-    // 1. 比如我们要调用 Student中的eat方法, 默认这样写[s eat]; 但是不行,因为我们没有定义.
-//    [s eat];
-    // 2. 也可以这样调用[s performSelector:@selector(eat)];这样没有问题,@selector中参数是字符串,这个参考swift
-//    [s performSelector:@selector(eat)];
-    // 3. 使用string创建SEL
-    
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored&quot;-Warc-performSelector-leaks&quot;
-    [s performSelector:NSSelectorFromString(@&quot;eat&quot;)];
-#pragma clang diagnostic pop
-    
-    // 上面这样调用会报错,我们在对象调用未实现方法的时候动态的创建一个方法,避免抛出异常.
-</code></pre>
-
-<p>怎么忽略编译器警告已经分享过,可以参考:<a href="http://www.citynight.cn/Blog/14676105703423.html">http://www.citynight.cn/Blog/14676105703423.html</a></p>
-
-<h3 id="toc_3">怎么动态添加方法呢?</h3>
-
-<p><img src="media/14727863232294/14729983827897.jpg" alt=""/><br/>
-上面是动态添加对象方法的例子,动态添加类方法也是一样的<code>+(BOOL)resolveClassMethod:(SEL)sel</code><br/>
-<strong>注意:</strong>上面函数类型,有人可能好奇这块为什么写成&quot;v@:&quot;  ?参见:函数类型, 更多关于转发机制参见:<a href="http://www.citynight.cn/Blog/14733118707964.html">转发机制</a></p>
-
-<h3 id="toc_4">关于函数类型</h3>
-
-<p>先看文档:<br/>
-<img src="media/14727863232294/14730056768742.jpg" alt=""/><br/>
-查看<code>Objective-C type encodings</code> <img src="media/14727863232294/14730058881001.jpg" alt=""/><br/>
-所以上面void eat(...)应该表述成 <code>&quot;v@:&quot;</code></p>
-
-<p><strong>补充:</strong> 动态调用方法系统默认提供一到两个参数的方法调用, <del>这里封装了一个无限参数的方法调用.<a href="https://github.com/Mekor/NSObject-SEL">NSObject-SEL****</a></del>  我把一些扩展进行了总结,还不完善,地址<a href="https://github.com/Mekor/MKExtension">MKExtension</a></p>
-
-<h3 id="toc_5">关于IMP(函数指针)</h3>
-
-<pre><code class="language-objectivec">/// A pointer to the function of a method implementation. 
-#if !OBJC_OLD_DISPATCH_PROTOTYPES
-typedef void (*IMP)(void /* id, SEL, ... */ ); 
-#else
-typedef id (*IMP)(id, SEL, ...); 
-#endif
-</code></pre>
-
-<p>当前版本Xcode如果使用IMP的话,默认是选择第一个也就是无参无返回值.如果需要参数有返回值的话,需要修改配置文件.如下:</p>
-
-<h2 id="toc_6">方法交换(Method Swizzling:传说中的黑魔法)</h2>
-
-<p>一般使用方法交换都是想给系统提供的方法添加一些其他的功能的时候使用.new中使用方法交换的例子:</p>
-
-<pre><code class="language-objectivec">#import &quot;UIActionSheet+Front.h&quot;
-
-#import &lt;objc/runtime.h&gt;
-
-@implementation UIActionSheet (Front)
-- (void)customShowInView:(UIView *)view{
-    for(UIWindow * tmpWin in [[UIApplication sharedApplication] windows]){
-        [tmpWin endEditing:NO];
-    }
-    [self customShowInView:view];
-}
-+ (void)load{
-    swizzleAllActionSheet();
-}
-@end
-
-void swizzleAllActionSheet(){
-    Class c = [UIActionSheet class];
-    SEL origSEL = @selector(showInView:);
-    SEL newSEL = @selector(customShowInView:);
-    Method origMethod = class_getInstanceMethod(c, origSEL);
-    Method newMethod = class_getInstanceMethod(c, newSEL);
-    method_exchangeImplementations(origMethod, newMethod);
-}
-</code></pre>
-
-<p>关于方法交换,在new项目中已经封装好了,代码如下:</p>
-
-<pre><code class="language-objectivec">// ObjcRuntime.h文件
-void Swizzle(Class c, SEL origSEL, SEL newSEL);
-
-//ObjcRuntime.m文件
-//静态就交换静态，实例方法就交换实例方法
-void Swizzle(Class c, SEL origSEL, SEL newSEL)
-{
-    Method origMethod = class_getInstanceMethod(c, origSEL);
-    Method newMethod = nil;
-    if (!origMethod) {
-        origMethod = class_getClassMethod(c, origSEL);
-        if (!origMethod) {
-            return;
-        }
-        newMethod = class_getClassMethod(c, newSEL);
-        if (!newMethod) {
-            return;
-        }
-    }else{
-        newMethod = class_getInstanceMethod(c, newSEL);
-        if (!newMethod) {
-            return;
-        }
-    }
-    
-    //自身已经有了就添加不成功，直接交换即可
-    if(class_addMethod(c, origSEL, method_getImplementation(newMethod), method_getTypeEncoding(newMethod))){
-        class_replaceMethod(c, newSEL, method_getImplementation(origMethod), method_getTypeEncoding(origMethod));
-    }else{
-        method_exchangeImplementations(origMethod, newMethod);
-    }
-}
-</code></pre>
-
-<p>用法(还是以Student为例):<br/>
-Student中添加两个对象方法,一个run,一个sleep.我们的目的是交换两个方法的实现</p>
-
-<pre><code class="language-objectivec">-(void)run {
-    NSLog(@&quot;跑🏃&quot;);
-}
--(void)sleep {
-    NSLog(@&quot;睡觉😴&quot;);
-}
-+(void)load {
-    Swizzle(self, @selector(run), @selector(sleep));
-}
-</code></pre>
-
-<p>控制器调用的结果:<br/>
-<img src="media/14727863232294/14730042652865.jpg" alt=""/></p>
-
-<h2 id="toc_7">添加属性</h2>
-
-<p>动态添加属性用的最多的地方应该是给分类添加属性.  <del>我在项目中添加过一个分类<code>UIView+Tap</code>这个也可以在这里查看<a href="https://github.com/Mekor/UIView-Tap">UIView-Tap</a></del>  我把一些扩展进行了总结,还不完善,地址<a href="https://github.com/Mekor/MKExtension">MKExtension</a></p>
-
-<pre><code class="language-objectivec">#import &quot;UIView+Tap.h&quot;
-#import &lt;objc/runtime.h&gt;
-
-static const void* tagValue = &amp;tagValue;
-
-@interface UIView ()
-@property (nonatomic, copy) void(^tapAction)(id);
-@end
-
-@implementation UIView (Tap)
-- (void)tap{
-    if (self.tapAction) {
-        self.tapAction(self);
-    }
-}
-- (void)addTapBlock:(void(^)(id obj))tapAction{
-    self.tapAction = tapAction;
-    if (![self gestureRecognizers]) {
-        self.userInteractionEnabled = YES;
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap)];
-        [self addGestureRecognizer:tap];
-    }
-}
-
--(void)setTapAction:(void (^)(id))tapAction {
-    objc_setAssociatedObject(self, tagValue, tapAction, OBJC_ASSOCIATION_COPY_NONATOMIC);
-}
--(void (^)(id))tapAction {
-    return objc_getAssociatedObject(self, tagValue);
-}
-@end
-</code></pre>
-
-<p>主要是set&amp;get方法,这点注意了也就没啥了..</p>
-
-<h2 id="toc_8">其他</h2>
-
-<ol>
-<li>系统中常见的使用到runtime的地方:
-<a href="http://www.citynight.cn/Blog/14726525723684.html">KVO内部实现原理</a></li>
-<li>日常开发中使用到runtime的地方:</li>
-<li>字典转模型: 可以参看<code>MJExtension</code> 它的核心代码在:<code>NSObject+MJProperty.m</code>第150行开始</li>
-</ol>
-
-<pre><code class="language-objectivec">#pragma mark - 公共方法
-+ (NSMutableArray *)properties
-{
-    NSMutableArray *cachedProperties = [self dictForKey:&amp;MJCachedPropertiesKey][NSStringFromClass(self)];
-    
-    if (cachedProperties == nil) {
-        cachedProperties = [NSMutableArray array];
-        
-        [self mj_enumerateClasses:^(__unsafe_unretained Class c, BOOL *stop) {
-            // 1.获得所有的成员变量
-            unsigned int outCount = 0;
-            objc_property_t *properties = class_copyPropertyList(c, &amp;outCount);
-            
-            // 2.遍历每一个成员变量
-            for (unsigned int i = 0; i&lt;outCount; i++) {
-                MJProperty *property = [MJProperty cachedPropertyWithProperty:properties[i]];
-                // 过滤掉Foundation框架类里面的属性
-                if ([MJFoundation isClassFromFoundation:property.srcClass]) continue;
-                property.srcClass = c;
-                [property setOriginKey:[self propertyKey:property.name] forClass:self];
-                [property setObjectClassInArray:[self propertyObjectClassInArray:property.name] forClass:self];
-                [cachedProperties addObject:property];
-            }
-            
-            // 3.释放内存
-            free(properties);
-        }];
-        
-        [self dictForKey:&amp;MJCachedPropertiesKey][NSStringFromClass(self)] = cachedProperties;
-    }
-    
-    return cachedProperties;
-}
-</code></pre>
-
-<p>自定义字典转模型中log的输出可以参见Xcode插件<code>ESJsonFormat</code>中<code>ESJsonFormatManager.m</code>第47行:</p>
-
-<pre><code class="language-objectivec">/**
- *  格式化OC属性字符串
- *
- *  @param key       JSON里面key字段
- *  @param value     JSON里面key对应的NSDiction或者NSArray
- *  @param classInfo 类信息
- *
- *  @return
- */
-+ (NSString *)formatObjcWithKey:(NSString *)key value:(NSObject *)value classInfo:(ESClassInfo *)classInfo{
-    NSString *qualifierStr = @&quot;copy&quot;;
-    NSString *typeStr = @&quot;NSString&quot;;
-    //判断大小写
-    if ([ESUppercaseKeyWords containsObject:key] &amp;&amp; [ESJsonFormatSetting defaultSetting].uppercaseKeyWordForId) {
-        key = [key uppercaseString];
-    }
-    if ([value isKindOfClass:[NSString class]]) {
-        return [NSString stringWithFormat:@&quot;@property (nonatomic, %@) %@ *%@;&quot;,qualifierStr,typeStr,key];
-    }else if([value isKindOfClass:[@(YES) class]]){
-        //the &#39;NSCFBoolean&#39; is private subclass of &#39;NSNumber&#39;
-        qualifierStr = @&quot;assign&quot;;
-        typeStr = @&quot;BOOL&quot;;
-        return [NSString stringWithFormat:@&quot;@property (nonatomic, %@) %@ %@;&quot;,qualifierStr,typeStr,key];
-    }else if([value isKindOfClass:[NSNumber class]]){
-        qualifierStr = @&quot;assign&quot;;
-        NSString *valueStr = [NSString stringWithFormat:@&quot;%@&quot;,value];
-        if ([valueStr rangeOfString:@&quot;.&quot;].location!=NSNotFound){
-            typeStr = @&quot;CGFloat&quot;;
-        }else{
-            NSNumber *valueNumber = (NSNumber *)value;
-            if ([valueNumber longValue]&lt;2147483648) {
-                typeStr = @&quot;NSInteger&quot;;
-            }else{
-                typeStr = @&quot;long long&quot;;
-            }
-        }
-        return [NSString stringWithFormat:@&quot;@property (nonatomic, %@) %@ %@;&quot;,qualifierStr,typeStr,key];
-    }else if([value isKindOfClass:[NSArray class]]){
-        NSArray *array = (NSArray *)value;
-        
-        //May be &#39;NSString&#39;，will crash
-        NSString *genericTypeStr = @&quot;&quot;;
-        NSObject *firstObj = [array firstObject];
-        if ([firstObj isKindOfClass:[NSDictionary class]]) {
-            ESClassInfo *childInfo = classInfo.propertyArrayDic[key];
-            genericTypeStr = [NSString stringWithFormat:@&quot;&lt;%@ *&gt;&quot;,childInfo.className];
-        }else if ([firstObj isKindOfClass:[NSString class]]){
-            genericTypeStr = @&quot;&lt;NSString *&gt;&quot;;
-        }else if ([firstObj isKindOfClass:[NSNumber class]]){
-            genericTypeStr = @&quot;&lt;NSNumber *&gt;&quot;;
-        }
-        
-        qualifierStr = @&quot;strong&quot;;
-        typeStr = @&quot;NSArray&quot;;
-        if ([ESJsonFormatSetting defaultSetting].useGeneric &amp;&amp; [ESUtils isXcode7AndLater]) {
-            return [NSString stringWithFormat:@&quot;@property (nonatomic, %@) %@%@ *%@;&quot;,qualifierStr,typeStr,genericTypeStr,key];
-        }
-        return [NSString stringWithFormat:@&quot;@property (nonatomic, %@) %@ *%@;&quot;,qualifierStr,typeStr,key];
-    }else if ([value isKindOfClass:[NSDictionary class]]){
-        qualifierStr = @&quot;strong&quot;;
-        ESClassInfo *childInfo = classInfo.propertyClassDic[key];
-        typeStr = childInfo.className;
-        if (!typeStr) {
-            typeStr = [key capitalizedString];
-        }
-        return [NSString stringWithFormat:@&quot;@property (nonatomic, %@) %@ *%@;&quot;,qualifierStr,typeStr,key];
-    }
-    return [NSString stringWithFormat:@&quot;@property (nonatomic, %@) %@ *%@;&quot;,qualifierStr,typeStr,key];
-}
-
-</code></pre>
+<p><img src="media/15374224515215/15374225919741.jpg" alt="" style="width:794px;"/></p>
 
 
-		</div>
-	
+</div>
 
- 
-	
+<br /><br />
+<hr />
 
- 
-	
+<div class="row clearfix">
+  <div class="large-6 columns">
+	<div class="text-left" style="padding:15px 0px;">
+		
+	</div>
+  </div>
+  <div class="large-6 columns">
+	<div class="text-right" style="padding:15px 0px;">
+		
+	        <a href="15366461063408.html" 
+	        title="Next Post: <禅与摩托车维修艺术>"><禅与摩托车维修艺术> &raquo;</a>
+	    
+	</div>
+  </div>
+</div>
 
- 
-	
+<div class="row">
+<div style="padding:0px 0.93em;" class="share-comments">
 
- 
-	
-
-  
-  
+</div>
+</div>
+<script type="text/javascript">
+	$(function(){
+		var currentURL = '15374224515215.html';
+		$('#side-nav a').each(function(){
+			if($(this).attr('href') == currentURL){
+				$(this).parent().addClass('active');
+			}
+		});
+	});
+</script>  
 </div></div>
 
 

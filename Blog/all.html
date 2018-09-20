@@ -175,6 +175,8 @@
         <li><label>遇到Bug</label></li>
 
           
+            <li><a title="CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法" href="15374224515215.html">CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法</a></li>
+          
             <li><a title="控制器透明，WebView透明" href="15323970557540.html">控制器透明，WebView透明</a></li>
           
             <li><a title="解决UILabel 末尾的空格被忽略" href="15319018166027.html">解决UILabel 末尾的空格被忽略</a></li>
@@ -460,6 +462,8 @@
                     
                       <li class="side-title"><span>遇到Bug</span></li>
                         
+                          <li><a title="CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法" href="15374224515215.html">CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法</a></li>
+                        
                           <li><a title="控制器透明，WebView透明" href="15323970557540.html">控制器透明，WebView透明</a></li>
                         
                           <li><a title="解决UILabel 末尾的空格被忽略" href="15319018166027.html">解决UILabel 末尾的空格被忽略</a></li>
@@ -608,40 +612,17 @@
 
 	
 		<div class="markdown-body">
-		<h1><禅与摩托车维修艺术></h1>
+		<h1>CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法</h1>
 
-		<p>生活处处都透露着哲学，作者从骑摩托车旅行的途中对事物进行了深入的思考。</p>
+		<p>在buildsetting中的以下两个路径中添加对应的设置，重现编译即可解决，stackoverflow地址：<a href="https://stackoverflow.com/questions/45779591/failed-to-emit-precompiled-header-for-bridging-header?answertab=votes#tab-top">Failed to emit precompiled header for bridging header</a></p>
 
-<h2 id="toc_0">关于·忙·</h2>
+<pre><code class="language-text">Solution:
+1 I added $(inherited) non-recursive to Search Path -&gt; Header Search Paths
+2 Then added ${PODS_ROOT} recursive to Search Path -&gt; User Header Search Paths
+Both the above in my projects&#39; target build settings.
+</code></pre>
 
-<p>书中这样写道：</p>
-
-<blockquote>
-<p>我们常常太忙而没有时间好好聊聊，结果日复一日地过着无聊的生活，单调乏味的日子让人几年后想起来不禁怀疑，究竟自己是怎么过的，而时间已悄悄溜走了。现在我们的确空下来了，我想谈一些我自己觉得颇为重要的事。</p>
-</blockquote>
-
-<h2 id="toc_1">关于·过程·</h2>
-
-<blockquote>
-<p>如果搭飞机抵达洛基山，你只会觉得景致很美，但是如果你是经过几天辛苦的旅程，通过这一片大草原，才抵达洛基山，那么你会从另一个角度来看它，那里仿佛是你的目标，是你的应许之地。</p>
-</blockquote>
-
-<p>我们的目标不应该仅仅是到达终点，旅途中的风景会让这个过程变得充实。我在记笔记的时候写的是“有过程的经历是印象深刻的”</p>
-
-<h2 id="toc_2">关于·识人·</h2>
-
-<blockquote>
-<p>又钻进死胡同了。如果有人不懂心存感激，而你当面告诉他，那么你就等于是在骂他，这样你什么事都解决不了。<br/>
-每个人的性格都是不一样的，需要针对不同的性格做出不同的处理方式。错误的处理方式只会加深矛盾</p>
-</blockquote>
-
-<h2 id="toc_3">关于·认知·</h2>
-
-<blockquote>
-<p>一名没有受过训练的旁观者只看到修理人员所付出的劳力，就以为他最主要的工作在于劳力。事实上，这正是他最轻松也是工作上最小的一部分，他最重要的工作就在于仔细观察和精确思考，这就是为什么技术人员往往显得沉默寡言，甚至在做实验的时候有些畏缩。他们不喜欢在做实验的时候讲话，那样就无法专心地思考问题了。他们借着实验推论出问题的结构，然后与心里正常的运作结构相比较，所以他们看到的是基本形式。</p>
-</blockquote>
-
-<p>隔行如隔山，拿程序员举例，其他人看到程序员噼里啪啦敲代码感觉这个人很厉害这其实是不对的。在敲代码之前的思考才是最重要的，敲代码只不过是把他思考的东西进行验证。</p>
+<p><img src="media/15374224515215/15374225919741.jpg" alt="" style="width:794px;"/></p>
 
 
 		</div>
