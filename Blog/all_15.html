@@ -201,6 +201,10 @@
         <li><label>杂记</label></li>
 
           
+            <li><a title="公司规范" href="15380500153174.html">公司规范</a></li>
+          
+            <li><a title="各种队列的执行效果" href="15375346728525.html">各种队列的执行效果</a></li>
+          
             <li><a title="<禅与摩托车维修艺术>" href="15366461063408.html"><禅与摩托车维修艺术></a></li>
           
             <li><a title="金额显示" href="15271249936113.html">金额显示</a></li>
@@ -486,6 +490,10 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
+                          <li><a title="公司规范" href="15380500153174.html">公司规范</a></li>
+                        
+                          <li><a title="各种队列的执行效果" href="15375346728525.html">各种队列的执行效果</a></li>
+                        
                           <li><a title="<禅与摩托车维修艺术>" href="15366461063408.html"><禅与摩托车维修艺术></a></li>
                         
                           <li><a title="金额显示" href="15271249936113.html">金额显示</a></li>
@@ -612,31 +620,60 @@
 
 	
 		<div class="markdown-body">
-		<h1>计算老虎机中奖等级-NSCountedSet</h1>
+		<h1>获取当前显示的UIViewController</h1>
 
-		<blockquote>
-<p>NSCountedSet这个一直没有用过,看到其他人使用在此记录下.</p>
-</blockquote>
+		<pre><code class="language-text">+ (UIViewController *)getCurrentRootViewController {
 
-<p>计算老虎机中奖等级的问题：老虎机有四列，每列四个图案，如果四个相同就是等级1，三个相同就是等级2，以此类推。说是用<code>if else</code>太麻烦，有没有什么比较快捷的方法，首先想到的是用KVC中剔除重复数据的办法。比如：</p>
+    CommonTool *tool = [[CommonTool alloc]init];
 
-<pre><code class="language-text">NSArray *array = @[@2, @2, @2, @1];
-NSLog(@&quot;%@&quot;, [array valueForKeyPath:@&quot;@distinctUnionOfObjects.self&quot;]);
+    UIViewController *result;
+    UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
+
+    if (topWindow.windowLevel != UIWindowLevelNormal){
+        NSArray *windows = [[UIApplication sharedApplication] windows];
+        for(topWindow in windows){
+            if (topWindow.windowLevel == UIWindowLevelNormal)
+                break;
+        }
+    }
+
+    UIView *rootView = [topWindow subviews].firstObject;
+    id nextResponder = [rootView nextResponder];
+
+    if ([nextResponder isMemberOfClass:[UIViewController class]]){
+        result = nextResponder;
+    }
+    else if ([nextResponder isMemberOfClass:[UITabBarController class]] | [nextResponder isMemberOfClass:[UINavigationController class]]){
+        result = [tool findViewController:nextResponder];
+    }
+    else if ([topWindow respondsToSelector:@selector(rootViewController)] &amp;&amp; topWindow.rootViewController != nil){
+        result = topWindow.rootViewController;
+    }
+
+    else{
+        NSAssert(NO, @&quot;找不到顶端VC&quot;);
+    }
+    return result;
+}
+
 </code></pre>
 
-<p>然后得到数组的个数为2，看起来很合理，如果数组是<code>NSArray *array = @[@2, @1, @2, @1];</code>这时候计算出来的数组个数是也是2，但是正确结果应该是等级3，后来突然想起一个类:NSCountedSet</p>
+<pre><code class="language-text">- (UIViewController *)findViewController:(id)controller{
+    if ([controller isMemberOfClass:[UINavigationController class]]) {
+        return [self findViewController:[(UINavigationController *)controller visibleViewController]];
+    }
+    else if ([controller isMemberOfClass:[UITabBarController class]]){
+        return [self findViewController:[(UITabBarController *)controller selectedViewController]];
+    }
+    else if ([controller isKindOfClass:[UIViewController class]]){
+        return controller;
+    }
+    else{
+        NSAssert(NO, @&quot;找不到顶端VC&quot;);
+        return nil;
+    }
+}
 
-<pre><code class="language-text">    NSArray *array = @[@1, @2, @2, @1];
-    NSCountedSet *set = [[NSCountedSet alloc]initWithArray:array];
-
-    [set enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
-        NSLog(@&quot;%@ =&gt; %d&quot;, obj, [set countForObject:obj]);
-    }];
-
-</code></pre>
-
-<pre><code class="language-text">1 =&gt; 2
-2 =&gt; 2
 </code></pre>
 
 

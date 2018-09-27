@@ -201,6 +201,10 @@
         <li><label>杂记</label></li>
 
           
+            <li><a title="公司规范" href="15380500153174.html">公司规范</a></li>
+          
+            <li><a title="各种队列的执行效果" href="15375346728525.html">各种队列的执行效果</a></li>
+          
             <li><a title="<禅与摩托车维修艺术>" href="15366461063408.html"><禅与摩托车维修艺术></a></li>
           
             <li><a title="金额显示" href="15271249936113.html">金额显示</a></li>
@@ -486,6 +490,10 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
+                          <li><a title="公司规范" href="15380500153174.html">公司规范</a></li>
+                        
+                          <li><a title="各种队列的执行效果" href="15375346728525.html">各种队列的执行效果</a></li>
+                        
                           <li><a title="<禅与摩托车维修艺术>" href="15366461063408.html"><禅与摩托车维修艺术></a></li>
                         
                           <li><a title="金额显示" href="15271249936113.html">金额显示</a></li>
@@ -612,49 +620,32 @@
 
 	
 		<div class="markdown-body">
-		<h1>iOS Tips</h1>
+		<h1>copy strong weak assign</h1>
 
-		<p><strong>对象销毁</strong><br/>
-对象的销毁虽然消耗资源不多，但累积起来也是不容忽视的。通常当容器类持有大量对象时，其销毁时的资源消耗就非常明显。同样的，如果对象可以放到后台线程去释放，那就挪到后台线程去。这里有个小 Tip：把对象捕获到 block 中，然后扔到后台队列去随便发送个消息以避免编译器警告，就可以让对象在后台线程销毁了。</p>
+		<h2 id="toc_0">weak &amp; strong</h2>
 
-<pre><code class="language-text">NSArray *tmp = self.array;
-self.array = nil;
-dispatch_async(queue, ^{
-    [tmp class];
-});
-</code></pre>
+<p><strong>weak</strong><br/>
+你买了个iPhone7，你朋友觉得不错，由于手头紧，没买，于是你们公用一台iPhone7，你新装了QQ音乐，你朋友用的时候也会有QQ音乐<br/>
+然后你的手机丢了 你朋友也没有 不能用了</p>
+
+<p><strong>stong</strong><br/>
+你买了个iPhone7 你朋友也买了个iPhone7  他觉得你的app stroe账号里有好多软件 然后他就用你的app stroe账号 == 他stong了你的账号，你俩就公用了一个账号。<br/>
+你下载软件 他也有了 然后你手机账号没了丢了 但他的手机还在账号还能用。 </p>
+
+<h2 id="toc_1">strong &amp; copy (深拷贝&amp;浅拷贝)</h2>
+
+<p>copy是用来保护数据的,copy一个数据之后,更改源数据不会导致copy的数据更改<br/>
+strong是对一个数据的引用,更改源数据会导致strong的数据更改 </p>
+
+<h2 id="toc_2">assign</h2>
+
+<p>基本数据类型</p>
 
 <blockquote>
-<p>来自:<a href="http://blog.ibireme.com/2015/11/12/smooth_user_interfaces_for_ios/">iOS 保持界面流畅的技巧</a></p>
+<p><a href="https://developer.apple.com/library/mac/documentation/CoreFoundation/Conceptual/CFMemoryMgmt/Concepts/CopyFunctions.html">苹果文档中关于浅拷贝&amp;深拷贝</a></p>
 </blockquote>
 
-<p><strong>拖拽收起键盘</strong><br/>
-UIScrollView有个keyboardDismissMode属性，设置成UIScrollViewKeyboardDismissModeOnDrag就可以在拖拽ScrollView的时候自动缩起键盘</p>
-
-<pre><code class="language-text">@property(nonatomic) UIScrollViewKeyboardDismissMode keyboardDismissMode NS_AVAILABLE_IOS(7_0); // default is UIScrollViewKeyboardDismissModeNone
-</code></pre>
-
-<p><strong>让view的一部分响应手势点击</strong><br/>
-让view的一部分响应手势点击，其余部分实现手势透传给下方的view的方法</p>
-
-<p>在View中重写:</p>
-
-<pre><code class="language-text">-(UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
-    NSLog(@&quot;%@-------------&gt;&gt;&gt;&gt;&gt;&gt;&gt;point = %@&quot;,NSStringFromSelector(_cmd),NSStringFromCGPoint(point));
-    
-    // 设置能够点击的区域
-    CGRect rect = CGRectMake(100, 100, 200, 200);
-    if (CGRectContainsPoint(rect, point)) {
-        // 如果点击在该区域,则让View 成为响应链中的一个view,接受手势事件
-        // 此时可通过touchBegan:方法监听到手势
-        return self;
-    }
-    return nil;
-}
-
-</code></pre>
-
-<p>控制按钮的点击范围可以参见:<a href="https://github.com/Mekor/MKExtension">MKExtension</a>中的<code>UIButton+TapScope</code></p>
+<p><img src="media/14714022507551/Snip20160817_3.png" alt="Snip20160817_3"/></p>
 
 
 		</div>

@@ -201,6 +201,10 @@
         <li><label>杂记</label></li>
 
           
+            <li><a title="公司规范" href="15380500153174.html">公司规范</a></li>
+          
+            <li><a title="各种队列的执行效果" href="15375346728525.html">各种队列的执行效果</a></li>
+          
             <li><a title="<禅与摩托车维修艺术>" href="15366461063408.html"><禅与摩托车维修艺术></a></li>
           
             <li><a title="金额显示" href="15271249936113.html">金额显示</a></li>
@@ -486,6 +490,10 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
+                          <li><a title="公司规范" href="15380500153174.html">公司规范</a></li>
+                        
+                          <li><a title="各种队列的执行效果" href="15375346728525.html">各种队列的执行效果</a></li>
+                        
                           <li><a title="<禅与摩托车维修艺术>" href="15366461063408.html"><禅与摩托车维修艺术></a></li>
                         
                           <li><a title="金额显示" href="15271249936113.html">金额显示</a></li>
@@ -612,22 +620,33 @@
 
 	
 		<div class="markdown-body">
-		<h1>优秀文章链接收藏</h1>
+		<h1>在包含UITableView视图中添加单击手势</h1>
 
-		<h2 id="toc_0">优化</h2>
+		<p>如果在包含UITableView视图中添加单击手势，这个单击手势会屏蔽掉UITableView的</p>
 
-<p><a href="http://www.mulle-kybernetik.com/artikel/Optimization/opti-3-imp-deluxe.html">极致优化</a></p>
+<pre><code class="language-text">- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath;
+</code></pre>
 
-<p>美团点评技术团队: <a href="http://tech.meituan.com/DiveIntoMethodCache.html">深入理解Objective-C：方法缓存</a></p>
+<p>可以利用<code>UIGestureRecognizer</code>的<code>Delegate</code>中的</p>
 
-<h2 id="toc_1">Runloop</h2>
+<pre><code class="language-text">- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer;
+</code></pre>
 
-<p><a href="http://blog.ibireme.com/2015/05/18/runloop/">深入理解RunLoop</a>  --- 内部分享文章runloop中使用了该文章中的一张图.</p>
+<p>在单击点位于UITableView内的时候取消响应</p>
 
-<h2 id="toc_2">GCD</h2>
+<pre><code class="language-text">- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer{
+    CGPoint point = [gestureRecognizer locationInView:self];
+    if(CGRectContainsPoint(menuTableView.frame, point)){
+        return NO;
+    }
+    return YES;
+}
+</code></pre>
 
-<p><a href="http://www.raywenderlich.com/60749/grand-central-dispatch-in-depth-part-1">GCD 深入理解：第一部分</a> 中文翻译:<a href="https://github.com/nixzhu/dev-blog/blob/master/2014-04-19-grand-central-dispatch-in-depth-part-1.md">译文</a><br/>
-<a href="https://github.com/nixzhu/dev-blog/blob/master/2014-05-14-grand-central-dispatch-in-depth-part-2.md">GCD 深入理解：第二部分</a></p>
+<p>或者将单击手势的cancelsTouchesInView设置为NO</p>
+
+<pre><code class="language-text">singleTap.cancelsTouchesInView = NO;
+</code></pre>
 
 
 		</div>

@@ -201,6 +201,10 @@
         <li><label>杂记</label></li>
 
           
+            <li><a title="公司规范" href="15380500153174.html">公司规范</a></li>
+          
+            <li><a title="各种队列的执行效果" href="15375346728525.html">各种队列的执行效果</a></li>
+          
             <li><a title="<禅与摩托车维修艺术>" href="15366461063408.html"><禅与摩托车维修艺术></a></li>
           
             <li><a title="金额显示" href="15271249936113.html">金额显示</a></li>
@@ -486,6 +490,10 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
+                          <li><a title="公司规范" href="15380500153174.html">公司规范</a></li>
+                        
+                          <li><a title="各种队列的执行效果" href="15375346728525.html">各种队列的执行效果</a></li>
+                        
                           <li><a title="<禅与摩托车维修艺术>" href="15366461063408.html"><禅与摩托车维修艺术></a></li>
                         
                           <li><a title="金额显示" href="15271249936113.html">金额显示</a></li>
@@ -612,16 +620,18 @@
 
 	
 		<div class="markdown-body">
-		<h1>xib报错</h1>
+		<h1>Scroll UICollectionView to section header view</h1>
 
-		<blockquote>
-<p>错误信息: Unknown class XXXX in Interface Builder file. (lldb)</p>
-</blockquote>
+		<p>新界面左右联动的时候遇到了一个问题,怎么在左侧tableView点击某一cell的时候右侧collectionView跳转到对应的section</p>
 
-<p>原因,Xib是在其他项目中创建的,拖进来的时候没有注意,只要修改<br/>
-<img src="media/14802973825600/14802974822042.jpg" alt=""/></p>
+<p>如果没有section header View 的时候直接跳转到这个section的第一个Item就ok了,但是如果有section header View 的时候就需要注意了,不能这样进行跳转了,下面👇是经过测试的方法能够完美跳转到相应的section:</p>
 
-<p>修改module为项目的就好了</p>
+<pre><code class="language-text">let attributes = self.collectionView.collectionViewLayout.layoutAttributesForSupplementaryViewOfKind(UICollectionElementKindSectionHeader, atIndexPath: NSIndexPath(forItem: 0, inSection: index))
+
+self.collectionView.setContentOffset(CGPointMake(0, attributes!.frame.origin.y - self.collectionView.contentInset.top), animated: true)
+</code></pre>
+
+<p>参见:<a href="http://stackoverflow.com/questions/22100227/scroll-uicollectionview-to-section-header-view">Scroll UICollectionView to section header view</a></p>
 
 
 		</div>

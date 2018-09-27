@@ -201,6 +201,10 @@
         <li><label>杂记</label></li>
 
           
+            <li><a title="公司规范" href="15380500153174.html">公司规范</a></li>
+          
+            <li><a title="各种队列的执行效果" href="15375346728525.html">各种队列的执行效果</a></li>
+          
             <li><a title="<禅与摩托车维修艺术>" href="15366461063408.html"><禅与摩托车维修艺术></a></li>
           
             <li><a title="金额显示" href="15271249936113.html">金额显示</a></li>
@@ -486,6 +490,10 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
+                          <li><a title="公司规范" href="15380500153174.html">公司规范</a></li>
+                        
+                          <li><a title="各种队列的执行效果" href="15375346728525.html">各种队列的执行效果</a></li>
+                        
                           <li><a title="<禅与摩托车维修艺术>" href="15366461063408.html"><禅与摩托车维修艺术></a></li>
                         
                           <li><a title="金额显示" href="15271249936113.html">金额显示</a></li>
@@ -612,32 +620,10 @@
 
 	
 		<div class="markdown-body">
-		<h1>C++Primer笔记 - 初识输入输出</h1>
+		<h1>数组传递</h1>
 
-		<blockquote>
-<p>使用<code>iostream</code>库.<code>iostream</code>中包含两个基础类型<code>istream</code>和<code>ostream</code>,分别表示输入流和输出流</p>
-
-<h2 id="toc_0">标准输入输出对象</h2>
-
-<p>标准库中定义了4个IO对象.为了处理输入,我们使用了一个名为<code>cin</code>的<code>istream</code>类型的对象.这个对象也被称为<strong>标准输入</strong>.对于输出,我们使用一个名为<code>cout</code>的<code>ostream</code>类型的对象.此对象也被称为<strong>标准输出</strong>.标准库中还定义了其他两个<code>ostream</code>对象,名为<code>cerr</code>和<code>clog</code>.我们通常用<code>cerr</code>来输出警告和错误信心,因此它也被称为<strong>标准错误</strong>,而<code>clog</code>用来输出程序运行时的一般性信息.</p>
-</blockquote>
-
-<p>系统通常将程序所运行的窗口与这些对象关联起来.因此,当我们读取cin,数据将从程序正在运行的窗口读入,当我们像cout,cerr,clog写入数据的时候,将会写到同一个窗口.</p>
-
-<h2 id="toc_1">Demo</h2>
-
-<pre><code class="language-text">#include &lt;iostream&gt;
-using namespace std;
-
-int main(int argc, char *argv[])
-{
-    std::cout &lt;&lt; &quot;Enter two numbers:&quot; &lt;&lt; std::endl;
-    int v1 = 0, v2 = 0;
-    std::cin &gt;&gt; v1 &gt;&gt; v2;
-    std::cout &lt;&lt; &quot;The sun of &quot; &lt;&lt; v1 &lt;&lt; &quot;and&quot; &lt;&lt; v2 &lt;&lt; &quot;is&quot; &lt;&lt; v1 + v2 &lt;&lt; std::endl;
-    return 0;
-}
-</code></pre>
+		<p>把A控制器中的数组 传递给 B  ,然后 B 再把数据传递给 C <br/>
+这时如果 A中数组进行了修改,那么 C 中数据也会修改</p>
 
 
 		</div>

@@ -201,6 +201,10 @@
         <li><label>杂记</label></li>
 
           
+            <li><a title="公司规范" href="15380500153174.html">公司规范</a></li>
+          
+            <li><a title="各种队列的执行效果" href="15375346728525.html">各种队列的执行效果</a></li>
+          
             <li><a title="<禅与摩托车维修艺术>" href="15366461063408.html"><禅与摩托车维修艺术></a></li>
           
             <li><a title="金额显示" href="15271249936113.html">金额显示</a></li>
@@ -486,6 +490,10 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
+                          <li><a title="公司规范" href="15380500153174.html">公司规范</a></li>
+                        
+                          <li><a title="各种队列的执行效果" href="15375346728525.html">各种队列的执行效果</a></li>
+                        
                           <li><a title="<禅与摩托车维修艺术>" href="15366461063408.html"><禅与摩托车维修艺术></a></li>
                         
                           <li><a title="金额显示" href="15271249936113.html">金额显示</a></li>
@@ -612,84 +620,10 @@
 
 	
 		<div class="markdown-body">
-		<h1>C/C++ - 回调函数中比较大小为啥0不行?</h1>
+		<h1>Swift - Swift Talk: Networking</h1>
 
-		<p>在C语言中我们判断真假经常使用非0为真,0为假.但是在回调函数中我设置返回非0与0代表真假的时候出现了问题:</p>
-
-<pre><code class="language-text">#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-
-int callBackCompare(void * pa, void * pb)
-{
-    return *(int *)pa &lt; *(int *)pb ? 1 : -1;
-}
-
-void selectSort(int *p, int n, int (*pf)(int a, int b))
-{
-    for(int i = 0; i &lt; n-1; i++)
-    {
-        for(int j = i+1; j&lt;n; j++)
-        {
-            if(pf(p[i],p[j]))
-            {
-                p[i] = p[i]^p[j];
-                p[j] = p[i]^p[j];
-                p[i] = p[i]^p[j];
-            }
-        }
-    }
-}
-
-int main(int argc, char *argv[])
-{
-    int arr[10] = {1,2,3,4,5,9,8,7,6,0};
-
-    qsort(arr,sizeof(arr)/sizeof(int),sizeof(int),callBackCompare);
-
-    for(int i = 0; i&lt;10; i++)
-    {
-        printf(&quot;%d\n&quot;,arr[i]);
-    }
-    return 0;
-}
-
-</code></pre>
-
-<p>callBack中这样写能够得到结果</p>
-
-<pre><code class="language-text">9
-8
-7
-6
-5
-4
-3
-2
-1
-0
-</code></pre>
-
-<p>但是如果我把callback函数中的-1换成0则返回错误结果</p>
-
-<pre><code class="language-text">0
-2
-3
-4
-5
-9
-8
-7
-6
-1
-</code></pre>
-
-<p>这是为什么呢?</p>
-
-<p>---17.1.3----<br/>
-搞懂了,0不能代表升降...</p>
-
-<blockquote>
-<p>假设是对 int 排序的话，如果是升序， 那么就是如果 a 比 b 大返回一个正值，小则负值，相等返回 0; 假设是对 int 排序的话，如果是降序， 那么就是如果 a 比 b 大返回一个负值，小则正值，相等返回 0;</p>
+		<blockquote>
+<p>Swift Talk 学习笔记,<a href="https://talk.objc.io/episodes/S01E01-networking">https://talk.objc.io/episodes/S01E01-networking</a></p>
 </blockquote>
 
 

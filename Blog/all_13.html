@@ -201,6 +201,10 @@
         <li><label>杂记</label></li>
 
           
+            <li><a title="公司规范" href="15380500153174.html">公司规范</a></li>
+          
+            <li><a title="各种队列的执行效果" href="15375346728525.html">各种队列的执行效果</a></li>
+          
             <li><a title="<禅与摩托车维修艺术>" href="15366461063408.html"><禅与摩托车维修艺术></a></li>
           
             <li><a title="金额显示" href="15271249936113.html">金额显示</a></li>
@@ -486,6 +490,10 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
+                          <li><a title="公司规范" href="15380500153174.html">公司规范</a></li>
+                        
+                          <li><a title="各种队列的执行效果" href="15375346728525.html">各种队列的执行效果</a></li>
+                        
                           <li><a title="<禅与摩托车维修艺术>" href="15366461063408.html"><禅与摩托车维修艺术></a></li>
                         
                           <li><a title="金额显示" href="15271249936113.html">金额显示</a></li>
@@ -612,43 +620,71 @@
 
 	
 		<div class="markdown-body">
-		<h1>Swift - convenience 便利构造函数</h1>
+		<h1>iOS依赖库管理工具：Carthage</h1>
 
-		<blockquote>
-<p>具体解释可以参见 <strong>Swifter</strong> 中<code>Designated，Convenience 和 Required</code></p>
+		<p>新项目需要使用一种新的依赖库管理工具:<code>Carthage</code> </p>
+
+<blockquote>
+<p>参见:<a href="http://www.jianshu.com/p/9a37b81a59d6">iOS依赖库管理工具：Carthage</a></p>
 </blockquote>
 
-<p>使用遍历工造函数的好处可以参见如下代码:</p>
+<h2 id="toc_0">安装Carthage</h2>
 
-<pre><code class="language-text">import UIKit
+<ul>
+<li>使用终端安装</li>
+</ul>
 
-extension UITextField {
-    convenience init(frame:CGRect, placeholder:String,fontSize:CGFloat = 14) {
-        self.init(frame:frame)
-        
-        self.borderStyle = .roundedRect
-        self.placeholder = placeholder
-        self.font = UIFont.systemFont(ofSize: fontSize)
-    }
-}
-
+<pre><code class="language-text">$brew update
+$brew install carthage
 </code></pre>
 
-<p><strong>好处:</strong></p>
+<ul>
+<li>在<a href="https://github.com/Carthage/Carthage/releases">https://github.com/Carthage/Carthage/releases</a> 下载最新版的Carthage.pkg</li>
+</ul>
 
-<ol>
-<li>判断条件,只有满足条件才实例化对象,可以防止造成不必要的内存开销</li>
-<li>简化对象的创建  -&gt;利用<code>extension</code>抽取控件创建方法</li>
-<li>本身不负责属性的创建和初始化工作</li>
-<li>可以返回nil</li>
-</ol>
+<p>安装好Carthage后，查看Carthage当前版本</p>
 
-<p><strong>注意点:</strong></p>
+<pre><code class="language-text">$brew carthage version
+</code></pre>
 
-<ol>
-<li>必须调用本类的 <code>self.init</code>,不能调用父类的<code>super.init</code></li>
-<li>不能被重写</li>
-</ol>
+<h2 id="toc_1">使用Carthage</h2>
+
+<ul>
+<li>在项目所在文件夹中创建一个空的Carthage文件</li>
+</ul>
+
+<pre><code class="language-text">$touch Cartfile  
+$vi Cartfile
+</code></pre>
+
+<p><strong>$touch Cartfile</strong>：新建一个名为Cartfile的文件</p>
+
+<p><strong>$vi Cartfile</strong>：打开名为Cartfile文件，如若该文件不存在会新建</p>
+
+<ul>
+<li>在Cartfile中加入一下内容，以Alamofire为例：</li>
+</ul>
+
+<pre><code class="language-text">github &quot;Alamofire/Alamofire&quot; ~&gt; 3.0
+</code></pre>
+
+<p>版本含义：<br/>
+<code>~&gt; 3.0：表示使用版本高于3.0低于4.0的最新版本</code><br/>
+<code>== 3.0：使用3.0版本</code><br/>
+<code>&gt;= 3.0：使用3.0版本或者更高版本</code><br/>
+如果没有指明版本号，默认使用最新版本</p>
+
+<ul>
+<li>保存并关闭Cartfile文件，在终端执行如下命令，carthage开始下载和编译所需要的第三方库，当命令执行完毕，项目文件夹中会创建一个名为Carthage的文件夹，并且在~/Carthage/Build/iOS中出现Alamofire.framework文件</li>
+</ul>
+
+<pre><code class="language-text">$carthage update
+</code></pre>
+
+<ul>
+<li><p>打开项目，点击project-&gt;target-&gt;General，在Embedded Binaries添加Alamofire.framework</p></li>
+<li><p>此时已经可以使用导入的第三方库了，在需要的文件中导入头文件</p></li>
+</ul>
 
 
 		</div>

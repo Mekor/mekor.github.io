@@ -201,6 +201,10 @@
         <li><label>杂记</label></li>
 
           
+            <li><a title="公司规范" href="15380500153174.html">公司规范</a></li>
+          
+            <li><a title="各种队列的执行效果" href="15375346728525.html">各种队列的执行效果</a></li>
+          
             <li><a title="<禅与摩托车维修艺术>" href="15366461063408.html"><禅与摩托车维修艺术></a></li>
           
             <li><a title="金额显示" href="15271249936113.html">金额显示</a></li>
@@ -486,6 +490,10 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
+                          <li><a title="公司规范" href="15380500153174.html">公司规范</a></li>
+                        
+                          <li><a title="各种队列的执行效果" href="15375346728525.html">各种队列的执行效果</a></li>
+                        
                           <li><a title="<禅与摩托车维修艺术>" href="15366461063408.html"><禅与摩托车维修艺术></a></li>
                         
                           <li><a title="金额显示" href="15271249936113.html">金额显示</a></li>
@@ -612,97 +620,118 @@
 
 	
 		<div class="markdown-body">
-		<h1>Coding中检测系统授权状态，关闭提示用户去隐私设置中打开</h1>
+		<h1>为项目添加podspec</h1>
 
 		<blockquote>
-<p>参考Coding项目,二维码扫描中使用到,大家可以参考:<a href="https://github.com/Mekor/MKScanner">MKScanner</a></p>
+<p>全文来自:<a href="http://www.jianshu.com/p/d7d1942dd3f1">iOS开发-- 创建podspec文件，为自己的项目添加pod支持</a> 只是在文章中添加了原文没有说明的东西&amp;步骤</p>
 </blockquote>
 
-<p>Helper.h文件</p>
+<h2 id="toc_0">1.clone项目源码</h2>
 
-<pre><code class="language-text">#import &lt;Foundation/Foundation.h&gt;
+<p>项目如果没有在github仓库中,先上传到github仓库,然后clone到本地,已经存在就直接clone到本地</p>
 
-@interface Helper : NSObject
-
-/**
- * 检查系统&quot;照片&quot;授权状态, 如果权限被关闭, 提示用户去隐私设置中打开.
- */
-+ (BOOL)checkPhotoLibraryAuthorizationStatus;
-
-/**
- * 检查系统&quot;相机&quot;授权状态, 如果权限被关闭, 提示用户去隐私设置中打开.
- */
-+ (BOOL)checkCameraAuthorizationStatus;
-
-@end
+<pre><code class="language-text">// cd 到 想要存放项目的文件夹中执行
+git clone https://github.com/Mekor/MKScanner.git
 </code></pre>
 
-<p>Helper.m文件</p>
+<p><code>https://github.com/Mekor/MKScanner.git</code>这个是我自己的仓库,这个仓库地址可以在这里找到<br/>
+<img src="media/14676996936809/Snip20160705_4.png" alt="Snip20160705_4"/></p>
 
-<pre><code class="language-text">#import &quot;Helper.h&quot;
-@import AVFoundation;
+<h2 id="toc_1">2. 创建项目的podspec文件</h2>
 
-@implementation Helper
+<p>•   用终端命令cd到本地项目目录并执行如下命令:</p>
 
-+ (BOOL)checkPhotoLibraryAuthorizationStatus
-{
-    if ([ALAssetsLibrary respondsToSelector:@selector(authorizationStatus)]) {
-        ALAuthorizationStatus authStatus = [ALAssetsLibrary authorizationStatus];
-        if (ALAuthorizationStatusDenied == authStatus ||
-            ALAuthorizationStatusRestricted == authStatus) {
-            [self showSettingAlertStr:@&quot;请在iPhone的“设置-&gt;隐私-&gt;照片”中打开本应用的访问权限&quot;];
-            return NO;
-        }
-    }
-    return YES;
-}
+<pre><code class="language-text">$ pod spec create MKScanner
+</code></pre>
 
-+ (BOOL)checkCameraAuthorizationStatus
-{
-    if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-        kTipAlert(@&quot;该设备不支持拍照&quot;);
-        return NO;
-    }
-    
-    if ([AVCaptureDevice respondsToSelector:@selector(authorizationStatusForMediaType:)]) {
-        AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
-        if (AVAuthorizationStatusDenied == authStatus ||
-            AVAuthorizationStatusRestricted == authStatus) {
-            [self showSettingAlertStr:@&quot;请在iPhone的“设置-&gt;隐私-&gt;相机”中打开本应用的访问权限&quot;];
-            return NO;
-        }
-    }
-    
-    return YES;
-}
+<p>MKScanner替换为自己的项目名称,这时在本地就会生成一个MKScanner.podspec</p>
 
-+ (void)showSettingAlertStr:(NSString *)tipStr{
-    //iOS8+系统下可跳转到‘设置’页面，否则只弹出提示窗即可
-    if (floor(NSFoundationVersionNumber) &gt; NSFoundationVersionNumber_iOS_7_1) {
-        UIAlertView *alertView = [UIAlertView bk_alertViewWithTitle:@&quot;提示&quot; message:tipStr];
-        [alertView bk_setCancelButtonWithTitle:@&quot;取消&quot; handler:nil];
-        [alertView bk_addButtonWithTitle:@&quot;设置&quot; handler:nil];
-        [alertView bk_setDidDismissBlock:^(UIAlertView *alert, NSInteger index) {
-            if (index == 1) {
-                UIApplication *app = [UIApplication sharedApplication];
-                NSURL *settingsURL = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
-                if ([app canOpenURL:settingsURL]) {
-                    [app openURL:settingsURL];
-                }
-            }
-        }];
-        [alertView show];
-    }else{
-        kTipAlert(@&quot;%@&quot;, tipStr);
-    }
-}
+<p>•   用编辑器打开.podspec文件 (我自己用Sublime Text)<br/>
+删除不必要的注释(这里只简单介绍基本用法，所以只用到一部分必须得字段 更多字段请移步<a href="http://guides.cocoapods.org/syntax/podspec.html">http://guides.cocoapods.org/syntax/podspec.html</a></p>
 
-@end
+<pre><code class="language-text">Pod::Spec.new do |s|
 
+  s.name                 = &quot;MKScanner&quot;
+  s.version              = &quot;0.0.1&quot;
+  s.summary              = &quot;QRCode Scanner&quot;
+  s.homepage             = &quot;https://github.com/Mekor/MKScanner&quot;
+  s.license              = { :type =&gt; &quot;MIT&quot;, :file =&gt; &quot;LICENSE&quot; }
+  s.author             = { &quot;Mekor&quot; =&gt; &quot;mekor@live.cn&quot; }
+  s.social_media_url   = &quot;http://weibo.com/gliii&quot;
+  s.platform             = :ios, &quot;7.0&quot;
+  s.source               = { :git =&gt; &quot;https://github.com/Mekor/MKScanner.git&quot;, :tag =&gt; s.version }
+  s.source_files          = &quot;MKScanner/**/*.{h,m}&quot;
+  #s.resources          = &quot;MKScanner/**/*.png&quot;
+  s.requires_arc         = true
+
+end
+</code></pre>
+
+<p>•   验证podspec文件</p>
+
+<p>编辑完podspec文件后需要验证一下这个文件是否可用podspec文件不允许有任何的Warning或者Error<br/>
+执行命令</p>
+
+<pre><code class="language-text">$ pod lib lint
+</code></pre>
+
+<p>如果出现</p>
+
+<pre><code class="language-text">-&gt; MKScanner (0.0.1)
+MKScanner passed validation.
+</code></pre>
+
+<p>则说明验证通过， 否则， 根据提示修改podspec文件再次验证直到验证通过<br/>
+附带说一下，Xcode允许警告存在，所以可以通过命令屏蔽警告</p>
+
+<pre><code class="language-text">$ pod lib lint --allow-warnings
+</code></pre>
+
+<p>如果出现Error但是提示信息不足，可以添加--verbose 以获取更多错误信息</p>
+
+<pre><code class="language-text">$ pod lib lint --verbose
+</code></pre>
+
+<h2 id="toc_2">3. 打tag 上传podspec</h2>
+
+<p>podspec文件中需要指定的tag， 完成上述操作后给项目打tag</p>
+
+<pre><code class="language-text">$ git tag -m&quot;first release MKScanner with podspec&quot; &quot;0.0.1&quot;
+$ git push --tags
+
+</code></pre>
+
+<p>最后使用pod trunk命令，把podspec文件推送到CocoaPod官方库<br/>
+pod trunk 需要注册,参见:<a href="https://guides.cocoapods.org/making/getting-setup-with-trunk.html">https://guides.cocoapods.org/making/getting-setup-with-trunk.html</a><br/>
+其实很简单:</p>
+
+<pre><code class="language-text">pod trunk register Mekor@live.cn &quot;Mekor&quot;
+</code></pre>
+
+<p>指明你的邮箱地址（spec文件中的）和名称<br/>
+CocoaPods 会给你填写的邮箱发送验证邮件，点击邮件中的链接就可通过验证。<br/>
+pod trunk 设置完毕后执行命令</p>
+
+<pre><code class="language-text">$ pod trunk push MKScanner.podspec
+</code></pre>
+
+<p>这个过程可能会比较耗时，原因你懂的</p>
+
+<h2 id="toc_3">4. 最后</h2>
+
+<p>如果一切顺利</p>
+
+<pre><code class="language-text">pod search MKScanner
 </code></pre>
 
 
 		</div>
+	
+
+ 
+	
+
+ 
 	
 
  

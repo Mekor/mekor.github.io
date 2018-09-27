@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  UITableView 第0的sectionHeaderView 不显示 - 李小争
+  各种队列的执行效果 - 李小争
   
   </title>
  <meta name="description" content="记录开发中遇到的一些问题">
@@ -616,16 +616,33 @@
             <div class="large-9 medium-9 columns">
 
  <div class="markdown-body">
-<h1>UITableView 第0的sectionHeaderView 不显示</h1>
+<h1>各种队列的执行效果</h1>
 
-<p>只有当UITableView是Grouped样式，并且section的高度是通过sectionHeaderHeight设置的时候，第0个section的headerView才会丢失，通过代理设置不会丢失。如果UITableView是Plain样式就不会有任何问题。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left"></th>
+<th style="text-align: left">并发队列</th>
+<th style="text-align: left">手动创建的串行队列</th>
+<th style="text-align: left">主队列</th>
+</tr>
+</thead>
 
-<p>下面是不显示第0个sectionHeaderView的情况<br/>
-<img src="media/15336071866624/15336074512241.jpg" alt="" style="width:1406px;"/></p>
-
-<p>正常显示<br/>
-<img src="media/15336071866624/15336075291692.jpg" alt="" style="width:1394px;"/><br/>
-在正常显示的时候明显感觉到第0个section上面有间距，真机没有测试。</p>
+<tbody>
+<tr>
+<td style="text-align: left">同步（sync）</td>
+<td style="text-align: left">*没有开启新线程 *串行执行任务</td>
+<td style="text-align: left">*没有开启新线程 *串行执行任务</td>
+<td style="text-align: left">*没有开启新线程 *串行执行任务</td>
+</tr>
+<tr>
+<td style="text-align: left">异步（async）</td>
+<td style="text-align: left">*有开启新线程 *并发执行任务</td>
+<td style="text-align: left">*有开启新线程 *串行执行任务</td>
+<td style="text-align: left">*没有开启新线程 *串行执行任务</td>
+</tr>
+</tbody>
+</table>
 
 
 </div>
@@ -637,15 +654,15 @@
   <div class="large-6 columns">
 	<div class="text-left" style="padding:15px 0px;">
 		
-	        <a href="15345002536089.html"  title="Previous Post: framework脚本">&laquo; framework脚本</a>
+	        <a href="15380500153174.html"  title="Previous Post: 公司规范">&laquo; 公司规范</a>
 	    
 	</div>
   </div>
   <div class="large-6 columns">
 	<div class="text-right" style="padding:15px 0px;">
 		
-	        <a href="15323970557540.html" 
-	        title="Next Post: 控制器透明，WebView透明">控制器透明，WebView透明 &raquo;</a>
+	        <a href="15374224515215.html" 
+	        title="Next Post: CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法">CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法 &raquo;</a>
 	    
 	</div>
   </div>
@@ -658,7 +675,7 @@
 </div>
 <script type="text/javascript">
 	$(function(){
-		var currentURL = '15336071866624.html';
+		var currentURL = '15375346728525.html';
 		$('#side-nav a').each(function(){
 			if($(this).attr('href') == currentURL){
 				$(this).parent().addClass('active');

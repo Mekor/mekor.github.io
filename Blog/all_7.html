@@ -201,6 +201,10 @@
         <li><label>杂记</label></li>
 
           
+            <li><a title="公司规范" href="15380500153174.html">公司规范</a></li>
+          
+            <li><a title="各种队列的执行效果" href="15375346728525.html">各种队列的执行效果</a></li>
+          
             <li><a title="<禅与摩托车维修艺术>" href="15366461063408.html"><禅与摩托车维修艺术></a></li>
           
             <li><a title="金额显示" href="15271249936113.html">金额显示</a></li>
@@ -486,6 +490,10 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
+                          <li><a title="公司规范" href="15380500153174.html">公司规范</a></li>
+                        
+                          <li><a title="各种队列的执行效果" href="15375346728525.html">各种队列的执行效果</a></li>
+                        
                           <li><a title="<禅与摩托车维修艺术>" href="15366461063408.html"><禅与摩托车维修艺术></a></li>
                         
                           <li><a title="金额显示" href="15271249936113.html">金额显示</a></li>
@@ -612,29 +620,40 @@
 
 	
 		<div class="markdown-body">
-		<h1>设计模式 读书笔记</h1>
+		<h1>项目优化记录</h1>
 
-		<h2 id="toc_0">单一职责原则(Single Responsibility Principe 简称SRP)</h2>
+		<h2 id="toc_0">首页显示</h2>
 
-<blockquote>
-<p>定义: 应该有且仅有一个原因引起类的变更.. </p>
-</blockquote>
+<p>重点: 数据处理放在获取数据的时候,尽管这样数据不会实时更新,但是保证了数据显示的速度.<br/>
+关于Cache, 目前使用数据库.关于异步访问要用 <code>safeAsync</code></p>
 
-<h3 id="toc_1">对职责的定义,什么是类的职责,以及怎么划分类的职责.</h3>
+<pre><code class="language-text">extension DispatchQueue {
+    // This method will dispatch the `block` to self.
+    // If `self` is the main queue, and current thread is main thread, the block
+    // will be invoked immediately instead of being dispatched.
+    func safeAsync(_ block: @escaping ()-&gt;()) {
+        if self === DispatchQueue.main &amp;&amp; Thread.isMainThread {
+            block()
+        } else {
+            async { block() }
+        }
+    }
+}
+</code></pre>
 
-<p>图书中 &lt;图1-1用户信息IUserInfo位图类图&gt; 中设计的有问题:<br/>
-用户的属性和用户的行为没有分开,这是一个严重的错误.. 应该把用户的信息抽取成一个BO(Bussiness Object,业务对象),把行为抽取成一个Biz(Bussiness Logic,业务逻辑)</p>
+<h2 id="toc_1">Topbar 移除</h2>
 
-<p>重新拆封成两个接口. IUserBO 负责用户的属性,简单的说就是收集和反馈用户的属性信息.IUserBiz负责用户的行为,完成用户信息的维护和变更.</p>
+<p>这个原有的导航对项目入侵太深,已经忍无可忍了...这周终于下决心移除它用原生的导航栏和自定义视图代替她..进展非常顺利.写了一天自定义控件,然后让大家各自把自己的控制过滤一遍.总耗时,我自己一天,其他同事不到1个小时.还是非常顺利的.用比较少的时间完成了项目中的毒瘤.</p>
 
-<h3 id="toc_2">好处</h3>
+<h2 id="toc_2">下拉刷新封装</h2>
 
-<ol>
-<li>类的复杂性降低.实现什么职责都有清晰明确的定义了;</li>
-<li>可读性提高.复杂性降低,当然可读性提高了;</li>
-<li>可维护性提高.可读性提高,那当然更容易维护了;</li>
-<li>变更引起的风险降低,变更时必不可少的.如果接口的单一职责做的好,一个接口的修改只对相应的实现类有影响,对其他的接口无影响,这对系统的扩展性和维护性都有非常大的帮助.</li>
-</ol>
+<p>老版本使用的是<code>MJRefresh</code> 但是需要定制, 在老项目中我是通过继承完成的功能修改,这样做的原因是老项目是OC和Swift混编的,而且都是把第三方库源文件拖到项目中的方式进行的. 在重构的时候我把第三方库放到了公司的git上,然后更改源码.再打包成成库调用.</p>
+
+<h2 id="toc_3">关于时间比较</h2>
+
+<p>新项目中存在一个功能比如 <code>10:00:00</code> 到 <code>11:59:59</code> 算早市,需要判断当前时间是否是早市. 一种更方便的处理方式:</p>
+
+<p>时间格式 <code>HH:mm:ss</code> 一共6位数字,我们可以去掉中间的<code>:</code>,这样时间就是一个整数了,然后三个整数之间进行比较比 先比小时再比分钟最后比秒数要方便很多.</p>
 
 
 		</div>
