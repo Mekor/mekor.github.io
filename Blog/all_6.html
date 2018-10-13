@@ -63,6 +63,8 @@
         <li><label>技巧</label></li>
 
           
+            <li><a title="关于更换主题" href="15393255857280.html">关于更换主题</a></li>
+          
             <li><a title="设置placeholder颜色" href="15257015417604.html">设置placeholder颜色</a></li>
           
             <li><a title="懒加载的另一种写法" href="15257015215231.html">懒加载的另一种写法</a></li>
@@ -358,6 +360,8 @@
                     
                       <li class="side-title"><span>技巧</span></li>
                         
+                          <li><a title="关于更换主题" href="15393255857280.html">关于更换主题</a></li>
+                        
                           <li><a title="设置placeholder颜色" href="15257015417604.html">设置placeholder颜色</a></li>
                         
                           <li><a title="懒加载的另一种写法" href="15257015215231.html">懒加载的另一种写法</a></li>
@@ -620,150 +624,671 @@
 
 	
 		<div class="markdown-body">
-		<h1>GCD(Grand Central Dispatch)</h1>
+		<h1>UIBezierPath</h1>
 
 		<blockquote>
 <p>由于Stack Overflow中Documentation将要关闭,所以我将部分内容转载至这里</p>
 </blockquote>
 
-<p>Grand Central Dispatch (GCD) is Apple&#39;s answer to multithreading. It is a lightweight framework for performing tasks synchronously or asynchronously in queues and handles CPU threads for you behind the scenes.</p>
+<h2 id="toc_0"><a href="https://stackoverflow.com/documentation/ios/3186/uibezierpath/13624/designing-and-drawing-a-bezier-path">Designing and drawing a Bezier Path</a></h2>
 
-<h2 id="toc_0">Dispatch Semaphore</h2>
+<p>This example shows the process from designing the shape you want to drawing it on a view. A specific shap is used but the concepts you learn can be applied to any shape.</p>
 
-<p><a href="https://stackoverflow.com/documentation/ios/4626/gcd-grand-central-dispatch/28284/dispatch-semaphore">Stack Overflow地址</a></p>
+<h3 id="toc_1">How to draw a <a href="https://developer.apple.com/library/ios/documentation/2DDrawing/Conceptual/DrawingPrintingiOS/BezierPaths/BezierPaths.html">Bézier path</a> in a custom view</h3>
 
-<blockquote>
-<p>DispatchSemaphore provides an efficient implementation of a traditional counting semaphore, which can be used to control access to a resource across multiple execution contexts.</p>
-</blockquote>
+<p>These are the main steps:</p>
 
-<p>A scenario for when to use a semaphore could be if you are doing some file reading/writing, if multiple tasks are trying to read and write from file at the same time, it could increase your performance to make each task wait its turn so as to not overburden the I/O controller.</p>
+<ol>
+<li>Design the outline of the shape you want.</li>
+<li>Divide the outline path into segments of lines, arcs, and curves.</li>
+<li>Build that path programmatically.</li>
+<li>Draw the path either in <code>drawRect</code> or using a <code>CAShapeLayer</code>.</li>
+</ol>
 
-<pre><code class="language-text">func do2TasksAtATime () {
-    print(&quot;starting long running tasks (2 at a time)&quot;)
-    let sem = DispatchSemaphore(value: 2)            //this semaphore only allows 2 tasks to run at the same time (the resource count)
-    for i in 0...7 {                                 //launch a bunch of tasks
-        DispatchQueue.global().async {               //run tasks on a background thread
-            sem.wait()                               //wait here if no resources available
-            sleep(2)                                 //do some long task eg file access (here we are just sleeping for a 2 seconds for demonstration purposes)
-            print(&quot;long task \(i) done! \(Date())&quot;)
-            sem.signal()                             //let the semaphore know this resource is now available
-        }
+<h3 id="toc_2">Design shape outline</h3>
+
+<p>You could do anything, but as an example I have chosen the shape below. It could be a popup key on a keyboard.</p>
+
+<p><a href="media/15036524793322/geckR.png"><img src="media/15036524793322/geckR.png" alt="enter image description here"/></a></p>
+
+<h3 id="toc_3">Divide the path into segments</h3>
+
+<p>Look back at your shape design and break it down into simpler elements of lines (for straight lines), arcs (for circles and round corners), and curves (for anything else).</p>
+
+<p>Here is what our example design would look like:</p>
+
+<p><a href="media/15036524793322/4mkcI.png"><img src="media/15036524793322/4mkcI.png" alt="enter image description here"/></a></p>
+
+<ul>
+<li>Black are line segments</li>
+<li>Light blue are arc segments</li>
+<li>Red are curves</li>
+<li>Orange dots are the control points for the curves</li>
+<li>Green dots are the points between path segments</li>
+<li>Dotted lines show the bounding rectangle</li>
+<li>Dark blue numbers are the segments in the order that they will be added programmatically</li>
+</ul>
+
+<h3 id="toc_4">Build the path programmatically</h3>
+
+<p>We&#39;ll arbitrarily start in the bottom left corner and work clockwise. I&#39;ll use the grid in the image to get the x and y values for the points. I&#39;ll hardcode everything here, but of course you wouldn&#39;t do that in a real project.</p>
+
+<p>The basic process is:</p>
+
+<ol>
+<li>Create a new <code>UIBezierPath</code></li>
+<li>Choose a starting point on the path with <code>moveToPoint</code></li>
+<li><p>Add segments to the path</p></li>
+</ol>
+
+<ul>
+<li>line: <code>addLineToPoint</code></li>
+<li>arc: <code>addArcWithCenter</code></li>
+<li><p>curve: <code>addCurveToPoint</code></p></li>
+</ul>
+
+<ol>
+<li>Close the path with <code>closePath</code></li>
+</ol>
+
+<p>Here is the code to make the path in the image above.</p>
+
+<pre><code class="language-text">func createBezierPath() -&gt; UIBezierPath {
+
+    // create a new path
+    let path = UIBezierPath()
+
+    // starting point for the path (bottom left)
+    path.moveToPoint(CGPoint(x: 2, y: 26))
+
+    // *********************
+    // ***** Left side *****
+    // *********************
+
+    // segment 1: line
+    path.addLineToPoint(CGPoint(x: 2, y: 15))
+
+    // segment 2: curve
+    path.addCurveToPoint(CGPoint(x: 0, y: 12), // ending point
+        controlPoint1: CGPoint(x: 2, y: 14),
+        controlPoint2: CGPoint(x: 0, y: 14))
+
+    // segment 3: line
+    path.addLineToPoint(CGPoint(x: 0, y: 2))
+
+    // *********************
+    // ****** Top side *****
+    // *********************
+
+    // segment 4: arc
+    path.addArcWithCenter(CGPoint(x: 2, y: 2), // center point of circle
+        radius: 2, // this will make it meet our path line
+        startAngle: CGFloat(M_PI), // π radians = 180 degrees = straight left
+        endAngle: CGFloat(3*M_PI_2), // 3π/2 radians = 270 degrees = straight up
+        clockwise: true) // startAngle to endAngle goes in a clockwise direction
+
+    // segment 5: line
+    path.addLineToPoint(CGPoint(x: 8, y: 0))
+
+    // segment 6: arc
+    path.addArcWithCenter(CGPoint(x: 8, y: 2),
+        radius: 2,
+        startAngle: CGFloat(3*M_PI_2), // straight up
+        endAngle: CGFloat(0), // 0 radians = straight right
+        clockwise: true)
+
+    // *********************
+    // ***** Right side ****
+    // *********************
+
+    // segment 7: line
+    path.addLineToPoint(CGPoint(x: 10, y: 12))
+
+    // segment 8: curve
+    path.addCurveToPoint(CGPoint(x: 8, y: 15), // ending point
+        controlPoint1: CGPoint(x: 10, y: 14),
+        controlPoint2: CGPoint(x: 8, y: 14))
+
+    // segment 9: line
+    path.addLineToPoint(CGPoint(x: 8, y: 26))
+
+    // *********************
+    // **** Bottom side ****
+    // *********************
+
+    // segment 10: line
+    path.closePath() // draws the final line to close the path
+
+    return path
+}
+</code></pre>
+
+<p>Note: Some of the above code can be reduced by adding a line and an arc in a single command (since the arc has an implied starting point). See <a href="http://ronnqvi.st/thinking-like-a-bzier-path/">here</a> for more details.</p>
+
+<h3 id="toc_5">Draw the path</h3>
+
+<p>We can draw the path either in a layer or in <code>drawRect</code>.</p>
+
+<p><strong>Method 1: Draw path in a layer</strong></p>
+
+<p>Our custom class looks like this. We add our Bezier path to a new <code>CAShapeLayer</code> when the view is initialized.</p>
+
+<pre><code class="language-text">import UIKit
+class MyCustomView: UIView {
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setup()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setup()
+    }
+
+    func setup() {
+
+        // Create a CAShapeLayer
+        let shapeLayer = CAShapeLayer()
+
+        // The Bezier path that we made needs to be converted to 
+        // a CGPath before it can be used on a layer.
+        shapeLayer.path = createBezierPath().CGPath
+
+        // apply other properties related to the path
+        shapeLayer.strokeColor = UIColor.blueColor().CGColor
+        shapeLayer.fillColor = UIColor.whiteColor().CGColor
+        shapeLayer.lineWidth = 1.0
+        shapeLayer.position = CGPoint(x: 10, y: 10)
+
+        // add the new layer to our custom view
+        self.layer.addSublayer(shapeLayer)
+    }
+
+    func createBezierPath() -&gt; UIBezierPath {
+
+        // see previous code for creating the Bezier path
     }
 }
 </code></pre>
 
-<p>Example output: (notice the time stamps)</p>
+<p>And creating our view in the View Controller like this</p>
 
-<pre><code class="language-text">starting long running tasks (2 at a time)
-long task 0 done! 2017-02-16 07:11:53 +0000
-long task 1 done! 2017-02-16 07:11:53 +0000
-long task 2 done! 2017-02-16 07:11:55 +0000
-long task 3 done! 2017-02-16 07:11:55 +0000
-long task 5 done! 2017-02-16 07:11:57 +0000
-long task 4 done! 2017-02-16 07:11:57 +0000
-long task 6 done! 2017-02-16 07:11:59 +0000
-long task 7 done! 2017-02-16 07:11:59 +0000
+<pre><code class="language-text">override func viewDidLoad() {
+    super.viewDidLoad()
+
+    // create a new UIView and add it to the view controller
+    let myView = MyCustomView()
+    myView.frame = CGRect(x: 100, y: 100, width: 50, height: 50)
+    myView.backgroundColor = UIColor.yellowColor()
+    view.addSubview(myView)
+
+}
 </code></pre>
 
-<h2 id="toc_1">Dispatch Group</h2>
+<p>We get...</p>
 
-<p><a href="https://stackoverflow.com/documentation/ios/4626/gcd-grand-central-dispatch/28278/dispatch-group">Stack Overflow地址</a></p>
+<p><a href="media/15036524793322/oELys.png"><img src="media/15036524793322/oELys.png" alt="enter image description here"/></a></p>
 
-<blockquote>
-<p>DispatchGroup allows for aggregate synchronization of work. You can use them to submit multiple different work items and track when they all complete, even though they might run on different queues. This behavior can be helpful when progress can’t be made until all of the specified tasks are complete.</p>
-</blockquote>
+<p>Hmm, that&#39;s a little small because I hardcoded all the numbers in. I can scale the path size up, though, like this:</p>
 
-<p>A Scenario when this could be useful is if you have multiple webservice calls that all need to finish before continuing. For example, you need to download multiple sets of data that needs to be processed by some function. You have to wait for all webservices to complete before calling the function to process all the received data.</p>
+<pre><code class="language-text">let path = createBezierPath()
+let scale = CGAffineTransformMakeScale(2, 2)
+path.applyTransform(scale)
+shapeLayer.path = path.CGPath
+</code></pre>
 
-<p><strong>Swift 3</strong></p>
+<p><a href="media/15036524793322/LXvPc.png"><img src="media/15036524793322/LXvPc.png" alt="enter image description here"/></a></p>
 
-<pre><code class="language-text">func doLongTasksAndWait () {
-    print(&quot;starting long running tasks&quot;)
-    let group = DispatchGroup()          //create a group for a bunch of tasks we are about to do
-    for i in 0...3 {                     //launch a bunch of tasks (eg a bunch of webservice calls that all need to be finished before proceeding to the next ViewController)
-        group.enter()                    //let the group know that something is being added
-        DispatchQueue.global().async {   //run tasks on a background thread
-            sleep(arc4random() % 4)      //do some long task eg webservice or database lookup (here we are just sleeping for a random amount of time for demonstration purposes)
-            print(&quot;long task \(i) done!&quot;)
-            group.leave()                //let group know that the task is finished
-        }
+<p><strong>Method 2: Draw path in <code>drawRect</code></strong></p>
+
+<p>Using <code>drawRect</code> is slower than drawing to the layer, so this is not the recommended method if you don&#39;t need it.</p>
+
+<p>Here is the revised code for our custom view:</p>
+
+<pre><code class="language-text">import UIKit
+class MyCustomView: UIView {
+
+    override func drawRect(rect: CGRect) {
+
+        // create path (see previous code)
+        let path = createBezierPath()
+
+        // fill
+        let fillColor = UIColor.whiteColor()
+        fillColor.setFill()
+
+        // stroke
+        path.lineWidth = 1.0
+        let strokeColor = UIColor.blueColor()
+        strokeColor.setStroke()
+
+        // Move the path to a new location
+        path.applyTransform(CGAffineTransformMakeTranslation(10, 10))
+
+        // fill and stroke the path (always do these last)
+        path.fill()
+        path.stroke()
+
     }
-    group.wait()                         //will block whatever thread we are on here until all the above tasks have finished (so maybe dont use this function on your main thread)
-    print(&quot;all tasks done!&quot;)
-}
-</code></pre>
 
-<p>Alternatively, if you do not want to wait for the groups to finish, but instead want to run a function once all the tasks have completed, use the <code>notify</code> function in place of the <code>group.wait()</code></p>
+    func createBezierPath() -&gt; UIBezierPath {
 
-<pre><code class="language-text">group.notify(queue: DispatchQueue.main) { //the queue: parameter is which queue this block will run on, if you need to do UI updates, use the main queue
-    print(&quot;all tasks done!&quot;)              //this will execute when all tasks have left the group
-}
-</code></pre>
-
-<p>Example output:</p>
-
-<pre><code class="language-text">starting long running tasks
-long task 0 done!
-long task 3 done!
-long task 1 done!
-long task 2 done!
-all tasks done!
-</code></pre>
-
-<h2 id="toc_2">Serial vs Concurrent Dispatch Queues</h2>
-
-<p><a href="https://stackoverflow.com/documentation/ios/4626/gcd-grand-central-dispatch/28286/serial-vs-concurrent-dispatch-queues">Stack Overflow地址</a><br/>
-<strong>Serial Queue</strong></p>
-
-<pre><code class="language-text">func serialQueues () {
-    let serialQueue = DispatchQueue(label: &quot;com.example.serial&quot;) //default queue type is a serial queue
-    let start = Date ()
-    for i in 0...3 {                                             //launch a bunch of tasks
-        serialQueue.async {                                      //run tasks on a background thread, using our serial queue
-            sleep(2)                                             //do some long task eg webservice or database lookup
-            let timeTaken = Date().timeIntervalSince(start)
-            print(&quot;serial long task \(i) done! total time taken: \(timeTaken)&quot;)
-        }
+        // see previous code for creating the Bezier path
     }
 }
 </code></pre>
 
-<p>Example output:</p>
+<p>which gives us the same result...</p>
 
-<pre><code class="language-text">serial long task 0 done! total time taken: 2.07241100072861
-serial long task 1 done! total time taken: 4.16347700357437
-serial long task 2 done! total time taken: 6.23209798336029
-serial long task 3 done! total time taken: 8.30682599544525
+<p><a href="media/15036524793322/2hqMa.png"><img src="media/15036524793322/2hqMa.png" alt="enter image description here"/></a></p>
+
+<h3 id="toc_6">Further study</h3>
+
+<p>Excellent articles for understanding Bezier paths.</p>
+
+<ul>
+<li><a href="http://ronnqvi.st/thinking-like-a-bzier-path/">Thinking like a Bézier path</a> (Everything I&#39;ve ever read from this author is good and the inspiration for my example above came from here.)</li>
+<li><a href="https://www.youtube.com/watch?v=dXECQRlmIaE">Coding Math: Episode 19 - Bezier Curves</a> (entertaining and good visual illustrations)</li>
+<li><a href="https://www.youtube.com/watch?v=Qu-QK3uoMdY">Bezier Curves</a> (how they are used in graphics applications)</li>
+<li><a href="https://www.youtube.com/watch?v=2HvH9cmHbG4">Bezier Curves</a> (good description of how the mathematical formulas are derived)</li>
+</ul>
+
+<h3 id="toc_7">Notes</h3>
+
+<ul>
+<li>This example originally comes from <a href="http://stackoverflow.com/a/34659468/3681880">this Stack Overflow answer</a>.</li>
+<li>In your actual projects you probably shouldn&#39;t use hard coded numbers, but rather get the sizes from your view&#39;s bounds.</li>
+</ul>
+
+<hr/>
+
+<h2 id="toc_8"><a href="https://stackoverflow.com/documentation/ios/3186/uibezierpath/10890/how-to-apply-corner-radius-to-rectangles-drawn-by-uibezierpath">How to apply corner radius to rectangles drawn by UIBezierPath</a></h2>
+
+<p><em>Corner radius for all 4 edges:</em></p>
+
+<p><a href="media/15036524793322/O8qTg.png"><img src="media/15036524793322/O8qTg.png" alt="enter image description here"/></a></p>
+
+<pre><code class="language-text"> UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRoundedRect: CGRectMake(x,y,width,height) cornerRadius: 11];
+[UIColor.grayColor setFill];
+[rectanglePath fill];
 </code></pre>
 
-<p><strong>Concurrent Queue</strong></p>
+<p><em>Corner radius for top-left edge:</em></p>
 
-<pre><code class="language-text">func concurrentQueues () {
-    let concurrentQueue = DispatchQueue(label: &quot;com.example.concurrent&quot;, attributes: .concurrent) //explicitly specify the queue to be a concurrent queue
-    let start = Date ()
-    for i in 0...3 {            //launch a bunch of tasks
-        concurrentQueue.async { //run tasks on a background thread, using our concurrent queue
-            sleep(2)            //do some long task eg webservice or database lookup
-            let timeTaken = Date().timeIntervalSince(start)
-            print(&quot;concurrent long task \(i) done! total time taken: \(timeTaken)&quot;)
-        }
+<p><a href="media/15036524793322/OEOJa.png"><img src="media/15036524793322/OEOJa.png" alt="enter image description here"/></a></p>
+
+<pre><code class="language-text"> UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRoundedRect: CGRectMake(x,y,width,height) byRoundingCorners: UIRectCornerTopLeft cornerRadii: CGSizeMake(11, 11)];
+[rectanglePath closePath];
+[UIColor.grayColor setFill];
+[rectanglePath fill];
+</code></pre>
+
+<p><em>Corner radius for top-right edge:</em></p>
+
+<p><a href="media/15036524793322/1xhp8.png"><img src="media/15036524793322/1xhp8.png" alt="enter image description here"/></a></p>
+
+<pre><code class="language-text">UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRoundedRect: CGRectMake(x,y,width,height) byRoundingCorners: UIRectCornerTopRight cornerRadii: CGSizeMake(11, 11)];
+[rectanglePath closePath];
+[UIColor.grayColor setFill];
+[rectanglePath fill];
+</code></pre>
+
+<p><em>corner radius for bottom-left edge:</em></p>
+
+<p><a href="media/15036524793322/yqd87.png"><img src="media/15036524793322/yqd87.png" alt="enter image description here"/></a></p>
+
+<pre><code class="language-text">UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRoundedRect: CGRectMake(x,y,width,height) byRoundingCorners: UIRectCornerBottomLeft cornerRadii: CGSizeMake(11, 11)];
+[rectanglePath closePath];
+[UIColor.grayColor setFill];
+[rectanglePath fill];
+</code></pre>
+
+<p><em>corner radius for bottom-right edge:</em></p>
+
+<p><a href="media/15036524793322/AIgP0.png"><img src="media/15036524793322/AIgP0.png" alt="enter image description here"/></a></p>
+
+<pre><code class="language-text"> UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRoundedRect: CGRectMake(x,y,width,height) byRoundingCorners: UIRectCornerBottomRight cornerRadii: CGSizeMake(11, 11)];
+[rectanglePath closePath];
+[UIColor.grayColor setFill];
+[rectanglePath fill];
+</code></pre>
+
+<p><em>corner radius for bottom edges:</em></p>
+
+<p><a href="media/15036524793322/4BrrS.png"><img src="media/15036524793322/4BrrS.png" alt="enter image description here"/></a></p>
+
+<pre><code class="language-text">UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRoundedRect: CGRectMake(x,y,width,height) byRoundingCorners: UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii: CGSizeMake(11, 11)];
+[rectanglePath closePath];
+[UIColor.grayColor setFill];
+[rectanglePath fill];
+</code></pre>
+
+<p><em>corner radius for top edges:</em></p>
+
+<p><a href="media/15036524793322/lecWo.png"><img src="media/15036524793322/lecWo.png" alt="enter image description here"/></a></p>
+
+<pre><code class="language-text">UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRoundedRect: CGRectMake(x,y,width,height) byRoundingCorners: UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii: CGSizeMake(11, 11)];
+[rectanglePath closePath];
+[UIColor.grayColor setFill];
+[rectanglePath fill];
+</code></pre>
+
+<hr/>
+
+<h2 id="toc_9"><a href="https://stackoverflow.com/documentation/ios/3186/uibezierpath/10893/how-to-apply-shadows-to-uibezierpath">How to apply shadows to UIBezierPath</a></h2>
+
+<p>Consider a simple rectangle that is drawn by the bezier path.</p>
+
+<p><a href="media/15036524793322/imDTW.png"><img src="media/15036524793322/imDTW.png" alt="enter image description here"/></a></p>
+
+<pre><code class="language-text"> UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRect: CGRectMake(x,y,width,height)];
+ [UIColor.grayColor setFill];
+ [rectanglePath fill];
+</code></pre>
+
+<p><em>Basic Outer-fill shadow:</em></p>
+
+<p><a href="media/15036524793322/mqiIV.png"><img src="media/15036524793322/mqiIV.png" alt="enter image description here"/></a></p>
+
+<pre><code class="language-text">CGContextRef context = UIGraphicsGetCurrentContext();
+
+NSShadow* shadow = [[NSShadow alloc] init];
+[shadow setShadowColor: UIColor.blackColor];
+[shadow setShadowOffset: CGSizeMake(7.1, 5.1)];
+[shadow setShadowBlurRadius: 5];
+
+UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRect: CGRectMake(x,y,width,height)];
+CGContextSaveGState(context);
+CGContextSetShadowWithColor(context, shadow.shadowOffset, shadow.shadowBlurRadius, [shadow.shadowColor CGColor]);
+[UIColor.grayColor setFill];
+[rectanglePath fill];
+CGContextRestoreGState(context);
+</code></pre>
+
+<p><em>Basic Inner fill shadow:</em></p>
+
+<p><a href="media/15036524793322/C1rZk.png"><img src="media/15036524793322/C1rZk.png" alt="enter image description here"/></a></p>
+
+<pre><code class="language-text">CGContextRef context = UIGraphicsGetCurrentContext();
+
+NSShadow* shadow = [[NSShadow alloc] init];
+[shadow setShadowColor: UIColor.blackColor];
+[shadow setShadowOffset: CGSizeMake(9.1, -7.1)];
+[shadow setShadowBlurRadius: 6];
+
+UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRect: CGRectMake(x,y,width,height)];
+[UIColor.grayColor setFill];
+[rectanglePath fill];
+
+CGContextSaveGState(context);
+UIRectClip(rectanglePath.bounds);
+CGContextSetShadowWithColor(context, CGSizeZero, 0, NULL);
+
+CGContextSetAlpha(context, CGColorGetAlpha([shadow.shadowColor CGColor]));
+CGContextBeginTransparencyLayer(context, NULL);
+{
+    UIColor* opaqueShadow = [shadow.shadowColor colorWithAlphaComponent: 1];
+    CGContextSetShadowWithColor(context, shadow.shadowOffset, shadow.shadowBlurRadius, [opaqueShadow CGColor]);
+    CGContextSetBlendMode(context, kCGBlendModeSourceOut);
+    CGContextBeginTransparencyLayer(context, NULL);
+
+    [opaqueShadow setFill];
+    [rectanglePath fill];
+
+    CGContextEndTransparencyLayer(context);
+}
+CGContextEndTransparencyLayer(context);
+CGContextRestoreGState(context);
+</code></pre>
+
+<h2 id="toc_10"><a href="https://stackoverflow.com/documentation/ios/3186/uibezierpath/10891/how-to-create-a-simple-shapes-using-uibezierpath">How to create a simple shapes using UIBezierPath</a></h2>
+
+<p><em>For a simple circle:</em></p>
+
+<p><a href="media/15036524793322/ymoay.png"><img src="media/15036524793322/ymoay.png" alt="enter image description here"/></a></p>
+
+<pre><code class="language-text">UIBezierPath* ovalPath = [UIBezierPath bezierPathWithOvalInRect: CGRectMake(0,0,50,50)];
+[UIColor.grayColor setFill];
+[ovalPath fill];
+</code></pre>
+
+<p>Swift:</p>
+
+<pre><code class="language-text">let ovalPath = UIBezierPath(ovalInRect: CGRect(x: 0, y: 0, width: 50, height: 50))
+UIColor.grayColor().setFill()
+ovalPath.fill()
+</code></pre>
+
+<p><em>For a simple Rectangle:</em></p>
+
+<p><a href="media/15036524793322/C1GFH.png"><img src="media/15036524793322/C1GFH.png" alt="enter image description here"/></a></p>
+
+<pre><code class="language-text">UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRect: CGRectMake(0,0,50,50)];
+[UIColor.grayColor setFill];
+[rectanglePath fill];
+</code></pre>
+
+<p>Swift:</p>
+
+<pre><code class="language-text">let rectanglePath = UIBezierPath(rect: CGRect(x: 0, y: 0, width: 50, height: 50))
+UIColor.grayColor().setFill()
+rectanglePath.fill()
+</code></pre>
+
+<p><em>For a simple Line:</em></p>
+
+<p><a href="media/15036524793322/KIAOK.png"><img src="media/15036524793322/KIAOK.png" alt="enter image description here"/></a></p>
+
+<pre><code class="language-text">UIBezierPath* bezierPath = [UIBezierPath bezierPath];
+[bezierPath moveToPoint: CGPointMake(x1,y1)];
+[bezierPath addLineToPoint: CGPointMake(x2,y2)];
+[UIColor.blackColor setStroke];
+bezierPath.lineWidth = 1;
+[bezierPath stroke];
+</code></pre>
+
+<p>Swift:</p>
+
+<pre><code class="language-text">let bezierPath = UIBezierPath()
+bezierPath.moveToPoint(CGPoint(x: x1, y: y1))
+bezierPath.addLineToPoint(CGPoint(x: x2, y: y2))
+UIColor.blackColor().setStroke()
+bezierPath.lineWidth = 1
+bezierPath.stroke()
+</code></pre>
+
+<p><em>For a half circle:</em></p>
+
+<p><a href="media/15036524793322/3Nywj.png"><img src="media/15036524793322/3Nywj.png" alt="enter image description here"/></a></p>
+
+<pre><code class="language-text"> CGRect ovalRect = CGRectMake(x,y,width,height);
+UIBezierPath* ovalPath = [UIBezierPath bezierPath];
+[ovalPath addArcWithCenter: CGPointMake(0, 0) radius: CGRectGetWidth(ovalRect) / 2 startAngle: 180 * M_PI/180 endAngle: 0 * M_PI/180 clockwise: YES];
+[ovalPath addLineToPoint: CGPointMake(0, 0)];
+[ovalPath closePath];
+
+CGAffineTransform ovalTransform = CGAffineTransformMakeTranslation(CGRectGetMidX(ovalRect), CGRectGetMidY(ovalRect));
+ovalTransform = CGAffineTransformScale(ovalTransform, 1, CGRectGetHeight(ovalRect) / CGRectGetWidth(ovalRect));
+[ovalPath applyTransform: ovalTransform];
+
+[UIColor.grayColor setFill];
+[ovalPath fill];
+</code></pre>
+
+<p>Swift:</p>
+
+<pre><code class="language-text">let ovalRect = CGRect(x: 0, y: 0, width: 50, height: 50)
+let ovalPath = UIBezierPath()
+ovalPath.addArcWithCenter(CGPoint.zero, radius: ovalRect.width / 2, startAngle: 180 * CGFloat(M_PI)/180, endAngle: 0 * CGFloat(M_PI)/180, clockwise: true)
+ovalPath.addLineToPoint(CGPoint.zero)
+ovalPath.closePath()
+
+var ovalTransform = CGAffineTransformMakeTranslation(CGRectGetMidX(ovalRect), CGRectGetMidY(ovalRect))
+ovalTransform = CGAffineTransformScale(ovalTransform, 1, ovalRect.height / ovalRect.width)
+ovalPath.applyTransform(ovalTransform)
+
+UIColor.grayColor().setFill()
+ovalPath.fill()
+</code></pre>
+
+<p><em>For a simple triangle:</em></p>
+
+<p><a href="media/15036524793322/5r6IE.png"><img src="media/15036524793322/5r6IE.png" alt="enter image description here"/></a></p>
+
+<pre><code class="language-text">UIBezierPath* polygonPath = [UIBezierPath bezierPath];
+[polygonPath moveToPoint: CGPointMake(x1, y1)];
+[polygonPath addLineToPoint: CGPointMake(x2, y2)];
+[polygonPath addLineToPoint: CGPointMake(x3, y2)];
+[polygonPath closePath];
+[UIColor.grayColor setFill];
+[polygonPath fill];
+</code></pre>
+
+<p>Swift:</p>
+
+<pre><code class="language-text">let polygonPath = UIBezierPath()
+polygonPath.moveToPoint(CGPoint(x: x1, y: y1))
+polygonPath.addLineToPoint(CGPoint(x: x2, y: y2))
+polygonPath.addLineToPoint(CGPoint(x: x3, y: y3))
+polygonPath.closePath()
+UIColor.grayColor().setFill()
+polygonPath.fill()
+</code></pre>
+
+<hr/>
+
+<h2 id="toc_11"><a href="https://stackoverflow.com/documentation/ios/3186/uibezierpath/18109/pie-view-column-view-with-uibezierpath">pie view &amp; column view with UIBezierPath</a></h2>
+
+<ul>
+<li>pie view
+<img src="media/15036524793322/oh0DL.png" alt="pie view"/></li>
+</ul>
+
+<pre><code class="language-text">- (void)drawRect:(CGRect)rect {
+
+    NSArray *data = @[@30, @15, @5, @17, @3, @10, @20];
+
+    // 1\. context
+    CGContextRef cxtRef = UIGraphicsGetCurrentContext();
+
+    CGPoint center = CGPointMake(150, 150);
+    CGFloat radius = 150;
+    __block CGFloat startAngle = 0;
+    [data enumerateObjectsUsingBlock:^(NSNumber * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+
+        // 2\. create path
+        CGFloat endAngle = obj.floatValue / 100 * M_PI * 2 + startAngle;
+        UIBezierPath *circlePath = [UIBezierPath bezierPathWithArcCenter:center radius:radius startAngle:startAngle endAngle:endAngle clockwise:YES];
+        [circlePath addLineToPoint:center];
+
+        // 3\. add path
+        CGContextAddPath(cxtRef, circlePath.CGPath);
+
+        // set color
+        [[UIColor colorWithRed:((float)arc4random_uniform(256) / 255.0) green:((float)arc4random_uniform(256) / 255.0) blue:((float)arc4random_uniform(256) / 255.0) alpha:1.0] setFill];
+
+        // 4\. render
+        CGContextDrawPath(cxtRef, kCGPathFill);
+
+        // reset angle
+        startAngle = endAngle;
+    }];
+}
+
+
+override func draw(_ rect: CGRect) {
+    // define data to create pie chart
+    let data: [Int] = [30, 15, 5, 17, 3, 10, 20]
+
+    // 1\. find center of draw rect
+    let center: CGPoint = CGPoint(x: rect.midX, y: rect.midY)
+
+    // 2\. calculate radius of pie
+    let radius = min(rect.width, rect.height) / 2.0
+
+    var startAngle: CGFloat = 0.0
+    for value in data {
+
+      // 3\. calculate end angle for slice
+      let endAngle = CGFloat(value) / 100.0 * CGFloat.pi * 2.0 + startAngle
+
+      // 4\. create UIBezierPath for slide
+      let circlePath = UIBezierPath(arcCenter: center, radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: true)
+
+      // 5\. add line to center to close path
+      circlePath.addLine(to: center)
+
+      // 6\. set fill color for current slice
+      UIColor(red: (CGFloat(arc4random_uniform(256)) / 255.0), green: (CGFloat(arc4random_uniform(256)) / 255.0), blue: (CGFloat(arc4random_uniform(256)) / 255.0), alpha: 1.0).setFill()
+
+      // 7\. fill slice path
+      circlePath.fill()
+
+      // 8\. set end angle as start angle for next slice
+      startAngle = endAngle
     }
+  }
+</code></pre>
+
+<ul>
+<li>column view
+<img src="media/15036524793322/ayD5Y.png" alt="column view"/></li>
+</ul>
+
+<pre><code class="language-text">- (void)drawRect:(CGRect)rect {
+
+    NSArray *data = @[@300, @150.65, @55.3, @507.7, @95.8, @700, @650.65];
+
+    // 1.
+    CGContextRef cxtRef = UIGraphicsGetCurrentContext();
+
+    NSInteger columnCount = 7;
+    CGFloat width = self.bounds.size.width / (columnCount + columnCount - 1);
+    for (NSInteger i = 0; i 
+
+override func draw(_ rect: CGRect) {
+    // define data for chart
+    let data: [CGFloat] = [300, 150.65, 55.3, 507.7, 95.8, 700, 650.65]
+
+    // 1\. calculate number of columns
+    let columnCount = data.count
+
+    // 2\. calculate column width
+    let columnWidth = rect.width / CGFloat(columnCount + columnCount - 1)
+
+    for (columnIndex, value) in data.enumerated() {
+      // 3\. calculate column height
+      let columnHeight = value / 1000.0 * rect.height
+
+      // 4\. calculate column origin
+      let columnOrigin = CGPoint(x: (columnWidth * 2.0 * CGFloat(columnIndex)), y: (rect.height - columnHeight))
+
+      // 5\. create path for column
+      let columnPath = UIBezierPath(rect: CGRect(origin: columnOrigin, size: CGSize(width: columnWidth, height: columnHeight)))
+
+      // 6\. set fill color for current column
+      UIColor(red: (CGFloat(arc4random_uniform(256)) / 255.0), green: (CGFloat(arc4random_uniform(256)) / 255.0), blue: (CGFloat(arc4random_uniform(256)) / 255.0), alpha: 1.0).setFill()
+
+      // 7\. fill column path
+      columnPath.fill()
+    }
+  }
+</code></pre>
+
+<hr/>
+
+<h2 id="toc_12"><a href="https://stackoverflow.com/documentation/ios/3186/uibezierpath/10892/uibezierpath-autolayout">UIBezierPath + AutoLayout</a></h2>
+
+<p>For bezier path to get resized based on the view frame, override the drawRect of view that you are drawing the bezier path :</p>
+
+<pre><code class="language-text">- (void)drawRect:(CGRect)frame
+{
+    UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRect: CGRectMake(CGRectGetMinX(frame), CGRectGetMinY(frame), CGRectGetWidth(frame), CGRectGetHeight(frame))];
+    [UIColor.grayColor setFill];
+    [rectanglePath fill];
 }
 </code></pre>
-
-<p>Example output:</p>
-
-<pre><code class="language-text">concurrent long task 3 done! total time taken: 2.07092100381851
-concurrent long task 0 done! total time taken: 2.07087397575378
-concurrent long task 2 done! total time taken: 2.07086700201035
-concurrent long task 1 done! total time taken: 2.07089096307755
-</code></pre>
-
-<p><strong>Discussion</strong></p>
-
-<p>As we can see from the examples above, a serial queue will complete each task in the order they are submitted to the queue. Each task will wait for the previous task to finish before executing. As for the concurrent queue, each task does not wait on the others in the queue and executes as soon as possible; the advantage is that all tasks on the queue will run at the same time on separate threads, making a concurrent queue take less time than a serial queue.</p>
-
-<p>If order of execution of tasks is not important, always use a concurrent queue for the best efficiency.</p>
 
 
 		</div>

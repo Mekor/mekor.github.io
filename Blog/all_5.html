@@ -63,6 +63,8 @@
         <li><label>技巧</label></li>
 
           
+            <li><a title="关于更换主题" href="15393255857280.html">关于更换主题</a></li>
+          
             <li><a title="设置placeholder颜色" href="15257015417604.html">设置placeholder颜色</a></li>
           
             <li><a title="懒加载的另一种写法" href="15257015215231.html">懒加载的另一种写法</a></li>
@@ -358,6 +360,8 @@
                     
                       <li class="side-title"><span>技巧</span></li>
                         
+                          <li><a title="关于更换主题" href="15393255857280.html">关于更换主题</a></li>
+                        
                           <li><a title="设置placeholder颜色" href="15257015417604.html">设置placeholder颜色</a></li>
                         
                           <li><a title="懒加载的另一种写法" href="15257015215231.html">懒加载的另一种写法</a></li>
@@ -620,30 +624,61 @@
 
 	
 		<div class="markdown-body">
-		<h1>指针</h1>
+		<h1>优化iPad 2 总结</h1>
 
-		<h2 id="toc_0">1. 指针是一种数据类型</h2>
+		<p>实施反馈项目在<code>iPad 2</code>上比较卡顿,所以要对项目进行优化.</p>
 
-<ol>
-<li>指针也是一种变量,占有内存空间,用来保存内存地址  指针的大小--&gt; 32位: 4  64位: 8</li>
-<li><p><code>*p</code> 操作内存</p>
-<pre><code class="language-text">在指针声明时,`*`号表示所声明的变量为指针
-在指针使用时,`*`号表示**操作**指针所指向的内存空间中的值<br/>
-`*p`相当于通过地址(p变量的值)找到一块内存,然后操作内存<br/>
-`*p`放在等号左边赋值(给内存赋值)<br/>
-`*p`放在等号右边取值(从内存获取值)
-</code></pre></li>
-<li><p>指针变量和它指向的内存块是两个不同的概念</p>
-<pre><code class="language-text">含义1: 给p赋值 p = 0x1111; 只会改变指针变量值,不会改变所指的内容; p = p+1
-含义2: 给`*p`赋值 *p = &#39;a&#39;;不会改变指针变量的值,只会改变所指的内存块的值<br/>
-保证所指向的内存空间能修改()<br/>
-*就像一把钥匙,通过一个地址(&amp;a),去修改a变量的标示的内存空间
-</code></pre></li>
-<li><p>指针是一种数据类型,是指它指向的内存空间的数据类型</p>
-<pre><code class="language-text">指针步长(p++),根据所指内存空间的数据类型类确定
-p++ = ---&gt; p+sizeof(a)
-</code></pre></li>
-</ol>
+<h2 id="toc_0">优化集中点为collectionView</h2>
+
+<p>项目有两种显示效果,一种是图片模式,一种是纯文字模式. 纯文字模式滑动起来还不错,图片模式就比较卡了.经分析,项目做了部分修改,使滑动效果比较顺畅.</p>
+
+<ul>
+<li>栅格化: 目的是离屏渲染,不过还是卡顿</li>
+</ul>
+
+<pre><code class="language-text">    self.layer.shouldRasterize = true
+    self.layer.rasterizationScale = UIScreen.main.scale
+    self.layer.drawsAsynchronously = true
+</code></pre>
+
+<ul>
+<li>Color Blended Layers 处理
+<img src="media/15058021769287/15058027400968.jpg" alt=""/>
+发现部分UILabel存在问题,解决方案:
+<img src="media/15058021769287/15058028256147.jpg" alt=""/></li>
+</ul>
+
+<p>添加 <code>label.layer.masksToBounds = true</code>,效果还是不行.</p>
+
+<ul>
+<li> 使用iOS最新的API<code>UICollectionViewDataSourcePrefetching</code></li>
+</ul>
+
+<pre><code class="language-text">extension DishesViewController: UICollectionViewDataSourcePrefetching {
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        let urls = indexPaths.flatMap { (index) -&gt; URL? in
+            let big = dishsArray[index.section]
+            let key = big.keys.first!
+            let small = big[key]!
+            let item = small[index.item]
+            return URL(string: item.dishModel.smallImageUrl)
+        }
+        
+        ImagePrefetcher(urls: urls).start()
+    }
+}
+
+</code></pre>
+
+<ul>
+<li>上面优化后效果不是很明显,最后采取了<strong>以空间换时间</strong>的方式优化图片列表页<br/>
+提前用<code>Kingfisher</code>下载图片(这个过程原先就有)下载过图片也做了不再下载的处理,由于图片过多导致不会有太多列表页的图片缓存中内存中. 针对这个问题,我采用了每次进入app就把列表页的图片使用<code>NSCache&lt;NSString, UIImage&gt;</code>缓存起来,效果很明显.</li>
+</ul>
+
+<h2 id="toc_1">目前还存在问题</h2>
+
+<p>下载图片失败率还是很高的,我设置的超时时间为60s <code>downloader.downloadTimeout = 60</code> 但是还是有很多图片下载超时,导致首次加载的时候需要下载图片滑动卡顿.<br/>
+由于<code>NSCache</code>的特殊性,不能保证图片一直在内存中,正在考虑是否替换成Dictionary,然后自己处理内存警告.这个稍后验证下.</p>
 
 
 		</div>

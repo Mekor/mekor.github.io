@@ -63,6 +63,8 @@
         <li><label>技巧</label></li>
 
           
+            <li><a title="关于更换主题" href="15393255857280.html">关于更换主题</a></li>
+          
             <li><a title="设置placeholder颜色" href="15257015417604.html">设置placeholder颜色</a></li>
           
             <li><a title="懒加载的另一种写法" href="15257015215231.html">懒加载的另一种写法</a></li>
@@ -358,6 +360,8 @@
                     
                       <li class="side-title"><span>技巧</span></li>
                         
+                          <li><a title="关于更换主题" href="15393255857280.html">关于更换主题</a></li>
+                        
                           <li><a title="设置placeholder颜色" href="15257015417604.html">设置placeholder颜色</a></li>
                         
                           <li><a title="懒加载的另一种写法" href="15257015215231.html">懒加载的另一种写法</a></li>
@@ -620,75 +624,44 @@
 
 	
 		<div class="markdown-body">
-		<h1>全屏返回手势小技巧</h1>
+		<h1>点菜逻辑梳理</h1>
 
-		<blockquote>
-<p>这片文章可以和<a href="http://www.citynight.cn/Blog/14790381443417.html">Swift - KVC 和 运行时获取属性列表</a> 一起看,当然配上<a href="http://www.citynight.cn/Blog/14793034700265.html">隐藏tabBar的小技巧</a>就更好了😀</p>
-</blockquote>
+		<h2 id="toc_0">同步逻辑(全量上传):</h2>
 
-<h2 id="toc_0">第一种: 通过<code>runtime</code>与<code>KVC</code>配合完成</h2>
+<p>原定: 切台\转台 全量上传<br/>
+现在: 轮询即上传(每次轮询信息都走这个接口),切台/轮询同样走这个接口</p>
 
-<p>在<code>UINavigationController</code>的<code>viewDidLoad</code>方法中:</p>
+<h2 id="toc_1">关于延时</h2>
 
-<pre><code class="language-text">// 获取系统的手势
-let gest = self.interactivePopGestureRecognizer!
-// 禁用系统的手势
-interactivePopGestureRecognizer?.isEnabled = false
+<p>12.27泽祥刚跟海底捞确定逻辑和备注一致即这道菜如果半份延时了再次点这道菜不论整份半份都是延时的.</p>
 
-// 通过KVC获取target 属性是通过runtime获取的,具体方法参见`Swift - KVC 和 运行时获取属性列表`
-guard let targets = gest.value(forKey: &quot;_targets&quot;) as? [AnyObject] else {
-    return
-}
-let target = targets[0].value(forKey: &quot;_target&quot;)
+<h2 id="toc_2">整份半份显示(如果新需求的话,可能还需要改变正在和泽祥确定中)</h2>
 
-// 给视图添加点击事件
-let pan = UIPanGestureRecognizer(target: target, action: NSSelectorFromString(&quot;handleNavigationTransition:&quot;))
-view.addGestureRecognizer(pan)
-</code></pre>
+<p>需求:点菜点锅界面菜品包含整份与半份 购物车界面整份与半份是分开的.</p>
 
-<h2 id="toc_1">第二种: 通过原有的代理完成</h2>
+<p>目前的做法: 购物车等地方如果调用<code>-(NSArray *)getLocalDishArray</code>这个操作会把数据拆分成整份半份给调用者.但是在点菜点锅页面,我会调用<code>configLocalDishArray</code> 这个操作会把整份半份整合成一个菜给调用者</p>
 
-<p>直接上代码:</p>
+<h2 id="toc_3">关于估清</h2>
 
-<pre><code class="language-text">class BaseNavigationController: UINavigationController {
+<p>原有逻辑就是根据数据库中获取菜品信息进行估清操作判断的,<strong>目前</strong>的逻辑是这样的,数据库返回字段和轮询回来的估清数据中只要有一个是估清就显示估清,显示需要调用<code>-(BOOL)judgeIsSellOutWithDish:(HTDishEntity *)dish</code></p>
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+<h2 id="toc_4">关于已点</h2>
 
-        // 获取系统的手势的代理
-        guard let target = interactivePopGestureRecognizer?.delegate else {
-            return
-        }
-        
-        // 禁用系统的手势
-        interactivePopGestureRecognizer?.isEnabled = false
-        
-        // 给视图添加点击事件
-        let pan = UIPanGestureRecognizer(target: target, action: NSSelectorFromString(&quot;handleNavigationTransition:&quot;))
-        pan.delegate = self
-        view.addGestureRecognizer(pan)
-    }
-}
+<p>新加菜&amp;已下单数据只要一个地方有该菜品都显示已点<code>-(BOOL)haveOrderThisDish:(NSString *)dishid</code></p>
 
-extension BaseNavigationController:UIGestureRecognizerDelegate {
-    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -&gt; Bool {
-        // 当是跟控制器的时候不让返回,非跟控制器可以返回
-        return viewControllers.count &gt; 1
-    }
-}
+<h2 id="toc_5">匹配菜品中整份半份数量</h2>
 
-</code></pre>
+<p><code>-(nonnull HTDishEntity *)configNumberOfDish:(nonnull HTDishEntity *)dish</code><br/>
+会计算未下单数据中所有整份半份数量</p>
 
-<p>第一种也应该设置代理,不设置代理的话跟控制出现手势就会有bug</p>
+<h2 id="toc_6">延时倍增拆分等操作</h2>
 
-<p>简单比较一下,第二种更简洁.不过应用了一个小技巧,看代码:</p>
+<p>这里需要的菜品都是通过<code>getLocalDishArray</code>来获取否则有问题,详细逻辑大伟比较清楚</p>
 
-<pre><code class="language-text">    let pan = UIPanGestureRecognizer(target: self, action: NSSelectorFromString(&quot;handleNavigationTransition:&quot;))
-    pan.delegate = self
-    view.addGestureRecognizer(pan)
-</code></pre>
+<h2 id="toc_7">目前问题</h2>
 
-<p>可见<code>target</code>&amp;<code>delegate</code>通常都是同一个对象,当让也可以是不同的,这里应用这个小技巧让代码变得更简洁.</p>
+<p>如果某一道菜设置延时了,将来这道菜每次进行数量的加减时都要同步到服务器,这个操作会不会导致网络请求发送比较频繁<br/>
+点锅后,使用最新的同步接口延时太久.吃饭前同步的数据,中午午休后发现数据回来了...点菜的数据同步很快..这个是接口用错了还是后台接口需要调整?</p>
 
 
 		</div>

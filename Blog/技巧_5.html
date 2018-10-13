@@ -63,6 +63,8 @@
         <li><label>技巧</label></li>
 
           
+            <li><a title="关于更换主题" href="15393255857280.html">关于更换主题</a></li>
+          
             <li><a title="设置placeholder颜色" href="15257015417604.html">设置placeholder颜色</a></li>
           
             <li><a title="懒加载的另一种写法" href="15257015215231.html">懒加载的另一种写法</a></li>
@@ -358,6 +360,8 @@
                     
                       <li class="side-title"><span>技巧</span></li>
                         
+                          <li><a title="关于更换主题" href="15393255857280.html">关于更换主题</a></li>
+                        
                           <li><a title="设置placeholder颜色" href="15257015417604.html">设置placeholder颜色</a></li>
                         
                           <li><a title="懒加载的另一种写法" href="15257015215231.html">懒加载的另一种写法</a></li>
@@ -620,224 +624,79 @@
 
 	
 		<div class="markdown-body">
-		<h1>关于tableViewCell加载图片优化</h1>
+		<h1>如何给View添加点击事件</h1>
 
-		<p>cell的创建</p>
+		<p>项目中有很多地方需要添加点击事件,重复代码很多,所以做了一个UIView的分类,专门做点击事件使用.<br/>
+项目地址:<a href="https://github.com/Mekor/UIView-Tap">UIView-Tap</a></p>
 
-<pre><code class="language-text">- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-</code></pre>
+<p>代码很简单,主要有一点就是注意分类不能直接添加属性,需要用到运行时相关内容.</p>
 
-<p>数据处理建议在这里进行:</p>
+<p>代码如下:</p>
 
-<pre><code class="language-text">-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-</code></pre>
-
-<p>cell将要显示的时候我们进行一些处理(来自苹果Demo)</p>
-
-<pre><code class="language-text">// Only load cached images; defer new downloads until scrolling ends
-if (!appRecord.appIcon)
-{
-    if (self.tableView.dragging == NO &amp;&amp; self.tableView.decelerating == NO)
-    {
-        [self startIconDownload:appRecord forIndexPath:indexPath];
-    }
-    // if a download is deferred or in progress, return a placeholder image
-    cell.imageView.image = [UIImage imageNamed:@&quot;Placeholder.png&quot;];
-}
-else
-{
-    cell.imageView.image = appRecord.appIcon;
-}
-</code></pre>
-
-<p>这里可以看出,拖拽和滚动的时候不进行图片下载,只有停止的时候才进行.当然我们还需要在scrollView停止滚动和拖拽的时候进行下载</p>
-
-<pre><code class="language-text">#pragma mark - UIScrollViewDelegate
-
-// -------------------------------------------------------------------------------
-//  scrollViewDidEndDragging:willDecelerate:
-//  Load images for all onscreen rows when scrolling is finished.
-// -------------------------------------------------------------------------------
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-{
-    if (!decelerate)
-    {
-        [self loadImagesForOnscreenRows];
-    }
-}
-
-// -------------------------------------------------------------------------------
-//  scrollViewDidEndDecelerating:scrollView
-//  When scrolling stops, proceed to load the app icons that are on screen.
-// -------------------------------------------------------------------------------
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-    [self loadImagesForOnscreenRows];
-}
-
-</code></pre>
-
-<p>下载显示cell的图片</p>
-
-<pre><code class="language-text">// -------------------------------------------------------------------------------
-//  loadImagesForOnscreenRows
-//  This method is used in case the user scrolled into a set of cells that don&#39;t
-//  have their app icons yet.
-// -------------------------------------------------------------------------------
-- (void)loadImagesForOnscreenRows
-{
-    if (self.entries.count &gt; 0)
-    {
-        NSArray *visiblePaths = [self.tableView indexPathsForVisibleRows];
-        for (NSIndexPath *indexPath in visiblePaths)
-        {
-            AppRecord *appRecord = (self.entries)[indexPath.row];
-            
-            if (!appRecord.appIcon)
-            // Avoid the app icon download if the app already has an icon
-            {
-                [self startIconDownload:appRecord forIndexPath:indexPath];
-            }
-        }
-    }
-}
-</code></pre>
-
-<p>具体下载:</p>
-
-<pre><code class="language-text">#pragma mark - Table cell image support
-
-// -------------------------------------------------------------------------------
-//  startIconDownload:forIndexPath:
-// -------------------------------------------------------------------------------
-- (void)startIconDownload:(AppRecord *)appRecord forIndexPath:(NSIndexPath *)indexPath
-{
-    NSLog(@&quot;下载图片&quot;);
-    IconDownloader *iconDownloader = (self.imageDownloadsInProgress)[indexPath];
-    if (iconDownloader == nil) 
-    {
-        iconDownloader = [[IconDownloader alloc] init];
-        iconDownloader.appRecord = appRecord;
-        [iconDownloader setCompletionHandler:^{
-            
-            UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-            
-            // Display the newly loaded image
-            cell.imageView.image = appRecord.appIcon;
-            
-            // Remove the IconDownloader from the in progress list.
-            // This will result in it being deallocated.
-            [self.imageDownloadsInProgress removeObjectForKey:indexPath];
-            
-        }];
-        (self.imageDownloadsInProgress)[indexPath] = iconDownloader;
-        [iconDownloader startDownload];  
-    }
-}
-</code></pre>
-
-<p>IconDownloader文件</p>
-
-<pre><code class="language-text">//.h文件
-@class AppRecord;
-
-@interface IconDownloader : NSObject
-
-@property (nonatomic, strong) AppRecord *appRecord;
-@property (nonatomic, copy) void (^completionHandler)(void);
-
-- (void)startDownload;
-- (void)cancelDownload;
-
+<pre><code class="language-text">\\UIView+Tap.h文件
+@interface UIView (Tap)
+- (void)addTapBlock:(void(^)(id obj))tapAction;
 @end
 
+\\UIView+Tap.m文件
+#import &lt;objc/runtime.h&gt;
 
-//.m文件
-#import &quot;IconDownloader.h&quot;
-#import &quot;AppRecord.h&quot;
+static const void* tagValue = &amp;tagValue;
 
-#define kAppIconSize 48
-
-
-@interface IconDownloader ()
-
-@property (nonatomic, strong) NSURLSessionDataTask *sessionTask;
-
+@interface UIView ()
+@property (nonatomic, copy) void(^tapAction)(id);
 @end
 
-
-#pragma mark -
-
-@implementation IconDownloader
-
-// -------------------------------------------------------------------------------
-//  startDownload
-// -------------------------------------------------------------------------------
-- (void)startDownload
-{
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.appRecord.imageURLString]];
-
-    // create an session data task to obtain and download the app icon
-    _sessionTask = [[NSURLSession sharedSession] dataTaskWithRequest:request
-                                                   completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        
-        // in case we want to know the response status code
-        //NSInteger HTTPStatusCode = [(NSHTTPURLResponse *)response statusCode];
-
-        if (error != nil)
-        {
-            if ([error code] == NSURLErrorAppTransportSecurityRequiresSecureConnection)
-            {
-                // if you get error NSURLErrorAppTransportSecurityRequiresSecureConnection (-1022),
-                // then your Info.plist has not been properly configured to match the target server.
-                //
-                abort();
-            }
-        }
-                                                       
-        [[NSOperationQueue mainQueue] addOperationWithBlock: ^{
-            
-            // Set appIcon and clear temporary data/image
-            UIImage *image = [[UIImage alloc] initWithData:data];
-            
-            if (image.size.width != kAppIconSize || image.size.height != kAppIconSize)
-            {
-                CGSize itemSize = CGSizeMake(kAppIconSize, kAppIconSize);
-                UIGraphicsBeginImageContextWithOptions(itemSize, NO, 0.0f);
-                CGRect imageRect = CGRectMake(0.0, 0.0, itemSize.width, itemSize.height);
-                [image drawInRect:imageRect];
-                self.appRecord.appIcon = UIGraphicsGetImageFromCurrentImageContext();
-                UIGraphicsEndImageContext();
-            }
-            else
-            {
-                self.appRecord.appIcon = image;
-            }
-            
-            // call our completion handler to tell our client that our icon is ready for display
-            if (self.completionHandler != nil)
-            {
-                self.completionHandler();
-            }
-        }];
-    }];
-    
-    [self.sessionTask resume];
+@implementation UIView (Tap)
+- (void)tap{
+    if (self.tapAction) {
+        self.tapAction(self);
+    }
+}
+- (void)addTapBlock:(void(^)(id obj))tapAction{
+    self.tapAction = tapAction;
+    if (![self gestureRecognizers]) {
+        self.userInteractionEnabled = YES;
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap)];
+        [self addGestureRecognizer:tap];
+    }
 }
 
-// -------------------------------------------------------------------------------
-//  cancelDownload
-// -------------------------------------------------------------------------------
-- (void)cancelDownload
-{
-    [self.sessionTask cancel];
-    _sessionTask = nil;
+-(void)setTapAction:(void (^)(id))tapAction {
+    objc_setAssociatedObject(self, tagValue, tapAction, OBJC_ASSOCIATION_COPY_NONATOMIC);
 }
+-(void (^)(id))tapAction {
+    return objc_getAssociatedObject(self, tagValue);
+}
+@end
 </code></pre>
 
-<blockquote>
-<p><a href="https://developer.apple.com/library/ios/samplecode/LazyTableImages/Introduction/Intro.html">Apple Demo</a></p>
-</blockquote>
+<p>正如大家所见,如果要接收点击事件,必须userInteractionEnabled设置为YES,所以不管怎么只要确认要给视图添加点击事件,都会被设置为<code>userInteractionEnabled = YES</code></p>
+
+<p>简单实用:</p>
+
+<pre><code class="language-text">UIView *redView = [[UIView alloc]initWithFrame:CGRectMake(100, 100, 100, 100)];
+redView.backgroundColor = [UIColor redColor];
+[redView addTapBlock:^(UIView* obj) {
+    NSLog(@&quot;redView%@&quot;,obj.backgroundColor);
+}];
+[self.view addSubview:redView];
+
+UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(50, 250, 100, 100)];
+imageView.image = [UIImage imageNamed:@&quot;icon&quot;];
+[imageView addTapBlock:^(UIImageView* obj) {
+    NSLog(@&quot;imageView:\n%@&quot;,obj.image);
+}];
+[self.view addSubview:imageView];
+
+UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(150, 400, 100, 100)];
+label.text = @&quot;这是label,点击这里...&quot;;
+[label addTapBlock:^(UILabel* obj) {
+    NSLog(@&quot;label:\n%@&quot;,obj.text);
+}];
+[self.view addSubview:label];
+
+</code></pre>
 
 
 		</div>
