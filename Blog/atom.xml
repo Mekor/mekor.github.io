@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2018-09-27T20:07:54+08:00</updated>
+  <updated>2018-10-13T15:09:31+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -160,6 +160,14 @@ struct SubscribableValue&lt;T&gt; {
             return entry.object.value != nil
         })
     }
+}
+</code></pre>
+
+<p>上面的weak的实现为</p>
+
+<pre><code class="language-text">/// A box that allows us to weakly hold on to an object
+struct Weak&lt;Object: AnyObject&gt; {
+    weak var value: Object?
 }
 </code></pre>
 

@@ -766,6 +766,14 @@ struct SubscribableValue&lt;T&gt; {
 }
 </code></pre>
 
+<p>上面的weak的实现为</p>
+
+<pre><code class="language-text">/// A box that allows us to weakly hold on to an object
+struct Weak&lt;Object: AnyObject&gt; {
+    weak var value: Object?
+}
+</code></pre>
+
 <p>每个需要更换主题的控制器或者视图都会注册一下，<br/>
 <img src="media/15393255857280/15394143263288.jpg" alt="" style="width:1680px;"/></p>
 
