@@ -203,6 +203,8 @@
         <li><label>杂记</label></li>
 
           
+            <li><a title="使用Swift获取应用程序的CPU使用率和内存使用量" href="15398626891772.html">使用Swift获取应用程序的CPU使用率和内存使用量</a></li>
+          
             <li><a title="公司规范" href="15380500153174.html">公司规范</a></li>
           
             <li><a title="各种队列的执行效果" href="15375346728525.html">各种队列的执行效果</a></li>
@@ -494,6 +496,8 @@
                     
                       <li class="side-title"><span>杂记</span></li>
                         
+                          <li><a title="使用Swift获取应用程序的CPU使用率和内存使用量" href="15398626891772.html">使用Swift获取应用程序的CPU使用率和内存使用量</a></li>
+                        
                           <li><a title="公司规范" href="15380500153174.html">公司规范</a></li>
                         
                           <li><a title="各种队列的执行效果" href="15375346728525.html">各种队列的执行效果</a></li>
@@ -624,22 +628,22 @@
 
 	
 		<div class="markdown-body">
-		<h1>设置placeholder颜色</h1>
+		<h1>Carthage 不能正常更新</h1>
 
-		<p>从前设置颜色可能是这样的：</p>
+		<p>报错</p>
 
-<pre><code class="language-text">self.textField.setValue(UIColor.white, forKeyPath: &quot;_placeholderLabel.textColor&quot;)
+<pre><code class="language-text">➜  PersonalMusic git:(master) carthage update
+*** Cloning GCDWebServer
+A shell task (/usr/bin/env git clone --bare --quiet https://github.com/swisspol/GCDWebServer.git /Users/lixzzzzzz/Library/Caches/org.carthage.CarthageKit/dependencies/GCDWebServer) failed with exit code 128:
+fatal: unable to access &#39;https://github.com/swisspol/GCDWebServer.git/&#39;: LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to github.com:443
 
 </code></pre>
 
-<p>今天发现，居然有一个属性可以设置：</p>
+<p>解决办法：</p>
 
-<pre><code class="language-text">self.textField.attributedPlaceholder =
-            NSAttributedString(string: &quot;自定义金额&quot;,
-                               attributes:
-                [NSAttributedStringKey.foregroundColor: UIColor.white]
-        )
+<p>清缓存</p>
 
+<pre><code class="language-text">rm -rf ~/Library/Caches/org.carthage.CarthageKit
 </code></pre>
 
 
