@@ -177,6 +177,8 @@
         <li><label>遇到Bug</label></li>
 
           
+            <li><a title="数据刷新崩溃" href="15460677821989.html">数据刷新崩溃</a></li>
+          
             <li><a title="CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法" href="15374224515215.html">CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法</a></li>
           
             <li><a title="控制器透明，WebView透明" href="15323970557540.html">控制器透明，WebView透明</a></li>
@@ -472,6 +474,8 @@
                     
                       <li class="side-title"><span>遇到Bug</span></li>
                         
+                          <li><a title="数据刷新崩溃" href="15460677821989.html">数据刷新崩溃</a></li>
+                        
                           <li><a title="CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法" href="15374224515215.html">CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法</a></li>
                         
                           <li><a title="控制器透明，WebView透明" href="15323970557540.html">控制器透明，WebView透明</a></li>
@@ -628,22 +632,15 @@
 
 	
 		<div class="markdown-body">
-		<h1>Carthage 不能正常更新</h1>
+		<h1>Mac 应用图标没有在launchpad里显示</h1>
 
-		<p>报错</p>
+		<p>重置Launchpad</p>
 
-<pre><code class="language-text">➜  PersonalMusic git:(master) carthage update
-*** Cloning GCDWebServer
-A shell task (/usr/bin/env git clone --bare --quiet https://github.com/swisspol/GCDWebServer.git /Users/lixzzzzzz/Library/Caches/org.carthage.CarthageKit/dependencies/GCDWebServer) failed with exit code 128:
-fatal: unable to access &#39;https://github.com/swisspol/GCDWebServer.git/&#39;: LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to github.com:443
+<pre><code class="language-text">rm ~/Library/Application\ Support/Dock/*.db
 
 </code></pre>
 
-<p>解决办法：</p>
-
-<p>清缓存</p>
-
-<pre><code class="language-text">rm -rf ~/Library/Caches/org.carthage.CarthageKit
+<pre><code class="language-text">killall Dock
 </code></pre>
 
 

@@ -177,6 +177,8 @@
         <li><label>遇到Bug</label></li>
 
           
+            <li><a title="数据刷新崩溃" href="15460677821989.html">数据刷新崩溃</a></li>
+          
             <li><a title="CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法" href="15374224515215.html">CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法</a></li>
           
             <li><a title="控制器透明，WebView透明" href="15323970557540.html">控制器透明，WebView透明</a></li>
@@ -472,6 +474,8 @@
                     
                       <li class="side-title"><span>遇到Bug</span></li>
                         
+                          <li><a title="数据刷新崩溃" href="15460677821989.html">数据刷新崩溃</a></li>
+                        
                           <li><a title="CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法" href="15374224515215.html">CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法</a></li>
                         
                           <li><a title="控制器透明，WebView透明" href="15323970557540.html">控制器透明，WebView透明</a></li>
@@ -628,42 +632,97 @@
 
 	
 		<div class="markdown-body">
-		<h1>解决UILabel 末尾的空格被忽略</h1>
+		<h1>算法总结</h1>
 
-		<p>看到这篇文章<a href="https://www.lidaren.com/archives/1333">UILabel取消自动Trim空格和换行等空白字符</a></p>
+		<h2 id="toc_0">Fibonacci （斐波那契数列实现）</h2>
 
-<pre><code class="language-text">UILabel会自动清除的空白字符（UNICODE）
-\u0009 CHARACTER TABULATION
-\u000A LINE FEED
-\u000D CARRIAGE RETURN
-\u0020 SPACE
-\u0085 NEXT LINE
-\u00A0 NBSP
-\u1680 OGHAM SPACE MARK
-\u180E MONGOLIAN VOWEL SEPARATOR
-\u2000 EN QUAD
-\u200A HAIR SPACE
-\u200B ZERO WIDTH SPACE
-\u2028 LINE SEPARATOR
-\u2029 PARAGRAPH SEPARATOR
-\u202F NARROW NO-BREAK SPACE
-\u205F MEDIUM MATHEMATICAL SPACE
-\u3000 IDEOGRAPHIC SPACE
+<pre><code class="language-text">///Fibonacci （斐波那契数列实现）
+func fibonacci(_ n: Int) -&gt; Int{
+    let result = [0,1]
+    if n &lt; 2 {
+        return result[n]
+    }
+    
+    var fibNMinusOne = 1
+    var fibNMinusTwo = 0
+    var fibN = 0
+    
+    for _ in 2...n {
+        fibN = fibNMinusOne + fibNMinusTwo
+        fibNMinusTwo = fibNMinusOne
+        fibNMinusOne = fibN
+    }
+    return fibN
+}
 </code></pre>
 
-<p>解决方案</p>
+<h2 id="toc_1">BinarySearch (二分查找)</h2>
 
-<pre><code class="language-text">    let paragraphStyle = NSMutableParagraphStyle()
-    paragraphStyle.alignment = .right
-    paragraphStyle.tailIndent = -10
-    let myMutableString = NSMutableAttributedString(
-        string: text,
-        attributes: [
-            NSAttributedStringKey.font: UIFont.systemFont(ofSize: 16),
-            NSAttributedStringKey.paragraphStyle: paragraphStyle
-        ]
-    )
-    label.attributedText = myMutableString
+<h3 id="toc_2">非递归</h3>
+
+<pre><code class="language-text">func binarySearch&lt;T: Comparable&gt;(_ a:[T], key: T) -&gt; Int {
+    print(key)
+    var lowerBound = 0
+    var upperBound = a.count
+    while lowerBound &lt; upperBound {
+
+        let midIndex = lowerBound + (upperBound - lowerBound)/2
+
+        if a[midIndex] == key {
+            return midIndex
+        }else if a[midIndex] &lt; key {
+            lowerBound = midIndex + 1
+        }else {
+            upperBound = midIndex
+        }
+    }
+    return -1
+}
+</code></pre>
+
+<h3 id="toc_3">递归</h3>
+
+<pre><code class="language-text">func binarySearch&lt;T : Comparable&gt;(startIndex: Int, endIndex: Int , arr:[T], key: T) -&gt; Int{
+    let mind = startIndex + (endIndex - startIndex) / 2
+    let mindValue = arr[mind]
+    if mindValue == key {
+        return mind
+    }
+    if mindValue &lt; key {
+        return binarySearch(startIndex: mind + 1, endIndex: endIndex, arr: arr, key: key)
+    } else if mindValue &gt; key {
+        return binarySearch(startIndex: 0, endIndex: mind, arr: arr, key: key)
+    }
+    return -1
+}
+</code></pre>
+
+<h2 id="toc_4">快速排序</h2>
+
+<pre><code class="language-text">func quicksort&lt;T: Comparable&gt;(_ unsort:[T]) -&gt; [T] {
+    guard unsort.count &gt; 1 else {
+        return unsort
+    }
+    
+    let pivot = unsort[unsort.count / 2]
+    let less = unsort.filter { $0 &lt; pivot }
+    let equal = unsort.filter { $0 == pivot }
+    let greater = unsort.filter { $0 &gt; pivot }
+    
+    return quicksort(less) + equal + quicksort(greater)
+}
+</code></pre>
+
+<p>测试结果</p>
+
+<pre><code class="language-text">let list = [ 10, 0, 3, 9, 2, 14, 8, 27, 1, 5, 8, -1, 26 ]
+
+print(list)
+print(quicksort(list))
+--------------------
+[10, 0, 3, 9, 2, 14, 8, 27, 1, 5, 8, -1, 26]
+[-1, 0, 1, 2, 3, 5, 8, 8, 9, 10, 14, 26, 27]
+
 </code></pre>
 
 

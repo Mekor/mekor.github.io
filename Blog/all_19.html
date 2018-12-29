@@ -177,6 +177,8 @@
         <li><label>遇到Bug</label></li>
 
           
+            <li><a title="数据刷新崩溃" href="15460677821989.html">数据刷新崩溃</a></li>
+          
             <li><a title="CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法" href="15374224515215.html">CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法</a></li>
           
             <li><a title="控制器透明，WebView透明" href="15323970557540.html">控制器透明，WebView透明</a></li>
@@ -472,6 +474,8 @@
                     
                       <li class="side-title"><span>遇到Bug</span></li>
                         
+                          <li><a title="数据刷新崩溃" href="15460677821989.html">数据刷新崩溃</a></li>
+                        
                           <li><a title="CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法" href="15374224515215.html">CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法</a></li>
                         
                           <li><a title="控制器透明，WebView透明" href="15323970557540.html">控制器透明，WebView透明</a></li>
@@ -628,44 +632,42 @@
 
 	
 		<div class="markdown-body">
-		<h1>iOS10 遇到问题总结</h1>
+		<h1>如何解决json字符串中包含制表符</h1>
 
-		<p>iOS10 用户权限设置新增，在info.plist文件中，新增字段：</p>
+		<p>错误信息:</p>
 
-<table>
-<thead>
-<tr>
-<th>权限</th>
-<th>字段</th>
-<th>说明</th>
-</tr>
-</thead>
+<pre><code class="language-text">Error Domain=NSCocoaErrorDomain Code=3840 &quot;The operation couldn’t be completed. (Cocoa error 3840.)&quot; (Unescaped control character around character 135.) UserInfo=0x170e79d00 {NSDebugDescription=Unescaped control character around character 135.}
+</code></pre>
 
-<tbody>
-<tr>
-<td>相册权限</td>
-<td>Privacy - Photo Library Usage Description</td>
-<td>string类型的文字说明</td>
-</tr>
-<tr>
-<td>相机权限</td>
-<td>NSCameraUsageDescription</td>
-<td>string类型的文字说明</td>
-</tr>
-<tr>
-<td>麦克风权限</td>
-<td>NSMicrophoneUsageDescription</td>
-<td>string类型的文字说明</td>
-</tr>
-<tr>
-<td>定位权限</td>
-<td>NSLocationWhenInUseUsageDescription</td>
-<td>string类型的文字说明</td>
-</tr>
-</tbody>
-</table>
+<p><strong>如何处理</strong><br/>
+最关键的地方:</p>
 
-<p>iOS10 新用户下载app，使用以上前3种权限，如果不添加授权描述，会导致程序崩溃</p>
+<pre><code class="language-text">-(NSString *)removeUnescapedCharacter:(NSString *)inputStr
+{
+    NSCharacterSet *controlChars = [NSCharacterSet controlCharacterSet];//获取那些特殊字符
+    NSRange range = [inputStr rangeOfCharacterFromSet:controlChars];//寻找字符串中有没有这些特殊字符
+    if (range.location != NSNotFound)
+        {
+        NSMutableString *mutable = [NSMutableString stringWithString:inputStr];
+        while (range.location != NSNotFound)
+            {
+            [mutable deleteCharactersInRange:range];//去掉这些特殊字符
+            range = [mutable rangeOfCharacterFromSet:controlChars];
+            }
+        return mutable;
+        }
+    return inputStr;
+}
+</code></pre>
+
+<p>举例:</p>
+
+<pre><code class="language-text">    NSString *responseString = [NSMutableString stringWithString:[request responseString]];
+    responseString =[self removeUnescapedCharacter:responseString];
+    NSData *jsonData = [responseString dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *error;
+    NSDictionary * dic = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&amp;error];
+</code></pre>
 
 
 		</div>
