@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2018-10-19T15:57:53+08:00</updated>
+  <updated>2018-12-29T15:24:15+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -12,6 +12,29 @@
   </author>
   <generator uri="http://www.mweb.im">MWeb</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[如何判等equals]]></title>
+    <link href="http://www.citynight.cn/Blog/15465714658370.html"/>
+    <updated>2019-01-04T11:11:05+08:00</updated>
+    <id>http://www.citynight.cn/Blog/15465714658370.html</id>
+    <content type="html"><![CDATA[
+<blockquote>
+<p><a href="https://stackoverflow.com/questions/9506303/public-boolean-equalsobject-other">Stackoverflow</a> 中有其他人提的写法，我感觉公司项目中的写法不错记录下</p>
+</blockquote>
+
+<pre><code class="language-text">    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CreateOrderDTO)) return false;
+        CreateOrderDTO that = (CreateOrderDTO) o;
+        return Objects.equal(getBusiId(), that.getBusiId()) &amp;&amp;
+                Objects.equal(getBusiType(), that.getBusiType()) &amp;&amp;
+                Objects.equal(getOrderAmount(), that.getOrderAmount());
+    }
+</code></pre>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[数据刷新崩溃]]></title>
@@ -1278,30 +1301,6 @@ fatal: unable to access &#39;https://github.com/swisspol/GCDWebServer.git/&#39;:
         $0.contentMode = .center
         return $0
     }(UIImageView())
-
-</code></pre>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Cell点击时多次Push]]></title>
-    <link href="http://www.citynight.cn/Blog/15257014756710.html"/>
-    <updated>2018-05-07T21:57:55+08:00</updated>
-    <id>http://www.citynight.cn/Blog/15257014756710.html</id>
-    <content type="html"><![CDATA[
-<p><a href="https://stackoverflow.com/questions/5687991/uitableview-didselectrowatindexpath-called-twice">stackoverflow上面的解决方案</a></p>
-
-<pre><code class="language-text">func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-
-    tableView.deselectRowAtIndexPath(indexPath, animated: true)
-
-    if let navigationController = navigationController {
-        guard navigationController.topViewController == self else {
-            return
-        }
-    }
-}
 
 </code></pre>
 

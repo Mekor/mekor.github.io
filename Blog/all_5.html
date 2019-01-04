@@ -333,6 +333,14 @@
           
 
       
+        <li class="divider"></li>
+        <li><label>Java</label></li>
+
+          
+            <li><a title="如何判等equals" href="15465714658370.html">如何判等equals</a></li>
+          
+
+      
       </ul>
     </aside>
 
@@ -620,6 +628,12 @@
                         
 
                     
+                      <li class="side-title"><span>Java</span></li>
+                        
+                          <li><a title="如何判等equals" href="15465714658370.html">如何判等equals</a></li>
+                        
+
+                    
                   </ul>
                 </nav>
                 </div>
@@ -632,265 +646,53 @@
 
 	
 		<div class="markdown-body">
-		<h1>collectionView自定义layout</h1>
+		<h1>使用 Runloop 遇到的问题</h1>
 
-		<blockquote>
-<p>今天,YouTube推荐了一个自定义layout的视频( Custom Collection View Layouts in iOS),看了一下挺简单明了的,而且基本的操作都包含了. <br/>
-<strong>视频地址:</strong> <a href="https://www.youtube.com/watch?v=DIxyCh55SqQ">Pinterest Basic Layout - Custom Collection View Layouts in iOS - raywenderlich.com</a><br/>
-<strong>github地址:</strong> <a href="https://github.com/AZCoder2/Pinterest">Pinterest</a></p>
-</blockquote>
+		<p>首先: <code>swift</code> 与 <code>C</code> 兼容不如 <code>OC</code> </p>
 
-<p>核心代码:</p>
+<ol>
+<li>生成<code>CFRunLoopObserverContext</code>比<code>OC</code>艰难好多...</li>
+</ol>
 
-<pre><code class="language-text">//
-//  PinterestLayout.swift
-//  Pinterest
-//
-//  Created by Tom Ranalli on 12/25/16.
-//  Copyright © 2016 Razeware LLC. All rights reserved.
-//
-
-import UIKit
-
-// MARK: - Protocols
-protocol PinterestLayoutDelegate {
-  
-  // Request height of photo
-  func collectionView(_ collectionView:UICollectionView, heightForPhotoAtIndexPath indexPath:NSIndexPath,
-                      withWidth:CGFloat) -&gt; CGFloat
-  
-  // Request annotation for photo
-  func collectionView(_ collectionView: UICollectionView,
-                      heightForAnnotationAtIndexPath indexPath: NSIndexPath, withWidth width: CGFloat) -&gt; CGFloat
-}
-
-class PinterestLayoutAttributes: UICollectionViewLayoutAttributes {
-  
-  // This declares the photoHeight property that the cell will use to resize its image view
-  var photoHeight: CGFloat = 0.0
-  
-  /* This overrides copy(_with:)
-   
-     Subclasses of UICollectionViewLayoutAttributes need to conform to the NSCopying protocol 
-     because the attribute’s objects can be copied internally. You override this method to 
-     guarantee that the photoHeight property is set when the object is copied.
-  */
-  
-  override func copy(with zone: NSZone? = nil) -&gt; Any {
-    let copy = super.copy(with: zone) as! PinterestLayoutAttributes
-    copy.photoHeight = photoHeight
-    return copy
-  }
-  
-  /* This overrides isEqual(_:), and it’s mandatory as well.
- 
-     The collection view determines whether the attributes have changed by comparing the old 
-     and new attribute objects using isEqual(_:). You must implement it to compare the custom
-     properties of your subclass. The code compares the photoHeight of both instances, and
-     if they are equal, calls super to determine if the inherited attributes are the same;
-     if the photo heights are different, it returns false
-  */
-
-  override func isEqual(_ object: Any?) -&gt; Bool {
-    if let attributes = object as? PinterestLayoutAttributes {
-      if( attributes.photoHeight == photoHeight  ) {
-        return super.isEqual(object)
-      }
-    }
-    return false
-  }
-}
-
-// MARK: - Class definition
-class PinterestLayout: UICollectionViewLayout {
-  
-  // MARK: - Properties
-  
-  // Keep reference to the delegate
-  var delegate: PinterestLayoutDelegate!
-  
-  // Configure number of columns and cell padding
-  var numberOfColumns = 2
-  var cellPadding: CGFloat = 6.0
-  
-  // This is an array to cache the calculated attributes. 
-  
-  /* When you call prepareLayout(), you’ll calculate the attributes for all items and add them to the cache. When the collection view later requests the layout attributes, you can be efficient and query the cache instead of recalculating them every time
-  */
-  
-  private var cache = [PinterestLayoutAttributes]()
-  
-  // This declares two properties to store the content size.
-  // contentHeight is incremented as photos are added
-  private var contentHeight: CGFloat  = 0.0
-  
-  // contentWidth is calculated based on the collection view width and its content inset.
-  private var contentWidth: CGFloat {
-    let insets = collectionView!.contentInset
-    return collectionView!.bounds.width - (insets.left + insets.right)
-  }
-  
-  // Variable overrides
-  
-  /* This overrides collectionViewContentSize variable of the abstract parent class, and returns the size of the collection view’s contents. To do this, you use both contentWidth and contentHeight calculated in the previous steps.
-  */
- 
-  override var collectionViewContentSize: CGSize {
-    return CGSize(width: contentWidth, height: contentHeight)
-  }
-  
-  /* This overrides layoutAttributesClass variable to tell the collection view to use PinterestLayoutAttributes whenever it creates layout attributes objects.
-  */
-  
-  override class var layoutAttributesClass: AnyClass {
-    return PinterestLayoutAttributes.self
-  }
-  
-  // MARK: - Overrides
-  
-  override func prepare() {
-    
-    // Only calculate if cache is empty
-    if cache.isEmpty {
-      
-      /*  This declares and fills the xOffset array with the x-coordinate for every column based on the column widths.
-      */
-      let columnWidth = contentWidth / CGFloat(numberOfColumns)
-      
-      var xOffset = [CGFloat]()
-      
-      for column in 0 ..&lt; numberOfColumns {
-        xOffset.append(CGFloat(column) * columnWidth )
-      }
-      
-      /*  The yOffset array tracks the y-position for every column. You initialize each value in yOffset to 0, since this is the offset of the first item in each column.
-      */
-      var column = 0
-      var yOffset = [CGFloat](repeating: 0, count: numberOfColumns)
-      
-      // This loops through all the items in the first section, as this particular 
-      // layout has only one section
-      for item in 0 ..&lt; collectionView!.numberOfItems(inSection: 0) {
-        
-        let indexPath = NSIndexPath(item: item, section: 0)
-        
-        // This is where you perform the frame calculation
-        // Width is the previously calculated cellWidth, with the padding between cells removed
-        let width = columnWidth - cellPadding * 2
-        
-        // You ask the delegate for the height of the image
-        let photoHeight = delegate.collectionView(collectionView!,
-                                                  heightForPhotoAtIndexPath: indexPath,
-                                                  withWidth:width)
-
-        // You ask the delegate for the height of the annotation
-        let annotationHeight = delegate.collectionView(collectionView!,
-                                    heightForAnnotationAtIndexPath: indexPath,
-                                    withWidth: width)
-        
-        // Calculate the frame height based on those heights and the predefined cellPadding 
-        // for the top and bottom
-        let height = cellPadding +  photoHeight + annotationHeight + cellPadding
-        
-        // Combine this with the x and y offsets of the current column to create the
-        // insetFrame used by the attribute
-        let frame = CGRect(x: xOffset[column], y: yOffset[column], width: columnWidth, height: height)
-        let insetFrame = frame.insetBy(dx: cellPadding, dy: cellPadding)
-        
-        // This creates an instance of PinterestLayoutAttributes
-        let attributes = PinterestLayoutAttributes(forCellWith: indexPath as IndexPath)
-        attributes.photoHeight = photoHeight
-        
-        // Sets its frame using insetFrame
-        attributes.frame = insetFrame
-        
-        // Append the attributes to cache
-        cache.append(attributes)
-        
-        // This expands contentHeight to account for the frame of the newly calculated item
-        contentHeight = max(contentHeight, frame.maxY)
-        
-        // It then advances the yOffset for the current column based on the frame
-        yOffset[column] = yOffset[column] + height
-        
-        // Finally, it advances the column so that the next item will be placed in the next column.
-        if column &gt;= numberOfColumns - 1 {
-          column = 0
-        } else {
-          column = column + 1
+<pre><code class="language-text">func addRunloopObserver() {
+        autoreleasepool {
+            guard let runloop = CFRunLoopGetCurrent() else {return}
+            let unmanaged = Unmanaged.passRetained(self)
+            let uptr = unmanaged.toOpaque()
+            let vptr = UnsafeMutableRawPointer(uptr)
+            var content = CFRunLoopObserverContext(version: 0, info: vptr, retain: nil, release: nil, copyDescription: nil)
+            guard let obserber = CFRunLoopObserverCreate(kCFAllocatorDefault, CFRunLoopActivity.beforeWaiting.rawValue, true, Int.max - 999, observerCallbackFunc(), &amp;content) else {return}
+            CFRunLoopAddObserver(runloop, obserber, CFRunLoopMode.defaultMode)
         }
+    }
+</code></pre>
+
+<p>注意 content ,真是比OC复杂啊</p>
+
+<ol>
+<li>强转也变了...</li>
+</ol>
+
+<pre><code class="language-text">func observerCallbackFunc() -&gt; CFRunLoopObserverCallBack {
         
-      }
+        return {(observer, activity, context) -&gt; Void in
+            guard let context = context else {
+                return
+            }
+            let work = Unmanaged&lt;RunLoopWorker&gt;.fromOpaque(context).takeUnretainedValue()
+            
+            if work.tasks.count == 0 { return }
+            var result = false
+            while result == false &amp;&amp; work.tasks.count &gt; 0 {
+                // 取出任务
+                if let unit = work.tasks.first,unit.values.count &gt; 0 {
+                    result = unit.values.first!()
+                    work.tasks.removeFirst()
+                }
+            }
+        }
     }
-  }
-  
-  override func layoutAttributesForElements(in rect: CGRect) -&gt; [UICollectionViewLayoutAttributes]? {
-    
-    var layoutAttributes = [UICollectionViewLayoutAttributes]()
-    
-    //  Iterate through the attributes in cache and check if their frames intersect with rect
-    for attributes in cache {
-      if attributes.frame.intersects(rect) {
-        layoutAttributes.append(attributes) // Add in any attributes for display
-      }
-    }
-    return layoutAttributes
-  }
-
-}
-
 </code></pre>
-
-<p>比较有意思的一个计算高度方式:</p>
-
-<pre><code class="language-text">  // This provides the height of the photos
-  
-  /* It uses AVMakeRectWithAspectRatioInsideRect() from AVFoundation to calculate a height that retains the photo’s aspect ratio, restricted to the cell’s width.
-   */
-  
-  func collectionView(_ collectionView:UICollectionView,
-                      heightForPhotoAtIndexPath indexPath: NSIndexPath,
-                      withWidth width: CGFloat) -&gt; CGFloat {
-    
-    let photo = photos[indexPath.item]
-    let boundingRect =  CGRect(x: 0, y: 0, width: width, height: CGFloat(MAXFLOAT))
-    let rect  = AVMakeRect(aspectRatio: photo.image.size, insideRect: boundingRect)
-    
-    return rect.size.height
-  }
-</code></pre>
-
-<p>图片解压:</p>
-
-<pre><code class="language-text">extension UIImage {
-  
-  var decompressedImage: UIImage {
-    UIGraphicsBeginImageContextWithOptions(size, true, 0)
-    draw(at: CGPoint.zero)
-    let decompressedImage = UIGraphicsGetImageFromCurrentImageContext()
-    UIGraphicsEndImageContext()
-    return decompressedImage!
-  }
-  
-}
-</code></pre>
-
-<p>一个从前没有用过的Api:</p>
-
-<pre><code class="language-text">  /* 
-   This code calls the super implementation to make sure that the standard attributes are applied. Then, it casts the attributes object into an instance of PinterestLayoutAttributes to obtain the photo height and then changes the image view height by setting the imageViewHeightLayoutConstraint constant value.
-  */
-  
-  override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
-    super.apply(layoutAttributes)
-    
-    if let attributes = layoutAttributes as? PinterestLayoutAttributes {
-      imageViewHeightLayoutConstraint.constant = attributes.photoHeight
-    }
-  }
-</code></pre>
-
-<p>===========<mark>完</mark>=========</p>
 
 
 		</div>

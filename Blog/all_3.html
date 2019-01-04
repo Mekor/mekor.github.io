@@ -333,6 +333,14 @@
           
 
       
+        <li class="divider"></li>
+        <li><label>Java</label></li>
+
+          
+            <li><a title="如何判等equals" href="15465714658370.html">如何判等equals</a></li>
+          
+
+      
       </ul>
     </aside>
 
@@ -620,6 +628,12 @@
                         
 
                     
+                      <li class="side-title"><span>Java</span></li>
+                        
+                          <li><a title="如何判等equals" href="15465714658370.html">如何判等equals</a></li>
+                        
+
+                    
                   </ul>
                 </nav>
                 </div>
@@ -632,16 +646,64 @@
 
 	
 		<div class="markdown-body">
-		<h1>Mac 应用图标没有在launchpad里显示</h1>
+		<h1>线程需要注意的问题</h1>
 
-		<p>重置Launchpad</p>
+		<h2 id="toc_0">死锁（Dead Lock）</h2>
 
-<pre><code class="language-text">rm ~/Library/Application\ Support/Dock/*.db
+<p>第一种情况：</p>
+
+<pre><code class="language-text">let serialQueue = DispatchQueue(label:&quot;test&quot;)
+serialQueue.async {
+    //.....
+    serialQueue.sync {
+        //...
+    }
+}
 
 </code></pre>
 
-<pre><code class="language-text">killall Dock
+<p>第二种情况：</p>
+
+<pre><code class="language-text">let operationA = Operation()
+let operationB = Operation()
+operationA.addDependency(operationB)
+operationB.addDependency(operationA)
+
 </code></pre>
+
+<p>怎样避免死锁：</p>
+
+<ol>
+<li>少用依赖</li>
+<li>慎用同步</li>
+</ol>
+
+<h2 id="toc_1">优先倒置（Priority Inversion）</h2>
+
+<pre><code class="language-text">var highPriorityQueue = DispatchQueue.global(qos: .userInitiated)
+var lowPriorityQueue = DispatchQueue.global(qos: .utility)
+
+let semaphore = DispatchSemaphore(value: 1)
+
+lowPriorityQueue.async {
+    semaphore.wait()
+    for i in 0...10 {
+        print(i)
+    }
+    semaphore.signal()
+}
+
+highPriorityQueue.async {
+    semaphore.wait()
+    for i in 11...20 {
+        print(1)
+    }
+}
+
+</code></pre>
+
+<p>解决办法：<br/>
+同一个资源用同一个Qos</p>
 
 
 		</div>

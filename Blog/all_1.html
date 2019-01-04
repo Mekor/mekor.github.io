@@ -333,6 +333,14 @@
           
 
       
+        <li class="divider"></li>
+        <li><label>Java</label></li>
+
+          
+            <li><a title="如何判等equals" href="15465714658370.html">如何判等equals</a></li>
+          
+
+      
       </ul>
     </aside>
 
@@ -620,6 +628,12 @@
                         
 
                     
+                      <li class="side-title"><span>Java</span></li>
+                        
+                          <li><a title="如何判等equals" href="15465714658370.html">如何判等equals</a></li>
+                        
+
+                    
                   </ul>
                 </nav>
                 </div>
@@ -632,17 +646,33 @@
 
 	
 		<div class="markdown-body">
-		<h1>CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法</h1>
+		<h1>各种队列的执行效果</h1>
 
-		<p>在buildsetting中的以下两个路径中添加对应的设置，重现编译即可解决，stackoverflow地址：<a href="https://stackoverflow.com/questions/45779591/failed-to-emit-precompiled-header-for-bridging-header?answertab=votes#tab-top">Failed to emit precompiled header for bridging header</a></p>
+		<table>
+<thead>
+<tr>
+<th style="text-align: left"></th>
+<th style="text-align: left">并发队列</th>
+<th style="text-align: left">手动创建的串行队列</th>
+<th style="text-align: left">主队列</th>
+</tr>
+</thead>
 
-<pre><code class="language-text">Solution:
-1 I added $(inherited) non-recursive to Search Path -&gt; Header Search Paths
-2 Then added ${PODS_ROOT} recursive to Search Path -&gt; User Header Search Paths
-Both the above in my projects&#39; target build settings.
-</code></pre>
-
-<p><img src="media/15374224515215/15374225919741.jpg" alt="" style="width:794px;"/></p>
+<tbody>
+<tr>
+<td style="text-align: left">同步（sync）</td>
+<td style="text-align: left">*没有开启新线程 *串行执行任务</td>
+<td style="text-align: left">*没有开启新线程 *串行执行任务</td>
+<td style="text-align: left">*没有开启新线程 *串行执行任务</td>
+</tr>
+<tr>
+<td style="text-align: left">异步（async）</td>
+<td style="text-align: left">*有开启新线程 *并发执行任务</td>
+<td style="text-align: left">*有开启新线程 *串行执行任务</td>
+<td style="text-align: left">*没有开启新线程 *串行执行任务</td>
+</tr>
+</tbody>
+</table>
 
 
 		</div>
