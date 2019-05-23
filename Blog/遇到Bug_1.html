@@ -177,6 +177,8 @@
         <li><label>遇到Bug</label></li>
 
           
+            <li><a title="Texture  中ASButtonNode设置图片崩溃" href="15585883897383.html">Texture  中ASButtonNode设置图片崩溃</a></li>
+          
             <li><a title="数据刷新崩溃" href="15460677821989.html">数据刷新崩溃</a></li>
           
             <li><a title="CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法" href="15374224515215.html">CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法</a></li>
@@ -337,6 +339,8 @@
         <li><label>Java</label></li>
 
           
+            <li><a title="静态方法和实例方法不同点" href="15465912048942.html">静态方法和实例方法不同点</a></li>
+          
             <li><a title="如何判等equals" href="15465714658370.html">如何判等equals</a></li>
           
 
@@ -481,6 +485,8 @@
 
                     
                       <li class="side-title"><span>遇到Bug</span></li>
+                        
+                          <li><a title="Texture  中ASButtonNode设置图片崩溃" href="15585883897383.html">Texture  中ASButtonNode设置图片崩溃</a></li>
                         
                           <li><a title="数据刷新崩溃" href="15460677821989.html">数据刷新崩溃</a></li>
                         
@@ -630,6 +636,8 @@
                     
                       <li class="side-title"><span>Java</span></li>
                         
+                          <li><a title="静态方法和实例方法不同点" href="15465912048942.html">静态方法和实例方法不同点</a></li>
+                        
                           <li><a title="如何判等equals" href="15465714658370.html">如何判等equals</a></li>
                         
 
@@ -646,21 +654,53 @@
 
 	
 		<div class="markdown-body">
-		<h1>打包后出现 Undefined symbols for architecture i386</h1>
+		<h1>使用 Runloop 遇到的问题</h1>
 
-		<p>出现问题:<br/>
-自己打framework真机与模拟器合并后在使用的时候提示 <code>Undefined symbols for architecture i386</code></p>
+		<p>首先: <code>swift</code> 与 <code>C</code> 兼容不如 <code>OC</code> </p>
 
-<p>原因: 打framework的时候使用的是<code>debug</code> 改为<code>release</code><br/>
-<img src="media/14963702971919/14963704118450.jpg" alt=""/></p>
+<ol>
+<li>生成<code>CFRunLoopObserverContext</code>比<code>OC</code>艰难好多...</li>
+</ol>
 
-<p><strong>合并命令:</strong></p>
+<pre><code class="language-text">func addRunloopObserver() {
+        autoreleasepool {
+            guard let runloop = CFRunLoopGetCurrent() else {return}
+            let unmanaged = Unmanaged.passRetained(self)
+            let uptr = unmanaged.toOpaque()
+            let vptr = UnsafeMutableRawPointer(uptr)
+            var content = CFRunLoopObserverContext(version: 0, info: vptr, retain: nil, release: nil, copyDescription: nil)
+            guard let obserber = CFRunLoopObserverCreate(kCFAllocatorDefault, CFRunLoopActivity.beforeWaiting.rawValue, true, Int.max - 999, observerCallbackFunc(), &amp;content) else {return}
+            CFRunLoopAddObserver(runloop, obserber, CFRunLoopMode.defaultMode)
+        }
+    }
+</code></pre>
 
-<p><code>lipo -create 真机(或者模拟器)framework地址 模拟器(或者真机)ramework地址 -output 输出地址(一般我选择真机framework地址)</code></p>
+<p>注意 content ,真是比OC复杂啊</p>
 
-<p><strong>查看信息:</strong></p>
+<ol>
+<li>强转也变了...</li>
+</ol>
 
-<p><code>lipo -info 真机(或者模拟器)framework地址</code></p>
+<pre><code class="language-text">func observerCallbackFunc() -&gt; CFRunLoopObserverCallBack {
+        
+        return {(observer, activity, context) -&gt; Void in
+            guard let context = context else {
+                return
+            }
+            let work = Unmanaged&lt;RunLoopWorker&gt;.fromOpaque(context).takeUnretainedValue()
+            
+            if work.tasks.count == 0 { return }
+            var result = false
+            while result == false &amp;&amp; work.tasks.count &gt; 0 {
+                // 取出任务
+                if let unit = work.tasks.first,unit.values.count &gt; 0 {
+                    result = unit.values.first!()
+                    work.tasks.removeFirst()
+                }
+            }
+        }
+    }
+</code></pre>
 
 
 		</div>

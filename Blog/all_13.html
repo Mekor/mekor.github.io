@@ -177,6 +177,8 @@
         <li><label>遇到Bug</label></li>
 
           
+            <li><a title="Texture  中ASButtonNode设置图片崩溃" href="15585883897383.html">Texture  中ASButtonNode设置图片崩溃</a></li>
+          
             <li><a title="数据刷新崩溃" href="15460677821989.html">数据刷新崩溃</a></li>
           
             <li><a title="CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法" href="15374224515215.html">CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法</a></li>
@@ -337,6 +339,8 @@
         <li><label>Java</label></li>
 
           
+            <li><a title="静态方法和实例方法不同点" href="15465912048942.html">静态方法和实例方法不同点</a></li>
+          
             <li><a title="如何判等equals" href="15465714658370.html">如何判等equals</a></li>
           
 
@@ -481,6 +485,8 @@
 
                     
                       <li class="side-title"><span>遇到Bug</span></li>
+                        
+                          <li><a title="Texture  中ASButtonNode设置图片崩溃" href="15585883897383.html">Texture  中ASButtonNode设置图片崩溃</a></li>
                         
                           <li><a title="数据刷新崩溃" href="15460677821989.html">数据刷新崩溃</a></li>
                         
@@ -630,6 +636,8 @@
                     
                       <li class="side-title"><span>Java</span></li>
                         
+                          <li><a title="静态方法和实例方法不同点" href="15465912048942.html">静态方法和实例方法不同点</a></li>
+                        
                           <li><a title="如何判等equals" href="15465714658370.html">如何判等equals</a></li>
                         
 
@@ -646,37 +654,113 @@
 
 	
 		<div class="markdown-body">
-		<h1>Swift - 在swift中如何使用 hexcolor 值表示颜色</h1>
+		<h1>Swift - 函数式编程</h1>
 
-		<blockquote>
-<p>结果来自<a href="http://stackoverflow.com/questions/24263007/how-to-use-hex-colour-values-in-swift-ios">How to use hex colour values in Swift, iOS</a></p>
-</blockquote>
+		<p>一般情况:</p>
 
-<pre><code class="language-text">extension UIColor {
-    convenience init(hexString: String) {
-        let hex = hexString.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
-        var int = UInt32()
-        Scanner(string: hex).scanHexInt32(&amp;int)
-        let a, r, g, b: UInt32
-        switch hex.characters.count {
-        case 3: // RGB (12-bit)
-            (a, r, g, b) = (255, (int &gt;&gt; 8) * 17, (int &gt;&gt; 4 &amp; 0xF) * 17, (int &amp; 0xF) * 17)
-        case 6: // RGB (24-bit)
-            (a, r, g, b) = (255, int &gt;&gt; 16, int &gt;&gt; 8 &amp; 0xFF, int &amp; 0xFF)
-        case 8: // ARGB (32-bit)
-            (a, r, g, b) = (int &gt;&gt; 24, int &gt;&gt; 16 &amp; 0xFF, int &gt;&gt; 8 &amp; 0xFF, int &amp; 0xFF)
-        default:
-            (a, r, g, b) = (255, 0, 0, 0)
-        }
-        self.init(red: CGFloat(r) / 255, green: CGFloat(g) / 255, blue: CGFloat(b) / 255, alpha: CGFloat(a) / 255)
+<pre><code class="language-text">struct User {
+    func login(password: String){
+        print(password)
     }
 }
+
+let passwd = &quot;123123123&quot;
+let usr = User()
+
+usr.login(password: passwd)
 </code></pre>
 
-<p>使用方法:</p>
+<p>函数式编程</p>
 
-<pre><code class="language-text">let darkGrey = UIColor(hexString: &quot;#757575&quot;)
+<pre><code class="language-text">struct User {
+    func login(password: String){
+        print(password)
+    }
+}
+
+let passwd = &quot;123123123&quot;
+let usr = User()
+
+User.login(usr)(password: passwd)
 </code></pre>
+
+<p>由此可见: <code>usr.login(password: passwd)</code> == <code>User.login(usr)(password: passwd)</code></p>
+
+<p>如果忽略外部参数</p>
+
+<pre><code class="language-text">struct User {
+    func login(_ password: String){
+        print(password)
+    }
+}
+
+let passwd = &quot;123123123&quot;
+let usr = User()
+usr.login(passwd)
+User.login(usr)(passwd)
+</code></pre>
+
+<p>这样就更简洁了</p>
+
+<hr/>
+
+<p>--- 11.24更 --</p>
+
+<h2 id="toc_0">柯里化(Currying)</h2>
+
+<pre><code class="language-text">// 柯里化(Currying)
+
+func addOne(num:Int) -&gt;Int {
+    return num + 1
+}
+
+print(addOne(num: 10))
+
+func addTo(_ adder:Int) -&gt;(_ num:Int) -&gt; Int {
+    return {
+        num in
+        return num + adder
+    }
+}
+
+let addTwo = addTo(2)
+
+print(addTwo(6))
+
+// 更简单的调用方式
+print(addTo(9)(1))
+
+</code></pre>
+
+<p>----12.8----<br/>
+说到函数式编程,我突然想起了今天实现一个功能所用到的技术,这里只做简单记录.</p>
+
+<p>项目中遇到一个问题:根据参数创建相应个数的视图,视图中按钮的点击事件还要回调..我一开始想用代理来做,发现如果层级结构比较深的话代理不是很好用.既然否定了代理那么怎样还能实现该效果呢?我尝试用函数(闭包).</p>
+
+<p>需要传递的数据</p>
+
+<pre><code class="language-text">let dict = [
+    [&quot;title&quot;:GLOBAL_LANGUAGE(&quot;历史锅底&quot;) ,
+     &quot;subtitle&quot;:GLOBAL_LANGUAGE(&quot;上次的定制锅底,再来一单&quot;),
+     &quot;imagename&quot;:&quot;OrderDishOrPot1&quot;,
+     &quot;callback&quot;:historyPotsList!]  // callback 中存放的就是函数名或者闭包名
+]
+</code></pre>
+
+<pre><code class="language-text">let showTitle =  data[i][&quot;title&quot;] as! String
+let showSubTitle = data[i][&quot;subtitle&quot;] as! String
+let imageName = data[i][&quot;imagename&quot;] as! String
+let callBack = data[i][&quot;callback&quot;] as! (()-&gt;()) // 这里就是我需要的闭包
+
+//=======
+
+callBack() // 闭包调用
+
+</code></pre>
+
+<p>只需要这样我就能实现需求了...函数的传递虽然不像👆所说的那样函数式编程,但是还是有必要记录下,swift跟OC比还是灵活了很多.</p>
+
+<p>----未完待续---</p>
 
 
 		</div>

@@ -177,6 +177,8 @@
         <li><label>遇到Bug</label></li>
 
           
+            <li><a title="Texture  中ASButtonNode设置图片崩溃" href="15585883897383.html">Texture  中ASButtonNode设置图片崩溃</a></li>
+          
             <li><a title="数据刷新崩溃" href="15460677821989.html">数据刷新崩溃</a></li>
           
             <li><a title="CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法" href="15374224515215.html">CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法</a></li>
@@ -337,6 +339,8 @@
         <li><label>Java</label></li>
 
           
+            <li><a title="静态方法和实例方法不同点" href="15465912048942.html">静态方法和实例方法不同点</a></li>
+          
             <li><a title="如何判等equals" href="15465714658370.html">如何判等equals</a></li>
           
 
@@ -481,6 +485,8 @@
 
                     
                       <li class="side-title"><span>遇到Bug</span></li>
+                        
+                          <li><a title="Texture  中ASButtonNode设置图片崩溃" href="15585883897383.html">Texture  中ASButtonNode设置图片崩溃</a></li>
                         
                           <li><a title="数据刷新崩溃" href="15460677821989.html">数据刷新崩溃</a></li>
                         
@@ -630,6 +636,8 @@
                     
                       <li class="side-title"><span>Java</span></li>
                         
+                          <li><a title="静态方法和实例方法不同点" href="15465912048942.html">静态方法和实例方法不同点</a></li>
+                        
                           <li><a title="如何判等equals" href="15465714658370.html">如何判等equals</a></li>
                         
 
@@ -646,33 +654,169 @@
 
 	
 		<div class="markdown-body">
-		<h1>各种队列的执行效果</h1>
+		<h1>关于更换主题</h1>
 
-		<table>
-<thead>
-<tr>
-<th style="text-align: left"></th>
-<th style="text-align: left">并发队列</th>
-<th style="text-align: left">手动创建的串行队列</th>
-<th style="text-align: left">主队列</th>
-</tr>
-</thead>
+		<p>今天刷Github，看到一个开源App <a href="https://github.com/weiran/Hackers">Hackers</a>源码里面关于更换主题写的挺好的。</p>
 
-<tbody>
-<tr>
-<td style="text-align: left">同步（sync）</td>
-<td style="text-align: left">*没有开启新线程 *串行执行任务</td>
-<td style="text-align: left">*没有开启新线程 *串行执行任务</td>
-<td style="text-align: left">*没有开启新线程 *串行执行任务</td>
-</tr>
-<tr>
-<td style="text-align: left">异步（async）</td>
-<td style="text-align: left">*有开启新线程 *并发执行任务</td>
-<td style="text-align: left">*有开启新线程 *串行执行任务</td>
-<td style="text-align: left">*没有开启新线程 *串行执行任务</td>
-</tr>
-</tbody>
-</table>
+<p>原先我的想法就是切换语言和更新主题发送个通知就好了，然后每个页面都监听下这个通知。<br/>
+但是这个项目里面采用的是每个控制器都注册下，然后当更换主题时把所有注册的控制器都更新下主题<br/>
+可以看下<a href="https://github.com/weiran/Hackers/tree/master/Client/Themes">这部分代码</a><br/>
+在<code>Theming.swift</code>文件中定义了<code>ThemeProvider</code> 和 <code>Themed</code>协议</p>
+
+<pre><code class="language-text">/// Describes a type that holds a current `Theme` and allows
+/// an object to be notified when the theme is changed.
+protocol ThemeProvider {
+    /// Placeholder for the theme type that the app will use
+    associatedtype Theme
+    
+    /// The current theme that is active
+    var currentTheme: Theme { get }
+    
+    /// Subscribe to be notified when the theme changes. Handler will be
+    /// remove from subscription when `object` is deallocated.
+    func subscribeToChanges(_ object: AnyObject, handler: @escaping (Theme) -&gt; Void)
+}
+
+/// Describes a type that can have a theme applied to it
+protocol Themed {
+    /// A Themed type needs to know about what concrete type the
+    /// ThemeProvider is. So we don&#39;t clash with the protocol,
+    /// let&#39;s call this associated type _ThemeProvider
+    associatedtype _ThemeProvider: ThemeProvider
+    
+    /// Return the current app-wide theme provider
+    var themeProvider: _ThemeProvider { get }
+    
+    /// This will be called whenever the current theme changes
+    func applyTheme(_ theme: _ThemeProvider.Theme)
+}
+
+extension Themed where Self: AnyObject {
+    /// This is to be called once when Self wants to start listening for
+    /// theme changes. This immediately triggers `applyTheme()` with the
+    /// current theme.
+    func setupTheming() {
+        applyTheme(themeProvider.currentTheme)
+        themeProvider.subscribeToChanges(self) { [weak self] newTheme in
+            self?.applyTheme(newTheme)
+        }
+    }
+}
+</code></pre>
+
+<p>根据协议可以如下操作：</p>
+
+<pre><code class="language-text">final class AppThemeProvider: ThemeProvider {
+    static let shared: AppThemeProvider = .init()
+    
+    private var theme: SubscribableValue&lt;AppTheme&gt;
+    private var availableThemes: [AppTheme] = [.light, .dark]
+    
+    var currentTheme: AppTheme {
+        get {
+            return theme.value
+        }
+        set {
+            setNewTheme(newValue)
+        }
+    }
+    
+    init() {
+        theme = SubscribableValue&lt;AppTheme&gt;(value: .light)
+    }
+    
+    private func setNewTheme(_ newTheme: AppTheme) {
+        let window = UIApplication.shared.delegate!.window!!
+        UIView.transition(
+            with: window,
+            duration: 0.3,
+            options: [UIView.AnimationOptions.transitionCrossDissolve],
+            animations: {
+                self.theme.value = newTheme
+        },
+            completion: nil
+        )
+    }
+    
+    func subscribeToChanges(_ object: AnyObject, handler: @escaping (AppTheme) -&gt; Void) {
+        theme.subscribe(object, using: handler)
+    }
+    
+    func nextTheme() {
+        guard let nextTheme = availableThemes.rotate() else {
+            return
+        }
+        currentTheme = nextTheme
+    }
+}
+
+extension Themed where Self: AnyObject {
+    var themeProvider: AppThemeProvider {
+        return AppThemeProvider.shared
+    }
+}
+</code></pre>
+
+<p>具体主题的颜色见<code>Theme.swift</code></p>
+
+<p>由上面的实例我们知道所有页面都是被暂存的，暂存操作为</p>
+
+<pre><code class="language-text">private var theme: SubscribableValue&lt;AppTheme&gt;
+</code></pre>
+
+<p>SubscribableValue的具体实现见<code>SubscribableValue.swift</code>，这个结构是一个结构体,如下：</p>
+
+<pre><code class="language-text">/// Stores a value of type T, and allows objects to subscribe to
+/// be notified with this value is changed.
+struct SubscribableValue&lt;T&gt; {
+    private typealias Subscription = (object: Weak&lt;AnyObject&gt;, handler: (T) -&gt; Void)
+
+    private var subscriptions: [Subscription] = []
+
+    var value: T {
+        didSet {
+            for (object, handler) in subscriptions where object.value != nil {
+                handler(value)
+            }
+        }
+    }
+
+    init(value: T) {
+        self.value = value
+    }
+
+    mutating func subscribe(_ object: AnyObject, using handler: @escaping (T) -&gt; Void) {
+        subscriptions.append((Weak(value: object), handler))
+        cleanupSubscriptions()
+    }
+
+    /// Removes any subscriptions where the object has been deallocated
+    /// and no longer exists
+    private mutating func cleanupSubscriptions() {
+        subscriptions = subscriptions.filter({ entry in
+            return entry.object.value != nil
+        })
+    }
+}
+</code></pre>
+
+<p>上面的weak的实现为</p>
+
+<pre><code class="language-text">/// A box that allows us to weakly hold on to an object
+struct Weak&lt;Object: AnyObject&gt; {
+    weak var value: Object?
+}
+</code></pre>
+
+<p>每个需要更换主题的控制器或者视图都会注册一下，<br/>
+<img src="media/15393255857280/15394143263288.jpg" alt="" style="width:1680px;"/></p>
+
+<p><img src="media/15393255857280/15394143483076.jpg" alt="" style="width:1680px;"/></p>
+
+<p><img src="media/15393255857280/15394143927777.jpg" alt="" style="width:1680px;"/></p>
+
+<p>这个就是协议的默认实现，然后会把当前对象注册一下。<br/>
+每次赋值的时候都会更新一下所有注册的视图。</p>
 
 
 		</div>

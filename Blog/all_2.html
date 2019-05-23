@@ -177,6 +177,8 @@
         <li><label>遇到Bug</label></li>
 
           
+            <li><a title="Texture  中ASButtonNode设置图片崩溃" href="15585883897383.html">Texture  中ASButtonNode设置图片崩溃</a></li>
+          
             <li><a title="数据刷新崩溃" href="15460677821989.html">数据刷新崩溃</a></li>
           
             <li><a title="CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法" href="15374224515215.html">CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法</a></li>
@@ -337,6 +339,8 @@
         <li><label>Java</label></li>
 
           
+            <li><a title="静态方法和实例方法不同点" href="15465912048942.html">静态方法和实例方法不同点</a></li>
+          
             <li><a title="如何判等equals" href="15465714658370.html">如何判等equals</a></li>
           
 
@@ -481,6 +485,8 @@
 
                     
                       <li class="side-title"><span>遇到Bug</span></li>
+                        
+                          <li><a title="Texture  中ASButtonNode设置图片崩溃" href="15585883897383.html">Texture  中ASButtonNode设置图片崩溃</a></li>
                         
                           <li><a title="数据刷新崩溃" href="15460677821989.html">数据刷新崩溃</a></li>
                         
@@ -630,6 +636,8 @@
                     
                       <li class="side-title"><span>Java</span></li>
                         
+                          <li><a title="静态方法和实例方法不同点" href="15465912048942.html">静态方法和实例方法不同点</a></li>
+                        
                           <li><a title="如何判等equals" href="15465714658370.html">如何判等equals</a></li>
                         
 
@@ -646,21 +654,45 @@
 
 	
 		<div class="markdown-body">
-		<h1>控制器透明，WebView透明</h1>
+		<h1>framework脚本</h1>
 
-		<p>设置控制器透明</p>
+		<pre><code class="language-text">if [ &quot;${ACTION}&quot; = &quot;build&quot; ]
 
-<pre><code class="language-text">let vc = AfterOrderPotADViewController()
-self.definesPresentationContext = true
-vc.modalPresentationStyle = .overCurrentContext
-vc.view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3)
-self.present(vc, animated: false, completion: nil)
-</code></pre>
+then
 
-<p>webView 设置透明</p>
+INSTALL_DIR=${SRCROOT}/Products/${PROJECT_NAME}.framework
 
-<pre><code class="language-text">webView.backgroundColor = UIColor.clear
-webView.isOpaque = false
+DEVICE_DIR=${BUILD_ROOT}/${CONFIGURATION}-iphoneos/${PROJECT_NAME}.framework
+
+SIMULATOR_DIR=${BUILD_ROOT}/${CONFIGURATION}-iphonesimulator/${PROJECT_NAME}.framework
+
+SIMULATOR_SWIFT_MODULE_DIR=&quot;${SIMULATOR_DIR}/Modules/${PROJECT_NAME}.swiftmodule/*&quot;
+
+INSTALL_SWIFT_MODULE_DIR=${INSTALL_DIR}/Modules/${PROJECT_NAME}.swiftmodule/
+
+if [ -d &quot;${INSTALL_DIR}&quot; ]
+
+then
+
+rm -rf &quot;${INSTALL_DIR}&quot;
+
+fi
+
+mkdir -p &quot;${INSTALL_DIR}&quot;
+
+cp -R &quot;${DEVICE_DIR}/&quot; &quot;${INSTALL_DIR}/&quot;
+
+#ditto &quot;${DEVICE_DIR}/Headers&quot; &quot;${INSTALL_DIR}/Headers&quot;
+
+lipo -create &quot;${DEVICE_DIR}/${PROJECT_NAME}&quot; &quot;${SIMULATOR_DIR}/${PROJECT_NAME}&quot; -output &quot;${INSTALL_DIR}/${PROJECT_NAME}&quot;
+
+cp ${SIMULATOR_SWIFT_MODULE_DIR} &quot;${INSTALL_SWIFT_MODULE_DIR}&quot;
+
+#open &quot;${DEVICE_DIR}&quot;
+
+open &quot;${SRCROOT}/Products&quot;
+
+fi
 </code></pre>
 
 

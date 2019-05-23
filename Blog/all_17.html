@@ -177,6 +177,8 @@
         <li><label>遇到Bug</label></li>
 
           
+            <li><a title="Texture  中ASButtonNode设置图片崩溃" href="15585883897383.html">Texture  中ASButtonNode设置图片崩溃</a></li>
+          
             <li><a title="数据刷新崩溃" href="15460677821989.html">数据刷新崩溃</a></li>
           
             <li><a title="CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法" href="15374224515215.html">CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法</a></li>
@@ -337,6 +339,8 @@
         <li><label>Java</label></li>
 
           
+            <li><a title="静态方法和实例方法不同点" href="15465912048942.html">静态方法和实例方法不同点</a></li>
+          
             <li><a title="如何判等equals" href="15465714658370.html">如何判等equals</a></li>
           
 
@@ -481,6 +485,8 @@
 
                     
                       <li class="side-title"><span>遇到Bug</span></li>
+                        
+                          <li><a title="Texture  中ASButtonNode设置图片崩溃" href="15585883897383.html">Texture  中ASButtonNode设置图片崩溃</a></li>
                         
                           <li><a title="数据刷新崩溃" href="15460677821989.html">数据刷新崩溃</a></li>
                         
@@ -630,6 +636,8 @@
                     
                       <li class="side-title"><span>Java</span></li>
                         
+                          <li><a title="静态方法和实例方法不同点" href="15465912048942.html">静态方法和实例方法不同点</a></li>
+                        
                           <li><a title="如何判等equals" href="15465714658370.html">如何判等equals</a></li>
                         
 
@@ -646,13 +654,58 @@
 
 	
 		<div class="markdown-body">
-		<h1>UILabel边缘出现黑线</h1>
+		<h1>使用 chisel 提高 LLDB 调试效率</h1>
 
-		<p>问题:代码实现 UILabel 时出现的边缘黑线问题<br/>
-原因:当 UILabel 的宽高出现浮点型数字时,在高清屏下有可能出现右侧边缘黑线问题, 解决方法是使用 <code>CGRectIntegral()</code> 方法确保 <code>frame</code> 中不存在非整形数值</p>
+		<blockquote>
+<p><a href="https://github.com/facebook/chisel">https://github.com/facebook/chisel</a> 英文版使用说明</p>
+</blockquote>
 
-<pre><code class="language-text">label.frame = CGRectIntegral(CGRectMake(0, 0, ceil(width),40));
+<h2 id="toc_0">安装</h2>
+
+<ol>
+<li>安装 <a href="http://brew.sh/index_zh-cn.html">Homebrew</a> (如果已经安装了,可以跳过这一步)</li>
+</ol>
+
+<pre><code class="language-text">/usr/bin/ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;
 </code></pre>
+
+<ol>
+<li>更新 Homebrew (如果已经最新了,可以跳过这一步)</li>
+</ol>
+
+<pre><code class="language-text">brew update
+</code></pre>
+
+<ol>
+<li>通过 Homebrew 安装 chisel</li>
+</ol>
+
+<pre><code class="language-text">brew install chisel
+</code></pre>
+
+<ol>
+<li>添加 chisel 命令至 ~/.lldbinit</li>
+</ol>
+
+<pre><code class="language-text">touch ~/.lldbinit echo &quot;command script import /usr/local/opt/chisel/libexec/fblldb.py&quot; &gt;&gt; ~/.lldbinit
+</code></pre>
+
+<ol>
+<li>更新 chisel</li>
+</ol>
+
+<pre><code class="language-text">brew upgrade chisel
+</code></pre>
+
+<h2 id="toc_1">使用</h2>
+
+<ol>
+<li>通过 <code>pviews</code> 命令直接查看页面层级关系</li>
+</ol>
+
+<hr/>
+
+<p>未完... </p>
 
 
 		</div>

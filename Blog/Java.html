@@ -177,6 +177,8 @@
         <li><label>遇到Bug</label></li>
 
           
+            <li><a title="Texture  中ASButtonNode设置图片崩溃" href="15585883897383.html">Texture  中ASButtonNode设置图片崩溃</a></li>
+          
             <li><a title="数据刷新崩溃" href="15460677821989.html">数据刷新崩溃</a></li>
           
             <li><a title="CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法" href="15374224515215.html">CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法</a></li>
@@ -337,6 +339,8 @@
         <li><label>Java</label></li>
 
           
+            <li><a title="静态方法和实例方法不同点" href="15465912048942.html">静态方法和实例方法不同点</a></li>
+          
             <li><a title="如何判等equals" href="15465714658370.html">如何判等equals</a></li>
           
 
@@ -481,6 +485,8 @@
 
                     
                       <li class="side-title"><span>遇到Bug</span></li>
+                        
+                          <li><a title="Texture  中ASButtonNode设置图片崩溃" href="15585883897383.html">Texture  中ASButtonNode设置图片崩溃</a></li>
                         
                           <li><a title="数据刷新崩溃" href="15460677821989.html">数据刷新崩溃</a></li>
                         
@@ -630,6 +636,8 @@
                     
                       <li class="side-title"><span>Java</span></li>
                         
+                          <li><a title="静态方法和实例方法不同点" href="15465912048942.html">静态方法和实例方法不同点</a></li>
+                        
                           <li><a title="如何判等equals" href="15465714658370.html">如何判等equals</a></li>
                         
 
@@ -646,24 +654,22 @@
 
 	
 		<div class="markdown-body">
-		<h1>如何判等equals</h1>
+		<h1>静态方法和实例方法不同点</h1>
 
-		<blockquote>
-<p><a href="https://stackoverflow.com/questions/9506303/public-boolean-equalsobject-other">Stackoverflow</a> 中有其他人提的写法，我感觉公司项目中的写法不错记录下</p>
+		<ol>
+<li><p>在外部调用静态方法时，可以使用&quot;类名.方法名&quot;的方式，也可以使用&quot;对象名.方法名&quot;的方式。而实例方法只有后面这种方式。也就是说，调用静态方法可以无需创建对象。</p></li>
+<li><p>静态方法在访问本类的成员时，只允许访问静态成员（即静态成员变量和静态方法），而不允许访问实例成员变量和实例方法；实例方法则无此限制.</p></li>
+</ol>
+
+<blockquote>
+<p>注意: 在Swift中，静态方法不能通过 <code>对象名.方法名</code> 的方式调用。</p>
 </blockquote>
-
-<pre><code class="language-text">    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof CreateOrderDTO)) return false;
-        CreateOrderDTO that = (CreateOrderDTO) o;
-        return Objects.equal(getBusiId(), that.getBusiId()) &amp;&amp;
-                Objects.equal(getBusiType(), that.getBusiType()) &amp;&amp;
-                Objects.equal(getOrderAmount(), that.getOrderAmount());
-    }
-</code></pre>
 
 
 		</div>
+	
+
+ 
 	
 
   

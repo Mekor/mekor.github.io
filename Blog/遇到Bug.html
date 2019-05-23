@@ -177,6 +177,8 @@
         <li><label>遇到Bug</label></li>
 
           
+            <li><a title="Texture  中ASButtonNode设置图片崩溃" href="15585883897383.html">Texture  中ASButtonNode设置图片崩溃</a></li>
+          
             <li><a title="数据刷新崩溃" href="15460677821989.html">数据刷新崩溃</a></li>
           
             <li><a title="CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法" href="15374224515215.html">CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法</a></li>
@@ -337,6 +339,8 @@
         <li><label>Java</label></li>
 
           
+            <li><a title="静态方法和实例方法不同点" href="15465912048942.html">静态方法和实例方法不同点</a></li>
+          
             <li><a title="如何判等equals" href="15465714658370.html">如何判等equals</a></li>
           
 
@@ -481,6 +485,8 @@
 
                     
                       <li class="side-title"><span>遇到Bug</span></li>
+                        
+                          <li><a title="Texture  中ASButtonNode设置图片崩溃" href="15585883897383.html">Texture  中ASButtonNode设置图片崩溃</a></li>
                         
                           <li><a title="数据刷新崩溃" href="15460677821989.html">数据刷新崩溃</a></li>
                         
@@ -630,6 +636,8 @@
                     
                       <li class="side-title"><span>Java</span></li>
                         
+                          <li><a title="静态方法和实例方法不同点" href="15465912048942.html">静态方法和实例方法不同点</a></li>
+                        
                           <li><a title="如何判等equals" href="15465714658370.html">如何判等equals</a></li>
                         
 
@@ -646,20 +654,11 @@
 
 	
 		<div class="markdown-body">
-		<h1>数据刷新崩溃</h1>
+		<h1>Texture  中ASButtonNode设置图片崩溃</h1>
 
-		<p><img src="media/15460677821989/15460678427638.jpg" alt="" style="width:531px;"/><br/>
-<img src="media/15460677821989/15460678670280.jpg" alt="" style="width:1054px;"/></p>
+		<p>解决方案：<img src="media/15585883897383/WX20190523-110605@2x.png" alt="WX20190523-110605@2x"/></p>
 
-<p>发生崩溃的原因是<code>tableView</code> <code>reloadData</code> 的时候直接设置<code>tableView</code> 的 <code>scrollRectToVisible</code> 解决方案</p>
-
-<pre><code class="language-text">        UIView.animate(withDuration: 0, animations: {
-            self.tableView.reloadData()
-        }) { (finish) in
-            let rect = self.tableView.rect(forSection: section)
-            self.tableView.scrollRectToVisible(rect, animated: true)
-        }
-</code></pre>
+<p>Assets中的图片Slicing 设置<code>Center</code>为<code>Stretches</code></p>
 
 
 		</div>

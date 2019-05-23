@@ -177,6 +177,8 @@
         <li><label>遇到Bug</label></li>
 
           
+            <li><a title="Texture  中ASButtonNode设置图片崩溃" href="15585883897383.html">Texture  中ASButtonNode设置图片崩溃</a></li>
+          
             <li><a title="数据刷新崩溃" href="15460677821989.html">数据刷新崩溃</a></li>
           
             <li><a title="CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法" href="15374224515215.html">CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法</a></li>
@@ -337,6 +339,8 @@
         <li><label>Java</label></li>
 
           
+            <li><a title="静态方法和实例方法不同点" href="15465912048942.html">静态方法和实例方法不同点</a></li>
+          
             <li><a title="如何判等equals" href="15465714658370.html">如何判等equals</a></li>
           
 
@@ -481,6 +485,8 @@
 
                     
                       <li class="side-title"><span>遇到Bug</span></li>
+                        
+                          <li><a title="Texture  中ASButtonNode设置图片崩溃" href="15585883897383.html">Texture  中ASButtonNode设置图片崩溃</a></li>
                         
                           <li><a title="数据刷新崩溃" href="15460677821989.html">数据刷新崩溃</a></li>
                         
@@ -630,6 +636,8 @@
                     
                       <li class="side-title"><span>Java</span></li>
                         
+                          <li><a title="静态方法和实例方法不同点" href="15465912048942.html">静态方法和实例方法不同点</a></li>
+                        
                           <li><a title="如何判等equals" href="15465714658370.html">如何判等equals</a></li>
                         
 
@@ -646,64 +654,17 @@
 
 	
 		<div class="markdown-body">
-		<h1>线程需要注意的问题</h1>
+		<h1>图片加载方式</h1>
 
-		<h2 id="toc_0">死锁（Dead Lock）</h2>
+		<p><img src="media/15299939008214/15299939112098.jpg" alt=""/><br/>
+<img src="media/15299939008214/15299939172785.jpg" alt=""/></p>
 
-<p>第一种情况：</p>
+<p>图像的降采样</p>
 
-<pre><code class="language-text">let serialQueue = DispatchQueue(label:&quot;test&quot;)
-serialQueue.async {
-    //.....
-    serialQueue.sync {
-        //...
-    }
-}
+<p>不要使用昂贵的UIImage：UIImage会解压原始的图片占用大量的内存<br/>
+内部的坐标变换也非常昂贵</p>
 
-</code></pre>
-
-<p>第二种情况：</p>
-
-<pre><code class="language-text">let operationA = Operation()
-let operationB = Operation()
-operationA.addDependency(operationB)
-operationB.addDependency(operationA)
-
-</code></pre>
-
-<p>怎样避免死锁：</p>
-
-<ol>
-<li>少用依赖</li>
-<li>慎用同步</li>
-</ol>
-
-<h2 id="toc_1">优先倒置（Priority Inversion）</h2>
-
-<pre><code class="language-text">var highPriorityQueue = DispatchQueue.global(qos: .userInitiated)
-var lowPriorityQueue = DispatchQueue.global(qos: .utility)
-
-let semaphore = DispatchSemaphore(value: 1)
-
-lowPriorityQueue.async {
-    semaphore.wait()
-    for i in 0...10 {
-        print(i)
-    }
-    semaphore.signal()
-}
-
-highPriorityQueue.async {
-    semaphore.wait()
-    for i in 11...20 {
-        print(1)
-    }
-}
-
-</code></pre>
-
-<p>解决办法：<br/>
-同一个资源用同一个Qos</p>
+<p>使用ImageIO的CGImageSourceCreateThumbnailAtIndex API: 无视原始图片尺寸，resize的内存开销只是目标尺寸（请看Session中后半部分的Demo）</p>
 
 
 		</div>

@@ -177,6 +177,8 @@
         <li><label>遇到Bug</label></li>
 
           
+            <li><a title="Texture  中ASButtonNode设置图片崩溃" href="15585883897383.html">Texture  中ASButtonNode设置图片崩溃</a></li>
+          
             <li><a title="数据刷新崩溃" href="15460677821989.html">数据刷新崩溃</a></li>
           
             <li><a title="CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法" href="15374224515215.html">CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法</a></li>
@@ -337,6 +339,8 @@
         <li><label>Java</label></li>
 
           
+            <li><a title="静态方法和实例方法不同点" href="15465912048942.html">静态方法和实例方法不同点</a></li>
+          
             <li><a title="如何判等equals" href="15465714658370.html">如何判等equals</a></li>
           
 
@@ -481,6 +485,8 @@
 
                     
                       <li class="side-title"><span>遇到Bug</span></li>
+                        
+                          <li><a title="Texture  中ASButtonNode设置图片崩溃" href="15585883897383.html">Texture  中ASButtonNode设置图片崩溃</a></li>
                         
                           <li><a title="数据刷新崩溃" href="15460677821989.html">数据刷新崩溃</a></li>
                         
@@ -630,6 +636,8 @@
                     
                       <li class="side-title"><span>Java</span></li>
                         
+                          <li><a title="静态方法和实例方法不同点" href="15465912048942.html">静态方法和实例方法不同点</a></li>
+                        
                           <li><a title="如何判等equals" href="15465714658370.html">如何判等equals</a></li>
                         
 
@@ -646,31 +654,48 @@
 
 	
 		<div class="markdown-body">
-		<h1>键盘消失后又再次显示并立即消失问题</h1>
+		<h1>如何解决json字符串中包含制表符</h1>
 
-		<p>Keyboard will appeared automatically while displaying alertview or alertcontroller</p>
+		<p>错误信息:</p>
 
-<blockquote>
-<p><a href="http://stackoverflow.com/questions/30498972/keyboard-will-appeared-automatically-in-ios-8-3-while-displaying-alertview-or-al">stackoverflow</a></p>
-</blockquote>
-
-<p>我采用其中</p>
-
-<pre><code class="language-text"> [YOUR_TEXT resignFirstResponder];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-
-
-                    _alertVw = [[UIAlertView alloc] initWithTitle:@&quot;&quot; message:@&quot;message.&quot; delegate:self cancelButtonTitle:@&quot;Ok&quot; otherButtonTitles:nil, nil];
-
-                    [_alertVw show];
-});
-
+<pre><code class="language-text">Error Domain=NSCocoaErrorDomain Code=3840 &quot;The operation couldn’t be completed. (Cocoa error 3840.)&quot; (Unescaped control character around character 135.) UserInfo=0x170e79d00 {NSDebugDescription=Unescaped control character around character 135.}
 </code></pre>
 
-<p>这种方案解决的</p>
+<p><strong>如何处理</strong><br/>
+最关键的地方:</p>
+
+<pre><code class="language-text">-(NSString *)removeUnescapedCharacter:(NSString *)inputStr
+{
+    NSCharacterSet *controlChars = [NSCharacterSet controlCharacterSet];//获取那些特殊字符
+    NSRange range = [inputStr rangeOfCharacterFromSet:controlChars];//寻找字符串中有没有这些特殊字符
+    if (range.location != NSNotFound)
+        {
+        NSMutableString *mutable = [NSMutableString stringWithString:inputStr];
+        while (range.location != NSNotFound)
+            {
+            [mutable deleteCharactersInRange:range];//去掉这些特殊字符
+            range = [mutable rangeOfCharacterFromSet:controlChars];
+            }
+        return mutable;
+        }
+    return inputStr;
+}
+</code></pre>
+
+<p>举例:</p>
+
+<pre><code class="language-text">    NSString *responseString = [NSMutableString stringWithString:[request responseString]];
+    responseString =[self removeUnescapedCharacter:responseString];
+    NSData *jsonData = [responseString dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *error;
+    NSDictionary * dic = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&amp;error];
+</code></pre>
 
 
 		</div>
+	
+
+ 
 	
 
   
