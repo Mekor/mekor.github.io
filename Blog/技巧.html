@@ -63,6 +63,8 @@
         <li><label>技巧</label></li>
 
           
+            <li><a title="海底捞点餐Pad 优化" href="15653325472073.html">海底捞点餐Pad 优化</a></li>
+          
             <li><a title="关于更换主题" href="15393255857280.html">关于更换主题</a></li>
           
             <li><a title="设置placeholder颜色" href="15257015417604.html">设置placeholder颜色</a></li>
@@ -181,7 +183,7 @@
           
             <li><a title="数据刷新崩溃" href="15460677821989.html">数据刷新崩溃</a></li>
           
-            <li><a title="CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法" href="15374224515215.html">CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法</a></li>
+            <li><a title="CocaPods 添加头文件的报错  的解决办法" href="15374224515215.html">CocaPods 添加头文件的报错  的解决办法</a></li>
           
             <li><a title="控制器透明，WebView透明" href="15323970557540.html">控制器透明，WebView透明</a></li>
           
@@ -376,6 +378,8 @@
                     
                       <li class="side-title"><span>技巧</span></li>
                         
+                          <li><a title="海底捞点餐Pad 优化" href="15653325472073.html">海底捞点餐Pad 优化</a></li>
+                        
                           <li><a title="关于更换主题" href="15393255857280.html">关于更换主题</a></li>
                         
                           <li><a title="设置placeholder颜色" href="15257015417604.html">设置placeholder颜色</a></li>
@@ -490,7 +494,7 @@
                         
                           <li><a title="数据刷新崩溃" href="15460677821989.html">数据刷新崩溃</a></li>
                         
-                          <li><a title="CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法" href="15374224515215.html">CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法</a></li>
+                          <li><a title="CocaPods 添加头文件的报错  的解决办法" href="15374224515215.html">CocaPods 添加头文件的报错  的解决办法</a></li>
                         
                           <li><a title="控制器透明，WebView透明" href="15323970557540.html">控制器透明，WebView透明</a></li>
                         
@@ -654,169 +658,29 @@
 
 	
 		<div class="markdown-body">
-		<h1>关于更换主题</h1>
+		<h1>海底捞点餐Pad 优化</h1>
 
-		<p>今天刷Github，看到一个开源App <a href="https://github.com/weiran/Hackers">Hackers</a>源码里面关于更换主题写的挺好的。</p>
+		<h2 id="toc_0">1. cell 显示优化</h2>
 
-<p>原先我的想法就是切换语言和更新主题发送个通知就好了，然后每个页面都监听下这个通知。<br/>
-但是这个项目里面采用的是每个控制器都注册下，然后当更换主题时把所有注册的控制器都更新下主题<br/>
-可以看下<a href="https://github.com/weiran/Hackers/tree/master/Client/Themes">这部分代码</a><br/>
-在<code>Theming.swift</code>文件中定义了<code>ThemeProvider</code> 和 <code>Themed</code>协议</p>
+<p>海底捞的每个菜品都有很多标签，比如清真，推荐，麻辣等等<br/>
+这些标签是有规律的，最多显示6个。没有优化前采用的是存在就创建，这样在iPad Air上面滑动感觉不出卡顿但是在一些老pad 比如 iPad mini 上就会出现卡顿现象。<br/>
+解决方案：<br/>
+提前创建好6个标签，然后根据数据设置显示内容并控制显隐</p>
 
-<pre><code class="language-text">/// Describes a type that holds a current `Theme` and allows
-/// an object to be notified when the theme is changed.
-protocol ThemeProvider {
-    /// Placeholder for the theme type that the app will use
-    associatedtype Theme
-    
-    /// The current theme that is active
-    var currentTheme: Theme { get }
-    
-    /// Subscribe to be notified when the theme changes. Handler will be
-    /// remove from subscription when `object` is deallocated.
-    func subscribeToChanges(_ object: AnyObject, handler: @escaping (Theme) -&gt; Void)
-}
+<p>这样做能有效的提高老pad的显示效果。</p>
 
-/// Describes a type that can have a theme applied to it
-protocol Themed {
-    /// A Themed type needs to know about what concrete type the
-    /// ThemeProvider is. So we don&#39;t clash with the protocol,
-    /// let&#39;s call this associated type _ThemeProvider
-    associatedtype _ThemeProvider: ThemeProvider
-    
-    /// Return the current app-wide theme provider
-    var themeProvider: _ThemeProvider { get }
-    
-    /// This will be called whenever the current theme changes
-    func applyTheme(_ theme: _ThemeProvider.Theme)
-}
+<h2 id="toc_1">2. 数据处理优化</h2>
 
-extension Themed where Self: AnyObject {
-    /// This is to be called once when Self wants to start listening for
-    /// theme changes. This immediately triggers `applyTheme()` with the
-    /// current theme.
-    func setupTheming() {
-        applyTheme(themeProvider.currentTheme)
-        themeProvider.subscribeToChanges(self) { [weak self] newTheme in
-            self?.applyTheme(newTheme)
-        }
-    }
-}
-</code></pre>
+<p>数据源同步问题，问题描述： pad可以更新数据，定时器拉取数据，推送过来的数据</p>
 
-<p>根据协议可以如下操作：</p>
+<p><img src="media/15653325472073/15653335091232.jpg" alt="" style="width:500px;"/></p>
 
-<pre><code class="language-text">final class AppThemeProvider: ThemeProvider {
-    static let shared: AppThemeProvider = .init()
-    
-    private var theme: SubscribableValue&lt;AppTheme&gt;
-    private var availableThemes: [AppTheme] = [.light, .dark]
-    
-    var currentTheme: AppTheme {
-        get {
-            return theme.value
-        }
-        set {
-            setNewTheme(newValue)
-        }
-    }
-    
-    init() {
-        theme = SubscribableValue&lt;AppTheme&gt;(value: .light)
-    }
-    
-    private func setNewTheme(_ newTheme: AppTheme) {
-        let window = UIApplication.shared.delegate!.window!!
-        UIView.transition(
-            with: window,
-            duration: 0.3,
-            options: [UIView.AnimationOptions.transitionCrossDissolve],
-            animations: {
-                self.theme.value = newTheme
-        },
-            completion: nil
-        )
-    }
-    
-    func subscribeToChanges(_ object: AnyObject, handler: @escaping (AppTheme) -&gt; Void) {
-        theme.subscribe(object, using: handler)
-    }
-    
-    func nextTheme() {
-        guard let nextTheme = availableThemes.rotate() else {
-            return
-        }
-        currentTheme = nextTheme
-    }
-}
+<p>解决方案一： 并发访问数据拷贝<br/>
+主线程和子线程都操作数据源的时候，可以把数据源给子线程拷贝一份让子线程操作，当子线程操作完返回给主线程的时候把主线程操作的过程在数据源中再次执行一次然后更新数据显示。<br/>
+主要的技术点是记录主线程操作步骤</p>
 
-extension Themed where Self: AnyObject {
-    var themeProvider: AppThemeProvider {
-        return AppThemeProvider.shared
-    }
-}
-</code></pre>
-
-<p>具体主题的颜色见<code>Theme.swift</code></p>
-
-<p>由上面的实例我们知道所有页面都是被暂存的，暂存操作为</p>
-
-<pre><code class="language-text">private var theme: SubscribableValue&lt;AppTheme&gt;
-</code></pre>
-
-<p>SubscribableValue的具体实现见<code>SubscribableValue.swift</code>，这个结构是一个结构体,如下：</p>
-
-<pre><code class="language-text">/// Stores a value of type T, and allows objects to subscribe to
-/// be notified with this value is changed.
-struct SubscribableValue&lt;T&gt; {
-    private typealias Subscription = (object: Weak&lt;AnyObject&gt;, handler: (T) -&gt; Void)
-
-    private var subscriptions: [Subscription] = []
-
-    var value: T {
-        didSet {
-            for (object, handler) in subscriptions where object.value != nil {
-                handler(value)
-            }
-        }
-    }
-
-    init(value: T) {
-        self.value = value
-    }
-
-    mutating func subscribe(_ object: AnyObject, using handler: @escaping (T) -&gt; Void) {
-        subscriptions.append((Weak(value: object), handler))
-        cleanupSubscriptions()
-    }
-
-    /// Removes any subscriptions where the object has been deallocated
-    /// and no longer exists
-    private mutating func cleanupSubscriptions() {
-        subscriptions = subscriptions.filter({ entry in
-            return entry.object.value != nil
-        })
-    }
-}
-</code></pre>
-
-<p>上面的weak的实现为</p>
-
-<pre><code class="language-text">/// A box that allows us to weakly hold on to an object
-struct Weak&lt;Object: AnyObject&gt; {
-    weak var value: Object?
-}
-</code></pre>
-
-<p>每个需要更换主题的控制器或者视图都会注册一下，<br/>
-<img src="media/15393255857280/15394143263288.jpg" alt="" style="width:1680px;"/></p>
-
-<p><img src="media/15393255857280/15394143483076.jpg" alt="" style="width:1680px;"/></p>
-
-<p><img src="media/15393255857280/15394143927777.jpg" alt="" style="width:1680px;"/></p>
-
-<p>这个就是协议的默认实现，然后会把当前对象注册一下。<br/>
-每次赋值的时候都会更新一下所有注册的视图。</p>
+<p>解决方案二： 串行访问<br/>
+操作访问的都是同一数据源，能够保证操作数据不出错。但是有一个问题就是如果子线程正在操作数据这个时候主线程有一个修改操作会导致主线程等待，用户会有卡的感觉。</p>
 
 
 		</div>

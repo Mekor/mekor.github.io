@@ -63,6 +63,8 @@
         <li><label>技巧</label></li>
 
           
+            <li><a title="海底捞点餐Pad 优化" href="15653325472073.html">海底捞点餐Pad 优化</a></li>
+          
             <li><a title="关于更换主题" href="15393255857280.html">关于更换主题</a></li>
           
             <li><a title="设置placeholder颜色" href="15257015417604.html">设置placeholder颜色</a></li>
@@ -181,7 +183,7 @@
           
             <li><a title="数据刷新崩溃" href="15460677821989.html">数据刷新崩溃</a></li>
           
-            <li><a title="CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法" href="15374224515215.html">CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法</a></li>
+            <li><a title="CocaPods 添加头文件的报错  的解决办法" href="15374224515215.html">CocaPods 添加头文件的报错  的解决办法</a></li>
           
             <li><a title="控制器透明，WebView透明" href="15323970557540.html">控制器透明，WebView透明</a></li>
           
@@ -376,6 +378,8 @@
                     
                       <li class="side-title"><span>技巧</span></li>
                         
+                          <li><a title="海底捞点餐Pad 优化" href="15653325472073.html">海底捞点餐Pad 优化</a></li>
+                        
                           <li><a title="关于更换主题" href="15393255857280.html">关于更换主题</a></li>
                         
                           <li><a title="设置placeholder颜色" href="15257015417604.html">设置placeholder颜色</a></li>
@@ -490,7 +494,7 @@
                         
                           <li><a title="数据刷新崩溃" href="15460677821989.html">数据刷新崩溃</a></li>
                         
-                          <li><a title="CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法" href="15374224515215.html">CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法</a></li>
+                          <li><a title="CocaPods 添加头文件的报错  的解决办法" href="15374224515215.html">CocaPods 添加头文件的报错  的解决办法</a></li>
                         
                           <li><a title="控制器透明，WebView透明" href="15323970557540.html">控制器透明，WebView透明</a></li>
                         
@@ -654,31 +658,33 @@
 
 	
 		<div class="markdown-body">
-		<h1>怎样让内存缓存变稳定</h1>
+		<h1>在包含UITableView视图中添加单击手势</h1>
 
-		<p>项目中如果显示图片比较多,会遇到内存涨的比较厉害,项目中用到 SDWebImage, 所以可以很简单的让内存缓存变稳定:</p>
+		<p>如果在包含UITableView视图中添加单击手势，这个单击手势会屏蔽掉UITableView的</p>
 
-<pre><code class="language-text">-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    [[SDImageCache sharedImageCache] clearMemory];
+<pre><code class="language-text">- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath;
+</code></pre>
+
+<p>可以利用<code>UIGestureRecognizer</code>的<code>Delegate</code>中的</p>
+
+<pre><code class="language-text">- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer;
+</code></pre>
+
+<p>在单击点位于UITableView内的时候取消响应</p>
+
+<pre><code class="language-text">- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer{
+    CGPoint point = [gestureRecognizer locationInView:self];
+    if(CGRectContainsPoint(menuTableView.frame, point)){
+        return NO;
+    }
+    return YES;
 }
 </code></pre>
 
-<p>原理:</p>
+<p>或者将单击手势的cancelsTouchesInView设置为NO</p>
 
-<pre><code class="language-text">- (void)clearMemory {
-    [self.memCache removeAllObjects];
-}
+<pre><code class="language-text">singleTap.cancelsTouchesInView = NO;
 </code></pre>
-
-<p>_memCache 是 NSCache 类型的,</p>
-
-<p>没有做任何操作的时候大概是这个样子的<br/>
-<img src="media/14752152861722/14752174866625.jpg" alt=""/></p>
-
-<p>添加clearMemory后:<br/>
-<img src="media/14752152861722/14752177858503.jpg" alt=""/></p>
-
-<p>这也是为什么滚动后屏幕上还显示图片的原因.</p>
 
 
 		</div>

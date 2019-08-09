@@ -63,6 +63,8 @@
         <li><label>技巧</label></li>
 
           
+            <li><a title="海底捞点餐Pad 优化" href="15653325472073.html">海底捞点餐Pad 优化</a></li>
+          
             <li><a title="关于更换主题" href="15393255857280.html">关于更换主题</a></li>
           
             <li><a title="设置placeholder颜色" href="15257015417604.html">设置placeholder颜色</a></li>
@@ -181,7 +183,7 @@
           
             <li><a title="数据刷新崩溃" href="15460677821989.html">数据刷新崩溃</a></li>
           
-            <li><a title="CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法" href="15374224515215.html">CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法</a></li>
+            <li><a title="CocaPods 添加头文件的报错  的解决办法" href="15374224515215.html">CocaPods 添加头文件的报错  的解决办法</a></li>
           
             <li><a title="控制器透明，WebView透明" href="15323970557540.html">控制器透明，WebView透明</a></li>
           
@@ -376,6 +378,8 @@
                     
                       <li class="side-title"><span>技巧</span></li>
                         
+                          <li><a title="海底捞点餐Pad 优化" href="15653325472073.html">海底捞点餐Pad 优化</a></li>
+                        
                           <li><a title="关于更换主题" href="15393255857280.html">关于更换主题</a></li>
                         
                           <li><a title="设置placeholder颜色" href="15257015417604.html">设置placeholder颜色</a></li>
@@ -490,7 +494,7 @@
                         
                           <li><a title="数据刷新崩溃" href="15460677821989.html">数据刷新崩溃</a></li>
                         
-                          <li><a title="CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法" href="15374224515215.html">CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法</a></li>
+                          <li><a title="CocaPods 添加头文件的报错  的解决办法" href="15374224515215.html">CocaPods 添加头文件的报错  的解决办法</a></li>
                         
                           <li><a title="控制器透明，WebView透明" href="15323970557540.html">控制器透明，WebView透明</a></li>
                         
@@ -654,61 +658,79 @@
 
 	
 		<div class="markdown-body">
-		<h1>获取当前显示的UIViewController</h1>
+		<h1>安装tree命令</h1>
 
-		<pre><code class="language-text">+ (UIViewController *)getCurrentRootViewController {
+		<p><code>brew</code> 一行命令搞定 <code>brew install tree</code></p>
 
-    CommonTool *tool = [[CommonTool alloc]init];
+<p>效果图:</p>
 
-    UIViewController *result;
-    UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
-
-    if (topWindow.windowLevel != UIWindowLevelNormal){
-        NSArray *windows = [[UIApplication sharedApplication] windows];
-        for(topWindow in windows){
-            if (topWindow.windowLevel == UIWindowLevelNormal)
-                break;
-        }
-    }
-
-    UIView *rootView = [topWindow subviews].firstObject;
-    id nextResponder = [rootView nextResponder];
-
-    if ([nextResponder isMemberOfClass:[UIViewController class]]){
-        result = nextResponder;
-    }
-    else if ([nextResponder isMemberOfClass:[UITabBarController class]] | [nextResponder isMemberOfClass:[UINavigationController class]]){
-        result = [tool findViewController:nextResponder];
-    }
-    else if ([topWindow respondsToSelector:@selector(rootViewController)] &amp;&amp; topWindow.rootViewController != nil){
-        result = topWindow.rootViewController;
-    }
-
-    else{
-        NSAssert(NO, @&quot;找不到顶端VC&quot;);
-    }
-    return result;
-}
+<pre><code class="language-text">.
+├── LICENSE
+├── MKShowDetail
+│   ├── MKShowDetail.h
+│   ├── XZBaseViewController.h
+│   ├── XZBaseViewController.m
+│   ├── XZBaseViewController.xib
+│   ├── XZCustomViewController.h
+│   ├── XZCustomViewController.m
+│   ├── XZTableView.h
+│   ├── XZTableView.m
+│   └── bgImage.gif
+├── MKShowDetail.podspec
+├── MKShowDetailDemo
+│   ├── DetailShow
+│   │   ├── AppDelegate.h
+│   │   ├── AppDelegate.m
+│   │   ├── Assets.xcassets
+│   │   │   ├── AppIcon.appiconset
+│   │   │   │   └── Contents.json
+│   │   │   ├── Contents.json
+│   │   │   └── icon.imageset
+│   │   │       ├── Contents.json
+│   │   │       └── icon.jpg
+│   │   ├── Base.lproj
+│   │   │   ├── LaunchScreen.storyboard
+│   │   │   └── Main.storyboard
+│   │   ├── Info.plist
+│   │   ├── OneViewController.h
+│   │   ├── OneViewController.m
+│   │   ├── TestViewController.h
+│   │   ├── TestViewController.m
+│   │   ├── ThreeViewController.h
+│   │   ├── ThreeViewController.m
+│   │   ├── TwoViewController.h
+│   │   ├── TwoViewController.m
+│   │   ├── ViewController.h
+│   │   ├── ViewController.m
+│   │   ├── lol.jpg
+│   │   ├── main.m
+│   │   └── timo.jpg
+│   └── DetailShow.xcodeproj
+│       ├── project.pbxproj
+│       ├── project.xcworkspace
+│       │   ├── contents.xcworkspacedata
+│       │   └── xcuserdata
+│       │       ├── mekor.xcuserdatad
+│       │       │   └── UserInterfaceState.xcuserstate
+│       │       └── weizhi.xcuserdatad
+│       │           └── UserInterfaceState.xcuserstate
+│       └── xcuserdata
+│           ├── mekor.xcuserdatad
+│           │   └── xcschemes
+│           │       ├── DetailShow.xcscheme
+│           │       └── xcschememanagement.plist
+│           └── weizhi.xcuserdatad
+│               ├── xcdebugger
+│               │   └── Breakpoints_v2.xcbkptlist
+│               └── xcschemes
+│                   ├── DetailShow.xcscheme
+│                   └── xcschememanagement.plist
+├── README.md
+└── shopdetail.gif
 
 </code></pre>
 
-<pre><code class="language-text">- (UIViewController *)findViewController:(id)controller{
-    if ([controller isMemberOfClass:[UINavigationController class]]) {
-        return [self findViewController:[(UINavigationController *)controller visibleViewController]];
-    }
-    else if ([controller isMemberOfClass:[UITabBarController class]]){
-        return [self findViewController:[(UITabBarController *)controller selectedViewController]];
-    }
-    else if ([controller isKindOfClass:[UIViewController class]]){
-        return controller;
-    }
-    else{
-        NSAssert(NO, @&quot;找不到顶端VC&quot;);
-        return nil;
-    }
-}
-
-</code></pre>
+<p>看起来效果不错.</p>
 
 
 		</div>

@@ -63,6 +63,8 @@
         <li><label>技巧</label></li>
 
           
+            <li><a title="海底捞点餐Pad 优化" href="15653325472073.html">海底捞点餐Pad 优化</a></li>
+          
             <li><a title="关于更换主题" href="15393255857280.html">关于更换主题</a></li>
           
             <li><a title="设置placeholder颜色" href="15257015417604.html">设置placeholder颜色</a></li>
@@ -181,7 +183,7 @@
           
             <li><a title="数据刷新崩溃" href="15460677821989.html">数据刷新崩溃</a></li>
           
-            <li><a title="CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法" href="15374224515215.html">CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法</a></li>
+            <li><a title="CocaPods 添加头文件的报错  的解决办法" href="15374224515215.html">CocaPods 添加头文件的报错  的解决办法</a></li>
           
             <li><a title="控制器透明，WebView透明" href="15323970557540.html">控制器透明，WebView透明</a></li>
           
@@ -376,6 +378,8 @@
                     
                       <li class="side-title"><span>技巧</span></li>
                         
+                          <li><a title="海底捞点餐Pad 优化" href="15653325472073.html">海底捞点餐Pad 优化</a></li>
+                        
                           <li><a title="关于更换主题" href="15393255857280.html">关于更换主题</a></li>
                         
                           <li><a title="设置placeholder颜色" href="15257015417604.html">设置placeholder颜色</a></li>
@@ -490,7 +494,7 @@
                         
                           <li><a title="数据刷新崩溃" href="15460677821989.html">数据刷新崩溃</a></li>
                         
-                          <li><a title="CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法" href="15374224515215.html">CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法</a></li>
+                          <li><a title="CocaPods 添加头文件的报错  的解决办法" href="15374224515215.html">CocaPods 添加头文件的报错  的解决办法</a></li>
                         
                           <li><a title="控制器透明，WebView透明" href="15323970557540.html">控制器透明，WebView透明</a></li>
                         
@@ -654,15 +658,46 @@
 
 	
 		<div class="markdown-body">
-		<h1>SwiftTips - 集中处理</h1>
+		<h1>显示中划线,下划线</h1>
 
-		<h2 id="toc_0">集中处理@objc</h2>
+		<h3 id="toc_0">OC中显示</h3>
 
-<p><img src="media/15158138774013/WX20180113-112401@2x.png" alt="WX20180113-112401@2x"/></p>
+<h5 id="toc_1">添加中划线:</h5>
 
-<h2 id="toc_1">模拟器不能执行的代码单独处理</h2>
+<pre><code class="language-text">  UILabel * strikeLabel = [[UILabel alloc] initWithFrame:(CGRectMake(10, 10, 50, 30))];
+  NSString *textStr = [NSString stringWithFormat:@&quot;%@元&quot;, primeCost];
 
-<p><img src="media/15158138774013/15159872783257.jpg" alt=""/></p>
+  //中划线
+  NSDictionary *attribtDic = @{NSStrikethroughStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
+  NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:textStr attributes:attribtDic];
+
+  // 赋值
+  strikeLabel.attributedText = attribtStr;
+
+  [self.view addSubview:strikeLabel];
+</code></pre>
+
+<h5 id="toc_2">添加下划线:</h5>
+
+<pre><code class="language-text">  UILabel *underlineLabel = [[UILabel alloc] initWithFrame:(CGRectMake(10, 10, 50, 30))];
+  NSString *textStr = [NSString stringWithFormat:@&quot;%@元&quot;, primeCost];
+
+  // 下划线
+  NSDictionary *attribtDic = @{NSUnderlineStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
+  NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:textStr attributes:attribtDic];
+
+  //赋值
+  underlineLabel.attributedText = attribtStr;
+
+  [self.view addSubview:underlineLabel];
+</code></pre>
+
+<h3 id="toc_3">Swift中显示</h3>
+
+<pre><code class="language-text">let myAttributes: [NSAttributedStringKey : Any] = [NSAttributedStringKey.strikethroughStyle: NSUnderlineStyle.styleSingle.rawValue]
+            
+let attributedText = NSAttributedString(string: &quot;被划线文字&quot;, attributes: myAttributes)
+</code></pre>
 
 
 		</div>

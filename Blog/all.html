@@ -63,6 +63,8 @@
         <li><label>技巧</label></li>
 
           
+            <li><a title="海底捞点餐Pad 优化" href="15653325472073.html">海底捞点餐Pad 优化</a></li>
+          
             <li><a title="关于更换主题" href="15393255857280.html">关于更换主题</a></li>
           
             <li><a title="设置placeholder颜色" href="15257015417604.html">设置placeholder颜色</a></li>
@@ -181,7 +183,7 @@
           
             <li><a title="数据刷新崩溃" href="15460677821989.html">数据刷新崩溃</a></li>
           
-            <li><a title="CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法" href="15374224515215.html">CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法</a></li>
+            <li><a title="CocaPods 添加头文件的报错  的解决办法" href="15374224515215.html">CocaPods 添加头文件的报错  的解决办法</a></li>
           
             <li><a title="控制器透明，WebView透明" href="15323970557540.html">控制器透明，WebView透明</a></li>
           
@@ -376,6 +378,8 @@
                     
                       <li class="side-title"><span>技巧</span></li>
                         
+                          <li><a title="海底捞点餐Pad 优化" href="15653325472073.html">海底捞点餐Pad 优化</a></li>
+                        
                           <li><a title="关于更换主题" href="15393255857280.html">关于更换主题</a></li>
                         
                           <li><a title="设置placeholder颜色" href="15257015417604.html">设置placeholder颜色</a></li>
@@ -490,7 +494,7 @@
                         
                           <li><a title="数据刷新崩溃" href="15460677821989.html">数据刷新崩溃</a></li>
                         
-                          <li><a title="CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法" href="15374224515215.html">CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法</a></li>
+                          <li><a title="CocaPods 添加头文件的报错  的解决办法" href="15374224515215.html">CocaPods 添加头文件的报错  的解决办法</a></li>
                         
                           <li><a title="控制器透明，WebView透明" href="15323970557540.html">控制器透明，WebView透明</a></li>
                         
@@ -654,11 +658,29 @@
 
 	
 		<div class="markdown-body">
-		<h1>Texture  中ASButtonNode设置图片崩溃</h1>
+		<h1>海底捞点餐Pad 优化</h1>
 
-		<p>解决方案：<img src="media/15585883897383/WX20190523-110605@2x.png" alt="WX20190523-110605@2x"/></p>
+		<h2 id="toc_0">1. cell 显示优化</h2>
 
-<p>Assets中的图片Slicing 设置<code>Center</code>为<code>Stretches</code></p>
+<p>海底捞的每个菜品都有很多标签，比如清真，推荐，麻辣等等<br/>
+这些标签是有规律的，最多显示6个。没有优化前采用的是存在就创建，这样在iPad Air上面滑动感觉不出卡顿但是在一些老pad 比如 iPad mini 上就会出现卡顿现象。<br/>
+解决方案：<br/>
+提前创建好6个标签，然后根据数据设置显示内容并控制显隐</p>
+
+<p>这样做能有效的提高老pad的显示效果。</p>
+
+<h2 id="toc_1">2. 数据处理优化</h2>
+
+<p>数据源同步问题，问题描述： pad可以更新数据，定时器拉取数据，推送过来的数据</p>
+
+<p><img src="media/15653325472073/15653335091232.jpg" alt="" style="width:500px;"/></p>
+
+<p>解决方案一： 并发访问数据拷贝<br/>
+主线程和子线程都操作数据源的时候，可以把数据源给子线程拷贝一份让子线程操作，当子线程操作完返回给主线程的时候把主线程操作的过程在数据源中再次执行一次然后更新数据显示。<br/>
+主要的技术点是记录主线程操作步骤</p>
+
+<p>解决方案二： 串行访问<br/>
+操作访问的都是同一数据源，能够保证操作数据不出错。但是有一个问题就是如果子线程正在操作数据这个时候主线程有一个修改操作会导致主线程等待，用户会有卡的感觉。</p>
 
 
 		</div>

@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2019-01-04T11:15:40+08:00</updated>
+  <updated>2019-08-09T15:01:39+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -12,6 +12,37 @@
   </author>
   <generator uri="http://www.mweb.im">MWeb</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[海底捞点餐Pad 优化]]></title>
+    <link href="http://www.citynight.cn/Blog/15653325472073.html"/>
+    <updated>2019-08-09T14:35:47+08:00</updated>
+    <id>http://www.citynight.cn/Blog/15653325472073.html</id>
+    <content type="html"><![CDATA[
+<h2 id="toc_0">1. cell 显示优化</h2>
+
+<p>海底捞的每个菜品都有很多标签，比如清真，推荐，麻辣等等<br/>
+这些标签是有规律的，最多显示6个。没有优化前采用的是存在就创建，这样在iPad Air上面滑动感觉不出卡顿但是在一些老pad 比如 iPad mini 上就会出现卡顿现象。<br/>
+解决方案：<br/>
+提前创建好6个标签，然后根据数据设置显示内容并控制显隐</p>
+
+<p>这样做能有效的提高老pad的显示效果。</p>
+
+<h2 id="toc_1">2. 数据处理优化</h2>
+
+<p>数据源同步问题，问题描述： pad可以更新数据，定时器拉取数据，推送过来的数据</p>
+
+<p><img src="media/15653325472073/15653335091232.jpg" alt="" style="width:500px;"/></p>
+
+<p>解决方案一： 并发访问数据拷贝<br/>
+主线程和子线程都操作数据源的时候，可以把数据源给子线程拷贝一份让子线程操作，当子线程操作完返回给主线程的时候把主线程操作的过程在数据源中再次执行一次然后更新数据显示。<br/>
+主要的技术点是记录主线程操作步骤</p>
+
+<p>解决方案二： 串行访问<br/>
+操作访问的都是同一数据源，能够保证操作数据不出错。但是有一个问题就是如果子线程正在操作数据这个时候主线程有一个修改操作会导致主线程等待，用户会有卡的感觉。</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Texture  中ASButtonNode设置图片崩溃]]></title>
@@ -815,7 +846,7 @@ public void doRight(JSONObject userInfo){
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[CocaPods 添加头文件的报错failed to emit precompiled header 的解决办法]]></title>
+    <title type="html"><![CDATA[CocaPods 添加头文件的报错  的解决办法]]></title>
     <link href="http://www.citynight.cn/Blog/15374224515215.html"/>
     <updated>2018-09-20T13:47:31+08:00</updated>
     <id>http://www.citynight.cn/Blog/15374224515215.html</id>
@@ -1268,31 +1299,6 @@ highPriorityQueue.async {
 </code></pre>
 
 <pre><code class="language-text">killall Dock
-</code></pre>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Carthage 不能正常更新]]></title>
-    <link href="http://www.citynight.cn/Blog/15257016195473.html"/>
-    <updated>2018-05-07T22:00:19+08:00</updated>
-    <id>http://www.citynight.cn/Blog/15257016195473.html</id>
-    <content type="html"><![CDATA[
-<p>报错</p>
-
-<pre><code class="language-text">➜  PersonalMusic git:(master) carthage update
-*** Cloning GCDWebServer
-A shell task (/usr/bin/env git clone --bare --quiet https://github.com/swisspol/GCDWebServer.git /Users/lixzzzzzz/Library/Caches/org.carthage.CarthageKit/dependencies/GCDWebServer) failed with exit code 128:
-fatal: unable to access &#39;https://github.com/swisspol/GCDWebServer.git/&#39;: LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to github.com:443
-
-</code></pre>
-
-<p>解决办法：</p>
-
-<p>清缓存</p>
-
-<pre><code class="language-text">rm -rf ~/Library/Caches/org.carthage.CarthageKit
 </code></pre>
 
 ]]></content>
