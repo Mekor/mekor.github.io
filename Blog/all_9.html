@@ -47,6 +47,10 @@
         <li><label>原理探究</label></li>
 
           
+            <li><a title="图像显示原理" href="15653483390225.html">图像显示原理</a></li>
+          
+            <li><a title="事件传递" href="15653376209289.html">事件传递</a></li>
+          
             <li><a title="转发机制" href="14733118707964.html">转发机制</a></li>
           
             <li><a title="RunLoop" href="14731740142157.html">RunLoop</a></li>
@@ -321,6 +325,8 @@
         <li><label>Documentation</label></li>
 
           
+            <li><a title="# 深入理解 iOS 事件机制" href="15654059537017.html"># 深入理解 iOS 事件机制</a></li>
+          
             <li><a title="framework脚本" href="15345002536089.html">framework脚本</a></li>
           
             <li><a title="企业证书需要" href="15132354899270.html">企业证书需要</a></li>
@@ -363,6 +369,10 @@
 
                     
                       <li class="side-title"><span>原理探究</span></li>
+                        
+                          <li><a title="图像显示原理" href="15653483390225.html">图像显示原理</a></li>
+                        
+                          <li><a title="事件传递" href="15653376209289.html">事件传递</a></li>
                         
                           <li><a title="转发机制" href="14733118707964.html">转发机制</a></li>
                         
@@ -622,6 +632,8 @@
                     
                       <li class="side-title"><span>Documentation</span></li>
                         
+                          <li><a title="# 深入理解 iOS 事件机制" href="15654059537017.html"># 深入理解 iOS 事件机制</a></li>
+                        
                           <li><a title="framework脚本" href="15345002536089.html">framework脚本</a></li>
                         
                           <li><a title="企业证书需要" href="15132354899270.html">企业证书需要</a></li>
@@ -658,28 +670,40 @@
 
 	
 		<div class="markdown-body">
-		<h1>Mac zsh 使用命令打开sublime</h1>
+		<h1>项目优化记录</h1>
 
-		<h2 id="toc_0">1/添加</h2>
+		<h2 id="toc_0">首页显示</h2>
 
-<p><code>vim .zshrc</code></p>
+<p>重点: 数据处理放在获取数据的时候,尽管这样数据不会实时更新,但是保证了数据显示的速度.<br/>
+关于Cache, 目前使用数据库.关于异步访问要用 <code>safeAsync</code></p>
 
-<p>添加 <br/>
- <code>alias subl=&quot;open -a Sublime\ Text&quot;</code>（如果你是Sublime Text ）<br/>
-  或者<br/>
-<code>alias subl=&quot;open -a Sublime\ Text\ 2&quot;</code> （如果你是Sublime Text 2）</p>
+<pre><code class="language-text">extension DispatchQueue {
+    // This method will dispatch the `block` to self.
+    // If `self` is the main queue, and current thread is main thread, the block
+    // will be invoked immediately instead of being dispatched.
+    func safeAsync(_ block: @escaping ()-&gt;()) {
+        if self === DispatchQueue.main &amp;&amp; Thread.isMainThread {
+            block()
+        } else {
+            async { block() }
+        }
+    }
+}
+</code></pre>
 
-<h2 id="toc_1">2/生效</h2>
+<h2 id="toc_1">Topbar 移除</h2>
 
-<p><code>source ~/.zshrc</code></p>
+<p>这个原有的导航对项目入侵太深,已经忍无可忍了...这周终于下决心移除它用原生的导航栏和自定义视图代替她..进展非常顺利.写了一天自定义控件,然后让大家各自把自己的控制过滤一遍.总耗时,我自己一天,其他同事不到1个小时.还是非常顺利的.用比较少的时间完成了项目中的毒瘤.</p>
 
-<h2 id="toc_2">3/测试</h2>
+<h2 id="toc_2">下拉刷新封装</h2>
 
-<p>在命令行输入：<br/>
-    <code>subl</code>     就可以打开sublime</p>
+<p>老版本使用的是<code>MJRefresh</code> 但是需要定制, 在老项目中我是通过继承完成的功能修改,这样做的原因是老项目是OC和Swift混编的,而且都是把第三方库源文件拖到项目中的方式进行的. 在重构的时候我把第三方库放到了公司的git上,然后更改源码.再打包成成库调用.</p>
 
-<p>输入：<br/>
-    <code>subl test.txt</code> 就可以打开文件</p>
+<h2 id="toc_3">关于时间比较</h2>
+
+<p>新项目中存在一个功能比如 <code>10:00:00</code> 到 <code>11:59:59</code> 算早市,需要判断当前时间是否是早市. 一种更方便的处理方式:</p>
+
+<p>时间格式 <code>HH:mm:ss</code> 一共6位数字,我们可以去掉中间的<code>:</code>,这样时间就是一个整数了,然后三个整数之间进行比较比 先比小时再比分钟最后比秒数要方便很多.</p>
 
 
 		</div>

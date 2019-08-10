@@ -47,6 +47,10 @@
         <li><label>原理探究</label></li>
 
           
+            <li><a title="图像显示原理" href="15653483390225.html">图像显示原理</a></li>
+          
+            <li><a title="事件传递" href="15653376209289.html">事件传递</a></li>
+          
             <li><a title="转发机制" href="14733118707964.html">转发机制</a></li>
           
             <li><a title="RunLoop" href="14731740142157.html">RunLoop</a></li>
@@ -321,6 +325,8 @@
         <li><label>Documentation</label></li>
 
           
+            <li><a title="# 深入理解 iOS 事件机制" href="15654059537017.html"># 深入理解 iOS 事件机制</a></li>
+          
             <li><a title="framework脚本" href="15345002536089.html">framework脚本</a></li>
           
             <li><a title="企业证书需要" href="15132354899270.html">企业证书需要</a></li>
@@ -363,6 +369,10 @@
 
                     
                       <li class="side-title"><span>原理探究</span></li>
+                        
+                          <li><a title="图像显示原理" href="15653483390225.html">图像显示原理</a></li>
+                        
+                          <li><a title="事件传递" href="15653376209289.html">事件传递</a></li>
                         
                           <li><a title="转发机制" href="14733118707964.html">转发机制</a></li>
                         
@@ -622,6 +632,8 @@
                     
                       <li class="side-title"><span>Documentation</span></li>
                         
+                          <li><a title="# 深入理解 iOS 事件机制" href="15654059537017.html"># 深入理解 iOS 事件机制</a></li>
+                        
                           <li><a title="framework脚本" href="15345002536089.html">framework脚本</a></li>
                         
                           <li><a title="企业证书需要" href="15132354899270.html">企业证书需要</a></li>
@@ -658,37 +670,18 @@
 
 	
 		<div class="markdown-body">
-		<h1>Swift - 面向协议编程</h1>
+		<h1>Scroll UICollectionView to section header view</h1>
 
-		<p>跟全部写在base中比较:</p>
+		<p>新界面左右联动的时候遇到了一个问题,怎么在左侧tableView点击某一cell的时候右侧collectionView跳转到对应的section</p>
 
-<ol>
-<li>代码没有增多,却更复用</li>
-<li>面向协议(接口),而不是实现,充分解耦</li>
-<li>静态类型检查版主在编译时发现问题</li>
-<li>写代码像搭积木,先设计接口,再逐一实现</li>
-<li>依赖少,更容易调试</li>
-</ol>
+<p>如果没有section header View 的时候直接跳转到这个section的第一个Item就ok了,但是如果有section header View 的时候就需要注意了,不能这样进行跳转了,下面👇是经过测试的方法能够完美跳转到相应的section:</p>
 
-<pre><code class="language-text">protocol Hello {
-    func sayHello()
-}
+<pre><code class="language-text">let attributes = self.collectionView.collectionViewLayout.layoutAttributesForSupplementaryViewOfKind(UICollectionElementKindSectionHeader, atIndexPath: NSIndexPath(forItem: 0, inSection: index))
 
-extension Hello {
-    func sayHello() {
-        print(&quot;Hello!&quot;)
-    }
-}
-
-struct Person: Hello {
-    
-}
-
-let p = Person()
-p.sayHello()
+self.collectionView.setContentOffset(CGPointMake(0, attributes!.frame.origin.y - self.collectionView.contentInset.top), animated: true)
 </code></pre>
 
-<p>创建一个协议,并且做一个默认实现.使用的时候可以直接调用</p>
+<p>参见:<a href="http://stackoverflow.com/questions/22100227/scroll-uicollectionview-to-section-header-view">Scroll UICollectionView to section header view</a></p>
 
 
 		</div>

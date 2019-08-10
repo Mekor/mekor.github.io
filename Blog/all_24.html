@@ -47,6 +47,10 @@
         <li><label>原理探究</label></li>
 
           
+            <li><a title="图像显示原理" href="15653483390225.html">图像显示原理</a></li>
+          
+            <li><a title="事件传递" href="15653376209289.html">事件传递</a></li>
+          
             <li><a title="转发机制" href="14733118707964.html">转发机制</a></li>
           
             <li><a title="RunLoop" href="14731740142157.html">RunLoop</a></li>
@@ -321,6 +325,8 @@
         <li><label>Documentation</label></li>
 
           
+            <li><a title="# 深入理解 iOS 事件机制" href="15654059537017.html"># 深入理解 iOS 事件机制</a></li>
+          
             <li><a title="framework脚本" href="15345002536089.html">framework脚本</a></li>
           
             <li><a title="企业证书需要" href="15132354899270.html">企业证书需要</a></li>
@@ -363,6 +369,10 @@
 
                     
                       <li class="side-title"><span>原理探究</span></li>
+                        
+                          <li><a title="图像显示原理" href="15653483390225.html">图像显示原理</a></li>
+                        
+                          <li><a title="事件传递" href="15653376209289.html">事件传递</a></li>
                         
                           <li><a title="转发机制" href="14733118707964.html">转发机制</a></li>
                         
@@ -622,6 +632,8 @@
                     
                       <li class="side-title"><span>Documentation</span></li>
                         
+                          <li><a title="# 深入理解 iOS 事件机制" href="15654059537017.html"># 深入理解 iOS 事件机制</a></li>
+                        
                           <li><a title="framework脚本" href="15345002536089.html">framework脚本</a></li>
                         
                           <li><a title="企业证书需要" href="15132354899270.html">企业证书需要</a></li>
@@ -658,224 +670,43 @@
 
 	
 		<div class="markdown-body">
-		<h1>关于tableViewCell加载图片优化</h1>
+		<h1>Python爬网站上的图片</h1>
 
-		<p>cell的创建</p>
+		<p>以<a href="http://ppt.geekbang.org">极客邦PPT大全</a>为例,比如我想下载<a href="http://ppt.geekbang.org/slide/show/204">美团iOS客户端的构建思考与实践</a></p>
 
-<pre><code class="language-text">- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+<ol>
+<li>查看图片url
+<img src="media/14689829459214/14689832970971.jpg" alt=""/></li>
+<li>图片url的格式<a href="http://7xiox7.com2.z0.glb.qiniucdn.com/576e52fb28bf9-01.jpg">http://7xiox7.com2.z0.glb.qiniucdn.com/576e52fb28bf9-01.jpg</a>  总共101张图片</li>
+<li>根据这些编写Python文件</li>
+</ol>
+
+<pre><code class="language-text">#!/usr/bin/python
+#coding:utf-8
+
+import urllib
+import urllib2
+import os
+
+basepicurl=&quot;http://7xiox7.com2.z0.glb.qiniucdn.com/576e52fb28bf9-&quot;
+save_path=&quot;/Users/mekor/Desktop/images/&quot;
+for i in range(1,102,1):
+    s = &quot;%02d&quot; % i
+    picurl = basepicurl + s + &quot;.jpg&quot;
+    imgData = urllib2.urlopen(picurl).read()
+    # 给定图片存放名称
+    fileName = save_path + s + &quot;.jpg&quot;
+    # 文件名是否存在
+    #if os.path.exists(fileName):
+    output = open(fileName,&#39;wb+&#39;)
+    output.write(imgData)
+    output.close()
+    print &quot;Finished download&quot;+ s
+
+print &quot;运行完成&quot;
 </code></pre>
 
-<p>数据处理建议在这里进行:</p>
-
-<pre><code class="language-text">-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-</code></pre>
-
-<p>cell将要显示的时候我们进行一些处理(来自苹果Demo)</p>
-
-<pre><code class="language-text">// Only load cached images; defer new downloads until scrolling ends
-if (!appRecord.appIcon)
-{
-    if (self.tableView.dragging == NO &amp;&amp; self.tableView.decelerating == NO)
-    {
-        [self startIconDownload:appRecord forIndexPath:indexPath];
-    }
-    // if a download is deferred or in progress, return a placeholder image
-    cell.imageView.image = [UIImage imageNamed:@&quot;Placeholder.png&quot;];
-}
-else
-{
-    cell.imageView.image = appRecord.appIcon;
-}
-</code></pre>
-
-<p>这里可以看出,拖拽和滚动的时候不进行图片下载,只有停止的时候才进行.当然我们还需要在scrollView停止滚动和拖拽的时候进行下载</p>
-
-<pre><code class="language-text">#pragma mark - UIScrollViewDelegate
-
-// -------------------------------------------------------------------------------
-//  scrollViewDidEndDragging:willDecelerate:
-//  Load images for all onscreen rows when scrolling is finished.
-// -------------------------------------------------------------------------------
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-{
-    if (!decelerate)
-    {
-        [self loadImagesForOnscreenRows];
-    }
-}
-
-// -------------------------------------------------------------------------------
-//  scrollViewDidEndDecelerating:scrollView
-//  When scrolling stops, proceed to load the app icons that are on screen.
-// -------------------------------------------------------------------------------
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-    [self loadImagesForOnscreenRows];
-}
-
-</code></pre>
-
-<p>下载显示cell的图片</p>
-
-<pre><code class="language-text">// -------------------------------------------------------------------------------
-//  loadImagesForOnscreenRows
-//  This method is used in case the user scrolled into a set of cells that don&#39;t
-//  have their app icons yet.
-// -------------------------------------------------------------------------------
-- (void)loadImagesForOnscreenRows
-{
-    if (self.entries.count &gt; 0)
-    {
-        NSArray *visiblePaths = [self.tableView indexPathsForVisibleRows];
-        for (NSIndexPath *indexPath in visiblePaths)
-        {
-            AppRecord *appRecord = (self.entries)[indexPath.row];
-            
-            if (!appRecord.appIcon)
-            // Avoid the app icon download if the app already has an icon
-            {
-                [self startIconDownload:appRecord forIndexPath:indexPath];
-            }
-        }
-    }
-}
-</code></pre>
-
-<p>具体下载:</p>
-
-<pre><code class="language-text">#pragma mark - Table cell image support
-
-// -------------------------------------------------------------------------------
-//  startIconDownload:forIndexPath:
-// -------------------------------------------------------------------------------
-- (void)startIconDownload:(AppRecord *)appRecord forIndexPath:(NSIndexPath *)indexPath
-{
-    NSLog(@&quot;下载图片&quot;);
-    IconDownloader *iconDownloader = (self.imageDownloadsInProgress)[indexPath];
-    if (iconDownloader == nil) 
-    {
-        iconDownloader = [[IconDownloader alloc] init];
-        iconDownloader.appRecord = appRecord;
-        [iconDownloader setCompletionHandler:^{
-            
-            UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-            
-            // Display the newly loaded image
-            cell.imageView.image = appRecord.appIcon;
-            
-            // Remove the IconDownloader from the in progress list.
-            // This will result in it being deallocated.
-            [self.imageDownloadsInProgress removeObjectForKey:indexPath];
-            
-        }];
-        (self.imageDownloadsInProgress)[indexPath] = iconDownloader;
-        [iconDownloader startDownload];  
-    }
-}
-</code></pre>
-
-<p>IconDownloader文件</p>
-
-<pre><code class="language-text">//.h文件
-@class AppRecord;
-
-@interface IconDownloader : NSObject
-
-@property (nonatomic, strong) AppRecord *appRecord;
-@property (nonatomic, copy) void (^completionHandler)(void);
-
-- (void)startDownload;
-- (void)cancelDownload;
-
-@end
-
-
-//.m文件
-#import &quot;IconDownloader.h&quot;
-#import &quot;AppRecord.h&quot;
-
-#define kAppIconSize 48
-
-
-@interface IconDownloader ()
-
-@property (nonatomic, strong) NSURLSessionDataTask *sessionTask;
-
-@end
-
-
-#pragma mark -
-
-@implementation IconDownloader
-
-// -------------------------------------------------------------------------------
-//  startDownload
-// -------------------------------------------------------------------------------
-- (void)startDownload
-{
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.appRecord.imageURLString]];
-
-    // create an session data task to obtain and download the app icon
-    _sessionTask = [[NSURLSession sharedSession] dataTaskWithRequest:request
-                                                   completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        
-        // in case we want to know the response status code
-        //NSInteger HTTPStatusCode = [(NSHTTPURLResponse *)response statusCode];
-
-        if (error != nil)
-        {
-            if ([error code] == NSURLErrorAppTransportSecurityRequiresSecureConnection)
-            {
-                // if you get error NSURLErrorAppTransportSecurityRequiresSecureConnection (-1022),
-                // then your Info.plist has not been properly configured to match the target server.
-                //
-                abort();
-            }
-        }
-                                                       
-        [[NSOperationQueue mainQueue] addOperationWithBlock: ^{
-            
-            // Set appIcon and clear temporary data/image
-            UIImage *image = [[UIImage alloc] initWithData:data];
-            
-            if (image.size.width != kAppIconSize || image.size.height != kAppIconSize)
-            {
-                CGSize itemSize = CGSizeMake(kAppIconSize, kAppIconSize);
-                UIGraphicsBeginImageContextWithOptions(itemSize, NO, 0.0f);
-                CGRect imageRect = CGRectMake(0.0, 0.0, itemSize.width, itemSize.height);
-                [image drawInRect:imageRect];
-                self.appRecord.appIcon = UIGraphicsGetImageFromCurrentImageContext();
-                UIGraphicsEndImageContext();
-            }
-            else
-            {
-                self.appRecord.appIcon = image;
-            }
-            
-            // call our completion handler to tell our client that our icon is ready for display
-            if (self.completionHandler != nil)
-            {
-                self.completionHandler();
-            }
-        }];
-    }];
-    
-    [self.sessionTask resume];
-}
-
-// -------------------------------------------------------------------------------
-//  cancelDownload
-// -------------------------------------------------------------------------------
-- (void)cancelDownload
-{
-    [self.sessionTask cancel];
-    _sessionTask = nil;
-}
-</code></pre>
-
-<blockquote>
-<p><a href="https://developer.apple.com/library/ios/samplecode/LazyTableImages/Introduction/Intro.html">Apple Demo</a></p>
-</blockquote>
+<p>这样就能够把所有的图片爬到本地了.</p>
 
 
 		</div>

@@ -47,6 +47,10 @@
         <li><label>原理探究</label></li>
 
           
+            <li><a title="图像显示原理" href="15653483390225.html">图像显示原理</a></li>
+          
+            <li><a title="事件传递" href="15653376209289.html">事件传递</a></li>
+          
             <li><a title="转发机制" href="14733118707964.html">转发机制</a></li>
           
             <li><a title="RunLoop" href="14731740142157.html">RunLoop</a></li>
@@ -321,6 +325,8 @@
         <li><label>Documentation</label></li>
 
           
+            <li><a title="# 深入理解 iOS 事件机制" href="15654059537017.html"># 深入理解 iOS 事件机制</a></li>
+          
             <li><a title="framework脚本" href="15345002536089.html">framework脚本</a></li>
           
             <li><a title="企业证书需要" href="15132354899270.html">企业证书需要</a></li>
@@ -363,6 +369,10 @@
 
                     
                       <li class="side-title"><span>原理探究</span></li>
+                        
+                          <li><a title="图像显示原理" href="15653483390225.html">图像显示原理</a></li>
+                        
+                          <li><a title="事件传递" href="15653376209289.html">事件传递</a></li>
                         
                           <li><a title="转发机制" href="14733118707964.html">转发机制</a></li>
                         
@@ -622,6 +632,8 @@
                     
                       <li class="side-title"><span>Documentation</span></li>
                         
+                          <li><a title="# 深入理解 iOS 事件机制" href="15654059537017.html"># 深入理解 iOS 事件机制</a></li>
+                        
                           <li><a title="framework脚本" href="15345002536089.html">framework脚本</a></li>
                         
                           <li><a title="企业证书需要" href="15132354899270.html">企业证书需要</a></li>
@@ -658,40 +670,314 @@
 
 	
 		<div class="markdown-body">
-		<h1>基础拾遗</h1>
+		<h1>RunLoop</h1>
 
-		<p><img src="media/14727432716172/14727432899236.jpg" alt=""/></p>
+		<h2 id="toc_0">1. 什么是runloop</h2>
 
-<h2 id="toc_0">self和super区别</h2>
+<ul>
+<li>Run loops 是线程相关的的基础框架的一部分。一个 run loop 就是一个事件处理 的循环,用来不停的调度工作以及处理输入事件。使用 run loop 的目的是让你的线程在有工作的时候忙于工作,而没工作的时候处于休眠状态。</li>
+<li>runloop就是运行循环(内部do-while),它的基本作用就是让程序持续运行,处理App中的各种事件(触摸,定时器,Selector).</li>
+<li>main函数中UIApplicationMain内部就启动了一个runloop,这样UIApplicationMain就会一直没有返回值,保持了程序的持续运行.这个默认的runloop是跟主线程相关联的.</li>
+<li>runloop 只能选择一个模式(Mode)启动,如果想切换其他模式只能退出当前循环再切换其他模式.如果当前模式中没有任何Source,timer,observer就会退出runloop</li>
+</ul>
 
-<p>要点：</p>
+<h2 id="toc_1">2. RunLoop与线程</h2>
 
-<ol>
-<li>self调用自己方法，super调用父类方法</li>
-<li>self是类，super是预编译指令</li>
-<li>【self class】和【super class】输出是一样的</li>
-</ol>
+<p>每条线程都有唯一的一个与之对应的RunLoop对象,主线程的RunLoop启动的时候已经默认创建好了,其他线程的RunLoop需要主动创建(RunLoop在第一次获取的时候创建,在线程结束的时候销毁)</p>
 
-<p>self和super底层实现原理：</p>
+<h2 id="toc_2">3. RunLoop对象</h2>
 
-<ol>
-<li>当使用 self 调用方法时，会从当前类的方法列表中开始找，如果没有，就从父类中再找；而当使用 super 时，则从父类的方法列表中开始找，然后调用父类的这个方法。</li>
-<li>当使用 self 调用时，会使用 <code>objc_msgSend</code> 函数：<code>id objc_msgSend(id theReceiver, SEL theSelector, ...)</code>。第 一个参数是消息接收者，第二个参数是调用的具体类方法的 <code>selector</code>，后面是 <code>selector</code> 方法的可变参数。以 <code>[self setName:]</code> 为例，编译器会替换成调用 <code>objc_msgSend</code> 的函数调用，其中 <code>theReceiver</code> 是 <code>self</code>，<code>theSelector</code> 是 <code>@selector(setName:)</code>，这个 <code>selector</code> 是从当前 <code>self</code> 的 <code>class</code> 的方法列表开始找的 <code>setName</code>，当找到后把对应的 <code>selector</code> 传递过去。</li>
-<li>当使用 <code>super</code> 调用时，会使用 <code>objc_msgSendSuper</code> 函数：<code>id objc_msgSendSuper(struct objc_super *super, SEL op, ...)</code>第一个参数是个<code>objc_super</code>的结构体，第二个参数还是类似上面的类方法的<code>selector</code>，</li>
-</ol>
+<h4 id="toc_3">iOS中有2套API来访问和使用runloop</h4>
 
-<pre><code class="language-text">struct objc_super {
-      id receiver;
-      Class superClass;
+<ul>
+<li> Foundation -&gt; NSRunLoop</li>
+<li> Core Foundation -&gt; CFRunLoopRef</li>
+</ul>
+
+<p>NSRunLoop和CFRunLoopRef都是runloop对象.NSRunLoop是基于CFRunLoopRef的一层OC封装</p>
+
+<h4 id="toc_4">获得RunLoop对象</h4>
+
+<ul>
+<li><p>Foundation </p>
+<pre><code class="language-objectivec">[NSRunLoop currentRunLoop]; // 获得当前线程的RunLoop对象
+[NSRunLoop mainRunLoop]; // 获得主线程的RunLoop对象
+</code></pre></li>
+<li><p>Core Foundation </p>
+<pre><code class="language-objectivec">CFRunLoopGetCurrent(): // 获得当前线程的RunLoop对象
+CFRunLoopGetMain(): //获得主线程的RunLoop对象
+</code></pre></li>
+</ul>
+
+<h2 id="toc_5">4. RunLoop相关类</h2>
+
+<h3 id="toc_6">Core Foundation中关于RunLoop的5个类</h3>
+
+<ul>
+<li>CFRunLoopRef</li>
+<li>CFRunLoopModeRef</li>
+<li>CFRunLoopSourceRef</li>
+<li>CFRunLoopTimerRef</li>
+<li>CFRunLoopObserverRef</li>
+</ul>
+
+<p>网上其他人博客总结(图一):<br/>
+<img src="media/14731740142157/14731758243846.jpg" alt=""/></p>
+
+<h3 id="toc_7">CFRunLoopModeRef(Run Loop 模式)</h3>
+
+<p><strong>CFRunLoopModeRef代表RunLoop的运行模式</strong>  一个RunLoop包含若干个Mode,每个Mode又包含若干个Source/Timer/Observer. 每次RunLoop启动时,只能指定其中一个Mode,这个Mode被称之为CurrentMode. 如果需要切换Mode,只能退出Loop,再重新指定一个Mode进入. 这样做主要是为了分隔开不同组的Source/Timer/Observer,让他们互不影响.</p>
+
+<p>Run loop 模式是所有要监视的输入源和定时源以及要通知的 run loop 注册观察者的集合。每次运行你的 run loop,你都要指定(无论显示还是隐式)其运行个模式。在 run loop 运行过程中,只有和模式相关的源才会被监视并允许他们传递事件消息。(类似的,只有和模式相关的观察者会通知 run loop 的进程)。和其他模式关联的源只有在 run loop 运行在其模式下才会运行,否则处于暂停状态。</p>
+
+<h3 id="toc_8">CFRunLoopModeRef</h3>
+
+<p><strong>系统默认注册了5个Mode:</strong></p>
+
+<ul>
+<li><p><strong>kCFRunLoopDefaultMode:</strong> App的默认Mode，通常主线程是在这个Mode下运行</p></li>
+<li><p><strong>UITrackingRunLoopMode:</strong> 界面跟踪 Mode，用于 ScrollView 追踪触摸滑动，保证界面滑动时不受其他 Mode 影响</p></li>
+<li><p><strong>UIInitializationRunLoopMode:</strong> 在刚启动 App 时第进入的第一个 Mode，启动完成后就不再使用</p></li>
+<li><p><strong>GSEventReceiveRunLoopMode:</strong> 接受系统事件的内部 Mode，通常用不到</p></li>
+<li><p><strong>kCFRunLoopCommonModes:</strong> 这是一个占位用的Mode，不是一种真正的Mode</p></li>
+</ul>
+
+<p>Cocoa 和 Core foundation 定义了一个默认的和一些常用的模式,通常在代码中都是用字符串来标识这些模式。当然你也可以给模式名称指定一个字符串来自定义模式.<br/>
+runloop一启动就会选中一种模式，当选中了一种模式之后其它的模式就都不鸟。一个mode里面可以添加多个NSTimer(见上面图一),也就是说以后当创建NSTimer的时候，可以指定它是在什么模式下运行的。</p>
+
+<h3 id="toc_9">CFRunLoopSourceRef</h3>
+
+<p><strong>CFRunLoopSourceRef是事件源（输入源）</strong></p>
+
+<p>输入源异步的发送消息给你的线程。事件来源取决于输入源的种类:基于端口的输入源和自定义输入源。基于端口的输入源监听程序相应的端口。自定义输入源则监听自定义的事件源。至于 run loop,它不关心输入源的是基于端口的输入源还是自 定义的输入源。系统会实现两种输入源供你使用。两类输入源的区别在于如何显示: 基于端口的输入源由内核自动发送,而自定义的则需要人工从其他线程发送。</p>
+
+<p>当你创建输入源,你需要将其分配给 run loop 中的一个或多个模式。模式只会 在特定事件影响监听的源。大多数情况下,run loop 运行在默认模式下,但是你也 可以使其运行在自定义模式。若某一源在当前模式下不被监听,那么任何其生成的消 息只在 run loop 运行在其关联的模式下才会被传递。</p>
+
+<p>以前的分法:<br/>
+Port-Based Sources<br/>
+Custom Input Sources<br/>
+Cocoa Perform Selector Sources</p>
+
+<p>现在的分法:<br/>
+Source0：非基于Port的<br/>
+Source1：基于Port的</p>
+
+<h3 id="toc_10">CFRunLoopTimerRef</h3>
+
+<p><strong>CFRunLoopTimerRef是基于时间的触发器</strong></p>
+
+<h4 id="toc_11">NSTimer:</h4>
+
+<pre><code class="language-text">- (void)timer2
+{
+    //NSTimer 调用了scheduledTimer方法，那么会自动添加到当前的runloop里面去，而且runloop的运行模式kCFRunLoopDefaultMode
+
+    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(run) userInfo:nil repeats:YES];
+
+    //更改模式
+    [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+
+}
+
+- (void)timer1
+{
+    //    [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(run) userInfo:nil repeats:YES];
+
+    NSTimer *timer = [NSTimer timerWithTimeInterval:2.0 target:self selector:@selector(run) userInfo:nil repeats:YES];
+
+    //定时器添加到UITrackingRunLoopMode模式，一旦runloop切换模式，那么定时器就不工作
+    //    [[NSRunLoop currentRunLoop] addTimer:timer forMode:UITrackingRunLoopMode];
+
+    //定时器添加到NSDefaultRunLoopMode模式，一旦runloop切换模式，那么定时器就不工作
+    //    [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
+
+    //占位模式：common modes标记
+    //被标记为common modes的模式 kCFRunLoopDefaultMode  UITrackingRunLoopMode
+    [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+
+    //    NSLog(@&quot;%@&quot;,[NSRunLoop currentRunLoop]);
+}
+
+- (void)run
+{
+    NSLog(@&quot;---run---%@&quot;,[NSRunLoop currentRunLoop].currentMode);
+}
+
+- (IBAction)btnClick {
+
+    NSLog(@&quot;---btnClick---&quot;);
+}
+</code></pre>
+
+<h4 id="toc_12">GCD中的定时器</h4>
+
+<pre><code class="language-text">//0.创建一个队列
+    dispatch_queue_t queue = dispatch_get_global_queue(0, 0);
+
+    //1.创建一个GCD的定时器
+    /*
+     第一个参数：说明这是一个定时器
+     第四个参数：GCD的回调任务添加到那个队列中执行，如果是主队列则在主线程执行
+     */
+    dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
+
+    //2.设置定时器的开始时间，间隔时间以及精准度
+
+    //设置开始时间，三秒钟之后调用
+    dispatch_time_t start = dispatch_time(DISPATCH_TIME_NOW,3.0 *NSEC_PER_SEC);
+    //设置定时器工作的间隔时间
+    uint64_t intevel = 1.0 * NSEC_PER_SEC;
+
+    /*
+     第一个参数：要给哪个定时器设置
+     第二个参数：定时器的开始时间DISPATCH_TIME_NOW表示从当前开始
+     第三个参数：定时器调用方法的间隔时间
+     第四个参数：定时器的精准度，如果传0则表示采用最精准的方式计算，如果传大于0的数值，则表示该定时切换i可以接收该值范围内的误差，通常传0
+     该参数的意义：可以适当的提高程序的性能
+     注意点：GCD定时器中的时间以纳秒为单位（面试）
+     */
+
+    dispatch_source_set_timer(timer, start, intevel, 0 * NSEC_PER_SEC);
+
+    //3.设置定时器开启后回调的方法
+    /*
+     第一个参数：要给哪个定时器设置
+     第二个参数：回调block
+     */
+    dispatch_source_set_event_handler(timer, ^{
+        NSLog(@&quot;------%@&quot;,[NSThread currentThread]);
+    });
+
+    //4.执行定时器
+    dispatch_resume(timer);
+
+    //注意：dispatch_source_t本质上是OC类，在这里是个局部变量，需要强引用
+    self.timer = timer;
+
+GCD定时器补充
+/*
+ DISPATCH_SOURCE_TYPE_TIMER         定时响应（定时器事件）
+ DISPATCH_SOURCE_TYPE_SIGNAL        接收到UNIX信号时响应
+
+ DISPATCH_SOURCE_TYPE_READ          IO操作，如对文件的操作、socket操作的读响应
+ DISPATCH_SOURCE_TYPE_WRITE         IO操作，如对文件的操作、socket操作的写响应
+ DISPATCH_SOURCE_TYPE_VNODE         文件状态监听，文件被删除、移动、重命名
+ DISPATCH_SOURCE_TYPE_PROC          进程监听,如进程的退出、创建一个或更多的子线程、进程收到UNIX信号
+
+ 下面两个都属于Mach相关事件响应
+    DISPATCH_SOURCE_TYPE_MACH_SEND
+    DISPATCH_SOURCE_TYPE_MACH_RECV
+ 下面两个都属于自定义的事件，并且也是有自己来触发
+    DISPATCH_SOURCE_TYPE_DATA_ADD
+    DISPATCH_SOURCE_TYPE_DATA_OR
+ */
+</code></pre>
+
+<h3 id="toc_13">CFRunLoopObserverRef</h3>
+
+<p><strong>CFRunLoopObserverRef是观察者，能够监听RunLoop的状态改变</strong></p>
+
+<p>可以监听的时间点有以下几个</p>
+
+<pre><code class="language-text">/* Run Loop Observer Activities */
+typedef CF_OPTIONS(CFOptionFlags, CFRunLoopActivity) {
+    kCFRunLoopEntry = (1UL &lt;&lt; 0),           // 即将进入 Loop
+    kCFRunLoopBeforeTimers = (1UL &lt;&lt; 1),    // 即将处理 Timer
+    kCFRunLoopBeforeSources = (1UL &lt;&lt; 2),   // 即将处理 Source
+    kCFRunLoopBeforeWaiting = (1UL &lt;&lt; 5),   // 即将进入休眠
+    kCFRunLoopAfterWaiting = (1UL &lt;&lt; 6),    // 刚从休眠中唤醒
+    kCFRunLoopExit = (1UL &lt;&lt; 7),            // 刚从休眠中唤醒
+    kCFRunLoopAllActivities = 0x0FFFFFFFU   // 所有状态改变
 };
 </code></pre>
 
-<p>当编译器遇到  <code>[super setName:]</code> 时，开始做这几个事：</p>
+<p>如何监听:</p>
 
-<p>1）构建 <code>objc_super</code> 的结构体，此时这个结构体的第一个成员变量 <code>receiver</code> 就是子类，和 <code>self</code> 相同。而第二个成员变量 <code>superClass</code> 就是指父类<br/>
-调用 <code>objc_msgSendSuper</code> 的方法，将这个结构体和 <code>setName</code> 的 <code>sel</code> 传递过去。</p>
+<pre><code class="language-text"> //创建一个runloop监听者
+    CFRunLoopObserverRef observer = CFRunLoopObserverCreateWithHandler(CFAllocatorGetDefault(),kCFRunLoopAllActivities, YES, 0, ^(CFRunLoopObserverRef observer, CFRunLoopActivity activity) {
 
-<p>2）函数里面在做的事情类似这样：从 <code>objc_super</code> 结构体指向的 <code>superClass</code> 的方法列表开始找 <code>setName</code> 的 <code>selector</code>，找到后再以 <code>objc_super-&gt;receiver</code> 去调用这个 <code>selector</code></p>
+        NSLog(@&quot;监听runloop状态改变---%zd&quot;,activity);
+    });
+
+    //为runloop添加一个监听者
+    CFRunLoopAddObserver(CFRunLoopGetCurrent(), observer, kCFRunLoopDefaultMode);
+
+    CFRelease(observer);
+</code></pre>
+
+<h2 id="toc_14">5. RunLoop处理逻辑</h2>
+
+<p><img src="media/14731740142157/14732109138343.jpg" alt=""/><br/>
+<img src="media/14731740142157/14732110397325.jpg" alt=""/></p>
+
+<p>网友整理如下:<br/>
+<img src="media/14731740142157/14732111027007.jpg" alt=""/></p>
+
+<h2 id="toc_15">6.RunLoop应用</h2>
+
+<ul>
+<li>NSTimer</li>
+<li>ImageView显示  控制方法在特定的模式下可用</li>
+<li>PerformSelector</li>
+<li>常驻线程 在子线程中开启一个runloop</li>
+<li>自动释放池
+<ul>
+<li>第一次创建：进入runloop的时候</li>
+<li>最后一次释放：runloop退出的时候</li>
+<li>其它创建和释放：当runloop即将休眠的时候会把之前的自动释放池释放，然后重新创建一个新的释放池</li>
+</ul></li>
+</ul>
+
+<h3 id="toc_16">常见问题</h3>
+
+<blockquote>
+<p>自动释放池什么时候释放?</p>
+</blockquote>
+
+<p>通过Obserber监听在runloop的状态,一旦监听到runloop即将进行睡眠等待状态(kCFRunLoopBeforeWaiting),就释放</p>
+
+<p><img src="media/14731740142157/15167055358673.jpg" alt=""/></p>
+
+<blockquote>
+<p>在开发中如何使用runloop?</p>
+</blockquote>
+
+<ol>
+<li>开启一个常驻线程(让一个子线程不进入消亡状态,等待从其他线程发来的消息,处理各种事件)举例:1&gt;在子线程中开启一个定时器 2&gt; 在子线程中进行一些场景监控</li>
+<li>可以控制定时器在那种模式下运行</li>
+<li>可以让某些事件(行为,任务)在特定模式下执行(performSelector)</li>
+<li>可以添加observer监听runloop的一些状态,比如监听点击事件的处理(在所有点击事件处理之前做一些事情)<br/>
+###参考资料:</li>
+</ol>
+
+<hr/>
+
+<p>官方文档 <a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/Multithreading/RunLoopManagement/RunLoopManagement.html">Threading Programming Guide</a><br/><br/>
+CFRunLoopRef<a href="http://opensource.apple.com/source/CF/CF-1151.16/">源代码</a></p>
+
+<h3 id="toc_17">最后给出几个学习链接</h3>
+
+<p><a href="http://www.jianshu.com/p/20d3bb3e8df5">RunLoop深度探究（一）</a></p>
+
+<p><a href="http://www.jianshu.com/p/6582c47a13c8">RunLoop深度探究（二）</a></p>
+
+<p><a href="http://www.jianshu.com/p/240683510692">RunLoop深度探究（三）</a></p>
+
+<p><a href="http://www.jianshu.com/p/f3ed25944aef">RunLoop深度探究（四）</a></p>
+
+<p><a href="http://www.jianshu.com/p/1c50d0b0fe1a">RunLoop深度探究（五）</a></p>
+
+<p><a href="http://www.jianshu.com/p/dc7ce81eda23">深入理解RunLoop文章</a></p>
+
+<p><a href="http://blog.ibireme.com/2015/05/18/runloop/">http://blog.ibireme.com/2015/05/18/runloop/</a></p>
+
+<p><a href="http://www.jianshu.com/p/ccd379c6db98">读 Threading Programming Guide 笔记（一）</a></p>
+
+<p><a href="http://www.jianshu.com/p/30782af3fe1a">读 Threading Programming Guide 笔记（二）</a></p>
+
+<p><a href="http://www.jianshu.com/p/30782af3fe1a">读 Threading Programming Guide 笔记（三）</a></p>
+
+<p><a href="http://www.jianshu.com/p/ccd379c6db98">读 Threading Programming Guide 笔记（四）</a></p>
 
 
 		</div>

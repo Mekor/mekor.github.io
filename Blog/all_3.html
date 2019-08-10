@@ -47,6 +47,10 @@
         <li><label>原理探究</label></li>
 
           
+            <li><a title="图像显示原理" href="15653483390225.html">图像显示原理</a></li>
+          
+            <li><a title="事件传递" href="15653376209289.html">事件传递</a></li>
+          
             <li><a title="转发机制" href="14733118707964.html">转发机制</a></li>
           
             <li><a title="RunLoop" href="14731740142157.html">RunLoop</a></li>
@@ -321,6 +325,8 @@
         <li><label>Documentation</label></li>
 
           
+            <li><a title="# 深入理解 iOS 事件机制" href="15654059537017.html"># 深入理解 iOS 事件机制</a></li>
+          
             <li><a title="framework脚本" href="15345002536089.html">framework脚本</a></li>
           
             <li><a title="企业证书需要" href="15132354899270.html">企业证书需要</a></li>
@@ -363,6 +369,10 @@
 
                     
                       <li class="side-title"><span>原理探究</span></li>
+                        
+                          <li><a title="图像显示原理" href="15653483390225.html">图像显示原理</a></li>
+                        
+                          <li><a title="事件传递" href="15653376209289.html">事件传递</a></li>
                         
                           <li><a title="转发机制" href="14733118707964.html">转发机制</a></li>
                         
@@ -622,6 +632,8 @@
                     
                       <li class="side-title"><span>Documentation</span></li>
                         
+                          <li><a title="# 深入理解 iOS 事件机制" href="15654059537017.html"># 深入理解 iOS 事件机制</a></li>
+                        
                           <li><a title="framework脚本" href="15345002536089.html">framework脚本</a></li>
                         
                           <li><a title="企业证书需要" href="15132354899270.html">企业证书需要</a></li>
@@ -658,43 +670,16 @@
 
 	
 		<div class="markdown-body">
-		<h1>解决UILabel 末尾的空格被忽略</h1>
+		<h1>UITableView 第0的sectionHeaderView 不显示</h1>
 
-		<p>看到这篇文章<a href="https://www.lidaren.com/archives/1333">UILabel取消自动Trim空格和换行等空白字符</a></p>
+		<p>只有当UITableView是Grouped样式，并且section的高度是通过sectionHeaderHeight设置的时候，第0个section的headerView才会丢失，通过代理设置不会丢失。如果UITableView是Plain样式就不会有任何问题。</p>
 
-<pre><code class="language-text">UILabel会自动清除的空白字符（UNICODE）
-\u0009 CHARACTER TABULATION
-\u000A LINE FEED
-\u000D CARRIAGE RETURN
-\u0020 SPACE
-\u0085 NEXT LINE
-\u00A0 NBSP
-\u1680 OGHAM SPACE MARK
-\u180E MONGOLIAN VOWEL SEPARATOR
-\u2000 EN QUAD
-\u200A HAIR SPACE
-\u200B ZERO WIDTH SPACE
-\u2028 LINE SEPARATOR
-\u2029 PARAGRAPH SEPARATOR
-\u202F NARROW NO-BREAK SPACE
-\u205F MEDIUM MATHEMATICAL SPACE
-\u3000 IDEOGRAPHIC SPACE
-</code></pre>
+<p>下面是不显示第0个sectionHeaderView的情况<br/>
+<img src="media/15336071866624/15336074512241.jpg" alt="" style="width:1406px;"/></p>
 
-<p>解决方案</p>
-
-<pre><code class="language-text">    let paragraphStyle = NSMutableParagraphStyle()
-    paragraphStyle.alignment = .right
-    paragraphStyle.tailIndent = -10
-    let myMutableString = NSMutableAttributedString(
-        string: text,
-        attributes: [
-            NSAttributedStringKey.font: UIFont.systemFont(ofSize: 16),
-            NSAttributedStringKey.paragraphStyle: paragraphStyle
-        ]
-    )
-    label.attributedText = myMutableString
-</code></pre>
+<p>正常显示<br/>
+<img src="media/15336071866624/15336075291692.jpg" alt="" style="width:1394px;"/><br/>
+在正常显示的时候明显感觉到第0个section上面有间距，真机没有测试。</p>
 
 
 		</div>

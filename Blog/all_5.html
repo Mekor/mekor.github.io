@@ -47,6 +47,10 @@
         <li><label>原理探究</label></li>
 
           
+            <li><a title="图像显示原理" href="15653483390225.html">图像显示原理</a></li>
+          
+            <li><a title="事件传递" href="15653376209289.html">事件传递</a></li>
+          
             <li><a title="转发机制" href="14733118707964.html">转发机制</a></li>
           
             <li><a title="RunLoop" href="14731740142157.html">RunLoop</a></li>
@@ -321,6 +325,8 @@
         <li><label>Documentation</label></li>
 
           
+            <li><a title="# 深入理解 iOS 事件机制" href="15654059537017.html"># 深入理解 iOS 事件机制</a></li>
+          
             <li><a title="framework脚本" href="15345002536089.html">framework脚本</a></li>
           
             <li><a title="企业证书需要" href="15132354899270.html">企业证书需要</a></li>
@@ -363,6 +369,10 @@
 
                     
                       <li class="side-title"><span>原理探究</span></li>
+                        
+                          <li><a title="图像显示原理" href="15653483390225.html">图像显示原理</a></li>
+                        
+                          <li><a title="事件传递" href="15653376209289.html">事件传递</a></li>
                         
                           <li><a title="转发机制" href="14733118707964.html">转发机制</a></li>
                         
@@ -622,6 +632,8 @@
                     
                       <li class="side-title"><span>Documentation</span></li>
                         
+                          <li><a title="# 深入理解 iOS 事件机制" href="15654059537017.html"># 深入理解 iOS 事件机制</a></li>
+                        
                           <li><a title="framework脚本" href="15345002536089.html">framework脚本</a></li>
                         
                           <li><a title="企业证书需要" href="15132354899270.html">企业证书需要</a></li>
@@ -658,45 +670,25 @@
 
 	
 		<div class="markdown-body">
-		<h1>显示中划线,下划线</h1>
+		<h1>懒加载的另一种写法</h1>
 
-		<h3 id="toc_0">OC中显示</h3>
+		<p>原先我一直这样写：</p>
 
-<h5 id="toc_1">添加中划线:</h5>
+<pre><code class="language-text">    private lazy var imageView: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: &quot;placeholder&quot;))
+        imageView.contentMode = .center
+        return imageView
+    }()
 
-<pre><code class="language-text">  UILabel * strikeLabel = [[UILabel alloc] initWithFrame:(CGRectMake(10, 10, 50, 30))];
-  NSString *textStr = [NSString stringWithFormat:@&quot;%@元&quot;, primeCost];
-
-  //中划线
-  NSDictionary *attribtDic = @{NSStrikethroughStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
-  NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:textStr attributes:attribtDic];
-
-  // 赋值
-  strikeLabel.attributedText = attribtStr;
-
-  [self.view addSubview:strikeLabel];
 </code></pre>
 
-<h5 id="toc_2">添加下划线:</h5>
+<p>今天看到了另一种比较简洁的写法</p>
 
-<pre><code class="language-text">  UILabel *underlineLabel = [[UILabel alloc] initWithFrame:(CGRectMake(10, 10, 50, 30))];
-  NSString *textStr = [NSString stringWithFormat:@&quot;%@元&quot;, primeCost];
+<pre><code class="language-text">private lazy var imageView: UIImageView = {
+        $0.contentMode = .center
+        return $0
+    }(UIImageView())
 
-  // 下划线
-  NSDictionary *attribtDic = @{NSUnderlineStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
-  NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:textStr attributes:attribtDic];
-
-  //赋值
-  underlineLabel.attributedText = attribtStr;
-
-  [self.view addSubview:underlineLabel];
-</code></pre>
-
-<h3 id="toc_3">Swift中显示</h3>
-
-<pre><code class="language-text">let myAttributes: [NSAttributedStringKey : Any] = [NSAttributedStringKey.strikethroughStyle: NSUnderlineStyle.styleSingle.rawValue]
-            
-let attributedText = NSAttributedString(string: &quot;被划线文字&quot;, attributes: myAttributes)
 </code></pre>
 
 

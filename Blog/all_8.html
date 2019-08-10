@@ -47,6 +47,10 @@
         <li><label>原理探究</label></li>
 
           
+            <li><a title="图像显示原理" href="15653483390225.html">图像显示原理</a></li>
+          
+            <li><a title="事件传递" href="15653376209289.html">事件传递</a></li>
+          
             <li><a title="转发机制" href="14733118707964.html">转发机制</a></li>
           
             <li><a title="RunLoop" href="14731740142157.html">RunLoop</a></li>
@@ -321,6 +325,8 @@
         <li><label>Documentation</label></li>
 
           
+            <li><a title="# 深入理解 iOS 事件机制" href="15654059537017.html"># 深入理解 iOS 事件机制</a></li>
+          
             <li><a title="framework脚本" href="15345002536089.html">framework脚本</a></li>
           
             <li><a title="企业证书需要" href="15132354899270.html">企业证书需要</a></li>
@@ -363,6 +369,10 @@
 
                     
                       <li class="side-title"><span>原理探究</span></li>
+                        
+                          <li><a title="图像显示原理" href="15653483390225.html">图像显示原理</a></li>
+                        
+                          <li><a title="事件传递" href="15653376209289.html">事件传递</a></li>
                         
                           <li><a title="转发机制" href="14733118707964.html">转发机制</a></li>
                         
@@ -622,6 +632,8 @@
                     
                       <li class="side-title"><span>Documentation</span></li>
                         
+                          <li><a title="# 深入理解 iOS 事件机制" href="15654059537017.html"># 深入理解 iOS 事件机制</a></li>
+                        
                           <li><a title="framework脚本" href="15345002536089.html">framework脚本</a></li>
                         
                           <li><a title="企业证书需要" href="15132354899270.html">企业证书需要</a></li>
@@ -658,109 +670,150 @@
 
 	
 		<div class="markdown-body">
-		<h1>Linux - 常用基本命令</h1>
+		<h1>GCD(Grand Central Dispatch)</h1>
 
-		<h2 id="toc_0">1.命令使用方法</h2>
+		<blockquote>
+<p>由于Stack Overflow中Documentation将要关闭,所以我将部分内容转载至这里</p>
+</blockquote>
 
-<p>Linux命令格式:</p>
+<p>Grand Central Dispatch (GCD) is Apple&#39;s answer to multithreading. It is a lightweight framework for performing tasks synchronously or asynchronously in queues and handles CPU threads for you behind the scenes.</p>
 
-<pre><code class="language-text">    command  [-options]  [parameter1]  …
+<h2 id="toc_0">Dispatch Semaphore</h2>
+
+<p><a href="https://stackoverflow.com/documentation/ios/4626/gcd-grand-central-dispatch/28284/dispatch-semaphore">Stack Overflow地址</a></p>
+
+<blockquote>
+<p>DispatchSemaphore provides an efficient implementation of a traditional counting semaphore, which can be used to control access to a resource across multiple execution contexts.</p>
+</blockquote>
+
+<p>A scenario for when to use a semaphore could be if you are doing some file reading/writing, if multiple tasks are trying to read and write from file at the same time, it could increase your performance to make each task wait its turn so as to not overburden the I/O controller.</p>
+
+<pre><code class="language-text">func do2TasksAtATime () {
+    print(&quot;starting long running tasks (2 at a time)&quot;)
+    let sem = DispatchSemaphore(value: 2)            //this semaphore only allows 2 tasks to run at the same time (the resource count)
+    for i in 0...7 {                                 //launch a bunch of tasks
+        DispatchQueue.global().async {               //run tasks on a background thread
+            sem.wait()                               //wait here if no resources available
+            sleep(2)                                 //do some long task eg file access (here we are just sleeping for a 2 seconds for demonstration purposes)
+            print(&quot;long task \(i) done! \(Date())&quot;)
+            sem.signal()                             //let the semaphore know this resource is now available
+        }
+    }
+}
 </code></pre>
 
-<p>说明：</p>
+<p>Example output: (notice the time stamps)</p>
 
-<ul>
-<li>command: 命令名,相应功能的英文单词或单词的缩写 [-options]：选项,可用来对命令进行控制，也可以省略，<code>[]代表可选</code> parameter1 …：传给命令的参数：可以是零个一个或多个</li>
-</ul>
+<pre><code class="language-text">starting long running tasks (2 at a time)
+long task 0 done! 2017-02-16 07:11:53 +0000
+long task 1 done! 2017-02-16 07:11:53 +0000
+long task 2 done! 2017-02-16 07:11:55 +0000
+long task 3 done! 2017-02-16 07:11:55 +0000
+long task 5 done! 2017-02-16 07:11:57 +0000
+long task 4 done! 2017-02-16 07:11:57 +0000
+long task 6 done! 2017-02-16 07:11:59 +0000
+long task 7 done! 2017-02-16 07:11:59 +0000
+</code></pre>
 
-<p>例：</p>
+<h2 id="toc_1">Dispatch Group</h2>
 
-<p><img src="media/14954518367171/14954519660499.jpg" alt=""/></p>
+<p><a href="https://stackoverflow.com/documentation/ios/4626/gcd-grand-central-dispatch/28278/dispatch-group">Stack Overflow地址</a></p>
 
-<h2 id="toc_1">2.查看帮助文档</h2>
+<blockquote>
+<p>DispatchGroup allows for aggregate synchronization of work. You can use them to submit multiple different work items and track when they all complete, even though they might run on different queues. This behavior can be helpful when progress can’t be made until all of the specified tasks are complete.</p>
+</blockquote>
 
-<h3 id="toc_2"><1> --help</h3>
+<p>A Scenario when this could be useful is if you have multiple webservice calls that all need to finish before continuing. For example, you need to download multiple sets of data that needs to be processed by some function. You have to wait for all webservices to complete before calling the function to process all the received data.</p>
 
-<p>一般是linux命令自带的帮助信息</p>
+<p><strong>Swift 3</strong></p>
 
-<p>如：ls --help</p>
+<pre><code class="language-text">func doLongTasksAndWait () {
+    print(&quot;starting long running tasks&quot;)
+    let group = DispatchGroup()          //create a group for a bunch of tasks we are about to do
+    for i in 0...3 {                     //launch a bunch of tasks (eg a bunch of webservice calls that all need to be finished before proceeding to the next ViewController)
+        group.enter()                    //let the group know that something is being added
+        DispatchQueue.global().async {   //run tasks on a background thread
+            sleep(arc4random() % 4)      //do some long task eg webservice or database lookup (here we are just sleeping for a random amount of time for demonstration purposes)
+            print(&quot;long task \(i) done!&quot;)
+            group.leave()                //let group know that the task is finished
+        }
+    }
+    group.wait()                         //will block whatever thread we are on here until all the above tasks have finished (so maybe dont use this function on your main thread)
+    print(&quot;all tasks done!&quot;)
+}
+</code></pre>
 
-<h3 id="toc_3"><2> man(有问题找男人，manual)</h3>
+<p>Alternatively, if you do not want to wait for the groups to finish, but instead want to run a function once all the tasks have completed, use the <code>notify</code> function in place of the <code>group.wait()</code></p>
 
-<p>man是linux提供的一个手册，包含了绝大部分的命令、函数使用说明</p>
+<pre><code class="language-text">group.notify(queue: DispatchQueue.main) { //the queue: parameter is which queue this block will run on, if you need to do UI updates, use the main queue
+    print(&quot;all tasks done!&quot;)              //this will execute when all tasks have left the group
+}
+</code></pre>
 
-<p>该手册分成很多章节（section），使用man时可以指定不同的章节来浏览。</p>
+<p>Example output:</p>
 
-<p>例：man ls ; man 2 printf</p>
+<pre><code class="language-text">starting long running tasks
+long task 0 done!
+long task 3 done!
+long task 1 done!
+long task 2 done!
+all tasks done!
+</code></pre>
 
-<p>man中各个section意义如下：</p>
+<h2 id="toc_2">Serial vs Concurrent Dispatch Queues</h2>
 
-<ol>
-<li>Standard commands（标准命令）</li>
-<li>System calls（系统调用，如open,write）</li>
-<li>Library functions（库函数，如printf,fopen）</li>
-<li>Special devices（设备文件的说明，/dev下各种设备）</li>
-<li>File formats（文件格式，如passwd）</li>
-<li>Games and toys（游戏和娱乐）</li>
-<li>Miscellaneous（杂项、惯例与协定等，例如Linux档案系统、网络协定、ASCII 码；environ全局变量）</li>
-<li>Administrative Commands（管理员命令，如ifconfig）</li>
-</ol>
+<p><a href="https://stackoverflow.com/documentation/ios/4626/gcd-grand-central-dispatch/28286/serial-vs-concurrent-dispatch-queues">Stack Overflow地址</a><br/>
+<strong>Serial Queue</strong></p>
 
-<p>man是按照手册的章节号的顺序进行搜索的。</p>
+<pre><code class="language-text">func serialQueues () {
+    let serialQueue = DispatchQueue(label: &quot;com.example.serial&quot;) //default queue type is a serial queue
+    let start = Date ()
+    for i in 0...3 {                                             //launch a bunch of tasks
+        serialQueue.async {                                      //run tasks on a background thread, using our serial queue
+            sleep(2)                                             //do some long task eg webservice or database lookup
+            let timeTaken = Date().timeIntervalSince(start)
+            print(&quot;serial long task \(i) done! total time taken: \(timeTaken)&quot;)
+        }
+    }
+}
+</code></pre>
 
-<p>man设置了如下的功能键：</p>
+<p>Example output:</p>
 
-<table>
-<thead>
-<tr>
-<th style="text-align: center">功能键</th>
-<th>功能</th>
-</tr>
-</thead>
+<pre><code class="language-text">serial long task 0 done! total time taken: 2.07241100072861
+serial long task 1 done! total time taken: 4.16347700357437
+serial long task 2 done! total time taken: 6.23209798336029
+serial long task 3 done! total time taken: 8.30682599544525
+</code></pre>
 
-<tbody>
-<tr>
-<td style="text-align: center">空格键</td>
-<td>显示手册页的下一屏</td>
-</tr>
-<tr>
-<td style="text-align: center">Enter键</td>
-<td>一次滚动手册页的一行</td>
-</tr>
-<tr>
-<td style="text-align: center">b</td>
-<td>回滚一屏</td>
-</tr>
-<tr>
-<td style="text-align: center">f</td>
-<td>前滚一屏</td>
-</tr>
-<tr>
-<td style="text-align: center">q</td>
-<td>退出man命令</td>
-</tr>
-<tr>
-<td style="text-align: center">h</td>
-<td>列出所有功能键</td>
-</tr>
-<tr>
-<td style="text-align: center">/word</td>
-<td>搜索word字符串</td>
-</tr>
-</tbody>
-</table>
+<p><strong>Concurrent Queue</strong></p>
 
-<p><img src="media/14954518367171/14954525011190.jpg" alt=""/></p>
+<pre><code class="language-text">func concurrentQueues () {
+    let concurrentQueue = DispatchQueue(label: &quot;com.example.concurrent&quot;, attributes: .concurrent) //explicitly specify the queue to be a concurrent queue
+    let start = Date ()
+    for i in 0...3 {            //launch a bunch of tasks
+        concurrentQueue.async { //run tasks on a background thread, using our concurrent queue
+            sleep(2)            //do some long task eg webservice or database lookup
+            let timeTaken = Date().timeIntervalSince(start)
+            print(&quot;concurrent long task \(i) done! total time taken: \(timeTaken)&quot;)
+        }
+    }
+}
+</code></pre>
 
-<p>注意：实际上，我们不用指定第几个章节也用查看，如，man ls</p>
+<p>Example output:</p>
 
-<h2 id="toc_4">3.自动补全：</h2>
+<pre><code class="language-text">concurrent long task 3 done! total time taken: 2.07092100381851
+concurrent long task 0 done! total time taken: 2.07087397575378
+concurrent long task 2 done! total time taken: 2.07086700201035
+concurrent long task 1 done! total time taken: 2.07089096307755
+</code></pre>
 
-<p>在敲出命令的前几个字母的同时，按下tab键，系统会自动帮我们补全命令</p>
+<p><strong>Discussion</strong></p>
 
-<h2 id="toc_5">4.历史命令：</h2>
+<p>As we can see from the examples above, a serial queue will complete each task in the order they are submitted to the queue. Each task will wait for the previous task to finish before executing. As for the concurrent queue, each task does not wait on the others in the queue and executes as soon as possible; the advantage is that all tasks on the queue will run at the same time on separate threads, making a concurrent queue take less time than a serial queue.</p>
 
-<p>当系统执行过一些命令后，可按上下键翻看以前的命令，history将执行过的命令列举出来</p>
+<p>If order of execution of tasks is not important, always use a concurrent queue for the best efficiency.</p>
 
 
 		</div>

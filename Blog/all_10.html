@@ -47,6 +47,10 @@
         <li><label>原理探究</label></li>
 
           
+            <li><a title="图像显示原理" href="15653483390225.html">图像显示原理</a></li>
+          
+            <li><a title="事件传递" href="15653376209289.html">事件传递</a></li>
+          
             <li><a title="转发机制" href="14733118707964.html">转发机制</a></li>
           
             <li><a title="RunLoop" href="14731740142157.html">RunLoop</a></li>
@@ -321,6 +325,8 @@
         <li><label>Documentation</label></li>
 
           
+            <li><a title="# 深入理解 iOS 事件机制" href="15654059537017.html"># 深入理解 iOS 事件机制</a></li>
+          
             <li><a title="framework脚本" href="15345002536089.html">framework脚本</a></li>
           
             <li><a title="企业证书需要" href="15132354899270.html">企业证书需要</a></li>
@@ -363,6 +369,10 @@
 
                     
                       <li class="side-title"><span>原理探究</span></li>
+                        
+                          <li><a title="图像显示原理" href="15653483390225.html">图像显示原理</a></li>
+                        
+                          <li><a title="事件传递" href="15653376209289.html">事件传递</a></li>
                         
                           <li><a title="转发机制" href="14733118707964.html">转发机制</a></li>
                         
@@ -622,6 +632,8 @@
                     
                       <li class="side-title"><span>Documentation</span></li>
                         
+                          <li><a title="# 深入理解 iOS 事件机制" href="15654059537017.html"># 深入理解 iOS 事件机制</a></li>
+                        
                           <li><a title="framework脚本" href="15345002536089.html">framework脚本</a></li>
                         
                           <li><a title="企业证书需要" href="15132354899270.html">企业证书需要</a></li>
@@ -658,34 +670,10 @@
 
 	
 		<div class="markdown-body">
-		<h1>C++Primer笔记 - 如何获取 `main`的返回值</h1>
+		<h1>数组传递</h1>
 
-		<p>访问<code>main</code>的返回值的方法依赖于系统.在UNIX和Windows系统中,执行完一个程序后,都可以通过echo命令获得其返回值.<br/>
-在UNIX中通过<code>echo $?</code><br/>
-在Windows中通过<code>echo %ERRORLEVEL%</code></p>
-
-<p>使用方式:<br/>
-在terminal中, <code>vim prog1.cc</code> ,然后在vim下输入(<code>i</code>是插入键)</p>
-
-<pre><code class="language-text"> int main()
- {
-     return 0;
- }
-</code></pre>
-
-<p>退出编辑器(先按<code>esc</code>,然后<code>:wq</code>)<br/>
-在terminal中运行</p>
-
-<pre><code class="language-text">cc prog1.cc
-./a.out
-echo $?
-</code></pre>
-
-<p>最终会得到我们的返回值<code>0</code></p>
-
-<p><strong>1.1节练习</strong><br/>
-1.2: main中返回-1.返回值-1通常被当做程序错误的标识.重新编译运行我再次获取错误值为255<br/>
-<img src="media/14866089688413/14866102127236.jpg" alt=""/></p>
+		<p>把A控制器中的数组 传递给 B  ,然后 B 再把数据传递给 C <br/>
+这时如果 A中数组进行了修改,那么 C 中数据也会修改</p>
 
 
 		</div>

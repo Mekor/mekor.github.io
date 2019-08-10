@@ -47,6 +47,10 @@
         <li><label>原理探究</label></li>
 
           
+            <li><a title="图像显示原理" href="15653483390225.html">图像显示原理</a></li>
+          
+            <li><a title="事件传递" href="15653376209289.html">事件传递</a></li>
+          
             <li><a title="转发机制" href="14733118707964.html">转发机制</a></li>
           
             <li><a title="RunLoop" href="14731740142157.html">RunLoop</a></li>
@@ -321,6 +325,8 @@
         <li><label>Documentation</label></li>
 
           
+            <li><a title="# 深入理解 iOS 事件机制" href="15654059537017.html"># 深入理解 iOS 事件机制</a></li>
+          
             <li><a title="framework脚本" href="15345002536089.html">framework脚本</a></li>
           
             <li><a title="企业证书需要" href="15132354899270.html">企业证书需要</a></li>
@@ -363,6 +369,10 @@
 
                     
                       <li class="side-title"><span>原理探究</span></li>
+                        
+                          <li><a title="图像显示原理" href="15653483390225.html">图像显示原理</a></li>
+                        
+                          <li><a title="事件传递" href="15653376209289.html">事件传递</a></li>
                         
                           <li><a title="转发机制" href="14733118707964.html">转发机制</a></li>
                         
@@ -622,6 +632,8 @@
                     
                       <li class="side-title"><span>Documentation</span></li>
                         
+                          <li><a title="# 深入理解 iOS 事件机制" href="15654059537017.html"># 深入理解 iOS 事件机制</a></li>
+                        
                           <li><a title="framework脚本" href="15345002536089.html">framework脚本</a></li>
                         
                           <li><a title="企业证书需要" href="15132354899270.html">企业证书需要</a></li>
@@ -658,30 +670,57 @@
 
 	
 		<div class="markdown-body">
-		<h1>Swift - 自定义tableViewCell</h1>
+		<h1>Swift - 使用代理和闭包传值</h1>
 
-		<p>习惯 OC 刚刚接触 Swift 还是有很多地方不适应,创建自定义cell的时候出现如下情况</p>
+		<h2 id="toc_0">代理传值</h2>
 
-<pre><code class="language-text">    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-    }
+<p>声明协议:</p>
+
+<pre><code class="language-text">protocol FunctionButtonViewDelegate {
+    func gotoViewController(vcString:String)
+}
 </code></pre>
 
-<p>OC 中,我们会用 self 来接 super 初始化来判断是否创建成功,但是 Swift 中怎样做呢?调用 <code>super.init</code>是没有返回值的,那么我们怎样判断呢?</p>
-
-<p>从网上看<a href="http://stackoverflow.com/questions/37098742/super-init-in-swift">Super init in Swift</a>没有必要在进行<code>if(self)</code>判断了...不过,我还是找到了一种更容易理解的方法:</p>
-
-<pre><code class="language-text">    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        if !self.isEqual(nil) {
-            setupInterface()
-        }
-    }
-
+<pre><code class="language-text">var delegate :FunctionButtonViewDelegate?
 </code></pre>
 
-<p>虽然感觉有点画蛇添足,不过很符合刚刚从OC 转 Swift 的理解方式</p>
+<p>这里<code>?</code>就具有<code>weak</code>的作用</p>
+
+<p>传值:</p>
+
+<pre><code class="language-text">delegate?.gotoViewController(vcString: button.currentTitle!)
+</code></pre>
+
+<p>实现代理方法</p>
+
+<pre><code class="language-text">extension PersonalCenterViewController:FunctionButtonViewDelegate {
+    //MARK: - 跳转到对应的功能模块
+    func gotoViewController(vcString: String) {
+        print(vcString)
+    }
+}
+</code></pre>
+
+<h2 id="toc_1">闭包传值</h2>
+
+<p>声明:</p>
+
+<pre><code class="language-text">var callback : ((Int?) -&gt; Void)?
+</code></pre>
+
+<p>传值</p>
+
+<pre><code class="language-text">if let cb = callback {
+    cb(200)
+}
+</code></pre>
+
+<p>实现:</p>
+
+<pre><code class="language-text">bottomView.callback = { (num)-&gt;Void in
+    print(num ?? 0)
+}
+</code></pre>
 
 
 		</div>

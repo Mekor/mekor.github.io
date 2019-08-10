@@ -47,6 +47,10 @@
         <li><label>原理探究</label></li>
 
           
+            <li><a title="图像显示原理" href="15653483390225.html">图像显示原理</a></li>
+          
+            <li><a title="事件传递" href="15653376209289.html">事件传递</a></li>
+          
             <li><a title="转发机制" href="14733118707964.html">转发机制</a></li>
           
             <li><a title="RunLoop" href="14731740142157.html">RunLoop</a></li>
@@ -321,6 +325,8 @@
         <li><label>Documentation</label></li>
 
           
+            <li><a title="# 深入理解 iOS 事件机制" href="15654059537017.html"># 深入理解 iOS 事件机制</a></li>
+          
             <li><a title="framework脚本" href="15345002536089.html">framework脚本</a></li>
           
             <li><a title="企业证书需要" href="15132354899270.html">企业证书需要</a></li>
@@ -363,6 +369,10 @@
 
                     
                       <li class="side-title"><span>原理探究</span></li>
+                        
+                          <li><a title="图像显示原理" href="15653483390225.html">图像显示原理</a></li>
+                        
+                          <li><a title="事件传递" href="15653376209289.html">事件传递</a></li>
                         
                           <li><a title="转发机制" href="14733118707964.html">转发机制</a></li>
                         
@@ -622,6 +632,8 @@
                     
                       <li class="side-title"><span>Documentation</span></li>
                         
+                          <li><a title="# 深入理解 iOS 事件机制" href="15654059537017.html"># 深入理解 iOS 事件机制</a></li>
+                        
                           <li><a title="framework脚本" href="15345002536089.html">framework脚本</a></li>
                         
                           <li><a title="企业证书需要" href="15132354899270.html">企业证书需要</a></li>
@@ -658,48 +670,75 @@
 
 	
 		<div class="markdown-body">
-		<h1>Swift - 上周问题总结</h1>
+		<h1>全屏返回手势小技巧</h1>
 
-		<h2 id="toc_0">懒加载的正确姿势</h2>
-
-<blockquote>
-<p>使用Swift的时候用懒加载,但是我发现我使用的时候不能再懒加载中调用本文件中声明的属性,原因是我在写懒加载的时候没有注明类型,正确的姿势应该是:</p>
+		<blockquote>
+<p>这片文章可以和<a href="http://www.citynight.cn/Blog/14790381443417.html">Swift - KVC 和 运行时获取属性列表</a> 一起看,当然配上<a href="http://www.citynight.cn/Blog/14793034700265.html">隐藏tabBar的小技巧</a>就更好了😀</p>
 </blockquote>
 
-<pre><code class="language-text">    lazy var &lt;#property name#&gt;: &lt;#type name#&gt; = {
-        &lt;#statements#&gt;
-        return &lt;#value#&gt;
-    }()
+<h2 id="toc_0">第一种: 通过<code>runtime</code>与<code>KVC</code>配合完成</h2>
+
+<p>在<code>UINavigationController</code>的<code>viewDidLoad</code>方法中:</p>
+
+<pre><code class="language-text">// 获取系统的手势
+let gest = self.interactivePopGestureRecognizer!
+// 禁用系统的手势
+interactivePopGestureRecognizer?.isEnabled = false
+
+// 通过KVC获取target 属性是通过runtime获取的,具体方法参见`Swift - KVC 和 运行时获取属性列表`
+guard let targets = gest.value(forKey: &quot;_targets&quot;) as? [AnyObject] else {
+    return
+}
+let target = targets[0].value(forKey: &quot;_target&quot;)
+
+// 给视图添加点击事件
+let pan = UIPanGestureRecognizer(target: target, action: NSSelectorFromString(&quot;handleNavigationTransition:&quot;))
+view.addGestureRecognizer(pan)
 </code></pre>
 
-<p>快捷键<br/>
-<img src="media/14815534553600/14815536582812.jpg" alt=""/><br/>
-采用这种方式声明的懒加载能够在内部使用self</p>
+<h2 id="toc_1">第二种: 通过原有的代理完成</h2>
 
-<h2 id="toc_1">OC中用KVC赋值,使NSString类型指向了NSNumber,导致Swift中调用崩溃</h2>
+<p>直接上代码:</p>
 
-<blockquote>
-<p>崩溃信息:<code>reason: &#39;-[__NSCFNumber length]: unrecognized selector sent to instance 0x00000XXXX</code></p>
-</blockquote>
+<pre><code class="language-text">class BaseNavigationController: UINavigationController {
 
-<p>原因分析:NSString指向的数据类型为NSNumber的数据,取值时崩溃.第一种方案找到赋值有误的地方修改,第二不修改原有的代码,提出一种解决方案,重写NSString数据的<code>set</code>方法,赋值前判断数据类型,如果是NSNumber类型就转换成NSString类型.ß®</p>
+    override func viewDidLoad() {
+        super.viewDidLoad()
 
-<h2 id="toc_2">视图层级深,内部视图如何通知控制器数据更新?</h2>
+        // 获取系统的手势的代理
+        guard let target = interactivePopGestureRecognizer?.delegate else {
+            return
+        }
+        
+        // 禁用系统的手势
+        interactivePopGestureRecognizer?.isEnabled = false
+        
+        // 给视图添加点击事件
+        let pan = UIPanGestureRecognizer(target: target, action: NSSelectorFromString(&quot;handleNavigationTransition:&quot;))
+        pan.delegate = self
+        view.addGestureRecognizer(pan)
+    }
+}
 
-<p>我想到的一种方法是把函数当做参数来传递,这样能够在一定程度上减少层级结构.甲冠提出设置一个属性,然后在属性的<code>didSet</code>中调用方法.目前还没有做实践,目测层级结构没有任何减少,但是代码量会少些.需要实验验证下.</p>
+extension BaseNavigationController:UIGestureRecognizerDelegate {
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -&gt; Bool {
+        // 当是跟控制器的时候不让返回,非跟控制器可以返回
+        return viewControllers.count &gt; 1
+    }
+}
 
-<p><strong>注:</strong>讨论中间有讨论MVC框架,这里附上苹果多MVC的介绍:<a href="https://developer.apple.com/library/content/documentation/General/Conceptual/CocoaEncyclopedia/Model-View-Controller/Model-View-Controller.html#//apple_ref/doc/uid/TP40010810-CH14-SW1">https://developer.apple.com/library/content/documentation/General/Conceptual/CocoaEncyclopedia/Model-View-Controller/Model-View-Controller.html#//apple_ref/doc/uid/TP40010810-CH14-SW1</a></p>
+</code></pre>
 
-<p>传统:<br/>
-<img src="media/14815534553600/14815566784560.gif" alt=""/></p>
+<p>第一种也应该设置代理,不设置代理的话跟控制出现手势就会有bug</p>
 
-<p>Cocoa:<br/>
-<img src="media/14815534553600/14815567675257.gif" alt=""/></p>
+<p>简单比较一下,第二种更简洁.不过应用了一个小技巧,看代码:</p>
 
-<h2 id="toc_3">Xcode升级后部分第三方库报错</h2>
+<pre><code class="language-text">    let pan = UIPanGestureRecognizer(target: self, action: NSSelectorFromString(&quot;handleNavigationTransition:&quot;))
+    pan.delegate = self
+    view.addGestureRecognizer(pan)
+</code></pre>
 
-<p><img src="media/14815534553600/Snip20161215_3.png" alt="Snip20161215_3"/><br/>
-让第三方库不跟随Xcode的swift版本®</p>
+<p>可见<code>target</code>&amp;<code>delegate</code>通常都是同一个对象,当让也可以是不同的,这里应用这个小技巧让代码变得更简洁.</p>
 
 
 		</div>
