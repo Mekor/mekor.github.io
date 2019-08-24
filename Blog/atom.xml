@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2019-08-10T17:29:24+08:00</updated>
+  <updated>2019-08-12T18:50:37+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -981,6 +981,14 @@ F_singleTapGesture
 
 <p><img src="media/15653483390225/15656069984426.jpg" alt="" style="width:979px;"/><br/>
 <img src="media/15653483390225/15656070181148.jpg" alt="" style="width:677px;"/></p>
+
+<p><img src="media/15653483390225/15666279613682.jpg" alt="" style="width:755px;"/></p>
+
+<p>系统绘制流程<br/>
+<img src="media/15653483390225/%E6%9C%AA%E5%91%BD%E5%90%8D%E6%96%87%E4%BB%B6%20-4-.jpg" alt="未命名文件 -4-"/></p>
+
+<p>异步绘制流程(时序图)<br/>
+<img src="media/15653483390225/Jietu20190824-150035.jpg" alt="Jietu20190824-150035"/></p>
 
 ]]></content>
   </entry>
