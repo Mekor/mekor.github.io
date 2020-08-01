@@ -8,17 +8,21 @@
   李小争
   
   </title>
- <meta name="description" content="记录开发中遇到的一些问题">
- <link href="atom.xml" rel="alternate" title="李小争" type="application/atom+xml">
+  
+  
+  <link href="atom.xml" rel="alternate" title="李小争" type="application/atom+xml">
     <link rel="stylesheet" href="asset/css/foundation.min.css" />
     <link rel="stylesheet" href="asset/css/docs.css" />
-
     <script src="asset/js/vendor/modernizr.js"></script>
     <script src="asset/js/vendor/jquery.js"></script>
-    <script src="asset/highlightjs/highlight.pack.js"></script>
-    <link href="asset/highlightjs/styles/github.css" media="screen, projection" rel="stylesheet" type="text/css">
-    <script>hljs.initHighlightingOnLoad();</script>
-    
+ 
+<script type="text/javascript">
+  function before_search(){
+    var searchVal = 'site:www.citynight.cn/Blog ' + document.getElementById('search_input').value;
+    document.getElementById('search_q').value = searchVal;
+    return true;
+  }
+</script>
   </head>
   <body class="antialiased hide-extras">
     
@@ -28,11 +32,32 @@
 
 <nav class="top-bar docs-bar hide-for-small" data-topbar>
 
-<div id="header">
-    <h1><a href="index.html">李小争</a></h1>
-</div>
+
+  <section class="top-bar-section">
+  <div class="row">
+      <div style="position: relative;width:100%;"><div style="position: absolute; width:100%;">
+        <ul id="main-menu" class="left">
+        
+        <li id=""><a target="self" href="index.html">Home</a></li>
+        
+        <li id=""><a target="_self" href="archives.html">Archives</a></li>
+        
+        </ul>
+
+        <ul class="right" id="search-wrap">
+          <li>
+<form target="_blank" onsubmit="return before_search();" action="https://google.com/search" method="get">
+    <input type="hidden" id="search_q" name="q" value="" />
+    <input tabindex="1" type="search" id="search_input"  placeholder="Search"/>
+</form>
+</li>
+          </ul>
+      </div></div>
+  </div>
+  </section>
 
 </nav>
+
         <nav class="tab-bar show-for-small">
   <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
     <span> &nbsp; 李小争</span>
@@ -41,638 +66,225 @@
 
 <aside class="left-off-canvas-menu">
       <ul class="off-canvas-list">
-      <li><a href="index.html">Home</a></li>
-      
-        <li class="divider"></li>
-        <li><label>原理探究</label></li>
+        
+        <li><a target="self" href="index.html">Home</a></li>
+        
+        <li><a target="_self" href="archives.html">Archives</a></li>
+        
 
-          
-            <li><a title="图像显示原理" href="15653483390225.html">图像显示原理</a></li>
-          
-            <li><a title="事件传递" href="15653376209289.html">事件传递</a></li>
-          
-            <li><a title="转发机制" href="14733118707964.html">转发机制</a></li>
-          
-            <li><a title="RunLoop" href="14731740142157.html">RunLoop</a></li>
-          
-            <li><a title="runtime(内部分享草稿)" href="14727863232294.html">runtime(内部分享草稿)</a></li>
-          
-            <li><a title="KVO内部实现原理" href="14726525723684.html">KVO内部实现原理</a></li>
-          
-            <li><a title="runtime小结" href="14717809514175.html">runtime小结</a></li>
-          
+    <li><label>Categories</label></li>
 
-      
-        <li class="divider"></li>
-        <li><label>技巧</label></li>
+        
+            <li><a href="%E5%8E%9F%E7%90%86%E6%8E%A2%E7%A9%B6.html">原理探究</a></li>
+        
+            <li><a href="%E6%8A%80%E5%B7%A7.html">技巧</a></li>
+        
+            <li><a href="%E6%95%99%E7%A8%8B.html">教程</a></li>
+        
+            <li><a href="%E9%81%87%E5%88%B0Bug.html">遇到Bug</a></li>
+        
+            <li><a href="%E6%9D%82%E8%AE%B0.html">杂记</a></li>
+        
+            <li><a href="Swift.html">Swift</a></li>
+        
+            <li><a href="C/C++.html">C/C++</a></li>
+        
+            <li><a href="Linux.html">Linux</a></li>
+        
+            <li><a href="Documentation.html">Documentation</a></li>
+        
+            <li><a href="Java.html">Java</a></li>
+        
+            <li><a href="LeetCode.html">LeetCode</a></li>
+         
 
-          
-            <li><a title="海底捞点餐Pad 优化" href="15653325472073.html">海底捞点餐Pad 优化</a></li>
-          
-            <li><a title="关于更换主题" href="15393255857280.html">关于更换主题</a></li>
-          
-            <li><a title="设置placeholder颜色" href="15257015417604.html">设置placeholder颜色</a></li>
-          
-            <li><a title="懒加载的另一种写法" href="15257015215231.html">懒加载的另一种写法</a></li>
-          
-            <li><a title="Cell点击时多次Push" href="15257014756710.html">Cell点击时多次Push</a></li>
-          
-            <li><a title="防止Timer 与控制器耦合导致控制器不释放" href="15180682554389.html">防止Timer 与控制器耦合导致控制器不释放</a></li>
-          
-            <li><a title="显示中划线,下划线" href="15166722537296.html">显示中划线,下划线</a></li>
-          
-            <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
-          
-            <li><a title="优化iPad 2 总结" href="15058021769287.html">优化iPad 2 总结</a></li>
-          
-            <li><a title="Mac zsh 使用命令打开sublime" href="14907559721950.html">Mac zsh 使用命令打开sublime</a></li>
-          
-            <li><a title="数组传递" href="14878335740172.html">数组传递</a></li>
-          
-            <li><a title="synchronized(object)" href="14877545165696.html">synchronized(object)</a></li>
-          
-            <li><a title="全屏返回手势小技巧" href="14823239811290.html">全屏返回手势小技巧</a></li>
-          
-            <li><a title="Scroll UICollectionView to section header view" href="14810139766101.html">Scroll UICollectionView to section header view</a></li>
-          
-            <li><a title="隐藏tabBar的小技巧" href="14793034700265.html">隐藏tabBar的小技巧</a></li>
-          
-            <li><a title="安装tree命令" href="14781615036446.html">安装tree命令</a></li>
-          
-            <li><a title="获取当前显示的UIViewController" href="14781433227076.html">获取当前显示的UIViewController</a></li>
-          
-            <li><a title="UITableView优化方案(收集)" href="14766308131126.html">UITableView优化方案(收集)</a></li>
-          
-            <li><a title="iOS 模拟器 添加图片到相册的小技巧" href="14765420394973.html">iOS 模拟器 添加图片到相册的小技巧</a></li>
-          
-            <li><a title="字符串frame相关" href="14765391593705.html">字符串frame相关</a></li>
-          
-            <li><a title="在包含UITableView视图中添加单击手势" href="14762437833792.html">在包含UITableView视图中添加单击手势</a></li>
-          
-            <li><a title="怎样让内存缓存变稳定" href="14752152861722.html">怎样让内存缓存变稳定</a></li>
-          
-            <li><a title="如何在UIBarButtonItem上显示数字(BadgeValue)" href="14747835330079.html">如何在UIBarButtonItem上显示数字(BadgeValue)</a></li>
-          
-            <li><a title="const,static,extern简介" href="14718293013293.html">const,static,extern简介</a></li>
-          
-            <li><a title="iOS Tips" href="14700440944204.html">iOS Tips</a></li>
-          
-            <li><a title="Mac 下面Python 自动补全" href="14685034880390.html">Mac 下面Python 自动补全</a></li>
-          
-            <li><a title="如何给View添加点击事件" href="14682407498601.html">如何给View添加点击事件</a></li>
-          
-            <li><a title="关于tableViewCell加载图片优化" href="14678597180657.html">关于tableViewCell加载图片优化</a></li>
-          
-            <li><a title="AFN3.0 如何实现operation.responseString" href="14676870942237.html">AFN3.0 如何实现operation.responseString</a></li>
-          
-            <li><a title="Coding中检测系统授权状态，关闭提示用户去隐私设置中打开" href="14676111126987.html">Coding中检测系统授权状态，关闭提示用户去隐私设置中打开</a></li>
-          
-            <li><a title="忽略编译器警告" href="14676105703423.html">忽略编译器警告</a></li>
-          
-            <li><a title="百度坐标&火星坐标转换" href="14676101998537.html">百度坐标&火星坐标转换</a></li>
-          
-
-      
-        <li class="divider"></li>
-        <li><label>教程</label></li>
-
-          
-            <li><a title="[转]浅析 iOS 应用开发中的断点续传" href="15060704391596.html">[转]浅析 iOS 应用开发中的断点续传</a></li>
-          
-            <li><a title="获取崩溃信息" href="14816416025061.html">获取崩溃信息</a></li>
-          
-            <li><a title="iOS8之后设置PopoverController" href="14813828036514.html">iOS8之后设置PopoverController</a></li>
-          
-            <li><a title="左右联动效果再实现" href="14807724917867.html">左右联动效果再实现</a></li>
-          
-            <li><a title="Git学习" href="14793607171148.html">Git学习</a></li>
-          
-            <li><a title="如何获取手机上安装的所有App" href="14778331858080.html">如何获取手机上安装的所有App</a></li>
-          
-            <li><a title="计算老虎机中奖等级-NSCountedSet" href="14778318573153.html">计算老虎机中奖等级-NSCountedSet</a></li>
-          
-            <li><a title="使用Qt创建桌面应用程序" href="14771170894039.html">使用Qt创建桌面应用程序</a></li>
-          
-            <li><a title="使用 chisel 提高 LLDB 调试效率" href="14766672567296.html">使用 chisel 提高 LLDB 调试效率</a></li>
-          
-            <li><a title="vim 学习" href="14764220018619.html">vim 学习</a></li>
-          
-            <li><a title="优秀文章链接收藏" href="14760921807707.html">优秀文章链接收藏</a></li>
-          
-            <li><a title="Cocoapods的安装" href="14751288042220.html">Cocoapods的安装</a></li>
-          
-            <li><a title="GCD(Grand Central Dispatch)使用" href="14747868502733.html">GCD(Grand Central Dispatch)使用</a></li>
-          
-            <li><a title="iOS10 遇到问题总结" href="14743674179375.html">iOS10 遇到问题总结</a></li>
-          
-            <li><a title="UIWebView可能的优化方案" href="14731574655770.html">UIWebView可能的优化方案</a></li>
-          
-            <li><a title="MKNetWork简介" href="14719458588528.html">MKNetWork简介</a></li>
-          
-            <li><a title="Android Studio 中如何查看帮助文档" href="14693652209160.html">Android Studio 中如何查看帮助文档</a></li>
-          
-            <li><a title="关于签名(Certificate),Identifiers,Device和Provisioning Profile" href="14689910761027.html">关于签名(Certificate),Identifiers,Device和Provisioning Profile</a></li>
-          
-            <li><a title="Python爬网站上的图片" href="14689829459214.html">Python爬网站上的图片</a></li>
-          
-            <li><a title="为项目添加podspec" href="14676996936809.html">为项目添加podspec</a></li>
-          
-
-      
-        <li class="divider"></li>
-        <li><label>遇到Bug</label></li>
-
-          
-            <li><a title="Texture  中ASButtonNode设置图片崩溃" href="15585883897383.html">Texture  中ASButtonNode设置图片崩溃</a></li>
-          
-            <li><a title="数据刷新崩溃" href="15460677821989.html">数据刷新崩溃</a></li>
-          
-            <li><a title="CocaPods 添加头文件的报错  的解决办法" href="15374224515215.html">CocaPods 添加头文件的报错  的解决办法</a></li>
-          
-            <li><a title="控制器透明，WebView透明" href="15323970557540.html">控制器透明，WebView透明</a></li>
-          
-            <li><a title="解决UILabel 末尾的空格被忽略" href="15319018166027.html">解决UILabel 末尾的空格被忽略</a></li>
-          
-            <li><a title="使用 Runloop 遇到的问题" href="15101967456310.html">使用 Runloop 遇到的问题</a></li>
-          
-            <li><a title="打包后出现 Undefined symbols for architecture i386" href="14963702971919.html">打包后出现 Undefined symbols for architecture i386</a></li>
-          
-            <li><a title="xib报错" href="14802973825600.html">xib报错</a></li>
-          
-            <li><a title="UILabel边缘出现黑线" href="14766298858600.html">UILabel边缘出现黑线</a></li>
-          
-            <li><a title="升级到Xcode8后Qt无法正常使用" href="14761943627170.html">升级到Xcode8后Qt无法正常使用</a></li>
-          
-            <li><a title="如何解决json字符串中包含制表符" href="14747833011771.html">如何解决json字符串中包含制表符</a></li>
-          
-            <li><a title="键盘消失后又再次显示并立即消失问题" href="14677030322532.html">键盘消失后又再次显示并立即消失问题</a></li>
-          
-
-      
-        <li class="divider"></li>
-        <li><label>杂记</label></li>
-
-          
-            <li><a title="使用Swift获取应用程序的CPU使用率和内存使用量" href="15398626891772.html">使用Swift获取应用程序的CPU使用率和内存使用量</a></li>
-          
-            <li><a title="公司规范" href="15380500153174.html">公司规范</a></li>
-          
-            <li><a title="各种队列的执行效果" href="15375346728525.html">各种队列的执行效果</a></li>
-          
-            <li><a title="<禅与摩托车维修艺术>" href="15366461063408.html"><禅与摩托车维修艺术></a></li>
-          
-            <li><a title="金额显示" href="15271249936113.html">金额显示</a></li>
-          
-            <li><a title="线程需要注意的问题" href="15257017136249.html">线程需要注意的问题</a></li>
-          
-            <li><a title="Mac 应用图标没有在launchpad里显示" href="15257016488742.html">Mac 应用图标没有在launchpad里显示</a></li>
-          
-            <li><a title="Carthage 不能正常更新" href="15257016195473.html">Carthage 不能正常更新</a></li>
-          
-            <li><a title="collectionView自定义layout" href="15096779127051.html">collectionView自定义layout</a></li>
-          
-            <li><a title="项目优化记录" href="14919624884376.html">项目优化记录</a></li>
-          
-            <li><a title="设计模式 读书笔记" href="14907835920803.html">设计模式 读书笔记</a></li>
-          
-            <li><a title="点菜逻辑梳理" href="14829045788456.html">点菜逻辑梳理</a></li>
-          
-            <li><a title="数据库复习" href="14817245458052.html">数据库复习</a></li>
-          
-            <li><a title="会议记录(培训)" href="14787398225011.html">会议记录(培训)</a></li>
-          
-
-      
-        <li class="divider"></li>
-        <li><label>Swift</label></li>
-
-          
-            <li><a title="算法总结" href="15323249439841.html">算法总结</a></li>
-          
-            <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
-          
-            <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
-          
-            <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
-          
-            <li><a title="Swift - 最近遇到的问题(3.8)" href="14888974267202.html">Swift - 最近遇到的问题(3.8)</a></li>
-          
-            <li><a title="Swift - 春节前问题总结" href="14861891967085.html">Swift - 春节前问题总结</a></li>
-          
-            <li><a title="Swift - Swift Talk: Networking" href="14860911508877.html">Swift - Swift Talk: Networking</a></li>
-          
-            <li><a title="Swift - Swift与JavaScript交互实战[转]" href="14836656405837.html">Swift - Swift与JavaScript交互实战[转]</a></li>
-          
-            <li><a title="Swift - 上周总结(12.30)" href="14830040423390.html">Swift - 上周总结(12.30)</a></li>
-          
-            <li><a title="Swift - 上周问题总结" href="14815534553600.html">Swift - 上周问题总结</a></li>
-          
-            <li><a title="Swift - 面向协议编程" href="14799970254990.html">Swift - 面向协议编程</a></li>
-          
-            <li><a title="Swift - 函数式编程" href="14799126696997.html">Swift - 函数式编程</a></li>
-          
-            <li><a title="Swift - 使用代理和闭包传值" href="14796301513904.html">Swift - 使用代理和闭包传值</a></li>
-          
-            <li><a title="Swift - 在swift中如何使用 hexcolor 值表示颜色" href="14796201135474.html">Swift - 在swift中如何使用 hexcolor 值表示颜色</a></li>
-          
-            <li><a title="Swift - 自定义tableViewCell" href="14793055516073.html">Swift - 自定义tableViewCell</a></li>
-          
-            <li><a title="iOS依赖库管理工具：Carthage" href="14791335483032.html">iOS依赖库管理工具：Carthage</a></li>
-          
-            <li><a title="Swift - 懒加载 lazy" href="14791319119586.html">Swift - 懒加载 lazy</a></li>
-          
-            <li><a title="Swift - convenience 便利构造函数" href="14790461560134.html">Swift - convenience 便利构造函数</a></li>
-          
-            <li><a title="Swift - KVC 和 运行时获取属性列表" href="14790381443417.html">Swift - KVC 和 运行时获取属性列表</a></li>
-          
-            <li><a title="Swift - 函数" href="14790175059723.html">Swift - 函数</a></li>
-          
-            <li><a title="Swift - 字典中的增删改,遍历与合并" href="14789481799893.html">Swift - 字典中的增删改,遍历与合并</a></li>
-          
-            <li><a title="Swift - 数组中的增删改与合并" href="14789459811464.html">Swift - 数组中的增删改与合并</a></li>
-          
-            <li><a title="Swift - 数组遍历" href="14789442794521.html">Swift - 数组遍历</a></li>
-          
-
-      
-        <li class="divider"></li>
-        <li><label>C/C++</label></li>
-
-          
-            <li><a title="指针" href="15052686192490.html">指针</a></li>
-          
-            <li><a title="C++Primer笔记 - 初识输入输出" href="14866104685305.html">C++Primer笔记 - 初识输入输出</a></li>
-          
-            <li><a title="C++Primer笔记 - 如何获取 `main`的返回值" href="14866089688413.html">C++Primer笔记 - 如何获取 `main`的返回值</a></li>
-          
-            <li><a title="C/C++ - 回调函数中比较大小为啥0不行?" href="14834570124499.html">C/C++ - 回调函数中比较大小为啥0不行?</a></li>
-          
-
-      
-        <li class="divider"></li>
-        <li><label>Linux</label></li>
-
-          
-            <li><a title="Linux - 文件、磁盘管理" href="14954528363090.html">Linux - 文件、磁盘管理</a></li>
-          
-            <li><a title="Linux - 常用基本命令" href="14954518367171.html">Linux - 常用基本命令</a></li>
-          
-            <li><a title="Linux - 文件和目录" href="14954377078014.html">Linux - 文件和目录</a></li>
-          
-
-      
-        <li class="divider"></li>
-        <li><label>Documentation</label></li>
-
-          
-            <li><a title="# 深入理解 iOS 事件机制" href="15654059537017.html"># 深入理解 iOS 事件机制</a></li>
-          
-            <li><a title="framework脚本" href="15345002536089.html">framework脚本</a></li>
-          
-            <li><a title="企业证书需要" href="15132354899270.html">企业证书需要</a></li>
-          
-            <li><a title="3D Touch" href="15038471972999.html">3D Touch</a></li>
-          
-            <li><a title="CAGradientLayer" href="15038463059094.html">CAGradientLayer</a></li>
-          
-            <li><a title="Custom UIViews from XIB files" href="15036540820094.html">Custom UIViews from XIB files</a></li>
-          
-            <li><a title="UIBezierPath" href="15036524793322.html">UIBezierPath</a></li>
-          
-            <li><a title="GCD(Grand Central Dispatch)" href="15035627499170.html">GCD(Grand Central Dispatch)</a></li>
-          
-
-      
-        <li class="divider"></li>
-        <li><label>Java</label></li>
-
-          
-            <li><a title="静态方法和实例方法不同点" href="15465912048942.html">静态方法和实例方法不同点</a></li>
-          
-            <li><a title="如何判等equals" href="15465714658370.html">如何判等equals</a></li>
-          
-
-      
       </ul>
     </aside>
 
 <a class="exit-off-canvas" href="#"></a>
 
+
         <section id="main-content" role="main" class="scroll-container">
+        
+       
 
-          <div class="row">
-            <div class="large-3 medium-3 columns">
-              <div class="hide-for-small">
-                <div class="sidebar">
-                <nav>
-                  <ul id="side-nav" class="side-nav">
+ <script type="text/javascript">
+	$(function(){
+		$('#menu_item_index').addClass('is_active');
+	});
+</script>
+<div class="row">
+	<div class="large-8 medium-8 columns">
+		<div class="markdown-body home-categories">
+		
+			<div class="article">
+                <a class="clearlink" href="14733118707964.html">
+                
+                  <h1>转发机制</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<blockquote>
+<p>基本逻辑来源自官方文档 <a href="https://developer.apple.com/library/prerelease/content/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtForwarding.html">Message Forwarding</a> ,这里只做相关例子的解析.</p>
+</blockquote>
 
+<p>当一个对象能接收一个消息时，就会走正常的方法调用流程。但如果一个对象无法接收指定消息时，又会发生什么事呢？默认情况下，如果是以 [object message]的方式调用方法，如果object无法响应message消息时，编译器会报错。但如果是以perform…的形式来调用，则需要等到运 行时才能确定object是否能接收message消息。如果不能，则程序崩溃。<br/>
+通常，当我们不能确定一个对象是否能接收某个消息时，会先调用<code>respondsToSelector:</code>来判断一下。如下代码所示：</p>
+
+<pre><code class="language-text">if ([self respondsToSelector:@selector(method)]) {
+    [self performSelector:@selector(method)];
+}
+</code></pre>
+
+<p>当不使用<code>respondsToSelector:</code>判断时,就会启动&#39;消息转发(message forwarding)&#39;机制,通过这一机制我们可以告诉对象如何处理未知的消息.如果不做任何处理会导致程序崩溃,我们可以看到异常信息如下:</p>
+
+<pre><code class="language-text">2016-09-08 13:26:53.094 selfsuper[65176:7154658] -[Student eat]: unrecognized selector sent to instance 0x7ff1b9f9f690
+2016-09-08 13:26:53.103 selfsuper[65176:7154658] *** Terminating app due to uncaught exception &#39;NSInvalidArgumentException&#39;, reason: &#39;-[Student eat]: unrecognized selector sent to instance 0x7ff1b9f9f690&#39;
+</code></pre>
+
+<p>这段异常信息实际上是由NSObject的<code>doesNotRecognizeSelector</code>方法抛出的。不过，我们可以采取一些措施，让我们的程序执行特定的逻辑，而避免程序的崩溃。</p>
+
+<p>消息转发机制基本上分为三个步骤：</p>
+
+<ol>
+<li><p>动态方法解析</p></li>
+<li><p>备用接收者</p></li>
+<li><p>完整转发</p></li>
+</ol>
+
+<h2 id="toc_0">动态方法解析</h2>
+
+<p>对象在接收到未知的消息时，首先会调用所属类的类方法+resolveInstanceMethod:(实例方法)或 者+resolveClassMethod:(类方法)。在这个方法中，我们有机会为该未知消息新增一个”处理方法”“。不过使用该方法的前提是我们已经 实现了该”处理方法”，只需要在运行时通过class_addMethod函数动态添加到类里面就可以了。如下代码所示：</p>
+
+<pre><code class="language-text">// void(*)()
+// 默认方法都有两个隐式参数，
+void eat(id self,SEL sel)
+{
+    NSLog(@&quot;%@ %@&quot;,self,NSStringFromSelector(sel));
+}
+
+// 当一个对象调用未实现的方法，会调用这个方法处理,并且会把对应的方法列表传过来.
+// 刚好可以用来判断，未实现的方法是不是我们想要动态添加的方法
++ (BOOL)resolveInstanceMethod:(SEL)sel
+{
+    if (sel == NSSelectorFromString(@&quot;eat&quot;)) {
+        // 动态添加eat方法
+        
+        // 第一个参数：给哪个类添加方法
+        // 第二个参数：添加方法的方法编号
+        // 第三个参数：添加方法的函数实现（函数地址）
+        // 第四个参数：函数的类型，(返回值+参数类型) v:void @:对象-&gt;self :表示SEL-&gt;_cmd
+        class_addMethod(self, NSSelectorFromString(@&quot;eat&quot;), (IMP)eat, &quot;v@:&quot;);
+        
+    }
+    
+    return [super resolveInstanceMethod:sel];
+}
+
+</code></pre>
+
+<p>不过这种方案更多的是为了实现@dynamic属性。</p>
+
+<h2 id="toc_1">备用接收者</h2>
+
+<p>如果在上一步无法处理消息，则Runtime会继续调以下方法：</p>
+
+<pre><code class="language-text">- (id)forwardingTargetForSelector:(SEL)aSelector
+</code></pre>
+
+<p>如果一个对象实现了这个方法，并返回一个非nil的结果，则这个对象会作为消息的新接收者，且消息会被分发到这个对象。当然这个对象不能是self自身，否则就是出现无限循环。当然，如果我们没有指定相应的对象来处理aSelector，则应该调用父类的实现来返回结果。</p>
+
+<p>使用这个方法通常是在对象内部，可能还有一系列其它对象能处理该消息，我们便可借这些对象来处理消息并返回，这样在对象外部看来，还是由该对象亲自处理了这一消息。如下代码所示：</p>
+
+<pre><code class="language-text">/**
+ * 测试消息转发
+ */
+-(id)forwardingTargetForSelector:(SEL)aSelector {
+    NSLog(@&quot;消息转发&quot;);
+    NSString *selectorString = NSStringFromSelector(aSelector);
+    if ([selectorString isEqualToString:@&quot;eat2&quot;]){
+        // 将消息转给 RuntimeHelper 对象,让他来处理
+        return [RuntimeHelper new];
+    }
+    return [super forwardingTargetForSelector:aSelector];
+}
+
+</code></pre>
+
+<p>这一步合适于我们只想将消息转发到另一个能处理该消息的对象上。但这一步无法对消息进行处理，如操作消息的参数和返回值。如果需要修改参数和返回值,可以使用完整消息转发.</p>
+
+<h2 id="toc_2">完整消息转发</h2>
+
+<p>如果在上一步还不能处理未知消息，则唯一能做的就是启用完整的消息转发机制了。此时会调用以下方法:</p>
+
+<pre><code class="language-text">- (void)forwardInvocation:(NSInvocation *)anInvocation
+</code></pre>
+
+<p>完整代码:</p>
+
+<pre><code class="language-text">/**
+ *  完整的消息转发
+ */
+
+/* 必须重写 (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector
+ * 消息转发机制使用从这个方法中获取的信息来创建NSInvocation对象。因此我们必须重写这个方法，为给定的selector提供一个合适的方法签名。
+ */
+- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector {
+    NSMethodSignature *signature = [super methodSignatureForSelector:aSelector];
+    
+    if (!signature) {
+        if ([RuntimeHelper instancesRespondToSelector:aSelector]) {
+            signature = [RuntimeHelper instanceMethodSignatureForSelector:aSelector];
+        }
+    }
+    
+    return signature;
+}
+
+-(void)forwardInvocation:(NSInvocation *)anInvocation {
+    if ([RuntimeHelper instanceMethodSignatureForSelector:anInvocation.selector]) {
+        [anInvocation invokeWithTarget:[RuntimeHelper new]];
+    }
+}
+</code></pre>
+
+<p>关于 NSInvocation 可以参见<a href="https://github.com/Mekor/MKExtension">MKExtension</a>中<code>NSObject+SEL</code>,里面有关于 NSInvocation 的应用.</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2016/9/8</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E5%8E%9F%E7%90%86%E6%8E%A2%E7%A9%B6.html'>原理探究</a></span>
+          				   
                     
-                      <li class="side-title"><span>原理探究</span></li>
-                        
-                          <li><a title="图像显示原理" href="15653483390225.html">图像显示原理</a></li>
-                        
-                          <li><a title="事件传递" href="15653376209289.html">事件传递</a></li>
-                        
-                          <li><a title="转发机制" href="14733118707964.html">转发机制</a></li>
-                        
-                          <li><a title="RunLoop" href="14731740142157.html">RunLoop</a></li>
-                        
-                          <li><a title="runtime(内部分享草稿)" href="14727863232294.html">runtime(内部分享草稿)</a></li>
-                        
-                          <li><a title="KVO内部实现原理" href="14726525723684.html">KVO内部实现原理</a></li>
-                        
-                          <li><a title="runtime小结" href="14717809514175.html">runtime小结</a></li>
-                        
 
-                    
-                      <li class="side-title"><span>技巧</span></li>
-                        
-                          <li><a title="海底捞点餐Pad 优化" href="15653325472073.html">海底捞点餐Pad 优化</a></li>
-                        
-                          <li><a title="关于更换主题" href="15393255857280.html">关于更换主题</a></li>
-                        
-                          <li><a title="设置placeholder颜色" href="15257015417604.html">设置placeholder颜色</a></li>
-                        
-                          <li><a title="懒加载的另一种写法" href="15257015215231.html">懒加载的另一种写法</a></li>
-                        
-                          <li><a title="Cell点击时多次Push" href="15257014756710.html">Cell点击时多次Push</a></li>
-                        
-                          <li><a title="防止Timer 与控制器耦合导致控制器不释放" href="15180682554389.html">防止Timer 与控制器耦合导致控制器不释放</a></li>
-                        
-                          <li><a title="显示中划线,下划线" href="15166722537296.html">显示中划线,下划线</a></li>
-                        
-                          <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
-                        
-                          <li><a title="优化iPad 2 总结" href="15058021769287.html">优化iPad 2 总结</a></li>
-                        
-                          <li><a title="Mac zsh 使用命令打开sublime" href="14907559721950.html">Mac zsh 使用命令打开sublime</a></li>
-                        
-                          <li><a title="数组传递" href="14878335740172.html">数组传递</a></li>
-                        
-                          <li><a title="synchronized(object)" href="14877545165696.html">synchronized(object)</a></li>
-                        
-                          <li><a title="全屏返回手势小技巧" href="14823239811290.html">全屏返回手势小技巧</a></li>
-                        
-                          <li><a title="Scroll UICollectionView to section header view" href="14810139766101.html">Scroll UICollectionView to section header view</a></li>
-                        
-                          <li><a title="隐藏tabBar的小技巧" href="14793034700265.html">隐藏tabBar的小技巧</a></li>
-                        
-                          <li><a title="安装tree命令" href="14781615036446.html">安装tree命令</a></li>
-                        
-                          <li><a title="获取当前显示的UIViewController" href="14781433227076.html">获取当前显示的UIViewController</a></li>
-                        
-                          <li><a title="UITableView优化方案(收集)" href="14766308131126.html">UITableView优化方案(收集)</a></li>
-                        
-                          <li><a title="iOS 模拟器 添加图片到相册的小技巧" href="14765420394973.html">iOS 模拟器 添加图片到相册的小技巧</a></li>
-                        
-                          <li><a title="字符串frame相关" href="14765391593705.html">字符串frame相关</a></li>
-                        
-                          <li><a title="在包含UITableView视图中添加单击手势" href="14762437833792.html">在包含UITableView视图中添加单击手势</a></li>
-                        
-                          <li><a title="怎样让内存缓存变稳定" href="14752152861722.html">怎样让内存缓存变稳定</a></li>
-                        
-                          <li><a title="如何在UIBarButtonItem上显示数字(BadgeValue)" href="14747835330079.html">如何在UIBarButtonItem上显示数字(BadgeValue)</a></li>
-                        
-                          <li><a title="const,static,extern简介" href="14718293013293.html">const,static,extern简介</a></li>
-                        
-                          <li><a title="iOS Tips" href="14700440944204.html">iOS Tips</a></li>
-                        
-                          <li><a title="Mac 下面Python 自动补全" href="14685034880390.html">Mac 下面Python 自动补全</a></li>
-                        
-                          <li><a title="如何给View添加点击事件" href="14682407498601.html">如何给View添加点击事件</a></li>
-                        
-                          <li><a title="关于tableViewCell加载图片优化" href="14678597180657.html">关于tableViewCell加载图片优化</a></li>
-                        
-                          <li><a title="AFN3.0 如何实现operation.responseString" href="14676870942237.html">AFN3.0 如何实现operation.responseString</a></li>
-                        
-                          <li><a title="Coding中检测系统授权状态，关闭提示用户去隐私设置中打开" href="14676111126987.html">Coding中检测系统授权状态，关闭提示用户去隐私设置中打开</a></li>
-                        
-                          <li><a title="忽略编译器警告" href="14676105703423.html">忽略编译器警告</a></li>
-                        
-                          <li><a title="百度坐标&火星坐标转换" href="14676101998537.html">百度坐标&火星坐标转换</a></li>
-                        
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
 
-                    
-                      <li class="side-title"><span>教程</span></li>
-                        
-                          <li><a title="[转]浅析 iOS 应用开发中的断点续传" href="15060704391596.html">[转]浅析 iOS 应用开发中的断点续传</a></li>
-                        
-                          <li><a title="获取崩溃信息" href="14816416025061.html">获取崩溃信息</a></li>
-                        
-                          <li><a title="iOS8之后设置PopoverController" href="14813828036514.html">iOS8之后设置PopoverController</a></li>
-                        
-                          <li><a title="左右联动效果再实现" href="14807724917867.html">左右联动效果再实现</a></li>
-                        
-                          <li><a title="Git学习" href="14793607171148.html">Git学习</a></li>
-                        
-                          <li><a title="如何获取手机上安装的所有App" href="14778331858080.html">如何获取手机上安装的所有App</a></li>
-                        
-                          <li><a title="计算老虎机中奖等级-NSCountedSet" href="14778318573153.html">计算老虎机中奖等级-NSCountedSet</a></li>
-                        
-                          <li><a title="使用Qt创建桌面应用程序" href="14771170894039.html">使用Qt创建桌面应用程序</a></li>
-                        
-                          <li><a title="使用 chisel 提高 LLDB 调试效率" href="14766672567296.html">使用 chisel 提高 LLDB 调试效率</a></li>
-                        
-                          <li><a title="vim 学习" href="14764220018619.html">vim 学习</a></li>
-                        
-                          <li><a title="优秀文章链接收藏" href="14760921807707.html">优秀文章链接收藏</a></li>
-                        
-                          <li><a title="Cocoapods的安装" href="14751288042220.html">Cocoapods的安装</a></li>
-                        
-                          <li><a title="GCD(Grand Central Dispatch)使用" href="14747868502733.html">GCD(Grand Central Dispatch)使用</a></li>
-                        
-                          <li><a title="iOS10 遇到问题总结" href="14743674179375.html">iOS10 遇到问题总结</a></li>
-                        
-                          <li><a title="UIWebView可能的优化方案" href="14731574655770.html">UIWebView可能的优化方案</a></li>
-                        
-                          <li><a title="MKNetWork简介" href="14719458588528.html">MKNetWork简介</a></li>
-                        
-                          <li><a title="Android Studio 中如何查看帮助文档" href="14693652209160.html">Android Studio 中如何查看帮助文档</a></li>
-                        
-                          <li><a title="关于签名(Certificate),Identifiers,Device和Provisioning Profile" href="14689910761027.html">关于签名(Certificate),Identifiers,Device和Provisioning Profile</a></li>
-                        
-                          <li><a title="Python爬网站上的图片" href="14689829459214.html">Python爬网站上的图片</a></li>
-                        
-                          <li><a title="为项目添加podspec" href="14676996936809.html">为项目添加podspec</a></li>
-                        
-
-                    
-                      <li class="side-title"><span>遇到Bug</span></li>
-                        
-                          <li><a title="Texture  中ASButtonNode设置图片崩溃" href="15585883897383.html">Texture  中ASButtonNode设置图片崩溃</a></li>
-                        
-                          <li><a title="数据刷新崩溃" href="15460677821989.html">数据刷新崩溃</a></li>
-                        
-                          <li><a title="CocaPods 添加头文件的报错  的解决办法" href="15374224515215.html">CocaPods 添加头文件的报错  的解决办法</a></li>
-                        
-                          <li><a title="控制器透明，WebView透明" href="15323970557540.html">控制器透明，WebView透明</a></li>
-                        
-                          <li><a title="解决UILabel 末尾的空格被忽略" href="15319018166027.html">解决UILabel 末尾的空格被忽略</a></li>
-                        
-                          <li><a title="使用 Runloop 遇到的问题" href="15101967456310.html">使用 Runloop 遇到的问题</a></li>
-                        
-                          <li><a title="打包后出现 Undefined symbols for architecture i386" href="14963702971919.html">打包后出现 Undefined symbols for architecture i386</a></li>
-                        
-                          <li><a title="xib报错" href="14802973825600.html">xib报错</a></li>
-                        
-                          <li><a title="UILabel边缘出现黑线" href="14766298858600.html">UILabel边缘出现黑线</a></li>
-                        
-                          <li><a title="升级到Xcode8后Qt无法正常使用" href="14761943627170.html">升级到Xcode8后Qt无法正常使用</a></li>
-                        
-                          <li><a title="如何解决json字符串中包含制表符" href="14747833011771.html">如何解决json字符串中包含制表符</a></li>
-                        
-                          <li><a title="键盘消失后又再次显示并立即消失问题" href="14677030322532.html">键盘消失后又再次显示并立即消失问题</a></li>
-                        
-
-                    
-                      <li class="side-title"><span>杂记</span></li>
-                        
-                          <li><a title="使用Swift获取应用程序的CPU使用率和内存使用量" href="15398626891772.html">使用Swift获取应用程序的CPU使用率和内存使用量</a></li>
-                        
-                          <li><a title="公司规范" href="15380500153174.html">公司规范</a></li>
-                        
-                          <li><a title="各种队列的执行效果" href="15375346728525.html">各种队列的执行效果</a></li>
-                        
-                          <li><a title="<禅与摩托车维修艺术>" href="15366461063408.html"><禅与摩托车维修艺术></a></li>
-                        
-                          <li><a title="金额显示" href="15271249936113.html">金额显示</a></li>
-                        
-                          <li><a title="线程需要注意的问题" href="15257017136249.html">线程需要注意的问题</a></li>
-                        
-                          <li><a title="Mac 应用图标没有在launchpad里显示" href="15257016488742.html">Mac 应用图标没有在launchpad里显示</a></li>
-                        
-                          <li><a title="Carthage 不能正常更新" href="15257016195473.html">Carthage 不能正常更新</a></li>
-                        
-                          <li><a title="collectionView自定义layout" href="15096779127051.html">collectionView自定义layout</a></li>
-                        
-                          <li><a title="项目优化记录" href="14919624884376.html">项目优化记录</a></li>
-                        
-                          <li><a title="设计模式 读书笔记" href="14907835920803.html">设计模式 读书笔记</a></li>
-                        
-                          <li><a title="点菜逻辑梳理" href="14829045788456.html">点菜逻辑梳理</a></li>
-                        
-                          <li><a title="数据库复习" href="14817245458052.html">数据库复习</a></li>
-                        
-                          <li><a title="会议记录(培训)" href="14787398225011.html">会议记录(培训)</a></li>
-                        
-
-                    
-                      <li class="side-title"><span>Swift</span></li>
-                        
-                          <li><a title="算法总结" href="15323249439841.html">算法总结</a></li>
-                        
-                          <li><a title="图片加载方式" href="15299939008214.html">图片加载方式</a></li>
-                        
-                          <li><a title="SwiftTips - 集中处理" href="15158138774013.html">SwiftTips - 集中处理</a></li>
-                        
-                          <li><a title="Swift - 关于信号量" href="14916349354566.html">Swift - 关于信号量</a></li>
-                        
-                          <li><a title="Swift - 最近遇到的问题(3.8)" href="14888974267202.html">Swift - 最近遇到的问题(3.8)</a></li>
-                        
-                          <li><a title="Swift - 春节前问题总结" href="14861891967085.html">Swift - 春节前问题总结</a></li>
-                        
-                          <li><a title="Swift - Swift Talk: Networking" href="14860911508877.html">Swift - Swift Talk: Networking</a></li>
-                        
-                          <li><a title="Swift - Swift与JavaScript交互实战[转]" href="14836656405837.html">Swift - Swift与JavaScript交互实战[转]</a></li>
-                        
-                          <li><a title="Swift - 上周总结(12.30)" href="14830040423390.html">Swift - 上周总结(12.30)</a></li>
-                        
-                          <li><a title="Swift - 上周问题总结" href="14815534553600.html">Swift - 上周问题总结</a></li>
-                        
-                          <li><a title="Swift - 面向协议编程" href="14799970254990.html">Swift - 面向协议编程</a></li>
-                        
-                          <li><a title="Swift - 函数式编程" href="14799126696997.html">Swift - 函数式编程</a></li>
-                        
-                          <li><a title="Swift - 使用代理和闭包传值" href="14796301513904.html">Swift - 使用代理和闭包传值</a></li>
-                        
-                          <li><a title="Swift - 在swift中如何使用 hexcolor 值表示颜色" href="14796201135474.html">Swift - 在swift中如何使用 hexcolor 值表示颜色</a></li>
-                        
-                          <li><a title="Swift - 自定义tableViewCell" href="14793055516073.html">Swift - 自定义tableViewCell</a></li>
-                        
-                          <li><a title="iOS依赖库管理工具：Carthage" href="14791335483032.html">iOS依赖库管理工具：Carthage</a></li>
-                        
-                          <li><a title="Swift - 懒加载 lazy" href="14791319119586.html">Swift - 懒加载 lazy</a></li>
-                        
-                          <li><a title="Swift - convenience 便利构造函数" href="14790461560134.html">Swift - convenience 便利构造函数</a></li>
-                        
-                          <li><a title="Swift - KVC 和 运行时获取属性列表" href="14790381443417.html">Swift - KVC 和 运行时获取属性列表</a></li>
-                        
-                          <li><a title="Swift - 函数" href="14790175059723.html">Swift - 函数</a></li>
-                        
-                          <li><a title="Swift - 字典中的增删改,遍历与合并" href="14789481799893.html">Swift - 字典中的增删改,遍历与合并</a></li>
-                        
-                          <li><a title="Swift - 数组中的增删改与合并" href="14789459811464.html">Swift - 数组中的增删改与合并</a></li>
-                        
-                          <li><a title="Swift - 数组遍历" href="14789442794521.html">Swift - 数组遍历</a></li>
-                        
-
-                    
-                      <li class="side-title"><span>C/C++</span></li>
-                        
-                          <li><a title="指针" href="15052686192490.html">指针</a></li>
-                        
-                          <li><a title="C++Primer笔记 - 初识输入输出" href="14866104685305.html">C++Primer笔记 - 初识输入输出</a></li>
-                        
-                          <li><a title="C++Primer笔记 - 如何获取 `main`的返回值" href="14866089688413.html">C++Primer笔记 - 如何获取 `main`的返回值</a></li>
-                        
-                          <li><a title="C/C++ - 回调函数中比较大小为啥0不行?" href="14834570124499.html">C/C++ - 回调函数中比较大小为啥0不行?</a></li>
-                        
-
-                    
-                      <li class="side-title"><span>Linux</span></li>
-                        
-                          <li><a title="Linux - 文件、磁盘管理" href="14954528363090.html">Linux - 文件、磁盘管理</a></li>
-                        
-                          <li><a title="Linux - 常用基本命令" href="14954518367171.html">Linux - 常用基本命令</a></li>
-                        
-                          <li><a title="Linux - 文件和目录" href="14954377078014.html">Linux - 文件和目录</a></li>
-                        
-
-                    
-                      <li class="side-title"><span>Documentation</span></li>
-                        
-                          <li><a title="# 深入理解 iOS 事件机制" href="15654059537017.html"># 深入理解 iOS 事件机制</a></li>
-                        
-                          <li><a title="framework脚本" href="15345002536089.html">framework脚本</a></li>
-                        
-                          <li><a title="企业证书需要" href="15132354899270.html">企业证书需要</a></li>
-                        
-                          <li><a title="3D Touch" href="15038471972999.html">3D Touch</a></li>
-                        
-                          <li><a title="CAGradientLayer" href="15038463059094.html">CAGradientLayer</a></li>
-                        
-                          <li><a title="Custom UIViews from XIB files" href="15036540820094.html">Custom UIViews from XIB files</a></li>
-                        
-                          <li><a title="UIBezierPath" href="15036524793322.html">UIBezierPath</a></li>
-                        
-                          <li><a title="GCD(Grand Central Dispatch)" href="15035627499170.html">GCD(Grand Central Dispatch)</a></li>
-                        
-
-                    
-                      <li class="side-title"><span>Java</span></li>
-                        
-                          <li><a title="静态方法和实例方法不同点" href="15465912048942.html">静态方法和实例方法不同点</a></li>
-                        
-                          <li><a title="如何判等equals" href="15465714658370.html">如何判等equals</a></li>
-                        
-
-                    
-                  </ul>
-                </nav>
+                       
+                  </span>
+                  </div>
                 </div>
-              </div>
-            </div>
-            <div class="large-9 medium-9 columns">
-
- 
-
-
-	
-		<div class="markdown-body">
-		<h1>RunLoop</h1>
-
-		<h2 id="toc_0">1. 什么是runloop</h2>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14731740142157.html">
+                
+                  <h1>RunLoop</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<h2 id="toc_0">1. 什么是runloop</h2>
 
 <ul>
 <li>Run loops 是线程相关的的基础框架的一部分。一个 run loop 就是一个事件处理 的循环,用来不停的调度工作以及处理输入事件。使用 run loop 的目的是让你的线程在有工作的时候忙于工作,而没工作的时候处于休眠状态。</li>
@@ -979,56 +591,1193 @@ CFRunLoopRef<a href="http://opensource.apple.com/source/CF/CF-1151.16/">源代�
 
 <p><a href="http://www.jianshu.com/p/ccd379c6db98">读 Threading Programming Guide 笔记（四）</a></p>
 
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2016/9/6</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E5%8E%9F%E7%90%86%E6%8E%A2%E7%A9%B6.html'>原理探究</a></span>
+          				   
+                    
 
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14731574655770.html">
+                
+                  <h1>UIWebView可能的优化方案</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<blockquote>
+<p>声明:Socket思想来源于手Q空间团队,Demo中提供了使用Socket模拟HTTP请求.</p>
+</blockquote>
+
+<p>我们都知道WebView加载页面非常缓慢,如果页面样式结构比较固定,则可以采用自己的自己封装的网络请求去获取数据,然后拼接成HTML显示.</p>
+
+<p><strong>优点:</strong></p>
+
+<ul>
+<li>通常webview首次加载非常慢,使用Native网络请求会很快</li>
+<li>离线包＋预加载(静态HTML、静态JS、静态CSS它们的加载、它们离线的东西）,首屏进入可直接加载默认数据</li>
+</ul>
+
+<p><strong>缺点:</strong></p>
+
+<ul>
+<li>静态资源包离线下载,不能保证100%</li>
+</ul>
+
+<h2 id="toc_0">传统H5加载流程</h2>
+
+<p><img src="media/14731574655770/14737415611533.jpg" alt=""/></p>
+
+<h3 id="toc_1"><strong>这里有两个问题：</strong></h3>
+
+<p>WebView的耗时 <br/>
+根据手Q的统计数据，Android的WebView平均打开启动的速度耗时是0.8秒，有些Android机型基于系统环境可能需要一点多或者两秒左右；</p>
+
+<p>HTTP协议的网络层 <br/>
+HTTP有DNS或者建立链接的耗时，HTTPS有建立SSL链接的耗时。</p>
+
+<p>所以H5通常带给用户的体验是：我点进来不管是怎么时候，是第一次第二次还是第三次，我点进来先等两秒再说，看两秒白屏后页面才可以加载进来，其实这里我们只做了两个事情去优化首次加载流程：</p>
+
+<h4 id="toc_2">1. 把WebView启动和发送请求改成并行</h4>
+
+<p>客户端在启动WebView的时候同时发起HTML的页面请求，这里可以实现一个效果：本来我的耗时是T1+T2，现在为T1或T2的最大值，这样达到并行加载的效果。<br/>
+<img src="media/14731574655770/14737420748297.jpg" alt=""/></p>
+
+<p>当然这里还有一个优化的空间，我们其实已经由客户端接管了发送网络请求的事情，以前接管的时候是用HTTP协议，比如像iOS用的是URLSession模块，但已经让客户端接管了，为什么不能够更大胆一些呢？</p>
+
+<h4 id="toc_3">2. Socket通道</h4>
+
+<p>其实我们可以不拘泥于数据传输的方式，所以这里我们把一个HTML的加载从HTTP/HTTPS改造成了一个Socket通道，这是一个App里面长连接的管道，如果手机内部有即时通讯模块的话，我们是用这个长连接的通道来做HTML的传输的，它的作用在于只要你的手机QQ能够收发消息，你的HTML页面就能够加载进来，这样就达到体验上的一致性，同时网络也有比较稳定的提升。 <br/>
+<img src="media/14731574655770/14737423231640.jpg" alt=""/></p>
+
+<p>我们基本上做了两个事情就达到首次进入加速的目的，但后面才是一个关键：首次进入我们已经做过优化了，但二次进入怎么去做优化去提高它的显示速度呢？</p>
+
+<h2 id="toc_4">本地缓存</h2>
+
+<p><img src="media/14731574655770/14737426997041.jpg" alt=""/></p>
+
+<h2 id="toc_5">Demo简单介绍</h2>
+
+<blockquote>
+<p>关于加载优化Demo,地址:<a href="https://github.com/Mekor/Optimization-of-webView">https://github.com/Mekor/Optimization-of-webView</a></p>
+</blockquote>
+
+<h4 id="toc_6">webView加载耗时问题解决方案简介:</h4>
+
+<ol>
+<li>如果有界面变动不大,可以吧HTML直接在本地存放一份,然后从网上请求数据,拼接成HTML,这样加载速度会很快.这种可以参考用户版商品的图片简介.</li>
+<li>如果内部动态变化的,但是样式和交互式规定好的,可以在本地存放一份,当然也可以每次启动app的时候更新本地存放的静态资源.这样的好处就是每次只替换更新的内容.</li>
+</ol>
+
+<p>下面以网易新闻为例,这里我抓包网易新闻的请求,新闻详情: <a href="http://c.m.163.com/nc/article/C0OBRVC7051789DB/full.html">http://c.m.163.com/nc/article/C0OBRVC7051789DB/full.html</a><br/>
+这里我们可以看出,网易新闻也不是直接用webView加载url的方式显示的.</p>
+
+<pre><code class="language-text">{
+    &quot;C0OBRVC7051789DB&quot;: {
+        &quot;body&quot;: &quot;&lt;p&gt;　　郭德纲的成功除了自身坚持不懈的努力外，当然也因郭德纲遇到了不少“贵人”的帮助，在这其中有一位也是其“贵人”，郭德纲曾经也在很多场合说其是自己的贵人，他就是大鹏。&lt;/p&gt;&lt;!--IMG#0--&gt;&lt;p&gt;　　不过，此大鹏非彼大鹏。如今一说到大鹏，都会想到导演电影《煎饼侠》的大鹏，那是赵本山的弟子，却和郭德纲没有什么关系。而帮助过郭德纲，使得其相声在北京能广受欢迎的大鹏，则是北京文艺广播《开心茶馆》主持人康大鹏。&lt;/p&gt;&lt;!--IMG#1--&gt;&lt;p&gt;　　康大鹏作为电台节目主持人，在没有听到郭德纲相声之前，给听众播放的也是一些经典的相声段子，不过翻来覆去时间长了也令听众生厌，久而久之就没有了兴趣。在这种情况下，大鹏听了郭德纲的相声后，才感到眼前一亮。&lt;/p&gt;&lt;!--IMG#2--&gt;&lt;p&gt;　　当时的郭德纲，虽然在北京也开始站住了脚跟，但是仅限于小部分观众知道，并且据说还备受各方打击，所以才会在相声中经常有“怨言”。在大鹏看了德云社郭德纲的相声后，认为这是个机会，德云社也需要听众，也需要帮助。&lt;/p&gt;&lt;!--IMG#3--&gt;&lt;p&gt;　　于是，大鹏就开始到德云社录音，然后播放给听众听。这在当时，也是一个不小的举动。毕竟郭德纲在当时还名不见经传，而为郭德纲录音还需要大鹏自己掏腰包购买录音器材，至于播出后效果如何也担有一定风险。&lt;/p&gt;&lt;!--IMG#4--&gt;&lt;p&gt;　　也正如大鹏所想象，郭德纲的相声在电台播出后便反响强烈，使得很多观众都开始迷上了相声，也迷上了郭德纲。在拥有了大批粉丝后，据说郭德纲随后开办了一场大型纪念演出，当时有不少电视台和电台的领导观看，而在郭德纲相声结束后，大鹏还给台下领导来了一个惊人的一跪。&lt;/p&gt;&lt;!--IMG#5--&gt;&lt;p&gt;　　虽然只是单膝点地，但在当时的报纸也给出了惊天一跪的标题，而大鹏的这一跪，也使得郭德纲和电视台结缘。尽管郭德纲的成名和大鹏有着不可分割的关系，但大鹏还是很谦虚的说两者是相互的关系，因为节目需要听众。&lt;/p&gt;&lt;!--IMG#6--&gt;&lt;p&gt;　　在郭德纲进入北京电视台主持《星夜故事秀》节目时，这也是郭德纲和北京电视台合作最好的时期，堪称两者的“蜜月期”。只是随着郭德纲的成名，郭德纲后来又转战到了天津卫视，自己在北京电视台的节目则交给了何云伟和李菁来做。&lt;/p&gt;&lt;!--IMG#7--&gt;&lt;p&gt;　　这其中的原因，有人说是因为报酬方面产生了分歧，说白了其他电视台给了更高的价钱。所以北京电视台才会批郭德纲“忘恩负义”，因北京电视台为郭德纲的宣传做了很大的努力，但也有人说是因郭德纲的加盟，才使得北京电视台节目火了起来。谁是谁非莫衷一是。&lt;/p&gt;&lt;!--IMG#8--&gt;&lt;p&gt;　　至于后来，两者闹得更是不可开交，直到最后变成了“冤家”。而和北京电视台闹分裂后，对原电台主持人大鹏自然也是有很大的影响，毕竟电视台和电台也是一脉相承的关系，不可能不对大鹏产生影响。&lt;/p&gt;&lt;!--IMG#9--&gt;&lt;p&gt;　　对与错是与非都是难以说清，正如大鹏所说，郭德纲的相声给其节目带来了听众，而电台也给郭德纲带去了名气，两者也是相辅相成。但不管怎样，大鹏的确是郭德纲演艺路上的一位“恩人”，起码让其早点脱颖而出扬眉吐气了。&lt;/p&gt;&lt;p&gt; 特别声明：本文为网易自媒体平台“网易号”作者上传并发布，仅代表该作者观点。网易仅提供信息发布平台。&lt;/p&gt;&quot;,
+        &quot;users&quot;: [],
+        &quot;replyCount&quot;: 1893,
+        &quot;ydbaike&quot;: [],
+        &quot;link&quot;: [],
+        &quot;shareLink&quot;: &quot;http://c.m.163.com/news/a/C0OBRVC7051789DB.html?spss=newsapp&amp;spsw=1&quot;,
+        &quot;votes&quot;: [],
+        &quot;img&quot;: [
+            {
+                &quot;ref&quot;: &quot;&lt;!--IMG#0--&gt;&quot;,
+                &quot;pixel&quot;: &quot;400*263&quot;,
+                &quot;alt&quot;: &quot;&quot;,
+                &quot;src&quot;: &quot;http://dingyue.nosdn.127.net/s9VWjHPwFtTeqKoYJBULaIbs5TmzcYeGFQeljU0IFvZrD1473633706236.jpg&quot;
+            },
+            {
+                &quot;ref&quot;: &quot;&lt;!--IMG#1--&gt;&quot;,
+                &quot;pixel&quot;: &quot;412*256&quot;,
+                &quot;alt&quot;: &quot;&quot;,
+                &quot;src&quot;: &quot;http://dingyue.nosdn.127.net/6DXnTuxZs2jvgFJLMW2svrKoh1=KTYXhGwGUH2JlqdpZq1473633736663.jpg&quot;
+            },
+            {
+                &quot;ref&quot;: &quot;&lt;!--IMG#2--&gt;&quot;,
+                &quot;pixel&quot;: &quot;380*246&quot;,
+                &quot;alt&quot;: &quot;&quot;,
+                &quot;src&quot;: &quot;http://dingyue.nosdn.127.net/H5jHhCfSD5uhRhMFrHwze4LgrK97qwcG1GkwWGRZcOeqe1473633752645.jpg&quot;
+            },
+            {
+                &quot;ref&quot;: &quot;&lt;!--IMG#3--&gt;&quot;,
+                &quot;pixel&quot;: &quot;360*286&quot;,
+                &quot;alt&quot;: &quot;&quot;,
+                &quot;src&quot;: &quot;http://dingyue.nosdn.127.net/udjNFCksz6Fc7fCFAzCBwzUYxWB1TJUVis97X5ZRHpqg61473633775305.jpg&quot;
+            },
+            {
+                &quot;ref&quot;: &quot;&lt;!--IMG#4--&gt;&quot;,
+                &quot;pixel&quot;: &quot;407*255&quot;,
+                &quot;alt&quot;: &quot;&quot;,
+                &quot;src&quot;: &quot;http://dingyue.nosdn.127.net/7mbZrlli2D70eS9WHoRmd54RDkr6onqv8Zl1h6V5zJraj1473633824123compressflag.jpg&quot;
+            },
+            {
+                &quot;ref&quot;: &quot;&lt;!--IMG#5--&gt;&quot;,
+                &quot;pixel&quot;: &quot;400*266&quot;,
+                &quot;alt&quot;: &quot;&quot;,
+                &quot;src&quot;: &quot;http://dingyue.nosdn.127.net/HVmr=qRm5YReXaRAJBcSaI6WJpMn6DkKHJIVJBdbqMOYY1473633850729compressflag.jpg&quot;
+            },
+            {
+                &quot;ref&quot;: &quot;&lt;!--IMG#6--&gt;&quot;,
+                &quot;pixel&quot;: &quot;380*232&quot;,
+                &quot;alt&quot;: &quot;&quot;,
+                &quot;src&quot;: &quot;http://dingyue.nosdn.127.net/HQUW=i7soYmJqlUDaS1iv6pGBI9NzCdFqYU=yC=QT8BDQ1473633896632.jpg&quot;
+            },
+            {
+                &quot;ref&quot;: &quot;&lt;!--IMG#7--&gt;&quot;,
+                &quot;pixel&quot;: &quot;294*220&quot;,
+                &quot;alt&quot;: &quot;&quot;,
+                &quot;src&quot;: &quot;http://dingyue.nosdn.127.net/lEs43YivpKRxQqZPlmaIo=SpEOdRTqeYUywHCLqwIqR111473633914904.jpg&quot;
+            },
+            {
+                &quot;ref&quot;: &quot;&lt;!--IMG#8--&gt;&quot;,
+                &quot;pixel&quot;: &quot;402*238&quot;,
+                &quot;alt&quot;: &quot;&quot;,
+                &quot;src&quot;: &quot;http://dingyue.nosdn.127.net/bhzvrmx8JUQHVViXI5VKqvHG=c5RIIxx0dssbfTNM7mfE1473633962043.jpg&quot;
+            },
+            {
+                &quot;ref&quot;: &quot;&lt;!--IMG#9--&gt;&quot;,
+                &quot;pixel&quot;: &quot;329*220&quot;,
+                &quot;alt&quot;: &quot;&quot;,
+                &quot;src&quot;: &quot;http://dingyue.nosdn.127.net/tN7dLuyOJ0SU3kXoPRrLdXkVMZGJtiS97Qh46opqH2Q0N1473634186617.jpg&quot;
+            }
+        ],
+        &quot;digest&quot;: &quot;&quot;,
+        &quot;topiclist_news&quot;: [],
+        &quot;dkeys&quot;: &quot;null&quot;,
+        &quot;topiclist&quot;: [
+            {
+                &quot;hasCover&quot;: false,
+                &quot;subnum&quot;: &quot;2.8万&quot;,
+                &quot;alias&quot;: &quot;娱乐八卦、影视评论&quot;,
+                &quot;tname&quot;: &quot;娱乐大嘴&quot;,
+                &quot;ename&quot;: &quot;T1439876075818&quot;,
+                &quot;tid&quot;: &quot;T1439876075818&quot;,
+                &quot;cid&quot;: &quot;C1374475306828&quot;
+            }
+        ],
+        &quot;docid&quot;: &quot;C0OBRVC7051789DB&quot;,
+        &quot;picnews&quot;: true,
+        &quot;title&quot;: &quot;郭德纲从他的节目走红 此“贵人”却不求回报&quot;,
+        &quot;sourceinfo&quot;: {
+            &quot;alias&quot;: &quot;娱乐八卦、影视评论&quot;,
+            &quot;ename&quot;: &quot;T1439876075818&quot;,
+            &quot;tname&quot;: &quot;娱乐大嘴&quot;,
+            &quot;tid&quot;: &quot;T1439876075818&quot;
+        },
+        &quot;tid&quot;: &quot;&quot;,
+        &quot;template&quot;: &quot;normal1&quot;,
+        &quot;threadVote&quot;: 108,
+        &quot;askbar&quot;: [
+            {
+                &quot;title&quot;: &quot;主持人&quot;,
+                &quot;headpicurl&quot;: &quot;http://dingyue.nosdn.127.net/27vmGgL=A4BbmMAUJIEOEJ2vUlnvIGE9Ufum0roxEDigT1472456332076.jpg&quot;,
+                &quot;alias&quot;: &quot; 我是河北交通广播主持人月色，关于主持、情感和各种天马行空的问题，问我吧！ &quot;,
+                &quot;expertId&quot;: &quot;EX880112773195081120&quot;,
+                &quot;name&quot;: &quot;月色&quot;,
+                &quot;concernCount&quot;: 6341
+            }
+        ],
+        &quot;threadAgainst&quot;: 49,
+        &quot;boboList&quot;: [],
+        &quot;articleTags&quot;: &quot;网易号&quot;,
+        &quot;replyBoard&quot;: &quot;dy_wemedia_bbs&quot;,
+        &quot;source&quot;: &quot;娱乐大嘴&quot;,
+        &quot;huati&quot;: [
+            {
+                &quot;topicId&quot;: &quot;SJ02345751487819348812&quot;,
+                &quot;topicName&quot;: &quot;郭德纲&quot;
+            },
+            {
+                &quot;topicId&quot;: &quot;SJ1851570047893940154&quot;,
+                &quot;topicName&quot;: &quot;赵本山&quot;
+            }
+        ],
+        &quot;hasNext&quot;: false,
+        &quot;voicecomment&quot;: &quot;off&quot;,
+        &quot;apps&quot;: [],
+        &quot;relative_sys&quot;: [
+            {
+                &quot;id&quot;: &quot;C0RN7O7N00034VR2&quot;,
+                &quot;title&quot;: &quot;郭德纲的综艺版图:交人脉、捧新人、强化德云IP&quot;,
+                &quot;source&quot;: &quot;网易娱乐专稿&quot;,
+                &quot;imgsrc&quot;: &quot;http://cms-bucket.nosdn.127.net/a11079eb004f445abdb7146850e4810d20160913141047.jpeg&quot;,
+                &quot;docID&quot;: &quot;C0RN7O7N00034VR2&quot;,
+                &quot;from&quot;: &quot;HZ&quot;,
+                &quot;type&quot;: &quot;doc&quot;,
+                &quot;ptime&quot;: &quot;2016-09-13 14:13:21&quot;,
+                &quot;href&quot;: &quot;&quot;
+            },
+            {
+                &quot;id&quot;: &quot;C0DBP4LV0517ACQ1&quot;,
+                &quot;title&quot;: &quot;老梁说天下：郭德纲为什么这么能“惹事儿”&quot;,
+                &quot;source&quot;: &quot;纵横娱乐&quot;,
+                &quot;imgsrc&quot;: &quot;http://dingyue.nosdn.127.net/sYo3zfohiqrXHHZIhYV0wqZTpE7RavK7qWneE4BsRH6O=1473265404780compressflag.png&quot;,
+                &quot;docID&quot;: &quot;C0DBP4LV0517ACQ1&quot;,
+                &quot;from&quot;: &quot;HZ&quot;,
+                &quot;type&quot;: &quot;doc&quot;,
+                &quot;ptime&quot;: &quot;2016-09-08 00:23:46&quot;,
+                &quot;href&quot;: &quot;&quot;
+            },
+            {
+                &quot;id&quot;: &quot;C0R1QGIN051789DB&quot;,
+                &quot;title&quot;: &quot;唯一被戏称德云社第一女弟子女星，却是郭德纲铁杆粉丝&quot;,
+                &quot;source&quot;: &quot;娱乐大嘴&quot;,
+                &quot;imgsrc&quot;: &quot;http://dingyue.nosdn.127.net/I=T7AyADVhb6T8KiCoR0Yw0mKqBXyzUNKWyafBy9PRvxF1473724249899.jpg&quot;,
+                &quot;docID&quot;: &quot;C0R1QGIN051789DB&quot;,
+                &quot;from&quot;: &quot;HZ&quot;,
+                &quot;type&quot;: &quot;doc&quot;,
+                &quot;ptime&quot;: &quot;2016-09-13 08:01:08&quot;,
+                &quot;href&quot;: &quot;&quot;
+            }
+        ],
+        &quot;ptime&quot;: &quot;2016-09-12 06:59:42&quot;
+    }
+}
+</code></pre>
+
+<p>我们可以看出, <code>body</code> 里面是配置好的html,同时里面也给出了图片占位符类似于 <code>&lt;!--IMG#0--&gt;</code>,通过 <code>img</code> 数组里面的的内容进行替换,img里面提供类似 </p>
+
+<pre><code class="language-text">{
+    &quot;ref&quot;: &quot;&lt;!--IMG#0--&gt;&quot;, 
+    &quot;pixel&quot;: &quot;400*263&quot;, 
+    &quot;alt&quot;: &quot;&quot;, 
+    &quot;src&quot;: &quot;http://dingyue.nosdn.127.net/s9VWjHPwFtTeqKoYJBULaIbs5TmzcYeGFQeljU0IFvZrD1473633706236.jpg&quot;
+},
+</code></pre>
+
+<p>提供了 <code>body</code> 里面的占位符,同时还提供了,pixel,alt,src等.这时我们可以做的事情就多了,根据占位符替换 <code>body</code> 中的占位,通过原生网络下载图片等等.Demo中我只做了简单的HTML拼接.拼接好HTML在把本地的模板添加进去,比如css,js等.最后直接把拼接好的完整的HTML给webView,让其显示.具体Demo已经提供了,仅供参考.效果图:</p>
+
+<p><img src="media/14731574655770/14738361521187.gif" alt=""/><br/>
+(仅供参考,css我只是简单的按照大概写的,勿喷)</p>
+
+<h4 id="toc_7">Socket模拟HTTP请求</h4>
+
+<p>第二个Demo中模拟了Socket发送HTTP请求的方式,当然我这里只是猜测手Q的实现方式.需要注意的地方就是拼接请求头.</p>
+
+<pre><code class="language-text">    //拼接http请求
+    NSString *request = @&quot;GET / HTTP/1.1\n&quot;
+    &quot;Connection: Close\n&quot;
+    &quot;Host: m.baidu.com\n&quot;
+    //告诉服务器客户端是mac
+    &quot;User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.115 Safari/537.36\n\n&quot;;
+</code></pre>
+
+<h2 id="toc_8">其他优化方案</h2>
+
+<p>可以设置url缓存,直接在Appdelegate中默认设置就好了..</p>
+
+<pre><code class="language-text">//网络缓存优化 -- 设置 4 MB 的内存缓存， 50MB 的磁盘缓存
+    NSURLCache *URLCache = [[NSURLCache alloc] initWithMemoryCapacity:4 * 1024 * 1024 diskCapacity:50 * 1024 * 1024 diskPath:nil];
+    [NSURLCache setSharedURLCache:URLCache];
+</code></pre>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2016/9/6</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E6%95%99%E7%A8%8B.html'>教程</a></span>
+          				   
+                    
+
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14727863232294.html">
+                
+                  <h1>runtime(内部分享草稿)</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<blockquote>
+<p>本文涉及到的Demo地址 <a href="https://github.com/Mekor/runtimeDemo">https://github.com/Mekor/runtimeDemo</a></p>
+</blockquote>
+
+<h2 id="toc_0">理解self,super,class,superclass</h2>
+
+<p>创建一个Person里面有一个类方法:</p>
+
+<pre><code class="language-objectivec">#import &quot;Person.h&quot;
+
+@implementation Person
++(void)study {
+    NSLog(@&quot;%@ %@ %@ %@&quot;,[self class],[self superclass],[super class],[super superclass]);
+}
+@end
+</code></pre>
+
+<p>Student继承自Person,重写父类方法</p>
+
+<pre><code class="language-objectivec">#import &quot;Student.h&quot;
+
+@implementation Student
++(void)study {
+    NSLog(@&quot;%@ %@ %@ %@&quot;,[self class],[self superclass],[super class],[super superclass]);
+}
+@end
+</code></pre>
+
+<!--more-->
+
+<p>这两个输出的都是什么?<br/>
+<img src="media/14727863232294/14729913552743.jpg" alt=""/></p>
+
+<p>这时,我们在Student中用这样写:</p>
+
+<pre><code class="language-objectivec">#import &quot;Student.h&quot;
+
+@implementation Student
++(void)study {
+//    NSLog(@&quot;%@ %@ %@ %@&quot;,[self class],[self superclass],[super class],[super superclass]);
+    
+    [super study];
+}
+@end
+</code></pre>
+
+<p>打断点我们可以看到:<br/>
+<img src="media/14727863232294/14729934417192.jpg" alt=""/></p>
+
+<p>可以看出:</p>
+
+<pre><code class="language-objectivec">super：是编译器指示符，仅仅是一个标志,并不是指针，仅仅是标志的当前对象去调用父类的方法，本质还是当前对象调用
+super:并不是让父类对象调用方法，调用者还是本身
+class：获取方法调用者的类
+superclass:获取方法调用者的父类
+</code></pre>
+
+<p>消息机制:(来自:<a href="https://developer.apple.com/library/prerelease/content/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtHowMessagingWorks.html">官方文档</a>)<br/>
+<img src="media/14727863232294/messaging1.gif" alt="消息框架"/></p>
+
+<p>当对象收到消息时,消息函数首先根据该对象的 isa 指针找到该对象所对应的类的方法表,并从表中寻找 该消息对应的方法选标。如果找不到,objc_msgSend 将继续从父类中寻找,直到 NSObject 类。一旦找到了方法选标, objc_msgSend 则以消息接收者对象为参数调用,调用该选标对应的方法实现。</p>
+
+<h2 id="toc_1">self是从哪里来的?</h2>
+
+<blockquote>
+<p>官方解释:<a href="https://developer.apple.com/library/prerelease/content/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtHowMessagingWorks.html">Objective-C Runtime Programming Guide</a><img src="media/14727863232294/14729941396965.jpg" alt=""/></p>
+</blockquote>
+
+<p>简单说每个方法都存在并且隐藏的两个参数(self,_cmd),随便写个方法看下:<br/>
+Student中写个text方法,然后打印下这两个隐藏参数.<br/>
+<img src="media/14727863232294/14729960900273.jpg" alt=""/><br/>
+<img src="media/14727863232294/14729961142923.jpg" alt=""/></p>
+
+<h2 id="toc_2">动态添加方法</h2>
+
+<p>上面说了一些貌似和runtime没有什么关系,runtime基础知识类似类的构成,对象的构成这里不再介绍,可以自己去看定义.当然也可以去<a href="http://opensource.apple.com/source/objc4/objc4-680/runtime/">苹果的开源网站</a>查看,如果网站不方便可以去苹果的<a href="https://github.com/opensource-apple/objc4">github</a>下载开源代码研究...  ...继续...那么根据上面所说的方法说下动态添加方法.</p>
+
+<blockquote>
+<p>思考一下,咱们new项目中将采用路由模式进行页面跳转,从网页跳转进入app调用一个方法,一般情况下都是移动端和后台协议好的内容,这样跳转不会出现问题.但是如果后台写错了或者传输中出现问题导致url中包含的方法名不是规定的方法名.这时怎么办?</p>
+</blockquote>
+
+<pre><code class="language-objectivec">    Student *s = [Student new];
+    
+    // 1. 比如我们要调用 Student中的eat方法, 默认这样写[s eat]; 但是不行,因为我们没有定义.
+//    [s eat];
+    // 2. 也可以这样调用[s performSelector:@selector(eat)];这样没有问题,@selector中参数是字符串,这个参考swift
+//    [s performSelector:@selector(eat)];
+    // 3. 使用string创建SEL
+    
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored&quot;-Warc-performSelector-leaks&quot;
+    [s performSelector:NSSelectorFromString(@&quot;eat&quot;)];
+#pragma clang diagnostic pop
+    
+    // 上面这样调用会报错,我们在对象调用未实现方法的时候动态的创建一个方法,避免抛出异常.
+</code></pre>
+
+<p>怎么忽略编译器警告已经分享过,可以参考:<a href="http://www.citynight.cn/Blog/14676105703423.html">http://www.citynight.cn/Blog/14676105703423.html</a></p>
+
+<h3 id="toc_3">怎么动态添加方法呢?</h3>
+
+<p><img src="media/14727863232294/14729983827897.jpg" alt=""/><br/>
+上面是动态添加对象方法的例子,动态添加类方法也是一样的<code>+(BOOL)resolveClassMethod:(SEL)sel</code><br/>
+<strong>注意:</strong>上面函数类型,有人可能好奇这块为什么写成&quot;v@:&quot;  ?参见:函数类型, 更多关于转发机制参见:<a href="http://www.citynight.cn/Blog/14733118707964.html">转发机制</a></p>
+
+<h3 id="toc_4">关于函数类型</h3>
+
+<p>先看文档:<br/>
+<img src="media/14727863232294/14730056768742.jpg" alt=""/><br/>
+查看<code>Objective-C type encodings</code> <img src="media/14727863232294/14730058881001.jpg" alt=""/><br/>
+所以上面void eat(...)应该表述成 <code>&quot;v@:&quot;</code></p>
+
+<p><strong>补充:</strong> 动态调用方法系统默认提供一到两个参数的方法调用, <del>这里封装了一个无限参数的方法调用.<a href="https://github.com/Mekor/NSObject-SEL">NSObject-SEL****</a></del>  我把一些扩展进行了总结,还不完善,地址<a href="https://github.com/Mekor/MKExtension">MKExtension</a></p>
+
+<h3 id="toc_5">关于IMP(函数指针)</h3>
+
+<pre><code class="language-objectivec">/// A pointer to the function of a method implementation. 
+#if !OBJC_OLD_DISPATCH_PROTOTYPES
+typedef void (*IMP)(void /* id, SEL, ... */ ); 
+#else
+typedef id (*IMP)(id, SEL, ...); 
+#endif
+</code></pre>
+
+<p>当前版本Xcode如果使用IMP的话,默认是选择第一个也就是无参无返回值.如果需要参数有返回值的话,需要修改配置文件.如下:</p>
+
+<h2 id="toc_6">方法交换(Method Swizzling:传说中的黑魔法)</h2>
+
+<p>一般使用方法交换都是想给系统提供的方法添加一些其他的功能的时候使用.new中使用方法交换的例子:</p>
+
+<pre><code class="language-objectivec">#import &quot;UIActionSheet+Front.h&quot;
+
+#import &lt;objc/runtime.h&gt;
+
+@implementation UIActionSheet (Front)
+- (void)customShowInView:(UIView *)view{
+    for(UIWindow * tmpWin in [[UIApplication sharedApplication] windows]){
+        [tmpWin endEditing:NO];
+    }
+    [self customShowInView:view];
+}
++ (void)load{
+    swizzleAllActionSheet();
+}
+@end
+
+void swizzleAllActionSheet(){
+    Class c = [UIActionSheet class];
+    SEL origSEL = @selector(showInView:);
+    SEL newSEL = @selector(customShowInView:);
+    Method origMethod = class_getInstanceMethod(c, origSEL);
+    Method newMethod = class_getInstanceMethod(c, newSEL);
+    method_exchangeImplementations(origMethod, newMethod);
+}
+</code></pre>
+
+<p>关于方法交换,在new项目中已经封装好了,代码如下:</p>
+
+<pre><code class="language-objectivec">// ObjcRuntime.h文件
+void Swizzle(Class c, SEL origSEL, SEL newSEL);
+
+//ObjcRuntime.m文件
+//静态就交换静态，实例方法就交换实例方法
+void Swizzle(Class c, SEL origSEL, SEL newSEL)
+{
+    Method origMethod = class_getInstanceMethod(c, origSEL);
+    Method newMethod = nil;
+    if (!origMethod) {
+        origMethod = class_getClassMethod(c, origSEL);
+        if (!origMethod) {
+            return;
+        }
+        newMethod = class_getClassMethod(c, newSEL);
+        if (!newMethod) {
+            return;
+        }
+    }else{
+        newMethod = class_getInstanceMethod(c, newSEL);
+        if (!newMethod) {
+            return;
+        }
+    }
+    
+    //自身已经有了就添加不成功，直接交换即可
+    if(class_addMethod(c, origSEL, method_getImplementation(newMethod), method_getTypeEncoding(newMethod))){
+        class_replaceMethod(c, newSEL, method_getImplementation(origMethod), method_getTypeEncoding(origMethod));
+    }else{
+        method_exchangeImplementations(origMethod, newMethod);
+    }
+}
+</code></pre>
+
+<p>用法(还是以Student为例):<br/>
+Student中添加两个对象方法,一个run,一个sleep.我们的目的是交换两个方法的实现</p>
+
+<pre><code class="language-objectivec">-(void)run {
+    NSLog(@&quot;跑🏃&quot;);
+}
+-(void)sleep {
+    NSLog(@&quot;睡觉😴&quot;);
+}
++(void)load {
+    Swizzle(self, @selector(run), @selector(sleep));
+}
+</code></pre>
+
+<p>控制器调用的结果:<br/>
+<img src="media/14727863232294/14730042652865.jpg" alt=""/></p>
+
+<h2 id="toc_7">添加属性</h2>
+
+<p>动态添加属性用的最多的地方应该是给分类添加属性.  <del>我在项目中添加过一个分类<code>UIView+Tap</code>这个也可以在这里查看<a href="https://github.com/Mekor/UIView-Tap">UIView-Tap</a></del>  我把一些扩展进行了总结,还不完善,地址<a href="https://github.com/Mekor/MKExtension">MKExtension</a></p>
+
+<pre><code class="language-objectivec">#import &quot;UIView+Tap.h&quot;
+#import &lt;objc/runtime.h&gt;
+
+static const void* tagValue = &amp;tagValue;
+
+@interface UIView ()
+@property (nonatomic, copy) void(^tapAction)(id);
+@end
+
+@implementation UIView (Tap)
+- (void)tap{
+    if (self.tapAction) {
+        self.tapAction(self);
+    }
+}
+- (void)addTapBlock:(void(^)(id obj))tapAction{
+    self.tapAction = tapAction;
+    if (![self gestureRecognizers]) {
+        self.userInteractionEnabled = YES;
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap)];
+        [self addGestureRecognizer:tap];
+    }
+}
+
+-(void)setTapAction:(void (^)(id))tapAction {
+    objc_setAssociatedObject(self, tagValue, tapAction, OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+-(void (^)(id))tapAction {
+    return objc_getAssociatedObject(self, tagValue);
+}
+@end
+</code></pre>
+
+<p>主要是set&amp;get方法,这点注意了也就没啥了..</p>
+
+<h2 id="toc_8">其他</h2>
+
+<ol>
+<li>系统中常见的使用到runtime的地方:
+<a href="http://www.citynight.cn/Blog/14726525723684.html">KVO内部实现原理</a></li>
+<li>日常开发中使用到runtime的地方:</li>
+<li>字典转模型: 可以参看<code>MJExtension</code> 它的核心代码在:<code>NSObject+MJProperty.m</code>第150行开始</li>
+</ol>
+
+<pre><code class="language-objectivec">#pragma mark - 公共方法
++ (NSMutableArray *)properties
+{
+    NSMutableArray *cachedProperties = [self dictForKey:&amp;MJCachedPropertiesKey][NSStringFromClass(self)];
+    
+    if (cachedProperties == nil) {
+        cachedProperties = [NSMutableArray array];
+        
+        [self mj_enumerateClasses:^(__unsafe_unretained Class c, BOOL *stop) {
+            // 1.获得所有的成员变量
+            unsigned int outCount = 0;
+            objc_property_t *properties = class_copyPropertyList(c, &amp;outCount);
+            
+            // 2.遍历每一个成员变量
+            for (unsigned int i = 0; i&lt;outCount; i++) {
+                MJProperty *property = [MJProperty cachedPropertyWithProperty:properties[i]];
+                // 过滤掉Foundation框架类里面的属性
+                if ([MJFoundation isClassFromFoundation:property.srcClass]) continue;
+                property.srcClass = c;
+                [property setOriginKey:[self propertyKey:property.name] forClass:self];
+                [property setObjectClassInArray:[self propertyObjectClassInArray:property.name] forClass:self];
+                [cachedProperties addObject:property];
+            }
+            
+            // 3.释放内存
+            free(properties);
+        }];
+        
+        [self dictForKey:&amp;MJCachedPropertiesKey][NSStringFromClass(self)] = cachedProperties;
+    }
+    
+    return cachedProperties;
+}
+</code></pre>
+
+<p>自定义字典转模型中log的输出可以参见Xcode插件<code>ESJsonFormat</code>中<code>ESJsonFormatManager.m</code>第47行:</p>
+
+<pre><code class="language-objectivec">/**
+ *  格式化OC属性字符串
+ *
+ *  @param key       JSON里面key字段
+ *  @param value     JSON里面key对应的NSDiction或者NSArray
+ *  @param classInfo 类信息
+ *
+ *  @return
+ */
++ (NSString *)formatObjcWithKey:(NSString *)key value:(NSObject *)value classInfo:(ESClassInfo *)classInfo{
+    NSString *qualifierStr = @&quot;copy&quot;;
+    NSString *typeStr = @&quot;NSString&quot;;
+    //判断大小写
+    if ([ESUppercaseKeyWords containsObject:key] &amp;&amp; [ESJsonFormatSetting defaultSetting].uppercaseKeyWordForId) {
+        key = [key uppercaseString];
+    }
+    if ([value isKindOfClass:[NSString class]]) {
+        return [NSString stringWithFormat:@&quot;@property (nonatomic, %@) %@ *%@;&quot;,qualifierStr,typeStr,key];
+    }else if([value isKindOfClass:[@(YES) class]]){
+        //the &#39;NSCFBoolean&#39; is private subclass of &#39;NSNumber&#39;
+        qualifierStr = @&quot;assign&quot;;
+        typeStr = @&quot;BOOL&quot;;
+        return [NSString stringWithFormat:@&quot;@property (nonatomic, %@) %@ %@;&quot;,qualifierStr,typeStr,key];
+    }else if([value isKindOfClass:[NSNumber class]]){
+        qualifierStr = @&quot;assign&quot;;
+        NSString *valueStr = [NSString stringWithFormat:@&quot;%@&quot;,value];
+        if ([valueStr rangeOfString:@&quot;.&quot;].location!=NSNotFound){
+            typeStr = @&quot;CGFloat&quot;;
+        }else{
+            NSNumber *valueNumber = (NSNumber *)value;
+            if ([valueNumber longValue]&lt;2147483648) {
+                typeStr = @&quot;NSInteger&quot;;
+            }else{
+                typeStr = @&quot;long long&quot;;
+            }
+        }
+        return [NSString stringWithFormat:@&quot;@property (nonatomic, %@) %@ %@;&quot;,qualifierStr,typeStr,key];
+    }else if([value isKindOfClass:[NSArray class]]){
+        NSArray *array = (NSArray *)value;
+        
+        //May be &#39;NSString&#39;，will crash
+        NSString *genericTypeStr = @&quot;&quot;;
+        NSObject *firstObj = [array firstObject];
+        if ([firstObj isKindOfClass:[NSDictionary class]]) {
+            ESClassInfo *childInfo = classInfo.propertyArrayDic[key];
+            genericTypeStr = [NSString stringWithFormat:@&quot;&lt;%@ *&gt;&quot;,childInfo.className];
+        }else if ([firstObj isKindOfClass:[NSString class]]){
+            genericTypeStr = @&quot;&lt;NSString *&gt;&quot;;
+        }else if ([firstObj isKindOfClass:[NSNumber class]]){
+            genericTypeStr = @&quot;&lt;NSNumber *&gt;&quot;;
+        }
+        
+        qualifierStr = @&quot;strong&quot;;
+        typeStr = @&quot;NSArray&quot;;
+        if ([ESJsonFormatSetting defaultSetting].useGeneric &amp;&amp; [ESUtils isXcode7AndLater]) {
+            return [NSString stringWithFormat:@&quot;@property (nonatomic, %@) %@%@ *%@;&quot;,qualifierStr,typeStr,genericTypeStr,key];
+        }
+        return [NSString stringWithFormat:@&quot;@property (nonatomic, %@) %@ *%@;&quot;,qualifierStr,typeStr,key];
+    }else if ([value isKindOfClass:[NSDictionary class]]){
+        qualifierStr = @&quot;strong&quot;;
+        ESClassInfo *childInfo = classInfo.propertyClassDic[key];
+        typeStr = childInfo.className;
+        if (!typeStr) {
+            typeStr = [key capitalizedString];
+        }
+        return [NSString stringWithFormat:@&quot;@property (nonatomic, %@) %@ *%@;&quot;,qualifierStr,typeStr,key];
+    }
+    return [NSString stringWithFormat:@&quot;@property (nonatomic, %@) %@ *%@;&quot;,qualifierStr,typeStr,key];
+}
+
+</code></pre>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2016/9/2</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='%E5%8E%9F%E7%90%86%E6%8E%A2%E7%A9%B6.html'>原理探究</a></span>
+          				   
+                    
+
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="14727432716172.html">
+                
+                  <h1>基础拾遗</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p><img src="media/14727432716172/14727432899236.jpg" alt=""/></p>
+
+<h2 id="toc_0">self和super区别</h2>
+
+<p>要点：</p>
+
+<ol>
+<li>self调用自己方法，super调用父类方法</li>
+<li>self是类，super是预编译指令</li>
+<li>【self class】和【super class】输出是一样的</li>
+</ol>
+
+<p>self和super底层实现原理：</p>
+
+<ol>
+<li>当使用 self 调用方法时，会从当前类的方法列表中开始找，如果没有，就从父类中再找；而当使用 super 时，则从父类的方法列表中开始找，然后调用父类的这个方法。</li>
+<li>当使用 self 调用时，会使用 <code>objc_msgSend</code> 函数：<code>id objc_msgSend(id theReceiver, SEL theSelector, ...)</code>。第 一个参数是消息接收者，第二个参数是调用的具体类方法的 <code>selector</code>，后面是 <code>selector</code> 方法的可变参数。以 <code>[self setName:]</code> 为例，编译器会替换成调用 <code>objc_msgSend</code> 的函数调用，其中 <code>theReceiver</code> 是 <code>self</code>，<code>theSelector</code> 是 <code>@selector(setName:)</code>，这个 <code>selector</code> 是从当前 <code>self</code> 的 <code>class</code> 的方法列表开始找的 <code>setName</code>，当找到后把对应的 <code>selector</code> 传递过去。</li>
+<li>当使用 <code>super</code> 调用时，会使用 <code>objc_msgSendSuper</code> 函数：<code>id objc_msgSendSuper(struct objc_super *super, SEL op, ...)</code>第一个参数是个<code>objc_super</code>的结构体，第二个参数还是类似上面的类方法的<code>selector</code>，</li>
+</ol>
+
+<pre><code class="language-text">struct objc_super {
+      id receiver;
+      Class superClass;
+};
+</code></pre>
+
+<p>当编译器遇到  <code>[super setName:]</code> 时，开始做这几个事：</p>
+
+<p>1）构建 <code>objc_super</code> 的结构体，此时这个结构体的第一个成员变量 <code>receiver</code> 就是子类，和 <code>self</code> 相同。而第二个成员变量 <code>superClass</code> 就是指父类<br/>
+调用 <code>objc_msgSendSuper</code> 的方法，将这个结构体和 <code>setName</code> 的 <code>sel</code> 传递过去。</p>
+
+<p>2）函数里面在做的事情类似这样：从 <code>objc_super</code> 结构体指向的 <code>superClass</code> 的方法列表开始找 <code>setName</code> 的 <code>selector</code>，找到后再以 <code>objc_super-&gt;receiver</code> 去调用这个 <code>selector</code></p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2016/9/1</span>
+                    
+          				   
+                    
+
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+              
+
+
+			<div class="row">
+			  <div class="large-6 columns">
+			  <p class="text-left" style="padding-top:25px;">
+			   <a href="all_20.html">&laquo; Prev Page</a>  
+			  </p>
+			  </div>
+			  <div class="large-6 columns">
+			<p class="text-right" style="padding-top:25px;">
+			 <a href="all_22.html">&raquo; Next Page</a> 
+			</p>
+			  </div>
+			</div>
 		</div>
-	
+	</div><!-- large 8 -->
 
- 
-	
-
- 
-	
-
- 
-	
-
- 
-	
-
-  
-  
-</div></div>
+ <div class="large-4 medium-4 columns">
+  <div class="hide-for-small">
+    <div id="sidebar" class="sidebar">
+          <div id="site-info" class="site-info">
+            
+                <div class="site-a-logo"><img src="https://raw.githubusercontent.com/lxzzzzzz/lxzzzzzz.github.io/master/Blog/asset/icon.jpg" /></div>
+            
+                <h1>李小争</h1>
+                <div class="site-des">记录开发中遇到的一些问题</div>
+                <div class="social">
 
 
-<div class="page-bottom">
+
+
+
+
+
+
+
+
+
+  <a target="_blank" class="rss" href="atom.xml" title="RSS">RSS</a>
+                
+              	 </div>
+          	</div>
+
+             
+
+              <div id="site-categories" class="side-item ">
+                <div class="side-header">
+                  <h2>Categories</h2>
+                </div>
+                <div class="side-content">
+
+      	<p class="cat-list">
+        
+            <a href="%E5%8E%9F%E7%90%86%E6%8E%A2%E7%A9%B6.html"><strong>原理探究</strong></a>
+        
+            <a href="%E6%8A%80%E5%B7%A7.html"><strong>技巧</strong></a>
+        
+            <a href="%E6%95%99%E7%A8%8B.html"><strong>教程</strong></a>
+        
+            <a href="%E9%81%87%E5%88%B0Bug.html"><strong>遇到Bug</strong></a>
+        
+            <a href="%E6%9D%82%E8%AE%B0.html"><strong>杂记</strong></a>
+        
+            <a href="Swift.html"><strong>Swift</strong></a>
+        
+            <a href="C/C++.html"><strong>C/C++</strong></a>
+        
+            <a href="Linux.html"><strong>Linux</strong></a>
+        
+            <a href="Documentation.html"><strong>Documentation</strong></a>
+        
+            <a href="Java.html"><strong>Java</strong></a>
+        
+            <a href="LeetCode.html"><strong>LeetCode</strong></a>
+         
+        </p>
+
+
+                </div>
+              </div>
+
+              <div id="site-categories" class="side-item">
+                <div class="side-header">
+                  <h2>Recent Posts</h2>
+                </div>
+                <div class="side-content">
+                <ul class="posts-list">
+	      
+		      
+			      <li class="post">
+			        <a href="15962945237035.html">632. Smallest Range Covering Elements from K Lists</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="15654059537017.html"># 深入理解 iOS 事件机制</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="15653483390225.html">图像显示原理</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="15653376209289.html">事件传递</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="15653325472073.html">海底捞点餐Pad 优化</a>
+			      </li>
+		     
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		   
+		  		</ul>
+                </div>
+              </div>
+        </div><!-- sidebar -->
+      </div><!-- hide for small -->
+</div><!-- large 4 -->
+
+</div><!-- row -->
+
+ <div class="page-bottom clearfix">
   <div class="row">
-  <hr />
-  <div class="small-9 columns">
-  <p class="copyright">Copyright &copy; 2015
+   <p class="copyright">Copyright &copy; 2015
 Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a>,&nbsp; 
 Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
-  </div>
-  <div class="small-3 columns">
-  <p class="copyright text-right"><a href="#header">TOP</a></p>
-  </div>
-   
   </div>
 </div>
 
         </section>
       </div>
     </div>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+figure{margin: 0;padding: 0;}
+figcaption{text-align:center;}
+
+/* PrismJS 1.14.0
+ http://prismjs.com/download.html#themes=prism&languages=markup+css+clike+javascript */
+/**
+ * prism.js default theme for JavaScript, CSS and HTML
+ * Based on dabblet (http://dabblet.com)
+ * @author Lea Verou
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+    color: black;
+    background: none;
+    text-shadow: 0 1px white;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
     
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
     
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+}
+
+pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,
+code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection {
+    text-shadow: none;
+    background:#b3d4fc;
+}
+
+pre[class*="language-"]::selection, pre[class*="language-"] ::selection,
+code[class*="language-"]::selection, code[class*="language-"] ::selection {
+    text-shadow: none;
+    background: #b3d4fc;
+}
+
+@media print {
+    code[class*="language-"],
+    pre[class*="language-"] {
+        text-shadow: none;
+    }
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+    padding: 1em;
+    margin: .5em 0;
+    overflow: auto;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+    background: #F7F7F7;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+    padding: .1em;
+    border-radius: .3em;
+    white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+    color: slategray;
+}
+
+.token.punctuation {
+    color: #999;
+}
+
+.namespace {
+    opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+    color: #905;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+    color: #690;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+    color: #9a6e3a;
+    background: hsla(0, 0%, 100%, .5);
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+    color: #07a;
+}
+
+.token.function,
+.token.class-name {
+    color: #DD4A68;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+    color: #e90;
+}
+
+.token.important,
+.token.bold {
+    font-weight: bold;
+}
+.token.italic {
+    font-style: italic;
+}
+
+.token.entity {
+    cursor: help;
+}
+
+
+pre[class*="language-"].line-numbers {
+    position: relative;
+    padding-left: 3.8em;
+    counter-reset: linenumber;
+}
+
+pre[class*="language-"].line-numbers > code {
+    position: relative;
+    white-space: inherit;
+}
+
+.line-numbers .line-numbers-rows {
+    position: absolute;
+    pointer-events: none;
+    top: 0;
+    font-size: 100%;
+    left: -3.8em;
+    width: 3em; /* works for line-numbers below 1000 lines */
+    letter-spacing: -1px;
+    border-right: 1px solid #999;
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+}
+
+    .line-numbers-rows > span {
+        pointer-events: none;
+        display: block;
+        counter-increment: linenumber;
+    }
+
+        .line-numbers-rows > span:before {
+            content: counter(linenumber);
+            color: #999;
+            display: block;
+            padding-right: 0.8em;
+            text-align: right;
+        }
+
+</style>
+
+  
+    
+
     <script src="asset/js/foundation.min.js"></script>
-    <script src="asset/js/foundation/foundation.offcanvas.js"></script>
     <script>
       $(document).foundation();
-
+      function fixSidebarHeight(){
+        var w1 = $('.markdown-body').height();
+          var w2 = $('#sidebar').height();
+          if (w1 > w2) { $('#sidebar').height(w1); };
+      }
+      $(function(){
+        fixSidebarHeight();
+      })
+      $(window).load(function(){
+          fixSidebarHeight();
+      });
      
     </script>
-    
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
+
+
 
   </body>
 </html>

@@ -1,0 +1,692 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+    
+  632. Smallest Range Covering Elements from K Lists - 李小争
+  
+  </title>
+  
+  
+  <link href="atom.xml" rel="alternate" title="李小争" type="application/atom+xml">
+    <link rel="stylesheet" href="asset/css/foundation.min.css" />
+    <link rel="stylesheet" href="asset/css/docs.css" />
+    <script src="asset/js/vendor/modernizr.js"></script>
+    <script src="asset/js/vendor/jquery.js"></script>
+ 
+<script type="text/javascript">
+  function before_search(){
+    var searchVal = 'site:www.citynight.cn/Blog ' + document.getElementById('search_input').value;
+    document.getElementById('search_q').value = searchVal;
+    return true;
+  }
+</script>
+  </head>
+  <body class="antialiased hide-extras">
+    
+    <div class="marketing off-canvas-wrap" data-offcanvas>
+      <div class="inner-wrap">
+
+
+<nav class="top-bar docs-bar hide-for-small" data-topbar>
+
+
+  <section class="top-bar-section">
+  <div class="row">
+      <div style="position: relative;width:100%;"><div style="position: absolute; width:100%;">
+        <ul id="main-menu" class="left">
+        
+        <li id=""><a target="self" href="index.html">Home</a></li>
+        
+        <li id=""><a target="_self" href="archives.html">Archives</a></li>
+        
+        </ul>
+
+        <ul class="right" id="search-wrap">
+          <li>
+<form target="_blank" onsubmit="return before_search();" action="https://google.com/search" method="get">
+    <input type="hidden" id="search_q" name="q" value="" />
+    <input tabindex="1" type="search" id="search_input"  placeholder="Search"/>
+</form>
+</li>
+          </ul>
+      </div></div>
+  </div>
+  </section>
+
+</nav>
+
+        <nav class="tab-bar show-for-small">
+  <a href="javascript:void(0)" class="left-off-canvas-toggle menu-icon">
+    <span> &nbsp; 李小争</span>
+  </a>
+</nav>
+
+<aside class="left-off-canvas-menu">
+      <ul class="off-canvas-list">
+        
+        <li><a target="self" href="index.html">Home</a></li>
+        
+        <li><a target="_self" href="archives.html">Archives</a></li>
+        
+
+    <li><label>Categories</label></li>
+
+        
+            <li><a href="%E5%8E%9F%E7%90%86%E6%8E%A2%E7%A9%B6.html">原理探究</a></li>
+        
+            <li><a href="%E6%8A%80%E5%B7%A7.html">技巧</a></li>
+        
+            <li><a href="%E6%95%99%E7%A8%8B.html">教程</a></li>
+        
+            <li><a href="%E9%81%87%E5%88%B0Bug.html">遇到Bug</a></li>
+        
+            <li><a href="%E6%9D%82%E8%AE%B0.html">杂记</a></li>
+        
+            <li><a href="Swift.html">Swift</a></li>
+        
+            <li><a href="C/C++.html">C/C++</a></li>
+        
+            <li><a href="Linux.html">Linux</a></li>
+        
+            <li><a href="Documentation.html">Documentation</a></li>
+        
+            <li><a href="Java.html">Java</a></li>
+        
+            <li><a href="LeetCode.html">LeetCode</a></li>
+         
+
+      </ul>
+    </aside>
+
+<a class="exit-off-canvas" href="#"></a>
+
+
+        <section id="main-content" role="main" class="scroll-container">
+        
+       
+
+ <script type="text/javascript">
+  $(function(){
+    $('#menu_item_index').addClass('is_active');
+  });
+</script>
+<div class="row">
+  <div class="large-8 medium-8 columns">
+      <div class="markdown-body article-wrap">
+       <div class="article">
+          
+          <h1>632. Smallest Range Covering Elements from K Lists</h1>
+     
+        <div class="read-more clearfix">
+          <span class="date">2020/8/1</span>
+
+          <span>posted in&nbsp;</span> 
+          
+              <span class="posted-in"><a href='LeetCode.html'>LeetCode</a></span>
+           
+         
+          <span class="comments">
+            
+
+            
+          </span>
+
+        </div>
+      </div><!-- article -->
+
+      <div class="article-content">
+      <p>题目地址:<a href="https://leetcode-cn.com/problems/smallest-range-covering-elements-from-k-lists/">632. 最小区间</a><br/>
+You have <code>k</code> lists of sorted integers in ascending order. Find the smallest range that includes at least one number from each of the <code>k</code> lists. </p>
+
+<p>We define the range <code>[a,b]</code> is smaller than range <code>[c,d]</code> if <code>b-a &lt; d-c</code> or <code>a &lt; c</code> if <code>b-a == d-c</code>.</p>
+
+<ul>
+<li>Example 1:
+<code>
+Input: [[4,10,15,24,26], [0,9,12,20], [5,18,22,30]]<br/>
+Output: [20,24]<br/>
+Explanation: <br/>
+List 1: [4, 10, 15, 24,26], 24 is in range [20,24].<br/>
+List 2: [0, 9, 12, 20], 20 is in range [20,24].<br/>
+List 3: [5, 18, 22, 30], 22 is in range [20,24].
+</code></li>
+</ul>
+
+<p>Note: </p>
+
+<ol>
+<li>The given list may contain duplicates, so ascending order means &gt;= here.</li>
+<li>1 &lt;= k &lt;= 3500</li>
+<li>-10<sup>5</sup> &lt;= value of elements &lt;= 10<sup>5.</sup></li>
+</ol>
+
+<p>解题思路：<br/>
+先看🌰</p>
+
+<pre><code class="language-text">4,10,15,24,26
+0, 9,12,20
+5,18,22,30
+</code></pre>
+
+<p>因为每个数组中必须有一个数字包含在其中，一开始我们取每个数组中的第一个数字</p>
+
+<pre><code class="language-text">*4*,10,15,24,26
+*0*, 9,12,20
+*5*,18,22,30
+</code></pre>
+
+<p><code>4,0,5</code>最小的是<code>0</code>,最大值是<code>5</code>区间是<code>5-0=5</code><br/>
+把第一个最小区间5的坐标记录下来就是<code>[0,5]</code><br/>
+去掉最小的值,然后最小值所在的数组向后取一位即</p>
+
+<pre><code class="language-text">*4*,10,15,24,26
+0, *9*,12,20
+*5*,18,22,30
+</code></pre>
+
+<p><code>4,9,5</code>最小的是<code>4</code>,最大值是<code>9</code>区间是<code>9-4=5</code>最小区间不变还是5,所以去掉最小的值,然后最小值所在的数组向后取一位即</p>
+
+<pre><code class="language-text">4,*10*,15,24,26
+0, *9*,12,20
+*5*,18,22,30
+</code></pre>
+
+<p><code>10,9,5</code>最小的是<code>5</code>,最大值是<code>10</code>区间是<code>10-5=5</code>最小区间不变还是5,所以去掉最小的值,然后最小值所在的数组向后取一位即</p>
+
+<pre><code class="language-text">4,*10*,15,24,26
+0, *9*,12,20
+5,*18*,22,30
+</code></pre>
+
+<p><code>10,9,18</code>最小的是<code>9</code>,最大值是<code>18</code>区间是<code>18-9=9</code>,因为<code>9&gt;5</code>不符合规则,最小区间不变还是5,所以去掉最小的值,然后最小值所在的数组向后取一位即</p>
+
+<pre><code class="language-text">4,*10*,15,24,26
+0, 9,*12*,20
+5,*18*,22,30
+</code></pre>
+
+<p><code>10,12,18</code>最小的是<code>10</code>,最大值是<code>18</code>区间是<code>18-10=8</code>,因为<code>8&gt;5</code>不符合规则,最小区间不变还是5,所以去掉最小的值,然后最小值所在的数组向后取一位即</p>
+
+<pre><code class="language-text">4,10,*15*,24,26
+0, 9,*12*,20
+5,*18*,22,30
+</code></pre>
+
+<p><code>15,12,18</code>最小的是<code>12</code>,最大值是<code>18</code>区间是<code>18-12=6</code>,因为<code>6&gt;5</code>不符合规则,最小区间不变还是5,所以去掉最小的值,然后最小值所在的数组向后取一位即</p>
+
+<pre><code class="language-text">4,10,*15*,24,26
+0, 9,12,*20*
+5,*18*,22,30
+</code></pre>
+
+<p><code>15,20,18</code>最小的是<code>15</code>,最大值是<code>20</code>区间是<code>20-15=5</code>,最小区间不变还是5,所以去掉最小的值,然后最小值所在的数组向后取一位即</p>
+
+<pre><code class="language-text">4,10,15,*24*,26
+0, 9,12,*20*
+5,*18*,22,30
+</code></pre>
+
+<p><code>24,20,18</code>最小的是<code>18</code>,最大值是<code>24</code>区间是<code>24-18=6</code>,因为<code>6&gt;5</code>不符合规则,最小区间不变还是5,所以去掉最小的值,然后最小值所在的数组向后取一位即</p>
+
+<pre><code class="language-text">4,10,15,*24*,26
+0, 9,12,*20*
+5,18,*22*,30
+</code></pre>
+
+<p><code>24,20,22</code>最小的是<code>20</code>,最大值是<code>24</code>区间是<code>24-20=4</code>,因为<code>4&lt;5</code>符合规则,最小区间变更为4,把最小区间4的坐标记录下来就是<code>[20,24]</code>,这时继续向后走,由于最小值是<code>20</code>而<code>20</code>所在的数组已经走到了结尾,不能继续走,再走就不能满足每个数组中必须有一个数包含在其中.<br/>
+所以返回最小区间<code>[20,24</code></p>
+
+<p>参考代码:</p>
+
+<pre><code class="language-java">class Solution {
+    public int[] smallestRange(List&lt;List&lt;Integer&gt;&gt; nums) {
+        // 里面存储的是行列数据位置，优先级是列中数据大小
+        PriorityQueue&lt;int[]&gt; q = new PriorityQueue&lt;&gt;(Comparator.comparingInt(o -&gt; nums.get(o[0]).get(o[1])));
+        int max = Integer.MIN_VALUE, start = 0, end = Integer.MAX_VALUE;
+        // 先让每个数组中的第一个数进入 q
+        for (int i = 0; i &lt; nums.size(); i++) {
+            q.offer(new int[]{i, 0});
+            max = Math.max(max, nums.get(i).get(0));
+        }
+        while (q.size() == nums.size()) {
+            // 取出最小的元素获得到行列信息
+            int e[] = q.poll(), row = e[0], col = e[1];
+            // 比较，如果符合条件就更新最小区间信息
+            if (end - start &gt; max - nums.get(row).get(col)) {
+                start = nums.get(row).get(col);
+                end = max;
+            }
+            // 防止越界
+            if (col + 1 &lt; nums.get(row).size()) {
+                q.offer(new int[]{row, col + 1});
+                max = Math.max(max, nums.get(row).get(col + 1));
+            }
+        }
+        return new int[]{start, end};
+    }
+}
+</code></pre>
+
+
+    
+
+      </div>
+
+      <div class="row">
+        <div class="large-6 columns">
+        <p class="text-left" style="padding:15px 0px;">
+      
+        </p>
+        </div>
+        <div class="large-6 columns">
+      <p class="text-right" style="padding:15px 0px;">
+      
+          <a  href="15654059537017.html" 
+          title="Next Post: # 深入理解 iOS 事件机制"># 深入理解 iOS 事件机制 &raquo;</a>
+      
+      </p>
+        </div>
+      </div>
+      <div class="comments-wrap">
+        <div class="share-comments">
+          
+
+          
+
+          
+        </div>
+      </div>
+    </div><!-- article-wrap -->
+  </div><!-- large 8 -->
+
+
+
+
+ <div class="large-4 medium-4 columns">
+  <div class="hide-for-small">
+    <div id="sidebar" class="sidebar">
+          <div id="site-info" class="site-info">
+            
+                <div class="site-a-logo"><img src="https://raw.githubusercontent.com/lxzzzzzz/lxzzzzzz.github.io/master/Blog/asset/icon.jpg" /></div>
+            
+                <h1>李小争</h1>
+                <div class="site-des">记录开发中遇到的一些问题</div>
+                <div class="social">
+
+
+
+
+
+
+
+
+
+
+
+  <a target="_blank" class="rss" href="atom.xml" title="RSS">RSS</a>
+                
+              	 </div>
+          	</div>
+
+             
+
+              <div id="site-categories" class="side-item ">
+                <div class="side-header">
+                  <h2>Categories</h2>
+                </div>
+                <div class="side-content">
+
+      	<p class="cat-list">
+        
+            <a href="%E5%8E%9F%E7%90%86%E6%8E%A2%E7%A9%B6.html"><strong>原理探究</strong></a>
+        
+            <a href="%E6%8A%80%E5%B7%A7.html"><strong>技巧</strong></a>
+        
+            <a href="%E6%95%99%E7%A8%8B.html"><strong>教程</strong></a>
+        
+            <a href="%E9%81%87%E5%88%B0Bug.html"><strong>遇到Bug</strong></a>
+        
+            <a href="%E6%9D%82%E8%AE%B0.html"><strong>杂记</strong></a>
+        
+            <a href="Swift.html"><strong>Swift</strong></a>
+        
+            <a href="C/C++.html"><strong>C/C++</strong></a>
+        
+            <a href="Linux.html"><strong>Linux</strong></a>
+        
+            <a href="Documentation.html"><strong>Documentation</strong></a>
+        
+            <a href="Java.html"><strong>Java</strong></a>
+        
+            <a href="LeetCode.html"><strong>LeetCode</strong></a>
+         
+        </p>
+
+
+                </div>
+              </div>
+
+              <div id="site-categories" class="side-item">
+                <div class="side-header">
+                  <h2>Recent Posts</h2>
+                </div>
+                <div class="side-content">
+                <ul class="posts-list">
+	      
+		      
+			      <li class="post">
+			        <a href="15962945237035.html">632. Smallest Range Covering Elements from K Lists</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="15654059537017.html"># 深入理解 iOS 事件机制</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="15653483390225.html">图像显示原理</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="15653376209289.html">事件传递</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="15653325472073.html">海底捞点餐Pad 优化</a>
+			      </li>
+		     
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		  
+		      
+		   
+		  		</ul>
+                </div>
+              </div>
+        </div><!-- sidebar -->
+      </div><!-- hide for small -->
+</div><!-- large 4 -->
+
+</div><!-- row -->
+
+ <div class="page-bottom clearfix">
+  <div class="row">
+   <p class="copyright">Copyright &copy; 2015
+Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a>,&nbsp; 
+Theme used <a target="_blank" href="http://github.com">GitHub CSS</a>.</p>
+  </div>
+</div>
+
+        </section>
+      </div>
+    </div>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="asset/prism.js"></script>
+
+
+<style type="text/css">
+figure{margin: 0;padding: 0;}
+figcaption{text-align:center;}
+
+/* PrismJS 1.14.0
+ http://prismjs.com/download.html#themes=prism&languages=markup+css+clike+javascript */
+/**
+ * prism.js default theme for JavaScript, CSS and HTML
+ * Based on dabblet (http://dabblet.com)
+ * @author Lea Verou
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+    color: black;
+    background: none;
+    text-shadow: 0 1px white;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+    
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+    
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+}
+
+pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,
+code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection {
+    text-shadow: none;
+    background:#b3d4fc;
+}
+
+pre[class*="language-"]::selection, pre[class*="language-"] ::selection,
+code[class*="language-"]::selection, code[class*="language-"] ::selection {
+    text-shadow: none;
+    background: #b3d4fc;
+}
+
+@media print {
+    code[class*="language-"],
+    pre[class*="language-"] {
+        text-shadow: none;
+    }
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+    padding: 1em;
+    margin: .5em 0;
+    overflow: auto;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+    background: #F7F7F7;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+    padding: .1em;
+    border-radius: .3em;
+    white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+    color: slategray;
+}
+
+.token.punctuation {
+    color: #999;
+}
+
+.namespace {
+    opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+    color: #905;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+    color: #690;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+    color: #9a6e3a;
+    background: hsla(0, 0%, 100%, .5);
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+    color: #07a;
+}
+
+.token.function,
+.token.class-name {
+    color: #DD4A68;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+    color: #e90;
+}
+
+.token.important,
+.token.bold {
+    font-weight: bold;
+}
+.token.italic {
+    font-style: italic;
+}
+
+.token.entity {
+    cursor: help;
+}
+
+
+pre[class*="language-"].line-numbers {
+    position: relative;
+    padding-left: 3.8em;
+    counter-reset: linenumber;
+}
+
+pre[class*="language-"].line-numbers > code {
+    position: relative;
+    white-space: inherit;
+}
+
+.line-numbers .line-numbers-rows {
+    position: absolute;
+    pointer-events: none;
+    top: 0;
+    font-size: 100%;
+    left: -3.8em;
+    width: 3em; /* works for line-numbers below 1000 lines */
+    letter-spacing: -1px;
+    border-right: 1px solid #999;
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+}
+
+    .line-numbers-rows > span {
+        pointer-events: none;
+        display: block;
+        counter-increment: linenumber;
+    }
+
+        .line-numbers-rows > span:before {
+            content: counter(linenumber);
+            color: #999;
+            display: block;
+            padding-right: 0.8em;
+            text-align: right;
+        }
+
+</style>
+
+  
+    
+
+    <script src="asset/js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+      function fixSidebarHeight(){
+        var w1 = $('.markdown-body').height();
+          var w2 = $('#sidebar').height();
+          if (w1 > w2) { $('#sidebar').height(w1); };
+      }
+      $(function(){
+        fixSidebarHeight();
+      })
+      $(window).load(function(){
+          fixSidebarHeight();
+      });
+     
+    </script>
+
+
+
+  </body>
+</html>
