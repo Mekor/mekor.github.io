@@ -78,6 +78,51 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14799970254990.html">Swift - 面向协议编程</a></h1>
+			<p class="meta"><time datetime="2016-11-24T22:17:05+08:00" 
+			pubdate data-updated="true">2016/11/24</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>跟全部写在base中比较:</p>
+
+<ol>
+<li>代码没有增多,却更复用</li>
+<li>面向协议(接口),而不是实现,充分解耦</li>
+<li>静态类型检查版主在编译时发现问题</li>
+<li>写代码像搭积木,先设计接口,再逐一实现</li>
+<li>依赖少,更容易调试</li>
+</ol>
+
+<pre><code class="language-text">protocol Hello {
+    func sayHello()
+}
+
+extension Hello {
+    func sayHello() {
+        print(&quot;Hello!&quot;)
+    }
+}
+
+struct Person: Hello {
+    
+}
+
+let p = Person()
+p.sayHello()
+</code></pre>
+
+<p>创建一个协议,并且做一个默认实现.使用的时候可以直接调用</p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14799126696997.html">Swift - 函数式编程</a></h1>
 			<p class="meta"><time datetime="2016-11-23T22:51:09+08:00" 
 			pubdate data-updated="true">2016/11/23</time></p>
@@ -687,44 +732,6 @@ $ git push origin :refs/tags/v0.9
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14793055516073.html">Swift - 自定义tableViewCell</a></h1>
-			<p class="meta"><time datetime="2016-11-16T22:12:31+08:00" 
-			pubdate data-updated="true">2016/11/16</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>习惯 OC 刚刚接触 Swift 还是有很多地方不适应,创建自定义cell的时候出现如下情况</p>
-
-<pre><code class="language-text">    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-    }
-</code></pre>
-
-<p>OC 中,我们会用 self 来接 super 初始化来判断是否创建成功,但是 Swift 中怎样做呢?调用 <code>super.init</code>是没有返回值的,那么我们怎样判断呢?</p>
-
-<p>从网上看<a href="http://stackoverflow.com/questions/37098742/super-init-in-swift">Super init in Swift</a>没有必要在进行<code>if(self)</code>判断了...不过,我还是找到了一种更容易理解的方法:</p>
-
-<pre><code class="language-text">    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        if !self.isEqual(nil) {
-            setupInterface()
-        }
-    }
-
-</code></pre>
-
-<p>虽然感觉有点画蛇添足,不过很符合刚刚从OC 转 Swift 的理解方式</p>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_15.html">&larr; Older</a> 
@@ -803,7 +810,7 @@ $ git push origin :refs/tags/v0.9
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Java.html"><strong>Java&nbsp;(2)</strong></a>
+	        <a href="Java.html"><strong>Java&nbsp;(3)</strong></a>
 	        
 	        
 	        
@@ -821,6 +828,12 @@ $ git push origin :refs/tags/v0.9
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="15965198984201.html">@Slf4j注解实现日志输出</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -843,12 +856,6 @@ $ git push origin :refs/tags/v0.9
 	      
 		      <li class="post">
 		        <a href="15653376209289.html">事件传递</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15653325472073.html">海底捞点餐Pad 优化</a>
 		      </li>
 	     
 	  

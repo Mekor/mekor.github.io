@@ -78,6 +78,54 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="15366461063408.html"><禅与摩托车维修艺术></a></h1>
+			<p class="meta"><time datetime="2018-09-11T14:08:26+08:00" 
+			pubdate data-updated="true">2018/9/11</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>生活处处都透露着哲学，作者从骑摩托车旅行的途中对事物进行了深入的思考。</p>
+
+<h2 id="toc_0">关于·忙·</h2>
+
+<p>书中这样写道：</p>
+
+<blockquote>
+<p>我们常常太忙而没有时间好好聊聊，结果日复一日地过着无聊的生活，单调乏味的日子让人几年后想起来不禁怀疑，究竟自己是怎么过的，而时间已悄悄溜走了。现在我们的确空下来了，我想谈一些我自己觉得颇为重要的事。</p>
+</blockquote>
+
+<h2 id="toc_1">关于·过程·</h2>
+
+<blockquote>
+<p>如果搭飞机抵达洛基山，你只会觉得景致很美，但是如果你是经过几天辛苦的旅程，通过这一片大草原，才抵达洛基山，那么你会从另一个角度来看它，那里仿佛是你的目标，是你的应许之地。</p>
+</blockquote>
+
+<p>我们的目标不应该仅仅是到达终点，旅途中的风景会让这个过程变得充实。我在记笔记的时候写的是“有过程的经历是印象深刻的”</p>
+
+<h2 id="toc_2">关于·识人·</h2>
+
+<blockquote>
+<p>又钻进死胡同了。如果有人不懂心存感激，而你当面告诉他，那么你就等于是在骂他，这样你什么事都解决不了。<br/>
+每个人的性格都是不一样的，需要针对不同的性格做出不同的处理方式。错误的处理方式只会加深矛盾</p>
+</blockquote>
+
+<h2 id="toc_3">关于·认知·</h2>
+
+<blockquote>
+<p>一名没有受过训练的旁观者只看到修理人员所付出的劳力，就以为他最主要的工作在于劳力。事实上，这正是他最轻松也是工作上最小的一部分，他最重要的工作就在于仔细观察和精确思考，这就是为什么技术人员往往显得沉默寡言，甚至在做实验的时候有些畏缩。他们不喜欢在做实验的时候讲话，那样就无法专心地思考问题了。他们借着实验推论出问题的结构，然后与心里正常的运作结构相比较，所以他们看到的是基本形式。</p>
+</blockquote>
+
+<p>隔行如隔山，拿程序员举例，其他人看到程序员噼里啪啦敲代码感觉这个人很厉害这其实是不对的。在敲代码之前的思考才是最重要的，敲代码只不过是把他思考的东西进行验证。</p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="15345002536089.html">framework脚本</a></h1>
 			<p class="meta"><time datetime="2018-08-17T18:04:13+08:00" 
 			pubdate data-updated="true">2018/8/17</time></p>
@@ -289,57 +337,6 @@ print(quicksort(list))
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="15319018166027.html">解决UILabel 末尾的空格被忽略</a></h1>
-			<p class="meta"><time datetime="2018-07-18T16:16:56+08:00" 
-			pubdate data-updated="true">2018/7/18</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>看到这篇文章<a href="https://www.lidaren.com/archives/1333">UILabel取消自动Trim空格和换行等空白字符</a></p>
-
-<pre><code class="language-text">UILabel会自动清除的空白字符（UNICODE）
-\u0009 CHARACTER TABULATION
-\u000A LINE FEED
-\u000D CARRIAGE RETURN
-\u0020 SPACE
-\u0085 NEXT LINE
-\u00A0 NBSP
-\u1680 OGHAM SPACE MARK
-\u180E MONGOLIAN VOWEL SEPARATOR
-\u2000 EN QUAD
-\u200A HAIR SPACE
-\u200B ZERO WIDTH SPACE
-\u2028 LINE SEPARATOR
-\u2029 PARAGRAPH SEPARATOR
-\u202F NARROW NO-BREAK SPACE
-\u205F MEDIUM MATHEMATICAL SPACE
-\u3000 IDEOGRAPHIC SPACE
-</code></pre>
-
-<p>解决方案</p>
-
-<pre><code class="language-text">    let paragraphStyle = NSMutableParagraphStyle()
-    paragraphStyle.alignment = .right
-    paragraphStyle.tailIndent = -10
-    let myMutableString = NSMutableAttributedString(
-        string: text,
-        attributes: [
-            NSAttributedStringKey.font: UIFont.systemFont(ofSize: 16),
-            NSAttributedStringKey.paragraphStyle: paragraphStyle
-        ]
-    )
-    label.attributedText = myMutableString
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_4.html">&larr; Older</a> 
@@ -418,7 +415,7 @@ print(quicksort(list))
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Java.html"><strong>Java&nbsp;(2)</strong></a>
+	        <a href="Java.html"><strong>Java&nbsp;(3)</strong></a>
 	        
 	        
 	        
@@ -436,6 +433,12 @@ print(quicksort(list))
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="15965198984201.html">@Slf4j注解实现日志输出</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -458,12 +461,6 @@ print(quicksort(list))
 	      
 		      <li class="post">
 		        <a href="15653376209289.html">事件传递</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15653325472073.html">海底捞点餐Pad 优化</a>
 		      </li>
 	     
 	  

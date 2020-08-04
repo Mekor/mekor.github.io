@@ -78,6 +78,45 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14752152861722.html">怎样让内存缓存变稳定</a></h1>
+			<p class="meta"><time datetime="2016-09-30T14:01:26+08:00" 
+			pubdate data-updated="true">2016/9/30</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>项目中如果显示图片比较多,会遇到内存涨的比较厉害,项目中用到 SDWebImage, 所以可以很简单的让内存缓存变稳定:</p>
+
+<pre><code class="language-text">-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [[SDImageCache sharedImageCache] clearMemory];
+}
+</code></pre>
+
+<p>原理:</p>
+
+<pre><code class="language-text">- (void)clearMemory {
+    [self.memCache removeAllObjects];
+}
+</code></pre>
+
+<p>_memCache 是 NSCache 类型的,</p>
+
+<p>没有做任何操作的时候大概是这个样子的<br/>
+<img src="media/14752152861722/14752174866625.jpg" alt=""/></p>
+
+<p>添加clearMemory后:<br/>
+<img src="media/14752152861722/14752177858503.jpg" alt=""/></p>
+
+<p>这也是为什么滚动后屏幕上还显示图片的原因.</p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14751288042220.html">Cocoapods的安装</a></h1>
 			<p class="meta"><time datetime="2016-09-29T14:00:04+08:00" 
 			pubdate data-updated="true">2016/9/29</time></p>
@@ -340,58 +379,6 @@ dispatch_group_notify(group, dispatch_get_global_queue(0,0), ^{
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14743674179375.html">iOS10 遇到问题总结</a></h1>
-			<p class="meta"><time datetime="2016-09-20T18:30:17+08:00" 
-			pubdate data-updated="true">2016/9/20</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>iOS10 用户权限设置新增，在info.plist文件中，新增字段：</p>
-
-<table>
-<thead>
-<tr>
-<th>权限</th>
-<th>字段</th>
-<th>说明</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td>相册权限</td>
-<td>Privacy - Photo Library Usage Description</td>
-<td>string类型的文字说明</td>
-</tr>
-<tr>
-<td>相机权限</td>
-<td>NSCameraUsageDescription</td>
-<td>string类型的文字说明</td>
-</tr>
-<tr>
-<td>麦克风权限</td>
-<td>NSMicrophoneUsageDescription</td>
-<td>string类型的文字说明</td>
-</tr>
-<tr>
-<td>定位权限</td>
-<td>NSLocationWhenInUseUsageDescription</td>
-<td>string类型的文字说明</td>
-</tr>
-</tbody>
-</table>
-
-<p>iOS10 新用户下载app，使用以上前3种权限，如果不添加授权描述，会导致程序崩溃</p>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_21.html">&larr; Older</a> 
@@ -470,7 +457,7 @@ dispatch_group_notify(group, dispatch_get_global_queue(0,0), ^{
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Java.html"><strong>Java&nbsp;(2)</strong></a>
+	        <a href="Java.html"><strong>Java&nbsp;(3)</strong></a>
 	        
 	        
 	        
@@ -488,6 +475,12 @@ dispatch_group_notify(group, dispatch_get_global_queue(0,0), ^{
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="15965198984201.html">@Slf4j注解实现日志输出</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -510,12 +503,6 @@ dispatch_group_notify(group, dispatch_get_global_queue(0,0), ^{
 	      
 		      <li class="post">
 		        <a href="15653376209289.html">事件传递</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15653325472073.html">海底捞点餐Pad 优化</a>
 		      </li>
 	     
 	  

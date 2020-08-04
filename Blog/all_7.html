@@ -78,6 +78,332 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="15060704391596.html">[转]浅析 iOS 应用开发中的断点续传</a></h1>
+			<p class="meta"><time datetime="2017-09-22T16:53:59+08:00" 
+			pubdate data-updated="true">2017/9/22</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<blockquote>
+<p>原贴地址<a href="https://www.ibm.com/developerworks/cn/mobile/mo-cn-breakpoint/index.html">IBM developerWorks</a></p>
+</blockquote>
+
+<h2 id="toc_0">断点续传概述</h2>
+
+<p>断点续传就是从文件上次中断的地方开始重新下载或上传数据，而不是从文件开头。（本文的断点续传仅涉及下载，上传不在讨论之内）当下载大文件的时候，如果没有实现断点续传功能，那么每次出现异常或者用户主动的暂停，都会去重头下载，这样很浪费时间。所以项目中要实现大文件下载，断点续传功能就必不可少了。当然，断点续传有一种特殊的情况，就是 iOS 应用被用户 kill 掉或者应用 crash，要实现应用重启之后的断点续传。这种特殊情况是本文要解决的问题。</p>
+
+<h2 id="toc_1">断点续传原理</h2>
+
+<p>要实现断点续传 , 服务器必须支持。目前最常见的是两种方式：FTP 和 HTTP。下面来简单介绍 HTTP 断点续传的原理。</p>
+
+<h3 id="toc_2">HTTP</h3>
+
+<p>通过 HTTP，可以非常方便的实现断点续传。断点续传主要依赖于 HTTP 头部定义的 Range 来完成。具体 Range 的说明参见 <a href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html">RFC2616</a>中 14.35.2 节，在请求某范围内的资源时，可以更有效地对大资源发出请求或从传输错误中恢复下载。有了 Range，应用可以通过 HTTP 请求曾经获取失败的资源的某一个返回或者是部分，来恢复下载该资源。当然并不是所有的服务器都支持 Range，但大多数服务器是可以的。Range 是以字节计算的，请求的时候不必给出结尾字节数，因为请求方并不一定知道资源的大小。Range 的定义如图 1 所示：</p>
+
+<h5 id="toc_3">图 1. HTTP-Range</h5>
+
+<p><img src="media/15060704391596/image001.png" alt="HTTP-Range"/></p>
+
+<p>图 2 展示了 HTTP request 的头部信息：</p>
+
+<h5 id="toc_4">图 2. HTTP request 例子</h5>
+
+<p><img src="media/15060704391596/image002.png" alt="HTTP request 例子"/></p>
+
+<p>在上面的例子中的“Range: bytes=1208765-”表示请求资源开头 1208765 字节之后的部分。</p>
+
+<p>图 3 展示了 HTTP response 的头部信息：</p>
+
+<h5 id="toc_5">图 3. HTTP response 例子</h5>
+
+<p><img src="media/15060704391596/image003.png" alt="HTTP response 例子"/></p>
+
+<p>上面例子中的”Accept-Ranges: bytes”表示服务器端接受请求资源的某一个范围，并允许对指定资源进行字节类型访问。”Content-Range: bytes 1208765-20489997/20489998”说明了返回提供了请求资源所在的原始实体内的位置，还给出了整个资源的长度。这里需要注意的是 HTTP return code 是 206 而不是 200。</p>
+
+<h2 id="toc_6">断点续传分析 -AFHTTPRequestOperation</h2>
+
+<p>了解了断点续传的原理之后，我们就可以动手来实现 iOS 应用中的断点续传了。由于笔者项目的资源都是部署在 HTTP 服务器上 , 所以断点续传功能也是基于 HTTP 实现的。首先来看下第三方网络框架 AFNetworking 中提供的实现。清单 1 示例代码是用来实现断点续传部分的代码：</p>
+
+<h5 id="toc_7">清单 1. 使用 AFHTTPRequestOperation 实现断点续传的代码</h5>
+
+<pre><code class="language-text">// 1 指定下载文件地址 URLString 
+// 2 获取保存的文件路径 filePath 
+// 3 创建 NSURLRequest 
+NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:URLString]]; 
+unsigned long long downloadedBytes = 0; 
+ 
+if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) { 
+// 3.1 若之前下载过 , 则在 HTTP 请求头部加入 Range 
+   // 获取已下载文件的 size 
+   downloadedBytes = [self fileSizeForPath:filePath]; 
+        
+   // 验证是否下载过文件
+   if (downloadedBytes &gt; 0) { 
+       // 若下载过 , 断点续传的时候修改 HTTP 头部部分的 Range 
+       NSMutableURLRequest *mutableURLRequest = [request mutableCopy]; 
+       NSString *requestRange = 
+       [NSString stringWithFormat:@&quot;bytes=%llu-&quot;, downloadedBytes]; 
+       [mutableURLRequest setValue:requestRange forHTTPHeaderField:@&quot;Range&quot;]; 
+       request = mutableURLRequest; 
+   } 
+} 
+ 
+// 4 创建 AFHTTPRequestOperation 
+AFHTTPRequestOperation *operation 
+ = [[AFHTTPRequestOperation alloc] initWithRequest:request]; 
+ 
+// 5 设置操作输出流 , 保存在第 2 步的文件中
+operation.outputStream = [NSOutputStream 
+outputStreamToFileAtPath:filePath append:YES]; 
+ 
+// 6 设置下载进度处理 block 
+[operation setDownloadProgressBlock:^(NSUInteger bytesRead, 
+long long totalBytesRead, long long totalBytesExpectedToRead) { 
+// bytesRead 当前读取的字节数
+// totalBytesRead 读取的总字节数 , 包含断点续传之前的
+// totalBytesExpectedToRead 文件总大小
+}]; 
+ 
+// 7 设置 success 和 failure 处理 block 
+[operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation 
+*operation, id responseObject) { 
+ 
+} failure:^(AFHTTPRequestOperation *operation, NSError *error) { 
+ 
+}]; 
+ 
+// 8 启动 operation 
+[operation start];
+</code></pre>
+
+<p>使用以上代码 , 断点续传功能就实现了，应用重新启动或者出现异常情况下 , 都可以基于已经下载的部分开始继续下载。关键的地方就是把已经下载的数据持久化。接下来简单看下 AFHTTPRequestOperation 是怎么实现的。通过查看源码 , 我们发现 AFHTTPRequestOperation 继承自 AFURLConnectionOperation , 而 AFURLConnectionOperation 实现了 NSURLConnectionDataDelegate 协议。处理流程如图 4 所示：</p>
+
+<h5 id="toc_8">图 4. AFURLHTTPrequestOperation 处理流程</h5>
+
+<p><img src="media/15060704391596/image004.png" alt="AFURLHTTPrequestOperation 处理流程"/></p>
+
+<p>这里 AFNetworking 为什么采取子线程调异步接口的方式 , 是因为直接在主线程调用异步接口 , 会有一个 Runloop 的问题。当主线程调用 [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES] 时 , 请求发出之后的监听任务会加入到主线程的 Runloop 中 ,RunloopMode 默认为 NSDefaultRunLoopMode, 这个表示只有当前线程的 Runloop 处理 NSDefaultRunLoopMode 时，这个任务才会被执行。而当用户在滚动 TableView 和 ScrollView 的时候，主线程的 Runloop 处于 NSEventTrackingRunLoop 模式下，就不会执行 NSDefaultRunLoopMode 的任务。</p>
+
+<p>另外由于采取子线程调用接口的方式 , 所以这边的 DownloadProgressBlock,success 和 failure Block 都需要回到主线程来处理。</p>
+
+<h2 id="toc_9">断点续传实战</h2>
+
+<p>了解了原理和 AFHTTPRequestOperation 的例子之后 , 来看下实现断点续传的三种方式：</p>
+
+<h3 id="toc_10">NSURLConnection</h3>
+
+<p>基于 NSURLConnection 实现断点续传 , 关键是满足 NSURLConnectionDataDelegate 协议，主要实现了如下三个方法：</p>
+
+<h5 id="toc_11">清单 2. NSURLConnection 的实现</h5>
+
+<pre><code class="language-text">// SWIFT 
+// 请求失败处理
+func connection(connection: NSURLConnection, 
+didFailWithError error: NSError) { 
+   self.failureHandler(error: error) 
+} 
+ 
+// 接收到服务器响应是调用
+func connection(connection: NSURLConnection, 
+ didReceiveResponse response: NSURLResponse) { 
+   if self.totalLength != 0 { 
+       return 
+   } 
+ 
+   self.writeHandle = NSFileHandle(forWritingAtPath: 
+   FileManager.instance.cacheFilePath(self.fileName!)) 
+ 
+   self.totalLength = response.expectedContentLength + self.currentLength 
+} 
+ 
+// 当服务器返回实体数据是调用
+func connection(connection: NSURLConnection, didReceiveData data: NSData) { 
+   let length = data.length 
+    
+   // move to the end of file 
+   self.writeHandle.seekToEndOfFile() 
+    
+   // write data to sanbox 
+   self.writeHandle.writeData(data) 
+    
+   // calculate data length 
+   self.currentLength = self.currentLength + length 
+    
+   print(&quot;currentLength\(self.currentLength)-totalLength\(self.totalLength)&quot;) 
+    
+   if (self.downloadProgressHandler != nil) { 
+       self.downloadProgressHandler(bytes: length, totalBytes: 
+       self.currentLength, totalBytesExpected: self.totalLength) 
+   } 
+} 
+ 
+// 下载完毕后调用
+func connectionDidFinishLoading(connection: NSURLConnection) { 
+   self.currentLength = 0 
+   self.totalLength = 0 
+ 
+   //close write handle 
+   self.writeHandle.closeFile() 
+   self.writeHandle = nil 
+ 
+   let cacheFilePath = FileManager.instance.cacheFilePath(self.fileName!) 
+   let documenFilePath = FileManager.instance.documentFilePath(self.fileName!) 
+        
+   do { 
+       try FileManager.instance.moveItemAtPath(cacheFilePath, toPath: documenFilePath) 
+   } catch let e as NSError { 
+       print(&quot;Error occurred when to move file: \(e)&quot;) 
+   } 
+    
+   self.successHandler(responseObject:fileName!) 
+}
+</code></pre>
+
+<p>如图 5 所示 , 说明了 NSURLConnection 的一般处理流程。（代码详见下载包）</p>
+
+<h5 id="toc_12">图 5. NSURLConnection 流程</h5>
+
+<p><img src="media/15060704391596/image005.png" alt="NSURLConnection 流程"/></p>
+
+<p>根据图 5 的一般流程，在 didReceiveResponse 中初始化 fileHandler, 在 didReceiveData 中 , 将接收到的数据持久化的文件中 , 在 connectionDidFinishLoading 中，清空数据和关闭 fileHandler，并将文件保存到 Document 目录下。所以当请求出现异常或应用被用户杀掉，都可以通过持久化的中间文件来断点续传。初始化 NSURLConnection 的时候要注意设置 scheduleInRunLoop 为 NSRunLoopCommonModes，不然就会出现进度条 UI 无法更新的现象。实现效果如图 6 所示：</p>
+
+<h5 id="toc_13">图 6. NSURLConnection 演示</h5>
+
+<p><img src="media/15060704391596/image006.gif" alt="NSURLConnection 演示"/></p>
+
+<h3 id="toc_14">NSURLSessionDataTask</h3>
+
+<p>苹果在 iOS7 开始，推出了一个新的类 NSURLSession, 它具备了 NSURLConnection 所具备的方法，并且更强大。由于通过 NSURLConnection 从 2015 年开始被弃用了，所以读者推荐基于 NSURLSession 去实现续传。NSURLConnection 和 NSURLSession delegate 方法的映射关系 , 如图 7 所示。所以关键是要满足 NSURLSessionDataDelegate 和 NSURLsessionTaskDelegate。</p>
+
+<h5 id="toc_15">图 7. 协议之间映射关系</h5>
+
+<p><img src="media/15060704391596/image007.png" alt="协议之间映射关系"/></p>
+
+<p>代码如清单 3 所示 , 基本和 NSURLConnection 实现的一样。</p>
+
+<h5 id="toc_16">清单 3. NSURLSessionDataTask 的实现</h5>
+
+<pre><code class="language-text">// SWIFT 
+// 接收数据
+func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, 
+idReceiveData data: NSData) { 
+   //. . . 
+} 
+// 接收服务器响应
+func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, 
+didReceiveResponse response: NSURLResponse, completionHandler: 
+ (NSURLSessionResponseDisposition) -&gt; Void) { 
+   // . . . 
+   completionHandler(.Allow) 
+} 
+ 
+// 请求完成
+func URLSession(session: NSURLSession, task: NSURLSessionTask, 
+ didCompleteWithError error: NSError?) { 
+   if error == nil { 
+       // . . . 
+       self.successHandler(responseObject:self.fileName!) 
+   } else { 
+       self.failureHandler(error:error!) 
+   } 
+}
+</code></pre>
+
+<p>区别在与 didComleteWithError, 它将 NSURLConnection 中的 connection:didFailWithError:</p>
+
+<p>和 connectionDidFinishLoading: 整合到了一起 , 所以这边要根据 error 区分执行成功的 Block 和失败的 Block。实现效果如图 8 所示：</p>
+
+<h5 id="toc_17">图 8. NSURLSessionDataTask 演示</h5>
+
+<p><img src="media/15060704391596/image008.gif" alt="NSURLSessionDataTask 演示"/></p>
+
+<h3 id="toc_18">NSURLSessionDownTask</h3>
+
+<p>最后来看下 NSURLSession 中用来下载的类 NSURLSessionDownloadTask，对应的协议是 NSURLSessionDownloadDelegate，如图 9 所示：</p>
+
+<h5 id="toc_19">图 9. NSURLSessionDownloadDelegate 协议</h5>
+
+<p><img src="media/15060704391596/image009.png" alt="NSURLSessionDownloadDelegate 协议"/></p>
+
+<p>其中在退出 didFinishDownloadingToURL 后，会自动删除 temp 目录下对应的文件。所以有关文件操作必须要在这个方法里面处理。之前笔者曾想找到这个 tmp 文件 , 基于这个文件做断点续传 , 无奈一直找不到这个文件的路径。等以后 SWIFT 公布 NSURLSession 的源码之后，兴许会有方法找到。基于 NSURLSessionDownloadTask 来实现的话 , 需要在 cancelByProducingResumeData 中保存已经下载的数据。进度通知就非常简单了，直接在 URLSession:downloadTask:didWriteData:totalBytesWritten:totalBytesWritten:totalBytesExpectedToWrite: 实现即可。代码如清单 4 所示：</p>
+
+<h5 id="toc_20">清单 4. NSURLSessionDownloadTask 的实现</h5>
+
+<pre><code class="language-text">//SWIFT 
+ 
+//UI 触发 pause 
+func pause(){ 
+   self.downloadTask?.cancelByProducingResumeData({data -&gt; Void in 
+       if data != nil { 
+data!.writeToFile(FileManager.instance.cacheFilePath(self.fileName!), 
+atomically: false) 
+} 
+       }) 
+   self.downloadTask = nil 
+} 
+ 
+// MARK: - NSURLSessionDownloadDelegate 
+func URLSession(session: NSURLSession, downloadTask: 
+NSURLSessionDownloadTask, didWriteData bytesWritten: Int64, 
+totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) { 
+   if (self.downloadProgressHandler != nil) { 
+       self.downloadProgressHandler(bytes: Int(bytesWritten), 
+        totalBytes: totalBytesWritten, totalBytesExpected: totalBytesExpectedToWrite) 
+   } 
+} 
+ 
+func URLSession(session: NSURLSession, task: NSURLSessionTask, 
+didCompleteWithError error: NSError?) { 
+   if error != nil {//real error 
+       self.failureHandler(error:error!) 
+   } 
+} 
+ 
+func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, 
+ didFinishDownloadingToURL location: NSURL) { 
+   let cacheFilePath = FileManager.instance.cacheFilePath(self.fileName!) 
+   let documenFilePath = FileManager.instance.documentFilePath(self.fileName!) 
+   do { 
+       if FileManager.instance.fileExistsAtPath(cacheFilePath){ 
+           try FileManager.instance.removeItemAtPath(cacheFilePath) 
+       } 
+       try FileManager.instance.moveItemAtPath(location.path!, toPath: documenFilePath) 
+   } catch let e as NSError { 
+       print(&quot;Error occurred when to move file: \(e)&quot;) 
+   } 
+   self.successHandler(responseObject:documenFilePath) 
+}
+</code></pre>
+
+<p>实现效果如图 10 所示：</p>
+
+<h5 id="toc_21">图 10. NSURLSessionDownloadTask 演示</h5>
+
+<p><img src="media/15060704391596/image010.gif" alt="NSURLSessionDownloadTask 演示"/></p>
+
+<h2 id="toc_22">总结</h2>
+
+<p>本文从断点续传概述开始，介绍了断点续传的应用背景，通过原理的描述，相信读者对断点续传有了基本的认识和理解。接着笔者介绍了通过 AFHTTPRequestOpeartion 实现的代码，并对 AFHTTPRequestOpeartion 做了简单的分析。最后笔者结合的实际需求，基于 NSURLConnection, NSURLSeesionDataTask 和 NSURLSessionDownloadtask。其实，下载的实现远不止这些内容，本文只介绍了简单的使用。希望在进一步的学习和应用中能继续与大家分享。</p>
+
+<h4 id="toc_23">相关主题</h4>
+
+<ul>
+<li>参考 <a href="https://www.w3.org/Protocols/rfc959/4_FileTransfer.html">RFC959</a>，了解 FTP 协议文本的说明。</li>
+<li>参考 <a href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html">RFC2616</a>，了解 HTTP 的说明。</li>
+<li>参考 <a href="https://github.com/AFNetworking/AFNetworking/blob/2.x/AFNetworking/AFHTTPRequestOperation.m">AFHTTPRequestOperation</a>, 了解源码。</li>
+<li>参考 <a href="https://developer.apple.com/library/ios/documentation/Cocoa/Reference/Foundation/ObjC_classic/index.html#//apple_ref/doc/uid/20001091">iOSDeveloperLibrary</a>，了解 Apple 官方文档对 NSURLConnection, NSURLSeesionDownloadTask 和 NSURLSeesionDataTask 的说明。</li>
+<li>访问 developerWorks <a href="http://www.ibm.com/developerworks/cn/mobile/">Mobile 专区</a>，了解关于信息管理的更多信息，获取技术文档、how-to 文章、培训、下载、产品信息以及其他资源。</li>
+</ul>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="15058021769287.html">优化iPad 2 总结</a></h1>
 			<p class="meta"><time datetime="2017-09-19T14:22:56+08:00" 
 			pubdate data-updated="true">2017/9/19</time></p>
@@ -533,209 +859,6 @@ CAGradientLayer(layer: layer) // Override to copy or initialize custom fields of
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="15036540820094.html">Custom UIViews from XIB files</a></h1>
-			<p class="meta"><time datetime="2017-08-25T17:41:22+08:00" 
-			pubdate data-updated="true">2017/8/25</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<h2 id="toc_0"><a href="https://stackoverflow.com/documentation/ios/1362/custom-uiviews-from-xib-files/4443/wiring-elements">Wiring elements</a></h2>
-
-<ul>
-<li><blockquote>
-<p>Create a XIB file</p>
-</blockquote>
-<p>Xcode Menu Bar &gt; File &gt; New &gt; File.<br/>
-Select iOS, User Interface and then &quot;View&quot;:</p>
-<p><a href="media/15036540820094/RSkzu.png"><img src="media/15036540820094/RSkzu.png" alt="First step"/></a></p>
-<p>Give your XIB a name (yes, we are doing a Pokemon example 👾).<br/>
-<strong>Remember to check your target</strong> and hit &quot;Create&quot;.</p>
-<p><a href="media/15036540820094/oJ1s1.png"><img src="media/15036540820094/oJ1s1.png" alt="Second step"/></a></p>
-<blockquote>
-<p>Design your view</p>
-</blockquote>
-<p>To make things easier, set:</p>
-<ul>
-<li>Size: Freeform</li>
-<li>Status Bar: None</li>
-<li>Top Bar: None</li>
-<li>Bottom Bar: None</li>
-</ul>
-<p><a href="media/15036540820094/Gy0KD.png"><img src="media/15036540820094/Gy0KD.png" alt="Third step"/></a></p>
-<p>Click on the Size Inspector and resize the view.<br/>
-For this example we&#39;ll be using width 321 and height 256.</p>
-<p><a href="media/15036540820094/PNIek.png"><img src="media/15036540820094/PNIek.png" alt="Fourth step"/></a></p>
-<p>Drop some elements into your XIB file like shown below.<br/>
-Here we&#39;ll be adding an <strong>Image View</strong> (256x256) and a <strong>Switch</strong>.</p>
-<p><a href="media/15036540820094/6u3pd.png"><img src="media/15036540820094/6u3pd.png" alt="Fifth step"/></a></p>
-<p>Add Auto-Layout constraints by clicking on &quot;Resolve Auto Layout Issues&quot; (bottom-right) and selecting &quot;Add Missing Constraints&quot; under &quot;All Views&quot;.</p>
-<p><a href="media/15036540820094/esZhQ.png"><img src="media/15036540820094/esZhQ.png" alt="Sixth step"/></a></p>
-<p>Preview the changes you made by clicking on &quot;Show the Assistant Editor&quot; (top-right), then &quot;Preview&quot;.<br/>
-You can add iPhone screens by clicking on the &quot;Plus&quot; button.<br/>
-The preview should look like this:</p>
-<p><a href="media/15036540820094/D3rac.png"><img src="media/15036540820094/D3rac.png" alt="Seventh step"/></a></p>
-<blockquote>
-<p>Subclass UIView</p>
-</blockquote>
-<p>Create the class that is going to manage the XIB file.<br/>
-Xcode Menu Bar &gt; File &gt; New &gt; File.<br/>
-Select iOS / Source / Cocoa Touch Class. Hit &quot;Next&quot;.</p>
-<p><a href="media/15036540820094/0EyHy.png"><img src="media/15036540820094/0EyHy.png" alt="Eighth step"/></a></p>
-<p>Give the class a name, which must be the same name as the XIB file (Pokemon).<br/>
-Select UIView as the subclass type, then hit &quot;Next&quot;.</p>
-<p><a href="media/15036540820094/qbo3s.png"><img src="media/15036540820094/qbo3s.png" alt="Nineth step"/></a></p>
-<p>On the next window, select your target and hit &quot;Create&quot;.</p>
-<p><a href="media/15036540820094/Ks9Tu.png"><img src="media/15036540820094/Ks9Tu.png" alt="Tenth step"/></a></p>
-<blockquote>
-<p>Connect Pokemon.xib to Pokemon.swift via &quot;File’s Owner&quot; attribute</p>
-</blockquote>
-<p>Click on the Pokemon.xib file in Xcode.<br/>
-Click on the &quot;File&#39;s Owner&quot; outlet.<br/>
-On the &quot;Identity inspector&quot; (top-right), set the Class to our recently created Pokemon.swift file.</p>
-<p><a href="media/15036540820094/4YT3i.png"><img src="media/15036540820094/4YT3i.png" alt="Eleventh step"/></a></p>
-<blockquote>
-<p>POKEMONS!!!</p>
-</blockquote>
-<p>Yes! Drag and drop some Pokemons into your project to finish up our &quot;infrastructure&quot;.<br/>
-Here we are adding two PGN files, 256x256, transparent.</p>
-<p><a href="media/15036540820094/ibqxZ.png"><img src="media/15036540820094/ibqxZ.png" alt="Twelfth step"/></a></p>
-<blockquote>
-<p>Show me code already.</p>
-</blockquote>
-<p>All right, all right.<br/>
-Time to add some code to our Pokemon.swift class.</p>
-<p>It&#39;s actually pretty simple:</p>
-<ol>
-<li>Implement required initializers</li>
-<li>Load the XIB file</li>
-<li>Configure the view that will display the XIB file</li>
-<li>Show the above view</li>
-</ol>
-<p>Add the following code to the Pokemon.swift class:</p>
-<pre><code class="language-text">import UIKit
-class Pokemon: UIView {<br/>
-    // MARK: - Initializers<br/>
-    override init(frame: CGRect) {<br/>
-        super.init(frame: frame)<br/>
-        setupView()<br/>
-    }<br/>
-    required init?(coder aDecoder: NSCoder) {<br/>
-        super.init(coder: aDecoder)<br/>
-        setupView()<br/>
-    }<br/>
-    // MARK: - Private Helper Methods<br/>
-    // Performs the initial setup.<br/>
-    private func setupView() {<br/>
-        let view = viewFromNibForClass()<br/>
-        view.frame = bounds<br/>
-        // Auto-layout stuff.<br/>
-        view.autoresizingMask = [<br/>
-            UIViewAutoresizing.flexibleWidth,<br/>
-            UIViewAutoresizing.flexibleHeight<br/>
-        ]<br/>
-        // Show the view.<br/>
-        addSubview(view)<br/>
-    }<br/>
-    // Loads a XIB file into a view and returns this view.<br/>
-    private func viewFromNibForClass() -&gt; UIView {<br/>
-        let bundle = Bundle(for: type(of: self))<br/>
-        let nib = UINib(nibName: String(describing: type(of: self)), bundle: bundle)<br/>
-        let view = nib.instantiate(withOwner: self, options: nil).first as! UIView<br/>
-        /* Usage for swift &lt; 3.x<br/>
-        let bundle = NSBundle(forClass: self.dynamicType)<br/>
-        let nib = UINib(nibName: String(self.dynamicType), bundle: bundle)<br/>
-        let view = nib.instantiateWithOwner(self, options: nil)[0] as! UIView<br/>
-        */<br/>
-        return view<br/>
-    }<br/>
-}
-</code></pre>
-<blockquote>
-<p>@IBDesignable and @IBInspectable</p>
-</blockquote>
-<p>By adding <code>@IBDesignable</code> to your class, you make possible for it to live-render in Interface Builder.<br/>
-By adding <code>@IBInspectable</code> to the properties of your class, you can see your custom views changing in Interface Builder as soon as you modify those properties.</p>
-<p>Let&#39;s make the <code>Image View</code> of our custom view &quot;Inspectable&quot;.</p>
-<p>First, hook up the <code>Image View</code> from the Pokemon.xib file to the Pokemon.swift class.</p>
-<p><a href="media/15036540820094/Dxyv2.png"><img src="media/15036540820094/Dxyv2.png" alt="Thirteenth step"/></a></p>
-<p>Call the outlet <code>imageView</code> and then add the following code (notice the <code>@IBDesignable</code> before the class name):</p>
-<pre><code class="language-text">@IBDesignable class Pokemon: UIView {
-    // MARK: - Properties<br/>
-    @IBOutlet weak var imageView: UIImageView!<br/>
-    @IBInspectable var image: UIImage? {<br/>
-        get {<br/>
-            return imageView.image<br/>
-        }<br/>
-        set(image) {<br/>
-            imageView.image = image<br/>
-        }<br/>
-    }<br/>
-    // MARK: - Initializers<br/>
-    ...
-</code></pre>
-<blockquote>
-<p>Using your Custom Views</p>
-</blockquote>
-<p>Got to your Main storyboard file, drag a UIView into it.<br/>
-Resize the view to, say 200x200. Centralize.<br/>
-Go to the Identity inspector (top-right) and set the Class to Pokemon.</p>
-<p><a href="media/15036540820094/Iah3Y.png"><img src="media/15036540820094/Iah3Y.png" alt="Fourteenth steps"/></a></p>
-<p>To select a Pokemon, go to the Attribute Inspector (top-right) and select one of the Pokemon images you previously added using the awesome <code>@IBInspectable</code> image property.</p>
-<p><a href="media/15036540820094/727mm.png"><img src="media/15036540820094/727mm.png" alt="Fifteenth step"/></a></p>
-<p>Now duplicate your custom Pokemon view.<br/>
-Give it a different size, say 150x150.<br/>
-Choose another Pokemon image, observe:</p>
-<p><a href="media/15036540820094/xrTXw.png"><img src="media/15036540820094/xrTXw.png" alt="Sixteenth step"/></a></p>
-<p>Now we are going to add more logic to that self-containing custom UI element.<br/>
-The button will allow Pokemons to be enabled/disabled.</p>
-<p>Create an <code>IBAction</code> from the Switch button to the Pokemon.swift class.<br/>
-Call the action something like <code>switchTapped</code>.<br/>
-Add the following code to it:</p>
-<pre><code class="language-text">// MARK: - Actions
-@IBAction func switchTapped(sender: UISwitch) {<br/>
-    imageView.alpha = sender.on ? 1.0 : 0.2<br/>
-}<br/>
-// MARK: - Initializers<br/>
-...
-</code></pre>
-<p>Final result:</p>
-<p><a href="media/15036540820094/DQJvO.gif"><img src="media/15036540820094/DQJvO.gif" alt="Final"/></a></p>
-<p>You are done!<br/>
-Now you can create complex custom views and reuse them anywhere you want.<br/>
-This will increase productivity while isolating code into self-contained UI elements.</p>
-<p><a href="https://github.com/singledev/custom-uiviews-from-xib">The final project can be cloned in Github.</a><br/>
-(<strong>Updated to Swift 3.1</strong>)</p></li>
-</ul>
-
-<h2 id="toc_1"><a href="https://stackoverflow.com/documentation/ios/1362/custom-uiviews-from-xib-files/11599/how-to-make-custom-reusable-uiview-using-xib">How to make custom reusable UIView using XIB</a></h2>
-
-<p>Following example shows steps involved in initializing a view from XIB.</p>
-
-<p>This is not a complex operation but exact steps need to be followed in order to do it right way first time, avoiding exceptions.</p>
-
-<p><a href="http://stackoverflow.com/questions/20323393/how-does-loadnibnamed-work-uiview-outlets-not-initializing-using-loadnibnamed">How does loadNibNamed Works</a></p>
-
-<p>Main steps are:</p>
-
-<ol>
-<li>Create XIB</li>
-<li>Create class .h and .m</li>
-<li>Define outlets in .h</li>
-<li><p>Connect outlets between .h and XIB</p>
-<p>See attached screenshot:</p>
-<p><a href="media/15036540820094/rSBw6.png"><img src="media/15036540820094/rSBw6.png" alt="Label Object connected to myLabel IBOutlet UILabel variable"/></a></p></li>
-<li><p>Invoke loadNibNamed inside initWithCoder function of .m file. This is needed to ensure you can directly place UIView object into storyboard / Parent UIView XIB file and define it as your custom view. No other initialization code is needed once you load the storyboard / parent XIB. Your custom view can be added to other views just like other built-in Objective C view objects given in XCode.</p></li>
-</ol>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_8.html">&larr; Older</a> 
@@ -814,7 +937,7 @@ This will increase productivity while isolating code into self-contained UI elem
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Java.html"><strong>Java&nbsp;(2)</strong></a>
+	        <a href="Java.html"><strong>Java&nbsp;(3)</strong></a>
 	        
 	        
 	        
@@ -832,6 +955,12 @@ This will increase productivity while isolating code into self-contained UI elem
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="15965198984201.html">@Slf4j注解实现日志输出</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -854,12 +983,6 @@ This will increase productivity while isolating code into self-contained UI elem
 	      
 		      <li class="post">
 		        <a href="15653376209289.html">事件传递</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15653325472073.html">海底捞点餐Pad 优化</a>
 		      </li>
 	     
 	  

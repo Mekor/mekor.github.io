@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <title>
     
-  字符串frame相关 - 李小争
+  @Slf4j注解实现日志输出 - 李小争
   
 
   </title>
@@ -77,41 +77,31 @@ $(document).ready(function(event) {
 <div>
 	<article class="hentry" role="article">
 	<header>
-			  	<h1 class="entry-title">字符串frame相关</h1>
-				<p class="meta"><time datetime="2016-10-15T21:45:59+08:00" pubdate data-updated="true">2016/10/15</time></p>
+			  	<h1 class="entry-title">@Slf4j注解实现日志输出</h1>
+				<p class="meta"><time datetime="2020-08-04T13:44:58+08:00" pubdate data-updated="true">2020/8/4</time></p>
 			 </header>
 		  	<div class="entry-content">
-			  	<p>开发中常用到计算字符串的size或者rect</p>
+			  	<p>最近看到B站上有人写代码没有定义log(<code>private final Logger log = LoggerFactory.getLogger(XXX.class);</code>)就能直接用<code>log</code></p>
 
-<p>经常见到如下接口:</p>
+<p>查了下可能的方案:</p>
 
-<pre><code class="language-text">- (CGSize)sizeWithAttributes:(nullable NSDictionary&lt;NSString *, id&gt; *)attrs NS_AVAILABLE(10_0, 7_0);
+<ol>
+<li>pom引入 <code>lombok</code></li>
+</ol>
 
-- (CGRect)boundingRectWithSize:(CGSize)size options:(NSStringDrawingOptions)options attributes:(nullable NSDictionary&lt;NSString *, id&gt; *)attributes context:(nullable NSStringDrawingContext *)context NS_AVAILABLE(10_11, 7_0);
+<pre><code class="language-text">            &lt;dependency&gt;
+                &lt;groupId&gt;org.projectlombok&lt;/groupId&gt;
+                &lt;artifactId&gt;lombok&lt;/artifactId&gt;
+                &lt;version&gt;${lombok.version}&lt;/version&gt;
+                &lt;optional&gt;true&lt;/optional&gt;
+            &lt;/dependency&gt;
 </code></pre>
 
-<p>项目中使用的例子:</p>
-
-<pre><code class="language-text">    // shopNameLabel frame
-    {
-        CGSize stringSize = [self.shopNameLabel.text sizeWithAttributes:@{NSFontAttributeName: self.shopNameLabel.font}];
-        self.shopNameLabel.frame = CGRectMake(margin, margin, ceil(stringSize.width), ceil(stringSize.height));
-    }
-</code></pre>
-
-<pre><code class="language-text">    // addressLabel frame
-    {
-        CGFloat lwidth = width - imageWH - 3*margin;
-        
-        CGSize stringSize = [self.addressLabel.text boundingRectWithSize:CGSizeMake(lwidth, self.addressLabel.font.lineHeight *self.addressLabel.numberOfLines) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: self.addressLabel.font} context:nil].size;
-        self.addressLabel.frame = CGRectMake(margin, ceil(CGRectGetMaxY(self.juliLabel.frame) + margin), stringSize.width, stringSize.height);
-    }
-
-</code></pre>
-
-<p>由于经常使用,所以我把这些都抽取成代码块,方便调用.</p>
-
-<p>其中由于需要预估字符串的高度,<code>boundingRectWithSize</code>,由于iOS所提供的默认字体是可能变化的,所以这里我们不能凭借经验10号字体默认高度就是10,这是不准确的.使用<code>self.addressLabel.font.lineHeight</code>应该使用行高来计算.并且显示的行数也不要写死,需要写成 <code>self.addressLabel.numberOfLines</code>.这样做才能得到想要的效果.</p>
+<ol>
+<li>在目标类上添加<code>@Slf4j</code>注解</li>
+<li>然后直接在方法中使用<code>log.info(&quot;*****插入结果：&quot;+result);</code></li>
+<li>如果使用的时候没有找到变量<code>log</code>,IDEA需要安装lombok插件</li>
+</ol>
 
 			</div>
 
@@ -123,7 +113,7 @@ $(document).ready(function(event) {
 			<strong>Categories:</strong>&nbsp; 
 			<span class="categories">
 			
-			    <a class='category' href='%E6%8A%80%E5%B7%A7.html'>技巧</a>&nbsp;
+			    <a class='category' href='Java.html'>Java</a>&nbsp;
 			 
 			</span>
 		    </p>
@@ -141,12 +131,9 @@ $(document).ready(function(event) {
 
 	    <p class="meta">
 	    
-	        <a class="basic-alignment left" href="14765420394973.html" 
-	        title="Previous Post: iOS 模拟器 添加图片到相册的小技巧">&laquo; iOS 模拟器 添加图片到相册的小技巧</a>
 	    
-	    
-	        <a class="basic-alignment right" href="14764220018619.html" 
-	        title="Next Post: vim 学习">vim 学习 &raquo;</a>
+	        <a class="basic-alignment right" href="15962945237035.html" 
+	        title="Next Post: 632. Smallest Range Covering Elements from K Lists">632. Smallest Range Covering Elements from K Lists &raquo;</a>
 	    
 	    </p>
 	  </footer>
