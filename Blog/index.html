@@ -78,6 +78,59 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="15965236438323.html">devtools 热启动</a></h1>
+			<p class="meta"><time datetime="2020-08-04T14:47:23+08:00" 
+			pubdate data-updated="true">2020/8/4</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>第一步:添加pom</p>
+
+<pre><code class="language-text">        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-devtools&lt;/artifactId&gt;
+            &lt;scope&gt;runtime&lt;/scope&gt;
+            &lt;optional&gt;true&lt;/optional&gt;
+        &lt;/dependency&gt;
+</code></pre>
+
+<p>第二步 添加插件到父pom中</p>
+
+<pre><code class="language-text">  &lt;build&gt;
+    &lt;plugins&gt;
+      &lt;plugin&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
+        &lt;configuration&gt;
+          &lt;fork&gt;true&lt;/fork&gt;
+          &lt;addResources&gt;true&lt;/addResources&gt;
+        &lt;/configuration&gt;
+      &lt;/plugin&gt;
+    &lt;/plugins&gt;
+  &lt;/build&gt;
+</code></pre>
+
+<p>第三步 开启自动编译选项<br/>
+Setting-&gt;Build-&gt;Compiler<br/>
+<img src="media/15965236438323/15965240806182.jpg" alt="" style="width:475px;"/></p>
+
+<p>第四步: 修改Registry</p>
+
+<p>双击 Shift 选中Action 输入 Registry 打开<br/>
+<img src="media/15965236438323/15965244242502.jpg" alt="" style="width:655px;"/><br/>
+修改为选中<br/>
+<img src="media/15965236438323/15965245587023.jpg" alt="" style="width:950px;"/><br/>
+第五步: 重启IDEA</p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="15965198984201.html">@Slf4j注解实现日志输出</a></h1>
 			<p class="meta"><time datetime="2020-08-04T13:44:58+08:00" 
 			pubdate data-updated="true">2020/8/4</time></p>
@@ -1251,29 +1304,6 @@ F_singleTapGesture
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="15653376209289.html">事件传递</a></h1>
-			<p class="meta"><time datetime="2019-08-09T16:00:20+08:00" 
-			pubdate data-updated="true">2019/8/9</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>整体的事件传递流程<br/>
-<img src="media/15653376209289/15653376299374.jpg" alt="" style="width:687px;"/></p>
-
-<p>详细的<code>hitTset:withEvent:</code>系统实现<br/>
-<img src="media/15653376209289/15653413218867.jpg" alt=""/></p>
-
-<p>注：先判断视图是否隐藏可交互，不满足条件返回nil, 如果不在点击范围内就返回nil,在点击范围内就遍历子视图。遍历子视图的时候如果都没有子视图响应事件，那么就把视图本身<code>v</code>返回，如果有子视图响应就返回当前子视图。</p>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_1.html">&larr; Older</a> 
@@ -1352,7 +1382,7 @@ F_singleTapGesture
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Java.html"><strong>Java&nbsp;(3)</strong></a>
+	        <a href="Java.html"><strong>Java&nbsp;(4)</strong></a>
 	        
 	        
 	        
@@ -1370,6 +1400,12 @@ F_singleTapGesture
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="15965236438323.html">devtools 热启动</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -1392,12 +1428,6 @@ F_singleTapGesture
 	      
 		      <li class="post">
 		        <a href="15653483390225.html">图像显示原理</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15653376209289.html">事件传递</a>
 		      </li>
 	     
 	  
