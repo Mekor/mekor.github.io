@@ -78,6 +78,193 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="15035627499170.html">GCD(Grand Central Dispatch)</a></h1>
+			<p class="meta"><time datetime="2017-08-24T16:19:09+08:00" 
+			pubdate data-updated="true">2017/8/24</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<blockquote>
+<p>由于Stack Overflow中Documentation将要关闭,所以我将部分内容转载至这里</p>
+</blockquote>
+
+<p>Grand Central Dispatch (GCD) is Apple&#39;s answer to multithreading. It is a lightweight framework for performing tasks synchronously or asynchronously in queues and handles CPU threads for you behind the scenes.</p>
+
+<h2 id="toc_0">Dispatch Semaphore</h2>
+
+<p><a href="https://stackoverflow.com/documentation/ios/4626/gcd-grand-central-dispatch/28284/dispatch-semaphore">Stack Overflow地址</a></p>
+
+<blockquote>
+<p>DispatchSemaphore provides an efficient implementation of a traditional counting semaphore, which can be used to control access to a resource across multiple execution contexts.</p>
+</blockquote>
+
+<p>A scenario for when to use a semaphore could be if you are doing some file reading/writing, if multiple tasks are trying to read and write from file at the same time, it could increase your performance to make each task wait its turn so as to not overburden the I/O controller.</p>
+
+<pre><code class="language-text">func do2TasksAtATime () {
+    print(&quot;starting long running tasks (2 at a time)&quot;)
+    let sem = DispatchSemaphore(value: 2)            //this semaphore only allows 2 tasks to run at the same time (the resource count)
+    for i in 0...7 {                                 //launch a bunch of tasks
+        DispatchQueue.global().async {               //run tasks on a background thread
+            sem.wait()                               //wait here if no resources available
+            sleep(2)                                 //do some long task eg file access (here we are just sleeping for a 2 seconds for demonstration purposes)
+            print(&quot;long task \(i) done! \(Date())&quot;)
+            sem.signal()                             //let the semaphore know this resource is now available
+        }
+    }
+}
+</code></pre>
+
+<p>Example output: (notice the time stamps)</p>
+
+<pre><code class="language-text">starting long running tasks (2 at a time)
+long task 0 done! 2017-02-16 07:11:53 +0000
+long task 1 done! 2017-02-16 07:11:53 +0000
+long task 2 done! 2017-02-16 07:11:55 +0000
+long task 3 done! 2017-02-16 07:11:55 +0000
+long task 5 done! 2017-02-16 07:11:57 +0000
+long task 4 done! 2017-02-16 07:11:57 +0000
+long task 6 done! 2017-02-16 07:11:59 +0000
+long task 7 done! 2017-02-16 07:11:59 +0000
+</code></pre>
+
+<h2 id="toc_1">Dispatch Group</h2>
+
+<p><a href="https://stackoverflow.com/documentation/ios/4626/gcd-grand-central-dispatch/28278/dispatch-group">Stack Overflow地址</a></p>
+
+<blockquote>
+<p>DispatchGroup allows for aggregate synchronization of work. You can use them to submit multiple different work items and track when they all complete, even though they might run on different queues. This behavior can be helpful when progress can’t be made until all of the specified tasks are complete.</p>
+</blockquote>
+
+<p>A Scenario when this could be useful is if you have multiple webservice calls that all need to finish before continuing. For example, you need to download multiple sets of data that needs to be processed by some function. You have to wait for all webservices to complete before calling the function to process all the received data.</p>
+
+<p><strong>Swift 3</strong></p>
+
+<pre><code class="language-text">func doLongTasksAndWait () {
+    print(&quot;starting long running tasks&quot;)
+    let group = DispatchGroup()          //create a group for a bunch of tasks we are about to do
+    for i in 0...3 {                     //launch a bunch of tasks (eg a bunch of webservice calls that all need to be finished before proceeding to the next ViewController)
+        group.enter()                    //let the group know that something is being added
+        DispatchQueue.global().async {   //run tasks on a background thread
+            sleep(arc4random() % 4)      //do some long task eg webservice or database lookup (here we are just sleeping for a random amount of time for demonstration purposes)
+            print(&quot;long task \(i) done!&quot;)
+            group.leave()                //let group know that the task is finished
+        }
+    }
+    group.wait()                         //will block whatever thread we are on here until all the above tasks have finished (so maybe dont use this function on your main thread)
+    print(&quot;all tasks done!&quot;)
+}
+</code></pre>
+
+<p>Alternatively, if you do not want to wait for the groups to finish, but instead want to run a function once all the tasks have completed, use the <code>notify</code> function in place of the <code>group.wait()</code></p>
+
+<pre><code class="language-text">group.notify(queue: DispatchQueue.main) { //the queue: parameter is which queue this block will run on, if you need to do UI updates, use the main queue
+    print(&quot;all tasks done!&quot;)              //this will execute when all tasks have left the group
+}
+</code></pre>
+
+<p>Example output:</p>
+
+<pre><code class="language-text">starting long running tasks
+long task 0 done!
+long task 3 done!
+long task 1 done!
+long task 2 done!
+all tasks done!
+</code></pre>
+
+<h2 id="toc_2">Serial vs Concurrent Dispatch Queues</h2>
+
+<p><a href="https://stackoverflow.com/documentation/ios/4626/gcd-grand-central-dispatch/28286/serial-vs-concurrent-dispatch-queues">Stack Overflow地址</a><br/>
+<strong>Serial Queue</strong></p>
+
+<pre><code class="language-text">func serialQueues () {
+    let serialQueue = DispatchQueue(label: &quot;com.example.serial&quot;) //default queue type is a serial queue
+    let start = Date ()
+    for i in 0...3 {                                             //launch a bunch of tasks
+        serialQueue.async {                                      //run tasks on a background thread, using our serial queue
+            sleep(2)                                             //do some long task eg webservice or database lookup
+            let timeTaken = Date().timeIntervalSince(start)
+            print(&quot;serial long task \(i) done! total time taken: \(timeTaken)&quot;)
+        }
+    }
+}
+</code></pre>
+
+<p>Example output:</p>
+
+<pre><code class="language-text">serial long task 0 done! total time taken: 2.07241100072861
+serial long task 1 done! total time taken: 4.16347700357437
+serial long task 2 done! total time taken: 6.23209798336029
+serial long task 3 done! total time taken: 8.30682599544525
+</code></pre>
+
+<p><strong>Concurrent Queue</strong></p>
+
+<pre><code class="language-text">func concurrentQueues () {
+    let concurrentQueue = DispatchQueue(label: &quot;com.example.concurrent&quot;, attributes: .concurrent) //explicitly specify the queue to be a concurrent queue
+    let start = Date ()
+    for i in 0...3 {            //launch a bunch of tasks
+        concurrentQueue.async { //run tasks on a background thread, using our concurrent queue
+            sleep(2)            //do some long task eg webservice or database lookup
+            let timeTaken = Date().timeIntervalSince(start)
+            print(&quot;concurrent long task \(i) done! total time taken: \(timeTaken)&quot;)
+        }
+    }
+}
+</code></pre>
+
+<p>Example output:</p>
+
+<pre><code class="language-text">concurrent long task 3 done! total time taken: 2.07092100381851
+concurrent long task 0 done! total time taken: 2.07087397575378
+concurrent long task 2 done! total time taken: 2.07086700201035
+concurrent long task 1 done! total time taken: 2.07089096307755
+</code></pre>
+
+<p><strong>Discussion</strong></p>
+
+<p>As we can see from the examples above, a serial queue will complete each task in the order they are submitted to the queue. Each task will wait for the previous task to finish before executing. As for the concurrent queue, each task does not wait on the others in the queue and executes as soon as possible; the advantage is that all tasks on the queue will run at the same time on separate threads, making a concurrent queue take less time than a serial queue.</p>
+
+<p>If order of execution of tasks is not important, always use a concurrent queue for the best efficiency.</p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
+		  	<h1 class="entry-title"><a href="14963702971919.html">打包后出现 Undefined symbols for architecture i386</a></h1>
+			<p class="meta"><time datetime="2017-07-02T10:24:57+08:00" 
+			pubdate data-updated="true">2017/7/2</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>出现问题:<br/>
+自己打framework真机与模拟器合并后在使用的时候提示 <code>Undefined symbols for architecture i386</code></p>
+
+<p>原因: 打framework的时候使用的是<code>debug</code> 改为<code>release</code><br/>
+<img src="media/14963702971919/14963704118450.jpg" alt=""/></p>
+
+<p><strong>合并命令:</strong></p>
+
+<p><code>lipo -create 真机(或者模拟器)framework地址 模拟器(或者真机)ramework地址 -output 输出地址(一般我选择真机framework地址)</code></p>
+
+<p><strong>查看信息:</strong></p>
+
+<p><code>lipo -info 真机(或者模拟器)framework地址</code></p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14954528363090.html">Linux - 文件、磁盘管理</a></h1>
 			<p class="meta"><time datetime="2017-05-22T19:33:56+08:00" 
 			pubdate data-updated="true">2017/5/22</time></p>
@@ -858,73 +1045,6 @@ ls abc/def
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14919624884376.html">项目优化记录</a></h1>
-			<p class="meta"><time datetime="2017-04-12T10:01:28+08:00" 
-			pubdate data-updated="true">2017/4/12</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<h2 id="toc_0">首页显示</h2>
-
-<p>重点: 数据处理放在获取数据的时候,尽管这样数据不会实时更新,但是保证了数据显示的速度.<br/>
-关于Cache, 目前使用数据库.关于异步访问要用 <code>safeAsync</code></p>
-
-<pre><code class="language-text">extension DispatchQueue {
-    // This method will dispatch the `block` to self.
-    // If `self` is the main queue, and current thread is main thread, the block
-    // will be invoked immediately instead of being dispatched.
-    func safeAsync(_ block: @escaping ()-&gt;()) {
-        if self === DispatchQueue.main &amp;&amp; Thread.isMainThread {
-            block()
-        } else {
-            async { block() }
-        }
-    }
-}
-</code></pre>
-
-<h2 id="toc_1">Topbar 移除</h2>
-
-<p>这个原有的导航对项目入侵太深,已经忍无可忍了...这周终于下决心移除它用原生的导航栏和自定义视图代替她..进展非常顺利.写了一天自定义控件,然后让大家各自把自己的控制过滤一遍.总耗时,我自己一天,其他同事不到1个小时.还是非常顺利的.用比较少的时间完成了项目中的毒瘤.</p>
-
-<h2 id="toc_2">下拉刷新封装</h2>
-
-<p>老版本使用的是<code>MJRefresh</code> 但是需要定制, 在老项目中我是通过继承完成的功能修改,这样做的原因是老项目是OC和Swift混编的,而且都是把第三方库源文件拖到项目中的方式进行的. 在重构的时候我把第三方库放到了公司的git上,然后更改源码.再打包成成库调用.</p>
-
-<h2 id="toc_3">关于时间比较</h2>
-
-<p>新项目中存在一个功能比如 <code>10:00:00</code> 到 <code>11:59:59</code> 算早市,需要判断当前时间是否是早市. 一种更方便的处理方式:</p>
-
-<p>时间格式 <code>HH:mm:ss</code> 一共6位数字,我们可以去掉中间的<code>:</code>,这样时间就是一个整数了,然后三个整数之间进行比较比 先比小时再比分钟最后比秒数要方便很多.</p>
-
-
-		</div>
-
-		
-
-	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14916349354566.html">Swift - 关于信号量</a></h1>
-			<p class="meta"><time datetime="2017-04-08T15:02:15+08:00" 
-			pubdate data-updated="true">2017/4/8</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>信号量的使用</p>
-
-<p><img src="media/14916349354566/%E4%BF%A1%E5%8F%B7%E9%87%8F.gif" alt="信号量"/></p>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_10.html">&larr; Older</a> 
@@ -1003,14 +1123,14 @@ ls abc/def
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Java.html"><strong>Java&nbsp;(4)</strong></a>
+	        <a href="Java.html"><strong>Java&nbsp;(5)</strong></a>
 	        
 	        
 	        
 	      </li>
 	  
 	      <li class="post">
-	        <a href="LeetCode.html"><strong>LeetCode&nbsp;(1)</strong></a>
+	        <a href="LeetCode.html"><strong>LeetCode&nbsp;(2)</strong></a>
 	        
 	        
 	        
@@ -1021,6 +1141,18 @@ ls abc/def
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="15978472756793.html">647. Palindromic Substrings</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="15966161528946.html">setProperty 应用</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -1037,18 +1169,6 @@ ls abc/def
 	      
 		      <li class="post">
 		        <a href="15962945237035.html">632. Smallest Range Covering Elements from K Lists</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15654059537017.html"># 深入理解 iOS 事件机制</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15653483390225.html">图像显示原理</a>
 		      </li>
 	     
 	  

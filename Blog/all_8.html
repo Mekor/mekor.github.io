@@ -78,6 +78,151 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="15052686192490.html">指针</a></h1>
+			<p class="meta"><time datetime="2017-09-13T10:10:19+08:00" 
+			pubdate data-updated="true">2017/9/13</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<h2 id="toc_0">1. 指针是一种数据类型</h2>
+
+<ol>
+<li>指针也是一种变量,占有内存空间,用来保存内存地址  指针的大小--&gt; 32位: 4  64位: 8</li>
+<li><p><code>*p</code> 操作内存</p>
+<pre><code class="language-text">在指针声明时,`*`号表示所声明的变量为指针
+在指针使用时,`*`号表示**操作**指针所指向的内存空间中的值<br/>
+`*p`相当于通过地址(p变量的值)找到一块内存,然后操作内存<br/>
+`*p`放在等号左边赋值(给内存赋值)<br/>
+`*p`放在等号右边取值(从内存获取值)
+</code></pre></li>
+<li><p>指针变量和它指向的内存块是两个不同的概念</p>
+<pre><code class="language-text">含义1: 给p赋值 p = 0x1111; 只会改变指针变量值,不会改变所指的内容; p = p+1
+含义2: 给`*p`赋值 *p = &#39;a&#39;;不会改变指针变量的值,只会改变所指的内存块的值<br/>
+保证所指向的内存空间能修改()<br/>
+*就像一把钥匙,通过一个地址(&amp;a),去修改a变量的标示的内存空间
+</code></pre></li>
+<li><p>指针是一种数据类型,是指它指向的内存空间的数据类型</p>
+<pre><code class="language-text">指针步长(p++),根据所指内存空间的数据类型类确定
+p++ = ---&gt; p+sizeof(a)
+</code></pre></li>
+</ol>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
+		  	<h1 class="entry-title"><a href="15038471972999.html">3D Touch</a></h1>
+			<p class="meta"><time datetime="2017-08-27T23:19:57+08:00" 
+			pubdate data-updated="true">2017/8/27</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<h2 id="toc_0"><a href="https://stackoverflow.com/documentation/ios/6705/3d-touch/22813/3d-touch-with-swift">3D Touch with Swift</a></h2>
+
+<p>3D touch has been introduced with iPhone 6s Plus. There are two behaviors added with this new interface layer: Peek and Pop.</p>
+
+<p><strong>Peek and Pop in a nutshell</strong></p>
+
+<p>Peek - Press hard</p>
+
+<p>Pop - Press really hard</p>
+
+<p><strong>Checking for 3D support</strong></p>
+
+<p>You should check if the device has a 3D touch support. You can do this by checking the value of <em>forceTouchCapability</em> property of a <em>UITraitCollection</em> object. UITraitCollection describes the iOS interface environment for your app.</p>
+
+<pre><code class="language-text">if (traitCollection.forceTouchCapability == .Available) {    
+    registerForPreviewingWithDelegate(self, sourceView: view)
+}
+</code></pre>
+
+<p><strong>Implementing the delegate</strong></p>
+
+<p>You need to implement the two methods of <em>UIViewControllerPreviewingDelegate</em> in your class. One of the methods is for <em>peek</em> and the other one is for <em>pop</em> behavior.</p>
+
+<p>The method to be implemented for the <em>peek</em> is <em>previewingContext</em>.</p>
+
+<pre><code class="language-text">func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -&gt; UIViewController? {
+
+    guard let indexPath = self.tableView.indexPathForRowAtPoint(location), cell = self.tableView.cellForRowAtIndexPath(indexPath) as? &lt;YourTableViewCell&gt; else {
+        return nil
+    }
+
+    guard let datailVC = storyboard?.instantiateViewControllerWithIdentifier(&quot;&lt;YourViewControllerIdentifier&gt;&quot;) as? &lt;YourViewController&gt; else {
+        return nil
+    }
+
+    datailVC.peekActive = true
+    previewingContext.sourceRect = cell.frame
+
+    // Do the stuff
+
+    return datailVC
+
+}
+</code></pre>
+
+<p>The method to be implemented for the <em>pop</em> is <em>previewingContext</em>. :)</p>
+
+<pre><code class="language-text">func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController) {
+
+    let balanceViewController = viewControllerToCommit as! &lt;YourViewController&gt;
+
+    // Do the stuff
+
+    navigationController?.pushViewController(balanceViewController, animated: true)
+
+}
+</code></pre>
+
+<p>As you can see they are overloaded methods. You can use 3D touch in any way implementing these methods.</p>
+
+<p><strong>Objective-C</strong></p>
+
+<pre><code class="language-text">//Checking for 3-D Touch availability
+if ([self.traitCollection respondsToSelector:@selector(forceTouchCapability)] &amp;&amp;
+        (self.traitCollection.forceTouchCapability == UIForceTouchCapabilityAvailable))
+    {
+        [self registerForPreviewingWithDelegate:self sourceView:self.view];
+    }
+//Peek
+- (UIViewController *)previewingContext:(id&lt;UIViewControllerPreviewing&gt;)previewingContext
+              viewControllerForLocation:(CGPoint)location {
+
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
+    Country *country = [self countryForIndexPath:indexPath];
+    if (country) {
+        CountryCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+        if (cell) {
+            previewingContext.sourceRect = cell.frame;
+            UINavigationController *navController = [self.storyboard instantiateViewControllerWithIdentifier:@&quot;UYLCountryNavController&quot;];
+            [self configureNavigationController:navController withCountry:country];
+            return navController;
+        }
+    }
+    return nil;
+}
+//Pop
+- (void)previewingContext:(id&lt;UIViewControllerPreviewing&gt;)previewingContext commitViewController:(UIViewController *)viewControllerToCommit {
+
+    [self showDetailViewController:viewControllerToCommit sender:self];
+}
+</code></pre>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="15038463059094.html">CAGradientLayer</a></h1>
 			<p class="meta"><time datetime="2017-08-27T23:05:05+08:00" 
 			pubdate data-updated="true">2017/8/27</time></p>
@@ -1201,193 +1346,6 @@ override func draw(_ rect: CGRect) {
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="15035627499170.html">GCD(Grand Central Dispatch)</a></h1>
-			<p class="meta"><time datetime="2017-08-24T16:19:09+08:00" 
-			pubdate data-updated="true">2017/8/24</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<blockquote>
-<p>由于Stack Overflow中Documentation将要关闭,所以我将部分内容转载至这里</p>
-</blockquote>
-
-<p>Grand Central Dispatch (GCD) is Apple&#39;s answer to multithreading. It is a lightweight framework for performing tasks synchronously or asynchronously in queues and handles CPU threads for you behind the scenes.</p>
-
-<h2 id="toc_0">Dispatch Semaphore</h2>
-
-<p><a href="https://stackoverflow.com/documentation/ios/4626/gcd-grand-central-dispatch/28284/dispatch-semaphore">Stack Overflow地址</a></p>
-
-<blockquote>
-<p>DispatchSemaphore provides an efficient implementation of a traditional counting semaphore, which can be used to control access to a resource across multiple execution contexts.</p>
-</blockquote>
-
-<p>A scenario for when to use a semaphore could be if you are doing some file reading/writing, if multiple tasks are trying to read and write from file at the same time, it could increase your performance to make each task wait its turn so as to not overburden the I/O controller.</p>
-
-<pre><code class="language-text">func do2TasksAtATime () {
-    print(&quot;starting long running tasks (2 at a time)&quot;)
-    let sem = DispatchSemaphore(value: 2)            //this semaphore only allows 2 tasks to run at the same time (the resource count)
-    for i in 0...7 {                                 //launch a bunch of tasks
-        DispatchQueue.global().async {               //run tasks on a background thread
-            sem.wait()                               //wait here if no resources available
-            sleep(2)                                 //do some long task eg file access (here we are just sleeping for a 2 seconds for demonstration purposes)
-            print(&quot;long task \(i) done! \(Date())&quot;)
-            sem.signal()                             //let the semaphore know this resource is now available
-        }
-    }
-}
-</code></pre>
-
-<p>Example output: (notice the time stamps)</p>
-
-<pre><code class="language-text">starting long running tasks (2 at a time)
-long task 0 done! 2017-02-16 07:11:53 +0000
-long task 1 done! 2017-02-16 07:11:53 +0000
-long task 2 done! 2017-02-16 07:11:55 +0000
-long task 3 done! 2017-02-16 07:11:55 +0000
-long task 5 done! 2017-02-16 07:11:57 +0000
-long task 4 done! 2017-02-16 07:11:57 +0000
-long task 6 done! 2017-02-16 07:11:59 +0000
-long task 7 done! 2017-02-16 07:11:59 +0000
-</code></pre>
-
-<h2 id="toc_1">Dispatch Group</h2>
-
-<p><a href="https://stackoverflow.com/documentation/ios/4626/gcd-grand-central-dispatch/28278/dispatch-group">Stack Overflow地址</a></p>
-
-<blockquote>
-<p>DispatchGroup allows for aggregate synchronization of work. You can use them to submit multiple different work items and track when they all complete, even though they might run on different queues. This behavior can be helpful when progress can’t be made until all of the specified tasks are complete.</p>
-</blockquote>
-
-<p>A Scenario when this could be useful is if you have multiple webservice calls that all need to finish before continuing. For example, you need to download multiple sets of data that needs to be processed by some function. You have to wait for all webservices to complete before calling the function to process all the received data.</p>
-
-<p><strong>Swift 3</strong></p>
-
-<pre><code class="language-text">func doLongTasksAndWait () {
-    print(&quot;starting long running tasks&quot;)
-    let group = DispatchGroup()          //create a group for a bunch of tasks we are about to do
-    for i in 0...3 {                     //launch a bunch of tasks (eg a bunch of webservice calls that all need to be finished before proceeding to the next ViewController)
-        group.enter()                    //let the group know that something is being added
-        DispatchQueue.global().async {   //run tasks on a background thread
-            sleep(arc4random() % 4)      //do some long task eg webservice or database lookup (here we are just sleeping for a random amount of time for demonstration purposes)
-            print(&quot;long task \(i) done!&quot;)
-            group.leave()                //let group know that the task is finished
-        }
-    }
-    group.wait()                         //will block whatever thread we are on here until all the above tasks have finished (so maybe dont use this function on your main thread)
-    print(&quot;all tasks done!&quot;)
-}
-</code></pre>
-
-<p>Alternatively, if you do not want to wait for the groups to finish, but instead want to run a function once all the tasks have completed, use the <code>notify</code> function in place of the <code>group.wait()</code></p>
-
-<pre><code class="language-text">group.notify(queue: DispatchQueue.main) { //the queue: parameter is which queue this block will run on, if you need to do UI updates, use the main queue
-    print(&quot;all tasks done!&quot;)              //this will execute when all tasks have left the group
-}
-</code></pre>
-
-<p>Example output:</p>
-
-<pre><code class="language-text">starting long running tasks
-long task 0 done!
-long task 3 done!
-long task 1 done!
-long task 2 done!
-all tasks done!
-</code></pre>
-
-<h2 id="toc_2">Serial vs Concurrent Dispatch Queues</h2>
-
-<p><a href="https://stackoverflow.com/documentation/ios/4626/gcd-grand-central-dispatch/28286/serial-vs-concurrent-dispatch-queues">Stack Overflow地址</a><br/>
-<strong>Serial Queue</strong></p>
-
-<pre><code class="language-text">func serialQueues () {
-    let serialQueue = DispatchQueue(label: &quot;com.example.serial&quot;) //default queue type is a serial queue
-    let start = Date ()
-    for i in 0...3 {                                             //launch a bunch of tasks
-        serialQueue.async {                                      //run tasks on a background thread, using our serial queue
-            sleep(2)                                             //do some long task eg webservice or database lookup
-            let timeTaken = Date().timeIntervalSince(start)
-            print(&quot;serial long task \(i) done! total time taken: \(timeTaken)&quot;)
-        }
-    }
-}
-</code></pre>
-
-<p>Example output:</p>
-
-<pre><code class="language-text">serial long task 0 done! total time taken: 2.07241100072861
-serial long task 1 done! total time taken: 4.16347700357437
-serial long task 2 done! total time taken: 6.23209798336029
-serial long task 3 done! total time taken: 8.30682599544525
-</code></pre>
-
-<p><strong>Concurrent Queue</strong></p>
-
-<pre><code class="language-text">func concurrentQueues () {
-    let concurrentQueue = DispatchQueue(label: &quot;com.example.concurrent&quot;, attributes: .concurrent) //explicitly specify the queue to be a concurrent queue
-    let start = Date ()
-    for i in 0...3 {            //launch a bunch of tasks
-        concurrentQueue.async { //run tasks on a background thread, using our concurrent queue
-            sleep(2)            //do some long task eg webservice or database lookup
-            let timeTaken = Date().timeIntervalSince(start)
-            print(&quot;concurrent long task \(i) done! total time taken: \(timeTaken)&quot;)
-        }
-    }
-}
-</code></pre>
-
-<p>Example output:</p>
-
-<pre><code class="language-text">concurrent long task 3 done! total time taken: 2.07092100381851
-concurrent long task 0 done! total time taken: 2.07087397575378
-concurrent long task 2 done! total time taken: 2.07086700201035
-concurrent long task 1 done! total time taken: 2.07089096307755
-</code></pre>
-
-<p><strong>Discussion</strong></p>
-
-<p>As we can see from the examples above, a serial queue will complete each task in the order they are submitted to the queue. Each task will wait for the previous task to finish before executing. As for the concurrent queue, each task does not wait on the others in the queue and executes as soon as possible; the advantage is that all tasks on the queue will run at the same time on separate threads, making a concurrent queue take less time than a serial queue.</p>
-
-<p>If order of execution of tasks is not important, always use a concurrent queue for the best efficiency.</p>
-
-
-		</div>
-
-		
-
-	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14963702971919.html">打包后出现 Undefined symbols for architecture i386</a></h1>
-			<p class="meta"><time datetime="2017-07-02T10:24:57+08:00" 
-			pubdate data-updated="true">2017/7/2</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>出现问题:<br/>
-自己打framework真机与模拟器合并后在使用的时候提示 <code>Undefined symbols for architecture i386</code></p>
-
-<p>原因: 打framework的时候使用的是<code>debug</code> 改为<code>release</code><br/>
-<img src="media/14963702971919/14963704118450.jpg" alt=""/></p>
-
-<p><strong>合并命令:</strong></p>
-
-<p><code>lipo -create 真机(或者模拟器)framework地址 模拟器(或者真机)ramework地址 -output 输出地址(一般我选择真机framework地址)</code></p>
-
-<p><strong>查看信息:</strong></p>
-
-<p><code>lipo -info 真机(或者模拟器)framework地址</code></p>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_9.html">&larr; Older</a> 
@@ -1466,14 +1424,14 @@ concurrent long task 1 done! total time taken: 2.07089096307755
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Java.html"><strong>Java&nbsp;(4)</strong></a>
+	        <a href="Java.html"><strong>Java&nbsp;(5)</strong></a>
 	        
 	        
 	        
 	      </li>
 	  
 	      <li class="post">
-	        <a href="LeetCode.html"><strong>LeetCode&nbsp;(1)</strong></a>
+	        <a href="LeetCode.html"><strong>LeetCode&nbsp;(2)</strong></a>
 	        
 	        
 	        
@@ -1484,6 +1442,18 @@ concurrent long task 1 done! total time taken: 2.07089096307755
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="15978472756793.html">647. Palindromic Substrings</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="15966161528946.html">setProperty 应用</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -1500,18 +1470,6 @@ concurrent long task 1 done! total time taken: 2.07089096307755
 	      
 		      <li class="post">
 		        <a href="15962945237035.html">632. Smallest Range Covering Elements from K Lists</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15654059537017.html"># 深入理解 iOS 事件机制</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15653483390225.html">图像显示原理</a>
 		      </li>
 	     
 	  

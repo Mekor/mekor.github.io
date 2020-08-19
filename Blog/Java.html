@@ -78,6 +78,75 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="15966161528946.html">setProperty 应用</a></h1>
+			<p class="meta"><time datetime="2020-08-05T16:29:12+08:00" 
+			pubdate data-updated="true">2020/8/5</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>项目中使用<code>Nacos</code>,想覆盖nacos的默认配置,配置信息如下:</p>
+
+<pre><code class="language-text">/**
+ * @author cloud
+ * @date 2019-10-31
+ * &lt;p&gt;
+ * 覆盖nacos 默认配置
+ */
+public interface ConfigConstants {
+    /**
+     * The System property name of  Standalone mode
+     */
+    String STANDALONE_MODE = &quot;nacos.standalone&quot;;
+
+    /**
+     * tomcat 目录
+     */
+    String TOMCAT_DIR = &quot;server.tomcat.basedir&quot;;
+
+    /**
+     * tomcat 日志配置
+     */
+    String TOMCAT_ACCESS_LOG = &quot;server.tomcat.accesslog.enabled&quot;;
+
+    /**
+     * 是否开启认证
+     */
+    String AUTH_ENABLED = &quot;nacos.core.auth.enabled&quot;;
+}
+</code></pre>
+
+<p>在启动类中设置想要覆盖配置的值</p>
+
+<pre><code class="language-text">/**
+ * @author nacos
+ * &lt;p&gt;
+ * nacos console 源码运行，方便开发
+ * 生产建议从官网下载最新版配置运行
+ */
+@EnableScheduling
+@SpringBootApplication
+public class CloudNacosApplication {
+
+    public static void main(String[] args) {
+        System.setProperty(ConfigConstants.TOMCAT_DIR, &quot;logs&quot;);
+        System.setProperty(ConfigConstants.TOMCAT_ACCESS_LOG, &quot;false&quot;);
+        System.setProperty(ConfigConstants.STANDALONE_MODE, &quot;true&quot;);
+        System.setProperty(ConfigConstants.AUTH_ENABLED, &quot;false&quot;);
+        SpringApplication.run(CloudNacosApplication.class, args);
+    }
+}
+
+</code></pre>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="15965236438323.html">devtools 热启动</a></h1>
 			<p class="meta"><time datetime="2020-08-04T14:47:23+08:00" 
 			pubdate data-updated="true">2020/8/4</time></p>
@@ -309,14 +378,14 @@ Setting-&gt;Build-&gt;Compiler<br/>
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Java.html"><strong>Java&nbsp;(4)</strong></a>
+	        <a href="Java.html"><strong>Java&nbsp;(5)</strong></a>
 	        
 	        
 	        
 	      </li>
 	  
 	      <li class="post">
-	        <a href="LeetCode.html"><strong>LeetCode&nbsp;(1)</strong></a>
+	        <a href="LeetCode.html"><strong>LeetCode&nbsp;(2)</strong></a>
 	        
 	        
 	        
@@ -327,6 +396,18 @@ Setting-&gt;Build-&gt;Compiler<br/>
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="15978472756793.html">647. Palindromic Substrings</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="15966161528946.html">setProperty 应用</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -343,18 +424,6 @@ Setting-&gt;Build-&gt;Compiler<br/>
 	      
 		      <li class="post">
 		        <a href="15962945237035.html">632. Smallest Range Covering Elements from K Lists</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15654059537017.html"># 深入理解 iOS 事件机制</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15653483390225.html">图像显示原理</a>
 		      </li>
 	     
 	  

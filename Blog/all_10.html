@@ -78,6 +78,73 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14919624884376.html">项目优化记录</a></h1>
+			<p class="meta"><time datetime="2017-04-12T10:01:28+08:00" 
+			pubdate data-updated="true">2017/4/12</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<h2 id="toc_0">首页显示</h2>
+
+<p>重点: 数据处理放在获取数据的时候,尽管这样数据不会实时更新,但是保证了数据显示的速度.<br/>
+关于Cache, 目前使用数据库.关于异步访问要用 <code>safeAsync</code></p>
+
+<pre><code class="language-text">extension DispatchQueue {
+    // This method will dispatch the `block` to self.
+    // If `self` is the main queue, and current thread is main thread, the block
+    // will be invoked immediately instead of being dispatched.
+    func safeAsync(_ block: @escaping ()-&gt;()) {
+        if self === DispatchQueue.main &amp;&amp; Thread.isMainThread {
+            block()
+        } else {
+            async { block() }
+        }
+    }
+}
+</code></pre>
+
+<h2 id="toc_1">Topbar 移除</h2>
+
+<p>这个原有的导航对项目入侵太深,已经忍无可忍了...这周终于下决心移除它用原生的导航栏和自定义视图代替她..进展非常顺利.写了一天自定义控件,然后让大家各自把自己的控制过滤一遍.总耗时,我自己一天,其他同事不到1个小时.还是非常顺利的.用比较少的时间完成了项目中的毒瘤.</p>
+
+<h2 id="toc_2">下拉刷新封装</h2>
+
+<p>老版本使用的是<code>MJRefresh</code> 但是需要定制, 在老项目中我是通过继承完成的功能修改,这样做的原因是老项目是OC和Swift混编的,而且都是把第三方库源文件拖到项目中的方式进行的. 在重构的时候我把第三方库放到了公司的git上,然后更改源码.再打包成成库调用.</p>
+
+<h2 id="toc_3">关于时间比较</h2>
+
+<p>新项目中存在一个功能比如 <code>10:00:00</code> 到 <code>11:59:59</code> 算早市,需要判断当前时间是否是早市. 一种更方便的处理方式:</p>
+
+<p>时间格式 <code>HH:mm:ss</code> 一共6位数字,我们可以去掉中间的<code>:</code>,这样时间就是一个整数了,然后三个整数之间进行比较比 先比小时再比分钟最后比秒数要方便很多.</p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
+		  	<h1 class="entry-title"><a href="14916349354566.html">Swift - 关于信号量</a></h1>
+			<p class="meta"><time datetime="2017-04-08T15:02:15+08:00" 
+			pubdate data-updated="true">2017/4/8</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>信号量的使用</p>
+
+<p><img src="media/14916349354566/%E4%BF%A1%E5%8F%B7%E9%87%8F.gif" alt="信号量"/></p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14907835920803.html">设计模式 读书笔记</a></h1>
 			<p class="meta"><time datetime="2017-03-29T18:33:12+08:00" 
 			pubdate data-updated="true">2017/3/29</time></p>
@@ -171,80 +238,6 @@ $(document).ready(function(event) {
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14878335740172.html">数组传递</a></h1>
-			<p class="meta"><time datetime="2017-02-23T15:06:14+08:00" 
-			pubdate data-updated="true">2017/2/23</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>把A控制器中的数组 传递给 B  ,然后 B 再把数据传递给 C <br/>
-这时如果 A中数组进行了修改,那么 C 中数据也会修改</p>
-
-
-		</div>
-
-		
-
-	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14877545165696.html">synchronized(object)</a></h1>
-			<p class="meta"><time datetime="2017-02-22T17:08:36+08:00" 
-			pubdate data-updated="true">2017/2/22</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<blockquote>
-<p>synchronized关键字代表这个方法加锁,相当于不管哪一个线 程A每次运行到这个法时,都要检查有没有其它正在用这个方法的线程B（或者C D等）,有的话要等正在使用这个方法的线程B（或者C D）运行完这个方法后再运行此线程A,没有的话,直接运行 它包括两种用法：synchronized 方法和 synchronized 块。</p>
-</blockquote>
-
-<h2 id="toc_0">1. synchronized 方法：</h2>
-
-<p>通过在方法声明中加入 synchronized关键字来声明 synchronized 方法。如： <br/>
-　　<code>public synchronized void accessVal(int newVal);</code><br/>
-　　synchronized 方法控制对类成员变量的访问：每个类实例对应一把锁，每个 synchronized 方法都必须获得调用该方法的类实例的锁方能执行，否则所属线程阻塞，方法一旦执行，就独占该锁，直到从该方法返回时才将锁释放，此后被阻塞的线程方能获得 该锁，重新进入可执行状态。这种机制确保了同一时刻对于每一个类实例，其所有声明为 synchronized 的成员函数中至多只有一个处于可执行状态（因为至多只有一个能够获得该类实例对应的锁），从而有效避免了类成员变量的访问冲突（只要所有可能访问类成员变 量的方法均被声明为 synchronized）。 <br/>
-　　在 Java 中，不光是类实例，每一个类也对应一把锁，这样我们也可将类的静态成员函数声明为 synchronized ，以控制其对类的静态成员变量的访问。 <br/>
-　　synchronized 方法的缺陷：若将一个大的方法声明为synchronized 将会大大影响效率，典型地，若将线程类的方法 run() 声明为 synchronized ，由于在线程的整个生命期内它一直在运行，因此将导致它对本类任何 synchronized 方法的调用都永远不会成功。当然我们可以通过将访问类成员变量的代码放到专门的方法中，将其声明为 synchronized ，并在主方法中调用来解决这一问题，但是 Java 为我们提供了更好的解决办法，那就是 synchronized 块。 <br/>
-　　</p>
-
-<h2 id="toc_1">2. synchronized 块：</h2>
-
-<p>通过 synchronized关键字来声明synchronized 块。语法如下： </p>
-
-<pre><code class="language-text">　　synchronized(syncObject) { 
-　　//允许访问控制的代码 
-　　}
-</code></pre>
-
-<p>　　<br/>
-　　synchronized 块是这样一个代码块，其中的代码必须获得对象 syncObject （如前所述，可以是类实例或类）的锁方能执行，具体机制同前所述。由于可以针对任意代码块，且可任意指定上锁的对象，故灵活性较高<br/>
-　　</p>
-
-<h2 id="toc_2">对synchronized(object)的一些理解</h2>
-
-<p>　<br/>
-<strong>一、</strong>当两个并发线程访问同一个对象object中的这个synchronized(this) 同步代码块时，一个时间内只能有一个线程得到执行。另一个线程必须等待当前线程执行完这个代码块以后才能执行该代码块。 </p>
-
-<p><strong>二、</strong>当一个线程访问object的一个synchronized(this)同步代码块时，其 他线程对object中所有其它synchronized(this)同步代码块的访问将被阻塞。</p>
-
-<p><strong>三、</strong>然而，当一个线程访问object的一个synchronized(this)同步代码块 时，另一个线程仍然可以访问该object中的除synchronized(this)同步代码块以外的部分。 </p>
-
-<p><strong>四、</strong>第三个例子同样适用其它同步代码块。也就是说，当一个线程访问object的一个 synchronized(this)同步代码块时，它就获得了这个object的对象锁。结果，其它线程对该object对象 所有同步代码部分的访问都被暂时阻塞。 </p>
-
-<p><strong>五、</strong>以上规则对其它对象锁同样适用 </p>
-
-<p>原文: <a href="http://fei263.blog.163.com/blog/static/9279372420103752814/">http://fei263.blog.163.com/blog/static/9279372420103752814/</a></p>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_11.html">&larr; Older</a> 
@@ -323,14 +316,14 @@ $(document).ready(function(event) {
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Java.html"><strong>Java&nbsp;(4)</strong></a>
+	        <a href="Java.html"><strong>Java&nbsp;(5)</strong></a>
 	        
 	        
 	        
 	      </li>
 	  
 	      <li class="post">
-	        <a href="LeetCode.html"><strong>LeetCode&nbsp;(1)</strong></a>
+	        <a href="LeetCode.html"><strong>LeetCode&nbsp;(2)</strong></a>
 	        
 	        
 	        
@@ -341,6 +334,18 @@ $(document).ready(function(event) {
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="15978472756793.html">647. Palindromic Substrings</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="15966161528946.html">setProperty 应用</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -357,18 +362,6 @@ $(document).ready(function(event) {
 	      
 		      <li class="post">
 		        <a href="15962945237035.html">632. Smallest Range Covering Elements from K Lists</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15654059537017.html"># 深入理解 iOS 事件机制</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15653483390225.html">图像显示原理</a>
 		      </li>
 	     
 	  

@@ -78,6 +78,87 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="15132354899270.html">企业证书需要</a></h1>
+			<p class="meta"><time datetime="2017-12-14T15:11:29+08:00" 
+			pubdate data-updated="true">2017/12/14</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<ol>
+<li>邓白氏码  不清楚公司是否申请过,如果没有申请过可能需要半个月左右时间(最快1周)</li>
+<li>申请企业证书, 现在苹果对国内企业证书申请比较严格最快1周可能需要半个月甚至更久(美国快过圣诞节和元旦了)</li>
+</ol>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
+		  	<h1 class="entry-title"><a href="15101967456310.html">使用 Runloop 遇到的问题</a></h1>
+			<p class="meta"><time datetime="2017-11-09T11:05:45+08:00" 
+			pubdate data-updated="true">2017/11/9</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>首先: <code>swift</code> 与 <code>C</code> 兼容不如 <code>OC</code> </p>
+
+<ol>
+<li>生成<code>CFRunLoopObserverContext</code>比<code>OC</code>艰难好多...</li>
+</ol>
+
+<pre><code class="language-text">func addRunloopObserver() {
+        autoreleasepool {
+            guard let runloop = CFRunLoopGetCurrent() else {return}
+            let unmanaged = Unmanaged.passRetained(self)
+            let uptr = unmanaged.toOpaque()
+            let vptr = UnsafeMutableRawPointer(uptr)
+            var content = CFRunLoopObserverContext(version: 0, info: vptr, retain: nil, release: nil, copyDescription: nil)
+            guard let obserber = CFRunLoopObserverCreate(kCFAllocatorDefault, CFRunLoopActivity.beforeWaiting.rawValue, true, Int.max - 999, observerCallbackFunc(), &amp;content) else {return}
+            CFRunLoopAddObserver(runloop, obserber, CFRunLoopMode.defaultMode)
+        }
+    }
+</code></pre>
+
+<p>注意 content ,真是比OC复杂啊</p>
+
+<ol>
+<li>强转也变了...</li>
+</ol>
+
+<pre><code class="language-text">func observerCallbackFunc() -&gt; CFRunLoopObserverCallBack {
+        
+        return {(observer, activity, context) -&gt; Void in
+            guard let context = context else {
+                return
+            }
+            let work = Unmanaged&lt;RunLoopWorker&gt;.fromOpaque(context).takeUnretainedValue()
+            
+            if work.tasks.count == 0 { return }
+            var result = false
+            while result == false &amp;&amp; work.tasks.count &gt; 0 {
+                // 取出任务
+                if let unit = work.tasks.first,unit.values.count &gt; 0 {
+                    result = unit.values.first!()
+                    work.tasks.removeFirst()
+                }
+            }
+        }
+    }
+</code></pre>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="15096779127051.html">collectionView自定义layout</a></h1>
 			<p class="meta"><time datetime="2017-11-03T10:58:32+08:00" 
 			pubdate data-updated="true">2017/11/3</time></p>
@@ -743,151 +824,6 @@ func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask,
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="15052686192490.html">指针</a></h1>
-			<p class="meta"><time datetime="2017-09-13T10:10:19+08:00" 
-			pubdate data-updated="true">2017/9/13</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<h2 id="toc_0">1. 指针是一种数据类型</h2>
-
-<ol>
-<li>指针也是一种变量,占有内存空间,用来保存内存地址  指针的大小--&gt; 32位: 4  64位: 8</li>
-<li><p><code>*p</code> 操作内存</p>
-<pre><code class="language-text">在指针声明时,`*`号表示所声明的变量为指针
-在指针使用时,`*`号表示**操作**指针所指向的内存空间中的值<br/>
-`*p`相当于通过地址(p变量的值)找到一块内存,然后操作内存<br/>
-`*p`放在等号左边赋值(给内存赋值)<br/>
-`*p`放在等号右边取值(从内存获取值)
-</code></pre></li>
-<li><p>指针变量和它指向的内存块是两个不同的概念</p>
-<pre><code class="language-text">含义1: 给p赋值 p = 0x1111; 只会改变指针变量值,不会改变所指的内容; p = p+1
-含义2: 给`*p`赋值 *p = &#39;a&#39;;不会改变指针变量的值,只会改变所指的内存块的值<br/>
-保证所指向的内存空间能修改()<br/>
-*就像一把钥匙,通过一个地址(&amp;a),去修改a变量的标示的内存空间
-</code></pre></li>
-<li><p>指针是一种数据类型,是指它指向的内存空间的数据类型</p>
-<pre><code class="language-text">指针步长(p++),根据所指内存空间的数据类型类确定
-p++ = ---&gt; p+sizeof(a)
-</code></pre></li>
-</ol>
-
-
-		</div>
-
-		
-
-	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="15038471972999.html">3D Touch</a></h1>
-			<p class="meta"><time datetime="2017-08-27T23:19:57+08:00" 
-			pubdate data-updated="true">2017/8/27</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<h2 id="toc_0"><a href="https://stackoverflow.com/documentation/ios/6705/3d-touch/22813/3d-touch-with-swift">3D Touch with Swift</a></h2>
-
-<p>3D touch has been introduced with iPhone 6s Plus. There are two behaviors added with this new interface layer: Peek and Pop.</p>
-
-<p><strong>Peek and Pop in a nutshell</strong></p>
-
-<p>Peek - Press hard</p>
-
-<p>Pop - Press really hard</p>
-
-<p><strong>Checking for 3D support</strong></p>
-
-<p>You should check if the device has a 3D touch support. You can do this by checking the value of <em>forceTouchCapability</em> property of a <em>UITraitCollection</em> object. UITraitCollection describes the iOS interface environment for your app.</p>
-
-<pre><code class="language-text">if (traitCollection.forceTouchCapability == .Available) {    
-    registerForPreviewingWithDelegate(self, sourceView: view)
-}
-</code></pre>
-
-<p><strong>Implementing the delegate</strong></p>
-
-<p>You need to implement the two methods of <em>UIViewControllerPreviewingDelegate</em> in your class. One of the methods is for <em>peek</em> and the other one is for <em>pop</em> behavior.</p>
-
-<p>The method to be implemented for the <em>peek</em> is <em>previewingContext</em>.</p>
-
-<pre><code class="language-text">func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -&gt; UIViewController? {
-
-    guard let indexPath = self.tableView.indexPathForRowAtPoint(location), cell = self.tableView.cellForRowAtIndexPath(indexPath) as? &lt;YourTableViewCell&gt; else {
-        return nil
-    }
-
-    guard let datailVC = storyboard?.instantiateViewControllerWithIdentifier(&quot;&lt;YourViewControllerIdentifier&gt;&quot;) as? &lt;YourViewController&gt; else {
-        return nil
-    }
-
-    datailVC.peekActive = true
-    previewingContext.sourceRect = cell.frame
-
-    // Do the stuff
-
-    return datailVC
-
-}
-</code></pre>
-
-<p>The method to be implemented for the <em>pop</em> is <em>previewingContext</em>. :)</p>
-
-<pre><code class="language-text">func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController) {
-
-    let balanceViewController = viewControllerToCommit as! &lt;YourViewController&gt;
-
-    // Do the stuff
-
-    navigationController?.pushViewController(balanceViewController, animated: true)
-
-}
-</code></pre>
-
-<p>As you can see they are overloaded methods. You can use 3D touch in any way implementing these methods.</p>
-
-<p><strong>Objective-C</strong></p>
-
-<pre><code class="language-text">//Checking for 3-D Touch availability
-if ([self.traitCollection respondsToSelector:@selector(forceTouchCapability)] &amp;&amp;
-        (self.traitCollection.forceTouchCapability == UIForceTouchCapabilityAvailable))
-    {
-        [self registerForPreviewingWithDelegate:self sourceView:self.view];
-    }
-//Peek
-- (UIViewController *)previewingContext:(id&lt;UIViewControllerPreviewing&gt;)previewingContext
-              viewControllerForLocation:(CGPoint)location {
-
-    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
-    Country *country = [self countryForIndexPath:indexPath];
-    if (country) {
-        CountryCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-        if (cell) {
-            previewingContext.sourceRect = cell.frame;
-            UINavigationController *navController = [self.storyboard instantiateViewControllerWithIdentifier:@&quot;UYLCountryNavController&quot;];
-            [self configureNavigationController:navController withCountry:country];
-            return navController;
-        }
-    }
-    return nil;
-}
-//Pop
-- (void)previewingContext:(id&lt;UIViewControllerPreviewing&gt;)previewingContext commitViewController:(UIViewController *)viewControllerToCommit {
-
-    [self showDetailViewController:viewControllerToCommit sender:self];
-}
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_8.html">&larr; Older</a> 
@@ -966,14 +902,14 @@ if ([self.traitCollection respondsToSelector:@selector(forceTouchCapability)] &a
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Java.html"><strong>Java&nbsp;(4)</strong></a>
+	        <a href="Java.html"><strong>Java&nbsp;(5)</strong></a>
 	        
 	        
 	        
 	      </li>
 	  
 	      <li class="post">
-	        <a href="LeetCode.html"><strong>LeetCode&nbsp;(1)</strong></a>
+	        <a href="LeetCode.html"><strong>LeetCode&nbsp;(2)</strong></a>
 	        
 	        
 	        
@@ -984,6 +920,18 @@ if ([self.traitCollection respondsToSelector:@selector(forceTouchCapability)] &a
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="15978472756793.html">647. Palindromic Substrings</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="15966161528946.html">setProperty 应用</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -1000,18 +948,6 @@ if ([self.traitCollection respondsToSelector:@selector(forceTouchCapability)] &a
 	      
 		      <li class="post">
 		        <a href="15962945237035.html">632. Smallest Range Covering Elements from K Lists</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15654059537017.html"># 深入理解 iOS 事件机制</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15653483390225.html">图像显示原理</a>
 		      </li>
 	     
 	  
