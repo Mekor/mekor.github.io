@@ -78,6 +78,145 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="15978901087507.html">529. Minesweeper（529. 扫雷游戏）</a></h1>
+			<p class="meta"><time datetime="2020-08-20T10:21:48+08:00" 
+			pubdate data-updated="true">2020/8/20</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>题目地址:<a href="https://leetcode-cn.com/problems/minesweeper/">529. 扫雷游戏</a></p>
+
+<p>Let&#39;s play the minesweeper game (<a href="https://en.wikipedia.org/wiki/Minesweeper_(video_game)">Wikipedia</a>, <a href="http://minesweeperonline.com/">online game</a>)!</p>
+
+<p>You are given a 2D char matrix representing the game board. <strong>&#39;M&#39;</strong> represents an <strong>unrevealed</strong> mine, <strong>&#39;E&#39;</strong> represents an <strong>unrevealed</strong> empty square, <strong>&#39;B&#39;</strong> represents a ** revealed** blank square that has no adjacent (above, below, left, right, and all 4 diagonals) mines, digit (&#39;1&#39; to &#39;8&#39;) represents how many mines are adjacent to this ** revealed** square, and finally <strong>&#39;X&#39;</strong> represents a ** revealed** mine.</p>
+
+<p>Now given the next click position (row and column indices) among all the <strong>unrevealed</strong> squares (<strong>&#39;M&#39;</strong> or <strong>&#39;E&#39;</strong>), return the board after revealing this position according to the following rules:</p>
+
+<ol>
+<li>If a mine (<strong>&#39;M&#39;</strong>) is ** revealed**, then the game is over - change it to <strong>&#39;X&#39;</strong>.</li>
+<li>If an empty square (<strong>&#39;E&#39;</strong>) with <strong>no adjacent mines</strong> is revealed, then change it to revealed blank (<strong>&#39;B&#39;</strong>) and all of its adjacent <strong>unrevealed</strong> squares should be revealed recursively.</li>
+<li>If an empty square (<strong>&#39;E&#39;</strong>) with <strong>at least one adjacent mine</strong> is revealed, then change it to a digit (&#39;1&#39; to &#39;8&#39;) representing the number of adjacent mines.</li>
+<li><p>Return the board when no more squares will be ** revealed**.</p>
+<p><strong>Example 1:</strong></p></li>
+</ol>
+
+<p><strong>Input:</strong></p>
+
+<pre><code class="language-text">[[&#39;E&#39;, &#39;E&#39;, &#39;E&#39;, &#39;E&#39;, &#39;E&#39;],
+ [&#39;E&#39;, &#39;E&#39;, &#39;M&#39;, &#39;E&#39;, &#39;E&#39;],
+ [&#39;E&#39;, &#39;E&#39;, &#39;E&#39;, &#39;E&#39;, &#39;E&#39;],
+ [&#39;E&#39;, &#39;E&#39;, &#39;E&#39;, &#39;E&#39;, &#39;E&#39;]]
+
+Click : [3,0]
+</code></pre>
+
+<p><strong>Output:</strong></p>
+
+<pre><code class="language-text">[[&#39;B&#39;, &#39;1&#39;, &#39;E&#39;, &#39;1&#39;, &#39;B&#39;],
+ [&#39;B&#39;, &#39;1&#39;, &#39;M&#39;, &#39;1&#39;, &#39;B&#39;],
+ [&#39;B&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;B&#39;],
+ [&#39;B&#39;, &#39;B&#39;, &#39;B&#39;, &#39;B&#39;, &#39;B&#39;]]
+
+</code></pre>
+
+<p><strong>Explanation:</strong><br/>
+ <img src="media/15978901087507/15978907322780.png" alt="" style="width:532px;"/></p>
+
+<ul>
+<li><strong>Example 2:</strong></li>
+</ul>
+
+<p><strong>Input:</strong></p>
+
+<pre><code class="language-text">[[&#39;B&#39;, &#39;1&#39;, &#39;E&#39;, &#39;1&#39;, &#39;B&#39;],
+ [&#39;B&#39;, &#39;1&#39;, &#39;M&#39;, &#39;1&#39;, &#39;B&#39;],
+ [&#39;B&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;B&#39;],
+ [&#39;B&#39;, &#39;B&#39;, &#39;B&#39;, &#39;B&#39;, &#39;B&#39;]]
+
+Click : [1,2]
+</code></pre>
+
+<p><strong>Output:</strong></p>
+
+<pre><code class="language-text">[[&#39;B&#39;, &#39;1&#39;, &#39;E&#39;, &#39;1&#39;, &#39;B&#39;],
+ [&#39;B&#39;, &#39;1&#39;, &#39;X&#39;, &#39;1&#39;, &#39;B&#39;],
+ [&#39;B&#39;, &#39;1&#39;, &#39;1&#39;, &#39;1&#39;, &#39;B&#39;],
+ [&#39;B&#39;, &#39;B&#39;, &#39;B&#39;, &#39;B&#39;, &#39;B&#39;]]
+
+</code></pre>
+
+<p><strong>Explanation:</strong><br/>
+<img src="media/15978901087507/15978909318647.png" alt="" style="width:511px;"/></p>
+
+<p><strong>Note:</strong></p>
+
+<ol>
+<li>The range of the input matrix&#39;s height and width is [1,50].</li>
+<li>The click position will only be an unrevealed square (&#39;M&#39; or &#39;E&#39;), which also means the input board contains at least one clickable square.</li>
+<li>The input board won&#39;t be a stage when game is over (some mines have been revealed).</li>
+<li>For simplicity, not mentioned rules should be ignored in this problem. For example, you don&#39;t need to reveal all the unrevealed mines when the game is over, consider any cases that you will win the game or flag any squares.</li>
+</ol>
+
+<p>思路：<br/>
+深度优先</p>
+
+<pre><code class="language-java">public class Solution {
+    // 坐标相邻的8个方向 上，下，左，右，左上，左下，右上，右下
+    private int[][] dirs = {{0,1},{0,-1},{-1,0},{1,0},{-1,1},{-1,-1},{1,1},{1,-1}};
+    public char[][] updateBoard(char[][] board, int[] click) {
+        // 获取当前坐标
+        int row = click[0], col = click[1];
+        // 边界条件
+        int m = board.length, n = board[0].length;
+
+        // 如果找到M（未挖出的雷）或者X（已挖出的雷）游戏结束
+        if (board[row][col] == &#39;M&#39; || board[row][col] == &#39;X&#39;) {
+            board[row][col] = &#39;X&#39;;
+            return board;
+        }
+
+        // 找周边有几个雷
+        int num = 0;
+        for (int[] dir : dirs) {
+            int newRow = dir[0] + row;
+            int newCol = dir[1] + col;
+            // 如果周围是未被揭开的雷，周围雷的数量递增
+            if (newRow &gt;= 0 &amp;&amp; newCol &gt;= 0 &amp;&amp; newRow &lt; m &amp;&amp; newCol &lt; n &amp;&amp; board[newRow][newCol] == &#39;M&#39;) {
+                num++;
+            }
+        }
+
+        // 如果周围有雷
+        if (num &gt; 0) {
+            board[row][col] = (char) (num + &#39;0&#39;);
+            return board;
+        }
+
+        // 如果一个没有相邻地雷的空方块（&#39;E&#39;）被挖出，修改它为（&#39;B&#39;）
+        board[row][col] = &#39;B&#39;;
+        for (int[] dir : dirs) {
+            int newRow = dir[0] + row;
+            int newCol = dir[1] + col;
+            // 所有和其相邻的未挖出方块都应该被递归地揭露。
+            if (newRow &gt;= 0 &amp;&amp; newCol &gt;= 0 &amp;&amp; newRow &lt; m &amp;&amp; newCol &lt; n &amp;&amp; board[newRow][newCol] == &#39;E&#39;) {
+                updateBoard(board,new int[]{newRow,newCol});
+            }
+        }
+
+        return board;
+    }
+}
+</code></pre>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="15978472756793.html">647. Palindromic Substrings</a></h1>
 			<p class="meta"><time datetime="2020-08-19T22:27:55+08:00" 
 			pubdate data-updated="true">2020/8/19</time></p>
@@ -393,7 +532,7 @@ List 3: [5, 18, 22, 30], 22 is in range [20,24].
 	      </li>
 	  
 	      <li class="post">
-	        <a href="LeetCode.html"><strong>LeetCode&nbsp;(2)</strong></a>
+	        <a href="LeetCode.html"><strong>LeetCode&nbsp;(3)</strong></a>
 	        
 	        
 	        
