@@ -78,6 +78,37 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="15257015417604.html">设置placeholder颜色</a></h1>
+			<p class="meta"><time datetime="2018-05-07T21:59:01+08:00" 
+			pubdate data-updated="true">2018/5/7</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>从前设置颜色可能是这样的：</p>
+
+<pre><code class="language-text">self.textField.setValue(UIColor.white, forKeyPath: &quot;_placeholderLabel.textColor&quot;)
+
+</code></pre>
+
+<p>今天发现，居然有一个属性可以设置：</p>
+
+<pre><code class="language-text">self.textField.attributedPlaceholder =
+            NSAttributedString(string: &quot;自定义金额&quot;,
+                               attributes:
+                [NSAttributedStringKey.foregroundColor: UIColor.white]
+        )
+
+</code></pre>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="15257015215231.html">懒加载的另一种写法</a></h1>
 			<p class="meta"><time datetime="2018-05-07T21:58:41+08:00" 
 			pubdate data-updated="true">2018/5/7</time></p>
@@ -378,29 +409,6 @@ let attributedText = NSAttributedString(string: &quot;被划线文字&quot;, att
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="15158138774013.html">SwiftTips - 集中处理</a></h1>
-			<p class="meta"><time datetime="2018-01-13T11:24:37+08:00" 
-			pubdate data-updated="true">2018/1/13</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<h2 id="toc_0">集中处理@objc</h2>
-
-<p><img src="media/15158138774013/WX20180113-112401@2x.png" alt="WX20180113-112401@2x"/></p>
-
-<h2 id="toc_1">模拟器不能执行的代码单独处理</h2>
-
-<p><img src="media/15158138774013/15159872783257.jpg" alt=""/></p>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_7.html">&larr; Older</a> 
@@ -500,6 +508,12 @@ let attributedText = NSAttributedString(string: &quot;被划线文字&quot;, att
 	  
 	      
 		      <li class="post">
+		        <a href="15978901087507.html">529. Minesweeper（529. 扫雷游戏）</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="15978472756793.html">647. Palindromic Substrings</a>
 		      </li>
 	     
@@ -519,12 +533,6 @@ let attributedText = NSAttributedString(string: &quot;被划线文字&quot;, att
 	      
 		      <li class="post">
 		        <a href="15965198984201.html">@Slf4j注解实现日志输出</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15962945237035.html">632. Smallest Range Covering Elements from K Lists</a>
 		      </li>
 	     
 	  

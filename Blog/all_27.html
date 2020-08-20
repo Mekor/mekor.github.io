@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <title>
     
-  Mac 应用图标没有在launchpad里显示 - 李小争
+  李小争
   
 
   </title>
@@ -74,60 +74,89 @@ $(document).ready(function(event) {
 </nav>
   <div id="main">
     <div id="content"> 
-<div>
-	<article class="hentry" role="article">
-	<header>
-			  	<h1 class="entry-title">Mac 应用图标没有在launchpad里显示</h1>
-				<p class="meta"><time datetime="2018-05-07T22:00:48+08:00" pubdate data-updated="true">2018/5/7</time></p>
-			 </header>
-		  	<div class="entry-content">
-			  	<p>重置Launchpad</p>
+<div class="blog-index">
 
-<pre><code class="language-text">rm ~/Library/Application\ Support/Dock/*.db
+	<article>
+		 <header>
+		  	<h1 class="entry-title"><a href="14676101998537.html">百度坐标&火星坐标转换</a></h1>
+			<p class="meta"><time datetime="2016-07-04T13:29:59+08:00" 
+			pubdate data-updated="true">2016/7/4</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>LocationHelper.h文件</p>
+
+<pre><code class="language-text">#import &lt;Foundation/Foundation.h&gt;
+#import &lt;CoreLocation/CoreLocation.h&gt;
+
+@interface LocationHelper : NSObject
+
+//百度转火星坐标
++ (CLLocationCoordinate2D )bdToGGEncrypt:(CLLocationCoordinate2D)coord;
+//火星转百度坐标
++ (CLLocationCoordinate2D )ggToBDEncrypt:(CLLocationCoordinate2D)coord;
+
+@end
+</code></pre>
+
+<p>LocationHelper.m文件</p>
+
+<pre><code class="language-text">//
+//  LocationHelper.m
+//  Coding_iOS
+//
+//  Created by Kevin on 3/21/15.
+//  Copyright (c) 2015 Coding. All rights reserved.
+//
+
+#import &quot;LocationHelper.h&quot;
+
+@implementation LocationHelper
+
+//百度转火星坐标
++ (CLLocationCoordinate2D )bdToGGEncrypt:(CLLocationCoordinate2D)coord
+{
+    double x = coord.longitude - 0.0065, y = coord.latitude - 0.006;
+    double z = sqrt(x * x + y * y) - 0.00002 * sin(y * M_PI);
+    double theta = atan2(y, x) - 0.000003 * cos(x * M_PI);
+    CLLocationCoordinate2D transformLocation ;
+    transformLocation.longitude = z * cos(theta);
+    transformLocation.latitude = z * sin(theta);
+    return transformLocation;
+}
+
+//火星坐标转百度坐标
++ (CLLocationCoordinate2D )ggToBDEncrypt:(CLLocationCoordinate2D)coord
+{
+    double x = coord.longitude, y = coord.latitude;
+    
+    double z = sqrt(x * x + y * y) + 0.00002 * sin(y * M_PI);
+    double theta = atan2(y, x) + 0.000003 * cos(x * M_PI);
+    
+    CLLocationCoordinate2D transformLocation ;
+    transformLocation.longitude = z * cos(theta) + 0.0065;
+    transformLocation.latitude = z * sin(theta) + 0.006;
+    
+    return transformLocation;
+}
+
+@end
 
 </code></pre>
 
-<pre><code class="language-text">killall Dock
-</code></pre>
-
-			</div>
-
-		
-	  
-		<footer>
-		 <p class="meta">
-
-			<strong>Categories:</strong>&nbsp; 
-			<span class="categories">
-			
-			    <a class='category' href='%E6%9D%82%E8%AE%B0.html'>杂记</a>&nbsp;
-			 
-			</span>
-		    </p>
-		    <p class="meta">
-		      
-		 </p>
-	    
-		<div class="sharing">
-		  
-          
-
-          
 
 		</div>
 
-	    <p class="meta">
-	    
-	        <a class="basic-alignment left" href="15257017136249.html" 
-	        title="Previous Post: 线程需要注意的问题">&laquo; 线程需要注意的问题</a>
-	    
-	    
-	        <a class="basic-alignment right" href="15257016195473.html" 
-	        title="Next Post: Carthage 不能正常更新">Carthage 不能正常更新 &raquo;</a>
-	    
-	    </p>
-	  </footer>
+		
+
 	</article>
+  
+	<div class="pagination">
+	
+<a href="archives.html">Blog Archives</a>
+	 <a class="next" href="all_26.html">Newer &rarr;</a>  
+	    
+	</div>
 </div>
  <aside class="sidebar"> 
 
@@ -304,8 +333,6 @@ $(document).ready(function(event) {
 
 
 
-
-<script src="asset/prism.js"></script>
 
 
 <style type="text/css">
