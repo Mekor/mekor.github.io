@@ -78,6 +78,57 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14676105703423.html">忽略编译器警告</a></h1>
+			<p class="meta"><time datetime="2016-07-04T13:36:10+08:00" 
+			pubdate data-updated="true">2016/7/4</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<h2 id="toc_0">第一种方法</h2>
+
+<p>举例<br/>
+<img src="media/14672570618572/14672571503878.jpg" alt=""/><br/>
+<img src="media/14672570618572/14672573103735.jpg" alt=""/><br/>
+接下来,<br/>
+<img src="media/14672570618572/14672575411986.jpg" alt=""/><br/>
+<img src="media/14672570618572/14672577757507.jpg" alt=""/></p>
+
+<h2 id="toc_1">第二种方法</h2>
+
+<pre><code class="language-text">#pragma clang diagnostic push
+#pragma clang diagnostic ignored&quot; -Wcompare-distinct-pointer-types&quot;
+    //写在这个中间的代码,都不会被编译器提示-Wcompare-distinct-pointer-types
+#pragma clang diagnostic pop 
+</code></pre>
+
+<h2 id="toc_2">Xib警告: This file is set to build for a version older than the deployment target. Functionality may be limited.</h2>
+
+<p>类似于这种<br/>
+<img src="media/14672570618572/14672589919425.jpg" alt=""/></p>
+
+<p>双击进入Xib文件<br/>
+<img src="media/14672570618572/14672592962938.jpg" alt=""/><br/>
+OK,这样就没有警告了</p>
+
+<h2 id="toc_3">非源文件参与编译错误</h2>
+
+<p><img src="media/14672570618572/Snip20160630_15.png" alt="Snip20160630_15"/><br/>
+项目中有一个README.md的文件,这个文件主要记录使用第三方的一些情况,默认就参与编译了,我们需要这样做</p>
+
+<p><img src="media/14672570618572/Snip20160630_16.png" alt="Snip20160630_16"/></p>
+
+<p>找到这个文件,然后移除,这样就不会有问题了.<br/>
+参考: <a href="http://stackoverflow.com/questions/6509600/compilation-warning-no-rule-to-process-file-for-architecture-i386">compilation warning: no rule to process file for architecture i386</a></p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14676101998537.html">百度坐标&火星坐标转换</a></h1>
 			<p class="meta"><time datetime="2016-07-04T13:29:59+08:00" 
 			pubdate data-updated="true">2016/7/4</time></p>
@@ -228,7 +279,7 @@ $(document).ready(function(event) {
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Java.html"><strong>Java&nbsp;(5)</strong></a>
+	        <a href="Java.html"><strong>Java&nbsp;(6)</strong></a>
 	        
 	        
 	        
@@ -246,6 +297,12 @@ $(document).ready(function(event) {
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="15989690336270.html">Java开发环境搭建的准备工作</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -268,12 +325,6 @@ $(document).ready(function(event) {
 	      
 		      <li class="post">
 		        <a href="15965236438323.html">devtools 热启动</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15965198984201.html">@Slf4j注解实现日志输出</a>
 		      </li>
 	     
 	  
