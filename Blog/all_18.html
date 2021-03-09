@@ -78,6 +78,259 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14789481799893.html">Swift - 字典中的增删改,遍历与合并</a></h1>
+			<p class="meta"><time datetime="2016-11-12T18:56:19+08:00" 
+			pubdate data-updated="true">2016/11/12</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>增删改</p>
+
+<pre><code class="language-text">var dict:[String:Any] = [&quot;name&quot; : &quot;小明&quot;, &quot;age&quot; : 18, &quot;sex&quot;:&quot;man&quot;]
+
+// 新增
+dict[&quot;title&quot;] = &quot;老大&quot;
+print(dict)
+
+// 修改
+dict[&quot;name&quot;] = &quot;赵四&quot;
+print(dict)
+
+// 删除
+dict.removeValue(forKey: &quot;age&quot;)
+print(dict)
+
+</code></pre>
+
+<p>遍历,合并</p>
+
+<pre><code class="language-text">// 遍历
+for e in dict {
+    print(e)
+}
+
+for (k,v) in dict {
+    print(&quot;key:\(k)  value:\(v)&quot;)
+}
+// 合并
+var dict1:[String:Any] = [&quot;name&quot; : &quot;李明&quot;, &quot;age&quot; : 18, &quot;sex&quot;:&quot;m&quot;]
+var dict2:[String:Any] = [&quot;name&quot; : &quot;韩梅梅&quot;, &quot;age&quot; : 16, &quot;sex&quot;:&quot;w&quot;]
+// 如果把 dict2 合并到 dict1
+for e in dict2 {
+    dict1[e.key] = e.value   //dict2[e.key]
+}
+print(&quot;----------\n\(dict1)&quot;)
+
+</code></pre>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
+		  	<h1 class="entry-title"><a href="14789459811464.html">Swift - 数组中的增删改与合并</a></h1>
+			<p class="meta"><time datetime="2016-11-12T18:19:41+08:00" 
+			pubdate data-updated="true">2016/11/12</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<blockquote>
+<p>第一篇写了数组遍历的几种情况,这篇主要就是数组中的增删改,也是开发中常用的</p>
+</blockquote>
+
+<p>OC中数组分为可变(NSMutableArray)和不可变(NSArray) 相应的在Swift中就是 var &amp; let</p>
+
+<h2 id="toc_0">追加元素</h2>
+
+<p>首先定义一个可变数组</p>
+
+<pre><code class="language-text">var array = [&quot;张三&quot;,&quot;李四&quot;,&quot;王五&quot;]
+</code></pre>
+
+<p>追加一个元素</p>
+
+<pre><code class="language-text">// 追加元素
+array.append(&quot;赵六&quot;)
+print(array)
+</code></pre>
+
+<h2 id="toc_1">修改元素</h2>
+
+<p>通过下标进行修改</p>
+
+<pre><code class="language-text">array[0] = &quot;赵四&quot;
+print(array)
+</code></pre>
+
+<p>结果:</p>
+
+<pre><code class="language-text">[&quot;赵四&quot;, &quot;李四&quot;, &quot;王五&quot;, &quot;赵六&quot;]
+</code></pre>
+
+<h2 id="toc_2">删除</h2>
+
+<pre><code class="language-text">// 删除元素
+array.remove(at: 0)
+print(array)
+</code></pre>
+
+<p>结果:</p>
+
+<pre><code class="language-text">[&quot;赵四&quot;, &quot;李四&quot;, &quot;王五&quot;, &quot;赵六&quot;]
+[&quot;李四&quot;, &quot;王五&quot;, &quot;赵六&quot;]
+</code></pre>
+
+<p>remove 的方法由很多,移除首/尾,移除范围...</p>
+
+<pre><code class="language-text">array.removeAll(keepingCapacity: true)
+print(&quot;数组中的元素\(array) 数组容量\(array.capacity)&quot;)
+</code></pre>
+
+<p>结果:</p>
+
+<pre><code class="language-text">数组中的元素[] 数组容量6
+</code></pre>
+
+<h2 id="toc_3">数组合并</h2>
+
+<pre><code class="language-text">var arr0 = [1,2,3]
+let arr1 = [3,4,5]
+arr0 += arr1
+print(arr0)
+</code></pre>
+
+<p>结果:</p>
+
+<pre><code class="language-text">[1, 2, 3, 3, 4, 5]
+</code></pre>
+
+<p>注意: 要合并的数组的类型必须一致,如果不一致会出错. 比如:</p>
+
+<pre><code class="language-text">var arr0:[Any] = [1,2,3]
+let arr1:[Any] = [&quot;2&quot;,3,4,5]
+arr0 += arr1
+print(arr0)
+</code></pre>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
+		  	<h1 class="entry-title"><a href="14789442794521.html">Swift - 数组遍历</a></h1>
+			<p class="meta"><time datetime="2016-11-12T17:51:19+08:00" 
+			pubdate data-updated="true">2016/11/12</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<blockquote>
+<p>最近没怎么更新,主要是最近刚入职新公司.正在熟悉环境中... 好了题目是<code>Swift - 数组遍历</code> 主要是项目要使用 Swift 开发,所以需要熟悉下语法.</p>
+</blockquote>
+
+<h2 id="toc_0">传统的下标遍历方法</h2>
+
+<pre><code class="language-text">let array = [&quot;张三&quot;,&quot;李四&quot;,&quot;王五&quot;]
+
+// 第一种 下标遍历
+for i in 0..&lt;array.count {
+    print(array[i])
+}
+</code></pre>
+
+<h2 id="toc_1">for in 遍历元素</h2>
+
+<pre><code class="language-text">// 第二种 for in 遍历元素
+for s in array {
+    print(s)
+}
+</code></pre>
+
+<h2 id="toc_2">enum block遍历</h2>
+
+<pre><code class="language-text">// 第三种 enum block 遍历
+for e in array.enumerated() {
+    print(e)
+}
+</code></pre>
+
+<p>结果:</p>
+
+<pre><code class="language-text">(0, &quot;张三&quot;)
+(1, &quot;李四&quot;)
+(2, &quot;王五&quot;)
+</code></pre>
+
+<p>我们可以看下e的类型--元组<br/>
+<img src="media/14789442794521/14789449636069.jpg" alt=""/></p>
+
+<h2 id="toc_3">元组方法遍历下标和内容</h2>
+
+<p>由上面第三种方法我们可以知道 e 的类型是元组,那么同样我们可以直接使用元组</p>
+
+<pre><code class="language-text">// 第四种 元组使用
+for (n,s) in array.enumerated() {
+    print(&quot;\(n) \(s)&quot;)
+}
+</code></pre>
+
+<p>结果:</p>
+
+<pre><code class="language-text">0 张三
+1 李四
+2 王五
+</code></pre>
+
+<h2 id="toc_4">反序遍历</h2>
+
+<pre><code class="language-text">// 第五种 反序遍历
+for i in array.reversed() {
+    print(i)
+}
+</code></pre>
+
+<p>结果</p>
+
+<pre><code class="language-text">王五
+李四
+张三
+</code></pre>
+
+<h2 id="toc_5">反序遍历 带索引</h2>
+
+<pre><code class="language-text">// 第六种 反序遍历 带索引
+for (n,s) in array.enumerated().reversed() {
+    print(&quot;\(n) \(s)&quot;)
+}
+</code></pre>
+
+<p>结果:</p>
+
+<pre><code class="language-text">2 王五
+1 李四
+0 张三
+</code></pre>
+
+<p>注意: <strong>先枚举再反序</strong></p>
+
+<p>总结:Swift 太灵活了...</p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14787398225011.html">会议记录(培训)</a></h1>
 			<p class="meta"><time datetime="2016-11-10T09:03:42+08:00" 
 			pubdate data-updated="true">2016/11/10</time></p>
@@ -308,198 +561,6 @@ $(document).ready(function(event) {
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14781433227076.html">获取当前显示的UIViewController</a></h1>
-			<p class="meta"><time datetime="2016-11-03T11:22:02+08:00" 
-			pubdate data-updated="true">2016/11/3</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<pre><code class="language-text">+ (UIViewController *)getCurrentRootViewController {
-
-    CommonTool *tool = [[CommonTool alloc]init];
-
-    UIViewController *result;
-    UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
-
-    if (topWindow.windowLevel != UIWindowLevelNormal){
-        NSArray *windows = [[UIApplication sharedApplication] windows];
-        for(topWindow in windows){
-            if (topWindow.windowLevel == UIWindowLevelNormal)
-                break;
-        }
-    }
-
-    UIView *rootView = [topWindow subviews].firstObject;
-    id nextResponder = [rootView nextResponder];
-
-    if ([nextResponder isMemberOfClass:[UIViewController class]]){
-        result = nextResponder;
-    }
-    else if ([nextResponder isMemberOfClass:[UITabBarController class]] | [nextResponder isMemberOfClass:[UINavigationController class]]){
-        result = [tool findViewController:nextResponder];
-    }
-    else if ([topWindow respondsToSelector:@selector(rootViewController)] &amp;&amp; topWindow.rootViewController != nil){
-        result = topWindow.rootViewController;
-    }
-
-    else{
-        NSAssert(NO, @&quot;找不到顶端VC&quot;);
-    }
-    return result;
-}
-
-</code></pre>
-
-<pre><code class="language-text">- (UIViewController *)findViewController:(id)controller{
-    if ([controller isMemberOfClass:[UINavigationController class]]) {
-        return [self findViewController:[(UINavigationController *)controller visibleViewController]];
-    }
-    else if ([controller isMemberOfClass:[UITabBarController class]]){
-        return [self findViewController:[(UITabBarController *)controller selectedViewController]];
-    }
-    else if ([controller isKindOfClass:[UIViewController class]]){
-        return controller;
-    }
-    else{
-        NSAssert(NO, @&quot;找不到顶端VC&quot;);
-        return nil;
-    }
-}
-
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14778331858080.html">如何获取手机上安装的所有App</a></h1>
-			<p class="meta"><time datetime="2016-10-30T21:13:05+08:00" 
-			pubdate data-updated="true">2016/10/30</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<pre><code class="language-text">#include &lt;objc/runtime.h&gt; 
-
-Class LSApplicationWorkspace_class = objc_getClass(&quot;LSApplicationWorkspace&quot;);
-NSObject* workspace = [LSApplicationWorkspace_class performSelector:@selector(defaultWorkspace)];
-NSLog(@&quot;apps: %@&quot;, [workspace performSelector:@selector(allApplications)]);
-</code></pre>
-
-<p>模拟器打印结果:</p>
-
-<pre><code class="language-text">apps: (
-    &quot;&lt;LSApplicationProxy: 0x7fbd34603da0&gt; com.apple.appleaccount.AACredentialRecoveryDialog file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/AACredentialRecoveryDialog.app &lt;com.apple.appleaccount.AACredentialRecoveryDialog &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd383073a0&gt; com.apple.AccountAuthenticationDialog file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/AccountAuthenticationDialog.app &lt;com.apple.AccountAuthenticationDialog &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd38308a00&gt; com.apple.AdSheetPhone file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/AdSheet.app &lt;com.apple.AdSheetPhone &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd38308df0&gt; com.apple.Bridge file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/Bridge.app &lt;com.apple.Bridge &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd38308fe0&gt; com.apple.camera file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/Camera.app &lt;com.apple.camera &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd34503d80&gt; com.apple.MobileAddressBook file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/Contacts.app &lt;com.apple.MobileAddressBook &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd34605980&gt; com.apple.CoreAuthUI file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/CoreAuthUI.app &lt;com.apple.CoreAuthUI &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd346062f0&gt; com.apple.DataActivation file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/DataActivation.app &lt;com.apple.DataActivation &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd34606730&gt; com.apple.datadetectors.DDActionsService file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/DDActionsService.app &lt;com.apple.datadetectors.DDActionsService &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd34606f60&gt; com.apple.FacebookAccountMigrationDialog file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/FacebookAccountMigrationDialog.app &lt;com.apple.FacebookAccountMigrationDialog &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd346074c0&gt; com.apple.gamecenter.GameCenterUIService file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/GameCenterUIService.app &lt;com.apple.gamecenter.GameCenterUIService &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd34607b10&gt; com.apple.siri.parsec.HashtagImagesApp file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/HashtagImages.app &lt;com.apple.siri.parsec.HashtagImagesApp &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd34608040&gt; com.apple.Health file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/Health.app &lt;com.apple.Health &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd346085d0&gt; com.apple.HealthPrivacyService file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/HealthPrivacyService.app &lt;com.apple.HealthPrivacyService &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd34608f70&gt; com.apple.Home.HomeUIService file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/HomeUIService.app &lt;com.apple.Home.HomeUIService &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd346093c0&gt; com.apple.iad.iAdOptOut file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/iAdOptOut.app &lt;com.apple.iad.iAdOptOut &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd346095b0&gt; com.apple.CloudKit.ShareBear file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/iCloud.app &lt;com.apple.CloudKit.ShareBear &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd3460a060&gt; com.apple.iCloudDriveApp file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/iCloudDriveApp.app &lt;com.apple.iCloudDriveApp &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd3460a4b0&gt; com.apple.LoginUI file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/LoginUI.app &lt;com.apple.LoginUI &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd3460a9f0&gt; com.apple.MailCompositionService file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/MailCompositionService.app &lt;com.apple.MailCompositionService &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd3460ae80&gt; com.apple.Maps file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/Maps.app &lt;com.apple.Maps &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd3460b3e0&gt; com.apple.mobilesms.compose file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/MessagesViewService.app &lt;com.apple.mobilesms.compose &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd3460bb00&gt; com.apple.mobilecal file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/MobileCal.app &lt;com.apple.mobilecal &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd3460bf50&gt; com.apple.mobilesafari file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/MobileSafari.app &lt;com.apple.mobilesafari &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd3460c4e0&gt; com.apple.mobileslideshow file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/MobileSlideShow.app &lt;com.apple.mobileslideshow &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd3460c8d0&gt; com.apple.MobileSMS file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/MobileSMS.app &lt;com.apple.MobileSMS &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd3460cac0&gt; com.apple.MusicUIService file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/MusicUIService.app &lt;com.apple.MusicUIService &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd3460d520&gt; com.apple.news file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/News.app &lt;com.apple.news &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd3460dc70&gt; com.apple.Passbook file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/Passbook.app &lt;com.apple.Passbook &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd3460e0c0&gt; com.apple.PassbookUIService file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/PassbookUIService.app &lt;com.apple.PassbookUIService &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd3460e510&gt; com.apple.PhotosViewService file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/PhotosViewService.app &lt;com.apple.PhotosViewService &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd3460eaf0&gt; com.apple.Preferences file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/Preferences.app &lt;com.apple.Preferences &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd3460ece0&gt; com.apple.PrintKit.Print-Center file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/Print%20Center.app &lt;com.apple.PrintKit.Print-Center &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd3460abe0&gt; com.apple.reminders file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/Reminders.app &lt;com.apple.reminders &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd3460f790&gt; com.apple.SafariViewService file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/SafariViewService.app &lt;com.apple.SafariViewService &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd3460ffc0&gt; com.apple.ServerDocuments file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/ServerDocuments.app &lt;com.apple.ServerDocuments &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd34610580&gt; com.apple.SharedWebCredentialViewService file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/SharedWebCredentialViewService.app &lt;com.apple.SharedWebCredentialViewService &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd34610ab0&gt; com.apple.SharingViewService file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/SharingViewService.app &lt;com.apple.SharingViewService &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd34610ca0&gt; com.apple.SiriViewService file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/SiriViewService.app &lt;com.apple.SiriViewService &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd34610e90&gt; com.apple.social.SLGoogleAuth file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/SLGoogleAuth.app &lt;com.apple.social.SLGoogleAuth &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd345016b0&gt; com.apple.social.SLYahooAuth file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/SLYahooAuth.app &lt;com.apple.social.SLYahooAuth &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd34501370&gt; com.apple.share file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/SocialUIService.app &lt;com.apple.share &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd34507a80&gt; com.apple.ios.StoreKitUIService file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/StoreKitUIService.app &lt;com.apple.ios.StoreKitUIService &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd34507c70&gt; com.apple.TencentWeiboAccountMigrationDialog file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/TencentWeiboAccountMigrationDialog.app &lt;com.apple.TencentWeiboAccountMigrationDialog &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd34507e60&gt; com.apple.TrustMe file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/TrustMe.app &lt;com.apple.TrustMe &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd346123f0&gt; com.apple.VSViewService file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/VideoSubscriberAccountViewService.app &lt;com.apple.VSViewService &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd34612c30&gt; com.apple.webapp file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/Web.app &lt;com.apple.webapp &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd346133b0&gt; com.apple.webapp1 file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/WebApp1.app &lt;com.apple.webapp1 &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd34613fa0&gt; com.apple.WebContentFilter.remoteUI.WebContentAnalysisUI file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/WebContentAnalysisUI.app &lt;com.apple.WebContentFilter.remoteUI.WebContentAnalysisUI &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd34614930&gt; com.apple.WebSheet file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/WebSheet.app &lt;com.apple.WebSheet &lt;installed &gt;&gt;&quot;,
-    &quot;&lt;LSApplicationProxy: 0x7fbd346151b0&gt; cn.citynight.----- file:///Users/mekor/Library/Developer/CoreSimulator/Devices/F9CC59DD-6467-40E5-B0AE-F7EDDD22C612/data/Containers/Bundle/Application/0F126D14-F359-4D63-AEE7-B569519AC04F/%E5%85%91%E6%8D%A2%E5%88%B8%E6%B5%8B%E8%AF%95.app &lt;cn.citynight.----- &lt;installed &gt;&gt;&quot;
-)
-
-</code></pre>
-
-<p>动态调用加上简单的混淆应该就可以了<br/>
-上架要自己拼接字符串绕过审查</p>
-
-
-		</div>
-
-		
-
-	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14778318573153.html">计算老虎机中奖等级-NSCountedSet</a></h1>
-			<p class="meta"><time datetime="2016-10-30T20:50:57+08:00" 
-			pubdate data-updated="true">2016/10/30</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<blockquote>
-<p>NSCountedSet这个一直没有用过,看到其他人使用在此记录下.</p>
-</blockquote>
-
-<p>计算老虎机中奖等级的问题：老虎机有四列，每列四个图案，如果四个相同就是等级1，三个相同就是等级2，以此类推。说是用<code>if else</code>太麻烦，有没有什么比较快捷的方法，首先想到的是用KVC中剔除重复数据的办法。比如：</p>
-
-<pre><code class="language-text">NSArray *array = @[@2, @2, @2, @1];
-NSLog(@&quot;%@&quot;, [array valueForKeyPath:@&quot;@distinctUnionOfObjects.self&quot;]);
-</code></pre>
-
-<p>然后得到数组的个数为2，看起来很合理，如果数组是<code>NSArray *array = @[@2, @1, @2, @1];</code>这时候计算出来的数组个数是也是2，但是正确结果应该是等级3，后来突然想起一个类:NSCountedSet</p>
-
-<pre><code class="language-text">    NSArray *array = @[@1, @2, @2, @1];
-    NSCountedSet *set = [[NSCountedSet alloc]initWithArray:array];
-
-    [set enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
-        NSLog(@&quot;%@ =&gt; %d&quot;, obj, [set countForObject:obj]);
-    }];
-
-</code></pre>
-
-<pre><code class="language-text">1 =&gt; 2
-2 =&gt; 2
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_19.html">&larr; Older</a> 
@@ -515,7 +576,7 @@ NSLog(@&quot;%@&quot;, [array valueForKeyPath:@&quot;@distinctUnionOfObjects.sel
 	  <ul id="recent_posts">
 	  
 	      <li class="post">
-	        <a href="%E5%8E%9F%E7%90%86%E6%8E%A2%E7%A9%B6.html"><strong>原理探究&nbsp;(7)</strong></a>
+	        <a href="%E5%8E%9F%E7%90%86%E6%8E%A2%E7%A9%B6.html"><strong>原理探究&nbsp;(8)</strong></a>
 	        
 	        
 	        
@@ -543,7 +604,7 @@ NSLog(@&quot;%@&quot;, [array valueForKeyPath:@&quot;@distinctUnionOfObjects.sel
 	      </li>
 	  
 	      <li class="post">
-	        <a href="%E6%9D%82%E8%AE%B0.html"><strong>杂记&nbsp;(14)</strong></a>
+	        <a href="%E6%9D%82%E8%AE%B0.html"><strong>杂记&nbsp;(15)</strong></a>
 	        
 	        
 	        
@@ -578,7 +639,7 @@ NSLog(@&quot;%@&quot;, [array valueForKeyPath:@&quot;@distinctUnionOfObjects.sel
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Java.html"><strong>Java&nbsp;(6)</strong></a>
+	        <a href="Java.html"><strong>Java&nbsp;(7)</strong></a>
 	        
 	        
 	        
@@ -599,6 +660,24 @@ NSLog(@&quot;%@&quot;, [array valueForKeyPath:@&quot;@distinctUnionOfObjects.sel
 	  
 	      
 		      <li class="post">
+		        <a href="16152544377232.html">Flutter 相关网站</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16026633643718.html">使用iOS模拟器测试“磁盘空间不足”情况的实用方法是什么？</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="15990466411900.html">JDBC Class.forName vs DriverManager.registerDriver</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="15989690336270.html">Java开发环境搭建的准备工作</a>
 		      </li>
 	     
@@ -606,24 +685,6 @@ NSLog(@&quot;%@&quot;, [array valueForKeyPath:@&quot;@distinctUnionOfObjects.sel
 	      
 		      <li class="post">
 		        <a href="15978901087507.html">529. Minesweeper（529. 扫雷游戏）</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15978472756793.html">647. Palindromic Substrings</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15966161528946.html">setProperty 应用</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15965236438323.html">devtools 热启动</a>
 		      </li>
 	     
 	  

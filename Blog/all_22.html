@@ -78,6 +78,204 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14747868502733.html">GCD(Grand Central Dispatch)使用</a></h1>
+			<p class="meta"><time datetime="2016-09-25T15:00:50+08:00" 
+			pubdate data-updated="true">2016/9/25</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>可以让程序长时间压后台</p>
+
+<pre><code class="language-text">//  后台执行：
+dispatch_async(dispatch_get_global_queue(0, 0), ^{
+  // something
+});
+
+// 主线程执行：
+dispatch_async(dispatch_get_main_queue(), ^{
+  // something
+});
+
+// 一次性执行：
+static dispatch_once_t onceToken;
+dispatch_once(&amp;onceToken, ^{
+  // code to be executed once
+});
+
+// 延迟2秒执行：
+double delayInSeconds = 2.0;
+dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+   // code to be executed on the main queue after delay
+});
+
+// 自定义dispatch_queue_t
+dispatch_queue_t urls_queue = dispatch_queue_create(&quot;blog.devtang.com&quot;, NULL);
+dispatch_async(urls_queue, ^{
+  // your code
+});
+dispatch_release(urls_queue);
+
+// 合并汇总结果
+dispatch_group_t group = dispatch_group_create();
+dispatch_group_async(group, dispatch_get_global_queue(0,0), ^{
+  // 并行执行的线程一
+});
+dispatch_group_async(group, dispatch_get_global_queue(0,0), ^{
+  // 并行执行的线程二
+});
+dispatch_group_notify(group, dispatch_get_global_queue(0,0), ^{
+  // 汇总结果
+});
+</code></pre>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
+		  	<h1 class="entry-title"><a href="14747835330079.html">如何在UIBarButtonItem上显示数字(BadgeValue)</a></h1>
+			<p class="meta"><time datetime="2016-09-25T14:05:33+08:00" 
+			pubdate data-updated="true">2016/9/25</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<blockquote>
+<p>原因：项目中想要实现购物车右上角显示购物车中上品数量，但是直接用UIBarButtonItem不能实现要求</p>
+</blockquote>
+
+<p>这里是实现后的效果图：</p>
+
+<p><img src="media/14747835330079/strip." alt="购物车动画"/></p>
+
+<p>一开始直接创建的UIBarButtonItem，但是不能直接往上面添加想要的效果，因为</p>
+
+<pre><code class="language-text">NS_CLASS_AVAILABLE_IOS(2_0) @interface UIBarButtonItem : UIBarItem &lt;NSCoding&gt;
+</code></pre>
+
+<p>而且</p>
+
+<pre><code class="language-text">NS_CLASS_AVAILABLE_IOS(2_0) @interface UIBarItem : NSObject &lt;NSCoding, UIAppearance&gt;
+</code></pre>
+
+<p>退而求其次，我们知道UIBarButtonItem有一个属性</p>
+
+<pre><code class="language-text">@property(nullable, nonatomic,strong)  __kindof UIView     *customView;       // default is nil
+</code></pre>
+
+<p>这说明我们可以使用UIButton来代替UIBarButtonItem，在UIButton上面添加想要的动画效果。</p>
+
+<pre><code class="language-text">    static CGFloat const kButtonWidth = 43.0f;
+    static CGFloat const kButtonHeight = 43.0f;
+
+    UIImage *cartImage = [[UIImage imageNamed:@&quot;iconfont-cart&quot;]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+
+    UIButton *cartButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    cartButton.frame = CGRectMake(0.0f, 0.0f, kButtonWidth, kButtonHeight);
+    cartButton.backgroundColor = [UIColor clearColor];
+    [cartButton setImage:cartImage forState:UIControlStateNormal];
+    [cartButton setImageEdgeInsets:UIEdgeInsetsMake(0.0f,(kButtonHeight- cartImage.size.width), 0.0f, 0.0f)];
+    [cartButton addTarget:self action:@selector(changeStatus:) forControlEvents:UIControlEventTouchUpInside];
+    [cartButton addSubview:self.numberLabel];
+
+    UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:cartButton];
+    self.navigationItem.rightBarButtonItem = rightBarButtonItem;
+</code></pre>
+
+<p>创建Label使用懒加载：</p>
+
+<pre><code class="language-text">#pragma mark 购物车上面显示的按钮
+-(UILabel *)numberLabel
+{
+    if (!_numberLabel) {
+
+        static CGFloat const kNameLabelWidth = 14;
+        static CGFloat const kNameLabelHeight = 14;
+        static CGFloat const kNameLabelX = 40; // 父视图宽44，UI说改到这个位置
+        static CGFloat const kNameLabelY = 6;
+
+        _numberLabel = [UILabel new];
+        _numberLabel.hidden = YES;
+        _numberLabel.frame = CGRectMake(kNameLabelX, kNameLabelY, kNameLabelWidth, kNameLabelHeight);
+
+        _numberLabel.backgroundColor = [UIColor redColor];
+        _numberLabel.textColor = [UIColor whiteColor];
+        _numberLabel.font = [UIFont systemFontOfSize:9];
+        _numberLabel.textAlignment = NSTextAlignmentCenter;
+        _numberLabel.layer.cornerRadius = kNameLabelHeight * 0.5;
+        _numberLabel.layer.masksToBounds = YES;
+
+    }
+    return _numberLabel;
+}
+</code></pre>
+
+<p>这里说下为什么设置为hidden，因为要求数量为0的时候不显示，数量不为0显示，如果删除后还要添加不如直接控制hidden。<br/>
+其他的就是设置Label显示的数字了，这里就不写了。</p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
+		  	<h1 class="entry-title"><a href="14747833011771.html">如何解决json字符串中包含制表符</a></h1>
+			<p class="meta"><time datetime="2016-09-25T14:01:41+08:00" 
+			pubdate data-updated="true">2016/9/25</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>错误信息:</p>
+
+<pre><code class="language-text">Error Domain=NSCocoaErrorDomain Code=3840 &quot;The operation couldn’t be completed. (Cocoa error 3840.)&quot; (Unescaped control character around character 135.) UserInfo=0x170e79d00 {NSDebugDescription=Unescaped control character around character 135.}
+</code></pre>
+
+<p><strong>如何处理</strong><br/>
+最关键的地方:</p>
+
+<pre><code class="language-text">-(NSString *)removeUnescapedCharacter:(NSString *)inputStr
+{
+    NSCharacterSet *controlChars = [NSCharacterSet controlCharacterSet];//获取那些特殊字符
+    NSRange range = [inputStr rangeOfCharacterFromSet:controlChars];//寻找字符串中有没有这些特殊字符
+    if (range.location != NSNotFound)
+        {
+        NSMutableString *mutable = [NSMutableString stringWithString:inputStr];
+        while (range.location != NSNotFound)
+            {
+            [mutable deleteCharactersInRange:range];//去掉这些特殊字符
+            range = [mutable rangeOfCharacterFromSet:controlChars];
+            }
+        return mutable;
+        }
+    return inputStr;
+}
+</code></pre>
+
+<p>举例:</p>
+
+<pre><code class="language-text">    NSString *responseString = [NSMutableString stringWithString:[request responseString]];
+    responseString =[self removeUnescapedCharacter:responseString];
+    NSData *jsonData = [responseString dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *error;
+    NSDictionary * dic = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&amp;error];
+</code></pre>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14743674179375.html">iOS10 遇到问题总结</a></h1>
 			<p class="meta"><time datetime="2016-09-20T18:30:17+08:00" 
 			pubdate data-updated="true">2016/9/20</time></p>
@@ -268,992 +466,6 @@ void eat(id self,SEL sel)
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14731740142157.html">RunLoop</a></h1>
-			<p class="meta"><time datetime="2016-09-06T23:00:14+08:00" 
-			pubdate data-updated="true">2016/9/6</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<h2 id="toc_0">1. 什么是runloop</h2>
-
-<ul>
-<li>Run loops 是线程相关的的基础框架的一部分。一个 run loop 就是一个事件处理 的循环,用来不停的调度工作以及处理输入事件。使用 run loop 的目的是让你的线程在有工作的时候忙于工作,而没工作的时候处于休眠状态。</li>
-<li>runloop就是运行循环(内部do-while),它的基本作用就是让程序持续运行,处理App中的各种事件(触摸,定时器,Selector).</li>
-<li>main函数中UIApplicationMain内部就启动了一个runloop,这样UIApplicationMain就会一直没有返回值,保持了程序的持续运行.这个默认的runloop是跟主线程相关联的.</li>
-<li>runloop 只能选择一个模式(Mode)启动,如果想切换其他模式只能退出当前循环再切换其他模式.如果当前模式中没有任何Source,timer,observer就会退出runloop</li>
-</ul>
-
-<h2 id="toc_1">2. RunLoop与线程</h2>
-
-<p>每条线程都有唯一的一个与之对应的RunLoop对象,主线程的RunLoop启动的时候已经默认创建好了,其他线程的RunLoop需要主动创建(RunLoop在第一次获取的时候创建,在线程结束的时候销毁)</p>
-
-<h2 id="toc_2">3. RunLoop对象</h2>
-
-<h4 id="toc_3">iOS中有2套API来访问和使用runloop</h4>
-
-<ul>
-<li> Foundation -&gt; NSRunLoop</li>
-<li> Core Foundation -&gt; CFRunLoopRef</li>
-</ul>
-
-<p>NSRunLoop和CFRunLoopRef都是runloop对象.NSRunLoop是基于CFRunLoopRef的一层OC封装</p>
-
-<h4 id="toc_4">获得RunLoop对象</h4>
-
-<ul>
-<li><p>Foundation </p>
-<pre><code class="language-objectivec">[NSRunLoop currentRunLoop]; // 获得当前线程的RunLoop对象
-[NSRunLoop mainRunLoop]; // 获得主线程的RunLoop对象
-</code></pre></li>
-<li><p>Core Foundation </p>
-<pre><code class="language-objectivec">CFRunLoopGetCurrent(): // 获得当前线程的RunLoop对象
-CFRunLoopGetMain(): //获得主线程的RunLoop对象
-</code></pre></li>
-</ul>
-
-<h2 id="toc_5">4. RunLoop相关类</h2>
-
-<h3 id="toc_6">Core Foundation中关于RunLoop的5个类</h3>
-
-<ul>
-<li>CFRunLoopRef</li>
-<li>CFRunLoopModeRef</li>
-<li>CFRunLoopSourceRef</li>
-<li>CFRunLoopTimerRef</li>
-<li>CFRunLoopObserverRef</li>
-</ul>
-
-<p>网上其他人博客总结(图一):<br/>
-<img src="media/14731740142157/14731758243846.jpg" alt=""/></p>
-
-<h3 id="toc_7">CFRunLoopModeRef(Run Loop 模式)</h3>
-
-<p><strong>CFRunLoopModeRef代表RunLoop的运行模式</strong>  一个RunLoop包含若干个Mode,每个Mode又包含若干个Source/Timer/Observer. 每次RunLoop启动时,只能指定其中一个Mode,这个Mode被称之为CurrentMode. 如果需要切换Mode,只能退出Loop,再重新指定一个Mode进入. 这样做主要是为了分隔开不同组的Source/Timer/Observer,让他们互不影响.</p>
-
-<p>Run loop 模式是所有要监视的输入源和定时源以及要通知的 run loop 注册观察者的集合。每次运行你的 run loop,你都要指定(无论显示还是隐式)其运行个模式。在 run loop 运行过程中,只有和模式相关的源才会被监视并允许他们传递事件消息。(类似的,只有和模式相关的观察者会通知 run loop 的进程)。和其他模式关联的源只有在 run loop 运行在其模式下才会运行,否则处于暂停状态。</p>
-
-<h3 id="toc_8">CFRunLoopModeRef</h3>
-
-<p><strong>系统默认注册了5个Mode:</strong></p>
-
-<ul>
-<li><p><strong>kCFRunLoopDefaultMode:</strong> App的默认Mode，通常主线程是在这个Mode下运行</p></li>
-<li><p><strong>UITrackingRunLoopMode:</strong> 界面跟踪 Mode，用于 ScrollView 追踪触摸滑动，保证界面滑动时不受其他 Mode 影响</p></li>
-<li><p><strong>UIInitializationRunLoopMode:</strong> 在刚启动 App 时第进入的第一个 Mode，启动完成后就不再使用</p></li>
-<li><p><strong>GSEventReceiveRunLoopMode:</strong> 接受系统事件的内部 Mode，通常用不到</p></li>
-<li><p><strong>kCFRunLoopCommonModes:</strong> 这是一个占位用的Mode，不是一种真正的Mode</p></li>
-</ul>
-
-<p>Cocoa 和 Core foundation 定义了一个默认的和一些常用的模式,通常在代码中都是用字符串来标识这些模式。当然你也可以给模式名称指定一个字符串来自定义模式.<br/>
-runloop一启动就会选中一种模式，当选中了一种模式之后其它的模式就都不鸟。一个mode里面可以添加多个NSTimer(见上面图一),也就是说以后当创建NSTimer的时候，可以指定它是在什么模式下运行的。</p>
-
-<h3 id="toc_9">CFRunLoopSourceRef</h3>
-
-<p><strong>CFRunLoopSourceRef是事件源（输入源）</strong></p>
-
-<p>输入源异步的发送消息给你的线程。事件来源取决于输入源的种类:基于端口的输入源和自定义输入源。基于端口的输入源监听程序相应的端口。自定义输入源则监听自定义的事件源。至于 run loop,它不关心输入源的是基于端口的输入源还是自 定义的输入源。系统会实现两种输入源供你使用。两类输入源的区别在于如何显示: 基于端口的输入源由内核自动发送,而自定义的则需要人工从其他线程发送。</p>
-
-<p>当你创建输入源,你需要将其分配给 run loop 中的一个或多个模式。模式只会 在特定事件影响监听的源。大多数情况下,run loop 运行在默认模式下,但是你也 可以使其运行在自定义模式。若某一源在当前模式下不被监听,那么任何其生成的消 息只在 run loop 运行在其关联的模式下才会被传递。</p>
-
-<p>以前的分法:<br/>
-Port-Based Sources<br/>
-Custom Input Sources<br/>
-Cocoa Perform Selector Sources</p>
-
-<p>现在的分法:<br/>
-Source0：非基于Port的<br/>
-Source1：基于Port的</p>
-
-<h3 id="toc_10">CFRunLoopTimerRef</h3>
-
-<p><strong>CFRunLoopTimerRef是基于时间的触发器</strong></p>
-
-<h4 id="toc_11">NSTimer:</h4>
-
-<pre><code class="language-text">- (void)timer2
-{
-    //NSTimer 调用了scheduledTimer方法，那么会自动添加到当前的runloop里面去，而且runloop的运行模式kCFRunLoopDefaultMode
-
-    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(run) userInfo:nil repeats:YES];
-
-    //更改模式
-    [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
-
-}
-
-- (void)timer1
-{
-    //    [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(run) userInfo:nil repeats:YES];
-
-    NSTimer *timer = [NSTimer timerWithTimeInterval:2.0 target:self selector:@selector(run) userInfo:nil repeats:YES];
-
-    //定时器添加到UITrackingRunLoopMode模式，一旦runloop切换模式，那么定时器就不工作
-    //    [[NSRunLoop currentRunLoop] addTimer:timer forMode:UITrackingRunLoopMode];
-
-    //定时器添加到NSDefaultRunLoopMode模式，一旦runloop切换模式，那么定时器就不工作
-    //    [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
-
-    //占位模式：common modes标记
-    //被标记为common modes的模式 kCFRunLoopDefaultMode  UITrackingRunLoopMode
-    [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
-
-    //    NSLog(@&quot;%@&quot;,[NSRunLoop currentRunLoop]);
-}
-
-- (void)run
-{
-    NSLog(@&quot;---run---%@&quot;,[NSRunLoop currentRunLoop].currentMode);
-}
-
-- (IBAction)btnClick {
-
-    NSLog(@&quot;---btnClick---&quot;);
-}
-</code></pre>
-
-<h4 id="toc_12">GCD中的定时器</h4>
-
-<pre><code class="language-text">//0.创建一个队列
-    dispatch_queue_t queue = dispatch_get_global_queue(0, 0);
-
-    //1.创建一个GCD的定时器
-    /*
-     第一个参数：说明这是一个定时器
-     第四个参数：GCD的回调任务添加到那个队列中执行，如果是主队列则在主线程执行
-     */
-    dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
-
-    //2.设置定时器的开始时间，间隔时间以及精准度
-
-    //设置开始时间，三秒钟之后调用
-    dispatch_time_t start = dispatch_time(DISPATCH_TIME_NOW,3.0 *NSEC_PER_SEC);
-    //设置定时器工作的间隔时间
-    uint64_t intevel = 1.0 * NSEC_PER_SEC;
-
-    /*
-     第一个参数：要给哪个定时器设置
-     第二个参数：定时器的开始时间DISPATCH_TIME_NOW表示从当前开始
-     第三个参数：定时器调用方法的间隔时间
-     第四个参数：定时器的精准度，如果传0则表示采用最精准的方式计算，如果传大于0的数值，则表示该定时切换i可以接收该值范围内的误差，通常传0
-     该参数的意义：可以适当的提高程序的性能
-     注意点：GCD定时器中的时间以纳秒为单位（面试）
-     */
-
-    dispatch_source_set_timer(timer, start, intevel, 0 * NSEC_PER_SEC);
-
-    //3.设置定时器开启后回调的方法
-    /*
-     第一个参数：要给哪个定时器设置
-     第二个参数：回调block
-     */
-    dispatch_source_set_event_handler(timer, ^{
-        NSLog(@&quot;------%@&quot;,[NSThread currentThread]);
-    });
-
-    //4.执行定时器
-    dispatch_resume(timer);
-
-    //注意：dispatch_source_t本质上是OC类，在这里是个局部变量，需要强引用
-    self.timer = timer;
-
-GCD定时器补充
-/*
- DISPATCH_SOURCE_TYPE_TIMER         定时响应（定时器事件）
- DISPATCH_SOURCE_TYPE_SIGNAL        接收到UNIX信号时响应
-
- DISPATCH_SOURCE_TYPE_READ          IO操作，如对文件的操作、socket操作的读响应
- DISPATCH_SOURCE_TYPE_WRITE         IO操作，如对文件的操作、socket操作的写响应
- DISPATCH_SOURCE_TYPE_VNODE         文件状态监听，文件被删除、移动、重命名
- DISPATCH_SOURCE_TYPE_PROC          进程监听,如进程的退出、创建一个或更多的子线程、进程收到UNIX信号
-
- 下面两个都属于Mach相关事件响应
-    DISPATCH_SOURCE_TYPE_MACH_SEND
-    DISPATCH_SOURCE_TYPE_MACH_RECV
- 下面两个都属于自定义的事件，并且也是有自己来触发
-    DISPATCH_SOURCE_TYPE_DATA_ADD
-    DISPATCH_SOURCE_TYPE_DATA_OR
- */
-</code></pre>
-
-<h3 id="toc_13">CFRunLoopObserverRef</h3>
-
-<p><strong>CFRunLoopObserverRef是观察者，能够监听RunLoop的状态改变</strong></p>
-
-<p>可以监听的时间点有以下几个</p>
-
-<pre><code class="language-text">/* Run Loop Observer Activities */
-typedef CF_OPTIONS(CFOptionFlags, CFRunLoopActivity) {
-    kCFRunLoopEntry = (1UL &lt;&lt; 0),           // 即将进入 Loop
-    kCFRunLoopBeforeTimers = (1UL &lt;&lt; 1),    // 即将处理 Timer
-    kCFRunLoopBeforeSources = (1UL &lt;&lt; 2),   // 即将处理 Source
-    kCFRunLoopBeforeWaiting = (1UL &lt;&lt; 5),   // 即将进入休眠
-    kCFRunLoopAfterWaiting = (1UL &lt;&lt; 6),    // 刚从休眠中唤醒
-    kCFRunLoopExit = (1UL &lt;&lt; 7),            // 刚从休眠中唤醒
-    kCFRunLoopAllActivities = 0x0FFFFFFFU   // 所有状态改变
-};
-</code></pre>
-
-<p>如何监听:</p>
-
-<pre><code class="language-text"> //创建一个runloop监听者
-    CFRunLoopObserverRef observer = CFRunLoopObserverCreateWithHandler(CFAllocatorGetDefault(),kCFRunLoopAllActivities, YES, 0, ^(CFRunLoopObserverRef observer, CFRunLoopActivity activity) {
-
-        NSLog(@&quot;监听runloop状态改变---%zd&quot;,activity);
-    });
-
-    //为runloop添加一个监听者
-    CFRunLoopAddObserver(CFRunLoopGetCurrent(), observer, kCFRunLoopDefaultMode);
-
-    CFRelease(observer);
-</code></pre>
-
-<h2 id="toc_14">5. RunLoop处理逻辑</h2>
-
-<p><img src="media/14731740142157/14732109138343.jpg" alt=""/><br/>
-<img src="media/14731740142157/14732110397325.jpg" alt=""/></p>
-
-<p>网友整理如下:<br/>
-<img src="media/14731740142157/14732111027007.jpg" alt=""/></p>
-
-<h2 id="toc_15">6.RunLoop应用</h2>
-
-<ul>
-<li>NSTimer</li>
-<li>ImageView显示  控制方法在特定的模式下可用</li>
-<li>PerformSelector</li>
-<li>常驻线程 在子线程中开启一个runloop</li>
-<li>自动释放池
-<ul>
-<li>第一次创建：进入runloop的时候</li>
-<li>最后一次释放：runloop退出的时候</li>
-<li>其它创建和释放：当runloop即将休眠的时候会把之前的自动释放池释放，然后重新创建一个新的释放池</li>
-</ul></li>
-</ul>
-
-<h3 id="toc_16">常见问题</h3>
-
-<blockquote>
-<p>自动释放池什么时候释放?</p>
-</blockquote>
-
-<p>通过Obserber监听在runloop的状态,一旦监听到runloop即将进行睡眠等待状态(kCFRunLoopBeforeWaiting),就释放</p>
-
-<p><img src="media/14731740142157/15167055358673.jpg" alt=""/></p>
-
-<blockquote>
-<p>在开发中如何使用runloop?</p>
-</blockquote>
-
-<ol>
-<li>开启一个常驻线程(让一个子线程不进入消亡状态,等待从其他线程发来的消息,处理各种事件)举例:1&gt;在子线程中开启一个定时器 2&gt; 在子线程中进行一些场景监控</li>
-<li>可以控制定时器在那种模式下运行</li>
-<li>可以让某些事件(行为,任务)在特定模式下执行(performSelector)</li>
-<li>可以添加observer监听runloop的一些状态,比如监听点击事件的处理(在所有点击事件处理之前做一些事情)<br/>
-###参考资料:</li>
-</ol>
-
-<hr/>
-
-<p>官方文档 <a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/Multithreading/RunLoopManagement/RunLoopManagement.html">Threading Programming Guide</a><br/><br/>
-CFRunLoopRef<a href="http://opensource.apple.com/source/CF/CF-1151.16/">源代码</a></p>
-
-<h3 id="toc_17">最后给出几个学习链接</h3>
-
-<p><a href="http://www.jianshu.com/p/20d3bb3e8df5">RunLoop深度探究（一）</a></p>
-
-<p><a href="http://www.jianshu.com/p/6582c47a13c8">RunLoop深度探究（二）</a></p>
-
-<p><a href="http://www.jianshu.com/p/240683510692">RunLoop深度探究（三）</a></p>
-
-<p><a href="http://www.jianshu.com/p/f3ed25944aef">RunLoop深度探究（四）</a></p>
-
-<p><a href="http://www.jianshu.com/p/1c50d0b0fe1a">RunLoop深度探究（五）</a></p>
-
-<p><a href="http://www.jianshu.com/p/dc7ce81eda23">深入理解RunLoop文章</a></p>
-
-<p><a href="http://blog.ibireme.com/2015/05/18/runloop/">http://blog.ibireme.com/2015/05/18/runloop/</a></p>
-
-<p><a href="http://www.jianshu.com/p/ccd379c6db98">读 Threading Programming Guide 笔记（一）</a></p>
-
-<p><a href="http://www.jianshu.com/p/30782af3fe1a">读 Threading Programming Guide 笔记（二）</a></p>
-
-<p><a href="http://www.jianshu.com/p/30782af3fe1a">读 Threading Programming Guide 笔记（三）</a></p>
-
-<p><a href="http://www.jianshu.com/p/ccd379c6db98">读 Threading Programming Guide 笔记（四）</a></p>
-
-
-		</div>
-
-		
-
-	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14731574655770.html">UIWebView可能的优化方案</a></h1>
-			<p class="meta"><time datetime="2016-09-06T18:24:25+08:00" 
-			pubdate data-updated="true">2016/9/6</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<blockquote>
-<p>声明:Socket思想来源于手Q空间团队,Demo中提供了使用Socket模拟HTTP请求.</p>
-</blockquote>
-
-<p>我们都知道WebView加载页面非常缓慢,如果页面样式结构比较固定,则可以采用自己的自己封装的网络请求去获取数据,然后拼接成HTML显示.</p>
-
-<p><strong>优点:</strong></p>
-
-<ul>
-<li>通常webview首次加载非常慢,使用Native网络请求会很快</li>
-<li>离线包＋预加载(静态HTML、静态JS、静态CSS它们的加载、它们离线的东西）,首屏进入可直接加载默认数据</li>
-</ul>
-
-<p><strong>缺点:</strong></p>
-
-<ul>
-<li>静态资源包离线下载,不能保证100%</li>
-</ul>
-
-<h2 id="toc_0">传统H5加载流程</h2>
-
-<p><img src="media/14731574655770/14737415611533.jpg" alt=""/></p>
-
-<h3 id="toc_1"><strong>这里有两个问题：</strong></h3>
-
-<p>WebView的耗时 <br/>
-根据手Q的统计数据，Android的WebView平均打开启动的速度耗时是0.8秒，有些Android机型基于系统环境可能需要一点多或者两秒左右；</p>
-
-<p>HTTP协议的网络层 <br/>
-HTTP有DNS或者建立链接的耗时，HTTPS有建立SSL链接的耗时。</p>
-
-<p>所以H5通常带给用户的体验是：我点进来不管是怎么时候，是第一次第二次还是第三次，我点进来先等两秒再说，看两秒白屏后页面才可以加载进来，其实这里我们只做了两个事情去优化首次加载流程：</p>
-
-<h4 id="toc_2">1. 把WebView启动和发送请求改成并行</h4>
-
-<p>客户端在启动WebView的时候同时发起HTML的页面请求，这里可以实现一个效果：本来我的耗时是T1+T2，现在为T1或T2的最大值，这样达到并行加载的效果。<br/>
-<img src="media/14731574655770/14737420748297.jpg" alt=""/></p>
-
-<p>当然这里还有一个优化的空间，我们其实已经由客户端接管了发送网络请求的事情，以前接管的时候是用HTTP协议，比如像iOS用的是URLSession模块，但已经让客户端接管了，为什么不能够更大胆一些呢？</p>
-
-<h4 id="toc_3">2. Socket通道</h4>
-
-<p>其实我们可以不拘泥于数据传输的方式，所以这里我们把一个HTML的加载从HTTP/HTTPS改造成了一个Socket通道，这是一个App里面长连接的管道，如果手机内部有即时通讯模块的话，我们是用这个长连接的通道来做HTML的传输的，它的作用在于只要你的手机QQ能够收发消息，你的HTML页面就能够加载进来，这样就达到体验上的一致性，同时网络也有比较稳定的提升。 <br/>
-<img src="media/14731574655770/14737423231640.jpg" alt=""/></p>
-
-<p>我们基本上做了两个事情就达到首次进入加速的目的，但后面才是一个关键：首次进入我们已经做过优化了，但二次进入怎么去做优化去提高它的显示速度呢？</p>
-
-<h2 id="toc_4">本地缓存</h2>
-
-<p><img src="media/14731574655770/14737426997041.jpg" alt=""/></p>
-
-<h2 id="toc_5">Demo简单介绍</h2>
-
-<blockquote>
-<p>关于加载优化Demo,地址:<a href="https://github.com/Mekor/Optimization-of-webView">https://github.com/Mekor/Optimization-of-webView</a></p>
-</blockquote>
-
-<h4 id="toc_6">webView加载耗时问题解决方案简介:</h4>
-
-<ol>
-<li>如果有界面变动不大,可以吧HTML直接在本地存放一份,然后从网上请求数据,拼接成HTML,这样加载速度会很快.这种可以参考用户版商品的图片简介.</li>
-<li>如果内部动态变化的,但是样式和交互式规定好的,可以在本地存放一份,当然也可以每次启动app的时候更新本地存放的静态资源.这样的好处就是每次只替换更新的内容.</li>
-</ol>
-
-<p>下面以网易新闻为例,这里我抓包网易新闻的请求,新闻详情: <a href="http://c.m.163.com/nc/article/C0OBRVC7051789DB/full.html">http://c.m.163.com/nc/article/C0OBRVC7051789DB/full.html</a><br/>
-这里我们可以看出,网易新闻也不是直接用webView加载url的方式显示的.</p>
-
-<pre><code class="language-text">{
-    &quot;C0OBRVC7051789DB&quot;: {
-        &quot;body&quot;: &quot;&lt;p&gt;　　郭德纲的成功除了自身坚持不懈的努力外，当然也因郭德纲遇到了不少“贵人”的帮助，在这其中有一位也是其“贵人”，郭德纲曾经也在很多场合说其是自己的贵人，他就是大鹏。&lt;/p&gt;&lt;!--IMG#0--&gt;&lt;p&gt;　　不过，此大鹏非彼大鹏。如今一说到大鹏，都会想到导演电影《煎饼侠》的大鹏，那是赵本山的弟子，却和郭德纲没有什么关系。而帮助过郭德纲，使得其相声在北京能广受欢迎的大鹏，则是北京文艺广播《开心茶馆》主持人康大鹏。&lt;/p&gt;&lt;!--IMG#1--&gt;&lt;p&gt;　　康大鹏作为电台节目主持人，在没有听到郭德纲相声之前，给听众播放的也是一些经典的相声段子，不过翻来覆去时间长了也令听众生厌，久而久之就没有了兴趣。在这种情况下，大鹏听了郭德纲的相声后，才感到眼前一亮。&lt;/p&gt;&lt;!--IMG#2--&gt;&lt;p&gt;　　当时的郭德纲，虽然在北京也开始站住了脚跟，但是仅限于小部分观众知道，并且据说还备受各方打击，所以才会在相声中经常有“怨言”。在大鹏看了德云社郭德纲的相声后，认为这是个机会，德云社也需要听众，也需要帮助。&lt;/p&gt;&lt;!--IMG#3--&gt;&lt;p&gt;　　于是，大鹏就开始到德云社录音，然后播放给听众听。这在当时，也是一个不小的举动。毕竟郭德纲在当时还名不见经传，而为郭德纲录音还需要大鹏自己掏腰包购买录音器材，至于播出后效果如何也担有一定风险。&lt;/p&gt;&lt;!--IMG#4--&gt;&lt;p&gt;　　也正如大鹏所想象，郭德纲的相声在电台播出后便反响强烈，使得很多观众都开始迷上了相声，也迷上了郭德纲。在拥有了大批粉丝后，据说郭德纲随后开办了一场大型纪念演出，当时有不少电视台和电台的领导观看，而在郭德纲相声结束后，大鹏还给台下领导来了一个惊人的一跪。&lt;/p&gt;&lt;!--IMG#5--&gt;&lt;p&gt;　　虽然只是单膝点地，但在当时的报纸也给出了惊天一跪的标题，而大鹏的这一跪，也使得郭德纲和电视台结缘。尽管郭德纲的成名和大鹏有着不可分割的关系，但大鹏还是很谦虚的说两者是相互的关系，因为节目需要听众。&lt;/p&gt;&lt;!--IMG#6--&gt;&lt;p&gt;　　在郭德纲进入北京电视台主持《星夜故事秀》节目时，这也是郭德纲和北京电视台合作最好的时期，堪称两者的“蜜月期”。只是随着郭德纲的成名，郭德纲后来又转战到了天津卫视，自己在北京电视台的节目则交给了何云伟和李菁来做。&lt;/p&gt;&lt;!--IMG#7--&gt;&lt;p&gt;　　这其中的原因，有人说是因为报酬方面产生了分歧，说白了其他电视台给了更高的价钱。所以北京电视台才会批郭德纲“忘恩负义”，因北京电视台为郭德纲的宣传做了很大的努力，但也有人说是因郭德纲的加盟，才使得北京电视台节目火了起来。谁是谁非莫衷一是。&lt;/p&gt;&lt;!--IMG#8--&gt;&lt;p&gt;　　至于后来，两者闹得更是不可开交，直到最后变成了“冤家”。而和北京电视台闹分裂后，对原电台主持人大鹏自然也是有很大的影响，毕竟电视台和电台也是一脉相承的关系，不可能不对大鹏产生影响。&lt;/p&gt;&lt;!--IMG#9--&gt;&lt;p&gt;　　对与错是与非都是难以说清，正如大鹏所说，郭德纲的相声给其节目带来了听众，而电台也给郭德纲带去了名气，两者也是相辅相成。但不管怎样，大鹏的确是郭德纲演艺路上的一位“恩人”，起码让其早点脱颖而出扬眉吐气了。&lt;/p&gt;&lt;p&gt; 特别声明：本文为网易自媒体平台“网易号”作者上传并发布，仅代表该作者观点。网易仅提供信息发布平台。&lt;/p&gt;&quot;,
-        &quot;users&quot;: [],
-        &quot;replyCount&quot;: 1893,
-        &quot;ydbaike&quot;: [],
-        &quot;link&quot;: [],
-        &quot;shareLink&quot;: &quot;http://c.m.163.com/news/a/C0OBRVC7051789DB.html?spss=newsapp&amp;spsw=1&quot;,
-        &quot;votes&quot;: [],
-        &quot;img&quot;: [
-            {
-                &quot;ref&quot;: &quot;&lt;!--IMG#0--&gt;&quot;,
-                &quot;pixel&quot;: &quot;400*263&quot;,
-                &quot;alt&quot;: &quot;&quot;,
-                &quot;src&quot;: &quot;http://dingyue.nosdn.127.net/s9VWjHPwFtTeqKoYJBULaIbs5TmzcYeGFQeljU0IFvZrD1473633706236.jpg&quot;
-            },
-            {
-                &quot;ref&quot;: &quot;&lt;!--IMG#1--&gt;&quot;,
-                &quot;pixel&quot;: &quot;412*256&quot;,
-                &quot;alt&quot;: &quot;&quot;,
-                &quot;src&quot;: &quot;http://dingyue.nosdn.127.net/6DXnTuxZs2jvgFJLMW2svrKoh1=KTYXhGwGUH2JlqdpZq1473633736663.jpg&quot;
-            },
-            {
-                &quot;ref&quot;: &quot;&lt;!--IMG#2--&gt;&quot;,
-                &quot;pixel&quot;: &quot;380*246&quot;,
-                &quot;alt&quot;: &quot;&quot;,
-                &quot;src&quot;: &quot;http://dingyue.nosdn.127.net/H5jHhCfSD5uhRhMFrHwze4LgrK97qwcG1GkwWGRZcOeqe1473633752645.jpg&quot;
-            },
-            {
-                &quot;ref&quot;: &quot;&lt;!--IMG#3--&gt;&quot;,
-                &quot;pixel&quot;: &quot;360*286&quot;,
-                &quot;alt&quot;: &quot;&quot;,
-                &quot;src&quot;: &quot;http://dingyue.nosdn.127.net/udjNFCksz6Fc7fCFAzCBwzUYxWB1TJUVis97X5ZRHpqg61473633775305.jpg&quot;
-            },
-            {
-                &quot;ref&quot;: &quot;&lt;!--IMG#4--&gt;&quot;,
-                &quot;pixel&quot;: &quot;407*255&quot;,
-                &quot;alt&quot;: &quot;&quot;,
-                &quot;src&quot;: &quot;http://dingyue.nosdn.127.net/7mbZrlli2D70eS9WHoRmd54RDkr6onqv8Zl1h6V5zJraj1473633824123compressflag.jpg&quot;
-            },
-            {
-                &quot;ref&quot;: &quot;&lt;!--IMG#5--&gt;&quot;,
-                &quot;pixel&quot;: &quot;400*266&quot;,
-                &quot;alt&quot;: &quot;&quot;,
-                &quot;src&quot;: &quot;http://dingyue.nosdn.127.net/HVmr=qRm5YReXaRAJBcSaI6WJpMn6DkKHJIVJBdbqMOYY1473633850729compressflag.jpg&quot;
-            },
-            {
-                &quot;ref&quot;: &quot;&lt;!--IMG#6--&gt;&quot;,
-                &quot;pixel&quot;: &quot;380*232&quot;,
-                &quot;alt&quot;: &quot;&quot;,
-                &quot;src&quot;: &quot;http://dingyue.nosdn.127.net/HQUW=i7soYmJqlUDaS1iv6pGBI9NzCdFqYU=yC=QT8BDQ1473633896632.jpg&quot;
-            },
-            {
-                &quot;ref&quot;: &quot;&lt;!--IMG#7--&gt;&quot;,
-                &quot;pixel&quot;: &quot;294*220&quot;,
-                &quot;alt&quot;: &quot;&quot;,
-                &quot;src&quot;: &quot;http://dingyue.nosdn.127.net/lEs43YivpKRxQqZPlmaIo=SpEOdRTqeYUywHCLqwIqR111473633914904.jpg&quot;
-            },
-            {
-                &quot;ref&quot;: &quot;&lt;!--IMG#8--&gt;&quot;,
-                &quot;pixel&quot;: &quot;402*238&quot;,
-                &quot;alt&quot;: &quot;&quot;,
-                &quot;src&quot;: &quot;http://dingyue.nosdn.127.net/bhzvrmx8JUQHVViXI5VKqvHG=c5RIIxx0dssbfTNM7mfE1473633962043.jpg&quot;
-            },
-            {
-                &quot;ref&quot;: &quot;&lt;!--IMG#9--&gt;&quot;,
-                &quot;pixel&quot;: &quot;329*220&quot;,
-                &quot;alt&quot;: &quot;&quot;,
-                &quot;src&quot;: &quot;http://dingyue.nosdn.127.net/tN7dLuyOJ0SU3kXoPRrLdXkVMZGJtiS97Qh46opqH2Q0N1473634186617.jpg&quot;
-            }
-        ],
-        &quot;digest&quot;: &quot;&quot;,
-        &quot;topiclist_news&quot;: [],
-        &quot;dkeys&quot;: &quot;null&quot;,
-        &quot;topiclist&quot;: [
-            {
-                &quot;hasCover&quot;: false,
-                &quot;subnum&quot;: &quot;2.8万&quot;,
-                &quot;alias&quot;: &quot;娱乐八卦、影视评论&quot;,
-                &quot;tname&quot;: &quot;娱乐大嘴&quot;,
-                &quot;ename&quot;: &quot;T1439876075818&quot;,
-                &quot;tid&quot;: &quot;T1439876075818&quot;,
-                &quot;cid&quot;: &quot;C1374475306828&quot;
-            }
-        ],
-        &quot;docid&quot;: &quot;C0OBRVC7051789DB&quot;,
-        &quot;picnews&quot;: true,
-        &quot;title&quot;: &quot;郭德纲从他的节目走红 此“贵人”却不求回报&quot;,
-        &quot;sourceinfo&quot;: {
-            &quot;alias&quot;: &quot;娱乐八卦、影视评论&quot;,
-            &quot;ename&quot;: &quot;T1439876075818&quot;,
-            &quot;tname&quot;: &quot;娱乐大嘴&quot;,
-            &quot;tid&quot;: &quot;T1439876075818&quot;
-        },
-        &quot;tid&quot;: &quot;&quot;,
-        &quot;template&quot;: &quot;normal1&quot;,
-        &quot;threadVote&quot;: 108,
-        &quot;askbar&quot;: [
-            {
-                &quot;title&quot;: &quot;主持人&quot;,
-                &quot;headpicurl&quot;: &quot;http://dingyue.nosdn.127.net/27vmGgL=A4BbmMAUJIEOEJ2vUlnvIGE9Ufum0roxEDigT1472456332076.jpg&quot;,
-                &quot;alias&quot;: &quot; 我是河北交通广播主持人月色，关于主持、情感和各种天马行空的问题，问我吧！ &quot;,
-                &quot;expertId&quot;: &quot;EX880112773195081120&quot;,
-                &quot;name&quot;: &quot;月色&quot;,
-                &quot;concernCount&quot;: 6341
-            }
-        ],
-        &quot;threadAgainst&quot;: 49,
-        &quot;boboList&quot;: [],
-        &quot;articleTags&quot;: &quot;网易号&quot;,
-        &quot;replyBoard&quot;: &quot;dy_wemedia_bbs&quot;,
-        &quot;source&quot;: &quot;娱乐大嘴&quot;,
-        &quot;huati&quot;: [
-            {
-                &quot;topicId&quot;: &quot;SJ02345751487819348812&quot;,
-                &quot;topicName&quot;: &quot;郭德纲&quot;
-            },
-            {
-                &quot;topicId&quot;: &quot;SJ1851570047893940154&quot;,
-                &quot;topicName&quot;: &quot;赵本山&quot;
-            }
-        ],
-        &quot;hasNext&quot;: false,
-        &quot;voicecomment&quot;: &quot;off&quot;,
-        &quot;apps&quot;: [],
-        &quot;relative_sys&quot;: [
-            {
-                &quot;id&quot;: &quot;C0RN7O7N00034VR2&quot;,
-                &quot;title&quot;: &quot;郭德纲的综艺版图:交人脉、捧新人、强化德云IP&quot;,
-                &quot;source&quot;: &quot;网易娱乐专稿&quot;,
-                &quot;imgsrc&quot;: &quot;http://cms-bucket.nosdn.127.net/a11079eb004f445abdb7146850e4810d20160913141047.jpeg&quot;,
-                &quot;docID&quot;: &quot;C0RN7O7N00034VR2&quot;,
-                &quot;from&quot;: &quot;HZ&quot;,
-                &quot;type&quot;: &quot;doc&quot;,
-                &quot;ptime&quot;: &quot;2016-09-13 14:13:21&quot;,
-                &quot;href&quot;: &quot;&quot;
-            },
-            {
-                &quot;id&quot;: &quot;C0DBP4LV0517ACQ1&quot;,
-                &quot;title&quot;: &quot;老梁说天下：郭德纲为什么这么能“惹事儿”&quot;,
-                &quot;source&quot;: &quot;纵横娱乐&quot;,
-                &quot;imgsrc&quot;: &quot;http://dingyue.nosdn.127.net/sYo3zfohiqrXHHZIhYV0wqZTpE7RavK7qWneE4BsRH6O=1473265404780compressflag.png&quot;,
-                &quot;docID&quot;: &quot;C0DBP4LV0517ACQ1&quot;,
-                &quot;from&quot;: &quot;HZ&quot;,
-                &quot;type&quot;: &quot;doc&quot;,
-                &quot;ptime&quot;: &quot;2016-09-08 00:23:46&quot;,
-                &quot;href&quot;: &quot;&quot;
-            },
-            {
-                &quot;id&quot;: &quot;C0R1QGIN051789DB&quot;,
-                &quot;title&quot;: &quot;唯一被戏称德云社第一女弟子女星，却是郭德纲铁杆粉丝&quot;,
-                &quot;source&quot;: &quot;娱乐大嘴&quot;,
-                &quot;imgsrc&quot;: &quot;http://dingyue.nosdn.127.net/I=T7AyADVhb6T8KiCoR0Yw0mKqBXyzUNKWyafBy9PRvxF1473724249899.jpg&quot;,
-                &quot;docID&quot;: &quot;C0R1QGIN051789DB&quot;,
-                &quot;from&quot;: &quot;HZ&quot;,
-                &quot;type&quot;: &quot;doc&quot;,
-                &quot;ptime&quot;: &quot;2016-09-13 08:01:08&quot;,
-                &quot;href&quot;: &quot;&quot;
-            }
-        ],
-        &quot;ptime&quot;: &quot;2016-09-12 06:59:42&quot;
-    }
-}
-</code></pre>
-
-<p>我们可以看出, <code>body</code> 里面是配置好的html,同时里面也给出了图片占位符类似于 <code>&lt;!--IMG#0--&gt;</code>,通过 <code>img</code> 数组里面的的内容进行替换,img里面提供类似 </p>
-
-<pre><code class="language-text">{
-    &quot;ref&quot;: &quot;&lt;!--IMG#0--&gt;&quot;, 
-    &quot;pixel&quot;: &quot;400*263&quot;, 
-    &quot;alt&quot;: &quot;&quot;, 
-    &quot;src&quot;: &quot;http://dingyue.nosdn.127.net/s9VWjHPwFtTeqKoYJBULaIbs5TmzcYeGFQeljU0IFvZrD1473633706236.jpg&quot;
-},
-</code></pre>
-
-<p>提供了 <code>body</code> 里面的占位符,同时还提供了,pixel,alt,src等.这时我们可以做的事情就多了,根据占位符替换 <code>body</code> 中的占位,通过原生网络下载图片等等.Demo中我只做了简单的HTML拼接.拼接好HTML在把本地的模板添加进去,比如css,js等.最后直接把拼接好的完整的HTML给webView,让其显示.具体Demo已经提供了,仅供参考.效果图:</p>
-
-<p><img src="media/14731574655770/14738361521187.gif" alt=""/><br/>
-(仅供参考,css我只是简单的按照大概写的,勿喷)</p>
-
-<h4 id="toc_7">Socket模拟HTTP请求</h4>
-
-<p>第二个Demo中模拟了Socket发送HTTP请求的方式,当然我这里只是猜测手Q的实现方式.需要注意的地方就是拼接请求头.</p>
-
-<pre><code class="language-text">    //拼接http请求
-    NSString *request = @&quot;GET / HTTP/1.1\n&quot;
-    &quot;Connection: Close\n&quot;
-    &quot;Host: m.baidu.com\n&quot;
-    //告诉服务器客户端是mac
-    &quot;User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.115 Safari/537.36\n\n&quot;;
-</code></pre>
-
-<h2 id="toc_8">其他优化方案</h2>
-
-<p>可以设置url缓存,直接在Appdelegate中默认设置就好了..</p>
-
-<pre><code class="language-text">//网络缓存优化 -- 设置 4 MB 的内存缓存， 50MB 的磁盘缓存
-    NSURLCache *URLCache = [[NSURLCache alloc] initWithMemoryCapacity:4 * 1024 * 1024 diskCapacity:50 * 1024 * 1024 diskPath:nil];
-    [NSURLCache setSharedURLCache:URLCache];
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14727863232294.html">runtime(内部分享草稿)</a></h1>
-			<p class="meta"><time datetime="2016-09-02T11:18:43+08:00" 
-			pubdate data-updated="true">2016/9/2</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<blockquote>
-<p>本文涉及到的Demo地址 <a href="https://github.com/Mekor/runtimeDemo">https://github.com/Mekor/runtimeDemo</a></p>
-</blockquote>
-
-<h2 id="toc_0">理解self,super,class,superclass</h2>
-
-<p>创建一个Person里面有一个类方法:</p>
-
-<pre><code class="language-objectivec">#import &quot;Person.h&quot;
-
-@implementation Person
-+(void)study {
-    NSLog(@&quot;%@ %@ %@ %@&quot;,[self class],[self superclass],[super class],[super superclass]);
-}
-@end
-</code></pre>
-
-<p>Student继承自Person,重写父类方法</p>
-
-<pre><code class="language-objectivec">#import &quot;Student.h&quot;
-
-@implementation Student
-+(void)study {
-    NSLog(@&quot;%@ %@ %@ %@&quot;,[self class],[self superclass],[super class],[super superclass]);
-}
-@end
-</code></pre>
-
-<!--more-->
-
-<p>这两个输出的都是什么?<br/>
-<img src="media/14727863232294/14729913552743.jpg" alt=""/></p>
-
-<p>这时,我们在Student中用这样写:</p>
-
-<pre><code class="language-objectivec">#import &quot;Student.h&quot;
-
-@implementation Student
-+(void)study {
-//    NSLog(@&quot;%@ %@ %@ %@&quot;,[self class],[self superclass],[super class],[super superclass]);
-    
-    [super study];
-}
-@end
-</code></pre>
-
-<p>打断点我们可以看到:<br/>
-<img src="media/14727863232294/14729934417192.jpg" alt=""/></p>
-
-<p>可以看出:</p>
-
-<pre><code class="language-objectivec">super：是编译器指示符，仅仅是一个标志,并不是指针，仅仅是标志的当前对象去调用父类的方法，本质还是当前对象调用
-super:并不是让父类对象调用方法，调用者还是本身
-class：获取方法调用者的类
-superclass:获取方法调用者的父类
-</code></pre>
-
-<p>消息机制:(来自:<a href="https://developer.apple.com/library/prerelease/content/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtHowMessagingWorks.html">官方文档</a>)<br/>
-<img src="media/14727863232294/messaging1.gif" alt="消息框架"/></p>
-
-<p>当对象收到消息时,消息函数首先根据该对象的 isa 指针找到该对象所对应的类的方法表,并从表中寻找 该消息对应的方法选标。如果找不到,objc_msgSend 将继续从父类中寻找,直到 NSObject 类。一旦找到了方法选标, objc_msgSend 则以消息接收者对象为参数调用,调用该选标对应的方法实现。</p>
-
-<h2 id="toc_1">self是从哪里来的?</h2>
-
-<blockquote>
-<p>官方解释:<a href="https://developer.apple.com/library/prerelease/content/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtHowMessagingWorks.html">Objective-C Runtime Programming Guide</a><img src="media/14727863232294/14729941396965.jpg" alt=""/></p>
-</blockquote>
-
-<p>简单说每个方法都存在并且隐藏的两个参数(self,_cmd),随便写个方法看下:<br/>
-Student中写个text方法,然后打印下这两个隐藏参数.<br/>
-<img src="media/14727863232294/14729960900273.jpg" alt=""/><br/>
-<img src="media/14727863232294/14729961142923.jpg" alt=""/></p>
-
-<h2 id="toc_2">动态添加方法</h2>
-
-<p>上面说了一些貌似和runtime没有什么关系,runtime基础知识类似类的构成,对象的构成这里不再介绍,可以自己去看定义.当然也可以去<a href="http://opensource.apple.com/source/objc4/objc4-680/runtime/">苹果的开源网站</a>查看,如果网站不方便可以去苹果的<a href="https://github.com/opensource-apple/objc4">github</a>下载开源代码研究...  ...继续...那么根据上面所说的方法说下动态添加方法.</p>
-
-<blockquote>
-<p>思考一下,咱们new项目中将采用路由模式进行页面跳转,从网页跳转进入app调用一个方法,一般情况下都是移动端和后台协议好的内容,这样跳转不会出现问题.但是如果后台写错了或者传输中出现问题导致url中包含的方法名不是规定的方法名.这时怎么办?</p>
-</blockquote>
-
-<pre><code class="language-objectivec">    Student *s = [Student new];
-    
-    // 1. 比如我们要调用 Student中的eat方法, 默认这样写[s eat]; 但是不行,因为我们没有定义.
-//    [s eat];
-    // 2. 也可以这样调用[s performSelector:@selector(eat)];这样没有问题,@selector中参数是字符串,这个参考swift
-//    [s performSelector:@selector(eat)];
-    // 3. 使用string创建SEL
-    
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored&quot;-Warc-performSelector-leaks&quot;
-    [s performSelector:NSSelectorFromString(@&quot;eat&quot;)];
-#pragma clang diagnostic pop
-    
-    // 上面这样调用会报错,我们在对象调用未实现方法的时候动态的创建一个方法,避免抛出异常.
-</code></pre>
-
-<p>怎么忽略编译器警告已经分享过,可以参考:<a href="http://www.citynight.cn/Blog/14676105703423.html">http://www.citynight.cn/Blog/14676105703423.html</a></p>
-
-<h3 id="toc_3">怎么动态添加方法呢?</h3>
-
-<p><img src="media/14727863232294/14729983827897.jpg" alt=""/><br/>
-上面是动态添加对象方法的例子,动态添加类方法也是一样的<code>+(BOOL)resolveClassMethod:(SEL)sel</code><br/>
-<strong>注意:</strong>上面函数类型,有人可能好奇这块为什么写成&quot;v@:&quot;  ?参见:函数类型, 更多关于转发机制参见:<a href="http://www.citynight.cn/Blog/14733118707964.html">转发机制</a></p>
-
-<h3 id="toc_4">关于函数类型</h3>
-
-<p>先看文档:<br/>
-<img src="media/14727863232294/14730056768742.jpg" alt=""/><br/>
-查看<code>Objective-C type encodings</code> <img src="media/14727863232294/14730058881001.jpg" alt=""/><br/>
-所以上面void eat(...)应该表述成 <code>&quot;v@:&quot;</code></p>
-
-<p><strong>补充:</strong> 动态调用方法系统默认提供一到两个参数的方法调用, <del>这里封装了一个无限参数的方法调用.<a href="https://github.com/Mekor/NSObject-SEL">NSObject-SEL****</a></del>  我把一些扩展进行了总结,还不完善,地址<a href="https://github.com/Mekor/MKExtension">MKExtension</a></p>
-
-<h3 id="toc_5">关于IMP(函数指针)</h3>
-
-<pre><code class="language-objectivec">/// A pointer to the function of a method implementation. 
-#if !OBJC_OLD_DISPATCH_PROTOTYPES
-typedef void (*IMP)(void /* id, SEL, ... */ ); 
-#else
-typedef id (*IMP)(id, SEL, ...); 
-#endif
-</code></pre>
-
-<p>当前版本Xcode如果使用IMP的话,默认是选择第一个也就是无参无返回值.如果需要参数有返回值的话,需要修改配置文件.如下:</p>
-
-<h2 id="toc_6">方法交换(Method Swizzling:传说中的黑魔法)</h2>
-
-<p>一般使用方法交换都是想给系统提供的方法添加一些其他的功能的时候使用.new中使用方法交换的例子:</p>
-
-<pre><code class="language-objectivec">#import &quot;UIActionSheet+Front.h&quot;
-
-#import &lt;objc/runtime.h&gt;
-
-@implementation UIActionSheet (Front)
-- (void)customShowInView:(UIView *)view{
-    for(UIWindow * tmpWin in [[UIApplication sharedApplication] windows]){
-        [tmpWin endEditing:NO];
-    }
-    [self customShowInView:view];
-}
-+ (void)load{
-    swizzleAllActionSheet();
-}
-@end
-
-void swizzleAllActionSheet(){
-    Class c = [UIActionSheet class];
-    SEL origSEL = @selector(showInView:);
-    SEL newSEL = @selector(customShowInView:);
-    Method origMethod = class_getInstanceMethod(c, origSEL);
-    Method newMethod = class_getInstanceMethod(c, newSEL);
-    method_exchangeImplementations(origMethod, newMethod);
-}
-</code></pre>
-
-<p>关于方法交换,在new项目中已经封装好了,代码如下:</p>
-
-<pre><code class="language-objectivec">// ObjcRuntime.h文件
-void Swizzle(Class c, SEL origSEL, SEL newSEL);
-
-//ObjcRuntime.m文件
-//静态就交换静态，实例方法就交换实例方法
-void Swizzle(Class c, SEL origSEL, SEL newSEL)
-{
-    Method origMethod = class_getInstanceMethod(c, origSEL);
-    Method newMethod = nil;
-    if (!origMethod) {
-        origMethod = class_getClassMethod(c, origSEL);
-        if (!origMethod) {
-            return;
-        }
-        newMethod = class_getClassMethod(c, newSEL);
-        if (!newMethod) {
-            return;
-        }
-    }else{
-        newMethod = class_getInstanceMethod(c, newSEL);
-        if (!newMethod) {
-            return;
-        }
-    }
-    
-    //自身已经有了就添加不成功，直接交换即可
-    if(class_addMethod(c, origSEL, method_getImplementation(newMethod), method_getTypeEncoding(newMethod))){
-        class_replaceMethod(c, newSEL, method_getImplementation(origMethod), method_getTypeEncoding(origMethod));
-    }else{
-        method_exchangeImplementations(origMethod, newMethod);
-    }
-}
-</code></pre>
-
-<p>用法(还是以Student为例):<br/>
-Student中添加两个对象方法,一个run,一个sleep.我们的目的是交换两个方法的实现</p>
-
-<pre><code class="language-objectivec">-(void)run {
-    NSLog(@&quot;跑🏃&quot;);
-}
--(void)sleep {
-    NSLog(@&quot;睡觉😴&quot;);
-}
-+(void)load {
-    Swizzle(self, @selector(run), @selector(sleep));
-}
-</code></pre>
-
-<p>控制器调用的结果:<br/>
-<img src="media/14727863232294/14730042652865.jpg" alt=""/></p>
-
-<h2 id="toc_7">添加属性</h2>
-
-<p>动态添加属性用的最多的地方应该是给分类添加属性.  <del>我在项目中添加过一个分类<code>UIView+Tap</code>这个也可以在这里查看<a href="https://github.com/Mekor/UIView-Tap">UIView-Tap</a></del>  我把一些扩展进行了总结,还不完善,地址<a href="https://github.com/Mekor/MKExtension">MKExtension</a></p>
-
-<pre><code class="language-objectivec">#import &quot;UIView+Tap.h&quot;
-#import &lt;objc/runtime.h&gt;
-
-static const void* tagValue = &amp;tagValue;
-
-@interface UIView ()
-@property (nonatomic, copy) void(^tapAction)(id);
-@end
-
-@implementation UIView (Tap)
-- (void)tap{
-    if (self.tapAction) {
-        self.tapAction(self);
-    }
-}
-- (void)addTapBlock:(void(^)(id obj))tapAction{
-    self.tapAction = tapAction;
-    if (![self gestureRecognizers]) {
-        self.userInteractionEnabled = YES;
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap)];
-        [self addGestureRecognizer:tap];
-    }
-}
-
--(void)setTapAction:(void (^)(id))tapAction {
-    objc_setAssociatedObject(self, tagValue, tapAction, OBJC_ASSOCIATION_COPY_NONATOMIC);
-}
--(void (^)(id))tapAction {
-    return objc_getAssociatedObject(self, tagValue);
-}
-@end
-</code></pre>
-
-<p>主要是set&amp;get方法,这点注意了也就没啥了..</p>
-
-<h2 id="toc_8">其他</h2>
-
-<ol>
-<li>系统中常见的使用到runtime的地方:
-<a href="http://www.citynight.cn/Blog/14726525723684.html">KVO内部实现原理</a></li>
-<li>日常开发中使用到runtime的地方:</li>
-<li>字典转模型: 可以参看<code>MJExtension</code> 它的核心代码在:<code>NSObject+MJProperty.m</code>第150行开始</li>
-</ol>
-
-<pre><code class="language-objectivec">#pragma mark - 公共方法
-+ (NSMutableArray *)properties
-{
-    NSMutableArray *cachedProperties = [self dictForKey:&amp;MJCachedPropertiesKey][NSStringFromClass(self)];
-    
-    if (cachedProperties == nil) {
-        cachedProperties = [NSMutableArray array];
-        
-        [self mj_enumerateClasses:^(__unsafe_unretained Class c, BOOL *stop) {
-            // 1.获得所有的成员变量
-            unsigned int outCount = 0;
-            objc_property_t *properties = class_copyPropertyList(c, &amp;outCount);
-            
-            // 2.遍历每一个成员变量
-            for (unsigned int i = 0; i&lt;outCount; i++) {
-                MJProperty *property = [MJProperty cachedPropertyWithProperty:properties[i]];
-                // 过滤掉Foundation框架类里面的属性
-                if ([MJFoundation isClassFromFoundation:property.srcClass]) continue;
-                property.srcClass = c;
-                [property setOriginKey:[self propertyKey:property.name] forClass:self];
-                [property setObjectClassInArray:[self propertyObjectClassInArray:property.name] forClass:self];
-                [cachedProperties addObject:property];
-            }
-            
-            // 3.释放内存
-            free(properties);
-        }];
-        
-        [self dictForKey:&amp;MJCachedPropertiesKey][NSStringFromClass(self)] = cachedProperties;
-    }
-    
-    return cachedProperties;
-}
-</code></pre>
-
-<p>自定义字典转模型中log的输出可以参见Xcode插件<code>ESJsonFormat</code>中<code>ESJsonFormatManager.m</code>第47行:</p>
-
-<pre><code class="language-objectivec">/**
- *  格式化OC属性字符串
- *
- *  @param key       JSON里面key字段
- *  @param value     JSON里面key对应的NSDiction或者NSArray
- *  @param classInfo 类信息
- *
- *  @return
- */
-+ (NSString *)formatObjcWithKey:(NSString *)key value:(NSObject *)value classInfo:(ESClassInfo *)classInfo{
-    NSString *qualifierStr = @&quot;copy&quot;;
-    NSString *typeStr = @&quot;NSString&quot;;
-    //判断大小写
-    if ([ESUppercaseKeyWords containsObject:key] &amp;&amp; [ESJsonFormatSetting defaultSetting].uppercaseKeyWordForId) {
-        key = [key uppercaseString];
-    }
-    if ([value isKindOfClass:[NSString class]]) {
-        return [NSString stringWithFormat:@&quot;@property (nonatomic, %@) %@ *%@;&quot;,qualifierStr,typeStr,key];
-    }else if([value isKindOfClass:[@(YES) class]]){
-        //the &#39;NSCFBoolean&#39; is private subclass of &#39;NSNumber&#39;
-        qualifierStr = @&quot;assign&quot;;
-        typeStr = @&quot;BOOL&quot;;
-        return [NSString stringWithFormat:@&quot;@property (nonatomic, %@) %@ %@;&quot;,qualifierStr,typeStr,key];
-    }else if([value isKindOfClass:[NSNumber class]]){
-        qualifierStr = @&quot;assign&quot;;
-        NSString *valueStr = [NSString stringWithFormat:@&quot;%@&quot;,value];
-        if ([valueStr rangeOfString:@&quot;.&quot;].location!=NSNotFound){
-            typeStr = @&quot;CGFloat&quot;;
-        }else{
-            NSNumber *valueNumber = (NSNumber *)value;
-            if ([valueNumber longValue]&lt;2147483648) {
-                typeStr = @&quot;NSInteger&quot;;
-            }else{
-                typeStr = @&quot;long long&quot;;
-            }
-        }
-        return [NSString stringWithFormat:@&quot;@property (nonatomic, %@) %@ %@;&quot;,qualifierStr,typeStr,key];
-    }else if([value isKindOfClass:[NSArray class]]){
-        NSArray *array = (NSArray *)value;
-        
-        //May be &#39;NSString&#39;，will crash
-        NSString *genericTypeStr = @&quot;&quot;;
-        NSObject *firstObj = [array firstObject];
-        if ([firstObj isKindOfClass:[NSDictionary class]]) {
-            ESClassInfo *childInfo = classInfo.propertyArrayDic[key];
-            genericTypeStr = [NSString stringWithFormat:@&quot;&lt;%@ *&gt;&quot;,childInfo.className];
-        }else if ([firstObj isKindOfClass:[NSString class]]){
-            genericTypeStr = @&quot;&lt;NSString *&gt;&quot;;
-        }else if ([firstObj isKindOfClass:[NSNumber class]]){
-            genericTypeStr = @&quot;&lt;NSNumber *&gt;&quot;;
-        }
-        
-        qualifierStr = @&quot;strong&quot;;
-        typeStr = @&quot;NSArray&quot;;
-        if ([ESJsonFormatSetting defaultSetting].useGeneric &amp;&amp; [ESUtils isXcode7AndLater]) {
-            return [NSString stringWithFormat:@&quot;@property (nonatomic, %@) %@%@ *%@;&quot;,qualifierStr,typeStr,genericTypeStr,key];
-        }
-        return [NSString stringWithFormat:@&quot;@property (nonatomic, %@) %@ *%@;&quot;,qualifierStr,typeStr,key];
-    }else if ([value isKindOfClass:[NSDictionary class]]){
-        qualifierStr = @&quot;strong&quot;;
-        ESClassInfo *childInfo = classInfo.propertyClassDic[key];
-        typeStr = childInfo.className;
-        if (!typeStr) {
-            typeStr = [key capitalizedString];
-        }
-        return [NSString stringWithFormat:@&quot;@property (nonatomic, %@) %@ *%@;&quot;,qualifierStr,typeStr,key];
-    }
-    return [NSString stringWithFormat:@&quot;@property (nonatomic, %@) %@ *%@;&quot;,qualifierStr,typeStr,key];
-}
-
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_23.html">&larr; Older</a> 
@@ -1269,7 +481,7 @@ static const void* tagValue = &amp;tagValue;
 	  <ul id="recent_posts">
 	  
 	      <li class="post">
-	        <a href="%E5%8E%9F%E7%90%86%E6%8E%A2%E7%A9%B6.html"><strong>原理探究&nbsp;(7)</strong></a>
+	        <a href="%E5%8E%9F%E7%90%86%E6%8E%A2%E7%A9%B6.html"><strong>原理探究&nbsp;(8)</strong></a>
 	        
 	        
 	        
@@ -1297,7 +509,7 @@ static const void* tagValue = &amp;tagValue;
 	      </li>
 	  
 	      <li class="post">
-	        <a href="%E6%9D%82%E8%AE%B0.html"><strong>杂记&nbsp;(14)</strong></a>
+	        <a href="%E6%9D%82%E8%AE%B0.html"><strong>杂记&nbsp;(15)</strong></a>
 	        
 	        
 	        
@@ -1332,7 +544,7 @@ static const void* tagValue = &amp;tagValue;
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Java.html"><strong>Java&nbsp;(6)</strong></a>
+	        <a href="Java.html"><strong>Java&nbsp;(7)</strong></a>
 	        
 	        
 	        
@@ -1353,6 +565,24 @@ static const void* tagValue = &amp;tagValue;
 	  
 	      
 		      <li class="post">
+		        <a href="16152544377232.html">Flutter 相关网站</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16026633643718.html">使用iOS模拟器测试“磁盘空间不足”情况的实用方法是什么？</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="15990466411900.html">JDBC Class.forName vs DriverManager.registerDriver</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="15989690336270.html">Java开发环境搭建的准备工作</a>
 		      </li>
 	     
@@ -1360,24 +590,6 @@ static const void* tagValue = &amp;tagValue;
 	      
 		      <li class="post">
 		        <a href="15978901087507.html">529. Minesweeper（529. 扫雷游戏）</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15978472756793.html">647. Palindromic Substrings</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15966161528946.html">setProperty 应用</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15965236438323.html">devtools 热启动</a>
 		      </li>
 	     
 	  

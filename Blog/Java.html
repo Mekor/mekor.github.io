@@ -78,6 +78,32 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="15990466411900.html">JDBC Class.forName vs DriverManager.registerDriver</a></h1>
+			<p class="meta"><time datetime="2020-09-02T19:37:21+08:00" 
+			pubdate data-updated="true">2020/9/2</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>要使用JDBC与数据库连接，需要选择获取相应数据库的驱动程序并注册该驱动程序,有两种方式可以注册</p>
+
+<pre><code class="language-text">DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+</code></pre>
+
+<pre><code class="language-text">Class.forName(&quot;com.mysql.jdbc.Driver&quot;);
+</code></pre>
+
+<p>当然现在也可以不用执行上面的操作也能正常执行,原因就是<code>SPI机制</code><br/>
+<a href="https://juejin.im/post/6844903605695152142">Java SPI机制详解</a></p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="15989690336270.html">Java开发环境搭建的准备工作</a></h1>
 			<p class="meta"><time datetime="2020-09-01T22:03:53+08:00" 
 			pubdate data-updated="true">2020/9/1</time></p>
@@ -332,30 +358,6 @@ Setting-&gt;Build-&gt;Compiler<br/>
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="15465912048942.html">静态方法和实例方法不同点</a></h1>
-			<p class="meta"><time datetime="2019-01-04T16:40:04+08:00" 
-			pubdate data-updated="true">2019/1/4</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<ol>
-<li><p>在外部调用静态方法时，可以使用&quot;类名.方法名&quot;的方式，也可以使用&quot;对象名.方法名&quot;的方式。而实例方法只有后面这种方式。也就是说，调用静态方法可以无需创建对象。</p></li>
-<li><p>静态方法在访问本类的成员时，只允许访问静态成员（即静态成员变量和静态方法），而不允许访问实例成员变量和实例方法；实例方法则无此限制.</p></li>
-</ol>
-
-<blockquote>
-<p>注意: 在Swift中，静态方法不能通过 <code>对象名.方法名</code> 的方式调用。</p>
-</blockquote>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="Java_1.html">&larr; Older</a> 
@@ -371,7 +373,7 @@ Setting-&gt;Build-&gt;Compiler<br/>
 	  <ul id="recent_posts">
 	  
 	      <li class="post">
-	        <a href="%E5%8E%9F%E7%90%86%E6%8E%A2%E7%A9%B6.html"><strong>原理探究&nbsp;(7)</strong></a>
+	        <a href="%E5%8E%9F%E7%90%86%E6%8E%A2%E7%A9%B6.html"><strong>原理探究&nbsp;(8)</strong></a>
 	        
 	        
 	        
@@ -399,7 +401,7 @@ Setting-&gt;Build-&gt;Compiler<br/>
 	      </li>
 	  
 	      <li class="post">
-	        <a href="%E6%9D%82%E8%AE%B0.html"><strong>杂记&nbsp;(14)</strong></a>
+	        <a href="%E6%9D%82%E8%AE%B0.html"><strong>杂记&nbsp;(15)</strong></a>
 	        
 	        
 	        
@@ -434,7 +436,7 @@ Setting-&gt;Build-&gt;Compiler<br/>
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Java.html"><strong>Java&nbsp;(6)</strong></a>
+	        <a href="Java.html"><strong>Java&nbsp;(7)</strong></a>
 	        
 	        
 	        
@@ -455,6 +457,24 @@ Setting-&gt;Build-&gt;Compiler<br/>
 	  
 	      
 		      <li class="post">
+		        <a href="16152544377232.html">Flutter 相关网站</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16026633643718.html">使用iOS模拟器测试“磁盘空间不足”情况的实用方法是什么？</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="15990466411900.html">JDBC Class.forName vs DriverManager.registerDriver</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="15989690336270.html">Java开发环境搭建的准备工作</a>
 		      </li>
 	     
@@ -462,24 +482,6 @@ Setting-&gt;Build-&gt;Compiler<br/>
 	      
 		      <li class="post">
 		        <a href="15978901087507.html">529. Minesweeper（529. 扫雷游戏）</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15978472756793.html">647. Palindromic Substrings</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15966161528946.html">setProperty 应用</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15965236438323.html">devtools 热启动</a>
 		      </li>
 	     
 	  

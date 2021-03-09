@@ -78,6 +78,168 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="15271249936113.html">金额显示</a></h1>
+			<p class="meta"><time datetime="2018-05-24T09:23:13+08:00" 
+			pubdate data-updated="true">2018/5/24</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<pre><code class="language-text">//初始化NumberFormatter
+let format = NumberFormatter()
+//设置numberStyle（有多种格式）
+format.numberStyle = .decimal
+//转换后的string
+let string = format.string(from: NSNumber(value: 1234567.89))
+//打印
+print(string)  //1,234,567.89
+
+//显示样式和输出样式
+numberStyle:
+public enum Style : UInt {  
+
+        case none //1234567.89
+
+        case decimal //1,234,567.89
+
+        case currency //￥1,234,567.89
+
+        case percent //123,456,789%
+
+        case scientific //1.23456789E6
+
+        case spellOut //一百二十三万四千五百六十七点八九
+
+        @available(iOS 9.0, *)
+        case ordinal //第123,4568
+
+        @available(iOS 9.0, *)
+        case currencyISOCode //CNY1,234,567.89
+
+        @available(iOS 9.0, *)
+        case currencyPlural//1,234,567.89人民币
+
+        @available(iOS 9.0, *)
+        case currencyAccounting//￥1,234,567.89
+    }
+
+//输入123456789分别输出
+// 123456789
+// 123,456,789
+//￥123,456,789.00
+//12345678900%
+//1.23456789E8
+//一亿二千三百四十五万六千七百八十九
+//第1,2345,6789
+//CNY123,456,789.00
+//123,456,789.00人民币
+//￥123,456,789.00
+</code></pre>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
+		  	<h1 class="entry-title"><a href="15257017136249.html">线程需要注意的问题</a></h1>
+			<p class="meta"><time datetime="2018-05-07T22:01:53+08:00" 
+			pubdate data-updated="true">2018/5/7</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<h2 id="toc_0">死锁（Dead Lock）</h2>
+
+<p>第一种情况：</p>
+
+<pre><code class="language-text">let serialQueue = DispatchQueue(label:&quot;test&quot;)
+serialQueue.async {
+    //.....
+    serialQueue.sync {
+        //...
+    }
+}
+
+</code></pre>
+
+<p>第二种情况：</p>
+
+<pre><code class="language-text">let operationA = Operation()
+let operationB = Operation()
+operationA.addDependency(operationB)
+operationB.addDependency(operationA)
+
+</code></pre>
+
+<p>怎样避免死锁：</p>
+
+<ol>
+<li>少用依赖</li>
+<li>慎用同步</li>
+</ol>
+
+<h2 id="toc_1">优先倒置（Priority Inversion）</h2>
+
+<pre><code class="language-text">var highPriorityQueue = DispatchQueue.global(qos: .userInitiated)
+var lowPriorityQueue = DispatchQueue.global(qos: .utility)
+
+let semaphore = DispatchSemaphore(value: 1)
+
+lowPriorityQueue.async {
+    semaphore.wait()
+    for i in 0...10 {
+        print(i)
+    }
+    semaphore.signal()
+}
+
+highPriorityQueue.async {
+    semaphore.wait()
+    for i in 11...20 {
+        print(1)
+    }
+}
+
+</code></pre>
+
+<p>解决办法：<br/>
+同一个资源用同一个Qos</p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
+		  	<h1 class="entry-title"><a href="15257016488742.html">Mac 应用图标没有在launchpad里显示</a></h1>
+			<p class="meta"><time datetime="2018-05-07T22:00:48+08:00" 
+			pubdate data-updated="true">2018/5/7</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>重置Launchpad</p>
+
+<pre><code class="language-text">rm ~/Library/Application\ Support/Dock/*.db
+
+</code></pre>
+
+<pre><code class="language-text">killall Dock
+</code></pre>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="15257016195473.html">Carthage 不能正常更新</a></h1>
 			<p class="meta"><time datetime="2018-05-07T22:00:19+08:00" 
 			pubdate data-updated="true">2018/5/7</time></p>
@@ -137,255 +299,6 @@ fatal: unable to access &#39;https://github.com/swisspol/GCDWebServer.git/&#39;:
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="15257015215231.html">懒加载的另一种写法</a></h1>
-			<p class="meta"><time datetime="2018-05-07T21:58:41+08:00" 
-			pubdate data-updated="true">2018/5/7</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>原先我一直这样写：</p>
-
-<pre><code class="language-text">    private lazy var imageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: &quot;placeholder&quot;))
-        imageView.contentMode = .center
-        return imageView
-    }()
-
-</code></pre>
-
-<p>今天看到了另一种比较简洁的写法</p>
-
-<pre><code class="language-text">private lazy var imageView: UIImageView = {
-        $0.contentMode = .center
-        return $0
-    }(UIImageView())
-
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="15257014756710.html">Cell点击时多次Push</a></h1>
-			<p class="meta"><time datetime="2018-05-07T21:57:55+08:00" 
-			pubdate data-updated="true">2018/5/7</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p><a href="https://stackoverflow.com/questions/5687991/uitableview-didselectrowatindexpath-called-twice">stackoverflow上面的解决方案</a></p>
-
-<pre><code class="language-text">func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-
-    tableView.deselectRowAtIndexPath(indexPath, animated: true)
-
-    if let navigationController = navigationController {
-        guard navigationController.topViewController == self else {
-            return
-        }
-    }
-}
-
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="15180682554389.html">防止Timer 与控制器耦合导致控制器不释放</a></h1>
-			<p class="meta"><time datetime="2018-02-08T13:37:35+08:00" 
-			pubdate data-updated="true">2018/2/8</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>在<code>OC</code>中可以使用<code>NSProxy</code> 的转发机制防止timer强引用<br/>
-具体例子可以参考<a href="https://github.com/ibireme/YYKit/blob/3869686e0e560db0b27a7140188fad771e271508/YYKit/Utility/YYWeakProxy.h">YYKit</a>中的处理方式,代码如下：</p>
-
-<pre><code class="language-text">#import &quot;YYWeakProxy.h&quot;
-
-
-@implementation YYWeakProxy
-
-- (instancetype)initWithTarget:(id)target {
-    _target = target;
-    return self;
-}
-
-+ (instancetype)proxyWithTarget:(id)target {
-    return [[YYWeakProxy alloc] initWithTarget:target];
-}
-
-- (id)forwardingTargetForSelector:(SEL)selector {
-    return _target;
-}
-
-- (void)forwardInvocation:(NSInvocation *)invocation {
-    void *null = NULL;
-    [invocation setReturnValue:&amp;null];
-}
-
-- (NSMethodSignature *)methodSignatureForSelector:(SEL)selector {
-    return [NSObject instanceMethodSignatureForSelector:@selector(init)];
-}
-
-- (BOOL)respondsToSelector:(SEL)aSelector {
-    return [_target respondsToSelector:aSelector];
-}
-
-- (BOOL)isEqual:(id)object {
-    return [_target isEqual:object];
-}
-
-- (NSUInteger)hash {
-    return [_target hash];
-}
-
-- (Class)superclass {
-    return [_target superclass];
-}
-
-- (Class)class {
-    return [_target class];
-}
-
-- (BOOL)isKindOfClass:(Class)aClass {
-    return [_target isKindOfClass:aClass];
-}
-
-- (BOOL)isMemberOfClass:(Class)aClass {
-    return [_target isMemberOfClass:aClass];
-}
-
-- (BOOL)conformsToProtocol:(Protocol *)aProtocol {
-    return [_target conformsToProtocol:aProtocol];
-}
-
-- (BOOL)isProxy {
-    return YES;
-}
-
-- (NSString *)description {
-    return [_target description];
-}
-
-- (NSString *)debugDescription {
-    return [_target debugDescription];
-}
-</code></pre>
-
-<p>在Swift中怎么处理？王巍的<a href="https://gist.github.com/onevcat/2d1ceff1c657591eebde">Gist</a>中写了一种</p>
-
-<pre><code class="language-text">private class Block&lt;T&gt; {
-    let f : T
-    init (_ f: T) { self.f = f }
-}
-
-extension NSTimer {
-    static func xxx_scheduledTimerWithTimeInterval(ti: NSTimeInterval, block: ()-&gt;(), repeats: Bool) -&gt; NSTimer {
-        return self.scheduledTimerWithTimeInterval(ti, target:
-            self, selector: &quot;xxx_blcokInvoke:&quot;, userInfo: Block(block), repeats: repeats)
-    }
-    
-    static func xxx_blcokInvoke(timer: NSTimer) {
-        if let block = timer.userInfo as? Block&lt;()-&gt;()&gt; {
-            block.f()
-        }
-    }
-}
-</code></pre>
-
-<p>当然还有其他的方式比如：<a href="https://stackoverflow.com/questions/44096793/how-to-set-cadisplaylink-in-swift-with-weak-reference-between-target-and-cadispl">How to set CADisplayLink in Swift with weak reference between target and CADisplayLink instance<br/>
-</a> 等等。。。</p>
-
-<p>目前公司项目中采用的方式如下：</p>
-
-<pre><code class="language-text">class WeakTimer: NSObject {
-    
-    private weak var target: NSObject?
-    private weak var timer: Timer?
-    private var selector: Selector
-    
-    private var userInfo: Any?
-    
-    init(withTimeInterval ti: TimeInterval, target aTarget: NSObject, selector aSelector: Selector, userInfo: Any?, repeats yesOrNo: Bool) {
-        self.target = aTarget
-        self.selector = aSelector
-        self.userInfo = userInfo
-        super.init()
-        timer = Timer.scheduledTimer(timeInterval: ti, target: self, selector: #selector(test), userInfo: userInfo, repeats: yesOrNo)
-    }
-    
-    @objc private func test() {
-        target?.perform(selector, with: self.userInfo, afterDelay: 0)
-    }
-    
-    open class func scheduledTimer(timeInterval ti: TimeInterval, target aTarget: NSObject, selector aSelector: Selector, userInfo: Any?, repeats yesOrNo: Bool) -&gt; WeakTimer {
-        let weakTimer = WeakTimer(withTimeInterval: ti, target: aTarget, selector: aSelector, userInfo: userInfo, repeats: yesOrNo)
-        
-        return weakTimer
-    }
-    
-    open func invalidate() {
-        timer?.invalidate()
-    }
-}
-</code></pre>
-
-<p>应用</p>
-
-<pre><code class="language-text">    @objc private func dismissSelf() {
-        self.weakTimer?.invalidate()
-        self.weakTimer = nil
-        // HHTSwitchGlobalData.shared.waiterLoginTimeOut
-        self.weakTimer = WeakTimer.scheduledTimer(timeInterval: HHTSwitchGlobalData.shared.waiterLoginTimeOut, target: self, selector: #selector(autoDismiss), userInfo: nil, repeats: true)
-    }
-</code></pre>
-
-<p>第三方库 Kingfisher 中的处理办法</p>
-
-<pre><code class="language-text">    /// Proxy object for prevending a reference cycle between the CADDisplayLink and AnimatedImageView.
-    class TargetProxy {
-        private weak var target: AnimatedImageView?
-        
-        init(target: AnimatedImageView) {
-            self.target = target
-        }
-        
-        @objc func onScreenUpdate() {
-            target?.updateFrame()
-        }
-    }
-</code></pre>
-
-<p>应用:</p>
-
-<pre><code class="language-text">private lazy var displayLink: CADisplayLink = {
-        self.isDisplayLinkInitialized = true
-        let displayLink = CADisplayLink(target: TargetProxy(target: self), selector: #selector(TargetProxy.onScreenUpdate))
-        displayLink.add(to: .main, forMode: self.runLoopMode)
-        displayLink.isPaused = true
-        return displayLink
-    }()
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_7.html">&larr; Older</a> 
@@ -401,7 +314,7 @@ extension NSTimer {
 	  <ul id="recent_posts">
 	  
 	      <li class="post">
-	        <a href="%E5%8E%9F%E7%90%86%E6%8E%A2%E7%A9%B6.html"><strong>原理探究&nbsp;(7)</strong></a>
+	        <a href="%E5%8E%9F%E7%90%86%E6%8E%A2%E7%A9%B6.html"><strong>原理探究&nbsp;(8)</strong></a>
 	        
 	        
 	        
@@ -429,7 +342,7 @@ extension NSTimer {
 	      </li>
 	  
 	      <li class="post">
-	        <a href="%E6%9D%82%E8%AE%B0.html"><strong>杂记&nbsp;(14)</strong></a>
+	        <a href="%E6%9D%82%E8%AE%B0.html"><strong>杂记&nbsp;(15)</strong></a>
 	        
 	        
 	        
@@ -464,7 +377,7 @@ extension NSTimer {
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Java.html"><strong>Java&nbsp;(6)</strong></a>
+	        <a href="Java.html"><strong>Java&nbsp;(7)</strong></a>
 	        
 	        
 	        
@@ -485,6 +398,24 @@ extension NSTimer {
 	  
 	      
 		      <li class="post">
+		        <a href="16152544377232.html">Flutter 相关网站</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16026633643718.html">使用iOS模拟器测试“磁盘空间不足”情况的实用方法是什么？</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="15990466411900.html">JDBC Class.forName vs DriverManager.registerDriver</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="15989690336270.html">Java开发环境搭建的准备工作</a>
 		      </li>
 	     
@@ -492,24 +423,6 @@ extension NSTimer {
 	      
 		      <li class="post">
 		        <a href="15978901087507.html">529. Minesweeper（529. 扫雷游戏）</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15978472756793.html">647. Palindromic Substrings</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15966161528946.html">setProperty 应用</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15965236438323.html">devtools 热启动</a>
 		      </li>
 	     
 	  

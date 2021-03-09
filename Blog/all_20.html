@@ -78,6 +78,141 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14766308131126.html">UITableView优化方案(收集)</a></h1>
+			<p class="meta"><time datetime="2016-10-16T23:13:33+08:00" 
+			pubdate data-updated="true">2016/10/16</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<h2 id="toc_0">相关文章/博客</h2>
+
+<p><a href="http://www.cocoachina.com/ios/20150906/13212.html">一次 TableView 性能优化经历</a><br/>
+<a href="http://blog.jobbole.com/37984/">iOS应用性能调优的25个建议和技巧</a><br/>
+<a href="http://longxdragon.github.io/2015/05/26/UITableView%E4%BC%98%E5%8C%96%E6%8A%80%E5%B7%A7/">UITableView优化技巧</a><br/>
+<a href="http://blog.csdn.net/shang_ri_la/article/details/25954383">UITableView 滚动流畅性优化</a> (备注:这个原始网站挂了,幸好有朋友转载过.)</p>
+
+<h2 id="toc_1">注意点:</h2>
+
+<h4 id="toc_2">1. 列表卡顿问题最好真机测试，有条件的尽量选择低版本硬件和系统进行测试；</h4>
+
+<h4 id="toc_3">2. 使用 Instruments 的 Time Profiler 工具定位造成卡顿时间消耗的位置；</h4>
+
+<h4 id="toc_4">3. 避免 UITableView 的多次刷新( reloadData )，尤其 Xib 加载 UITableView 时避免首次自动加载；</h4>
+
+<h4 id="toc_5">4. 为 Cell 专门定义显示 Model；</h4>
+
+<h4 id="toc_6">5. Model 需要包含已提前计算出的 Cell 高度；</h4>
+
+<h4 id="toc_7">6. 对于显示的 NSString，提前在 Model 中组装完成，避免在 Cell 中组装转换；</h4>
+
+<h4 id="toc_8">7. 对于需要加载的网络图片链接，提前在 Model 中组装完成 NSURL,避免在 Cell 中组装转换；</h4>
+
+<h4 id="toc_9">8. 尽量减少 Cell 中的逻辑判断和运算并使用正确的数据格式;</h4>
+
+<h4 id="toc_10">9. 避免在 Cell 中反复创建 View,最好在初始化时一并创建，通过设置 Hidden 属性控制显示和隐藏;</h4>
+
+<h4 id="toc_11">10. 对于 UIImageView ,注意加载的图片大小是否与控件大小一致，尽量保持一致；</h4>
+
+<h4 id="toc_12">11. 正确使用 reuseIdentifier</h4>
+
+<pre><code class="language-text">static NSString *CellIdentifier = @&quot;MyFancyCell&quot;;
+UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+
+</code></pre>
+
+<h4 id="toc_13">12. 尽量把所有的 UIView 以及其子类控件设置为不透明（Opaque = YES）,你可以在模拟器中用Debug\Color Blended Layers选项来发现哪些view没有被设置为opaque。目标就是，能设为opaque的就全设为opaque!</h4>
+
+<h4 id="toc_14">13. 尽量避免图片压缩，模拟器条件下使用 Debug\Color Misaligned Images 选项检查像素是否对其:如果图片边界没有与目标像素完美对齐，该功能可为图片叠加上一层品红色。如果图片使用确定的比例大小绘制，那么该功能会为图片添加一层黄色叠加。真机条件下使用 Instrument 中的 Core Animation 工具检查；</h4>
+
+<h4 id="toc_15">14. 使用 shadowPath 来画阴影;</h4>
+
+<pre><code class="language-text">#import &lt;QuartzCore/QuartzCore.h&gt;
+
+// Somewhere later ...
+UIView *view = [[UIView alloc] init];
+
+// Setup the shadow ...
+view.layer.shadowOffset = CGSizeMake(-1.0f, 1.0f);
+view.layer.shadowRadius = 5.0f;
+view.layer.shadowOpacity = 0.6;
+</code></pre>
+
+<h4 id="toc_16">15. 减少 subviews 的数量;</h4>
+
+<h4 id="toc_17">16. 尽量不使用 cellForRowAtIndexPath: ，如果你需要用到它，只用一次然后缓存结果；</h4>
+
+<h4 id="toc_18">17. 使用 Autorelease Pool；</h4>
+
+<pre><code class="language-text">NSArray *urls = &lt;# An array of file URLs #&gt;;
+for (NSURL *url in urls) {
+    @autoreleasepool {
+        NSError *error;
+        NSString *fileContents = [NSString stringWithContentsOfURL:url
+                                         encoding:NSUTF8StringEncoding error:&amp;error];
+    }
+}
+</code></pre>
+
+<h4 id="toc_19">18. 选择是否需要缓存；</h4>
+
+<pre><code class="language-text">UIImage *img = [UIImage imageNamed:@&quot;myImage&quot;]; // caching
+
+// or
+ UIImage *img = [UIImage imageWithContentsOfFile:@&quot;myImage&quot;]; // no caching
+</code></pre>
+
+<p>如果你要加载一个大图片而且是一次性使用，那么就没必要缓存这个图片，用 imageWithContentsOfFile 足矣，这样不会浪费内存来缓存它。然而，在图片反复重用的情况下 imageNamed 是一个好得多的选择。</p>
+
+<h4 id="toc_20">19. 避免日期格式转换；相关日期显示应该在 Model 中定义完成。</h4>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
+		  	<h1 class="entry-title"><a href="14766298858600.html">UILabel边缘出现黑线</a></h1>
+			<p class="meta"><time datetime="2016-10-16T22:58:05+08:00" 
+			pubdate data-updated="true">2016/10/16</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>问题:代码实现 UILabel 时出现的边缘黑线问题<br/>
+原因:当 UILabel 的宽高出现浮点型数字时,在高清屏下有可能出现右侧边缘黑线问题, 解决方法是使用 <code>CGRectIntegral()</code> 方法确保 <code>frame</code> 中不存在非整形数值</p>
+
+<pre><code class="language-text">label.frame = CGRectIntegral(CGRectMake(0, 0, ceil(width),40));
+</code></pre>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
+		  	<h1 class="entry-title"><a href="14765420394973.html">iOS 模拟器 添加图片到相册的小技巧</a></h1>
+			<p class="meta"><time datetime="2016-10-15T22:33:59+08:00" 
+			pubdate data-updated="true">2016/10/15</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>把图片拖到模拟器主屏幕,或者Safari中,保存图片7 <br/>
+<img src="media/14765420394973/tips.gif" alt="tips"/></p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14765391593705.html">字符串frame相关</a></h1>
 			<p class="meta"><time datetime="2016-10-15T21:45:59+08:00" 
 			pubdate data-updated="true">2016/10/15</time></p>
@@ -514,146 +649,6 @@ set nobackup //不备份
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14762437833792.html">在包含UITableView视图中添加单击手势</a></h1>
-			<p class="meta"><time datetime="2016-10-12T11:43:03+08:00" 
-			pubdate data-updated="true">2016/10/12</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>如果在包含UITableView视图中添加单击手势，这个单击手势会屏蔽掉UITableView的</p>
-
-<pre><code class="language-text">- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath;
-</code></pre>
-
-<p>可以利用<code>UIGestureRecognizer</code>的<code>Delegate</code>中的</p>
-
-<pre><code class="language-text">- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer;
-</code></pre>
-
-<p>在单击点位于UITableView内的时候取消响应</p>
-
-<pre><code class="language-text">- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer{
-    CGPoint point = [gestureRecognizer locationInView:self];
-    if(CGRectContainsPoint(menuTableView.frame, point)){
-        return NO;
-    }
-    return YES;
-}
-</code></pre>
-
-<p>或者将单击手势的cancelsTouchesInView设置为NO</p>
-
-<pre><code class="language-text">singleTap.cancelsTouchesInView = NO;
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14761943627170.html">升级到Xcode8后Qt无法正常使用</a></h1>
-			<p class="meta"><time datetime="2016-10-11T21:59:22+08:00" 
-			pubdate data-updated="true">2016/10/11</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>错误信息:</p>
-
-<blockquote>
-<p>Project ERROR: Xcode not set up properly. You may need to confirm the license agreement by running /usr/bin/xcodebuild.</p>
-</blockquote>
-
-<p>解决办法:<br/>
-<strong>&gt;= Xcode 8</strong></p>
-
-<p>In Xcode 8, as Bruce said, this happens when Qt tries to find <code>xcrun</code> when it should be looking for <code>xcodebuild</code>.</p>
-
-<p><strong>Step 1:</strong></p>
-
-<p>Open the file:</p>
-
-<pre><code class="language-text">Qt_install_folder/5.7/clang_64/mkspecs/features/mac/default_pre.prf
-</code></pre>
-
-<p><strong>Step 2:</strong></p>
-
-<p>Replace:</p>
-
-<pre><code class="language-text">isEmpty($$list($$system(&quot;/usr/bin/xcrun -find xcrun 2&gt;/dev/null&quot;)))
-</code></pre>
-
-<p>With:</p>
-
-<pre><code class="language-text">isEmpty($$list($$system(&quot;/usr/bin/xcrun -find xcodebuild 2&gt;/dev/null&quot;)))
-</code></pre>
-
-<p><strong>~&gt; Xcode 8</strong></p>
-
-<p>Before Xcode 8, this problem occurs when command line tools are installed after Xcode is installed. What happens is the <code>Xcode-select</code> developer directory gets pointed to <code>/Library/Developer/CommandLineTools</code>.</p>
-
-<p><strong>Step 1:</strong></p>
-
-<p>Point <code>Xcode-select</code> to the correct Xcode Developer directory with the command:</p>
-
-<pre><code class="language-text">sudo xcode-select -switch /Applications/Xcode.app/Contents/Developer
-</code></pre>
-
-<p><strong>Step 2:</strong></p>
-
-<p>Confirm the license agreement with the command:</p>
-
-<pre><code class="language-text">xcodebuild -license
-</code></pre>
-
-<p>This will prompt you to read through the license agreement.</p>
-
-<p>Enter <code>agree</code> to accept the terms.</p>
-
-<p>详见stackoverflow 中 <a href="http://stackoverflow.com/questions/33728905/qt-creator-project-error-xcode-not-set-up-properly-you-may-need-to-confirm-t">Qt Creator - Project ERROR: Xcode not set up properly. You may need to confirm the license agreement by running /usr/bin/xcodebuild</a></p>
-
-
-		</div>
-
-		
-
-	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14760921807707.html">优秀文章链接收藏</a></h1>
-			<p class="meta"><time datetime="2016-10-10T17:36:20+08:00" 
-			pubdate data-updated="true">2016/10/10</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<h2 id="toc_0">优化</h2>
-
-<p><a href="http://www.mulle-kybernetik.com/artikel/Optimization/opti-3-imp-deluxe.html">极致优化</a></p>
-
-<p>美团点评技术团队: <a href="http://tech.meituan.com/DiveIntoMethodCache.html">深入理解Objective-C：方法缓存</a></p>
-
-<h2 id="toc_1">Runloop</h2>
-
-<p><a href="http://blog.ibireme.com/2015/05/18/runloop/">深入理解RunLoop</a>  --- 内部分享文章runloop中使用了该文章中的一张图.</p>
-
-<h2 id="toc_2">GCD</h2>
-
-<p><a href="http://www.raywenderlich.com/60749/grand-central-dispatch-in-depth-part-1">GCD 深入理解：第一部分</a> 中文翻译:<a href="https://github.com/nixzhu/dev-blog/blob/master/2014-04-19-grand-central-dispatch-in-depth-part-1.md">译文</a><br/>
-<a href="https://github.com/nixzhu/dev-blog/blob/master/2014-05-14-grand-central-dispatch-in-depth-part-2.md">GCD 深入理解：第二部分</a></p>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_21.html">&larr; Older</a> 
@@ -669,7 +664,7 @@ set nobackup //不备份
 	  <ul id="recent_posts">
 	  
 	      <li class="post">
-	        <a href="%E5%8E%9F%E7%90%86%E6%8E%A2%E7%A9%B6.html"><strong>原理探究&nbsp;(7)</strong></a>
+	        <a href="%E5%8E%9F%E7%90%86%E6%8E%A2%E7%A9%B6.html"><strong>原理探究&nbsp;(8)</strong></a>
 	        
 	        
 	        
@@ -697,7 +692,7 @@ set nobackup //不备份
 	      </li>
 	  
 	      <li class="post">
-	        <a href="%E6%9D%82%E8%AE%B0.html"><strong>杂记&nbsp;(14)</strong></a>
+	        <a href="%E6%9D%82%E8%AE%B0.html"><strong>杂记&nbsp;(15)</strong></a>
 	        
 	        
 	        
@@ -732,7 +727,7 @@ set nobackup //不备份
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Java.html"><strong>Java&nbsp;(6)</strong></a>
+	        <a href="Java.html"><strong>Java&nbsp;(7)</strong></a>
 	        
 	        
 	        
@@ -753,6 +748,24 @@ set nobackup //不备份
 	  
 	      
 		      <li class="post">
+		        <a href="16152544377232.html">Flutter 相关网站</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16026633643718.html">使用iOS模拟器测试“磁盘空间不足”情况的实用方法是什么？</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="15990466411900.html">JDBC Class.forName vs DriverManager.registerDriver</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="15989690336270.html">Java开发环境搭建的准备工作</a>
 		      </li>
 	     
@@ -760,24 +773,6 @@ set nobackup //不备份
 	      
 		      <li class="post">
 		        <a href="15978901087507.html">529. Minesweeper（529. 扫雷游戏）</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15978472756793.html">647. Palindromic Substrings</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15966161528946.html">setProperty 应用</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15965236438323.html">devtools 热启动</a>
 		      </li>
 	     
 	  

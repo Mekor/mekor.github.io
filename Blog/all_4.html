@@ -78,6 +78,395 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="15380500153174.html">公司规范</a></h1>
+			<p class="meta"><time datetime="2018-09-27T20:06:55+08:00" 
+			pubdate data-updated="true">2018/9/27</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<h2 id="toc_0">Git分支建议</h2>
+
+<blockquote>
+<p>开发必读<a href="http://www.ruanyifeng.com/blog/2012/07/git.html">http://www.ruanyifeng.com/blog/2012/07/git.html</a></p>
+
+<p>多提交，少推送。</p>
+
+<h5 id="toc_1">严格遵守：</h5>
+
+<p>填写本次修改内容</p>
+
+<p>代码合并必须命令行合并，并且加上--no-ff参数。（文章中有详细介绍）</p>
+
+<p>将 <strong>feature/develop_wangchao_打印bug</strong> 分支合并到当前分支命令如下：</p>
+
+<p>git merge --no-ff feature/develop_wangchao_打印bug</p>
+</blockquote>
+
+<h5 id="toc_2">与文章中的差异：</h5>
+
+<blockquote>
+<p>所有问题由组长来定属于紧急问题，还是特性问题。</p>
+
+<blockquote>
+<p>紧急问题上线流程：预发布分支--&gt;生产分支。</p>
+
+<p>特性问题上线流程：开发分支--&gt;预发布分支--&gt;生产分支。（<strong>预发布分支</strong> 从 <strong>生产分支</strong> 拉取）</p>
+</blockquote>
+
+<p><strong>预发布分支</strong> 的的问题按照bug分支处理。</p>
+
+<blockquote>
+<p>步骤：从 <strong>预发布分支</strong> 拉取bug分支，修改完成后合并到 <strong>预发布分支</strong> ，测试通过后 <strong>预发布分支</strong> 合并到 <strong>生产分支</strong> ，在生产分支打上和 <strong>预发布分支</strong> 名称一样的标签， <strong>预发布分支</strong> 删除，<strong>bug分支</strong> 删除。</p>
+</blockquote>
+
+<p>生产环境紧急问题和bug，按照bug分支处理，步骤参考 <strong>预发布分支</strong> bug处理方式。</p>
+
+<p>推荐git图形界面mac用sourcetree，windows用git tortoise，可以清晰看到提交记录图和提交人。</p>
+
+<p>注意：生产分支、预发布分支分别2人有修改权限，负责代码合并，预发布分支合并到生产分支时，需要看git提交记录图，所有修改人员必须签字，说明修改部分关联的项目，分支权限定期抽查。</p>
+</blockquote>
+
+<h5 id="toc_3">建议分支命名：</h5>
+
+<blockquote>
+<p>云端：</p>
+
+<blockquote>
+<pre><code class="language-text">|----master                                         生产分支
+|----release                                        预发布分支文件夹
+        |----master20180915                         预发布分支
+|----develop                                        开发分支
+|----feature                                        个人分支文件夹
+        |----develop_wangchao_会员结账               具体个人分支
+        |----develop_shaochuanjun_微信结账           具体个人分支
+|----fixbug                                         bug分支文件夹
+        |----master20180915_wangchao_扫码点餐bug     具体个人bug分支
+        |----master20180915_shaochuanjun_点菜bug     具体个人bug分支
+</code></pre>
+
+<p>能够直观看到个人分支的源分支（从哪个分支拉取的）。</p>
+
+<p>feature、fixbug下的分支不允许跨源合并、跨源拉取（develop_开头的分支只能合并到develop，只能拉取develop分支），release下的分支除外。</p>
+
+<p>实际上bug分支可以往预发布、开发分支合并，简单起见我们禁止跨源合并</p>
+
+<p>release下的分支每次合并到master时要并行合并到develop分支。</p>
+</blockquote>
+
+<p>门店：（由于shop、shop-print和海底捞一套代码比较特殊，建议和云端命名方式一样，加上前缀文件夹huoguo或haidilao）</p>
+
+<blockquote>
+<p>hht-manage属于新火锅特有项目，建议按照云端命名基础上增加版本号。</p>
+
+<pre><code class="language-text">|----master_v1                                         生产分支
+|----master_v2                                         生产分支
+|----release                                        预发布分支文件夹
+        |----master_v1_20180915                         预发布分支
+        |----master_v2_20180915                         预发布分支
+|----develop                                        开发分支
+|----feature                                        个人分支文件夹
+        |----develop_wangchao_会员结账               具体个人分支
+        |----develop_shaochuanjun_微信结账           具体个人分支
+|----fixbug                                         bug分支文件夹
+        |----master20180915_wangchao_扫码点餐bug     具体个人bug分支
+        |----master20180915_shaochuanjun_点菜bug     具体个人bug分支
+</code></pre>
+</blockquote>
+
+<p><strong>举例：</strong></p>
+
+<blockquote>
+<p>小A要做一个新功能的步骤：</p>
+
+<p>1、找组长确认属于什么类型问题 ----&gt; 2、属于特性问题 ----&gt; 3、从 <strong>develop</strong> 拉取分支 <strong>feature/develop_A_打印功能</strong> ----&gt; 4、修改完成后--no-ff合并到 <strong>develop</strong> 分支测试 ----&gt; 5、测试通过后找组长从生产分支拉取预发布分支 <strong>release/master20180919</strong> ，把生产环境的数据库备份到预发布环境 ----&gt; 6、组长把 <strong>feature/develop</strong> 合并到 <strong>release/master20180919</strong> ----&gt; 7、开发整理所有预发布环境没有的脚本交给组长 ----&gt; 8、组长存档 <strong>master20180919.sql</strong> 后交给运维执行 ----&gt; 9、测试通过后组长把 <strong>master20180919.sql</strong> 文件上传到 <strong>release/master20180919</strong> 分支，并合并到生产、测试环境，正式环境打上标签 <strong>master20180919</strong> ，删除 <strong>release/master20180919</strong> 分支 ----&gt; 10、运维正式环境执行目录下的 <strong>master20180919.sql</strong> 、打版。</p>
+
+<p>注意：脚本分预制脚本（insert）、建库脚本（create、alter）</p>
+</blockquote>
+</blockquote>
+
+<h2 id="toc_4">DB建议</h2>
+
+<blockquote>
+<p>测试环境开放读写权限，公司白名单。</p>
+
+<p>生产环境云端、门店数据库，白名单访问。</p>
+
+<p>预发布环境只开放读权限，脚本需交给组长备份，组长交给运维执行。建议备份文件名和 <strong>预发布分支</strong> 名保持一致，<strong>预发布分支</strong> 合并到 <strong>生产分支</strong> 时添加到 <strong>预发布分支</strong> 的SQL文件夹下，并执行相同名称的sql文件。</p>
+
+<p>缺：平台出工具根据时间段抽取云端指定商户、门店的数据，并做脱敏处理。</p>
+</blockquote>
+
+<h2 id="toc_5">Config建议</h2>
+
+<blockquote>
+<p>项目只留address.conf，local.conf两个配置文件，local.conf引用address.conf。所有存在环境差异的配置，都放到address.conf里，不要单独创建redis.conf。</p>
+
+<p>1、address.conf中包含所有项目的ip、端口。</p>
+
+<p>2、打版后线上通过固定目录的address.conf来覆盖打版项目的address.conf，所有项目共用一个。</p>
+
+<p>3、address.conf的修改只能通过运维</p>
+
+<p><strong>例如:</strong></p>
+
+<p>address.conf配置如下：</p>
+
+<p>Markup</p>
+
+<pre><code class="language-text">#在文件中使用方式为：other.var1 = &quot;https://&quot;${address.db1.host}&quot;:&quot;${address.db1.port}&quot;/app/somefunction&quot;
+address {
+  #数据连接 地址/端口/数据库/用户名/密码
+  db {
+    host = &quot;10.170.195.16&quot;
+    port = &quot;3306&quot;
+    db_name = &quot;canyin_saas&quot;
+    db_user = &quot;huoguo&quot;
+    db_password = &quot;12312300&quot;
+  }
+  #本地登录及权限服务部署地址
+  loginServer{
+    host=&quot;http://test-canyinsaas.honghuotai.com&quot;
+    port=&quot;8001&quot;
+    path=&quot;/login&quot;
+  }
+  #微信appid
+  wechat{
+      appid=&quot;aaaaaaaaaaaa&quot;
+      #微信appsecret
+      appsecret=&quot;bbbbbbbbbbbbbbb&quot;
+  }
+  # Redis相关配置
+  redis{
+      ip = 127.0.0.1
+      port = 6379
+      passwd = 345555
+      number = 0
+      defaultDBNum = 0
+      maxDBNum = 16
+      maxActive = 1024
+      maxIdle = 200
+      maxWait = 1000
+      testOnBorrow = false
+      testOnReturn = true
+  }
+}
+</code></pre>
+
+<p>dev.conf配置如下</p>
+
+<p>Markup</p>
+
+<pre><code class="language-text">    include &quot;../application.conf&quot;
+    include &quot;./address.conf&quot;
+    db {
+      default.driver = com.mysql.jdbc.Driver
+      default.url = &quot;jdbc:mysql://&quot;${address.db.host}&quot;:&quot;${address.db.port}&quot;/&quot;${address.db.db_name}&quot;?useUnicode=true&amp;characterEncoding=UTF-8&amp;allowMultiQueries=true&quot;
+      default.username = ${address.db.db_user}
+      default.password = ${address.db.db_password}
+      default.logSql = true
+    }
+    # 云端shop服务
+    cloudServerSocketService=${address.cloudServerSocket.host}&quot;:&quot;${address.cloudServerSocket.port}${address.loginServer.path}
+    #获取所有支付方式
+    user.payway.getall=${loginService}&quot;/position/businesspower/getEmpPowerList&quot;
+</code></pre>
+</blockquote>
+
+<h2 id="toc_6">后端插件建议</h2>
+
+<blockquote>
+<p>插件名：Alibaba Java Coding Guidelines</p>
+
+<p>github地址：<a href="https://github.com/alibaba/p3c/">https://github.com/alibaba/p3c/</a></p>
+
+<blockquote>
+<p>安装步骤如下：</p>
+
+<p>打开idea--&gt;Preference--&gt;Plugins--&gt;Browse Repositories。</p>
+
+<p>搜Alibaba Java Coding Guidelines，点击安装，重启。</p>
+
+<p>有问题的代码会以红色/黑色波浪线标记出来，需要按照提示修改代码。</p>
+</blockquote>
+</blockquote>
+
+<h2 id="toc_7">代码建议</h2>
+
+<blockquote>
+<p>1、 接口入参避免使用类型强转</p>
+
+<p>2、小数禁止直接参与运算，用BigDecimal</p>
+
+<p>3、禁止直接往缓存中存放数据（前端同样适用）</p>
+</blockquote>
+
+<p>Java</p>
+
+<pre><code class="language-text">//问题代码，无法追踪到userInfo的数据在哪里被修改。
+public void doProblem(JSONObject userInfo){
+    //do something
+    if(RedisUtil.get(&quot;userInfo&quot;)!=null){
+        //do something
+        RedisUtil.del(&quot;userInfo&quot;);
+    }else{
+        //do something
+        RedisUtil.set(&quot;userInfo&quot;,userInfo);
+    }
+}
+//改进代码，可以在addUserInfo、deleteUserInfo方法中监控到userInfo添加、销毁。
+public void doRight(JSONObject userInfo){
+    //do something
+    if(RedisUtil.getUserInfo()!=null){
+        //do something
+        RedisUtil.deleteUserInfo(&quot;userInfo&quot;);
+    }else{
+        //do something
+        RedisUtil.addUserInfo(&quot;userInfo&quot;,userInfo);
+    }
+}
+</code></pre>
+
+<blockquote>
+<p>4、数据库设计，下列字段必须有，model继承com.hht.common.base.model.BaseModel。</p>
+
+<p>涉及到存操作员id的字段，全部存人员id，禁止存用户id（employId(人员id)来自pro_employee表，userId（用户id）来自hht_member表）</p>
+</blockquote>
+
+<p>Java</p>
+
+<pre><code class="language-text">    //主键
+    private String id;
+    //删除状态Y,N
+    private String dr;
+    //时间戳，每次update操作都要更新
+    private Long ts;
+    //创建时间，只在insert时更新
+    private Long createTime;
+    //创建人id
+    private String creatorId;
+    //修改时间，update时更新此字段
+    private Long modifyTime;
+    //修改人，update时修改
+    private String modifierId;
+    //商户id，非报表查询必须加此条件
+    private String companyId;
+    //门店id，门店查询必须加此条件
+    private String shopId;
+    //是否可用，预留，N,Y
+    private String enable;
+</code></pre>
+
+<blockquote>
+<p>5、更多建议参考<a href="http://www.ruanyifeng.com/blog/2012/07/git.html">http://www.ruanyifeng.com/blog/2012/07/git.html</a>里面的《阿里巴巴Java开发手册（详尽版）.pdf》</p>
+</blockquote>
+
+<h2 id="toc_8">接口建议</h2>
+
+<blockquote>
+<p>rap上的参数必须和实际接口中的参数一致，前后端并行开发时，先约定好mock数据。</p>
+
+<p>严格按照restful规范，外部接口走token，服务之间能走token走token，走不了token走签名，不允许免认证（特殊接口除外）。</p>
+</blockquote>
+
+<h2 id="toc_9">打版建议</h2>
+
+<blockquote>
+<p>预发布、正式环境打版需填申请单</p>
+
+<blockquote>
+<p>1、组长合并代码，根据提交记录图找到所有提交人。</p>
+
+<p>2、所有提交人签字，写上自己修改部分的关联项目，测试环境测试人员签字。（抽查）</p>
+
+<p>3、预发布环境测试完成，期间所有脚本经过组长备份后交给运维执行。</p>
+
+<p>4、预发布分支合并到生产环境分支，运行和预发布分支名称一样的数据库脚本文件，测试人员签字。</p>
+
+<p>5、实施验证问题，填写或邮件确认验证情况。</p>
+
+<p>6、申请单完成，交给产品存档。</p>
+</blockquote>
+
+<h2 id="toc_10">日志建议</h2>
+
+<p>先按照各组需求输出，规范待整理</p>
+</blockquote>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
+		  	<h1 class="entry-title"><a href="15375346728525.html">各种队列的执行效果</a></h1>
+			<p class="meta"><time datetime="2018-09-21T20:57:52+08:00" 
+			pubdate data-updated="true">2018/9/21</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<table>
+<thead>
+<tr>
+<th style="text-align: left"></th>
+<th style="text-align: left">并发队列</th>
+<th style="text-align: left">手动创建的串行队列</th>
+<th style="text-align: left">主队列</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">同步（sync）</td>
+<td style="text-align: left">*没有开启新线程 *串行执行任务</td>
+<td style="text-align: left">*没有开启新线程 *串行执行任务</td>
+<td style="text-align: left">*没有开启新线程 *串行执行任务</td>
+</tr>
+<tr>
+<td style="text-align: left">异步（async）</td>
+<td style="text-align: left">*有开启新线程 *并发执行任务</td>
+<td style="text-align: left">*有开启新线程 *串行执行任务</td>
+<td style="text-align: left">*没有开启新线程 *串行执行任务</td>
+</tr>
+</tbody>
+</table>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
+		  	<h1 class="entry-title"><a href="15374224515215.html">CocaPods 添加头文件的报错  的解决办法</a></h1>
+			<p class="meta"><time datetime="2018-09-20T13:47:31+08:00" 
+			pubdate data-updated="true">2018/9/20</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>在buildsetting中的以下两个路径中添加对应的设置，重现编译即可解决，stackoverflow地址：<a href="https://stackoverflow.com/questions/45779591/failed-to-emit-precompiled-header-for-bridging-header?answertab=votes#tab-top">Failed to emit precompiled header for bridging header</a></p>
+
+<pre><code class="language-text">Solution:
+1 I added $(inherited) non-recursive to Search Path -&gt; Header Search Paths
+2 Then added ${PODS_ROOT} recursive to Search Path -&gt; User Header Search Paths
+Both the above in my projects&#39; target build settings.
+</code></pre>
+
+<p><img src="media/15374224515215/15374225919741.jpg" alt="" style="width:794px;"/></p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="15366461063408.html"><禅与摩托车维修艺术></a></h1>
 			<p class="meta"><time datetime="2018-09-11T14:08:26+08:00" 
 			pubdate data-updated="true">2018/9/11</time></p>
@@ -177,166 +566,6 @@ fi
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="15336071866624.html">UITableView 第0的sectionHeaderView 不显示</a></h1>
-			<p class="meta"><time datetime="2018-08-07T09:59:46+08:00" 
-			pubdate data-updated="true">2018/8/7</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>只有当UITableView是Grouped样式，并且section的高度是通过sectionHeaderHeight设置的时候，第0个section的headerView才会丢失，通过代理设置不会丢失。如果UITableView是Plain样式就不会有任何问题。</p>
-
-<p>下面是不显示第0个sectionHeaderView的情况<br/>
-<img src="media/15336071866624/15336074512241.jpg" alt="" style="width:1406px;"/></p>
-
-<p>正常显示<br/>
-<img src="media/15336071866624/15336075291692.jpg" alt="" style="width:1394px;"/><br/>
-在正常显示的时候明显感觉到第0个section上面有间距，真机没有测试。</p>
-
-
-		</div>
-
-		
-
-	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="15323970557540.html">控制器透明，WebView透明</a></h1>
-			<p class="meta"><time datetime="2018-07-24T09:50:55+08:00" 
-			pubdate data-updated="true">2018/7/24</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>设置控制器透明</p>
-
-<pre><code class="language-text">let vc = AfterOrderPotADViewController()
-self.definesPresentationContext = true
-vc.modalPresentationStyle = .overCurrentContext
-vc.view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3)
-self.present(vc, animated: false, completion: nil)
-</code></pre>
-
-<p>webView 设置透明</p>
-
-<pre><code class="language-text">webView.backgroundColor = UIColor.clear
-webView.isOpaque = false
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="15323249439841.html">算法总结</a></h1>
-			<p class="meta"><time datetime="2018-07-23T13:49:03+08:00" 
-			pubdate data-updated="true">2018/7/23</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<h2 id="toc_0">Fibonacci （斐波那契数列实现）</h2>
-
-<pre><code class="language-text">///Fibonacci （斐波那契数列实现）
-func fibonacci(_ n: Int) -&gt; Int{
-    let result = [0,1]
-    if n &lt; 2 {
-        return result[n]
-    }
-    
-    var fibNMinusOne = 1
-    var fibNMinusTwo = 0
-    var fibN = 0
-    
-    for _ in 2...n {
-        fibN = fibNMinusOne + fibNMinusTwo
-        fibNMinusTwo = fibNMinusOne
-        fibNMinusOne = fibN
-    }
-    return fibN
-}
-</code></pre>
-
-<h2 id="toc_1">BinarySearch (二分查找)</h2>
-
-<h3 id="toc_2">非递归</h3>
-
-<pre><code class="language-text">func binarySearch&lt;T: Comparable&gt;(_ a:[T], key: T) -&gt; Int {
-    print(key)
-    var lowerBound = 0
-    var upperBound = a.count
-    while lowerBound &lt; upperBound {
-
-        let midIndex = lowerBound + (upperBound - lowerBound)/2
-
-        if a[midIndex] == key {
-            return midIndex
-        }else if a[midIndex] &lt; key {
-            lowerBound = midIndex + 1
-        }else {
-            upperBound = midIndex
-        }
-    }
-    return -1
-}
-</code></pre>
-
-<h3 id="toc_3">递归</h3>
-
-<pre><code class="language-text">func binarySearch&lt;T : Comparable&gt;(startIndex: Int, endIndex: Int , arr:[T], key: T) -&gt; Int{
-    let mind = startIndex + (endIndex - startIndex) / 2
-    let mindValue = arr[mind]
-    if mindValue == key {
-        return mind
-    }
-    if mindValue &lt; key {
-        return binarySearch(startIndex: mind + 1, endIndex: endIndex, arr: arr, key: key)
-    } else if mindValue &gt; key {
-        return binarySearch(startIndex: 0, endIndex: mind, arr: arr, key: key)
-    }
-    return -1
-}
-</code></pre>
-
-<h2 id="toc_4">快速排序</h2>
-
-<pre><code class="language-text">func quicksort&lt;T: Comparable&gt;(_ unsort:[T]) -&gt; [T] {
-    guard unsort.count &gt; 1 else {
-        return unsort
-    }
-    
-    let pivot = unsort[unsort.count / 2]
-    let less = unsort.filter { $0 &lt; pivot }
-    let equal = unsort.filter { $0 == pivot }
-    let greater = unsort.filter { $0 &gt; pivot }
-    
-    return quicksort(less) + equal + quicksort(greater)
-}
-</code></pre>
-
-<p>测试结果</p>
-
-<pre><code class="language-text">let list = [ 10, 0, 3, 9, 2, 14, 8, 27, 1, 5, 8, -1, 26 ]
-
-print(list)
-print(quicksort(list))
---------------------
-[10, 0, 3, 9, 2, 14, 8, 27, 1, 5, 8, -1, 26]
-[-1, 0, 1, 2, 3, 5, 8, 8, 9, 10, 14, 26, 27]
-
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_5.html">&larr; Older</a> 
@@ -352,7 +581,7 @@ print(quicksort(list))
 	  <ul id="recent_posts">
 	  
 	      <li class="post">
-	        <a href="%E5%8E%9F%E7%90%86%E6%8E%A2%E7%A9%B6.html"><strong>原理探究&nbsp;(7)</strong></a>
+	        <a href="%E5%8E%9F%E7%90%86%E6%8E%A2%E7%A9%B6.html"><strong>原理探究&nbsp;(8)</strong></a>
 	        
 	        
 	        
@@ -380,7 +609,7 @@ print(quicksort(list))
 	      </li>
 	  
 	      <li class="post">
-	        <a href="%E6%9D%82%E8%AE%B0.html"><strong>杂记&nbsp;(14)</strong></a>
+	        <a href="%E6%9D%82%E8%AE%B0.html"><strong>杂记&nbsp;(15)</strong></a>
 	        
 	        
 	        
@@ -415,7 +644,7 @@ print(quicksort(list))
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Java.html"><strong>Java&nbsp;(6)</strong></a>
+	        <a href="Java.html"><strong>Java&nbsp;(7)</strong></a>
 	        
 	        
 	        
@@ -436,6 +665,24 @@ print(quicksort(list))
 	  
 	      
 		      <li class="post">
+		        <a href="16152544377232.html">Flutter 相关网站</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16026633643718.html">使用iOS模拟器测试“磁盘空间不足”情况的实用方法是什么？</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="15990466411900.html">JDBC Class.forName vs DriverManager.registerDriver</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="15989690336270.html">Java开发环境搭建的准备工作</a>
 		      </li>
 	     
@@ -443,24 +690,6 @@ print(quicksort(list))
 	      
 		      <li class="post">
 		        <a href="15978901087507.html">529. Minesweeper（529. 扫雷游戏）</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15978472756793.html">647. Palindromic Substrings</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15966161528946.html">setProperty 应用</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15965236438323.html">devtools 热启动</a>
 		      </li>
 	     
 	  

@@ -78,6 +78,166 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="15336071866624.html">UITableView 第0的sectionHeaderView 不显示</a></h1>
+			<p class="meta"><time datetime="2018-08-07T09:59:46+08:00" 
+			pubdate data-updated="true">2018/8/7</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>只有当UITableView是Grouped样式，并且section的高度是通过sectionHeaderHeight设置的时候，第0个section的headerView才会丢失，通过代理设置不会丢失。如果UITableView是Plain样式就不会有任何问题。</p>
+
+<p>下面是不显示第0个sectionHeaderView的情况<br/>
+<img src="media/15336071866624/15336074512241.jpg" alt="" style="width:1406px;"/></p>
+
+<p>正常显示<br/>
+<img src="media/15336071866624/15336075291692.jpg" alt="" style="width:1394px;"/><br/>
+在正常显示的时候明显感觉到第0个section上面有间距，真机没有测试。</p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
+		  	<h1 class="entry-title"><a href="15323970557540.html">控制器透明，WebView透明</a></h1>
+			<p class="meta"><time datetime="2018-07-24T09:50:55+08:00" 
+			pubdate data-updated="true">2018/7/24</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>设置控制器透明</p>
+
+<pre><code class="language-text">let vc = AfterOrderPotADViewController()
+self.definesPresentationContext = true
+vc.modalPresentationStyle = .overCurrentContext
+vc.view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3)
+self.present(vc, animated: false, completion: nil)
+</code></pre>
+
+<p>webView 设置透明</p>
+
+<pre><code class="language-text">webView.backgroundColor = UIColor.clear
+webView.isOpaque = false
+</code></pre>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
+		  	<h1 class="entry-title"><a href="15323249439841.html">算法总结</a></h1>
+			<p class="meta"><time datetime="2018-07-23T13:49:03+08:00" 
+			pubdate data-updated="true">2018/7/23</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<h2 id="toc_0">Fibonacci （斐波那契数列实现）</h2>
+
+<pre><code class="language-text">///Fibonacci （斐波那契数列实现）
+func fibonacci(_ n: Int) -&gt; Int{
+    let result = [0,1]
+    if n &lt; 2 {
+        return result[n]
+    }
+    
+    var fibNMinusOne = 1
+    var fibNMinusTwo = 0
+    var fibN = 0
+    
+    for _ in 2...n {
+        fibN = fibNMinusOne + fibNMinusTwo
+        fibNMinusTwo = fibNMinusOne
+        fibNMinusOne = fibN
+    }
+    return fibN
+}
+</code></pre>
+
+<h2 id="toc_1">BinarySearch (二分查找)</h2>
+
+<h3 id="toc_2">非递归</h3>
+
+<pre><code class="language-text">func binarySearch&lt;T: Comparable&gt;(_ a:[T], key: T) -&gt; Int {
+    print(key)
+    var lowerBound = 0
+    var upperBound = a.count
+    while lowerBound &lt; upperBound {
+
+        let midIndex = lowerBound + (upperBound - lowerBound)/2
+
+        if a[midIndex] == key {
+            return midIndex
+        }else if a[midIndex] &lt; key {
+            lowerBound = midIndex + 1
+        }else {
+            upperBound = midIndex
+        }
+    }
+    return -1
+}
+</code></pre>
+
+<h3 id="toc_3">递归</h3>
+
+<pre><code class="language-text">func binarySearch&lt;T : Comparable&gt;(startIndex: Int, endIndex: Int , arr:[T], key: T) -&gt; Int{
+    let mind = startIndex + (endIndex - startIndex) / 2
+    let mindValue = arr[mind]
+    if mindValue == key {
+        return mind
+    }
+    if mindValue &lt; key {
+        return binarySearch(startIndex: mind + 1, endIndex: endIndex, arr: arr, key: key)
+    } else if mindValue &gt; key {
+        return binarySearch(startIndex: 0, endIndex: mind, arr: arr, key: key)
+    }
+    return -1
+}
+</code></pre>
+
+<h2 id="toc_4">快速排序</h2>
+
+<pre><code class="language-text">func quicksort&lt;T: Comparable&gt;(_ unsort:[T]) -&gt; [T] {
+    guard unsort.count &gt; 1 else {
+        return unsort
+    }
+    
+    let pivot = unsort[unsort.count / 2]
+    let less = unsort.filter { $0 &lt; pivot }
+    let equal = unsort.filter { $0 == pivot }
+    let greater = unsort.filter { $0 &gt; pivot }
+    
+    return quicksort(less) + equal + quicksort(greater)
+}
+</code></pre>
+
+<p>测试结果</p>
+
+<pre><code class="language-text">let list = [ 10, 0, 3, 9, 2, 14, 8, 27, 1, 5, 8, -1, 26 ]
+
+print(list)
+print(quicksort(list))
+--------------------
+[10, 0, 3, 9, 2, 14, 8, 27, 1, 5, 8, -1, 26]
+[-1, 0, 1, 2, 3, 5, 8, 8, 9, 10, 14, 26, 27]
+
+</code></pre>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="15319018166027.html">解决UILabel 末尾的空格被忽略</a></h1>
 			<p class="meta"><time datetime="2018-07-18T16:16:56+08:00" 
 			pubdate data-updated="true">2018/7/18</time></p>
@@ -151,168 +311,6 @@ $(document).ready(function(event) {
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="15271249936113.html">金额显示</a></h1>
-			<p class="meta"><time datetime="2018-05-24T09:23:13+08:00" 
-			pubdate data-updated="true">2018/5/24</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<pre><code class="language-text">//初始化NumberFormatter
-let format = NumberFormatter()
-//设置numberStyle（有多种格式）
-format.numberStyle = .decimal
-//转换后的string
-let string = format.string(from: NSNumber(value: 1234567.89))
-//打印
-print(string)  //1,234,567.89
-
-//显示样式和输出样式
-numberStyle:
-public enum Style : UInt {  
-
-        case none //1234567.89
-
-        case decimal //1,234,567.89
-
-        case currency //￥1,234,567.89
-
-        case percent //123,456,789%
-
-        case scientific //1.23456789E6
-
-        case spellOut //一百二十三万四千五百六十七点八九
-
-        @available(iOS 9.0, *)
-        case ordinal //第123,4568
-
-        @available(iOS 9.0, *)
-        case currencyISOCode //CNY1,234,567.89
-
-        @available(iOS 9.0, *)
-        case currencyPlural//1,234,567.89人民币
-
-        @available(iOS 9.0, *)
-        case currencyAccounting//￥1,234,567.89
-    }
-
-//输入123456789分别输出
-// 123456789
-// 123,456,789
-//￥123,456,789.00
-//12345678900%
-//1.23456789E8
-//一亿二千三百四十五万六千七百八十九
-//第1,2345,6789
-//CNY123,456,789.00
-//123,456,789.00人民币
-//￥123,456,789.00
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="15257017136249.html">线程需要注意的问题</a></h1>
-			<p class="meta"><time datetime="2018-05-07T22:01:53+08:00" 
-			pubdate data-updated="true">2018/5/7</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<h2 id="toc_0">死锁（Dead Lock）</h2>
-
-<p>第一种情况：</p>
-
-<pre><code class="language-text">let serialQueue = DispatchQueue(label:&quot;test&quot;)
-serialQueue.async {
-    //.....
-    serialQueue.sync {
-        //...
-    }
-}
-
-</code></pre>
-
-<p>第二种情况：</p>
-
-<pre><code class="language-text">let operationA = Operation()
-let operationB = Operation()
-operationA.addDependency(operationB)
-operationB.addDependency(operationA)
-
-</code></pre>
-
-<p>怎样避免死锁：</p>
-
-<ol>
-<li>少用依赖</li>
-<li>慎用同步</li>
-</ol>
-
-<h2 id="toc_1">优先倒置（Priority Inversion）</h2>
-
-<pre><code class="language-text">var highPriorityQueue = DispatchQueue.global(qos: .userInitiated)
-var lowPriorityQueue = DispatchQueue.global(qos: .utility)
-
-let semaphore = DispatchSemaphore(value: 1)
-
-lowPriorityQueue.async {
-    semaphore.wait()
-    for i in 0...10 {
-        print(i)
-    }
-    semaphore.signal()
-}
-
-highPriorityQueue.async {
-    semaphore.wait()
-    for i in 11...20 {
-        print(1)
-    }
-}
-
-</code></pre>
-
-<p>解决办法：<br/>
-同一个资源用同一个Qos</p>
-
-
-		</div>
-
-		
-
-	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="15257016488742.html">Mac 应用图标没有在launchpad里显示</a></h1>
-			<p class="meta"><time datetime="2018-05-07T22:00:48+08:00" 
-			pubdate data-updated="true">2018/5/7</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>重置Launchpad</p>
-
-<pre><code class="language-text">rm ~/Library/Application\ Support/Dock/*.db
-
-</code></pre>
-
-<pre><code class="language-text">killall Dock
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_6.html">&larr; Older</a> 
@@ -328,7 +326,7 @@ highPriorityQueue.async {
 	  <ul id="recent_posts">
 	  
 	      <li class="post">
-	        <a href="%E5%8E%9F%E7%90%86%E6%8E%A2%E7%A9%B6.html"><strong>原理探究&nbsp;(7)</strong></a>
+	        <a href="%E5%8E%9F%E7%90%86%E6%8E%A2%E7%A9%B6.html"><strong>原理探究&nbsp;(8)</strong></a>
 	        
 	        
 	        
@@ -356,7 +354,7 @@ highPriorityQueue.async {
 	      </li>
 	  
 	      <li class="post">
-	        <a href="%E6%9D%82%E8%AE%B0.html"><strong>杂记&nbsp;(14)</strong></a>
+	        <a href="%E6%9D%82%E8%AE%B0.html"><strong>杂记&nbsp;(15)</strong></a>
 	        
 	        
 	        
@@ -391,7 +389,7 @@ highPriorityQueue.async {
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Java.html"><strong>Java&nbsp;(6)</strong></a>
+	        <a href="Java.html"><strong>Java&nbsp;(7)</strong></a>
 	        
 	        
 	        
@@ -412,6 +410,24 @@ highPriorityQueue.async {
 	  
 	      
 		      <li class="post">
+		        <a href="16152544377232.html">Flutter 相关网站</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16026633643718.html">使用iOS模拟器测试“磁盘空间不足”情况的实用方法是什么？</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="15990466411900.html">JDBC Class.forName vs DriverManager.registerDriver</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="15989690336270.html">Java开发环境搭建的准备工作</a>
 		      </li>
 	     
@@ -419,24 +435,6 @@ highPriorityQueue.async {
 	      
 		      <li class="post">
 		        <a href="15978901087507.html">529. Minesweeper（529. 扫雷游戏）</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15978472756793.html">647. Palindromic Substrings</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15966161528946.html">setProperty 应用</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15965236438323.html">devtools 热启动</a>
 		      </li>
 	     
 	  

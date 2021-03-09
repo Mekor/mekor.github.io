@@ -78,6 +78,295 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14860911508877.html">Swift - Swift Talk: Networking</a></h1>
+			<p class="meta"><time datetime="2017-02-03T11:05:50+08:00" 
+			pubdate data-updated="true">2017/2/3</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<blockquote>
+<p>Swift Talk 学习笔记,<a href="https://talk.objc.io/episodes/S01E01-networking">https://talk.objc.io/episodes/S01E01-networking</a></p>
+</blockquote>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
+		  	<h1 class="entry-title"><a href="14836656405837.html">Swift - Swift与JavaScript交互实战[转]</a></h1>
+			<p class="meta"><time datetime="2017-01-06T09:20:40+08:00" 
+			pubdate data-updated="true">2017/1/6</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<blockquote>
+<p>原地址:<a href="http://mp.weixin.qq.com/s?__biz=MzIzMzA4NjA5Mw==&amp;mid=214070747&amp;idx=1&amp;sn=57b45fa293d0500365d9a0a4ff74a4e1#rd">Swift与JavaScript交互实战（Swift版）</a></p>
+</blockquote>
+
+<h2 id="toc_0">前言</h2>
+
+<p>Swift与Js交互是常见的需求，可对于新手或者所谓的高手而言，其实并不是那么简单明了。这里只介绍iOS7.0后出来的JavaScriptCore framework。</p>
+
+<h2 id="toc_1">关于JavaScriptCore</h2>
+
+<p>本教程中所涉及到的几种类型：</p>
+
+<ul>
+<li><strong>JSContext</strong>, JSContext是代表JS的执行环境，通过-evaluateScript:方法就可以执行一JS代码</li>
+<li><strong>JSValue</strong>, JSValue封装了JS与ObjC中的对应的类型，以及调用JS的API等</li>
+<li><strong>JSExport</strong>, JSExport是一个协议，遵守此协议，就可以定义我们自己的协议，在协议中声明的API都会在JS中暴露出来，才能调用</li>
+</ul>
+
+<h2 id="toc_2">Swift与JS交互方式</h2>
+
+<p>通过JSContext，我们有两种调用JS代码的方法：</p>
+
+<ul>
+<li>1、直接调用JS代码</li>
+<li>2、在Swift中通过JSContext<strong>注入模型</strong>，然后调用模型的方法</li>
+</ul>
+
+<h3 id="toc_3">直接调用JS代码</h3>
+
+<p>我们可以不通过模型来调用方法，也可以直接调用方法</p>
+
+<pre><code class="language-text">let context = JSContext() 
+context.evaluateScript(“var num = 10”)
+context.evaluateScript(“function square(value) { return value * 2}”)
+
+// 直接调用
+let squareValue = context.evaluateScript(“square(num)”)
+print(squareValue)
+
+// 通过下标来获取到JS方法。
+let squareFunc = context.objectForKeyedSubscript(“square”)
+print(squareFunc.callWithArguments([“10”]).toString());
+</code></pre>
+
+<p>这种方式是没有注入模型到JS中的。这种方式使用起来不太合适，通常在JS中有很多全局的函数，为了防止名字重名，使用模型的方式是最好不过了。通过我们协商好的模型名称，在JS中直接通过模型来调用我们在Swift中所定义的模型所公开的API。</p>
+
+<h2 id="toc_4">注入模型的交互</h2>
+
+<p>首先，我们需要先定义一个协议，而且这个协议必须要遵守JSExport协议。</p>
+
+<p>All methods that should apply in Javascript,should be in the following protocol.注意，这里必须使用@objc，因为JavaScriptCore库是ObjectiveC版本的。如果不加@objc，则调用无效果。</p>
+
+<pre><code class="language-text">@objc protocol JavaScriptSwiftDelegate: JSExport { 
+ func callSystemCamera();
+ func showAlert(title: String, msg: String);
+ func callWithDict(dict: [String: AnyObject]);
+ func jsCallObjcAndObjcCallJsWithDict(dict: [String: AnyObject]);
+}
+</code></pre>
+
+<p>接下来，我们还需要定义一个模型：</p>
+
+<pre><code class="language-text">@objc classJSObjCModel: NSObject, JavaScriptSwiftDelegate { 
+  weak var controller: UIViewController? 
+  weak var jsContext: JSContext? 
+
+  func callSystemCamera() {   
+    print(“js call objc method: callSystemCamera”);
+    let jsFunc = self.jsContext?.objectForKeyedSubscript(“jsFunc”); 
+    jsFunc?.callWithArguments([]);  
+  }
+
+  func showAlert(title: String, msg: String) {     
+    dispatch_async(dispatch_get_main_queue()) { () -&gt; Void in   
+      let alert = UIAlertController(title: title, message: msg, preferredStyle: .Alert)   
+      alert.addAction(UIAlertAction(title: “ok”, style: .Default, handler: nil))      
+      self.controller?.presentViewController(alert, animated: true, completion: nil)   
+    }   
+  }  
+
+  // JS调用了我们的方法   
+  func callWithDict(dict: [String : AnyObject]) {   
+    print(“js call objc method: callWithDict, args: %@”, dict) 
+  }
+
+  // JS调用了我们的就去  
+  func jsCallObjcAndObjcCallJsWithDict(dict: [String : AnyObject]) {     
+    print(“js call objc method: jsCallObjcAndObjcCallJsWithDict, args: %@”, dict) 
+    let jsParamFunc = self.jsContext?.objectForKeyedSubscript(“jsParamFunc”); 
+    let dict = NSDictionary(dictionary: [“age”: 18, “height”: 168, “name”: “lili”])
+    jsParamFunc?.callWithArguments([dict]) 
+  }
+}
+</code></pre>
+
+<p>接下来，我们在controller中在webview加载完成的代理中，给JS注入模型。</p>
+
+<pre><code class="language-text">// MARK: - UIWebViewDelegate
+func webViewDidFinishLoad(webView: UIWebView) {
+  let context = webView.valueForKeyPath(“documentView.webView.mainFrame.javaScriptContext”) as? JSContextlet 
+  model = JSObjCModel() 
+  model.controller = self
+  model.jsContext = context
+  self.jsContext = context
+
+  // 这一步是将OCModel这个模型注入到JS中，在JS就
+  // 可以通过OCModel调用我们公暴露的方法了。
+  self.jsContext?.setObject(model, forKeyedSubscript: “OCModel”)
+  self.jsContext?.exceptionHandler = { (context, exception) in 
+     print(“exception @”, exception) 
+  }
+}
+</code></pre>
+
+<p>我们是通过webView的valueForKeyPath获取的，其路径为documentView.webView.mainFrame.javaScriptContext。<br/>
+这样就可以获取到JS的context，然后为这个context注入我们的模型对象。<br/>
+我们先写两个JS方法：</p>
+
+<pre><code class="language-text">var jsFunc = function() {
+  alert(‘Objective-C call js to show alert’);
+}
+
+var jsParamFunc = function(argument) {
+  document.getElementById(‘jsParamFuncSpan’).innerHTML
+  = argument[‘name’];
+}
+</code></pre>
+
+<p>这里我们定义了两个JS方法，一个是jsFunc，不带参数。<br/>
+另一个是jsParamFunc，带一个参数。<br/>
+接下来，我们在html中的body中添加以下代码：</p>
+
+<p><code>Test how to use objective-c call js</code></p>
+
+<p>现在就可以测试代码了。</p>
+
+<p>当我们点击第一个按钮：Call ObjC system camera时，<br/>
+通过OCModel.callSystemCamera()，就可以在HTML中通过JS调用OC的方法。<br/>
+在Swift代码中，我们的callSystemCamera方法体中，添加了以下两行代码，就是获取HTML中所定义的JS就去jsFunc，然后调用它。</p>
+
+<pre><code class="language-text">let jsFunc = self.jsContext?.objectForKeyedSubscript(“jsFunc”); jsFunc?.callWithArguments([]);
+</code></pre>
+
+<p>这样就可以在JS调用Siwft方法时，也让Swift反馈给JS。<br/>
+注意：这里是通过objectForKeyedSubscript方法来获取变量jsFunc。<br/>
+方法也是变量。看看下面传字典参数：</p>
+
+<pre><code class="language-text">(void)jsCallObjcAndObjcCallJsWithDict:(NSDictionary )params {
+    NSLog(@”jsCallObjcAndObjcCallJsWithDict was called, params is %@”, params);
+    // 调用JS的方法
+    JSValue jsParamFunc = self.jsContext[@”jsParamFunc”];
+    [jsParamFunc callWithArguments:@[@{@”age”: @10, @”name”: @”lili”, @”height”: @158}]];
+}
+</code></pre>
+
+<p>获取我们在HTML中定义的jsParamFunc方法，然后调用它并传了一个字典作为参数。<br/>
+好了，就讲这么多吧，如果想要Demo源代码，请到</p>
+
+<ul>
+<li>github：<strong><a href="https://github.com/CoderJackyHuang/IOSCallJsOrJsCallIOS">https://github.com/CoderJackyHuang/IOSCallJsOrJsCallIOS</a></strong></li>
+</ul>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
+		  	<h1 class="entry-title"><a href="14834570124499.html">C/C++ - 回调函数中比较大小为啥0不行?</a></h1>
+			<p class="meta"><time datetime="2017-01-03T23:23:32+08:00" 
+			pubdate data-updated="true">2017/1/3</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>在C语言中我们判断真假经常使用非0为真,0为假.但是在回调函数中我设置返回非0与0代表真假的时候出现了问题:</p>
+
+<pre><code class="language-text">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int callBackCompare(void * pa, void * pb)
+{
+    return *(int *)pa &lt; *(int *)pb ? 1 : -1;
+}
+
+void selectSort(int *p, int n, int (*pf)(int a, int b))
+{
+    for(int i = 0; i &lt; n-1; i++)
+    {
+        for(int j = i+1; j&lt;n; j++)
+        {
+            if(pf(p[i],p[j]))
+            {
+                p[i] = p[i]^p[j];
+                p[j] = p[i]^p[j];
+                p[i] = p[i]^p[j];
+            }
+        }
+    }
+}
+
+int main(int argc, char *argv[])
+{
+    int arr[10] = {1,2,3,4,5,9,8,7,6,0};
+
+    qsort(arr,sizeof(arr)/sizeof(int),sizeof(int),callBackCompare);
+
+    for(int i = 0; i&lt;10; i++)
+    {
+        printf(&quot;%d\n&quot;,arr[i]);
+    }
+    return 0;
+}
+
+</code></pre>
+
+<p>callBack中这样写能够得到结果</p>
+
+<pre><code class="language-text">9
+8
+7
+6
+5
+4
+3
+2
+1
+0
+</code></pre>
+
+<p>但是如果我把callback函数中的-1换成0则返回错误结果</p>
+
+<pre><code class="language-text">0
+2
+3
+4
+5
+9
+8
+7
+6
+1
+</code></pre>
+
+<p>这是为什么呢?</p>
+
+<p>---17.1.3----<br/>
+搞懂了,0不能代表升降...</p>
+
+<blockquote>
+<p>假设是对 int 排序的话，如果是升序， 那么就是如果 a 比 b 大返回一个正值，小则负值，相等返回 0; 假设是对 int 排序的话，如果是降序， 那么就是如果 a 比 b 大返回一个负值，小则正值，相等返回 0;</p>
+</blockquote>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14830040423390.html">Swift - 上周总结(12.30)</a></h1>
 			<p class="meta"><time datetime="2016-12-29T17:34:02+08:00" 
 			pubdate data-updated="true">2016/12/29</time></p>
@@ -237,231 +526,6 @@ $(document).ready(function(event) {
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14823239811290.html">全屏返回手势小技巧</a></h1>
-			<p class="meta"><time datetime="2016-12-21T20:39:41+08:00" 
-			pubdate data-updated="true">2016/12/21</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<blockquote>
-<p>这片文章可以和<a href="http://www.citynight.cn/Blog/14790381443417.html">Swift - KVC 和 运行时获取属性列表</a> 一起看,当然配上<a href="http://www.citynight.cn/Blog/14793034700265.html">隐藏tabBar的小技巧</a>就更好了😀</p>
-</blockquote>
-
-<h2 id="toc_0">第一种: 通过<code>runtime</code>与<code>KVC</code>配合完成</h2>
-
-<p>在<code>UINavigationController</code>的<code>viewDidLoad</code>方法中:</p>
-
-<pre><code class="language-text">// 获取系统的手势
-let gest = self.interactivePopGestureRecognizer!
-// 禁用系统的手势
-interactivePopGestureRecognizer?.isEnabled = false
-
-// 通过KVC获取target 属性是通过runtime获取的,具体方法参见`Swift - KVC 和 运行时获取属性列表`
-guard let targets = gest.value(forKey: &quot;_targets&quot;) as? [AnyObject] else {
-    return
-}
-let target = targets[0].value(forKey: &quot;_target&quot;)
-
-// 给视图添加点击事件
-let pan = UIPanGestureRecognizer(target: target, action: NSSelectorFromString(&quot;handleNavigationTransition:&quot;))
-view.addGestureRecognizer(pan)
-</code></pre>
-
-<h2 id="toc_1">第二种: 通过原有的代理完成</h2>
-
-<p>直接上代码:</p>
-
-<pre><code class="language-text">class BaseNavigationController: UINavigationController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // 获取系统的手势的代理
-        guard let target = interactivePopGestureRecognizer?.delegate else {
-            return
-        }
-        
-        // 禁用系统的手势
-        interactivePopGestureRecognizer?.isEnabled = false
-        
-        // 给视图添加点击事件
-        let pan = UIPanGestureRecognizer(target: target, action: NSSelectorFromString(&quot;handleNavigationTransition:&quot;))
-        pan.delegate = self
-        view.addGestureRecognizer(pan)
-    }
-}
-
-extension BaseNavigationController:UIGestureRecognizerDelegate {
-    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -&gt; Bool {
-        // 当是跟控制器的时候不让返回,非跟控制器可以返回
-        return viewControllers.count &gt; 1
-    }
-}
-
-</code></pre>
-
-<p>第一种也应该设置代理,不设置代理的话跟控制出现手势就会有bug</p>
-
-<p>简单比较一下,第二种更简洁.不过应用了一个小技巧,看代码:</p>
-
-<pre><code class="language-text">    let pan = UIPanGestureRecognizer(target: self, action: NSSelectorFromString(&quot;handleNavigationTransition:&quot;))
-    pan.delegate = self
-    view.addGestureRecognizer(pan)
-</code></pre>
-
-<p>可见<code>target</code>&amp;<code>delegate</code>通常都是同一个对象,当让也可以是不同的,这里应用这个小技巧让代码变得更简洁.</p>
-
-
-		</div>
-
-		
-
-	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14817245458052.html">数据库复习</a></h1>
-			<p class="meta"><time datetime="2016-12-14T22:09:05+08:00" 
-			pubdate data-updated="true">2016/12/14</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<blockquote>
-<p>项目中部分功能打算使用数据库进行数据本地存储,所以复习了下数据库语句</p>
-</blockquote>
-
-<h2 id="toc_0">DDL</h2>
-
-<pre><code class="language-text">/*
-删除表,如果存在表就删除表
-*/
-DROP TABLE IF EXISTS &#39;t_student&#39;;
-
-/*
-创建表
-*/
-
-CREATE TABLE IF NOT EXISTS &#39;t_student&#39; (
-    &#39;id&#39; INTEGER NOT NULL PRIMARY KEY  AUTOINCREMENT,
-    &#39;name&#39; TEXT,
-    &#39;age&#39; INTEGER
-);
-</code></pre>
-
-<h2 id="toc_1">DML</h2>
-
-<pre><code class="language-text">/*
-插入数据
-*/
-/*
-INSERT INTO &#39;t_student&#39; (name, age) VALUES (&#39;lxz1&#39;, 18);
-INSERT INTO &#39;t_student&#39; (name, age) VALUES (&#39;lxz2&#39;, 19);
-INSERT INTO &#39;t_student&#39; (name, age) VALUES (&#39;lxz3&#39;, 21);
-INSERT INTO &#39;t_student&#39; (name, age) VALUES (&#39;lxz4&#39;, 22);
-*/
-
-/*更新*/
--- UPDATE t_student SET age = 20 WHERE name = &#39;lxz1&#39;
-UPDATE t_student SET name = &#39;xxx&#39; WHERE age &gt; 20
-
-
-/*删除*/
-DELETE FROM t_student WHERE name = &#39;xxx&#39;
-</code></pre>
-
-<h2 id="toc_2">DQL</h2>
-
-<pre><code class="language-text">/*查询语句*/
--- SELECT * FROM t_student;
-
-/*查询特殊的字段*/
--- SELECT name,age FROM t_student;
-
-/*通过条件来查询语句*/
--- SELECT name, age FROM t_student WHERE age &lt; 20;
-
-/*模糊查询*/
--- SELECT name,age FROM t_student WHERE name LIKE &#39;%l%&#39;
-
-/*多个条件的查询
-AND 并且
-OR 或者
-*/
--- SELECT name, age FROM t_student WHERE name LIKE &#39;%l%&#39; AND age &lt; 20;
-
-/*计算个数*/
--- SELECT count(*) FROM t_student WHERE age &lt; 20
-
-/*排序
-升序 ASC
-降序 DESC
-*/
--- SELECT * FROM t_student ORDER BY age DESC
-
--- SELECT * FROM t_student ORDER BY age ASC, name DESC;
-
-/*起别名*/
--- 给表起别名
-SELECT s.name, s.age FROM t_student AS s;
--- 给字段起别名
-SELECT name AS myName, age AS myAge FROM t_student;
-
-
-/*分页查询 limt
-数字1的意思是前面跳过多少条数据
-数字2的意思是本次查询多少条数据
-SELECT * FROM t_student LIMIT 数字1,数字2
-
-跳过0条数据查询5条数据
-SELECT * FROM t_student LIMIT 5
-*/
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14816416025061.html">获取崩溃信息</a></h1>
-			<p class="meta"><time datetime="2016-12-13T23:06:42+08:00" 
-			pubdate data-updated="true">2016/12/13</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>日志详细信息:</p>
-
-<pre><code class="language-text">static void exceptionHandler( NSException * exception )
-{
-    NSString *date = [NSString stringWithFormat:@&quot;崩溃日志-%@&quot;, [[NSDate date] description]];
-
-    NSLog(DEBUG_CRASH, @&quot;%@ app crashed %@&quot;,date,exception.description);
-     abort();
-}
-</code></pre>
-
-<p>Appdelegate中调用:</p>
-
-<pre><code class="language-text">NSSetUncaughtExceptionHandler( &amp;exceptionHandler );
-</code></pre>
-
-<p>当然也可以在日志信息中记录堆栈信息:</p>
-
-<pre><code class="language-text">[exception callStackSymbols]
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_14.html">&larr; Older</a> 
@@ -477,7 +541,7 @@ SELECT * FROM t_student LIMIT 5
 	  <ul id="recent_posts">
 	  
 	      <li class="post">
-	        <a href="%E5%8E%9F%E7%90%86%E6%8E%A2%E7%A9%B6.html"><strong>原理探究&nbsp;(7)</strong></a>
+	        <a href="%E5%8E%9F%E7%90%86%E6%8E%A2%E7%A9%B6.html"><strong>原理探究&nbsp;(8)</strong></a>
 	        
 	        
 	        
@@ -505,7 +569,7 @@ SELECT * FROM t_student LIMIT 5
 	      </li>
 	  
 	      <li class="post">
-	        <a href="%E6%9D%82%E8%AE%B0.html"><strong>杂记&nbsp;(14)</strong></a>
+	        <a href="%E6%9D%82%E8%AE%B0.html"><strong>杂记&nbsp;(15)</strong></a>
 	        
 	        
 	        
@@ -540,7 +604,7 @@ SELECT * FROM t_student LIMIT 5
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Java.html"><strong>Java&nbsp;(6)</strong></a>
+	        <a href="Java.html"><strong>Java&nbsp;(7)</strong></a>
 	        
 	        
 	        
@@ -561,6 +625,24 @@ SELECT * FROM t_student LIMIT 5
 	  
 	      
 		      <li class="post">
+		        <a href="16152544377232.html">Flutter 相关网站</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16026633643718.html">使用iOS模拟器测试“磁盘空间不足”情况的实用方法是什么？</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="15990466411900.html">JDBC Class.forName vs DriverManager.registerDriver</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="15989690336270.html">Java开发环境搭建的准备工作</a>
 		      </li>
 	     
@@ -568,24 +650,6 @@ SELECT * FROM t_student LIMIT 5
 	      
 		      <li class="post">
 		        <a href="15978901087507.html">529. Minesweeper（529. 扫雷游戏）</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15978472756793.html">647. Palindromic Substrings</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15966161528946.html">setProperty 应用</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15965236438323.html">devtools 热启动</a>
 		      </li>
 	     
 	  

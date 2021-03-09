@@ -78,6 +78,54 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14919624884376.html">项目优化记录</a></h1>
+			<p class="meta"><time datetime="2017-04-12T10:01:28+08:00" 
+			pubdate data-updated="true">2017/4/12</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<h2 id="toc_0">首页显示</h2>
+
+<p>重点: 数据处理放在获取数据的时候,尽管这样数据不会实时更新,但是保证了数据显示的速度.<br/>
+关于Cache, 目前使用数据库.关于异步访问要用 <code>safeAsync</code></p>
+
+<pre><code class="language-text">extension DispatchQueue {
+    // This method will dispatch the `block` to self.
+    // If `self` is the main queue, and current thread is main thread, the block
+    // will be invoked immediately instead of being dispatched.
+    func safeAsync(_ block: @escaping ()-&gt;()) {
+        if self === DispatchQueue.main &amp;&amp; Thread.isMainThread {
+            block()
+        } else {
+            async { block() }
+        }
+    }
+}
+</code></pre>
+
+<h2 id="toc_1">Topbar 移除</h2>
+
+<p>这个原有的导航对项目入侵太深,已经忍无可忍了...这周终于下决心移除它用原生的导航栏和自定义视图代替她..进展非常顺利.写了一天自定义控件,然后让大家各自把自己的控制过滤一遍.总耗时,我自己一天,其他同事不到1个小时.还是非常顺利的.用比较少的时间完成了项目中的毒瘤.</p>
+
+<h2 id="toc_2">下拉刷新封装</h2>
+
+<p>老版本使用的是<code>MJRefresh</code> 但是需要定制, 在老项目中我是通过继承完成的功能修改,这样做的原因是老项目是OC和Swift混编的,而且都是把第三方库源文件拖到项目中的方式进行的. 在重构的时候我把第三方库放到了公司的git上,然后更改源码.再打包成成库调用.</p>
+
+<h2 id="toc_3">关于时间比较</h2>
+
+<p>新项目中存在一个功能比如 <code>10:00:00</code> 到 <code>11:59:59</code> 算早市,需要判断当前时间是否是早市. 一种更方便的处理方式:</p>
+
+<p>时间格式 <code>HH:mm:ss</code> 一共6位数字,我们可以去掉中间的<code>:</code>,这样时间就是一个整数了,然后三个整数之间进行比较比 先比小时再比分钟最后比秒数要方便很多.</p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14907835920803.html">设计模式 读书笔记</a></h1>
 			<p class="meta"><time datetime="2017-03-29T18:33:12+08:00" 
 			pubdate data-updated="true">2017/3/29</time></p>
@@ -431,7 +479,7 @@ SELECT * FROM t_student LIMIT 5
 	  <ul id="recent_posts">
 	  
 	      <li class="post">
-	        <a href="%E5%8E%9F%E7%90%86%E6%8E%A2%E7%A9%B6.html"><strong>原理探究&nbsp;(7)</strong></a>
+	        <a href="%E5%8E%9F%E7%90%86%E6%8E%A2%E7%A9%B6.html"><strong>原理探究&nbsp;(8)</strong></a>
 	        
 	        
 	        
@@ -459,7 +507,7 @@ SELECT * FROM t_student LIMIT 5
 	      </li>
 	  
 	      <li class="post">
-	        <a href="%E6%9D%82%E8%AE%B0.html"><strong>杂记&nbsp;(14)</strong></a>
+	        <a href="%E6%9D%82%E8%AE%B0.html"><strong>杂记&nbsp;(15)</strong></a>
 	        
 	        
 	        
@@ -494,7 +542,7 @@ SELECT * FROM t_student LIMIT 5
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Java.html"><strong>Java&nbsp;(6)</strong></a>
+	        <a href="Java.html"><strong>Java&nbsp;(7)</strong></a>
 	        
 	        
 	        
@@ -515,6 +563,24 @@ SELECT * FROM t_student LIMIT 5
 	  
 	      
 		      <li class="post">
+		        <a href="16152544377232.html">Flutter 相关网站</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16026633643718.html">使用iOS模拟器测试“磁盘空间不足”情况的实用方法是什么？</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="15990466411900.html">JDBC Class.forName vs DriverManager.registerDriver</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="15989690336270.html">Java开发环境搭建的准备工作</a>
 		      </li>
 	     
@@ -522,24 +588,6 @@ SELECT * FROM t_student LIMIT 5
 	      
 		      <li class="post">
 		        <a href="15978901087507.html">529. Minesweeper（529. 扫雷游戏）</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15978472756793.html">647. Palindromic Substrings</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15966161528946.html">setProperty 应用</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15965236438323.html">devtools 热启动</a>
 		      </li>
 	     
 	  
