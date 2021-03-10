@@ -78,6 +78,93 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14781615036446.html">安装tree命令</a></h1>
+			<p class="meta"><time datetime="2016-11-03T16:25:03+08:00" 
+			pubdate data-updated="true">2016/11/3</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p><code>brew</code> 一行命令搞定 <code>brew install tree</code></p>
+
+<p>效果图:</p>
+
+<pre><code class="language-text">.
+├── LICENSE
+├── MKShowDetail
+│   ├── MKShowDetail.h
+│   ├── XZBaseViewController.h
+│   ├── XZBaseViewController.m
+│   ├── XZBaseViewController.xib
+│   ├── XZCustomViewController.h
+│   ├── XZCustomViewController.m
+│   ├── XZTableView.h
+│   ├── XZTableView.m
+│   └── bgImage.gif
+├── MKShowDetail.podspec
+├── MKShowDetailDemo
+│   ├── DetailShow
+│   │   ├── AppDelegate.h
+│   │   ├── AppDelegate.m
+│   │   ├── Assets.xcassets
+│   │   │   ├── AppIcon.appiconset
+│   │   │   │   └── Contents.json
+│   │   │   ├── Contents.json
+│   │   │   └── icon.imageset
+│   │   │       ├── Contents.json
+│   │   │       └── icon.jpg
+│   │   ├── Base.lproj
+│   │   │   ├── LaunchScreen.storyboard
+│   │   │   └── Main.storyboard
+│   │   ├── Info.plist
+│   │   ├── OneViewController.h
+│   │   ├── OneViewController.m
+│   │   ├── TestViewController.h
+│   │   ├── TestViewController.m
+│   │   ├── ThreeViewController.h
+│   │   ├── ThreeViewController.m
+│   │   ├── TwoViewController.h
+│   │   ├── TwoViewController.m
+│   │   ├── ViewController.h
+│   │   ├── ViewController.m
+│   │   ├── lol.jpg
+│   │   ├── main.m
+│   │   └── timo.jpg
+│   └── DetailShow.xcodeproj
+│       ├── project.pbxproj
+│       ├── project.xcworkspace
+│       │   ├── contents.xcworkspacedata
+│       │   └── xcuserdata
+│       │       ├── mekor.xcuserdatad
+│       │       │   └── UserInterfaceState.xcuserstate
+│       │       └── weizhi.xcuserdatad
+│       │           └── UserInterfaceState.xcuserstate
+│       └── xcuserdata
+│           ├── mekor.xcuserdatad
+│           │   └── xcschemes
+│           │       ├── DetailShow.xcscheme
+│           │       └── xcschememanagement.plist
+│           └── weizhi.xcuserdatad
+│               ├── xcdebugger
+│               │   └── Breakpoints_v2.xcbkptlist
+│               └── xcschemes
+│                   ├── DetailShow.xcscheme
+│                   └── xcschememanagement.plist
+├── README.md
+└── shopdetail.gif
+
+</code></pre>
+
+<p>看起来效果不错.</p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14781433227076.html">获取当前显示的UIViewController</a></h1>
 			<p class="meta"><time datetime="2016-11-03T11:22:02+08:00" 
 			pubdate data-updated="true">2016/11/3</time></p>
@@ -360,72 +447,6 @@ NSLog(@&quot;%@&quot;, [array valueForKeyPath:@&quot;@distinctUnionOfObjects.sel
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14766672567296.html">使用 chisel 提高 LLDB 调试效率</a></h1>
-			<p class="meta"><time datetime="2016-10-17T09:20:56+08:00" 
-			pubdate data-updated="true">2016/10/17</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<blockquote>
-<p><a href="https://github.com/facebook/chisel">https://github.com/facebook/chisel</a> 英文版使用说明</p>
-</blockquote>
-
-<h2 id="toc_0">安装</h2>
-
-<ol>
-<li>安装 <a href="http://brew.sh/index_zh-cn.html">Homebrew</a> (如果已经安装了,可以跳过这一步)</li>
-</ol>
-
-<pre><code class="language-text">/usr/bin/ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;
-</code></pre>
-
-<ol>
-<li>更新 Homebrew (如果已经最新了,可以跳过这一步)</li>
-</ol>
-
-<pre><code class="language-text">brew update
-</code></pre>
-
-<ol>
-<li>通过 Homebrew 安装 chisel</li>
-</ol>
-
-<pre><code class="language-text">brew install chisel
-</code></pre>
-
-<ol>
-<li>添加 chisel 命令至 ~/.lldbinit</li>
-</ol>
-
-<pre><code class="language-text">touch ~/.lldbinit echo &quot;command script import /usr/local/opt/chisel/libexec/fblldb.py&quot; &gt;&gt; ~/.lldbinit
-</code></pre>
-
-<ol>
-<li>更新 chisel</li>
-</ol>
-
-<pre><code class="language-text">brew upgrade chisel
-</code></pre>
-
-<h2 id="toc_1">使用</h2>
-
-<ol>
-<li>通过 <code>pviews</code> 命令直接查看页面层级关系</li>
-</ol>
-
-<hr/>
-
-<p>未完... </p>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_20.html">&larr; Older</a> 
@@ -448,7 +469,7 @@ NSLog(@&quot;%@&quot;, [array valueForKeyPath:@&quot;@distinctUnionOfObjects.sel
 	      </li>
 	  
 	      <li class="post">
-	        <a href="%E6%8A%80%E5%B7%A7.html"><strong>技巧&nbsp;(32)</strong></a>
+	        <a href="%E6%8A%80%E5%B7%A7.html"><strong>技巧&nbsp;(33)</strong></a>
 	        
 	        
 	        
@@ -525,6 +546,12 @@ NSLog(@&quot;%@&quot;, [array valueForKeyPath:@&quot;@distinctUnionOfObjects.sel
 	  
 	      
 		      <li class="post">
+		        <a href="16153819894563.html">SSH 免密登录设置</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16152544377232.html">Flutter 相关网站</a>
 		      </li>
 	     
@@ -544,12 +571,6 @@ NSLog(@&quot;%@&quot;, [array valueForKeyPath:@&quot;@distinctUnionOfObjects.sel
 	      
 		      <li class="post">
 		        <a href="15989690336270.html">Java开发环境搭建的准备工作</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15978901087507.html">529. Minesweeper（529. 扫雷游戏）</a>
 		      </li>
 	     
 	  

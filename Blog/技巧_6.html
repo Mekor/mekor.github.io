@@ -78,6 +78,108 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14676111126987.html">Coding中检测系统授权状态，关闭提示用户去隐私设置中打开</a></h1>
+			<p class="meta"><time datetime="2016-07-04T13:45:12+08:00" 
+			pubdate data-updated="true">2016/7/4</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<blockquote>
+<p>参考Coding项目,二维码扫描中使用到,大家可以参考:<a href="https://github.com/Mekor/MKScanner">MKScanner</a></p>
+</blockquote>
+
+<p>Helper.h文件</p>
+
+<pre><code class="language-text">#import &lt;Foundation/Foundation.h&gt;
+
+@interface Helper : NSObject
+
+/**
+ * 检查系统&quot;照片&quot;授权状态, 如果权限被关闭, 提示用户去隐私设置中打开.
+ */
++ (BOOL)checkPhotoLibraryAuthorizationStatus;
+
+/**
+ * 检查系统&quot;相机&quot;授权状态, 如果权限被关闭, 提示用户去隐私设置中打开.
+ */
++ (BOOL)checkCameraAuthorizationStatus;
+
+@end
+</code></pre>
+
+<p>Helper.m文件</p>
+
+<pre><code class="language-text">#import &quot;Helper.h&quot;
+@import AVFoundation;
+
+@implementation Helper
+
++ (BOOL)checkPhotoLibraryAuthorizationStatus
+{
+    if ([ALAssetsLibrary respondsToSelector:@selector(authorizationStatus)]) {
+        ALAuthorizationStatus authStatus = [ALAssetsLibrary authorizationStatus];
+        if (ALAuthorizationStatusDenied == authStatus ||
+            ALAuthorizationStatusRestricted == authStatus) {
+            [self showSettingAlertStr:@&quot;请在iPhone的“设置-&gt;隐私-&gt;照片”中打开本应用的访问权限&quot;];
+            return NO;
+        }
+    }
+    return YES;
+}
+
++ (BOOL)checkCameraAuthorizationStatus
+{
+    if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        kTipAlert(@&quot;该设备不支持拍照&quot;);
+        return NO;
+    }
+    
+    if ([AVCaptureDevice respondsToSelector:@selector(authorizationStatusForMediaType:)]) {
+        AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+        if (AVAuthorizationStatusDenied == authStatus ||
+            AVAuthorizationStatusRestricted == authStatus) {
+            [self showSettingAlertStr:@&quot;请在iPhone的“设置-&gt;隐私-&gt;相机”中打开本应用的访问权限&quot;];
+            return NO;
+        }
+    }
+    
+    return YES;
+}
+
++ (void)showSettingAlertStr:(NSString *)tipStr{
+    //iOS8+系统下可跳转到‘设置’页面，否则只弹出提示窗即可
+    if (floor(NSFoundationVersionNumber) &gt; NSFoundationVersionNumber_iOS_7_1) {
+        UIAlertView *alertView = [UIAlertView bk_alertViewWithTitle:@&quot;提示&quot; message:tipStr];
+        [alertView bk_setCancelButtonWithTitle:@&quot;取消&quot; handler:nil];
+        [alertView bk_addButtonWithTitle:@&quot;设置&quot; handler:nil];
+        [alertView bk_setDidDismissBlock:^(UIAlertView *alert, NSInteger index) {
+            if (index == 1) {
+                UIApplication *app = [UIApplication sharedApplication];
+                NSURL *settingsURL = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+                if ([app canOpenURL:settingsURL]) {
+                    [app openURL:settingsURL];
+                }
+            }
+        }];
+        [alertView show];
+    }else{
+        kTipAlert(@&quot;%@&quot;, tipStr);
+    }
+}
+
+@end
+
+</code></pre>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14676105703423.html">忽略编译器警告</a></h1>
 			<p class="meta"><time datetime="2016-07-04T13:36:10+08:00" 
 			pubdate data-updated="true">2016/7/4</time></p>
@@ -223,7 +325,7 @@ OK,这样就没有警告了</p>
 	      </li>
 	  
 	      <li class="post">
-	        <a href="%E6%8A%80%E5%B7%A7.html"><strong>技巧&nbsp;(32)</strong></a>
+	        <a href="%E6%8A%80%E5%B7%A7.html"><strong>技巧&nbsp;(33)</strong></a>
 	        
 	        
 	        
@@ -300,6 +402,12 @@ OK,这样就没有警告了</p>
 	  
 	      
 		      <li class="post">
+		        <a href="16153819894563.html">SSH 免密登录设置</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16152544377232.html">Flutter 相关网站</a>
 		      </li>
 	     
@@ -319,12 +427,6 @@ OK,这样就没有警告了</p>
 	      
 		      <li class="post">
 		        <a href="15989690336270.html">Java开发环境搭建的准备工作</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15978901087507.html">529. Minesweeper（529. 扫雷游戏）</a>
 		      </li>
 	     
 	  

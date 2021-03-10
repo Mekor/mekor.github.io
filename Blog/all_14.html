@@ -78,6 +78,58 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14829045788456.html">点菜逻辑梳理</a></h1>
+			<p class="meta"><time datetime="2016-12-28T13:56:18+08:00" 
+			pubdate data-updated="true">2016/12/28</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<h2 id="toc_0">同步逻辑(全量上传):</h2>
+
+<p>原定: 切台\转台 全量上传<br/>
+现在: 轮询即上传(每次轮询信息都走这个接口),切台/轮询同样走这个接口</p>
+
+<h2 id="toc_1">关于延时</h2>
+
+<p>12.27泽祥刚跟海底捞确定逻辑和备注一致即这道菜如果半份延时了再次点这道菜不论整份半份都是延时的.</p>
+
+<h2 id="toc_2">整份半份显示(如果新需求的话,可能还需要改变正在和泽祥确定中)</h2>
+
+<p>需求:点菜点锅界面菜品包含整份与半份 购物车界面整份与半份是分开的.</p>
+
+<p>目前的做法: 购物车等地方如果调用<code>-(NSArray *)getLocalDishArray</code>这个操作会把数据拆分成整份半份给调用者.但是在点菜点锅页面,我会调用<code>configLocalDishArray</code> 这个操作会把整份半份整合成一个菜给调用者</p>
+
+<h2 id="toc_3">关于估清</h2>
+
+<p>原有逻辑就是根据数据库中获取菜品信息进行估清操作判断的,<strong>目前</strong>的逻辑是这样的,数据库返回字段和轮询回来的估清数据中只要有一个是估清就显示估清,显示需要调用<code>-(BOOL)judgeIsSellOutWithDish:(HTDishEntity *)dish</code></p>
+
+<h2 id="toc_4">关于已点</h2>
+
+<p>新加菜&amp;已下单数据只要一个地方有该菜品都显示已点<code>-(BOOL)haveOrderThisDish:(NSString *)dishid</code></p>
+
+<h2 id="toc_5">匹配菜品中整份半份数量</h2>
+
+<p><code>-(nonnull HTDishEntity *)configNumberOfDish:(nonnull HTDishEntity *)dish</code><br/>
+会计算未下单数据中所有整份半份数量</p>
+
+<h2 id="toc_6">延时倍增拆分等操作</h2>
+
+<p>这里需要的菜品都是通过<code>getLocalDishArray</code>来获取否则有问题,详细逻辑大伟比较清楚</p>
+
+<h2 id="toc_7">目前问题</h2>
+
+<p>如果某一道菜设置延时了,将来这道菜每次进行数量的加减时都要同步到服务器,这个操作会不会导致网络请求发送比较频繁<br/>
+点锅后,使用最新的同步接口延时太久.吃饭前同步的数据,中午午休后发现数据回来了...点菜的数据同步很快..这个是接口用错了还是后台接口需要调整?</p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14823239811290.html">全屏返回手势小技巧</a></h1>
 			<p class="meta"><time datetime="2016-12-21T20:39:41+08:00" 
 			pubdate data-updated="true">2016/12/21</time></p>
@@ -356,53 +408,6 @@ SELECT * FROM t_student LIMIT 5
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14813828036514.html">iOS8之后设置PopoverController</a></h1>
-			<p class="meta"><time datetime="2016-12-10T23:13:23+08:00" 
-			pubdate data-updated="true">2016/12/10</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>直接上代码:</p>
-
-<pre><code class="language-text">    @IBOutlet weak var popoverButton: UIButton!
-    @IBAction func popoverClick(_ sender: Any) {
-        
-        // 需要被展示的控制器
-        let popover = PopoverViewController()
-        // 设置呈现样式
-        popover.modalPresentationStyle = .popover
-        // 对应原来PopoverController中的rect
-        popover.popoverPresentationController?.sourceRect = self.popoverButton.bounds
-        // 对应原来PopoverController中的inView
-        popover.popoverPresentationController?.sourceView = self.popoverButton
-        // 展示
-        self.present(popover, animated: true, completion: nil)
-    }
-</code></pre>
-
-<p>在被呈现的控制器中设置显示的大小:</p>
-
-<pre><code class="language-text">class PopoverViewController: UIViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        /// 设置呈现大小
-        self.preferredContentSize = CGSize(width: 400, height: 400)
-    }
-}
-</code></pre>
-
-<p>以上设置,如果是iPhone的话,模态弹出视图,popover属性就会被忽略.iPad则会Popover弹出</p>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_15.html">&larr; Older</a> 
@@ -425,7 +430,7 @@ SELECT * FROM t_student LIMIT 5
 	      </li>
 	  
 	      <li class="post">
-	        <a href="%E6%8A%80%E5%B7%A7.html"><strong>技巧&nbsp;(32)</strong></a>
+	        <a href="%E6%8A%80%E5%B7%A7.html"><strong>技巧&nbsp;(33)</strong></a>
 	        
 	        
 	        
@@ -502,6 +507,12 @@ SELECT * FROM t_student LIMIT 5
 	  
 	      
 		      <li class="post">
+		        <a href="16153819894563.html">SSH 免密登录设置</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16152544377232.html">Flutter 相关网站</a>
 		      </li>
 	     
@@ -521,12 +532,6 @@ SELECT * FROM t_student LIMIT 5
 	      
 		      <li class="post">
 		        <a href="15989690336270.html">Java开发环境搭建的准备工作</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15978901087507.html">529. Minesweeper（529. 扫雷游戏）</a>
 		      </li>
 	     
 	  

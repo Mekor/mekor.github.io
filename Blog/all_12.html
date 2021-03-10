@@ -78,6 +78,29 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14888974267202.html">Swift - 最近遇到的问题(3.8)</a></h1>
+			<p class="meta"><time datetime="2017-03-07T22:37:06+08:00" 
+			pubdate data-updated="true">2017/3/7</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<h2 id="toc_0">把函数名当参数传递不释放</h2>
+
+<p>控制器A 有一个函数 func  有一个视图 View ,如果控制器A 把函数 func 传递给 View 那么 控制器不释放</p>
+
+<h2 id="toc_1">*** Assertion failure in -[UITableView dequeueReusableCellWithIdentifier:forIndexPath:]</h2>
+
+<p>产生原因: 同一个控制器,里面有一个代码添加的tableView,然后这个控制器又添加了一个xib视图,xib视图中有tableView,并且设置tableView的数据源和代理方法为filesowner,导致崩溃.  </p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14878335740172.html">数组传递</a></h1>
 			<p class="meta"><time datetime="2017-02-23T15:06:14+08:00" 
 			pubdate data-updated="true">2017/2/23</time></p>
@@ -231,38 +254,6 @@ echo $?
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14861891967085.html">Swift - 春节前问题总结</a></h1>
-			<p class="meta"><time datetime="2017-02-04T14:19:56+08:00" 
-			pubdate data-updated="true">2017/2/4</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<ol>
-<li><p><code>#selector集中起来管理</code><br/>
-参考<a href="http://weibo.com/3321824014/ErQJDdL4L?type=repost#_rnd1486189248963">微博</a>中第二点<br/>
-<img src="media/14861891967085/14861893764185.jpg" alt=""/></p></li>
-<li><p>关于Xib的使用问题<br/>
-老生常谈的问题了,看个人喜好,不过尽量让其他人看懂,遵守xib规范.<br/>
-备注:<br/>
-    1. <a href="http://nshipster.cn/ibinspectable-ibdesignable/">IBInspectable / IBDesignable</a><br/>
-    2. <a href="http://tips.producter.io/you-ya-di-zi-ding-yi-xibview/">优雅地自定义XibView</a></p></li>
-<li><p>关于什么时候提取出方法<br/>
-一个函数如果行数过长不便于阅读,可以按照步骤抽取出字方法<br/>
-如果一个功能有2个以上地方用到需要抽取为一个方法</p></li>
-<li><p>多种样式Cell如何配置</p></li>
-</ol>
-
-<p>撕逼未完....</p>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_13.html">&larr; Older</a> 
@@ -285,7 +276,7 @@ echo $?
 	      </li>
 	  
 	      <li class="post">
-	        <a href="%E6%8A%80%E5%B7%A7.html"><strong>技巧&nbsp;(32)</strong></a>
+	        <a href="%E6%8A%80%E5%B7%A7.html"><strong>技巧&nbsp;(33)</strong></a>
 	        
 	        
 	        
@@ -362,6 +353,12 @@ echo $?
 	  
 	      
 		      <li class="post">
+		        <a href="16153819894563.html">SSH 免密登录设置</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16152544377232.html">Flutter 相关网站</a>
 		      </li>
 	     
@@ -381,12 +378,6 @@ echo $?
 	      
 		      <li class="post">
 		        <a href="15989690336270.html">Java开发环境搭建的准备工作</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15978901087507.html">529. Minesweeper（529. 扫雷游戏）</a>
 		      </li>
 	     
 	  

@@ -78,6 +78,41 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="16153819894563.html">SSH 免密登录设置</a></h1>
+			<p class="meta"><time datetime="2021-03-10T21:13:09+08:00" 
+			pubdate data-updated="true">2021/3/10</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p><img src="media/16153819894563/IMG_1E8AAA2E770B-1.jpeg" alt="IMG_1E8AAA2E770B-1"/></p>
+
+<ol>
+<li>首先进入 ssh 文件夹
+<code>
+cd ~/.ssh
+</code></li>
+<li>然后生成公钥和私钥
+<code>
+ssh-keygen
+</code>
+按三次回车，这样就生成了公钥和私钥，</li>
+<li>把生成的公钥追加到服务器的授权文件的尾部
+<code>
+ssh-copy-id root@192.168.1.7 
+</code>
+这样就完成了免密登录的设置
+<img src="media/16153819894563/16153824552757.jpg" alt="" style="width:606px;"/></li>
+</ol>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="15653325472073.html">海底捞点餐Pad 优化</a></h1>
 			<p class="meta"><time datetime="2019-08-09T14:35:47+08:00" 
 			pubdate data-updated="true">2019/8/9</time></p>
@@ -354,36 +389,6 @@ struct Weak&lt;Object: AnyObject&gt; {
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="15257014756710.html">Cell点击时多次Push</a></h1>
-			<p class="meta"><time datetime="2018-05-07T21:57:55+08:00" 
-			pubdate data-updated="true">2018/5/7</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p><a href="https://stackoverflow.com/questions/5687991/uitableview-didselectrowatindexpath-called-twice">stackoverflow上面的解决方案</a></p>
-
-<pre><code class="language-text">func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-
-    tableView.deselectRowAtIndexPath(indexPath, animated: true)
-
-    if let navigationController = navigationController {
-        guard navigationController.topViewController == self else {
-            return
-        }
-    }
-}
-
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="技巧_1.html">&larr; Older</a> 
@@ -406,7 +411,7 @@ struct Weak&lt;Object: AnyObject&gt; {
 	      </li>
 	  
 	      <li class="post">
-	        <a href="%E6%8A%80%E5%B7%A7.html"><strong>技巧&nbsp;(32)</strong></a>
+	        <a href="%E6%8A%80%E5%B7%A7.html"><strong>技巧&nbsp;(33)</strong></a>
 	        
 	        
 	        
@@ -483,6 +488,12 @@ struct Weak&lt;Object: AnyObject&gt; {
 	  
 	      
 		      <li class="post">
+		        <a href="16153819894563.html">SSH 免密登录设置</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16152544377232.html">Flutter 相关网站</a>
 		      </li>
 	     
@@ -502,12 +513,6 @@ struct Weak&lt;Object: AnyObject&gt; {
 	      
 		      <li class="post">
 		        <a href="15989690336270.html">Java开发环境搭建的准备工作</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15978901087507.html">529. Minesweeper（529. 扫雷游戏）</a>
 		      </li>
 	     
 	  

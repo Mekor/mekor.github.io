@@ -78,6 +78,31 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="15299939008214.html">图片加载方式</a></h1>
+			<p class="meta"><time datetime="2018-06-26T14:18:20+08:00" 
+			pubdate data-updated="true">2018/6/26</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p><img src="media/15299939008214/15299939112098.jpg" alt=""/><br/>
+<img src="media/15299939008214/15299939172785.jpg" alt=""/></p>
+
+<p>图像的降采样</p>
+
+<p>不要使用昂贵的UIImage：UIImage会解压原始的图片占用大量的内存<br/>
+内部的坐标变换也非常昂贵</p>
+
+<p>使用ImageIO的CGImageSourceCreateThumbnailAtIndex API: 无视原始图片尺寸，resize的内存开销只是目标尺寸（请看Session中后半部分的Demo）</p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="15271249936113.html">金额显示</a></h1>
 			<p class="meta"><time datetime="2018-05-24T09:23:13+08:00" 
 			pubdate data-updated="true">2018/5/24</time></p>
@@ -268,37 +293,6 @@ fatal: unable to access &#39;https://github.com/swisspol/GCDWebServer.git/&#39;:
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="15257015417604.html">设置placeholder颜色</a></h1>
-			<p class="meta"><time datetime="2018-05-07T21:59:01+08:00" 
-			pubdate data-updated="true">2018/5/7</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>从前设置颜色可能是这样的：</p>
-
-<pre><code class="language-text">self.textField.setValue(UIColor.white, forKeyPath: &quot;_placeholderLabel.textColor&quot;)
-
-</code></pre>
-
-<p>今天发现，居然有一个属性可以设置：</p>
-
-<pre><code class="language-text">self.textField.attributedPlaceholder =
-            NSAttributedString(string: &quot;自定义金额&quot;,
-                               attributes:
-                [NSAttributedStringKey.foregroundColor: UIColor.white]
-        )
-
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_7.html">&larr; Older</a> 
@@ -321,7 +315,7 @@ fatal: unable to access &#39;https://github.com/swisspol/GCDWebServer.git/&#39;:
 	      </li>
 	  
 	      <li class="post">
-	        <a href="%E6%8A%80%E5%B7%A7.html"><strong>技巧&nbsp;(32)</strong></a>
+	        <a href="%E6%8A%80%E5%B7%A7.html"><strong>技巧&nbsp;(33)</strong></a>
 	        
 	        
 	        
@@ -398,6 +392,12 @@ fatal: unable to access &#39;https://github.com/swisspol/GCDWebServer.git/&#39;:
 	  
 	      
 		      <li class="post">
+		        <a href="16153819894563.html">SSH 免密登录设置</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16152544377232.html">Flutter 相关网站</a>
 		      </li>
 	     
@@ -417,12 +417,6 @@ fatal: unable to access &#39;https://github.com/swisspol/GCDWebServer.git/&#39;:
 	      
 		      <li class="post">
 		        <a href="15989690336270.html">Java开发环境搭建的准备工作</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15978901087507.html">529. Minesweeper（529. 扫雷游戏）</a>
 		      </li>
 	     
 	  

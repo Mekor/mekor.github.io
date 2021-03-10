@@ -78,6 +78,53 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14765391593705.html">字符串frame相关</a></h1>
+			<p class="meta"><time datetime="2016-10-15T21:45:59+08:00" 
+			pubdate data-updated="true">2016/10/15</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>开发中常用到计算字符串的size或者rect</p>
+
+<p>经常见到如下接口:</p>
+
+<pre><code class="language-text">- (CGSize)sizeWithAttributes:(nullable NSDictionary&lt;NSString *, id&gt; *)attrs NS_AVAILABLE(10_0, 7_0);
+
+- (CGRect)boundingRectWithSize:(CGSize)size options:(NSStringDrawingOptions)options attributes:(nullable NSDictionary&lt;NSString *, id&gt; *)attributes context:(nullable NSStringDrawingContext *)context NS_AVAILABLE(10_11, 7_0);
+</code></pre>
+
+<p>项目中使用的例子:</p>
+
+<pre><code class="language-text">    // shopNameLabel frame
+    {
+        CGSize stringSize = [self.shopNameLabel.text sizeWithAttributes:@{NSFontAttributeName: self.shopNameLabel.font}];
+        self.shopNameLabel.frame = CGRectMake(margin, margin, ceil(stringSize.width), ceil(stringSize.height));
+    }
+</code></pre>
+
+<pre><code class="language-text">    // addressLabel frame
+    {
+        CGFloat lwidth = width - imageWH - 3*margin;
+        
+        CGSize stringSize = [self.addressLabel.text boundingRectWithSize:CGSizeMake(lwidth, self.addressLabel.font.lineHeight *self.addressLabel.numberOfLines) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: self.addressLabel.font} context:nil].size;
+        self.addressLabel.frame = CGRectMake(margin, ceil(CGRectGetMaxY(self.juliLabel.frame) + margin), stringSize.width, stringSize.height);
+    }
+
+</code></pre>
+
+<p>由于经常使用,所以我把这些都抽取成代码块,方便调用.</p>
+
+<p>其中由于需要预估字符串的高度,<code>boundingRectWithSize</code>,由于iOS所提供的默认字体是可能变化的,所以这里我们不能凭借经验10号字体默认高度就是10,这是不准确的.使用<code>self.addressLabel.font.lineHeight</code>应该使用行高来计算.并且显示的行数也不要写死,需要写成 <code>self.addressLabel.numberOfLines</code>.这样做才能得到想要的效果.</p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14762437833792.html">在包含UITableView视图中添加单击手势</a></h1>
 			<p class="meta"><time datetime="2016-10-12T11:43:03+08:00" 
 			pubdate data-updated="true">2016/10/12</time></p>
@@ -500,63 +547,6 @@ NSString * const nameKey = @&quot;name&quot;;
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14700440944204.html">iOS Tips</a></h1>
-			<p class="meta"><time datetime="2016-08-01T17:34:54+08:00" 
-			pubdate data-updated="true">2016/8/1</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p><strong>对象销毁</strong><br/>
-对象的销毁虽然消耗资源不多，但累积起来也是不容忽视的。通常当容器类持有大量对象时，其销毁时的资源消耗就非常明显。同样的，如果对象可以放到后台线程去释放，那就挪到后台线程去。这里有个小 Tip：把对象捕获到 block 中，然后扔到后台队列去随便发送个消息以避免编译器警告，就可以让对象在后台线程销毁了。</p>
-
-<pre><code class="language-text">NSArray *tmp = self.array;
-self.array = nil;
-dispatch_async(queue, ^{
-    [tmp class];
-});
-</code></pre>
-
-<blockquote>
-<p>来自:<a href="http://blog.ibireme.com/2015/11/12/smooth_user_interfaces_for_ios/">iOS 保持界面流畅的技巧</a></p>
-</blockquote>
-
-<p><strong>拖拽收起键盘</strong><br/>
-UIScrollView有个keyboardDismissMode属性，设置成UIScrollViewKeyboardDismissModeOnDrag就可以在拖拽ScrollView的时候自动缩起键盘</p>
-
-<pre><code class="language-text">@property(nonatomic) UIScrollViewKeyboardDismissMode keyboardDismissMode NS_AVAILABLE_IOS(7_0); // default is UIScrollViewKeyboardDismissModeNone
-</code></pre>
-
-<p><strong>让view的一部分响应手势点击</strong><br/>
-让view的一部分响应手势点击，其余部分实现手势透传给下方的view的方法</p>
-
-<p>在View中重写:</p>
-
-<pre><code class="language-text">-(UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
-    NSLog(@&quot;%@-------------&gt;&gt;&gt;&gt;&gt;&gt;&gt;point = %@&quot;,NSStringFromSelector(_cmd),NSStringFromCGPoint(point));
-    
-    // 设置能够点击的区域
-    CGRect rect = CGRectMake(100, 100, 200, 200);
-    if (CGRectContainsPoint(rect, point)) {
-        // 如果点击在该区域,则让View 成为响应链中的一个view,接受手势事件
-        // 此时可通过touchBegan:方法监听到手势
-        return self;
-    }
-    return nil;
-}
-
-</code></pre>
-
-<p>控制按钮的点击范围可以参见:<a href="https://github.com/Mekor/MKExtension">MKExtension</a>中的<code>UIButton+TapScope</code></p>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="技巧_5.html">&larr; Older</a> 
@@ -579,7 +569,7 @@ UIScrollView有个keyboardDismissMode属性，设置成UIScrollViewKeyboardDismi
 	      </li>
 	  
 	      <li class="post">
-	        <a href="%E6%8A%80%E5%B7%A7.html"><strong>技巧&nbsp;(32)</strong></a>
+	        <a href="%E6%8A%80%E5%B7%A7.html"><strong>技巧&nbsp;(33)</strong></a>
 	        
 	        
 	        
@@ -656,6 +646,12 @@ UIScrollView有个keyboardDismissMode属性，设置成UIScrollViewKeyboardDismi
 	  
 	      
 		      <li class="post">
+		        <a href="16153819894563.html">SSH 免密登录设置</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16152544377232.html">Flutter 相关网站</a>
 		      </li>
 	     
@@ -675,12 +671,6 @@ UIScrollView有个keyboardDismissMode属性，设置成UIScrollViewKeyboardDismi
 	      
 		      <li class="post">
 		        <a href="15989690336270.html">Java开发环境搭建的准备工作</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15978901087507.html">529. Minesweeper（529. 扫雷游戏）</a>
 		      </li>
 	     
 	  

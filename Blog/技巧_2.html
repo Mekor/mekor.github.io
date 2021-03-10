@@ -78,6 +78,42 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14907559721950.html">Mac zsh 使用命令打开sublime</a></h1>
+			<p class="meta"><time datetime="2017-03-29T10:52:52+08:00" 
+			pubdate data-updated="true">2017/3/29</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<h2 id="toc_0">1/添加</h2>
+
+<p><code>vim .zshrc</code></p>
+
+<p>添加 <br/>
+ <code>alias subl=&quot;open -a Sublime\ Text&quot;</code>（如果你是Sublime Text ）<br/>
+  或者<br/>
+<code>alias subl=&quot;open -a Sublime\ Text\ 2&quot;</code> （如果你是Sublime Text 2）</p>
+
+<h2 id="toc_1">2/生效</h2>
+
+<p><code>source ~/.zshrc</code></p>
+
+<h2 id="toc_2">3/测试</h2>
+
+<p>在命令行输入：<br/>
+    <code>subl</code>     就可以打开sublime</p>
+
+<p>输入：<br/>
+    <code>subl test.txt</code> 就可以打开文件</p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14878335740172.html">数组传递</a></h1>
 			<p class="meta"><time datetime="2017-02-23T15:06:14+08:00" 
 			pubdate data-updated="true">2017/2/23</time></p>
@@ -258,38 +294,6 @@ self.collectionView.setContentOffset(CGPointMake(0, attributes!.frame.origin.y -
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14793034700265.html">隐藏tabBar的小技巧</a></h1>
-			<p class="meta"><time datetime="2016-11-16T21:37:50+08:00" 
-			pubdate data-updated="true">2016/11/16</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>突然想起来 <code>微指App</code> 里面控制 tabBar 显示与隐藏非常麻烦,在控制器中的 <code>viewWillAppear</code> 和 <code>viewWillDisappear</code>中做处理,这样能保证在控制器中控制 tabBar 的显示与隐藏,但是也非常麻烦,每个控制器都需要控制..</p>
-
-<p>一劳永逸的做法:</p>
-
-<pre><code class="language-text">    // 重写 push 方法
-    override func pushViewController(_ viewController: UIViewController, animated: Bool) {
-        // 如果不是栈底控制器才需要隐藏, 根控制器 不需要处理
-        if childViewControllers.count &gt; 0 {
-            // 隐藏底部的 TabBar
-            viewController.hidesBottomBarWhenPushed = true
-        }
-        super.pushViewController(viewController, animated: true)
-    }
-</code></pre>
-
-<p>在导航控制器中重写 <code>push</code> 方法,这样就能省去好多麻烦..</p>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="技巧_3.html">&larr; Older</a> 
@@ -312,7 +316,7 @@ self.collectionView.setContentOffset(CGPointMake(0, attributes!.frame.origin.y -
 	      </li>
 	  
 	      <li class="post">
-	        <a href="%E6%8A%80%E5%B7%A7.html"><strong>技巧&nbsp;(32)</strong></a>
+	        <a href="%E6%8A%80%E5%B7%A7.html"><strong>技巧&nbsp;(33)</strong></a>
 	        
 	        
 	        
@@ -389,6 +393,12 @@ self.collectionView.setContentOffset(CGPointMake(0, attributes!.frame.origin.y -
 	  
 	      
 		      <li class="post">
+		        <a href="16153819894563.html">SSH 免密登录设置</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16152544377232.html">Flutter 相关网站</a>
 		      </li>
 	     
@@ -408,12 +418,6 @@ self.collectionView.setContentOffset(CGPointMake(0, attributes!.frame.origin.y -
 	      
 		      <li class="post">
 		        <a href="15989690336270.html">Java开发环境搭建的准备工作</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15978901087507.html">529. Minesweeper（529. 扫雷游戏）</a>
 		      </li>
 	     
 	  

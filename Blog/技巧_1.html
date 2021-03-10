@@ -78,6 +78,36 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="15257014756710.html">Cell点击时多次Push</a></h1>
+			<p class="meta"><time datetime="2018-05-07T21:57:55+08:00" 
+			pubdate data-updated="true">2018/5/7</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p><a href="https://stackoverflow.com/questions/5687991/uitableview-didselectrowatindexpath-called-twice">stackoverflow上面的解决方案</a></p>
+
+<pre><code class="language-text">func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+
+    tableView.deselectRowAtIndexPath(indexPath, animated: true)
+
+    if let navigationController = navigationController {
+        guard navigationController.topViewController == self else {
+            return
+        }
+    }
+}
+
+</code></pre>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="15180682554389.html">防止Timer 与控制器耦合导致控制器不释放</a></h1>
 			<p class="meta"><time datetime="2018-02-08T13:37:35+08:00" 
 			pubdate data-updated="true">2018/2/8</time></p>
@@ -406,42 +436,6 @@ let attributedText = NSAttributedString(string: &quot;被划线文字&quot;, att
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14907559721950.html">Mac zsh 使用命令打开sublime</a></h1>
-			<p class="meta"><time datetime="2017-03-29T10:52:52+08:00" 
-			pubdate data-updated="true">2017/3/29</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<h2 id="toc_0">1/添加</h2>
-
-<p><code>vim .zshrc</code></p>
-
-<p>添加 <br/>
- <code>alias subl=&quot;open -a Sublime\ Text&quot;</code>（如果你是Sublime Text ）<br/>
-  或者<br/>
-<code>alias subl=&quot;open -a Sublime\ Text\ 2&quot;</code> （如果你是Sublime Text 2）</p>
-
-<h2 id="toc_1">2/生效</h2>
-
-<p><code>source ~/.zshrc</code></p>
-
-<h2 id="toc_2">3/测试</h2>
-
-<p>在命令行输入：<br/>
-    <code>subl</code>     就可以打开sublime</p>
-
-<p>输入：<br/>
-    <code>subl test.txt</code> 就可以打开文件</p>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="技巧_2.html">&larr; Older</a> 
@@ -464,7 +458,7 @@ let attributedText = NSAttributedString(string: &quot;被划线文字&quot;, att
 	      </li>
 	  
 	      <li class="post">
-	        <a href="%E6%8A%80%E5%B7%A7.html"><strong>技巧&nbsp;(32)</strong></a>
+	        <a href="%E6%8A%80%E5%B7%A7.html"><strong>技巧&nbsp;(33)</strong></a>
 	        
 	        
 	        
@@ -541,6 +535,12 @@ let attributedText = NSAttributedString(string: &quot;被划线文字&quot;, att
 	  
 	      
 		      <li class="post">
+		        <a href="16153819894563.html">SSH 免密登录设置</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16152544377232.html">Flutter 相关网站</a>
 		      </li>
 	     
@@ -560,12 +560,6 @@ let attributedText = NSAttributedString(string: &quot;被划线文字&quot;, att
 	      
 		      <li class="post">
 		        <a href="15989690336270.html">Java开发环境搭建的准备工作</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15978901087507.html">529. Minesweeper（529. 扫雷游戏）</a>
 		      </li>
 	     
 	  

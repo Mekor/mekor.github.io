@@ -78,6 +78,63 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14700440944204.html">iOS Tips</a></h1>
+			<p class="meta"><time datetime="2016-08-01T17:34:54+08:00" 
+			pubdate data-updated="true">2016/8/1</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p><strong>对象销毁</strong><br/>
+对象的销毁虽然消耗资源不多，但累积起来也是不容忽视的。通常当容器类持有大量对象时，其销毁时的资源消耗就非常明显。同样的，如果对象可以放到后台线程去释放，那就挪到后台线程去。这里有个小 Tip：把对象捕获到 block 中，然后扔到后台队列去随便发送个消息以避免编译器警告，就可以让对象在后台线程销毁了。</p>
+
+<pre><code class="language-text">NSArray *tmp = self.array;
+self.array = nil;
+dispatch_async(queue, ^{
+    [tmp class];
+});
+</code></pre>
+
+<blockquote>
+<p>来自:<a href="http://blog.ibireme.com/2015/11/12/smooth_user_interfaces_for_ios/">iOS 保持界面流畅的技巧</a></p>
+</blockquote>
+
+<p><strong>拖拽收起键盘</strong><br/>
+UIScrollView有个keyboardDismissMode属性，设置成UIScrollViewKeyboardDismissModeOnDrag就可以在拖拽ScrollView的时候自动缩起键盘</p>
+
+<pre><code class="language-text">@property(nonatomic) UIScrollViewKeyboardDismissMode keyboardDismissMode NS_AVAILABLE_IOS(7_0); // default is UIScrollViewKeyboardDismissModeNone
+</code></pre>
+
+<p><strong>让view的一部分响应手势点击</strong><br/>
+让view的一部分响应手势点击，其余部分实现手势透传给下方的view的方法</p>
+
+<p>在View中重写:</p>
+
+<pre><code class="language-text">-(UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    NSLog(@&quot;%@-------------&gt;&gt;&gt;&gt;&gt;&gt;&gt;point = %@&quot;,NSStringFromSelector(_cmd),NSStringFromCGPoint(point));
+    
+    // 设置能够点击的区域
+    CGRect rect = CGRectMake(100, 100, 200, 200);
+    if (CGRectContainsPoint(rect, point)) {
+        // 如果点击在该区域,则让View 成为响应链中的一个view,接受手势事件
+        // 此时可通过touchBegan:方法监听到手势
+        return self;
+    }
+    return nil;
+}
+
+</code></pre>
+
+<p>控制按钮的点击范围可以参见:<a href="https://github.com/Mekor/MKExtension">MKExtension</a>中的<code>UIButton+TapScope</code></p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14685034880390.html">Mac 下面Python 自动补全</a></h1>
 			<p class="meta"><time datetime="2016-07-14T21:38:08+08:00" 
 			pubdate data-updated="true">2016/7/14</time></p>
@@ -479,108 +536,6 @@ FOUNDATION_EXPORT NSString * const AFNetworkingOperationFailingURLResponseDataEr
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14676111126987.html">Coding中检测系统授权状态，关闭提示用户去隐私设置中打开</a></h1>
-			<p class="meta"><time datetime="2016-07-04T13:45:12+08:00" 
-			pubdate data-updated="true">2016/7/4</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<blockquote>
-<p>参考Coding项目,二维码扫描中使用到,大家可以参考:<a href="https://github.com/Mekor/MKScanner">MKScanner</a></p>
-</blockquote>
-
-<p>Helper.h文件</p>
-
-<pre><code class="language-text">#import &lt;Foundation/Foundation.h&gt;
-
-@interface Helper : NSObject
-
-/**
- * 检查系统&quot;照片&quot;授权状态, 如果权限被关闭, 提示用户去隐私设置中打开.
- */
-+ (BOOL)checkPhotoLibraryAuthorizationStatus;
-
-/**
- * 检查系统&quot;相机&quot;授权状态, 如果权限被关闭, 提示用户去隐私设置中打开.
- */
-+ (BOOL)checkCameraAuthorizationStatus;
-
-@end
-</code></pre>
-
-<p>Helper.m文件</p>
-
-<pre><code class="language-text">#import &quot;Helper.h&quot;
-@import AVFoundation;
-
-@implementation Helper
-
-+ (BOOL)checkPhotoLibraryAuthorizationStatus
-{
-    if ([ALAssetsLibrary respondsToSelector:@selector(authorizationStatus)]) {
-        ALAuthorizationStatus authStatus = [ALAssetsLibrary authorizationStatus];
-        if (ALAuthorizationStatusDenied == authStatus ||
-            ALAuthorizationStatusRestricted == authStatus) {
-            [self showSettingAlertStr:@&quot;请在iPhone的“设置-&gt;隐私-&gt;照片”中打开本应用的访问权限&quot;];
-            return NO;
-        }
-    }
-    return YES;
-}
-
-+ (BOOL)checkCameraAuthorizationStatus
-{
-    if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-        kTipAlert(@&quot;该设备不支持拍照&quot;);
-        return NO;
-    }
-    
-    if ([AVCaptureDevice respondsToSelector:@selector(authorizationStatusForMediaType:)]) {
-        AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
-        if (AVAuthorizationStatusDenied == authStatus ||
-            AVAuthorizationStatusRestricted == authStatus) {
-            [self showSettingAlertStr:@&quot;请在iPhone的“设置-&gt;隐私-&gt;相机”中打开本应用的访问权限&quot;];
-            return NO;
-        }
-    }
-    
-    return YES;
-}
-
-+ (void)showSettingAlertStr:(NSString *)tipStr{
-    //iOS8+系统下可跳转到‘设置’页面，否则只弹出提示窗即可
-    if (floor(NSFoundationVersionNumber) &gt; NSFoundationVersionNumber_iOS_7_1) {
-        UIAlertView *alertView = [UIAlertView bk_alertViewWithTitle:@&quot;提示&quot; message:tipStr];
-        [alertView bk_setCancelButtonWithTitle:@&quot;取消&quot; handler:nil];
-        [alertView bk_addButtonWithTitle:@&quot;设置&quot; handler:nil];
-        [alertView bk_setDidDismissBlock:^(UIAlertView *alert, NSInteger index) {
-            if (index == 1) {
-                UIApplication *app = [UIApplication sharedApplication];
-                NSURL *settingsURL = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
-                if ([app canOpenURL:settingsURL]) {
-                    [app openURL:settingsURL];
-                }
-            }
-        }];
-        [alertView show];
-    }else{
-        kTipAlert(@&quot;%@&quot;, tipStr);
-    }
-}
-
-@end
-
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="技巧_6.html">&larr; Older</a> 
@@ -603,7 +558,7 @@ FOUNDATION_EXPORT NSString * const AFNetworkingOperationFailingURLResponseDataEr
 	      </li>
 	  
 	      <li class="post">
-	        <a href="%E6%8A%80%E5%B7%A7.html"><strong>技巧&nbsp;(32)</strong></a>
+	        <a href="%E6%8A%80%E5%B7%A7.html"><strong>技巧&nbsp;(33)</strong></a>
 	        
 	        
 	        
@@ -680,6 +635,12 @@ FOUNDATION_EXPORT NSString * const AFNetworkingOperationFailingURLResponseDataEr
 	  
 	      
 		      <li class="post">
+		        <a href="16153819894563.html">SSH 免密登录设置</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16152544377232.html">Flutter 相关网站</a>
 		      </li>
 	     
@@ -699,12 +660,6 @@ FOUNDATION_EXPORT NSString * const AFNetworkingOperationFailingURLResponseDataEr
 	      
 		      <li class="post">
 		        <a href="15989690336270.html">Java开发环境搭建的准备工作</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15978901087507.html">529. Minesweeper（529. 扫雷游戏）</a>
 		      </li>
 	     
 	  
