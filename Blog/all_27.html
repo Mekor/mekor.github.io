@@ -78,6 +78,238 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14678597180657.html">关于tableViewCell加载图片优化</a></h1>
+			<p class="meta"><time datetime="2016-07-07T10:48:38+08:00" 
+			pubdate data-updated="true">2016/7/7</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>cell的创建</p>
+
+<pre><code class="language-text">- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+</code></pre>
+
+<p>数据处理建议在这里进行:</p>
+
+<pre><code class="language-text">-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+</code></pre>
+
+<p>cell将要显示的时候我们进行一些处理(来自苹果Demo)</p>
+
+<pre><code class="language-text">// Only load cached images; defer new downloads until scrolling ends
+if (!appRecord.appIcon)
+{
+    if (self.tableView.dragging == NO &amp;&amp; self.tableView.decelerating == NO)
+    {
+        [self startIconDownload:appRecord forIndexPath:indexPath];
+    }
+    // if a download is deferred or in progress, return a placeholder image
+    cell.imageView.image = [UIImage imageNamed:@&quot;Placeholder.png&quot;];
+}
+else
+{
+    cell.imageView.image = appRecord.appIcon;
+}
+</code></pre>
+
+<p>这里可以看出,拖拽和滚动的时候不进行图片下载,只有停止的时候才进行.当然我们还需要在scrollView停止滚动和拖拽的时候进行下载</p>
+
+<pre><code class="language-text">#pragma mark - UIScrollViewDelegate
+
+// -------------------------------------------------------------------------------
+//  scrollViewDidEndDragging:willDecelerate:
+//  Load images for all onscreen rows when scrolling is finished.
+// -------------------------------------------------------------------------------
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    if (!decelerate)
+    {
+        [self loadImagesForOnscreenRows];
+    }
+}
+
+// -------------------------------------------------------------------------------
+//  scrollViewDidEndDecelerating:scrollView
+//  When scrolling stops, proceed to load the app icons that are on screen.
+// -------------------------------------------------------------------------------
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    [self loadImagesForOnscreenRows];
+}
+
+</code></pre>
+
+<p>下载显示cell的图片</p>
+
+<pre><code class="language-text">// -------------------------------------------------------------------------------
+//  loadImagesForOnscreenRows
+//  This method is used in case the user scrolled into a set of cells that don&#39;t
+//  have their app icons yet.
+// -------------------------------------------------------------------------------
+- (void)loadImagesForOnscreenRows
+{
+    if (self.entries.count &gt; 0)
+    {
+        NSArray *visiblePaths = [self.tableView indexPathsForVisibleRows];
+        for (NSIndexPath *indexPath in visiblePaths)
+        {
+            AppRecord *appRecord = (self.entries)[indexPath.row];
+            
+            if (!appRecord.appIcon)
+            // Avoid the app icon download if the app already has an icon
+            {
+                [self startIconDownload:appRecord forIndexPath:indexPath];
+            }
+        }
+    }
+}
+</code></pre>
+
+<p>具体下载:</p>
+
+<pre><code class="language-text">#pragma mark - Table cell image support
+
+// -------------------------------------------------------------------------------
+//  startIconDownload:forIndexPath:
+// -------------------------------------------------------------------------------
+- (void)startIconDownload:(AppRecord *)appRecord forIndexPath:(NSIndexPath *)indexPath
+{
+    NSLog(@&quot;下载图片&quot;);
+    IconDownloader *iconDownloader = (self.imageDownloadsInProgress)[indexPath];
+    if (iconDownloader == nil) 
+    {
+        iconDownloader = [[IconDownloader alloc] init];
+        iconDownloader.appRecord = appRecord;
+        [iconDownloader setCompletionHandler:^{
+            
+            UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+            
+            // Display the newly loaded image
+            cell.imageView.image = appRecord.appIcon;
+            
+            // Remove the IconDownloader from the in progress list.
+            // This will result in it being deallocated.
+            [self.imageDownloadsInProgress removeObjectForKey:indexPath];
+            
+        }];
+        (self.imageDownloadsInProgress)[indexPath] = iconDownloader;
+        [iconDownloader startDownload];  
+    }
+}
+</code></pre>
+
+<p>IconDownloader文件</p>
+
+<pre><code class="language-text">//.h文件
+@class AppRecord;
+
+@interface IconDownloader : NSObject
+
+@property (nonatomic, strong) AppRecord *appRecord;
+@property (nonatomic, copy) void (^completionHandler)(void);
+
+- (void)startDownload;
+- (void)cancelDownload;
+
+@end
+
+
+//.m文件
+#import &quot;IconDownloader.h&quot;
+#import &quot;AppRecord.h&quot;
+
+#define kAppIconSize 48
+
+
+@interface IconDownloader ()
+
+@property (nonatomic, strong) NSURLSessionDataTask *sessionTask;
+
+@end
+
+
+#pragma mark -
+
+@implementation IconDownloader
+
+// -------------------------------------------------------------------------------
+//  startDownload
+// -------------------------------------------------------------------------------
+- (void)startDownload
+{
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.appRecord.imageURLString]];
+
+    // create an session data task to obtain and download the app icon
+    _sessionTask = [[NSURLSession sharedSession] dataTaskWithRequest:request
+                                                   completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        
+        // in case we want to know the response status code
+        //NSInteger HTTPStatusCode = [(NSHTTPURLResponse *)response statusCode];
+
+        if (error != nil)
+        {
+            if ([error code] == NSURLErrorAppTransportSecurityRequiresSecureConnection)
+            {
+                // if you get error NSURLErrorAppTransportSecurityRequiresSecureConnection (-1022),
+                // then your Info.plist has not been properly configured to match the target server.
+                //
+                abort();
+            }
+        }
+                                                       
+        [[NSOperationQueue mainQueue] addOperationWithBlock: ^{
+            
+            // Set appIcon and clear temporary data/image
+            UIImage *image = [[UIImage alloc] initWithData:data];
+            
+            if (image.size.width != kAppIconSize || image.size.height != kAppIconSize)
+            {
+                CGSize itemSize = CGSizeMake(kAppIconSize, kAppIconSize);
+                UIGraphicsBeginImageContextWithOptions(itemSize, NO, 0.0f);
+                CGRect imageRect = CGRectMake(0.0, 0.0, itemSize.width, itemSize.height);
+                [image drawInRect:imageRect];
+                self.appRecord.appIcon = UIGraphicsGetImageFromCurrentImageContext();
+                UIGraphicsEndImageContext();
+            }
+            else
+            {
+                self.appRecord.appIcon = image;
+            }
+            
+            // call our completion handler to tell our client that our icon is ready for display
+            if (self.completionHandler != nil)
+            {
+                self.completionHandler();
+            }
+        }];
+    }];
+    
+    [self.sessionTask resume];
+}
+
+// -------------------------------------------------------------------------------
+//  cancelDownload
+// -------------------------------------------------------------------------------
+- (void)cancelDownload
+{
+    [self.sessionTask cancel];
+    _sessionTask = nil;
+}
+</code></pre>
+
+<blockquote>
+<p><a href="https://developer.apple.com/library/ios/samplecode/LazyTableImages/Introduction/Intro.html">Apple Demo</a></p>
+</blockquote>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14677030322532.html">键盘消失后又再次显示并立即消失问题</a></h1>
 			<p class="meta"><time datetime="2016-07-05T15:17:12+08:00" 
 			pubdate data-updated="true">2016/7/5</time></p>
@@ -387,57 +619,6 @@ FOUNDATION_EXPORT NSString * const AFNetworkingOperationFailingURLResponseDataEr
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14676105703423.html">忽略编译器警告</a></h1>
-			<p class="meta"><time datetime="2016-07-04T13:36:10+08:00" 
-			pubdate data-updated="true">2016/7/4</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<h2 id="toc_0">第一种方法</h2>
-
-<p>举例<br/>
-<img src="media/14672570618572/14672571503878.jpg" alt=""/><br/>
-<img src="media/14672570618572/14672573103735.jpg" alt=""/><br/>
-接下来,<br/>
-<img src="media/14672570618572/14672575411986.jpg" alt=""/><br/>
-<img src="media/14672570618572/14672577757507.jpg" alt=""/></p>
-
-<h2 id="toc_1">第二种方法</h2>
-
-<pre><code class="language-text">#pragma clang diagnostic push
-#pragma clang diagnostic ignored&quot; -Wcompare-distinct-pointer-types&quot;
-    //写在这个中间的代码,都不会被编译器提示-Wcompare-distinct-pointer-types
-#pragma clang diagnostic pop 
-</code></pre>
-
-<h2 id="toc_2">Xib警告: This file is set to build for a version older than the deployment target. Functionality may be limited.</h2>
-
-<p>类似于这种<br/>
-<img src="media/14672570618572/14672589919425.jpg" alt=""/></p>
-
-<p>双击进入Xib文件<br/>
-<img src="media/14672570618572/14672592962938.jpg" alt=""/><br/>
-OK,这样就没有警告了</p>
-
-<h2 id="toc_3">非源文件参与编译错误</h2>
-
-<p><img src="media/14672570618572/Snip20160630_15.png" alt="Snip20160630_15"/><br/>
-项目中有一个README.md的文件,这个文件主要记录使用第三方的一些情况,默认就参与编译了,我们需要这样做</p>
-
-<p><img src="media/14672570618572/Snip20160630_16.png" alt="Snip20160630_16"/></p>
-
-<p>找到这个文件,然后移除,这样就不会有问题了.<br/>
-参考: <a href="http://stackoverflow.com/questions/6509600/compilation-warning-no-rule-to-process-file-for-architecture-i386">compilation warning: no rule to process file for architecture i386</a></p>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_28.html">&larr; Older</a> 
@@ -460,7 +641,7 @@ OK,这样就没有警告了</p>
 	      </li>
 	  
 	      <li class="post">
-	        <a href="%E6%8A%80%E5%B7%A7.html"><strong>技巧&nbsp;(33)</strong></a>
+	        <a href="%E6%8A%80%E5%B7%A7.html"><strong>技巧&nbsp;(34)</strong></a>
 	        
 	        
 	        
@@ -537,6 +718,12 @@ OK,这样就没有警告了</p>
 	  
 	      
 		      <li class="post">
+		        <a href="16154734553187.html">Flutter 环境变量设置</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16153819894563.html">SSH 免密登录设置</a>
 		      </li>
 	     
@@ -556,12 +743,6 @@ OK,这样就没有警告了</p>
 	      
 		      <li class="post">
 		        <a href="15990466411900.html">JDBC Class.forName vs DriverManager.registerDriver</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15989690336270.html">Java开发环境搭建的准备工作</a>
 		      </li>
 	     
 	  

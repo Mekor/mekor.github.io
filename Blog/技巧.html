@@ -78,6 +78,49 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="16154734553187.html">Flutter 环境变量设置</a></h1>
+			<p class="meta"><time datetime="2021-03-11T22:37:35+08:00" 
+			pubdate data-updated="true">2021/3/11</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>我把flutter文件夹拖到资源库中<br/>
+<img src="media/16154734553187/16154735272429.jpg" alt="" style="width:920px;"/></p>
+
+<p>然后更改环境变量</p>
+
+<pre><code class="language-text">code ~/.bash_profile
+</code></pre>
+
+<p>在环境变量后面添加flutter的环境变量</p>
+
+<pre><code class="language-text">export PATH=/Users/logan/Library/flutter/bin:$PATH
+</code></pre>
+
+<p>然后看下版本号</p>
+
+<pre><code class="language-text">flutter --version
+</code></pre>
+
+<p>然后看到输出类似</p>
+
+<pre><code class="language-text">Flutter 2.0.1 • channel stable • https://github.com/flutter/flutter.git
+Framework • revision c5a4b4029c (7 days ago) • 2021-03-04 09:47:48 -0800
+Engine • revision 40441def69
+Tools • Dart 2.12.0
+</code></pre>
+
+<p>这样就没有问题了</p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="16153819894563.html">SSH 免密登录设置</a></h1>
 			<p class="meta"><time datetime="2021-03-10T21:13:09+08:00" 
 			pubdate data-updated="true">2021/3/10</time></p>
@@ -103,6 +146,10 @@ ssh-copy-id root@192.168.1.7
 这样就完成了免密登录的设置
 <img src="media/16153819894563/16153824552757.jpg" alt="" style="width:606px;"/></li>
 </ol>
+
+<p>追加完后我们可以看下是否一致<br/>
+<img src="media/16153819894563/16153840301369.jpg" alt="" style="width:606px;"/><br/>
+我们能看到服务端授权文件追加的公钥就是我们客户端生成的公钥。</p>
 
 
 		</div>
@@ -355,40 +402,6 @@ struct Weak&lt;Object: AnyObject&gt; {
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="15257015215231.html">懒加载的另一种写法</a></h1>
-			<p class="meta"><time datetime="2018-05-07T21:58:41+08:00" 
-			pubdate data-updated="true">2018/5/7</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>原先我一直这样写：</p>
-
-<pre><code class="language-text">    private lazy var imageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: &quot;placeholder&quot;))
-        imageView.contentMode = .center
-        return imageView
-    }()
-
-</code></pre>
-
-<p>今天看到了另一种比较简洁的写法</p>
-
-<pre><code class="language-text">private lazy var imageView: UIImageView = {
-        $0.contentMode = .center
-        return $0
-    }(UIImageView())
-
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="技巧_1.html">&larr; Older</a> 
@@ -411,7 +424,7 @@ struct Weak&lt;Object: AnyObject&gt; {
 	      </li>
 	  
 	      <li class="post">
-	        <a href="%E6%8A%80%E5%B7%A7.html"><strong>技巧&nbsp;(33)</strong></a>
+	        <a href="%E6%8A%80%E5%B7%A7.html"><strong>技巧&nbsp;(34)</strong></a>
 	        
 	        
 	        
@@ -488,6 +501,12 @@ struct Weak&lt;Object: AnyObject&gt; {
 	  
 	      
 		      <li class="post">
+		        <a href="16154734553187.html">Flutter 环境变量设置</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16153819894563.html">SSH 免密登录设置</a>
 		      </li>
 	     
@@ -507,12 +526,6 @@ struct Weak&lt;Object: AnyObject&gt; {
 	      
 		      <li class="post">
 		        <a href="15990466411900.html">JDBC Class.forName vs DriverManager.registerDriver</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15989690336270.html">Java开发环境搭建的准备工作</a>
 		      </li>
 	     
 	  

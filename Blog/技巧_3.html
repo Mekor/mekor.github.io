@@ -78,6 +78,32 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14810139766101.html">Scroll UICollectionView to section header view</a></h1>
+			<p class="meta"><time datetime="2016-12-06T16:46:16+08:00" 
+			pubdate data-updated="true">2016/12/6</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>新界面左右联动的时候遇到了一个问题,怎么在左侧tableView点击某一cell的时候右侧collectionView跳转到对应的section</p>
+
+<p>如果没有section header View 的时候直接跳转到这个section的第一个Item就ok了,但是如果有section header View 的时候就需要注意了,不能这样进行跳转了,下面👇是经过测试的方法能够完美跳转到相应的section:</p>
+
+<pre><code class="language-text">let attributes = self.collectionView.collectionViewLayout.layoutAttributesForSupplementaryViewOfKind(UICollectionElementKindSectionHeader, atIndexPath: NSIndexPath(forItem: 0, inSection: index))
+
+self.collectionView.setContentOffset(CGPointMake(0, attributes!.frame.origin.y - self.collectionView.contentInset.top), animated: true)
+</code></pre>
+
+<p>参见:<a href="http://stackoverflow.com/questions/22100227/scroll-uicollectionview-to-section-header-view">Scroll UICollectionView to section header view</a></p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14793034700265.html">隐藏tabBar的小技巧</a></h1>
 			<p class="meta"><time datetime="2016-11-16T21:37:50+08:00" 
 			pubdate data-updated="true">2016/11/16</time></p>
@@ -359,24 +385,6 @@ for (NSURL *url in urls) {
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14765420394973.html">iOS 模拟器 添加图片到相册的小技巧</a></h1>
-			<p class="meta"><time datetime="2016-10-15T22:33:59+08:00" 
-			pubdate data-updated="true">2016/10/15</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>把图片拖到模拟器主屏幕,或者Safari中,保存图片7 <br/>
-<img src="media/14765420394973/tips.gif" alt="tips"/></p>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="技巧_4.html">&larr; Older</a> 
@@ -399,7 +407,7 @@ for (NSURL *url in urls) {
 	      </li>
 	  
 	      <li class="post">
-	        <a href="%E6%8A%80%E5%B7%A7.html"><strong>技巧&nbsp;(33)</strong></a>
+	        <a href="%E6%8A%80%E5%B7%A7.html"><strong>技巧&nbsp;(34)</strong></a>
 	        
 	        
 	        
@@ -476,6 +484,12 @@ for (NSURL *url in urls) {
 	  
 	      
 		      <li class="post">
+		        <a href="16154734553187.html">Flutter 环境变量设置</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16153819894563.html">SSH 免密登录设置</a>
 		      </li>
 	     
@@ -495,12 +509,6 @@ for (NSURL *url in urls) {
 	      
 		      <li class="post">
 		        <a href="15990466411900.html">JDBC Class.forName vs DriverManager.registerDriver</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15989690336270.html">Java开发环境搭建的准备工作</a>
 		      </li>
 	     
 	  
