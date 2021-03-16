@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2021-03-10T21:38:09+08:00</updated>
+  <updated>2021-03-16T21:52:01+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -12,6 +12,151 @@
   </author>
   <generator uri="http://www.coderforart.com/">CoderForArt</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[AR 模型格式转换和导入]]></title>
+    <link href="http://www.citynight.cn/Blog/16158207840706.html"/>
+    <updated>2021-03-15T23:06:24+08:00</updated>
+    <id>http://www.citynight.cn/Blog/16158207840706.html</id>
+    <content type="html"><![CDATA[
+<p>需要软件：Reality Converter 去 <a href="https://developer.apple.com/download/">https://developer.apple.com/download/</a> 下载<br/>
+<img src="media/16158207840706/16158208366495.jpg" alt="" style="width:1086px;"/></p>
+
+<p>AR创作中使用USD格式，然后使用Reality Converter 转换成 USDZ格式</p>
+
+<p>模型来源，除了自己制作外还可以通过网上其他人分享的模型来用，比如在 <a href="https://sketchfab.com/">https://sketchfab.com/</a> 中可以搜索自己喜欢的模型。</p>
+
+<p>比如这个模型是gltf格式的，可以下载后把解压后的文件夹拖拽到 Reality Converter 中<br/>
+<img src="media/16158207840706/16158221517356.jpg" alt="" style="width:900px;"/><br/>
+然后选择文件-&gt; 导出  这时就导出了usdz格式的模型。 </p>
+
+<p><img src="media/16158207840706/16158224521993.jpg" alt="" style="width:448px;"/><br/>
+打开后选择文件-&gt; 新建</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[节流防抖]]></title>
+    <link href="http://www.citynight.cn/Blog/16158207797865.html"/>
+    <updated>2021-03-15T23:06:19+08:00</updated>
+    <id>http://www.citynight.cn/Blog/16158207797865.html</id>
+    <content type="html"><![CDATA[
+<p>节流和防抖演示网站： <a href="http://demo.nimius.net/debounce_throttle/">http://demo.nimius.net/debounce_throttle/</a></p>
+
+<p><strong>防抖 Debounce</strong></p>
+
+<p>防抖的情况，有点像一个极度珍惜 执行机会的人，只要时间段内，有任务来，就再等一会。<br/>
+等到最后一次，超过一定时间，确定没有新任务了，才去做执行。<br/>
+    1. 列表刷新，为避免短时间内反复 reload，可以多次合并为一次<br/>
+    2. TCP 流量控制</p>
+
+<p><strong>节流 Throttle</strong></p>
+
+<p>节流比较好理解，在一定时间段内，丢弃掉其它触发，就做一次执行<br/>
+    1. 防止多次点击<br/>
+    2. 重复发多个网络请求</p>
+
+<pre><code class="language-text">import Foundation
+
+/// 防抖
+public class Debouncer {
+    public let label: String
+    public let interval: DispatchTimeInterval
+    private let queue: DispatchQueue
+    private let semaphore: DispatchSemaphoreWrapper
+    private var workItem: DispatchWorkItem?
+    
+    
+    public init(label: String, interval: Float, qos: DispatchQoS = .userInteractive) {
+        self.interval         = .milliseconds(Int(interval * 1000))
+        self.label         = label
+        self.queue = DispatchQueue(label: &quot;cn.citynight.debouncer.internalqueue.\(label)&quot;, qos: qos)
+        self.semaphore = DispatchSemaphoreWrapper(withValue: 1)
+    }
+    
+    
+    public func call(_ callback: @escaping (() -&gt; ())) {
+        
+        self.semaphore.sync  { () -&gt; () in
+            
+            
+            self.workItem?.cancel()
+            
+            self.workItem = DispatchWorkItem {
+                callback()
+            }
+            
+            if let workItem = self.workItem {
+                
+                self.queue.asyncAfter(deadline: .now() + self.interval, execute: workItem)
+            }
+        }
+    }
+    
+}
+ 
+
+/// 节流
+public class Throttler {
+    
+    private let queue: DispatchQueue = DispatchQueue.global(qos: .background)
+    
+    private var job: DispatchWorkItem = DispatchWorkItem(block: {})
+    private var previousRun: Date = Date.distantPast
+    private var maxInterval: Int
+    private let semaphore: DispatchSemaphoreWrapper
+    
+    init(seconds: Int) {
+        self.maxInterval = seconds
+        self.semaphore = DispatchSemaphoreWrapper(withValue: 1)
+    }
+    
+    
+    func throttle(block: @escaping () -&gt; ()) {
+        
+        self.semaphore.sync  { () -&gt; () in
+            job.cancel()
+            job = DispatchWorkItem(){ [weak self] in
+                self?.previousRun = Date()
+                block()
+            }
+            let delay = Date.second(from: previousRun) &gt; maxInterval ? 0 : maxInterval
+            queue.asyncAfter(deadline: .now() + Double(delay), execute: job)
+        }
+        
+    }
+}
+ 
+
+/// DispatchSemaphore保证线程安全
+public struct DispatchSemaphoreWrapper {
+    
+    private let semaphore: DispatchSemaphore
+    
+    public init(withValue value: Int) {
+        
+        self.semaphore = DispatchSemaphore(value: value)
+    }
+    
+    public func sync&lt;R&gt;(execute: () throws -&gt; R) rethrows -&gt; R {
+        
+        _ = semaphore.wait(timeout: DispatchTime.distantFuture)
+        defer { semaphore.signal() }
+        return try execute()
+    }
+}
+
+private extension Date {
+    static func second(from referenceDate: Date) -&gt; Int {
+        return Int(Date().timeIntervalSince(referenceDate).rounded())
+    }
+}
+
+</code></pre>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Flutter 环境变量设置]]></title>
@@ -1849,64 +1994,6 @@ F_singleTapGesture
 <blockquote>
 <p>注意: 在Swift中，静态方法不能通过 <code>对象名.方法名</code> 的方式调用。</p>
 </blockquote>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[如何判等equals]]></title>
-    <link href="http://www.citynight.cn/Blog/15465714658370.html"/>
-    <updated>2019-01-04T11:11:05+08:00</updated>
-    <id>http://www.citynight.cn/Blog/15465714658370.html</id>
-    <content type="html"><![CDATA[
-<blockquote>
-<p><a href="https://stackoverflow.com/questions/9506303/public-boolean-equalsobject-other">Stackoverflow</a> 中有其他人提的写法，我感觉公司项目中的写法不错记录下</p>
-</blockquote>
-
-<pre><code class="language-text">    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof CreateOrderDTO)) return false;
-        CreateOrderDTO that = (CreateOrderDTO) o;
-        return Objects.equal(getBusiId(), that.getBusiId()) &amp;&amp;
-                Objects.equal(getBusiType(), that.getBusiType()) &amp;&amp;
-                Objects.equal(getOrderAmount(), that.getOrderAmount());
-    }
-</code></pre>
-
-<p>重写<a href="https://kapeli.com/dash_share?docset_file=Java&amp;docset_name=Java%20SE10&amp;path=java/lang/Object.html%23equals(java.lang.Object)&amp;platform=java&amp;repo=Main&amp;version=SE10">equals</a>需要满足 自反性，对称性，传递性，一致性，非空</p>
-
-<p><img src="media/15465714658370/15465935663846.jpg" alt="" style="width:588px;"/></p>
-
-<h2 id="toc_0">== 与 equals</h2>
-
-<p><strong><em>==</em></strong> : 它的作用是判断两个对象的地址是不是相等。即，判断两个对象是不是同一个对象。(基本数据类型 == 比较的是值，引用数据类型 == 比较的是内存地址)</p>
-
-<p><strong><em>equals()</em></strong> : 它的作用也是判断两个对象是否相等。但它一般有两种使用情况：</p>
-
-<p>情况1：类没有覆盖 equals() 方法。则通过 equals() 比较该类的两个对象时，等价于通过“==”比较这两个对象。<br/>
-情况2：类覆盖了 equals() 方法。一般，我们都覆盖 equals() 方法来两个对象的内容相等；若它们的内容相等，则返回 true (即，认为这两个对象相等)。</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[数据刷新崩溃]]></title>
-    <link href="http://www.citynight.cn/Blog/15460677821989.html"/>
-    <updated>2018-12-29T15:16:22+08:00</updated>
-    <id>http://www.citynight.cn/Blog/15460677821989.html</id>
-    <content type="html"><![CDATA[
-<p><img src="media/15460677821989/15460678427638.jpg" alt="" style="width:531px;"/><br/>
-<img src="media/15460677821989/15460678670280.jpg" alt="" style="width:1054px;"/></p>
-
-<p>发生崩溃的原因是<code>tableView</code> <code>reloadData</code> 的时候直接设置<code>tableView</code> 的 <code>scrollRectToVisible</code> 解决方案</p>
-
-<pre><code class="language-text">        UIView.animate(withDuration: 0, animations: {
-            self.tableView.reloadData()
-        }) { (finish) in
-            let rect = self.tableView.rect(forSection: section)
-            self.tableView.scrollRectToVisible(rect, animated: true)
-        }
-</code></pre>
 
 ]]></content>
   </entry>

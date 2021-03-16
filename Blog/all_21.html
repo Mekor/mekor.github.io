@@ -78,6 +78,45 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14766298858600.html">UILabel边缘出现黑线</a></h1>
+			<p class="meta"><time datetime="2016-10-16T22:58:05+08:00" 
+			pubdate data-updated="true">2016/10/16</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>问题:代码实现 UILabel 时出现的边缘黑线问题<br/>
+原因:当 UILabel 的宽高出现浮点型数字时,在高清屏下有可能出现右侧边缘黑线问题, 解决方法是使用 <code>CGRectIntegral()</code> 方法确保 <code>frame</code> 中不存在非整形数值</p>
+
+<pre><code class="language-text">label.frame = CGRectIntegral(CGRectMake(0, 0, ceil(width),40));
+</code></pre>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
+		  	<h1 class="entry-title"><a href="14765420394973.html">iOS 模拟器 添加图片到相册的小技巧</a></h1>
+			<p class="meta"><time datetime="2016-10-15T22:33:59+08:00" 
+			pubdate data-updated="true">2016/10/15</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>把图片拖到模拟器主屏幕,或者Safari中,保存图片7 <br/>
+<img src="media/14765420394973/tips.gif" alt="tips"/></p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14765391593705.html">字符串frame相关</a></h1>
 			<p class="meta"><time datetime="2016-10-15T21:45:59+08:00" 
 			pubdate data-updated="true">2016/10/15</time></p>
@@ -555,105 +594,6 @@ set nobackup //不备份
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14761943627170.html">升级到Xcode8后Qt无法正常使用</a></h1>
-			<p class="meta"><time datetime="2016-10-11T21:59:22+08:00" 
-			pubdate data-updated="true">2016/10/11</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>错误信息:</p>
-
-<blockquote>
-<p>Project ERROR: Xcode not set up properly. You may need to confirm the license agreement by running /usr/bin/xcodebuild.</p>
-</blockquote>
-
-<p>解决办法:<br/>
-<strong>&gt;= Xcode 8</strong></p>
-
-<p>In Xcode 8, as Bruce said, this happens when Qt tries to find <code>xcrun</code> when it should be looking for <code>xcodebuild</code>.</p>
-
-<p><strong>Step 1:</strong></p>
-
-<p>Open the file:</p>
-
-<pre><code class="language-text">Qt_install_folder/5.7/clang_64/mkspecs/features/mac/default_pre.prf
-</code></pre>
-
-<p><strong>Step 2:</strong></p>
-
-<p>Replace:</p>
-
-<pre><code class="language-text">isEmpty($$list($$system(&quot;/usr/bin/xcrun -find xcrun 2&gt;/dev/null&quot;)))
-</code></pre>
-
-<p>With:</p>
-
-<pre><code class="language-text">isEmpty($$list($$system(&quot;/usr/bin/xcrun -find xcodebuild 2&gt;/dev/null&quot;)))
-</code></pre>
-
-<p><strong>~&gt; Xcode 8</strong></p>
-
-<p>Before Xcode 8, this problem occurs when command line tools are installed after Xcode is installed. What happens is the <code>Xcode-select</code> developer directory gets pointed to <code>/Library/Developer/CommandLineTools</code>.</p>
-
-<p><strong>Step 1:</strong></p>
-
-<p>Point <code>Xcode-select</code> to the correct Xcode Developer directory with the command:</p>
-
-<pre><code class="language-text">sudo xcode-select -switch /Applications/Xcode.app/Contents/Developer
-</code></pre>
-
-<p><strong>Step 2:</strong></p>
-
-<p>Confirm the license agreement with the command:</p>
-
-<pre><code class="language-text">xcodebuild -license
-</code></pre>
-
-<p>This will prompt you to read through the license agreement.</p>
-
-<p>Enter <code>agree</code> to accept the terms.</p>
-
-<p>详见stackoverflow 中 <a href="http://stackoverflow.com/questions/33728905/qt-creator-project-error-xcode-not-set-up-properly-you-may-need-to-confirm-t">Qt Creator - Project ERROR: Xcode not set up properly. You may need to confirm the license agreement by running /usr/bin/xcodebuild</a></p>
-
-
-		</div>
-
-		
-
-	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14760921807707.html">优秀文章链接收藏</a></h1>
-			<p class="meta"><time datetime="2016-10-10T17:36:20+08:00" 
-			pubdate data-updated="true">2016/10/10</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<h2 id="toc_0">优化</h2>
-
-<p><a href="http://www.mulle-kybernetik.com/artikel/Optimization/opti-3-imp-deluxe.html">极致优化</a></p>
-
-<p>美团点评技术团队: <a href="http://tech.meituan.com/DiveIntoMethodCache.html">深入理解Objective-C：方法缓存</a></p>
-
-<h2 id="toc_1">Runloop</h2>
-
-<p><a href="http://blog.ibireme.com/2015/05/18/runloop/">深入理解RunLoop</a>  --- 内部分享文章runloop中使用了该文章中的一张图.</p>
-
-<h2 id="toc_2">GCD</h2>
-
-<p><a href="http://www.raywenderlich.com/60749/grand-central-dispatch-in-depth-part-1">GCD 深入理解：第一部分</a> 中文翻译:<a href="https://github.com/nixzhu/dev-blog/blob/master/2014-04-19-grand-central-dispatch-in-depth-part-1.md">译文</a><br/>
-<a href="https://github.com/nixzhu/dev-blog/blob/master/2014-05-14-grand-central-dispatch-in-depth-part-2.md">GCD 深入理解：第二部分</a></p>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_22.html">&larr; Older</a> 
@@ -683,7 +623,7 @@ set nobackup //不备份
 	      </li>
 	  
 	      <li class="post">
-	        <a href="%E6%95%99%E7%A8%8B.html"><strong>教程&nbsp;(20)</strong></a>
+	        <a href="%E6%95%99%E7%A8%8B.html"><strong>教程&nbsp;(22)</strong></a>
 	        
 	        
 	        
@@ -753,6 +693,18 @@ set nobackup //不备份
 	  
 	      
 		      <li class="post">
+		        <a href="16158207840706.html">AR 模型格式转换和导入</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16158207797865.html">节流防抖</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16154734553187.html">Flutter 环境变量设置</a>
 		      </li>
 	     
@@ -766,18 +718,6 @@ set nobackup //不备份
 	      
 		      <li class="post">
 		        <a href="16152544377232.html">Flutter 相关网站</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16026633643718.html">使用iOS模拟器测试“磁盘空间不足”情况的实用方法是什么？</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15990466411900.html">JDBC Class.forName vs DriverManager.registerDriver</a>
 		      </li>
 	     
 	  

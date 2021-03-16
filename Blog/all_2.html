@@ -78,6 +78,128 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="15966161528946.html">setProperty 应用</a></h1>
+			<p class="meta"><time datetime="2020-08-05T16:29:12+08:00" 
+			pubdate data-updated="true">2020/8/5</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>项目中使用<code>Nacos</code>,想覆盖nacos的默认配置,配置信息如下:</p>
+
+<pre><code class="language-text">/**
+ * @author cloud
+ * @date 2019-10-31
+ * &lt;p&gt;
+ * 覆盖nacos 默认配置
+ */
+public interface ConfigConstants {
+    /**
+     * The System property name of  Standalone mode
+     */
+    String STANDALONE_MODE = &quot;nacos.standalone&quot;;
+
+    /**
+     * tomcat 目录
+     */
+    String TOMCAT_DIR = &quot;server.tomcat.basedir&quot;;
+
+    /**
+     * tomcat 日志配置
+     */
+    String TOMCAT_ACCESS_LOG = &quot;server.tomcat.accesslog.enabled&quot;;
+
+    /**
+     * 是否开启认证
+     */
+    String AUTH_ENABLED = &quot;nacos.core.auth.enabled&quot;;
+}
+</code></pre>
+
+<p>在启动类中设置想要覆盖配置的值</p>
+
+<pre><code class="language-text">/**
+ * @author nacos
+ * &lt;p&gt;
+ * nacos console 源码运行，方便开发
+ * 生产建议从官网下载最新版配置运行
+ */
+@EnableScheduling
+@SpringBootApplication
+public class CloudNacosApplication {
+
+    public static void main(String[] args) {
+        System.setProperty(ConfigConstants.TOMCAT_DIR, &quot;logs&quot;);
+        System.setProperty(ConfigConstants.TOMCAT_ACCESS_LOG, &quot;false&quot;);
+        System.setProperty(ConfigConstants.STANDALONE_MODE, &quot;true&quot;);
+        System.setProperty(ConfigConstants.AUTH_ENABLED, &quot;false&quot;);
+        SpringApplication.run(CloudNacosApplication.class, args);
+    }
+}
+
+</code></pre>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
+		  	<h1 class="entry-title"><a href="15965236438323.html">devtools 热启动</a></h1>
+			<p class="meta"><time datetime="2020-08-04T14:47:23+08:00" 
+			pubdate data-updated="true">2020/8/4</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>第一步:添加pom</p>
+
+<pre><code class="language-text">        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-devtools&lt;/artifactId&gt;
+            &lt;scope&gt;runtime&lt;/scope&gt;
+            &lt;optional&gt;true&lt;/optional&gt;
+        &lt;/dependency&gt;
+</code></pre>
+
+<p>第二步 添加插件到父pom中</p>
+
+<pre><code class="language-text">  &lt;build&gt;
+    &lt;plugins&gt;
+      &lt;plugin&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
+        &lt;configuration&gt;
+          &lt;fork&gt;true&lt;/fork&gt;
+          &lt;addResources&gt;true&lt;/addResources&gt;
+        &lt;/configuration&gt;
+      &lt;/plugin&gt;
+    &lt;/plugins&gt;
+  &lt;/build&gt;
+</code></pre>
+
+<p>第三步 开启自动编译选项<br/>
+Setting-&gt;Build-&gt;Compiler<br/>
+<img src="media/15965236438323/15965240806182.jpg" alt="" style="width:475px;"/></p>
+
+<p>第四步: 修改Registry</p>
+
+<p>双击 Shift 选中Action 输入 Registry 打开<br/>
+<img src="media/15965236438323/15965244242502.jpg" alt="" style="width:655px;"/><br/>
+修改为选中<br/>
+<img src="media/15965236438323/15965245587023.jpg" alt="" style="width:950px;"/><br/>
+第五步: 重启IDEA</p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="15965198984201.html">@Slf4j注解实现日志输出</a></h1>
 			<p class="meta"><time datetime="2020-08-04T13:44:58+08:00" 
 			pubdate data-updated="true">2020/8/4</time></p>
@@ -1223,57 +1345,6 @@ F_singleTapGesture
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="15653483390225.html">图像显示原理</a></h1>
-			<p class="meta"><time datetime="2019-08-09T18:58:59+08:00" 
-			pubdate data-updated="true">2019/8/9</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p><img src="media/15653483390225/WX20190809-201518@2x.png" alt="WX20190809-201518@2x"/></p>
-
-<p><img src="media/15653483390225/15656069984426.jpg" alt="" style="width:979px;"/><br/>
-<img src="media/15653483390225/15656070181148.jpg" alt="" style="width:677px;"/></p>
-
-<p><img src="media/15653483390225/15666279613682.jpg" alt="" style="width:755px;"/></p>
-
-<p>系统绘制流程<br/>
-<img src="media/15653483390225/%E6%9C%AA%E5%91%BD%E5%90%8D%E6%96%87%E4%BB%B6%20-4-.jpg" alt="未命名文件 -4-"/></p>
-
-<p>异步绘制流程(时序图)<br/>
-<img src="media/15653483390225/Jietu20190824-150035.jpg" alt="Jietu20190824-150035"/></p>
-
-
-		</div>
-
-		
-
-	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="15653376209289.html">事件传递</a></h1>
-			<p class="meta"><time datetime="2019-08-09T16:00:20+08:00" 
-			pubdate data-updated="true">2019/8/9</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>整体的事件传递流程<br/>
-<img src="media/15653376209289/15653376299374.jpg" alt="" style="width:687px;"/></p>
-
-<p>详细的<code>hitTset:withEvent:</code>系统实现<br/>
-<img src="media/15653376209289/15653413218867.jpg" alt=""/></p>
-
-<p>注：先判断视图是否隐藏可交互，不满足条件返回nil, 如果不在点击范围内就返回nil,在点击范围内就遍历子视图。遍历子视图的时候如果都没有子视图响应事件，那么就把视图本身<code>v</code>返回，如果有子视图响应就返回当前子视图。</p>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_3.html">&larr; Older</a> 
@@ -1303,7 +1374,7 @@ F_singleTapGesture
 	      </li>
 	  
 	      <li class="post">
-	        <a href="%E6%95%99%E7%A8%8B.html"><strong>教程&nbsp;(20)</strong></a>
+	        <a href="%E6%95%99%E7%A8%8B.html"><strong>教程&nbsp;(22)</strong></a>
 	        
 	        
 	        
@@ -1373,6 +1444,18 @@ F_singleTapGesture
 	  
 	      
 		      <li class="post">
+		        <a href="16158207840706.html">AR 模型格式转换和导入</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16158207797865.html">节流防抖</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16154734553187.html">Flutter 环境变量设置</a>
 		      </li>
 	     
@@ -1386,18 +1469,6 @@ F_singleTapGesture
 	      
 		      <li class="post">
 		        <a href="16152544377232.html">Flutter 相关网站</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16026633643718.html">使用iOS模拟器测试“磁盘空间不足”情况的实用方法是什么？</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15990466411900.html">JDBC Class.forName vs DriverManager.registerDriver</a>
 		      </li>
 	     
 	  

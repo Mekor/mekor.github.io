@@ -78,6 +78,121 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14685034880390.html">Mac 下面Python 自动补全</a></h1>
+			<p class="meta"><time datetime="2016-07-14T21:38:08+08:00" 
+			pubdate data-updated="true">2016/7/14</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>网上有很多tab自动补全的脚本,但是在Mac上面都不能正常的运行,在<a href="http://stackoverflow.com/questions/7116038/python-tab-completion-mac-osx-10-7-lion">stackoverflow</a>找到一个能用的.</p>
+
+<pre><code class="language-text">import readline
+import rlcompleter
+if &#39;libedit&#39; in readline.__doc__:
+    readline.parse_and_bind(&quot;bind ^I rl_complete&quot;)
+else:
+    readline.parse_and_bind(&quot;tab: complete&quot;)
+
+</code></pre>
+
+<p>进入Python后直接import tab 就可以了</p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
+		  	<h1 class="entry-title"><a href="14682407498601.html">如何给View添加点击事件</a></h1>
+			<p class="meta"><time datetime="2016-07-11T20:39:09+08:00" 
+			pubdate data-updated="true">2016/7/11</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>项目中有很多地方需要添加点击事件,重复代码很多,所以做了一个UIView的分类,专门做点击事件使用.<br/>
+项目地址:<a href="https://github.com/Mekor/UIView-Tap">UIView-Tap</a></p>
+
+<p>代码很简单,主要有一点就是注意分类不能直接添加属性,需要用到运行时相关内容.</p>
+
+<p>代码如下:</p>
+
+<pre><code class="language-text">\\UIView+Tap.h文件
+@interface UIView (Tap)
+- (void)addTapBlock:(void(^)(id obj))tapAction;
+@end
+
+\\UIView+Tap.m文件
+#import &lt;objc/runtime.h&gt;
+
+static const void* tagValue = &amp;tagValue;
+
+@interface UIView ()
+@property (nonatomic, copy) void(^tapAction)(id);
+@end
+
+@implementation UIView (Tap)
+- (void)tap{
+    if (self.tapAction) {
+        self.tapAction(self);
+    }
+}
+- (void)addTapBlock:(void(^)(id obj))tapAction{
+    self.tapAction = tapAction;
+    if (![self gestureRecognizers]) {
+        self.userInteractionEnabled = YES;
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap)];
+        [self addGestureRecognizer:tap];
+    }
+}
+
+-(void)setTapAction:(void (^)(id))tapAction {
+    objc_setAssociatedObject(self, tagValue, tapAction, OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+-(void (^)(id))tapAction {
+    return objc_getAssociatedObject(self, tagValue);
+}
+@end
+</code></pre>
+
+<p>正如大家所见,如果要接收点击事件,必须userInteractionEnabled设置为YES,所以不管怎么只要确认要给视图添加点击事件,都会被设置为<code>userInteractionEnabled = YES</code></p>
+
+<p>简单实用:</p>
+
+<pre><code class="language-text">UIView *redView = [[UIView alloc]initWithFrame:CGRectMake(100, 100, 100, 100)];
+redView.backgroundColor = [UIColor redColor];
+[redView addTapBlock:^(UIView* obj) {
+    NSLog(@&quot;redView%@&quot;,obj.backgroundColor);
+}];
+[self.view addSubview:redView];
+
+UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(50, 250, 100, 100)];
+imageView.image = [UIImage imageNamed:@&quot;icon&quot;];
+[imageView addTapBlock:^(UIImageView* obj) {
+    NSLog(@&quot;imageView:\n%@&quot;,obj.image);
+}];
+[self.view addSubview:imageView];
+
+UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(150, 400, 100, 100)];
+label.text = @&quot;这是label,点击这里...&quot;;
+[label addTapBlock:^(UILabel* obj) {
+    NSLog(@&quot;label:\n%@&quot;,obj.text);
+}];
+[self.view addSubview:label];
+
+</code></pre>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14678597180657.html">关于tableViewCell加载图片优化</a></h1>
 			<p class="meta"><time datetime="2016-07-07T10:48:38+08:00" 
 			pubdate data-updated="true">2016/7/7</time></p>
@@ -460,165 +575,6 @@ pod trunk 设置完毕后执行命令</p>
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14676870942237.html">AFN3.0 如何实现operation.responseString</a></h1>
-			<p class="meta"><time datetime="2016-07-05T10:51:34+08:00" 
-			pubdate data-updated="true">2016/7/5</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>我在AFNetworking issues中的回答<a href="https://github.com/AFNetworking/AFNetworking/issues/3551">how to get response body in failure block?</a>还有<br/>
-<a href="https://github.com/AFNetworking/AFNetworking/issues/3534">How can i get responseString which at AFNetworking 3.0</a></p>
-
-<p>发现还有好多朋友还不清楚如何实现,其实很简单</p>
-
-<pre><code class="language-text">NSError *underError = error.userInfo[@&quot;NSUnderlyingError&quot;];
-NSData *responseData = underError.userInfo[@&quot;com.alamofire.serialization.response.error.data&quot;];
-</code></pre>
-
-<p>有小伙伴问我<code>com.alamofire.serialization.response.error.data</code>是怎么来的,原来都是AFJSONResponseSerializer解析修改成<code>manager.responseSerializer = [AFHTTPResponseSerializer serializer];</code>这样报错的时候就会看到控制台打印的信息里面有<code>com.alamofire.serialization.response.error.data</code>后面输出responseData...然后才有了上面的解决办法</p>
-
-<p><strong>-----16.6.7更-----</strong><br/>
-作者回复中已经添加了相关操作<br/>
-在<code>AFURLResponseSerialization</code><br/>
-可以在 failure block 中添加下面代码获取responseString</p>
-
-<pre><code class="language-text">NSData *data = error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
-</code></pre>
-
-<p>具体代码:</p>
-
-<pre><code class="language-text">/**
- ## User info dictionary keys
-
- These keys may exist in the user info dictionary, in addition to those defined for NSError.
-
- - `NSString * const AFNetworkingOperationFailingURLResponseErrorKey`
- - `NSString * const AFNetworkingOperationFailingURLResponseDataErrorKey`
-
- ### Constants
-
- `AFNetworkingOperationFailingURLResponseErrorKey`
- The corresponding value is an `NSURLResponse` containing the response of the operation associated with an error. This key is only present in the `AFURLResponseSerializationErrorDomain`.
-
- `AFNetworkingOperationFailingURLResponseDataErrorKey`
- The corresponding value is an `NSData` containing the original data of the operation associated with an error. This key is only present in the `AFURLResponseSerializationErrorDomain`.
- */
-FOUNDATION_EXPORT NSString * const AFNetworkingOperationFailingURLResponseErrorKey;
-
-FOUNDATION_EXPORT NSString * const AFNetworkingOperationFailingURLResponseDataErrorKey;
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14676111126987.html">Coding中检测系统授权状态，关闭提示用户去隐私设置中打开</a></h1>
-			<p class="meta"><time datetime="2016-07-04T13:45:12+08:00" 
-			pubdate data-updated="true">2016/7/4</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<blockquote>
-<p>参考Coding项目,二维码扫描中使用到,大家可以参考:<a href="https://github.com/Mekor/MKScanner">MKScanner</a></p>
-</blockquote>
-
-<p>Helper.h文件</p>
-
-<pre><code class="language-text">#import &lt;Foundation/Foundation.h&gt;
-
-@interface Helper : NSObject
-
-/**
- * 检查系统&quot;照片&quot;授权状态, 如果权限被关闭, 提示用户去隐私设置中打开.
- */
-+ (BOOL)checkPhotoLibraryAuthorizationStatus;
-
-/**
- * 检查系统&quot;相机&quot;授权状态, 如果权限被关闭, 提示用户去隐私设置中打开.
- */
-+ (BOOL)checkCameraAuthorizationStatus;
-
-@end
-</code></pre>
-
-<p>Helper.m文件</p>
-
-<pre><code class="language-text">#import &quot;Helper.h&quot;
-@import AVFoundation;
-
-@implementation Helper
-
-+ (BOOL)checkPhotoLibraryAuthorizationStatus
-{
-    if ([ALAssetsLibrary respondsToSelector:@selector(authorizationStatus)]) {
-        ALAuthorizationStatus authStatus = [ALAssetsLibrary authorizationStatus];
-        if (ALAuthorizationStatusDenied == authStatus ||
-            ALAuthorizationStatusRestricted == authStatus) {
-            [self showSettingAlertStr:@&quot;请在iPhone的“设置-&gt;隐私-&gt;照片”中打开本应用的访问权限&quot;];
-            return NO;
-        }
-    }
-    return YES;
-}
-
-+ (BOOL)checkCameraAuthorizationStatus
-{
-    if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-        kTipAlert(@&quot;该设备不支持拍照&quot;);
-        return NO;
-    }
-    
-    if ([AVCaptureDevice respondsToSelector:@selector(authorizationStatusForMediaType:)]) {
-        AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
-        if (AVAuthorizationStatusDenied == authStatus ||
-            AVAuthorizationStatusRestricted == authStatus) {
-            [self showSettingAlertStr:@&quot;请在iPhone的“设置-&gt;隐私-&gt;相机”中打开本应用的访问权限&quot;];
-            return NO;
-        }
-    }
-    
-    return YES;
-}
-
-+ (void)showSettingAlertStr:(NSString *)tipStr{
-    //iOS8+系统下可跳转到‘设置’页面，否则只弹出提示窗即可
-    if (floor(NSFoundationVersionNumber) &gt; NSFoundationVersionNumber_iOS_7_1) {
-        UIAlertView *alertView = [UIAlertView bk_alertViewWithTitle:@&quot;提示&quot; message:tipStr];
-        [alertView bk_setCancelButtonWithTitle:@&quot;取消&quot; handler:nil];
-        [alertView bk_addButtonWithTitle:@&quot;设置&quot; handler:nil];
-        [alertView bk_setDidDismissBlock:^(UIAlertView *alert, NSInteger index) {
-            if (index == 1) {
-                UIApplication *app = [UIApplication sharedApplication];
-                NSURL *settingsURL = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
-                if ([app canOpenURL:settingsURL]) {
-                    [app openURL:settingsURL];
-                }
-            }
-        }];
-        [alertView show];
-    }else{
-        kTipAlert(@&quot;%@&quot;, tipStr);
-    }
-}
-
-@end
-
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_28.html">&larr; Older</a> 
@@ -648,7 +604,7 @@ FOUNDATION_EXPORT NSString * const AFNetworkingOperationFailingURLResponseDataEr
 	      </li>
 	  
 	      <li class="post">
-	        <a href="%E6%95%99%E7%A8%8B.html"><strong>教程&nbsp;(20)</strong></a>
+	        <a href="%E6%95%99%E7%A8%8B.html"><strong>教程&nbsp;(22)</strong></a>
 	        
 	        
 	        
@@ -718,6 +674,18 @@ FOUNDATION_EXPORT NSString * const AFNetworkingOperationFailingURLResponseDataEr
 	  
 	      
 		      <li class="post">
+		        <a href="16158207840706.html">AR 模型格式转换和导入</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16158207797865.html">节流防抖</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16154734553187.html">Flutter 环境变量设置</a>
 		      </li>
 	     
@@ -731,18 +699,6 @@ FOUNDATION_EXPORT NSString * const AFNetworkingOperationFailingURLResponseDataEr
 	      
 		      <li class="post">
 		        <a href="16152544377232.html">Flutter 相关网站</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16026633643718.html">使用iOS模拟器测试“磁盘空间不足”情况的实用方法是什么？</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15990466411900.html">JDBC Class.forName vs DriverManager.registerDriver</a>
 		      </li>
 	     
 	  

@@ -78,6 +78,163 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="16158207840706.html">AR 模型格式转换和导入</a></h1>
+			<p class="meta"><time datetime="2021-03-15T23:06:24+08:00" 
+			pubdate data-updated="true">2021/3/15</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>需要软件：Reality Converter 去 <a href="https://developer.apple.com/download/">https://developer.apple.com/download/</a> 下载<br/>
+<img src="media/16158207840706/16158208366495.jpg" alt="" style="width:1086px;"/></p>
+
+<p>AR创作中使用USD格式，然后使用Reality Converter 转换成 USDZ格式</p>
+
+<p>模型来源，除了自己制作外还可以通过网上其他人分享的模型来用，比如在 <a href="https://sketchfab.com/">https://sketchfab.com/</a> 中可以搜索自己喜欢的模型。</p>
+
+<p>比如这个模型是gltf格式的，可以下载后把解压后的文件夹拖拽到 Reality Converter 中<br/>
+<img src="media/16158207840706/16158221517356.jpg" alt="" style="width:900px;"/><br/>
+然后选择文件-&gt; 导出  这时就导出了usdz格式的模型。 </p>
+
+<p><img src="media/16158207840706/16158224521993.jpg" alt="" style="width:448px;"/><br/>
+打开后选择文件-&gt; 新建</p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
+		  	<h1 class="entry-title"><a href="16158207797865.html">节流防抖</a></h1>
+			<p class="meta"><time datetime="2021-03-15T23:06:19+08:00" 
+			pubdate data-updated="true">2021/3/15</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>节流和防抖演示网站： <a href="http://demo.nimius.net/debounce_throttle/">http://demo.nimius.net/debounce_throttle/</a></p>
+
+<p><strong>防抖 Debounce</strong></p>
+
+<p>防抖的情况，有点像一个极度珍惜 执行机会的人，只要时间段内，有任务来，就再等一会。<br/>
+等到最后一次，超过一定时间，确定没有新任务了，才去做执行。<br/>
+    1. 列表刷新，为避免短时间内反复 reload，可以多次合并为一次<br/>
+    2. TCP 流量控制</p>
+
+<p><strong>节流 Throttle</strong></p>
+
+<p>节流比较好理解，在一定时间段内，丢弃掉其它触发，就做一次执行<br/>
+    1. 防止多次点击<br/>
+    2. 重复发多个网络请求</p>
+
+<pre><code class="language-text">import Foundation
+
+/// 防抖
+public class Debouncer {
+    public let label: String
+    public let interval: DispatchTimeInterval
+    private let queue: DispatchQueue
+    private let semaphore: DispatchSemaphoreWrapper
+    private var workItem: DispatchWorkItem?
+    
+    
+    public init(label: String, interval: Float, qos: DispatchQoS = .userInteractive) {
+        self.interval         = .milliseconds(Int(interval * 1000))
+        self.label         = label
+        self.queue = DispatchQueue(label: &quot;cn.citynight.debouncer.internalqueue.\(label)&quot;, qos: qos)
+        self.semaphore = DispatchSemaphoreWrapper(withValue: 1)
+    }
+    
+    
+    public func call(_ callback: @escaping (() -&gt; ())) {
+        
+        self.semaphore.sync  { () -&gt; () in
+            
+            
+            self.workItem?.cancel()
+            
+            self.workItem = DispatchWorkItem {
+                callback()
+            }
+            
+            if let workItem = self.workItem {
+                
+                self.queue.asyncAfter(deadline: .now() + self.interval, execute: workItem)
+            }
+        }
+    }
+    
+}
+ 
+
+/// 节流
+public class Throttler {
+    
+    private let queue: DispatchQueue = DispatchQueue.global(qos: .background)
+    
+    private var job: DispatchWorkItem = DispatchWorkItem(block: {})
+    private var previousRun: Date = Date.distantPast
+    private var maxInterval: Int
+    private let semaphore: DispatchSemaphoreWrapper
+    
+    init(seconds: Int) {
+        self.maxInterval = seconds
+        self.semaphore = DispatchSemaphoreWrapper(withValue: 1)
+    }
+    
+    
+    func throttle(block: @escaping () -&gt; ()) {
+        
+        self.semaphore.sync  { () -&gt; () in
+            job.cancel()
+            job = DispatchWorkItem(){ [weak self] in
+                self?.previousRun = Date()
+                block()
+            }
+            let delay = Date.second(from: previousRun) &gt; maxInterval ? 0 : maxInterval
+            queue.asyncAfter(deadline: .now() + Double(delay), execute: job)
+        }
+        
+    }
+}
+ 
+
+/// DispatchSemaphore保证线程安全
+public struct DispatchSemaphoreWrapper {
+    
+    private let semaphore: DispatchSemaphore
+    
+    public init(withValue value: Int) {
+        
+        self.semaphore = DispatchSemaphore(value: value)
+    }
+    
+    public func sync&lt;R&gt;(execute: () throws -&gt; R) rethrows -&gt; R {
+        
+        _ = semaphore.wait(timeout: DispatchTime.distantFuture)
+        defer { semaphore.signal() }
+        return try execute()
+    }
+}
+
+private extension Date {
+    static func second(from referenceDate: Date) -&gt; Int {
+        return Int(Date().timeIntervalSince(referenceDate).rounded())
+    }
+}
+
+</code></pre>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="16154734553187.html">Flutter 环境变量设置</a></h1>
 			<p class="meta"><time datetime="2021-03-11T22:37:35+08:00" 
 			pubdate data-updated="true">2021/3/11</time></p>
@@ -236,69 +393,6 @@ ssh-copy-id root@192.168.1.7
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="16026633643718.html">使用iOS模拟器测试“磁盘空间不足”情况的实用方法是什么？</a></h1>
-			<p class="meta"><time datetime="2020-10-14T16:16:04+08:00" 
-			pubdate data-updated="true">2020/10/14</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>创建一个小磁盘映像:</p>
-
-<pre><code class="language-text">hdiutil create -size 2m -fs HFS+ /tmp/2meg.dmg
-</code></pre>
-
-<p>将其挂载到模拟器应用程序中的相关目录，例如:</p>
-
-<pre><code class="language-text">hdiutil attach /tmp/2meg.dmg -mountpoint /Users/.../Library/Developer/CoreSimulator/Devices/.../data/Applications/.../Library/Caches
-</code></pre>
-
-<p>运行应用程序并执行测试。也可以在应用运行时完成此操作。在这种情况下，您可能不想直接将其安装为<code>Caches</code>或<code>Documents</code>目录，因为这会将当前文件隐藏在那些文件夹中。改为挂载到子目录。如果在不更改应用程序路径的情况下很难做到这一点，请在将映像挂载到非空目录之上之前，将映像挂载到其他位置并复制数据。</p>
-
-<p>卸载:</p>
-
-<pre><code class="language-text">hdiutil detach /Users/.../Library/Developer/CoreSimulator/Devi...
-</code></pre>
-
-<p>但是，请注意，如果移动安装点，则分离操作将失败。这总是发生，因为每次运行应用程序时，Apple都会在iOS 8上重命名模拟器目录。在这种情况下，请使用<code>mount</code>命令查找已安装的设备，例如<code>/dev/disk3s1 /Users/.../Library/...</code>，然后使用设备名称而不是安装点来卸载磁盘映像:</p>
-
-<pre><code class="language-text">hdiutil detach disk3s1
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="15990466411900.html">JDBC Class.forName vs DriverManager.registerDriver</a></h1>
-			<p class="meta"><time datetime="2020-09-02T19:37:21+08:00" 
-			pubdate data-updated="true">2020/9/2</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>要使用JDBC与数据库连接，需要选择获取相应数据库的驱动程序并注册该驱动程序,有两种方式可以注册</p>
-
-<pre><code class="language-text">DriverManager.registerDriver(new com.mysql.jdbc.Driver());
-</code></pre>
-
-<pre><code class="language-text">Class.forName(&quot;com.mysql.jdbc.Driver&quot;);
-</code></pre>
-
-<p>当然现在也可以不用执行上面的操作也能正常执行,原因就是<code>SPI机制</code><br/>
-<a href="https://juejin.im/post/6844903605695152142">Java SPI机制详解</a></p>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_1.html">&larr; Older</a> 
@@ -328,7 +422,7 @@ ssh-copy-id root@192.168.1.7
 	      </li>
 	  
 	      <li class="post">
-	        <a href="%E6%95%99%E7%A8%8B.html"><strong>教程&nbsp;(20)</strong></a>
+	        <a href="%E6%95%99%E7%A8%8B.html"><strong>教程&nbsp;(22)</strong></a>
 	        
 	        
 	        
@@ -398,6 +492,18 @@ ssh-copy-id root@192.168.1.7
 	  
 	      
 		      <li class="post">
+		        <a href="16158207840706.html">AR 模型格式转换和导入</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16158207797865.html">节流防抖</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16154734553187.html">Flutter 环境变量设置</a>
 		      </li>
 	     
@@ -411,18 +517,6 @@ ssh-copy-id root@192.168.1.7
 	      
 		      <li class="post">
 		        <a href="16152544377232.html">Flutter 相关网站</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16026633643718.html">使用iOS模拟器测试“磁盘空间不足”情况的实用方法是什么？</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="15990466411900.html">JDBC Class.forName vs DriverManager.registerDriver</a>
 		      </li>
 	     
 	  
