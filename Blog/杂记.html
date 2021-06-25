@@ -78,6 +78,71 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="16189060168232.html">iOS 开发环境配置</a></h1>
+			<p class="meta"><time datetime="2021-04-20T16:06:56+08:00" 
+			pubdate data-updated="true">2021/4/20</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<ol>
+<li><p>安装Xcode(Version 12.4)</p>
+<p>不要去App Store下载安装，因为App Store会自动更新，为了确保Xcode版本一致需要去开发者网站下载 <a href="https://developer.apple.com/download/more/">Apple Developer</a></p></li>
+<li><p>安装brew</p>
+<ol>
+<li><p>由于访问外网太慢，建议从gitee安装</p>
+<pre><code class="language-shell">/bin/zsh -c &quot;$(curl -fsSL https://gitee.com/cunkai/HomebrewCN/raw/master/Homebrew.sh)&quot;
+</code></pre></li>
+<li><p>可以选择科大的源也可以选择清华的源，我一般用清华的源</p></li>
+</ol></li>
+<li><p>安装rbenv </p>
+<ol>
+<li><p>rbenv是 Ruby 环境管理工具 <code>brew install rbenv</code></p></li>
+<li><p>更新配置文件</p>
+<pre><code class="language-bash">export PATH=&quot;$HOME/.rbenv/bin:$PATH&quot; 
+eval &quot;$(rbenv init -)&quot;
+</code></pre></li>
+<li><p>我现在用的Ruby环境是2.7.1</p>
+<pre><code class="language-shell">$ cd $(PROJECT_DIR)
+$ rbenv install 2.7.1<br/>
+$ rbenv local 2.7.1
+</code></pre></li>
+</ol></li>
+<li><p>安装Bundler</p>
+<ol>
+<li><p>执行<code>gem install bundler</code>命令进行，之后，再执行<code>bundle init</code>就可以生成一个 Gemfile 文件</p></li>
+<li><p>添加CocoaPods 和 fastlane 等依赖包</p>
+<pre><code class="language-shell">source &quot;https://rubygems.org&quot;
+gem &quot;cocoapods&quot;, &quot;1.10.1&quot;<br/>
+gem &quot;fastlane&quot;,&quot;2.180.1&quot;
+</code></pre></li>
+</ol></li>
+<li><p>使用脚本确认环境</p>
+<pre><code class="language-shell"># Install ruby using rbenv
+ruby_version=`cat .ruby-version`<br/>
+if [[ ! -d &quot;$HOME/.rbenv/versions/$ruby_version&quot; ]]; then<br/>
+ rbenv install $ruby_version;<br/>
+fi<br/>
+# Install bunlder<br/>
+gem install bundler<br/>
+# Install all gems<br/>
+bundle install<br/>
+# Install all pods<br/>
+bundle exec pod install
+</code></pre>
+<p>​    脚本主要做了四件事情，第一步是在 rbenv 下安装特定版本的 Ruby 开发环境，然后通过 RubyGems 安装 Bunlder，接着使用 Bundler 安装 CocoaPods 和 fastlane 等依赖包，最后安装各个 Pod。这样，一个统一的项目环境就搭建完成了，接下来开发者就可以打开 <strong>项目名.xcworkspace</strong>进行开发了.</p></li>
+<li><p>项目添加gitignore</p>
+<p>可以去gitignore.io 输入Xcode，Swift等关键字生成.gitignore文件</p></li>
+</ol>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="16152544377232.html">Flutter 相关网站</a></h1>
 			<p class="meta"><time datetime="2021-03-09T09:47:17+08:00" 
 			pubdate data-updated="true">2021/3/9</time></p>
@@ -713,54 +778,6 @@ public void doRight(JSONObject userInfo){
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="15366461063408.html"><禅与摩托车维修艺术></a></h1>
-			<p class="meta"><time datetime="2018-09-11T14:08:26+08:00" 
-			pubdate data-updated="true">2018/9/11</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>生活处处都透露着哲学，作者从骑摩托车旅行的途中对事物进行了深入的思考。</p>
-
-<h2 id="toc_0">关于·忙·</h2>
-
-<p>书中这样写道：</p>
-
-<blockquote>
-<p>我们常常太忙而没有时间好好聊聊，结果日复一日地过着无聊的生活，单调乏味的日子让人几年后想起来不禁怀疑，究竟自己是怎么过的，而时间已悄悄溜走了。现在我们的确空下来了，我想谈一些我自己觉得颇为重要的事。</p>
-</blockquote>
-
-<h2 id="toc_1">关于·过程·</h2>
-
-<blockquote>
-<p>如果搭飞机抵达洛基山，你只会觉得景致很美，但是如果你是经过几天辛苦的旅程，通过这一片大草原，才抵达洛基山，那么你会从另一个角度来看它，那里仿佛是你的目标，是你的应许之地。</p>
-</blockquote>
-
-<p>我们的目标不应该仅仅是到达终点，旅途中的风景会让这个过程变得充实。我在记笔记的时候写的是“有过程的经历是印象深刻的”</p>
-
-<h2 id="toc_2">关于·识人·</h2>
-
-<blockquote>
-<p>又钻进死胡同了。如果有人不懂心存感激，而你当面告诉他，那么你就等于是在骂他，这样你什么事都解决不了。<br/>
-每个人的性格都是不一样的，需要针对不同的性格做出不同的处理方式。错误的处理方式只会加深矛盾</p>
-</blockquote>
-
-<h2 id="toc_3">关于·认知·</h2>
-
-<blockquote>
-<p>一名没有受过训练的旁观者只看到修理人员所付出的劳力，就以为他最主要的工作在于劳力。事实上，这正是他最轻松也是工作上最小的一部分，他最重要的工作就在于仔细观察和精确思考，这就是为什么技术人员往往显得沉默寡言，甚至在做实验的时候有些畏缩。他们不喜欢在做实验的时候讲话，那样就无法专心地思考问题了。他们借着实验推论出问题的结构，然后与心里正常的运作结构相比较，所以他们看到的是基本形式。</p>
-</blockquote>
-
-<p>隔行如隔山，拿程序员举例，其他人看到程序员噼里啪啦敲代码感觉这个人很厉害这其实是不对的。在敲代码之前的思考才是最重要的，敲代码只不过是把他思考的东西进行验证。</p>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="杂记_1.html">&larr; Older</a> 
@@ -790,7 +807,7 @@ public void doRight(JSONObject userInfo){
 	      </li>
 	  
 	      <li class="post">
-	        <a href="%E6%95%99%E7%A8%8B.html"><strong>教程&nbsp;(22)</strong></a>
+	        <a href="%E6%95%99%E7%A8%8B.html"><strong>教程&nbsp;(23)</strong></a>
 	        
 	        
 	        
@@ -804,7 +821,7 @@ public void doRight(JSONObject userInfo){
 	      </li>
 	  
 	      <li class="post">
-	        <a href="%E6%9D%82%E8%AE%B0.html"><strong>杂记&nbsp;(15)</strong></a>
+	        <a href="%E6%9D%82%E8%AE%B0.html"><strong>杂记&nbsp;(16)</strong></a>
 	        
 	        
 	        
@@ -860,6 +877,18 @@ public void doRight(JSONObject userInfo){
 	  
 	      
 		      <li class="post">
+		        <a href="16246203092572.html">flutter 多环境设置</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16189060168232.html">iOS 开发环境配置</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16158207840706.html">AR 模型格式转换和导入</a>
 		      </li>
 	     
@@ -873,18 +902,6 @@ public void doRight(JSONObject userInfo){
 	      
 		      <li class="post">
 		        <a href="16154734553187.html">Flutter 环境变量设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16153819894563.html">SSH 免密登录设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16152544377232.html">Flutter 相关网站</a>
 		      </li>
 	     
 	  

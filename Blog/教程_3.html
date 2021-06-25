@@ -78,6 +78,66 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14747868502733.html">GCD(Grand Central Dispatch)使用</a></h1>
+			<p class="meta"><time datetime="2016-09-25T15:00:50+08:00" 
+			pubdate data-updated="true">2016/9/25</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>可以让程序长时间压后台</p>
+
+<pre><code class="language-text">//  后台执行：
+dispatch_async(dispatch_get_global_queue(0, 0), ^{
+  // something
+});
+
+// 主线程执行：
+dispatch_async(dispatch_get_main_queue(), ^{
+  // something
+});
+
+// 一次性执行：
+static dispatch_once_t onceToken;
+dispatch_once(&amp;onceToken, ^{
+  // code to be executed once
+});
+
+// 延迟2秒执行：
+double delayInSeconds = 2.0;
+dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+   // code to be executed on the main queue after delay
+});
+
+// 自定义dispatch_queue_t
+dispatch_queue_t urls_queue = dispatch_queue_create(&quot;blog.devtang.com&quot;, NULL);
+dispatch_async(urls_queue, ^{
+  // your code
+});
+dispatch_release(urls_queue);
+
+// 合并汇总结果
+dispatch_group_t group = dispatch_group_create();
+dispatch_group_async(group, dispatch_get_global_queue(0,0), ^{
+  // 并行执行的线程一
+});
+dispatch_group_async(group, dispatch_get_global_queue(0,0), ^{
+  // 并行执行的线程二
+});
+dispatch_group_notify(group, dispatch_get_global_queue(0,0), ^{
+  // 汇总结果
+});
+</code></pre>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14743674179375.html">iOS10 遇到问题总结</a></h1>
 			<p class="meta"><time datetime="2016-09-20T18:30:17+08:00" 
 			pubdate data-updated="true">2016/9/20</time></p>
@@ -527,27 +587,6 @@ MKBaseRequest 的基本的思想是把每一个网络请求封装成对象。所
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14689910761027.html">关于签名(Certificate),Identifiers,Device和Provisioning Profile</a></h1>
-			<p class="meta"><time datetime="2016-07-20T13:04:36+08:00" 
-			pubdate data-updated="true">2016/7/20</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>直接上图:</p>
-
-<p><img src="media/14689910761027/%E6%80%BB%E7%BB%93.png" alt="总结"/></p>
-
-<p>应该很详细了</p>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="教程_4.html">&larr; Older</a> 
@@ -577,7 +616,7 @@ MKBaseRequest 的基本的思想是把每一个网络请求封装成对象。所
 	      </li>
 	  
 	      <li class="post">
-	        <a href="%E6%95%99%E7%A8%8B.html"><strong>教程&nbsp;(22)</strong></a>
+	        <a href="%E6%95%99%E7%A8%8B.html"><strong>教程&nbsp;(23)</strong></a>
 	        
 	        
 	        
@@ -591,7 +630,7 @@ MKBaseRequest 的基本的思想是把每一个网络请求封装成对象。所
 	      </li>
 	  
 	      <li class="post">
-	        <a href="%E6%9D%82%E8%AE%B0.html"><strong>杂记&nbsp;(15)</strong></a>
+	        <a href="%E6%9D%82%E8%AE%B0.html"><strong>杂记&nbsp;(16)</strong></a>
 	        
 	        
 	        
@@ -647,6 +686,18 @@ MKBaseRequest 的基本的思想是把每一个网络请求封装成对象。所
 	  
 	      
 		      <li class="post">
+		        <a href="16246203092572.html">flutter 多环境设置</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16189060168232.html">iOS 开发环境配置</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16158207840706.html">AR 模型格式转换和导入</a>
 		      </li>
 	     
@@ -660,18 +711,6 @@ MKBaseRequest 的基本的思想是把每一个网络请求封装成对象。所
 	      
 		      <li class="post">
 		        <a href="16154734553187.html">Flutter 环境变量设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16153819894563.html">SSH 免密登录设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16152544377232.html">Flutter 相关网站</a>
 		      </li>
 	     
 	  

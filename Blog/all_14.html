@@ -78,6 +78,57 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14861891967085.html">Swift - 春节前问题总结</a></h1>
+			<p class="meta"><time datetime="2017-02-04T14:19:56+08:00" 
+			pubdate data-updated="true">2017/2/4</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<ol>
+<li><p><code>#selector集中起来管理</code><br/>
+参考<a href="http://weibo.com/3321824014/ErQJDdL4L?type=repost#_rnd1486189248963">微博</a>中第二点<br/>
+<img src="media/14861891967085/14861893764185.jpg" alt=""/></p></li>
+<li><p>关于Xib的使用问题<br/>
+老生常谈的问题了,看个人喜好,不过尽量让其他人看懂,遵守xib规范.<br/>
+备注:<br/>
+    1. <a href="http://nshipster.cn/ibinspectable-ibdesignable/">IBInspectable / IBDesignable</a><br/>
+    2. <a href="http://tips.producter.io/you-ya-di-zi-ding-yi-xibview/">优雅地自定义XibView</a></p></li>
+<li><p>关于什么时候提取出方法<br/>
+一个函数如果行数过长不便于阅读,可以按照步骤抽取出字方法<br/>
+如果一个功能有2个以上地方用到需要抽取为一个方法</p></li>
+<li><p>多种样式Cell如何配置</p></li>
+</ol>
+
+<p>撕逼未完....</p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
+		  	<h1 class="entry-title"><a href="14860911508877.html">Swift - Swift Talk: Networking</a></h1>
+			<p class="meta"><time datetime="2017-02-03T11:05:50+08:00" 
+			pubdate data-updated="true">2017/2/3</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<blockquote>
+<p>Swift Talk 学习笔记,<a href="https://talk.objc.io/episodes/S01E01-networking">https://talk.objc.io/episodes/S01E01-networking</a></p>
+</blockquote>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14836656405837.html">Swift - Swift与JavaScript交互实战[转]</a></h1>
 			<p class="meta"><time datetime="2017-01-06T09:20:40+08:00" 
 			pubdate data-updated="true">2017/1/6</time></p>
@@ -455,141 +506,6 @@ int main(int argc, char *argv[])
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14829045788456.html">点菜逻辑梳理</a></h1>
-			<p class="meta"><time datetime="2016-12-28T13:56:18+08:00" 
-			pubdate data-updated="true">2016/12/28</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<h2 id="toc_0">同步逻辑(全量上传):</h2>
-
-<p>原定: 切台\转台 全量上传<br/>
-现在: 轮询即上传(每次轮询信息都走这个接口),切台/轮询同样走这个接口</p>
-
-<h2 id="toc_1">关于延时</h2>
-
-<p>12.27泽祥刚跟海底捞确定逻辑和备注一致即这道菜如果半份延时了再次点这道菜不论整份半份都是延时的.</p>
-
-<h2 id="toc_2">整份半份显示(如果新需求的话,可能还需要改变正在和泽祥确定中)</h2>
-
-<p>需求:点菜点锅界面菜品包含整份与半份 购物车界面整份与半份是分开的.</p>
-
-<p>目前的做法: 购物车等地方如果调用<code>-(NSArray *)getLocalDishArray</code>这个操作会把数据拆分成整份半份给调用者.但是在点菜点锅页面,我会调用<code>configLocalDishArray</code> 这个操作会把整份半份整合成一个菜给调用者</p>
-
-<h2 id="toc_3">关于估清</h2>
-
-<p>原有逻辑就是根据数据库中获取菜品信息进行估清操作判断的,<strong>目前</strong>的逻辑是这样的,数据库返回字段和轮询回来的估清数据中只要有一个是估清就显示估清,显示需要调用<code>-(BOOL)judgeIsSellOutWithDish:(HTDishEntity *)dish</code></p>
-
-<h2 id="toc_4">关于已点</h2>
-
-<p>新加菜&amp;已下单数据只要一个地方有该菜品都显示已点<code>-(BOOL)haveOrderThisDish:(NSString *)dishid</code></p>
-
-<h2 id="toc_5">匹配菜品中整份半份数量</h2>
-
-<p><code>-(nonnull HTDishEntity *)configNumberOfDish:(nonnull HTDishEntity *)dish</code><br/>
-会计算未下单数据中所有整份半份数量</p>
-
-<h2 id="toc_6">延时倍增拆分等操作</h2>
-
-<p>这里需要的菜品都是通过<code>getLocalDishArray</code>来获取否则有问题,详细逻辑大伟比较清楚</p>
-
-<h2 id="toc_7">目前问题</h2>
-
-<p>如果某一道菜设置延时了,将来这道菜每次进行数量的加减时都要同步到服务器,这个操作会不会导致网络请求发送比较频繁<br/>
-点锅后,使用最新的同步接口延时太久.吃饭前同步的数据,中午午休后发现数据回来了...点菜的数据同步很快..这个是接口用错了还是后台接口需要调整?</p>
-
-
-		</div>
-
-		
-
-	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14823239811290.html">全屏返回手势小技巧</a></h1>
-			<p class="meta"><time datetime="2016-12-21T20:39:41+08:00" 
-			pubdate data-updated="true">2016/12/21</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<blockquote>
-<p>这片文章可以和<a href="http://www.citynight.cn/Blog/14790381443417.html">Swift - KVC 和 运行时获取属性列表</a> 一起看,当然配上<a href="http://www.citynight.cn/Blog/14793034700265.html">隐藏tabBar的小技巧</a>就更好了😀</p>
-</blockquote>
-
-<h2 id="toc_0">第一种: 通过<code>runtime</code>与<code>KVC</code>配合完成</h2>
-
-<p>在<code>UINavigationController</code>的<code>viewDidLoad</code>方法中:</p>
-
-<pre><code class="language-text">// 获取系统的手势
-let gest = self.interactivePopGestureRecognizer!
-// 禁用系统的手势
-interactivePopGestureRecognizer?.isEnabled = false
-
-// 通过KVC获取target 属性是通过runtime获取的,具体方法参见`Swift - KVC 和 运行时获取属性列表`
-guard let targets = gest.value(forKey: &quot;_targets&quot;) as? [AnyObject] else {
-    return
-}
-let target = targets[0].value(forKey: &quot;_target&quot;)
-
-// 给视图添加点击事件
-let pan = UIPanGestureRecognizer(target: target, action: NSSelectorFromString(&quot;handleNavigationTransition:&quot;))
-view.addGestureRecognizer(pan)
-</code></pre>
-
-<h2 id="toc_1">第二种: 通过原有的代理完成</h2>
-
-<p>直接上代码:</p>
-
-<pre><code class="language-text">class BaseNavigationController: UINavigationController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // 获取系统的手势的代理
-        guard let target = interactivePopGestureRecognizer?.delegate else {
-            return
-        }
-        
-        // 禁用系统的手势
-        interactivePopGestureRecognizer?.isEnabled = false
-        
-        // 给视图添加点击事件
-        let pan = UIPanGestureRecognizer(target: target, action: NSSelectorFromString(&quot;handleNavigationTransition:&quot;))
-        pan.delegate = self
-        view.addGestureRecognizer(pan)
-    }
-}
-
-extension BaseNavigationController:UIGestureRecognizerDelegate {
-    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -&gt; Bool {
-        // 当是跟控制器的时候不让返回,非跟控制器可以返回
-        return viewControllers.count &gt; 1
-    }
-}
-
-</code></pre>
-
-<p>第一种也应该设置代理,不设置代理的话跟控制出现手势就会有bug</p>
-
-<p>简单比较一下,第二种更简洁.不过应用了一个小技巧,看代码:</p>
-
-<pre><code class="language-text">    let pan = UIPanGestureRecognizer(target: self, action: NSSelectorFromString(&quot;handleNavigationTransition:&quot;))
-    pan.delegate = self
-    view.addGestureRecognizer(pan)
-</code></pre>
-
-<p>可见<code>target</code>&amp;<code>delegate</code>通常都是同一个对象,当让也可以是不同的,这里应用这个小技巧让代码变得更简洁.</p>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_15.html">&larr; Older</a> 
@@ -619,7 +535,7 @@ extension BaseNavigationController:UIGestureRecognizerDelegate {
 	      </li>
 	  
 	      <li class="post">
-	        <a href="%E6%95%99%E7%A8%8B.html"><strong>教程&nbsp;(22)</strong></a>
+	        <a href="%E6%95%99%E7%A8%8B.html"><strong>教程&nbsp;(23)</strong></a>
 	        
 	        
 	        
@@ -633,7 +549,7 @@ extension BaseNavigationController:UIGestureRecognizerDelegate {
 	      </li>
 	  
 	      <li class="post">
-	        <a href="%E6%9D%82%E8%AE%B0.html"><strong>杂记&nbsp;(15)</strong></a>
+	        <a href="%E6%9D%82%E8%AE%B0.html"><strong>杂记&nbsp;(16)</strong></a>
 	        
 	        
 	        
@@ -689,6 +605,18 @@ extension BaseNavigationController:UIGestureRecognizerDelegate {
 	  
 	      
 		      <li class="post">
+		        <a href="16246203092572.html">flutter 多环境设置</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16189060168232.html">iOS 开发环境配置</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16158207840706.html">AR 模型格式转换和导入</a>
 		      </li>
 	     
@@ -702,18 +630,6 @@ extension BaseNavigationController:UIGestureRecognizerDelegate {
 	      
 		      <li class="post">
 		        <a href="16154734553187.html">Flutter 环境变量设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16153819894563.html">SSH 免密登录设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16152544377232.html">Flutter 相关网站</a>
 		      </li>
 	     
 	  

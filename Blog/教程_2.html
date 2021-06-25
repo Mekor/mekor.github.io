@@ -78,6 +78,99 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14771170894039.html">使用Qt创建桌面应用程序</a></h1>
+			<p class="meta"><time datetime="2016-10-22T14:18:09+08:00" 
+			pubdate data-updated="true">2016/10/22</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<blockquote>
+<p>如果Xcode8下无法正常使用Qt,解决办法参见:<a href="http://www.citynight.cn/Blog/14761943627170.html">http://www.citynight.cn/Blog/14761943627170.html</a></p>
+</blockquote>
+
+<p>最终实现的效果:<br/>
+<img src="media/14771170894039/14771178501064.jpg" alt=""/></p>
+
+<p><img src="media/14771170894039/14771179340151.jpg" alt=""/></p>
+
+<p>选择桌面应用程序<br/>
+<img src="media/14771170894039/14771179611437.jpg" alt=""/></p>
+
+<p><img src="media/14771170894039/14771180181773.jpg" alt=""/></p>
+
+<p>OK,现在项目创建好了....接下来就是写代码了...</p>
+
+<p><img src="media/14771170894039/14771173227361.jpg" alt=""/></p>
+
+<p>然后在<code>mainwindow.cpp</code>文件中编写代码:<br/>
+引入需要的头文件</p>
+
+<pre><code class="language-text">#include &lt;QPainter&gt;
+#include &lt;QPen&gt;
+#include &lt;math.h&gt;
+</code></pre>
+
+<p>在<code>MainWindow</code>中设置窗口位置</p>
+
+<pre><code class="language-text">    // 设置在桌面上显示的位置&amp;大小
+    this-&gt;setGeometry(600,300,600,300);
+</code></pre>
+
+<pre><code class="language-text">void MainWindow::paintEvent(QPaintEvent *e){
+        // 定义画笔
+        QPainter painter(this);
+
+        // 定义画坐标笔的,宽度,颜色
+        QPen pen;
+        pen.setWidth(2);
+        pen.setColor(Qt::black);
+
+        // 设置属性生效
+        painter.setPen(pen);
+
+        // 画坐标
+        painter.drawLine(0,150,600,150);
+        painter.drawLine(100,0,100,300);
+
+        //将绘画的坐标原点,转移到(100,150)的位置
+        painter.translate(100,150);
+
+
+
+        //重新设置画正弦颜色和样式
+
+        pen.setColor(Qt::red);
+
+        pen.setStyle(Qt::SolidLine);
+
+        //使设置生效
+        painter.setPen(pen);
+
+        //采集 360 个点用于绘图
+        QVector&lt;QPointF&gt;pVector;
+
+        for(int i=0; i&lt;360; i++)
+        {
+            pVector.push_back(QPointF(i,-sin(3.14/180*i)*70));//y 轴坐标,相反
+
+        }
+
+        // 画多点线条
+        painter.drawPolyline(pVector);
+}
+</code></pre>
+
+<p>开心的run下吧..</p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14766672567296.html">使用 chisel 提高 LLDB 调试效率</a></h1>
 			<p class="meta"><time datetime="2016-10-17T09:20:56+08:00" 
 			pubdate data-updated="true">2016/10/17</time></p>
@@ -630,66 +723,6 @@ pod &#39;SDWebImage&#39;,&#39;~&gt;2.6&#39; 设置框架的名称和版本号
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14747868502733.html">GCD(Grand Central Dispatch)使用</a></h1>
-			<p class="meta"><time datetime="2016-09-25T15:00:50+08:00" 
-			pubdate data-updated="true">2016/9/25</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>可以让程序长时间压后台</p>
-
-<pre><code class="language-text">//  后台执行：
-dispatch_async(dispatch_get_global_queue(0, 0), ^{
-  // something
-});
-
-// 主线程执行：
-dispatch_async(dispatch_get_main_queue(), ^{
-  // something
-});
-
-// 一次性执行：
-static dispatch_once_t onceToken;
-dispatch_once(&amp;onceToken, ^{
-  // code to be executed once
-});
-
-// 延迟2秒执行：
-double delayInSeconds = 2.0;
-dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-   // code to be executed on the main queue after delay
-});
-
-// 自定义dispatch_queue_t
-dispatch_queue_t urls_queue = dispatch_queue_create(&quot;blog.devtang.com&quot;, NULL);
-dispatch_async(urls_queue, ^{
-  // your code
-});
-dispatch_release(urls_queue);
-
-// 合并汇总结果
-dispatch_group_t group = dispatch_group_create();
-dispatch_group_async(group, dispatch_get_global_queue(0,0), ^{
-  // 并行执行的线程一
-});
-dispatch_group_async(group, dispatch_get_global_queue(0,0), ^{
-  // 并行执行的线程二
-});
-dispatch_group_notify(group, dispatch_get_global_queue(0,0), ^{
-  // 汇总结果
-});
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="教程_3.html">&larr; Older</a> 
@@ -719,7 +752,7 @@ dispatch_group_notify(group, dispatch_get_global_queue(0,0), ^{
 	      </li>
 	  
 	      <li class="post">
-	        <a href="%E6%95%99%E7%A8%8B.html"><strong>教程&nbsp;(22)</strong></a>
+	        <a href="%E6%95%99%E7%A8%8B.html"><strong>教程&nbsp;(23)</strong></a>
 	        
 	        
 	        
@@ -733,7 +766,7 @@ dispatch_group_notify(group, dispatch_get_global_queue(0,0), ^{
 	      </li>
 	  
 	      <li class="post">
-	        <a href="%E6%9D%82%E8%AE%B0.html"><strong>杂记&nbsp;(15)</strong></a>
+	        <a href="%E6%9D%82%E8%AE%B0.html"><strong>杂记&nbsp;(16)</strong></a>
 	        
 	        
 	        
@@ -789,6 +822,18 @@ dispatch_group_notify(group, dispatch_get_global_queue(0,0), ^{
 	  
 	      
 		      <li class="post">
+		        <a href="16246203092572.html">flutter 多环境设置</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16189060168232.html">iOS 开发环境配置</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16158207840706.html">AR 模型格式转换和导入</a>
 		      </li>
 	     
@@ -802,18 +847,6 @@ dispatch_group_notify(group, dispatch_get_global_queue(0,0), ^{
 	      
 		      <li class="post">
 		        <a href="16154734553187.html">Flutter 环境变量设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16153819894563.html">SSH 免密登录设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16152544377232.html">Flutter 相关网站</a>
 		      </li>
 	     
 	  

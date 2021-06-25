@@ -78,6 +78,162 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14781615036446.html">安装tree命令</a></h1>
+			<p class="meta"><time datetime="2016-11-03T16:25:03+08:00" 
+			pubdate data-updated="true">2016/11/3</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p><code>brew</code> 一行命令搞定 <code>brew install tree</code></p>
+
+<p>效果图:</p>
+
+<pre><code class="language-text">.
+├── LICENSE
+├── MKShowDetail
+│   ├── MKShowDetail.h
+│   ├── XZBaseViewController.h
+│   ├── XZBaseViewController.m
+│   ├── XZBaseViewController.xib
+│   ├── XZCustomViewController.h
+│   ├── XZCustomViewController.m
+│   ├── XZTableView.h
+│   ├── XZTableView.m
+│   └── bgImage.gif
+├── MKShowDetail.podspec
+├── MKShowDetailDemo
+│   ├── DetailShow
+│   │   ├── AppDelegate.h
+│   │   ├── AppDelegate.m
+│   │   ├── Assets.xcassets
+│   │   │   ├── AppIcon.appiconset
+│   │   │   │   └── Contents.json
+│   │   │   ├── Contents.json
+│   │   │   └── icon.imageset
+│   │   │       ├── Contents.json
+│   │   │       └── icon.jpg
+│   │   ├── Base.lproj
+│   │   │   ├── LaunchScreen.storyboard
+│   │   │   └── Main.storyboard
+│   │   ├── Info.plist
+│   │   ├── OneViewController.h
+│   │   ├── OneViewController.m
+│   │   ├── TestViewController.h
+│   │   ├── TestViewController.m
+│   │   ├── ThreeViewController.h
+│   │   ├── ThreeViewController.m
+│   │   ├── TwoViewController.h
+│   │   ├── TwoViewController.m
+│   │   ├── ViewController.h
+│   │   ├── ViewController.m
+│   │   ├── lol.jpg
+│   │   ├── main.m
+│   │   └── timo.jpg
+│   └── DetailShow.xcodeproj
+│       ├── project.pbxproj
+│       ├── project.xcworkspace
+│       │   ├── contents.xcworkspacedata
+│       │   └── xcuserdata
+│       │       ├── mekor.xcuserdatad
+│       │       │   └── UserInterfaceState.xcuserstate
+│       │       └── weizhi.xcuserdatad
+│       │           └── UserInterfaceState.xcuserstate
+│       └── xcuserdata
+│           ├── mekor.xcuserdatad
+│           │   └── xcschemes
+│           │       ├── DetailShow.xcscheme
+│           │       └── xcschememanagement.plist
+│           └── weizhi.xcuserdatad
+│               ├── xcdebugger
+│               │   └── Breakpoints_v2.xcbkptlist
+│               └── xcschemes
+│                   ├── DetailShow.xcscheme
+│                   └── xcschememanagement.plist
+├── README.md
+└── shopdetail.gif
+
+</code></pre>
+
+<p>看起来效果不错.</p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
+		  	<h1 class="entry-title"><a href="14781433227076.html">获取当前显示的UIViewController</a></h1>
+			<p class="meta"><time datetime="2016-11-03T11:22:02+08:00" 
+			pubdate data-updated="true">2016/11/3</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<pre><code class="language-text">+ (UIViewController *)getCurrentRootViewController {
+
+    CommonTool *tool = [[CommonTool alloc]init];
+
+    UIViewController *result;
+    UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
+
+    if (topWindow.windowLevel != UIWindowLevelNormal){
+        NSArray *windows = [[UIApplication sharedApplication] windows];
+        for(topWindow in windows){
+            if (topWindow.windowLevel == UIWindowLevelNormal)
+                break;
+        }
+    }
+
+    UIView *rootView = [topWindow subviews].firstObject;
+    id nextResponder = [rootView nextResponder];
+
+    if ([nextResponder isMemberOfClass:[UIViewController class]]){
+        result = nextResponder;
+    }
+    else if ([nextResponder isMemberOfClass:[UITabBarController class]] | [nextResponder isMemberOfClass:[UINavigationController class]]){
+        result = [tool findViewController:nextResponder];
+    }
+    else if ([topWindow respondsToSelector:@selector(rootViewController)] &amp;&amp; topWindow.rootViewController != nil){
+        result = topWindow.rootViewController;
+    }
+
+    else{
+        NSAssert(NO, @&quot;找不到顶端VC&quot;);
+    }
+    return result;
+}
+
+</code></pre>
+
+<pre><code class="language-text">- (UIViewController *)findViewController:(id)controller{
+    if ([controller isMemberOfClass:[UINavigationController class]]) {
+        return [self findViewController:[(UINavigationController *)controller visibleViewController]];
+    }
+    else if ([controller isMemberOfClass:[UITabBarController class]]){
+        return [self findViewController:[(UITabBarController *)controller selectedViewController]];
+    }
+    else if ([controller isKindOfClass:[UIViewController class]]){
+        return controller;
+    }
+    else{
+        NSAssert(NO, @&quot;找不到顶端VC&quot;);
+        return nil;
+    }
+}
+
+</code></pre>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14778331858080.html">如何获取手机上安装的所有App</a></h1>
 			<p class="meta"><time datetime="2016-10-30T21:13:05+08:00" 
 			pubdate data-updated="true">2016/10/30</time></p>
@@ -291,168 +447,6 @@ NSLog(@&quot;%@&quot;, [array valueForKeyPath:@&quot;@distinctUnionOfObjects.sel
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14766672567296.html">使用 chisel 提高 LLDB 调试效率</a></h1>
-			<p class="meta"><time datetime="2016-10-17T09:20:56+08:00" 
-			pubdate data-updated="true">2016/10/17</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<blockquote>
-<p><a href="https://github.com/facebook/chisel">https://github.com/facebook/chisel</a> 英文版使用说明</p>
-</blockquote>
-
-<h2 id="toc_0">安装</h2>
-
-<ol>
-<li>安装 <a href="http://brew.sh/index_zh-cn.html">Homebrew</a> (如果已经安装了,可以跳过这一步)</li>
-</ol>
-
-<pre><code class="language-text">/usr/bin/ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;
-</code></pre>
-
-<ol>
-<li>更新 Homebrew (如果已经最新了,可以跳过这一步)</li>
-</ol>
-
-<pre><code class="language-text">brew update
-</code></pre>
-
-<ol>
-<li>通过 Homebrew 安装 chisel</li>
-</ol>
-
-<pre><code class="language-text">brew install chisel
-</code></pre>
-
-<ol>
-<li>添加 chisel 命令至 ~/.lldbinit</li>
-</ol>
-
-<pre><code class="language-text">touch ~/.lldbinit echo &quot;command script import /usr/local/opt/chisel/libexec/fblldb.py&quot; &gt;&gt; ~/.lldbinit
-</code></pre>
-
-<ol>
-<li>更新 chisel</li>
-</ol>
-
-<pre><code class="language-text">brew upgrade chisel
-</code></pre>
-
-<h2 id="toc_1">使用</h2>
-
-<ol>
-<li>通过 <code>pviews</code> 命令直接查看页面层级关系</li>
-</ol>
-
-<hr/>
-
-<p>未完... </p>
-
-
-		</div>
-
-		
-
-	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14766308131126.html">UITableView优化方案(收集)</a></h1>
-			<p class="meta"><time datetime="2016-10-16T23:13:33+08:00" 
-			pubdate data-updated="true">2016/10/16</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<h2 id="toc_0">相关文章/博客</h2>
-
-<p><a href="http://www.cocoachina.com/ios/20150906/13212.html">一次 TableView 性能优化经历</a><br/>
-<a href="http://blog.jobbole.com/37984/">iOS应用性能调优的25个建议和技巧</a><br/>
-<a href="http://longxdragon.github.io/2015/05/26/UITableView%E4%BC%98%E5%8C%96%E6%8A%80%E5%B7%A7/">UITableView优化技巧</a><br/>
-<a href="http://blog.csdn.net/shang_ri_la/article/details/25954383">UITableView 滚动流畅性优化</a> (备注:这个原始网站挂了,幸好有朋友转载过.)</p>
-
-<h2 id="toc_1">注意点:</h2>
-
-<h4 id="toc_2">1. 列表卡顿问题最好真机测试，有条件的尽量选择低版本硬件和系统进行测试；</h4>
-
-<h4 id="toc_3">2. 使用 Instruments 的 Time Profiler 工具定位造成卡顿时间消耗的位置；</h4>
-
-<h4 id="toc_4">3. 避免 UITableView 的多次刷新( reloadData )，尤其 Xib 加载 UITableView 时避免首次自动加载；</h4>
-
-<h4 id="toc_5">4. 为 Cell 专门定义显示 Model；</h4>
-
-<h4 id="toc_6">5. Model 需要包含已提前计算出的 Cell 高度；</h4>
-
-<h4 id="toc_7">6. 对于显示的 NSString，提前在 Model 中组装完成，避免在 Cell 中组装转换；</h4>
-
-<h4 id="toc_8">7. 对于需要加载的网络图片链接，提前在 Model 中组装完成 NSURL,避免在 Cell 中组装转换；</h4>
-
-<h4 id="toc_9">8. 尽量减少 Cell 中的逻辑判断和运算并使用正确的数据格式;</h4>
-
-<h4 id="toc_10">9. 避免在 Cell 中反复创建 View,最好在初始化时一并创建，通过设置 Hidden 属性控制显示和隐藏;</h4>
-
-<h4 id="toc_11">10. 对于 UIImageView ,注意加载的图片大小是否与控件大小一致，尽量保持一致；</h4>
-
-<h4 id="toc_12">11. 正确使用 reuseIdentifier</h4>
-
-<pre><code class="language-text">static NSString *CellIdentifier = @&quot;MyFancyCell&quot;;
-UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-
-</code></pre>
-
-<h4 id="toc_13">12. 尽量把所有的 UIView 以及其子类控件设置为不透明（Opaque = YES）,你可以在模拟器中用Debug\Color Blended Layers选项来发现哪些view没有被设置为opaque。目标就是，能设为opaque的就全设为opaque!</h4>
-
-<h4 id="toc_14">13. 尽量避免图片压缩，模拟器条件下使用 Debug\Color Misaligned Images 选项检查像素是否对其:如果图片边界没有与目标像素完美对齐，该功能可为图片叠加上一层品红色。如果图片使用确定的比例大小绘制，那么该功能会为图片添加一层黄色叠加。真机条件下使用 Instrument 中的 Core Animation 工具检查；</h4>
-
-<h4 id="toc_15">14. 使用 shadowPath 来画阴影;</h4>
-
-<pre><code class="language-text">#import &lt;QuartzCore/QuartzCore.h&gt;
-
-// Somewhere later ...
-UIView *view = [[UIView alloc] init];
-
-// Setup the shadow ...
-view.layer.shadowOffset = CGSizeMake(-1.0f, 1.0f);
-view.layer.shadowRadius = 5.0f;
-view.layer.shadowOpacity = 0.6;
-</code></pre>
-
-<h4 id="toc_16">15. 减少 subviews 的数量;</h4>
-
-<h4 id="toc_17">16. 尽量不使用 cellForRowAtIndexPath: ，如果你需要用到它，只用一次然后缓存结果；</h4>
-
-<h4 id="toc_18">17. 使用 Autorelease Pool；</h4>
-
-<pre><code class="language-text">NSArray *urls = &lt;# An array of file URLs #&gt;;
-for (NSURL *url in urls) {
-    @autoreleasepool {
-        NSError *error;
-        NSString *fileContents = [NSString stringWithContentsOfURL:url
-                                         encoding:NSUTF8StringEncoding error:&amp;error];
-    }
-}
-</code></pre>
-
-<h4 id="toc_19">18. 选择是否需要缓存；</h4>
-
-<pre><code class="language-text">UIImage *img = [UIImage imageNamed:@&quot;myImage&quot;]; // caching
-
-// or
- UIImage *img = [UIImage imageWithContentsOfFile:@&quot;myImage&quot;]; // no caching
-</code></pre>
-
-<p>如果你要加载一个大图片而且是一次性使用，那么就没必要缓存这个图片，用 imageWithContentsOfFile 足矣，这样不会浪费内存来缓存它。然而，在图片反复重用的情况下 imageNamed 是一个好得多的选择。</p>
-
-<h4 id="toc_20">19. 避免日期格式转换；相关日期显示应该在 Model 中定义完成。</h4>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_21.html">&larr; Older</a> 
@@ -482,7 +476,7 @@ for (NSURL *url in urls) {
 	      </li>
 	  
 	      <li class="post">
-	        <a href="%E6%95%99%E7%A8%8B.html"><strong>教程&nbsp;(22)</strong></a>
+	        <a href="%E6%95%99%E7%A8%8B.html"><strong>教程&nbsp;(23)</strong></a>
 	        
 	        
 	        
@@ -496,7 +490,7 @@ for (NSURL *url in urls) {
 	      </li>
 	  
 	      <li class="post">
-	        <a href="%E6%9D%82%E8%AE%B0.html"><strong>杂记&nbsp;(15)</strong></a>
+	        <a href="%E6%9D%82%E8%AE%B0.html"><strong>杂记&nbsp;(16)</strong></a>
 	        
 	        
 	        
@@ -552,6 +546,18 @@ for (NSURL *url in urls) {
 	  
 	      
 		      <li class="post">
+		        <a href="16246203092572.html">flutter 多环境设置</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16189060168232.html">iOS 开发环境配置</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16158207840706.html">AR 模型格式转换和导入</a>
 		      </li>
 	     
@@ -565,18 +571,6 @@ for (NSURL *url in urls) {
 	      
 		      <li class="post">
 		        <a href="16154734553187.html">Flutter 环境变量设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16153819894563.html">SSH 免密登录设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16152544377232.html">Flutter 相关网站</a>
 		      </li>
 	     
 	  

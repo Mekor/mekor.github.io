@@ -78,6 +78,69 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="16246203092572.html">flutter 多环境设置</a></h1>
+			<p class="meta"><time datetime="2021-06-25T19:25:09+08:00" 
+			pubdate data-updated="true">2021/6/25</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>Flutter开发中我们需要切换不同的环境进行数据处理</p>
+
+<h2 id="toc_0">原理</h2>
+
+<p>根据Dart-Define进行参数控制</p>
+
+<p>具体接收参数的实现在 env_config.dart 文件中</p>
+
+<p>代码如下：<img src="media/16246203092572/image2021-6-25%2019_15_8.png" alt="image2021-6-25 19_15_8"/></p>
+
+<h2 id="toc_1">传递参数</h2>
+
+<p>我们可以直接输入命令行进行运行，可以使用shell进行脚本封装，也可以使用开发工具进行设置。</p>
+
+<h3 id="toc_2">shell脚本启动方式</h3>
+
+<p>已经写好了简单的执行脚本位置如下：</p>
+
+<p><img src="media/16246203092572/image-20210625182202555.png" alt="image-20210625182202555"/></p>
+
+<p><strong>使用方式</strong></p>
+
+<ol>
+<li><p>先赋予脚本读、执行权限 <code>chmod 755 ./scripts/run.sh</code></p></li>
+<li><p>执行对应的脚本</p>
+<pre><code class="language-shell"># 开发环境
+./script/run.sh dev<br/>
+# 测试环境<br/>
+./script/run.sh test<br/>
+# 发布环境<br/>
+./script/run.sh release
+</code></pre>
+<p>当然也可以直接在命令行中直接输入运行。</p>
+<h3 id="toc_3">使用Android Studio 进行设置</h3></li>
+<li><p>编辑配置信息<img src="media/16246203092572/image-20210625171212841.png" alt="image-20210625171212841"/></p></li>
+<li><p>设置参数<img src="media/16246203092572/image-20210625171413373.png" alt="image-20210625171413373"/></p></li>
+<li><p>设置其他环境的参数<img src="media/16246203092572/image-20210625181701520.png" alt="image-20210625181701520"/></p></li>
+<li><p>配置完成<img src="media/16246203092572/image-20210625181827464.png" alt="image-20210625181827464"/></p></li>
+<li><p>开发中选择对应的环境执行<br/>
+<img src="media/16246203092572/image-20210625182807269.png" alt="image-20210625182807269"/></p></li>
+</ol>
+
+<h3 id="toc_4">VSCode环境配置</h3>
+
+<p><img src="media/16246203092572/image-20210625184614465.png" alt="image-20210625184614465"/></p>
+
+<p>执行的时候选择对应的环境进行执行</p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="16158207840706.html">AR 模型格式转换和导入</a></h1>
 			<p class="meta"><time datetime="2021-03-15T23:06:24+08:00" 
 			pubdate data-updated="true">2021/3/15</time></p>
@@ -594,53 +657,6 @@ func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask,
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14813828036514.html">iOS8之后设置PopoverController</a></h1>
-			<p class="meta"><time datetime="2016-12-10T23:13:23+08:00" 
-			pubdate data-updated="true">2016/12/10</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>直接上代码:</p>
-
-<pre><code class="language-text">    @IBOutlet weak var popoverButton: UIButton!
-    @IBAction func popoverClick(_ sender: Any) {
-        
-        // 需要被展示的控制器
-        let popover = PopoverViewController()
-        // 设置呈现样式
-        popover.modalPresentationStyle = .popover
-        // 对应原来PopoverController中的rect
-        popover.popoverPresentationController?.sourceRect = self.popoverButton.bounds
-        // 对应原来PopoverController中的inView
-        popover.popoverPresentationController?.sourceView = self.popoverButton
-        // 展示
-        self.present(popover, animated: true, completion: nil)
-    }
-</code></pre>
-
-<p>在被呈现的控制器中设置显示的大小:</p>
-
-<pre><code class="language-text">class PopoverViewController: UIViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        /// 设置呈现大小
-        self.preferredContentSize = CGSize(width: 400, height: 400)
-    }
-}
-</code></pre>
-
-<p>以上设置,如果是iPhone的话,模态弹出视图,popover属性就会被忽略.iPad则会Popover弹出</p>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="教程_1.html">&larr; Older</a> 
@@ -670,7 +686,7 @@ func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask,
 	      </li>
 	  
 	      <li class="post">
-	        <a href="%E6%95%99%E7%A8%8B.html"><strong>教程&nbsp;(22)</strong></a>
+	        <a href="%E6%95%99%E7%A8%8B.html"><strong>教程&nbsp;(23)</strong></a>
 	        
 	        
 	        
@@ -684,7 +700,7 @@ func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask,
 	      </li>
 	  
 	      <li class="post">
-	        <a href="%E6%9D%82%E8%AE%B0.html"><strong>杂记&nbsp;(15)</strong></a>
+	        <a href="%E6%9D%82%E8%AE%B0.html"><strong>杂记&nbsp;(16)</strong></a>
 	        
 	        
 	        
@@ -740,6 +756,18 @@ func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask,
 	  
 	      
 		      <li class="post">
+		        <a href="16246203092572.html">flutter 多环境设置</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16189060168232.html">iOS 开发环境配置</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16158207840706.html">AR 模型格式转换和导入</a>
 		      </li>
 	     
@@ -753,18 +781,6 @@ func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask,
 	      
 		      <li class="post">
 		        <a href="16154734553187.html">Flutter 环境变量设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16153819894563.html">SSH 免密登录设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16152544377232.html">Flutter 相关网站</a>
 		      </li>
 	     
 	  

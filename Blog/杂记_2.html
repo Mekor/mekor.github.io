@@ -78,6 +78,279 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="15096779127051.html">collectionView自定义layout</a></h1>
+			<p class="meta"><time datetime="2017-11-03T10:58:32+08:00" 
+			pubdate data-updated="true">2017/11/3</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<blockquote>
+<p>今天,YouTube推荐了一个自定义layout的视频( Custom Collection View Layouts in iOS),看了一下挺简单明了的,而且基本的操作都包含了. <br/>
+<strong>视频地址:</strong> <a href="https://www.youtube.com/watch?v=DIxyCh55SqQ">Pinterest Basic Layout - Custom Collection View Layouts in iOS - raywenderlich.com</a><br/>
+<strong>github地址:</strong> <a href="https://github.com/AZCoder2/Pinterest">Pinterest</a></p>
+</blockquote>
+
+<p>核心代码:</p>
+
+<pre><code class="language-text">//
+//  PinterestLayout.swift
+//  Pinterest
+//
+//  Created by Tom Ranalli on 12/25/16.
+//  Copyright © 2016 Razeware LLC. All rights reserved.
+//
+
+import UIKit
+
+// MARK: - Protocols
+protocol PinterestLayoutDelegate {
+  
+  // Request height of photo
+  func collectionView(_ collectionView:UICollectionView, heightForPhotoAtIndexPath indexPath:NSIndexPath,
+                      withWidth:CGFloat) -&gt; CGFloat
+  
+  // Request annotation for photo
+  func collectionView(_ collectionView: UICollectionView,
+                      heightForAnnotationAtIndexPath indexPath: NSIndexPath, withWidth width: CGFloat) -&gt; CGFloat
+}
+
+class PinterestLayoutAttributes: UICollectionViewLayoutAttributes {
+  
+  // This declares the photoHeight property that the cell will use to resize its image view
+  var photoHeight: CGFloat = 0.0
+  
+  /* This overrides copy(_with:)
+   
+     Subclasses of UICollectionViewLayoutAttributes need to conform to the NSCopying protocol 
+     because the attribute’s objects can be copied internally. You override this method to 
+     guarantee that the photoHeight property is set when the object is copied.
+  */
+  
+  override func copy(with zone: NSZone? = nil) -&gt; Any {
+    let copy = super.copy(with: zone) as! PinterestLayoutAttributes
+    copy.photoHeight = photoHeight
+    return copy
+  }
+  
+  /* This overrides isEqual(_:), and it’s mandatory as well.
+ 
+     The collection view determines whether the attributes have changed by comparing the old 
+     and new attribute objects using isEqual(_:). You must implement it to compare the custom
+     properties of your subclass. The code compares the photoHeight of both instances, and
+     if they are equal, calls super to determine if the inherited attributes are the same;
+     if the photo heights are different, it returns false
+  */
+
+  override func isEqual(_ object: Any?) -&gt; Bool {
+    if let attributes = object as? PinterestLayoutAttributes {
+      if( attributes.photoHeight == photoHeight  ) {
+        return super.isEqual(object)
+      }
+    }
+    return false
+  }
+}
+
+// MARK: - Class definition
+class PinterestLayout: UICollectionViewLayout {
+  
+  // MARK: - Properties
+  
+  // Keep reference to the delegate
+  var delegate: PinterestLayoutDelegate!
+  
+  // Configure number of columns and cell padding
+  var numberOfColumns = 2
+  var cellPadding: CGFloat = 6.0
+  
+  // This is an array to cache the calculated attributes. 
+  
+  /* When you call prepareLayout(), you’ll calculate the attributes for all items and add them to the cache. When the collection view later requests the layout attributes, you can be efficient and query the cache instead of recalculating them every time
+  */
+  
+  private var cache = [PinterestLayoutAttributes]()
+  
+  // This declares two properties to store the content size.
+  // contentHeight is incremented as photos are added
+  private var contentHeight: CGFloat  = 0.0
+  
+  // contentWidth is calculated based on the collection view width and its content inset.
+  private var contentWidth: CGFloat {
+    let insets = collectionView!.contentInset
+    return collectionView!.bounds.width - (insets.left + insets.right)
+  }
+  
+  // Variable overrides
+  
+  /* This overrides collectionViewContentSize variable of the abstract parent class, and returns the size of the collection view’s contents. To do this, you use both contentWidth and contentHeight calculated in the previous steps.
+  */
+ 
+  override var collectionViewContentSize: CGSize {
+    return CGSize(width: contentWidth, height: contentHeight)
+  }
+  
+  /* This overrides layoutAttributesClass variable to tell the collection view to use PinterestLayoutAttributes whenever it creates layout attributes objects.
+  */
+  
+  override class var layoutAttributesClass: AnyClass {
+    return PinterestLayoutAttributes.self
+  }
+  
+  // MARK: - Overrides
+  
+  override func prepare() {
+    
+    // Only calculate if cache is empty
+    if cache.isEmpty {
+      
+      /*  This declares and fills the xOffset array with the x-coordinate for every column based on the column widths.
+      */
+      let columnWidth = contentWidth / CGFloat(numberOfColumns)
+      
+      var xOffset = [CGFloat]()
+      
+      for column in 0 ..&lt; numberOfColumns {
+        xOffset.append(CGFloat(column) * columnWidth )
+      }
+      
+      /*  The yOffset array tracks the y-position for every column. You initialize each value in yOffset to 0, since this is the offset of the first item in each column.
+      */
+      var column = 0
+      var yOffset = [CGFloat](repeating: 0, count: numberOfColumns)
+      
+      // This loops through all the items in the first section, as this particular 
+      // layout has only one section
+      for item in 0 ..&lt; collectionView!.numberOfItems(inSection: 0) {
+        
+        let indexPath = NSIndexPath(item: item, section: 0)
+        
+        // This is where you perform the frame calculation
+        // Width is the previously calculated cellWidth, with the padding between cells removed
+        let width = columnWidth - cellPadding * 2
+        
+        // You ask the delegate for the height of the image
+        let photoHeight = delegate.collectionView(collectionView!,
+                                                  heightForPhotoAtIndexPath: indexPath,
+                                                  withWidth:width)
+
+        // You ask the delegate for the height of the annotation
+        let annotationHeight = delegate.collectionView(collectionView!,
+                                    heightForAnnotationAtIndexPath: indexPath,
+                                    withWidth: width)
+        
+        // Calculate the frame height based on those heights and the predefined cellPadding 
+        // for the top and bottom
+        let height = cellPadding +  photoHeight + annotationHeight + cellPadding
+        
+        // Combine this with the x and y offsets of the current column to create the
+        // insetFrame used by the attribute
+        let frame = CGRect(x: xOffset[column], y: yOffset[column], width: columnWidth, height: height)
+        let insetFrame = frame.insetBy(dx: cellPadding, dy: cellPadding)
+        
+        // This creates an instance of PinterestLayoutAttributes
+        let attributes = PinterestLayoutAttributes(forCellWith: indexPath as IndexPath)
+        attributes.photoHeight = photoHeight
+        
+        // Sets its frame using insetFrame
+        attributes.frame = insetFrame
+        
+        // Append the attributes to cache
+        cache.append(attributes)
+        
+        // This expands contentHeight to account for the frame of the newly calculated item
+        contentHeight = max(contentHeight, frame.maxY)
+        
+        // It then advances the yOffset for the current column based on the frame
+        yOffset[column] = yOffset[column] + height
+        
+        // Finally, it advances the column so that the next item will be placed in the next column.
+        if column &gt;= numberOfColumns - 1 {
+          column = 0
+        } else {
+          column = column + 1
+        }
+        
+      }
+    }
+  }
+  
+  override func layoutAttributesForElements(in rect: CGRect) -&gt; [UICollectionViewLayoutAttributes]? {
+    
+    var layoutAttributes = [UICollectionViewLayoutAttributes]()
+    
+    //  Iterate through the attributes in cache and check if their frames intersect with rect
+    for attributes in cache {
+      if attributes.frame.intersects(rect) {
+        layoutAttributes.append(attributes) // Add in any attributes for display
+      }
+    }
+    return layoutAttributes
+  }
+
+}
+
+</code></pre>
+
+<p>比较有意思的一个计算高度方式:</p>
+
+<pre><code class="language-text">  // This provides the height of the photos
+  
+  /* It uses AVMakeRectWithAspectRatioInsideRect() from AVFoundation to calculate a height that retains the photo’s aspect ratio, restricted to the cell’s width.
+   */
+  
+  func collectionView(_ collectionView:UICollectionView,
+                      heightForPhotoAtIndexPath indexPath: NSIndexPath,
+                      withWidth width: CGFloat) -&gt; CGFloat {
+    
+    let photo = photos[indexPath.item]
+    let boundingRect =  CGRect(x: 0, y: 0, width: width, height: CGFloat(MAXFLOAT))
+    let rect  = AVMakeRect(aspectRatio: photo.image.size, insideRect: boundingRect)
+    
+    return rect.size.height
+  }
+</code></pre>
+
+<p>图片解压:</p>
+
+<pre><code class="language-text">extension UIImage {
+  
+  var decompressedImage: UIImage {
+    UIGraphicsBeginImageContextWithOptions(size, true, 0)
+    draw(at: CGPoint.zero)
+    let decompressedImage = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
+    return decompressedImage!
+  }
+  
+}
+</code></pre>
+
+<p>一个从前没有用过的Api:</p>
+
+<pre><code class="language-text">  /* 
+   This code calls the super implementation to make sure that the standard attributes are applied. Then, it casts the attributes object into an instance of PinterestLayoutAttributes to obtain the photo height and then changes the image view height by setting the imageViewHeightLayoutConstraint constant value.
+  */
+  
+  override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
+    super.apply(layoutAttributes)
+    
+    if let attributes = layoutAttributes as? PinterestLayoutAttributes {
+      imageViewHeightLayoutConstraint.constant = attributes.photoHeight
+    }
+  }
+</code></pre>
+
+<p>===========<mark>完</mark>=========</p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14919624884376.html">项目优化记录</a></h1>
 			<p class="meta"><time datetime="2017-04-12T10:01:28+08:00" 
 			pubdate data-updated="true">2017/4/12</time></p>
@@ -318,155 +591,9 @@ SELECT * FROM t_student LIMIT 5
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14787398225011.html">会议记录(培训)</a></h1>
-			<p class="meta"><time datetime="2016-11-10T09:03:42+08:00" 
-			pubdate data-updated="true">2016/11/10</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<h2 id="toc_0">Scrum 快速迭代与反馈</h2>
-
-<p>快速迭代得到用户的反馈</p>
-
-<h2 id="toc_1">scrum概念</h2>
-
-<p>敏捷宣言:个体与交互 高于 流程与工具<br/>
-工作的软件 高于 详尽的文档<br/>
-客户合作 高于 合同谈判<br/>
-相应变化 高于 遵循计划</p>
-
-<p>在短时间内交付组稿价值的</p>
-
-<p>Scrum框架  3 3 5 5</p>
-
-<h3 id="toc_2">3个角色</h3>
-
-<h4 id="toc_3">PO(Product owner)产品经理</h4>
-
-<ul>
-<li>一个人</li>
-<li>产品决策</li>
-<li>驱动产品走向成功</li>
-<li>客户与团队的桥梁(双向的代表)</li>
-<li>建立意愿</li>
-<li>负责&quot;做什么&quot;</li>
-<li>对Product Backlog 排优先级   (故事来表达条目,如果有其他的也可以)</li>
-<li>决定发布日期</li>
-<li>接受和退回工作成果</li>
-</ul>
-
-<h4 id="toc_4">开发团队  --&gt; 规模 = 7+-2</h4>
-
-<p>能力:职能全(编码/测试),团队做一个项目<br/>
- 职责:产品增量(完整的可以上线的产品)<br/>
- 持续自我改进:所有成员都要有</p>
-
-<h4 id="toc_5">SM(Sturm Master)</h4>
-
-<ul>
-<li>管理层与团队的桥梁(双向代表)</li>
-<li>帮助团队做决定,自己不做决定</li>
-<li>团队内部教练</li>
-<li>开放并善于聆听</li>
-<li>营造和推进Scrum价值观</li>
-<li>帮助团队移除障碍</li>
-<li>为PO和团队服务</li>
-<li>培养和保护团队  保护团队不受打扰</li>
-<li>提升管队效率</li>
-</ul>
-
-<h3 id="toc_6">3个工件(过程成果和交付物)</h3>
-
-<h4 id="toc_7">Product Backlog</h4>
-
-<ul>
-<li>动态列表,包含产品功能(用户故事:)</li>
-<li>其他能给用户带来的价值的工作(技术故事:一般由主设计由产品经理确认)</li>
-<li>好的Product Backlog <strong>详细,规模估算,涌现式,优先级(绝对序号排序,不要用高中低)</strong></li>
-<li>PO维护</li>
-</ul>
-
-<h4 id="toc_8">Sprint backlog</h4>
-
-<ul>
-<li>基于product backlog 拆分成更小的任务.关注与怎么做的问题</li>
-<li><p>开发团队负责创建与维护</p>
-<p><em>1</em> 选取要进行的Product backlog Item<br/>
-<em>2</em> 协作完成<br/>
-<em>3</em> 通过scrum任务版让团队自我管理Sprint Backlog<br/>
-<em>4</em> 通过燃尽图跟踪sprint进展情况并预测和管理开发的进展</p>
-<h4 id="toc_9">Sprint产品增量</h4></li>
-<li><p>项目有一些列 sprint 组成</p></li>
-<li><p>通常2-4周</p></li>
-<li><p>固定周期    --&gt; 让开发团队适应节奏</p></li>
-<li><p>时间盒结束sprint结束</p></li>
-<li><p>计划会定义的工作要在sprint内全部完成</p></li>
-</ul>
-
-<h3 id="toc_10">5个活动</h3>
-
-<h4 id="toc_11">Sprint计划会</h4>
-
-<ul>
-<li>第一部分:定义目标,选择可以承诺完成的任务(例如:主流程能跑通)</li>
-<li>第二部分:决定如何实现目标,创建Sprint backlog估算(故事清单,按清单做)<br/>
-####Daily Scrum 每日站立会</li>
-<li>每日</li>
-<li>相同时间地点</li>
-<li>15分钟</li>
-<li>站立 时间端,累 注意力集中</li>
-<li>团队,+SM,PO</li>
-</ul>
-
-<h4 id="toc_12">迭代评审会</h4>
-
-<ul>
-<li>展示工作成果,获得客户反馈</li>
-<li>PO接受或者回退工作</li>
-<li>团队成员全部参家</li>
-<li>邀请相关干系人</li>
-</ul>
-
-<h4 id="toc_13">迭代回顾会</h4>
-
-<ul>
-<li>团队开发过程会持续改进</li>
-<li>最长3小时</li>
-<li>全员参加,领导可以不参加</li>
-<li>敏捷教练或者SM带领大家回顾</li>
-<li>形成明确的改进计划,并在下一个迭代会回顾会检视效果</li>
-</ul>
-
-<h4 id="toc_14">把Scrum本身也做为一个活动</h4>
-
-<h3 id="toc_15">5个价值观</h3>
-
-<h2 id="toc_16">scrum拆解</h2>
-
-<h1 id="toc_17">案例</h1>
-
-<h2 id="toc_18">1.团队要敏捷,从哪里开始</h2>
-
-<h3 id="toc_19">准备阶段</h3>
-
-<p>团队组件:PO,SM(敏捷教练),开发团队(开发和测试不要很明确)</p>
-
-<h3 id="toc_20">项目启动会</h3>
-
-<h2 id="toc_21">2.git支管理办法</h2>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
-	
+	 <a class="prev" href="杂记_3.html">&larr; Older</a> 
 <a href="archives.html">Blog Archives</a>
 	 <a class="next" href="杂记_1.html">Newer &rarr;</a>  
 	    
@@ -493,7 +620,7 @@ SELECT * FROM t_student LIMIT 5
 	      </li>
 	  
 	      <li class="post">
-	        <a href="%E6%95%99%E7%A8%8B.html"><strong>教程&nbsp;(22)</strong></a>
+	        <a href="%E6%95%99%E7%A8%8B.html"><strong>教程&nbsp;(23)</strong></a>
 	        
 	        
 	        
@@ -507,7 +634,7 @@ SELECT * FROM t_student LIMIT 5
 	      </li>
 	  
 	      <li class="post">
-	        <a href="%E6%9D%82%E8%AE%B0.html"><strong>杂记&nbsp;(15)</strong></a>
+	        <a href="%E6%9D%82%E8%AE%B0.html"><strong>杂记&nbsp;(16)</strong></a>
 	        
 	        
 	        
@@ -563,6 +690,18 @@ SELECT * FROM t_student LIMIT 5
 	  
 	      
 		      <li class="post">
+		        <a href="16246203092572.html">flutter 多环境设置</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16189060168232.html">iOS 开发环境配置</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16158207840706.html">AR 模型格式转换和导入</a>
 		      </li>
 	     
@@ -576,18 +715,6 @@ SELECT * FROM t_student LIMIT 5
 	      
 		      <li class="post">
 		        <a href="16154734553187.html">Flutter 环境变量设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16153819894563.html">SSH 免密登录设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16152544377232.html">Flutter 相关网站</a>
 		      </li>
 	     
 	  
