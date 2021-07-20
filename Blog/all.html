@@ -78,6 +78,58 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="16267690953146.html">Flutter 中 listView 嵌套 listView</a></h1>
+			<p class="meta"><time datetime="2021-07-20T16:18:15+08:00" 
+			pubdate data-updated="true">2021/7/20</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p><img src="media/16267690953146/Simulator%20Screen%20Shot%20-%20iPhone%2012%20-%202021-07-20%20at%2016.18.53.png" alt="Simulator Screen Shot - iPhone 12 - 2021-07-20 at 16.18.53"/></p>
+
+<p>实现上述嵌套效果只需要在里面的listView中使用</p>
+
+<pre><code class="language-text">      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+</code></pre>
+
+<p><img src="media/16267690953146/16267694115272.jpg" alt="" style="width:498px;"/><br/>
+被嵌套的listView<br/>
+<img src="media/16267690953146/16267694690429.jpg" alt="" style="width:637px;"/></p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
+		  	<h1 class="entry-title"><a href="16261554677251.html">Flutter中Row中的子控件左右两端对齐</a></h1>
+			<p class="meta"><time datetime="2021-07-13T13:51:07+08:00" 
+			pubdate data-updated="true">2021/7/13</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>假如我们要实现这样一个效果：两个子控件（例如2个文本）在一行显示，但我们想让它们分别左右两侧对齐，也就是左右一边一个。如何实现呢？<br/>
+  方法一：<br/>
+  设置 spaceBetween 对齐方式 设置 Row 控件的属性 mainAxisAlignment： mainAxisAlignment: MainAxisAlignment.spaceBetween,<br/>
+  方法二：Expanded 填充 使用 Expanded 中间填充布局空间：<br/>
+   new Row( children: [ new Text(&quot;开始日期：&quot;), Expanded(child: SizedBox()), new Text(“2020-12-29&quot;), ],),<br/>
+   方法三：使用 Spacer() 填充<br/>
+    new Row( children: [ new Text(&quot;开始日期：&quot;), Spacer(), new Text(“2020-12-29&quot;), ],), <br/>
+    方法四：使用 Flexible <br/>
+    new Row( children: [ new Text(&quot;开始日期：&quot;), Flexible(fit: FlexFit.tight, child: SizedBox()), new Text(“2020-12-29&quot;), ],), </p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="16246203092572.html">flutter 多环境设置</a></h1>
 			<p class="meta"><time datetime="2021-06-25T19:25:09+08:00" 
 			pubdate data-updated="true">2021/6/25</time></p>
@@ -232,177 +284,6 @@ bundle exec pod install
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="16158207797865.html">节流防抖</a></h1>
-			<p class="meta"><time datetime="2021-03-15T23:06:19+08:00" 
-			pubdate data-updated="true">2021/3/15</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>节流和防抖演示网站： <a href="http://demo.nimius.net/debounce_throttle/">http://demo.nimius.net/debounce_throttle/</a></p>
-
-<p><strong>防抖 Debounce</strong></p>
-
-<p>防抖的情况，有点像一个极度珍惜 执行机会的人，只要时间段内，有任务来，就再等一会。<br/>
-等到最后一次，超过一定时间，确定没有新任务了，才去做执行。<br/>
-    1. 列表刷新，为避免短时间内反复 reload，可以多次合并为一次<br/>
-    2. TCP 流量控制</p>
-
-<p><strong>节流 Throttle</strong></p>
-
-<p>节流比较好理解，在一定时间段内，丢弃掉其它触发，就做一次执行<br/>
-    1. 防止多次点击<br/>
-    2. 重复发多个网络请求</p>
-
-<pre><code class="language-text">import Foundation
-
-/// 防抖
-public class Debouncer {
-    public let label: String
-    public let interval: DispatchTimeInterval
-    private let queue: DispatchQueue
-    private let semaphore: DispatchSemaphoreWrapper
-    private var workItem: DispatchWorkItem?
-    
-    
-    public init(label: String, interval: Float, qos: DispatchQoS = .userInteractive) {
-        self.interval         = .milliseconds(Int(interval * 1000))
-        self.label         = label
-        self.queue = DispatchQueue(label: &quot;cn.citynight.debouncer.internalqueue.\(label)&quot;, qos: qos)
-        self.semaphore = DispatchSemaphoreWrapper(withValue: 1)
-    }
-    
-    
-    public func call(_ callback: @escaping (() -&gt; ())) {
-        
-        self.semaphore.sync  { () -&gt; () in
-            
-            
-            self.workItem?.cancel()
-            
-            self.workItem = DispatchWorkItem {
-                callback()
-            }
-            
-            if let workItem = self.workItem {
-                
-                self.queue.asyncAfter(deadline: .now() + self.interval, execute: workItem)
-            }
-        }
-    }
-    
-}
- 
-
-/// 节流
-public class Throttler {
-    
-    private let queue: DispatchQueue = DispatchQueue.global(qos: .background)
-    
-    private var job: DispatchWorkItem = DispatchWorkItem(block: {})
-    private var previousRun: Date = Date.distantPast
-    private var maxInterval: Int
-    private let semaphore: DispatchSemaphoreWrapper
-    
-    init(seconds: Int) {
-        self.maxInterval = seconds
-        self.semaphore = DispatchSemaphoreWrapper(withValue: 1)
-    }
-    
-    
-    func throttle(block: @escaping () -&gt; ()) {
-        
-        self.semaphore.sync  { () -&gt; () in
-            job.cancel()
-            job = DispatchWorkItem(){ [weak self] in
-                self?.previousRun = Date()
-                block()
-            }
-            let delay = Date.second(from: previousRun) &gt; maxInterval ? 0 : maxInterval
-            queue.asyncAfter(deadline: .now() + Double(delay), execute: job)
-        }
-        
-    }
-}
- 
-
-/// DispatchSemaphore保证线程安全
-public struct DispatchSemaphoreWrapper {
-    
-    private let semaphore: DispatchSemaphore
-    
-    public init(withValue value: Int) {
-        
-        self.semaphore = DispatchSemaphore(value: value)
-    }
-    
-    public func sync&lt;R&gt;(execute: () throws -&gt; R) rethrows -&gt; R {
-        
-        _ = semaphore.wait(timeout: DispatchTime.distantFuture)
-        defer { semaphore.signal() }
-        return try execute()
-    }
-}
-
-private extension Date {
-    static func second(from referenceDate: Date) -&gt; Int {
-        return Int(Date().timeIntervalSince(referenceDate).rounded())
-    }
-}
-
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="16154734553187.html">Flutter 环境变量设置</a></h1>
-			<p class="meta"><time datetime="2021-03-11T22:37:35+08:00" 
-			pubdate data-updated="true">2021/3/11</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>我把flutter文件夹拖到资源库中<br/>
-<img src="media/16154734553187/16154735272429.jpg" alt="" style="width:920px;"/></p>
-
-<p>然后更改环境变量</p>
-
-<pre><code class="language-text">code ~/.bash_profile
-</code></pre>
-
-<p>在环境变量后面添加flutter的环境变量</p>
-
-<pre><code class="language-text">export PATH=/Users/logan/Library/flutter/bin:$PATH
-</code></pre>
-
-<p>然后看下版本号</p>
-
-<pre><code class="language-text">flutter --version
-</code></pre>
-
-<p>然后看到输出类似</p>
-
-<pre><code class="language-text">Flutter 2.0.1 • channel stable • https://github.com/flutter/flutter.git
-Framework • revision c5a4b4029c (7 days ago) • 2021-03-04 09:47:48 -0800
-Engine • revision 40441def69
-Tools • Dart 2.12.0
-</code></pre>
-
-<p>这样就没有问题了</p>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_1.html">&larr; Older</a> 
@@ -502,6 +383,18 @@ Tools • Dart 2.12.0
 	  
 	      
 		      <li class="post">
+		        <a href="16267690953146.html">Flutter 中 listView 嵌套 listView</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16261554677251.html">Flutter中Row中的子控件左右两端对齐</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
 		      </li>
 	     
@@ -515,18 +408,6 @@ Tools • Dart 2.12.0
 	      
 		      <li class="post">
 		        <a href="16158207840706.html">AR 模型格式转换和导入</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16158207797865.html">节流防抖</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16154734553187.html">Flutter 环境变量设置</a>
 		      </li>
 	     
 	  

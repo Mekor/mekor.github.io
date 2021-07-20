@@ -78,6 +78,139 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14778318573153.html">计算老虎机中奖等级-NSCountedSet</a></h1>
+			<p class="meta"><time datetime="2016-10-30T20:50:57+08:00" 
+			pubdate data-updated="true">2016/10/30</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<blockquote>
+<p>NSCountedSet这个一直没有用过,看到其他人使用在此记录下.</p>
+</blockquote>
+
+<p>计算老虎机中奖等级的问题：老虎机有四列，每列四个图案，如果四个相同就是等级1，三个相同就是等级2，以此类推。说是用<code>if else</code>太麻烦，有没有什么比较快捷的方法，首先想到的是用KVC中剔除重复数据的办法。比如：</p>
+
+<pre><code class="language-text">NSArray *array = @[@2, @2, @2, @1];
+NSLog(@&quot;%@&quot;, [array valueForKeyPath:@&quot;@distinctUnionOfObjects.self&quot;]);
+</code></pre>
+
+<p>然后得到数组的个数为2，看起来很合理，如果数组是<code>NSArray *array = @[@2, @1, @2, @1];</code>这时候计算出来的数组个数是也是2，但是正确结果应该是等级3，后来突然想起一个类:NSCountedSet</p>
+
+<pre><code class="language-text">    NSArray *array = @[@1, @2, @2, @1];
+    NSCountedSet *set = [[NSCountedSet alloc]initWithArray:array];
+
+    [set enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
+        NSLog(@&quot;%@ =&gt; %d&quot;, obj, [set countForObject:obj]);
+    }];
+
+</code></pre>
+
+<pre><code class="language-text">1 =&gt; 2
+2 =&gt; 2
+</code></pre>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
+		  	<h1 class="entry-title"><a href="14771170894039.html">使用Qt创建桌面应用程序</a></h1>
+			<p class="meta"><time datetime="2016-10-22T14:18:09+08:00" 
+			pubdate data-updated="true">2016/10/22</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<blockquote>
+<p>如果Xcode8下无法正常使用Qt,解决办法参见:<a href="http://www.citynight.cn/Blog/14761943627170.html">http://www.citynight.cn/Blog/14761943627170.html</a></p>
+</blockquote>
+
+<p>最终实现的效果:<br/>
+<img src="media/14771170894039/14771178501064.jpg" alt=""/></p>
+
+<p><img src="media/14771170894039/14771179340151.jpg" alt=""/></p>
+
+<p>选择桌面应用程序<br/>
+<img src="media/14771170894039/14771179611437.jpg" alt=""/></p>
+
+<p><img src="media/14771170894039/14771180181773.jpg" alt=""/></p>
+
+<p>OK,现在项目创建好了....接下来就是写代码了...</p>
+
+<p><img src="media/14771170894039/14771173227361.jpg" alt=""/></p>
+
+<p>然后在<code>mainwindow.cpp</code>文件中编写代码:<br/>
+引入需要的头文件</p>
+
+<pre><code class="language-text">#include &lt;QPainter&gt;
+#include &lt;QPen&gt;
+#include &lt;math.h&gt;
+</code></pre>
+
+<p>在<code>MainWindow</code>中设置窗口位置</p>
+
+<pre><code class="language-text">    // 设置在桌面上显示的位置&amp;大小
+    this-&gt;setGeometry(600,300,600,300);
+</code></pre>
+
+<pre><code class="language-text">void MainWindow::paintEvent(QPaintEvent *e){
+        // 定义画笔
+        QPainter painter(this);
+
+        // 定义画坐标笔的,宽度,颜色
+        QPen pen;
+        pen.setWidth(2);
+        pen.setColor(Qt::black);
+
+        // 设置属性生效
+        painter.setPen(pen);
+
+        // 画坐标
+        painter.drawLine(0,150,600,150);
+        painter.drawLine(100,0,100,300);
+
+        //将绘画的坐标原点,转移到(100,150)的位置
+        painter.translate(100,150);
+
+
+
+        //重新设置画正弦颜色和样式
+
+        pen.setColor(Qt::red);
+
+        pen.setStyle(Qt::SolidLine);
+
+        //使设置生效
+        painter.setPen(pen);
+
+        //采集 360 个点用于绘图
+        QVector&lt;QPointF&gt;pVector;
+
+        for(int i=0; i&lt;360; i++)
+        {
+            pVector.push_back(QPointF(i,-sin(3.14/180*i)*70));//y 轴坐标,相反
+
+        }
+
+        // 画多点线条
+        painter.drawPolyline(pVector);
+}
+</code></pre>
+
+<p>开心的run下吧..</p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14766672567296.html">使用 chisel 提高 LLDB 调试效率</a></h1>
 			<p class="meta"><time datetime="2016-10-17T09:20:56+08:00" 
 			pubdate data-updated="true">2016/10/17</time></p>
@@ -258,71 +391,6 @@ for (NSURL *url in urls) {
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14765420394973.html">iOS 模拟器 添加图片到相册的小技巧</a></h1>
-			<p class="meta"><time datetime="2016-10-15T22:33:59+08:00" 
-			pubdate data-updated="true">2016/10/15</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>把图片拖到模拟器主屏幕,或者Safari中,保存图片7 <br/>
-<img src="media/14765420394973/tips.gif" alt="tips"/></p>
-
-
-		</div>
-
-		
-
-	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14765391593705.html">字符串frame相关</a></h1>
-			<p class="meta"><time datetime="2016-10-15T21:45:59+08:00" 
-			pubdate data-updated="true">2016/10/15</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>开发中常用到计算字符串的size或者rect</p>
-
-<p>经常见到如下接口:</p>
-
-<pre><code class="language-text">- (CGSize)sizeWithAttributes:(nullable NSDictionary&lt;NSString *, id&gt; *)attrs NS_AVAILABLE(10_0, 7_0);
-
-- (CGRect)boundingRectWithSize:(CGSize)size options:(NSStringDrawingOptions)options attributes:(nullable NSDictionary&lt;NSString *, id&gt; *)attributes context:(nullable NSStringDrawingContext *)context NS_AVAILABLE(10_11, 7_0);
-</code></pre>
-
-<p>项目中使用的例子:</p>
-
-<pre><code class="language-text">    // shopNameLabel frame
-    {
-        CGSize stringSize = [self.shopNameLabel.text sizeWithAttributes:@{NSFontAttributeName: self.shopNameLabel.font}];
-        self.shopNameLabel.frame = CGRectMake(margin, margin, ceil(stringSize.width), ceil(stringSize.height));
-    }
-</code></pre>
-
-<pre><code class="language-text">    // addressLabel frame
-    {
-        CGFloat lwidth = width - imageWH - 3*margin;
-        
-        CGSize stringSize = [self.addressLabel.text boundingRectWithSize:CGSizeMake(lwidth, self.addressLabel.font.lineHeight *self.addressLabel.numberOfLines) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: self.addressLabel.font} context:nil].size;
-        self.addressLabel.frame = CGRectMake(margin, ceil(CGRectGetMaxY(self.juliLabel.frame) + margin), stringSize.width, stringSize.height);
-    }
-
-</code></pre>
-
-<p>由于经常使用,所以我把这些都抽取成代码块,方便调用.</p>
-
-<p>其中由于需要预估字符串的高度,<code>boundingRectWithSize</code>,由于iOS所提供的默认字体是可能变化的,所以这里我们不能凭借经验10号字体默认高度就是10,这是不准确的.使用<code>self.addressLabel.font.lineHeight</code>应该使用行高来计算.并且显示的行数也不要写死,需要写成 <code>self.addressLabel.numberOfLines</code>.这样做才能得到想要的效果.</p>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_22.html">&larr; Older</a> 
@@ -422,6 +490,18 @@ for (NSURL *url in urls) {
 	  
 	      
 		      <li class="post">
+		        <a href="16267690953146.html">Flutter 中 listView 嵌套 listView</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16261554677251.html">Flutter中Row中的子控件左右两端对齐</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
 		      </li>
 	     
@@ -435,18 +515,6 @@ for (NSURL *url in urls) {
 	      
 		      <li class="post">
 		        <a href="16158207840706.html">AR 模型格式转换和导入</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16158207797865.html">节流防抖</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16154734553187.html">Flutter 环境变量设置</a>
 		      </li>
 	     
 	  

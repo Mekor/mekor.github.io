@@ -78,6 +78,163 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="15323249439841.html">算法总结</a></h1>
+			<p class="meta"><time datetime="2018-07-23T13:49:03+08:00" 
+			pubdate data-updated="true">2018/7/23</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<h2 id="toc_0">Fibonacci （斐波那契数列实现）</h2>
+
+<pre><code class="language-text">///Fibonacci （斐波那契数列实现）
+func fibonacci(_ n: Int) -&gt; Int{
+    let result = [0,1]
+    if n &lt; 2 {
+        return result[n]
+    }
+    
+    var fibNMinusOne = 1
+    var fibNMinusTwo = 0
+    var fibN = 0
+    
+    for _ in 2...n {
+        fibN = fibNMinusOne + fibNMinusTwo
+        fibNMinusTwo = fibNMinusOne
+        fibNMinusOne = fibN
+    }
+    return fibN
+}
+</code></pre>
+
+<h2 id="toc_1">BinarySearch (二分查找)</h2>
+
+<h3 id="toc_2">非递归</h3>
+
+<pre><code class="language-text">func binarySearch&lt;T: Comparable&gt;(_ a:[T], key: T) -&gt; Int {
+    print(key)
+    var lowerBound = 0
+    var upperBound = a.count
+    while lowerBound &lt; upperBound {
+
+        let midIndex = lowerBound + (upperBound - lowerBound)/2
+
+        if a[midIndex] == key {
+            return midIndex
+        }else if a[midIndex] &lt; key {
+            lowerBound = midIndex + 1
+        }else {
+            upperBound = midIndex
+        }
+    }
+    return -1
+}
+</code></pre>
+
+<h3 id="toc_3">递归</h3>
+
+<pre><code class="language-text">func binarySearch&lt;T : Comparable&gt;(startIndex: Int, endIndex: Int , arr:[T], key: T) -&gt; Int{
+    let mind = startIndex + (endIndex - startIndex) / 2
+    let mindValue = arr[mind]
+    if mindValue == key {
+        return mind
+    }
+    if mindValue &lt; key {
+        return binarySearch(startIndex: mind + 1, endIndex: endIndex, arr: arr, key: key)
+    } else if mindValue &gt; key {
+        return binarySearch(startIndex: 0, endIndex: mind, arr: arr, key: key)
+    }
+    return -1
+}
+</code></pre>
+
+<h2 id="toc_4">快速排序</h2>
+
+<pre><code class="language-text">func quicksort&lt;T: Comparable&gt;(_ unsort:[T]) -&gt; [T] {
+    guard unsort.count &gt; 1 else {
+        return unsort
+    }
+    
+    let pivot = unsort[unsort.count / 2]
+    let less = unsort.filter { $0 &lt; pivot }
+    let equal = unsort.filter { $0 == pivot }
+    let greater = unsort.filter { $0 &gt; pivot }
+    
+    return quicksort(less) + equal + quicksort(greater)
+}
+</code></pre>
+
+<p>测试结果</p>
+
+<pre><code class="language-text">let list = [ 10, 0, 3, 9, 2, 14, 8, 27, 1, 5, 8, -1, 26 ]
+
+print(list)
+print(quicksort(list))
+--------------------
+[10, 0, 3, 9, 2, 14, 8, 27, 1, 5, 8, -1, 26]
+[-1, 0, 1, 2, 3, 5, 8, 8, 9, 10, 14, 26, 27]
+
+</code></pre>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
+		  	<h1 class="entry-title"><a href="15319018166027.html">解决UILabel 末尾的空格被忽略</a></h1>
+			<p class="meta"><time datetime="2018-07-18T16:16:56+08:00" 
+			pubdate data-updated="true">2018/7/18</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>看到这篇文章<a href="https://www.lidaren.com/archives/1333">UILabel取消自动Trim空格和换行等空白字符</a></p>
+
+<pre><code class="language-text">UILabel会自动清除的空白字符（UNICODE）
+\u0009 CHARACTER TABULATION
+\u000A LINE FEED
+\u000D CARRIAGE RETURN
+\u0020 SPACE
+\u0085 NEXT LINE
+\u00A0 NBSP
+\u1680 OGHAM SPACE MARK
+\u180E MONGOLIAN VOWEL SEPARATOR
+\u2000 EN QUAD
+\u200A HAIR SPACE
+\u200B ZERO WIDTH SPACE
+\u2028 LINE SEPARATOR
+\u2029 PARAGRAPH SEPARATOR
+\u202F NARROW NO-BREAK SPACE
+\u205F MEDIUM MATHEMATICAL SPACE
+\u3000 IDEOGRAPHIC SPACE
+</code></pre>
+
+<p>解决方案</p>
+
+<pre><code class="language-text">    let paragraphStyle = NSMutableParagraphStyle()
+    paragraphStyle.alignment = .right
+    paragraphStyle.tailIndent = -10
+    let myMutableString = NSMutableAttributedString(
+        string: text,
+        attributes: [
+            NSAttributedStringKey.font: UIFont.systemFont(ofSize: 16),
+            NSAttributedStringKey.paragraphStyle: paragraphStyle
+        ]
+    )
+    label.attributedText = myMutableString
+</code></pre>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="15299939008214.html">图片加载方式</a></h1>
 			<p class="meta"><time datetime="2018-06-26T14:18:20+08:00" 
 			pubdate data-updated="true">2018/6/26</time></p>
@@ -238,61 +395,6 @@ highPriorityQueue.async {
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="15257016488742.html">Mac 应用图标没有在launchpad里显示</a></h1>
-			<p class="meta"><time datetime="2018-05-07T22:00:48+08:00" 
-			pubdate data-updated="true">2018/5/7</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>重置Launchpad</p>
-
-<pre><code class="language-text">rm ~/Library/Application\ Support/Dock/*.db
-
-</code></pre>
-
-<pre><code class="language-text">killall Dock
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="15257016195473.html">Carthage 不能正常更新</a></h1>
-			<p class="meta"><time datetime="2018-05-07T22:00:19+08:00" 
-			pubdate data-updated="true">2018/5/7</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>报错</p>
-
-<pre><code class="language-text">➜  PersonalMusic git:(master) carthage update
-*** Cloning GCDWebServer
-A shell task (/usr/bin/env git clone --bare --quiet https://github.com/swisspol/GCDWebServer.git /Users/lixzzzzzz/Library/Caches/org.carthage.CarthageKit/dependencies/GCDWebServer) failed with exit code 128:
-fatal: unable to access &#39;https://github.com/swisspol/GCDWebServer.git/&#39;: LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to github.com:443
-
-</code></pre>
-
-<p>解决办法：</p>
-
-<p>清缓存</p>
-
-<pre><code class="language-text">rm -rf ~/Library/Caches/org.carthage.CarthageKit
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_8.html">&larr; Older</a> 
@@ -392,6 +494,18 @@ fatal: unable to access &#39;https://github.com/swisspol/GCDWebServer.git/&#39;:
 	  
 	      
 		      <li class="post">
+		        <a href="16267690953146.html">Flutter 中 listView 嵌套 listView</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16261554677251.html">Flutter中Row中的子控件左右两端对齐</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
 		      </li>
 	     
@@ -405,18 +519,6 @@ fatal: unable to access &#39;https://github.com/swisspol/GCDWebServer.git/&#39;:
 	      
 		      <li class="post">
 		        <a href="16158207840706.html">AR 模型格式转换和导入</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16158207797865.html">节流防抖</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16154734553187.html">Flutter 环境变量设置</a>
 		      </li>
 	     
 	  

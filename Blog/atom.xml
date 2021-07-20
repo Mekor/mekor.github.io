@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2021-06-25T19:31:52+08:00</updated>
+  <updated>2021-06-25T19:36:12+08:00</updated>
   <id>http://www.citynight.cn/Blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -12,6 +12,46 @@
   </author>
   <generator uri="http://www.coderforart.com/">CoderForArt</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Flutter 中 listView 嵌套 listView]]></title>
+    <link href="http://www.citynight.cn/Blog/16267690953146.html"/>
+    <updated>2021-07-20T16:18:15+08:00</updated>
+    <id>http://www.citynight.cn/Blog/16267690953146.html</id>
+    <content type="html"><![CDATA[
+<p><img src="media/16267690953146/Simulator%20Screen%20Shot%20-%20iPhone%2012%20-%202021-07-20%20at%2016.18.53.png" alt="Simulator Screen Shot - iPhone 12 - 2021-07-20 at 16.18.53"/></p>
+
+<p>实现上述嵌套效果只需要在里面的listView中使用</p>
+
+<pre><code class="language-text">      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+</code></pre>
+
+<p><img src="media/16267690953146/16267694115272.jpg" alt="" style="width:498px;"/><br/>
+被嵌套的listView<br/>
+<img src="media/16267690953146/16267694690429.jpg" alt="" style="width:637px;"/></p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Flutter中Row中的子控件左右两端对齐]]></title>
+    <link href="http://www.citynight.cn/Blog/16261554677251.html"/>
+    <updated>2021-07-13T13:51:07+08:00</updated>
+    <id>http://www.citynight.cn/Blog/16261554677251.html</id>
+    <content type="html"><![CDATA[
+<p>假如我们要实现这样一个效果：两个子控件（例如2个文本）在一行显示，但我们想让它们分别左右两侧对齐，也就是左右一边一个。如何实现呢？<br/>
+  方法一：<br/>
+  设置 spaceBetween 对齐方式 设置 Row 控件的属性 mainAxisAlignment： mainAxisAlignment: MainAxisAlignment.spaceBetween,<br/>
+  方法二：Expanded 填充 使用 Expanded 中间填充布局空间：<br/>
+   new Row( children: [ new Text(&quot;开始日期：&quot;), Expanded(child: SizedBox()), new Text(“2020-12-29&quot;), ],),<br/>
+   方法三：使用 Spacer() 填充<br/>
+    new Row( children: [ new Text(&quot;开始日期：&quot;), Spacer(), new Text(“2020-12-29&quot;), ],), <br/>
+    方法四：使用 Flexible <br/>
+    new Row( children: [ new Text(&quot;开始日期：&quot;), Flexible(fit: FlexFit.tight, child: SizedBox()), new Text(“2020-12-29&quot;), ],), </p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[flutter 多环境设置]]></title>
@@ -2031,54 +2071,6 @@ F_singleTapGesture
 
 <p>异步绘制流程(时序图)<br/>
 <img src="media/15653483390225/Jietu20190824-150035.jpg" alt="Jietu20190824-150035"/></p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[事件传递]]></title>
-    <link href="http://www.citynight.cn/Blog/15653376209289.html"/>
-    <updated>2019-08-09T16:00:20+08:00</updated>
-    <id>http://www.citynight.cn/Blog/15653376209289.html</id>
-    <content type="html"><![CDATA[
-<p>整体的事件传递流程<br/>
-<img src="media/15653376209289/15653376299374.jpg" alt="" style="width:687px;"/></p>
-
-<p>详细的<code>hitTset:withEvent:</code>系统实现<br/>
-<img src="media/15653376209289/15653413218867.jpg" alt=""/></p>
-
-<p>注：先判断视图是否隐藏可交互，不满足条件返回nil, 如果不在点击范围内就返回nil,在点击范围内就遍历子视图。遍历子视图的时候如果都没有子视图响应事件，那么就把视图本身<code>v</code>返回，如果有子视图响应就返回当前子视图。</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[海底捞点餐Pad 优化]]></title>
-    <link href="http://www.citynight.cn/Blog/15653325472073.html"/>
-    <updated>2019-08-09T14:35:47+08:00</updated>
-    <id>http://www.citynight.cn/Blog/15653325472073.html</id>
-    <content type="html"><![CDATA[
-<h2 id="toc_0">1. cell 显示优化</h2>
-
-<p>海底捞的每个菜品都有很多标签，比如清真，推荐，麻辣等等<br/>
-这些标签是有规律的，最多显示6个。没有优化前采用的是存在就创建，这样在iPad Air上面滑动感觉不出卡顿但是在一些老pad 比如 iPad mini 上就会出现卡顿现象。<br/>
-解决方案：<br/>
-提前创建好6个标签，然后根据数据设置显示内容并控制显隐</p>
-
-<p>这样做能有效的提高老pad的显示效果。</p>
-
-<h2 id="toc_1">2. 数据处理优化</h2>
-
-<p>数据源同步问题，问题描述： pad可以更新数据，定时器拉取数据，推送过来的数据</p>
-
-<p><img src="media/15653325472073/15653335091232.jpg" alt="" style="width:500px;"/></p>
-
-<p>解决方案一： 并发访问数据拷贝<br/>
-主线程和子线程都操作数据源的时候，可以把数据源给子线程拷贝一份让子线程操作，当子线程操作完返回给主线程的时候把主线程操作的过程在数据源中再次执行一次然后更新数据显示。<br/>
-主要的技术点是记录主线程操作步骤</p>
-
-<p>解决方案二： 串行访问<br/>
-操作访问的都是同一数据源，能够保证操作数据不出错。但是有一个问题就是如果子线程正在操作数据这个时候主线程有一个修改操作会导致主线程等待，用户会有卡的感觉。</p>
 
 ]]></content>
   </entry>

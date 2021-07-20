@@ -78,6 +78,75 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14760921807707.html">优秀文章链接收藏</a></h1>
+			<p class="meta"><time datetime="2016-10-10T17:36:20+08:00" 
+			pubdate data-updated="true">2016/10/10</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<h2 id="toc_0">优化</h2>
+
+<p><a href="http://www.mulle-kybernetik.com/artikel/Optimization/opti-3-imp-deluxe.html">极致优化</a></p>
+
+<p>美团点评技术团队: <a href="http://tech.meituan.com/DiveIntoMethodCache.html">深入理解Objective-C：方法缓存</a></p>
+
+<h2 id="toc_1">Runloop</h2>
+
+<p><a href="http://blog.ibireme.com/2015/05/18/runloop/">深入理解RunLoop</a>  --- 内部分享文章runloop中使用了该文章中的一张图.</p>
+
+<h2 id="toc_2">GCD</h2>
+
+<p><a href="http://www.raywenderlich.com/60749/grand-central-dispatch-in-depth-part-1">GCD 深入理解：第一部分</a> 中文翻译:<a href="https://github.com/nixzhu/dev-blog/blob/master/2014-04-19-grand-central-dispatch-in-depth-part-1.md">译文</a><br/>
+<a href="https://github.com/nixzhu/dev-blog/blob/master/2014-05-14-grand-central-dispatch-in-depth-part-2.md">GCD 深入理解：第二部分</a></p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
+		  	<h1 class="entry-title"><a href="14752152861722.html">怎样让内存缓存变稳定</a></h1>
+			<p class="meta"><time datetime="2016-09-30T14:01:26+08:00" 
+			pubdate data-updated="true">2016/9/30</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>项目中如果显示图片比较多,会遇到内存涨的比较厉害,项目中用到 SDWebImage, 所以可以很简单的让内存缓存变稳定:</p>
+
+<pre><code class="language-text">-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [[SDImageCache sharedImageCache] clearMemory];
+}
+</code></pre>
+
+<p>原理:</p>
+
+<pre><code class="language-text">- (void)clearMemory {
+    [self.memCache removeAllObjects];
+}
+</code></pre>
+
+<p>_memCache 是 NSCache 类型的,</p>
+
+<p>没有做任何操作的时候大概是这个样子的<br/>
+<img src="media/14752152861722/14752174866625.jpg" alt=""/></p>
+
+<p>添加clearMemory后:<br/>
+<img src="media/14752152861722/14752177858503.jpg" alt=""/></p>
+
+<p>这也是为什么滚动后屏幕上还显示图片的原因.</p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14751288042220.html">Cocoapods的安装</a></h1>
 			<p class="meta"><time datetime="2016-09-29T14:00:04+08:00" 
 			pubdate data-updated="true">2016/9/29</time></p>
@@ -290,108 +359,6 @@ dispatch_group_notify(group, dispatch_get_global_queue(0,0), ^{
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14747833011771.html">如何解决json字符串中包含制表符</a></h1>
-			<p class="meta"><time datetime="2016-09-25T14:01:41+08:00" 
-			pubdate data-updated="true">2016/9/25</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>错误信息:</p>
-
-<pre><code class="language-text">Error Domain=NSCocoaErrorDomain Code=3840 &quot;The operation couldn’t be completed. (Cocoa error 3840.)&quot; (Unescaped control character around character 135.) UserInfo=0x170e79d00 {NSDebugDescription=Unescaped control character around character 135.}
-</code></pre>
-
-<p><strong>如何处理</strong><br/>
-最关键的地方:</p>
-
-<pre><code class="language-text">-(NSString *)removeUnescapedCharacter:(NSString *)inputStr
-{
-    NSCharacterSet *controlChars = [NSCharacterSet controlCharacterSet];//获取那些特殊字符
-    NSRange range = [inputStr rangeOfCharacterFromSet:controlChars];//寻找字符串中有没有这些特殊字符
-    if (range.location != NSNotFound)
-        {
-        NSMutableString *mutable = [NSMutableString stringWithString:inputStr];
-        while (range.location != NSNotFound)
-            {
-            [mutable deleteCharactersInRange:range];//去掉这些特殊字符
-            range = [mutable rangeOfCharacterFromSet:controlChars];
-            }
-        return mutable;
-        }
-    return inputStr;
-}
-</code></pre>
-
-<p>举例:</p>
-
-<pre><code class="language-text">    NSString *responseString = [NSMutableString stringWithString:[request responseString]];
-    responseString =[self removeUnescapedCharacter:responseString];
-    NSData *jsonData = [responseString dataUsingEncoding:NSUTF8StringEncoding];
-    NSError *error;
-    NSDictionary * dic = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&amp;error];
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14743674179375.html">iOS10 遇到问题总结</a></h1>
-			<p class="meta"><time datetime="2016-09-20T18:30:17+08:00" 
-			pubdate data-updated="true">2016/9/20</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>iOS10 用户权限设置新增，在info.plist文件中，新增字段：</p>
-
-<table>
-<thead>
-<tr>
-<th>权限</th>
-<th>字段</th>
-<th>说明</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td>相册权限</td>
-<td>Privacy - Photo Library Usage Description</td>
-<td>string类型的文字说明</td>
-</tr>
-<tr>
-<td>相机权限</td>
-<td>NSCameraUsageDescription</td>
-<td>string类型的文字说明</td>
-</tr>
-<tr>
-<td>麦克风权限</td>
-<td>NSMicrophoneUsageDescription</td>
-<td>string类型的文字说明</td>
-</tr>
-<tr>
-<td>定位权限</td>
-<td>NSLocationWhenInUseUsageDescription</td>
-<td>string类型的文字说明</td>
-</tr>
-</tbody>
-</table>
-
-<p>iOS10 新用户下载app，使用以上前3种权限，如果不添加授权描述，会导致程序崩溃</p>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_24.html">&larr; Older</a> 
@@ -491,6 +458,18 @@ dispatch_group_notify(group, dispatch_get_global_queue(0,0), ^{
 	  
 	      
 		      <li class="post">
+		        <a href="16267690953146.html">Flutter 中 listView 嵌套 listView</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16261554677251.html">Flutter中Row中的子控件左右两端对齐</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
 		      </li>
 	     
@@ -504,18 +483,6 @@ dispatch_group_notify(group, dispatch_get_global_queue(0,0), ^{
 	      
 		      <li class="post">
 		        <a href="16158207840706.html">AR 模型格式转换和导入</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16158207797865.html">节流防抖</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16154734553187.html">Flutter 环境变量设置</a>
 		      </li>
 	     
 	  

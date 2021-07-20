@@ -78,6 +78,159 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14676111126987.html">Coding中检测系统授权状态，关闭提示用户去隐私设置中打开</a></h1>
+			<p class="meta"><time datetime="2016-07-04T13:45:12+08:00" 
+			pubdate data-updated="true">2016/7/4</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<blockquote>
+<p>参考Coding项目,二维码扫描中使用到,大家可以参考:<a href="https://github.com/Mekor/MKScanner">MKScanner</a></p>
+</blockquote>
+
+<p>Helper.h文件</p>
+
+<pre><code class="language-text">#import &lt;Foundation/Foundation.h&gt;
+
+@interface Helper : NSObject
+
+/**
+ * 检查系统&quot;照片&quot;授权状态, 如果权限被关闭, 提示用户去隐私设置中打开.
+ */
++ (BOOL)checkPhotoLibraryAuthorizationStatus;
+
+/**
+ * 检查系统&quot;相机&quot;授权状态, 如果权限被关闭, 提示用户去隐私设置中打开.
+ */
++ (BOOL)checkCameraAuthorizationStatus;
+
+@end
+</code></pre>
+
+<p>Helper.m文件</p>
+
+<pre><code class="language-text">#import &quot;Helper.h&quot;
+@import AVFoundation;
+
+@implementation Helper
+
++ (BOOL)checkPhotoLibraryAuthorizationStatus
+{
+    if ([ALAssetsLibrary respondsToSelector:@selector(authorizationStatus)]) {
+        ALAuthorizationStatus authStatus = [ALAssetsLibrary authorizationStatus];
+        if (ALAuthorizationStatusDenied == authStatus ||
+            ALAuthorizationStatusRestricted == authStatus) {
+            [self showSettingAlertStr:@&quot;请在iPhone的“设置-&gt;隐私-&gt;照片”中打开本应用的访问权限&quot;];
+            return NO;
+        }
+    }
+    return YES;
+}
+
++ (BOOL)checkCameraAuthorizationStatus
+{
+    if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        kTipAlert(@&quot;该设备不支持拍照&quot;);
+        return NO;
+    }
+    
+    if ([AVCaptureDevice respondsToSelector:@selector(authorizationStatusForMediaType:)]) {
+        AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+        if (AVAuthorizationStatusDenied == authStatus ||
+            AVAuthorizationStatusRestricted == authStatus) {
+            [self showSettingAlertStr:@&quot;请在iPhone的“设置-&gt;隐私-&gt;相机”中打开本应用的访问权限&quot;];
+            return NO;
+        }
+    }
+    
+    return YES;
+}
+
++ (void)showSettingAlertStr:(NSString *)tipStr{
+    //iOS8+系统下可跳转到‘设置’页面，否则只弹出提示窗即可
+    if (floor(NSFoundationVersionNumber) &gt; NSFoundationVersionNumber_iOS_7_1) {
+        UIAlertView *alertView = [UIAlertView bk_alertViewWithTitle:@&quot;提示&quot; message:tipStr];
+        [alertView bk_setCancelButtonWithTitle:@&quot;取消&quot; handler:nil];
+        [alertView bk_addButtonWithTitle:@&quot;设置&quot; handler:nil];
+        [alertView bk_setDidDismissBlock:^(UIAlertView *alert, NSInteger index) {
+            if (index == 1) {
+                UIApplication *app = [UIApplication sharedApplication];
+                NSURL *settingsURL = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+                if ([app canOpenURL:settingsURL]) {
+                    [app openURL:settingsURL];
+                }
+            }
+        }];
+        [alertView show];
+    }else{
+        kTipAlert(@&quot;%@&quot;, tipStr);
+    }
+}
+
+@end
+
+</code></pre>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
+		  	<h1 class="entry-title"><a href="14676105703423.html">忽略编译器警告</a></h1>
+			<p class="meta"><time datetime="2016-07-04T13:36:10+08:00" 
+			pubdate data-updated="true">2016/7/4</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<h2 id="toc_0">第一种方法</h2>
+
+<p>举例<br/>
+<img src="media/14672570618572/14672571503878.jpg" alt=""/><br/>
+<img src="media/14672570618572/14672573103735.jpg" alt=""/><br/>
+接下来,<br/>
+<img src="media/14672570618572/14672575411986.jpg" alt=""/><br/>
+<img src="media/14672570618572/14672577757507.jpg" alt=""/></p>
+
+<h2 id="toc_1">第二种方法</h2>
+
+<pre><code class="language-text">#pragma clang diagnostic push
+#pragma clang diagnostic ignored&quot; -Wcompare-distinct-pointer-types&quot;
+    //写在这个中间的代码,都不会被编译器提示-Wcompare-distinct-pointer-types
+#pragma clang diagnostic pop 
+</code></pre>
+
+<h2 id="toc_2">Xib警告: This file is set to build for a version older than the deployment target. Functionality may be limited.</h2>
+
+<p>类似于这种<br/>
+<img src="media/14672570618572/14672589919425.jpg" alt=""/></p>
+
+<p>双击进入Xib文件<br/>
+<img src="media/14672570618572/14672592962938.jpg" alt=""/><br/>
+OK,这样就没有警告了</p>
+
+<h2 id="toc_3">非源文件参与编译错误</h2>
+
+<p><img src="media/14672570618572/Snip20160630_15.png" alt="Snip20160630_15"/><br/>
+项目中有一个README.md的文件,这个文件主要记录使用第三方的一些情况,默认就参与编译了,我们需要这样做</p>
+
+<p><img src="media/14672570618572/Snip20160630_16.png" alt="Snip20160630_16"/></p>
+
+<p>找到这个文件,然后移除,这样就不会有问题了.<br/>
+参考: <a href="http://stackoverflow.com/questions/6509600/compilation-warning-no-rule-to-process-file-for-architecture-i386">compilation warning: no rule to process file for architecture i386</a></p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14676101998537.html">百度坐标&火星坐标转换</a></h1>
 			<p class="meta"><time datetime="2016-07-04T13:29:59+08:00" 
 			pubdate data-updated="true">2016/7/4</time></p>
@@ -249,6 +402,18 @@ $(document).ready(function(event) {
 	  
 	      
 		      <li class="post">
+		        <a href="16267690953146.html">Flutter 中 listView 嵌套 listView</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16261554677251.html">Flutter中Row中的子控件左右两端对齐</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
 		      </li>
 	     
@@ -262,18 +427,6 @@ $(document).ready(function(event) {
 	      
 		      <li class="post">
 		        <a href="16158207840706.html">AR 模型格式转换和导入</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16158207797865.html">节流防抖</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16154734553187.html">Flutter 环境变量设置</a>
 		      </li>
 	     
 	  

@@ -78,6 +78,229 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="15460677821989.html">数据刷新崩溃</a></h1>
+			<p class="meta"><time datetime="2018-12-29T15:16:22+08:00" 
+			pubdate data-updated="true">2018/12/29</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p><img src="media/15460677821989/15460678427638.jpg" alt="" style="width:531px;"/><br/>
+<img src="media/15460677821989/15460678670280.jpg" alt="" style="width:1054px;"/></p>
+
+<p>发生崩溃的原因是<code>tableView</code> <code>reloadData</code> 的时候直接设置<code>tableView</code> 的 <code>scrollRectToVisible</code> 解决方案</p>
+
+<pre><code class="language-text">        UIView.animate(withDuration: 0, animations: {
+            self.tableView.reloadData()
+        }) { (finish) in
+            let rect = self.tableView.rect(forSection: section)
+            self.tableView.scrollRectToVisible(rect, animated: true)
+        }
+</code></pre>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
+		  	<h1 class="entry-title"><a href="15398626891772.html">使用Swift获取应用程序的CPU使用率和内存使用量</a></h1>
+			<p class="meta"><time datetime="2018-10-18T19:38:09+08:00" 
+			pubdate data-updated="true">2018/10/18</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>原文<a href="https://qiita.com/rinov/items/f30d386fb7b8b12278a5">SwiftでアプリのCPU使用率とメモリ使用量を取得する</a></p>
+
+<h2 id="toc_0">介绍</h2>
+
+<p>在一个获取系统信息的方法中，一个描述CPU和内存状态的库存在于一个获取系统信息的方法中，其中Debug附带了来自XCode的CustomFlag等。</p>
+
+<p>当然，还有一些方法可以获取不限于Debug版本的系统信息，但大多数都是在Objective-C中编写的。也在AppleDeveloper官方论坛上</p>
+
+<blockquote>
+<p>尽管使用Swift是不可能的，但对于那些使用Objective-C 的人来说可能很难</p>
+</blockquote>
+
+<p>还有答案说。<br/>
+但是，没有任何优点，你可以或根本不能使用Swift。我个人认为低层实现也有以下优点。</p>
+
+<ul>
+<li>受益于可选</li>
+<li>提高可读性</li>
+<li>更容易共享代码（易于维护维护）</li>
+</ul>
+
+<p>所以我这次写了如何在Swift中获得CPU利用率和内存使用量。（还有关于磁盘使用情况的奖励）</p>
+
+<h2 id="toc_1">动作确认环境</h2>
+
+<p>XCode8.3.3 <br/>
+Swift3.1</p>
+
+<h2 id="toc_2">CPU使用率</h2>
+
+<pre><code class="language-text">// 必須
+import Foundation
+
+// CPU使用率を0%~100%で取得
+private func getCPUUsage() -&gt; Float {
+    // カーネル処理の結果
+    var result: Int32
+    var threadList = UnsafeMutablePointer&lt;UInt32&gt;.allocate(capacity: 1)
+    var threadCount = UInt32(MemoryLayout&lt;mach_task_basic_info_data_t&gt;.size / MemoryLayout&lt;natural_t&gt;.size)
+    var threadInfo = thread_basic_info()
+
+    // スレッド情報を取得
+    result = withUnsafeMutablePointer(to: &amp;threadList) {
+        $0.withMemoryRebound(to: thread_act_array_t?.self, capacity: 1) {
+            task_threads(mach_task_self_, $0, &amp;threadCount)
+        }
+    }
+
+    if result != KERN_SUCCESS { return 0 }
+
+    // 各スレッドからCPU使用率を算出し合計を全体のCPU使用率とする
+    return (0 ..&lt; Int(threadCount))
+        // スレッドのCPU使用率を取得
+        .flatMap { index -&gt; Float? in
+            var threadInfoCount = UInt32(THREAD_INFO_MAX)
+            result = withUnsafeMutablePointer(to: &amp;threadInfo) {
+                $0.withMemoryRebound(to: integer_t.self, capacity: 1) {
+                    thread_info(threadList[index], UInt32(THREAD_BASIC_INFO), $0, &amp;threadInfoCount)
+                }
+            }
+            // スレッド情報が取れない = 該当スレッドのCPU使用率を0とみなす(基本nilが返ることはない)
+            if result != KERN_SUCCESS { return nil }
+            let isIdle = threadInfo.flags == TH_FLAGS_IDLE
+            // CPU使用率がスケール調整済みのため`TH_USAGE_SCALE`で除算し戻す
+            return !isIdle ? (Float(threadInfo.cpu_usage) / Float(TH_USAGE_SCALE)) * 100 : nil
+        }
+        // 合計算出
+        .reduce(0, +)
+}
+</code></pre>
+
+<p><code>Float(threadInfo.cpu_usage) / Float(TH_USAGE_SCALE)</code>已经完成了划分以确保值的精确性，因此有必要进行划分。<br/>
+这<code>CPU使用率 / スケール</code>是因为如果你把这个表达式放入，初步完成了下面的处理。</p>
+
+<p><code>CPU使用率 = 0.216</code>如果存在 - &gt; 21.6％的值，则缩放因子获得10的幂，使得CPU使用率是整数。因此，在这种情况下，比例因子是1000。（<code>0.216 * 1000 = 216</code>）<br/>
+因此，由于这些系数系数根据值的精度而不同，因此它们必须用于每个线程的除法。</p>
+
+<h2 id="toc_3">内存使用情况</h2>
+
+<pre><code class="language-text">// 必須
+import Foundation
+
+// 使用者が単位を把握できるようにするため
+typealias MegaByte = UInt64
+
+// 引数にenumで任意の単位を指定できるのが好ましい e.g. unit = .auto (デフォルト引数)
+func getMemoryUsed() -&gt; MegaByte? {
+    // タスク情報を取得
+    var info = mach_task_basic_info()
+    // `info`の値からその型に必要なメモリを取得
+    var count = UInt32(MemoryLayout.size(ofValue: info) / MemoryLayout&lt;integer_t&gt;.size)
+    let result = withUnsafeMutablePointer(to: &amp;info) {
+        task_info(mach_task_self_,
+                  task_flavor_t(MACH_TASK_BASIC_INFO),
+                  // `task_info`の引数にするためにInt32のメモリ配置と解釈させる必要がある
+                  $0.withMemoryRebound(to: Int32.self, capacity: 1) { pointer in
+                    UnsafeMutablePointer&lt;Int32&gt;(pointer)
+                  }, &amp;count)
+    }
+    // MB表記に変換して返却
+    return result == KERN_SUCCESS ? info.resident_size / 1024 / 1024 : nil
+}
+</code></pre>
+
+<p>在上面的例子中，它是MB单位，但在这种情况下<code>ByteCountFormatter</code>最好使用下面的。<br/>
+<code>return</code>，<code>resident_size</code>获取在该点使用的实际内存使用量。*也可以在XCode中确认内存使用情况，但实际内存使用量通常会大于该值。我不知道它消耗了什么，但由于初始值只是不同，似乎通过相对观察没有问题<img src="media/15398626891772/1f646.png" alt="：ok_woman：" title="：ok_woman："/></p>
+
+<h2 id="toc_4"><a href="https://qiita.com/rinov/items/f30d386fb7b8b12278a5#%E3%83%87%E3%82%A3%E3%82%B9%E3%82%AF%E4%BD%BF%E7%94%A8%E9%87%8F"></a>磁盘使用情况</h2>
+
+<pre><code class="language-text">// 必須(ByteCountFormatterとFileAttributeKeyで使用)
+import UIKit
+
+// ディスクスペース種別
+enum DiskSpaceType {
+    case total
+    case free
+    case used
+}
+
+func getDiskSpace(_ type: DiskSpaceType) -&gt; String {
+    // GB,MB,KB表記の文字列に変換
+    let byteUnitStringConverted: (Int64) -&gt; String = { size in
+        ByteCountFormatter.string(fromByteCount: size,countStyle: ByteCountFormatter.CountStyle.binary)
+    }
+    switch type {
+    case .total:
+        // ディスク合計容量
+        return byteUnitStringConverted(totalSpace)
+    case .free:
+        // ディスク空き容量
+        return byteUnitStringConverted(freeSpace)
+    case .used:
+        // ディスク使用量
+        return byteUnitStringConverted(usedSpace)
+    }
+}
+
+var totalSpace: Int64 {
+    guard let attributes = systemAttributes,
+        let size = (attributes[FileAttributeKey.systemSize] as? NSNumber)?.int64Value
+        else { return 0 }
+    return size
+}
+
+var freeSpace: Int64 {
+    guard let attributes = systemAttributes,
+        let size = (attributes[FileAttributeKey.systemFreeSize] as? NSNumber)?.int64Value
+        else { return 0 }
+    return size
+}
+
+var usedSpace: Int64 {
+    return totalSpace - freeSpace
+}
+
+private var systemAttributes: [FileAttributeKey: Any]? {
+    return try? FileManager.default.attributesOfFileSystem(forPath: NSHomeDirectory())
+}
+</code></pre>
+
+<p>关于磁盘使用情况，<code>FileAttributeKey</code>您可以从链接的信息中获取。<code>computed property</code>我认为设置它是安全的，以便总磁盘容量也会波动。</p>
+
+<h2 id="toc_5">摘要</h2>
+
+<ul>
+<li>Swift还具有高指针兼容性，因此您可以实现与Objective-C相当的层代码（有时您不能<img src="media/15398626891772/1f914.png" alt="：思维：" title="：思维："/>）</li>
+<li>毕竟我们用Swift写了它，过程前景更好 <img src="media/15398626891772/1f60e.png" alt="：墨镜：" title="：墨镜："/></li>
+<li>写它像Swift一样很难。 <img src="media/15398626891772/2639.png" alt="：frowning2：" title="：frowning2："/></li>
+</ul>
+
+<h2 id="toc_6"><a href="https://qiita.com/rinov/items/f30d386fb7b8b12278a5#%E5%8F%82%E8%80%83"></a>参考</h2>
+
+<p><a href="https://www.gnu.org/software/hurd/gnumach-doc/Thread-Information.html">https://www.gnu.org/software/hurd/gnumach-doc/Thread-Information.html</a></p>
+
+<p><a href="https://forums.developer.apple.com/thread/64665">https://forums.developer.apple.com/thread/64665</a></p>
+
+<p><a href="https://stackoverflow.com/questions/8223348/ios-get-cpu-usage-from-application">https://stackoverflow.com/questions/8223348/ios-get-cpu-usage-from-application</a></p>
+
+<p><a href="https://stackoverflow.com/questions/787160/programmatically-retrieve-memory-usage-on-iphone">https://stackoverflow.com/questions/787160/programmatically-retrieve-memory-usage-on-iphone</a></p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="15393255857280.html">关于更换主题</a></h1>
 			<p class="meta"><time datetime="2018-10-12T14:26:25+08:00" 
 			pubdate data-updated="true">2018/10/12</time></p>
@@ -616,79 +839,6 @@ public void doRight(JSONObject userInfo){
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="15374224515215.html">CocaPods 添加头文件的报错  的解决办法</a></h1>
-			<p class="meta"><time datetime="2018-09-20T13:47:31+08:00" 
-			pubdate data-updated="true">2018/9/20</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>在buildsetting中的以下两个路径中添加对应的设置，重现编译即可解决，stackoverflow地址：<a href="https://stackoverflow.com/questions/45779591/failed-to-emit-precompiled-header-for-bridging-header?answertab=votes#tab-top">Failed to emit precompiled header for bridging header</a></p>
-
-<pre><code class="language-text">Solution:
-1 I added $(inherited) non-recursive to Search Path -&gt; Header Search Paths
-2 Then added ${PODS_ROOT} recursive to Search Path -&gt; User Header Search Paths
-Both the above in my projects&#39; target build settings.
-</code></pre>
-
-<p><img src="media/15374224515215/15374225919741.jpg" alt="" style="width:794px;"/></p>
-
-
-		</div>
-
-		
-
-	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="15366461063408.html"><禅与摩托车维修艺术></a></h1>
-			<p class="meta"><time datetime="2018-09-11T14:08:26+08:00" 
-			pubdate data-updated="true">2018/9/11</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>生活处处都透露着哲学，作者从骑摩托车旅行的途中对事物进行了深入的思考。</p>
-
-<h2 id="toc_0">关于·忙·</h2>
-
-<p>书中这样写道：</p>
-
-<blockquote>
-<p>我们常常太忙而没有时间好好聊聊，结果日复一日地过着无聊的生活，单调乏味的日子让人几年后想起来不禁怀疑，究竟自己是怎么过的，而时间已悄悄溜走了。现在我们的确空下来了，我想谈一些我自己觉得颇为重要的事。</p>
-</blockquote>
-
-<h2 id="toc_1">关于·过程·</h2>
-
-<blockquote>
-<p>如果搭飞机抵达洛基山，你只会觉得景致很美，但是如果你是经过几天辛苦的旅程，通过这一片大草原，才抵达洛基山，那么你会从另一个角度来看它，那里仿佛是你的目标，是你的应许之地。</p>
-</blockquote>
-
-<p>我们的目标不应该仅仅是到达终点，旅途中的风景会让这个过程变得充实。我在记笔记的时候写的是“有过程的经历是印象深刻的”</p>
-
-<h2 id="toc_2">关于·识人·</h2>
-
-<blockquote>
-<p>又钻进死胡同了。如果有人不懂心存感激，而你当面告诉他，那么你就等于是在骂他，这样你什么事都解决不了。<br/>
-每个人的性格都是不一样的，需要针对不同的性格做出不同的处理方式。错误的处理方式只会加深矛盾</p>
-</blockquote>
-
-<h2 id="toc_3">关于·认知·</h2>
-
-<blockquote>
-<p>一名没有受过训练的旁观者只看到修理人员所付出的劳力，就以为他最主要的工作在于劳力。事实上，这正是他最轻松也是工作上最小的一部分，他最重要的工作就在于仔细观察和精确思考，这就是为什么技术人员往往显得沉默寡言，甚至在做实验的时候有些畏缩。他们不喜欢在做实验的时候讲话，那样就无法专心地思考问题了。他们借着实验推论出问题的结构，然后与心里正常的运作结构相比较，所以他们看到的是基本形式。</p>
-</blockquote>
-
-<p>隔行如隔山，拿程序员举例，其他人看到程序员噼里啪啦敲代码感觉这个人很厉害这其实是不对的。在敲代码之前的思考才是最重要的，敲代码只不过是把他思考的东西进行验证。</p>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_6.html">&larr; Older</a> 
@@ -788,6 +938,18 @@ Both the above in my projects&#39; target build settings.
 	  
 	      
 		      <li class="post">
+		        <a href="16267690953146.html">Flutter 中 listView 嵌套 listView</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16261554677251.html">Flutter中Row中的子控件左右两端对齐</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
 		      </li>
 	     
@@ -801,18 +963,6 @@ Both the above in my projects&#39; target build settings.
 	      
 		      <li class="post">
 		        <a href="16158207840706.html">AR 模型格式转换和导入</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16158207797865.html">节流防抖</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16154734553187.html">Flutter 环境变量设置</a>
 		      </li>
 	     
 	  
