@@ -78,6 +78,48 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="15465714658370.html">如何判等equals</a></h1>
+			<p class="meta"><time datetime="2019-01-04T11:11:05+08:00" 
+			pubdate data-updated="true">2019/1/4</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<blockquote>
+<p><a href="https://stackoverflow.com/questions/9506303/public-boolean-equalsobject-other">Stackoverflow</a> 中有其他人提的写法，我感觉公司项目中的写法不错记录下</p>
+</blockquote>
+
+<pre><code class="language-text">    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CreateOrderDTO)) return false;
+        CreateOrderDTO that = (CreateOrderDTO) o;
+        return Objects.equal(getBusiId(), that.getBusiId()) &amp;&amp;
+                Objects.equal(getBusiType(), that.getBusiType()) &amp;&amp;
+                Objects.equal(getOrderAmount(), that.getOrderAmount());
+    }
+</code></pre>
+
+<p>重写<a href="https://kapeli.com/dash_share?docset_file=Java&amp;docset_name=Java%20SE10&amp;path=java/lang/Object.html%23equals(java.lang.Object)&amp;platform=java&amp;repo=Main&amp;version=SE10">equals</a>需要满足 自反性，对称性，传递性，一致性，非空</p>
+
+<p><img src="media/15465714658370/15465935663846.jpg" alt="" style="width:588px;"/></p>
+
+<h2 id="toc_0">== 与 equals</h2>
+
+<p><strong><em>==</em></strong> : 它的作用是判断两个对象的地址是不是相等。即，判断两个对象是不是同一个对象。(基本数据类型 == 比较的是值，引用数据类型 == 比较的是内存地址)</p>
+
+<p><strong><em>equals()</em></strong> : 它的作用也是判断两个对象是否相等。但它一般有两种使用情况：</p>
+
+<p>情况1：类没有覆盖 equals() 方法。则通过 equals() 比较该类的两个对象时，等价于通过“==”比较这两个对象。<br/>
+情况2：类覆盖了 equals() 方法。一般，我们都覆盖 equals() 方法来两个对象的内容相等；若它们的内容相等，则返回 true (即，认为这两个对象相等)。</p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="15460677821989.html">数据刷新崩溃</a></h1>
 			<p class="meta"><time datetime="2018-12-29T15:16:22+08:00" 
 			pubdate data-updated="true">2018/12/29</time></p>
@@ -798,47 +840,6 @@ public void doRight(JSONObject userInfo){
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="15375346728525.html">各种队列的执行效果</a></h1>
-			<p class="meta"><time datetime="2018-09-21T20:57:52+08:00" 
-			pubdate data-updated="true">2018/9/21</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<table>
-<thead>
-<tr>
-<th style="text-align: left"></th>
-<th style="text-align: left">并发队列</th>
-<th style="text-align: left">手动创建的串行队列</th>
-<th style="text-align: left">主队列</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td style="text-align: left">同步（sync）</td>
-<td style="text-align: left">*没有开启新线程 *串行执行任务</td>
-<td style="text-align: left">*没有开启新线程 *串行执行任务</td>
-<td style="text-align: left">*没有开启新线程 *串行执行任务</td>
-</tr>
-<tr>
-<td style="text-align: left">异步（async）</td>
-<td style="text-align: left">*有开启新线程 *并发执行任务</td>
-<td style="text-align: left">*有开启新线程 *串行执行任务</td>
-<td style="text-align: left">*没有开启新线程 *串行执行任务</td>
-</tr>
-</tbody>
-</table>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_6.html">&larr; Older</a> 
@@ -938,6 +939,12 @@ public void doRight(JSONObject userInfo){
 	  
 	      
 		      <li class="post">
+		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267690953146.html">Flutter 中 listView 嵌套 listView</a>
 		      </li>
 	     
@@ -957,12 +964,6 @@ public void doRight(JSONObject userInfo){
 	      
 		      <li class="post">
 		        <a href="16189060168232.html">iOS 开发环境配置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16158207840706.html">AR 模型格式转换和导入</a>
 		      </li>
 	     
 	  

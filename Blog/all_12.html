@@ -78,6 +78,35 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14963702971919.html">打包后出现 Undefined symbols for architecture i386</a></h1>
+			<p class="meta"><time datetime="2017-07-02T10:24:57+08:00" 
+			pubdate data-updated="true">2017/7/2</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>出现问题:<br/>
+自己打framework真机与模拟器合并后在使用的时候提示 <code>Undefined symbols for architecture i386</code></p>
+
+<p>原因: 打framework的时候使用的是<code>debug</code> 改为<code>release</code><br/>
+<img src="media/14963702971919/14963704118450.jpg" alt=""/></p>
+
+<p><strong>合并命令:</strong></p>
+
+<p><code>lipo -create 真机(或者模拟器)framework地址 模拟器(或者真机)ramework地址 -output 输出地址(一般我选择真机framework地址)</code></p>
+
+<p><strong>查看信息:</strong></p>
+
+<p><code>lipo -info 真机(或者模拟器)framework地址</code></p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14954528363090.html">Linux - 文件、磁盘管理</a></h1>
 			<p class="meta"><time datetime="2017-05-22T19:33:56+08:00" 
 			pubdate data-updated="true">2017/5/22</time></p>
@@ -906,25 +935,6 @@ ls abc/def
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14916349354566.html">Swift - 关于信号量</a></h1>
-			<p class="meta"><time datetime="2017-04-08T15:02:15+08:00" 
-			pubdate data-updated="true">2017/4/8</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>信号量的使用</p>
-
-<p><img src="media/14916349354566/%E4%BF%A1%E5%8F%B7%E9%87%8F.gif" alt="信号量"/></p>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_13.html">&larr; Older</a> 
@@ -1024,6 +1034,12 @@ ls abc/def
 	  
 	      
 		      <li class="post">
+		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267690953146.html">Flutter 中 listView 嵌套 listView</a>
 		      </li>
 	     
@@ -1043,12 +1059,6 @@ ls abc/def
 	      
 		      <li class="post">
 		        <a href="16189060168232.html">iOS 开发环境配置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16158207840706.html">AR 模型格式转换和导入</a>
 		      </li>
 	     
 	  

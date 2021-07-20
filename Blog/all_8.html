@@ -78,6 +78,78 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="15257017136249.html">线程需要注意的问题</a></h1>
+			<p class="meta"><time datetime="2018-05-07T22:01:53+08:00" 
+			pubdate data-updated="true">2018/5/7</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<h2 id="toc_0">死锁（Dead Lock）</h2>
+
+<p>第一种情况：</p>
+
+<pre><code class="language-text">let serialQueue = DispatchQueue(label:&quot;test&quot;)
+serialQueue.async {
+    //.....
+    serialQueue.sync {
+        //...
+    }
+}
+
+</code></pre>
+
+<p>第二种情况：</p>
+
+<pre><code class="language-text">let operationA = Operation()
+let operationB = Operation()
+operationA.addDependency(operationB)
+operationB.addDependency(operationA)
+
+</code></pre>
+
+<p>怎样避免死锁：</p>
+
+<ol>
+<li>少用依赖</li>
+<li>慎用同步</li>
+</ol>
+
+<h2 id="toc_1">优先倒置（Priority Inversion）</h2>
+
+<pre><code class="language-text">var highPriorityQueue = DispatchQueue.global(qos: .userInitiated)
+var lowPriorityQueue = DispatchQueue.global(qos: .utility)
+
+let semaphore = DispatchSemaphore(value: 1)
+
+lowPriorityQueue.async {
+    semaphore.wait()
+    for i in 0...10 {
+        print(i)
+    }
+    semaphore.signal()
+}
+
+highPriorityQueue.async {
+    semaphore.wait()
+    for i in 11...20 {
+        print(1)
+    }
+}
+
+</code></pre>
+
+<p>解决办法：<br/>
+同一个资源用同一个Qos</p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="15257016488742.html">Mac 应用图标没有在launchpad里显示</a></h1>
 			<p class="meta"><time datetime="2018-05-07T22:00:48+08:00" 
 			pubdate data-updated="true">2018/5/7</time></p>
@@ -195,36 +267,6 @@ fatal: unable to access &#39;https://github.com/swisspol/GCDWebServer.git/&#39;:
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="15257014756710.html">Cell点击时多次Push</a></h1>
-			<p class="meta"><time datetime="2018-05-07T21:57:55+08:00" 
-			pubdate data-updated="true">2018/5/7</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p><a href="https://stackoverflow.com/questions/5687991/uitableview-didselectrowatindexpath-called-twice">stackoverflow上面的解决方案</a></p>
-
-<pre><code class="language-text">func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-
-    tableView.deselectRowAtIndexPath(indexPath, animated: true)
-
-    if let navigationController = navigationController {
-        guard navigationController.topViewController == self else {
-            return
-        }
-    }
-}
-
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_9.html">&larr; Older</a> 
@@ -324,6 +366,12 @@ fatal: unable to access &#39;https://github.com/swisspol/GCDWebServer.git/&#39;:
 	  
 	      
 		      <li class="post">
+		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267690953146.html">Flutter 中 listView 嵌套 listView</a>
 		      </li>
 	     
@@ -343,12 +391,6 @@ fatal: unable to access &#39;https://github.com/swisspol/GCDWebServer.git/&#39;:
 	      
 		      <li class="post">
 		        <a href="16189060168232.html">iOS 开发环境配置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16158207840706.html">AR 模型格式转换和导入</a>
 		      </li>
 	     
 	  

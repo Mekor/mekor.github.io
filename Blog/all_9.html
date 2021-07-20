@@ -78,6 +78,36 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="15257014756710.html">Cell点击时多次Push</a></h1>
+			<p class="meta"><time datetime="2018-05-07T21:57:55+08:00" 
+			pubdate data-updated="true">2018/5/7</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p><a href="https://stackoverflow.com/questions/5687991/uitableview-didselectrowatindexpath-called-twice">stackoverflow上面的解决方案</a></p>
+
+<pre><code class="language-text">func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+
+    tableView.deselectRowAtIndexPath(indexPath, animated: true)
+
+    if let navigationController = navigationController {
+        guard navigationController.topViewController == self else {
+            return
+        }
+    }
+}
+
+</code></pre>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="15180682554389.html">防止Timer 与控制器耦合导致控制器不释放</a></h1>
 			<p class="meta"><time datetime="2018-02-08T13:37:35+08:00" 
 			pubdate data-updated="true">2018/2/8</time></p>
@@ -357,67 +387,6 @@ let attributedText = NSAttributedString(string: &quot;被划线文字&quot;, att
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="15101967456310.html">使用 Runloop 遇到的问题</a></h1>
-			<p class="meta"><time datetime="2017-11-09T11:05:45+08:00" 
-			pubdate data-updated="true">2017/11/9</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>首先: <code>swift</code> 与 <code>C</code> 兼容不如 <code>OC</code> </p>
-
-<ol>
-<li>生成<code>CFRunLoopObserverContext</code>比<code>OC</code>艰难好多...</li>
-</ol>
-
-<pre><code class="language-text">func addRunloopObserver() {
-        autoreleasepool {
-            guard let runloop = CFRunLoopGetCurrent() else {return}
-            let unmanaged = Unmanaged.passRetained(self)
-            let uptr = unmanaged.toOpaque()
-            let vptr = UnsafeMutableRawPointer(uptr)
-            var content = CFRunLoopObserverContext(version: 0, info: vptr, retain: nil, release: nil, copyDescription: nil)
-            guard let obserber = CFRunLoopObserverCreate(kCFAllocatorDefault, CFRunLoopActivity.beforeWaiting.rawValue, true, Int.max - 999, observerCallbackFunc(), &amp;content) else {return}
-            CFRunLoopAddObserver(runloop, obserber, CFRunLoopMode.defaultMode)
-        }
-    }
-</code></pre>
-
-<p>注意 content ,真是比OC复杂啊</p>
-
-<ol>
-<li>强转也变了...</li>
-</ol>
-
-<pre><code class="language-text">func observerCallbackFunc() -&gt; CFRunLoopObserverCallBack {
-        
-        return {(observer, activity, context) -&gt; Void in
-            guard let context = context else {
-                return
-            }
-            let work = Unmanaged&lt;RunLoopWorker&gt;.fromOpaque(context).takeUnretainedValue()
-            
-            if work.tasks.count == 0 { return }
-            var result = false
-            while result == false &amp;&amp; work.tasks.count &gt; 0 {
-                // 取出任务
-                if let unit = work.tasks.first,unit.values.count &gt; 0 {
-                    result = unit.values.first!()
-                    work.tasks.removeFirst()
-                }
-            }
-        }
-    }
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_10.html">&larr; Older</a> 
@@ -517,6 +486,12 @@ let attributedText = NSAttributedString(string: &quot;被划线文字&quot;, att
 	  
 	      
 		      <li class="post">
+		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267690953146.html">Flutter 中 listView 嵌套 listView</a>
 		      </li>
 	     
@@ -536,12 +511,6 @@ let attributedText = NSAttributedString(string: &quot;被划线文字&quot;, att
 	      
 		      <li class="post">
 		        <a href="16189060168232.html">iOS 开发环境配置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16158207840706.html">AR 模型格式转换和导入</a>
 		      </li>
 	     
 	  

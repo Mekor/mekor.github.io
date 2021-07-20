@@ -78,6 +78,103 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a></h1>
+			<p class="meta"><time datetime="2021-07-20T20:09:07+08:00" 
+			pubdate data-updated="true">2021/7/20</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<h2 id="toc_0">调用多次原因</h2>
+
+<p>在Flutter源码中 <code>src/material/tab_controller.dart</code> 中 <code>void _changeIndex(int value, { Duration? duration, Curve? curve })</code> 方法里面动画调用会通知两次</p>
+
+<pre><code class="language-swift">
+  void _changeIndex(int value, { Duration? duration, Curve? curve }) {
+    assert(value != null);
+    assert(value &gt;= 0 &amp;&amp; (value &lt; length || length == 0));
+    assert(duration != null || curve == null);
+    assert(_indexIsChangingCount &gt;= 0);
+    if (value == _index || length &lt; 2)
+      return;
+    _previousIndex = index;
+    _index = value;
+    if (duration != null) { // 有动画执行
+      _indexIsChangingCount += 1;
+      // 通知1: 这里通知监听者 indexIsChanging
+      notifyListeners(); // Because the value of indexIsChanging may have changed.
+      _animationController!
+        .animateTo(_index.toDouble(), duration: duration, curve: curve!)
+        .whenCompleteOrCancel(() {
+          if (_animationController != null) { // don&#39;t notify if we&#39;ve been disposed  已经释放就不在通知
+            _indexIsChangingCount -= 1;
+            // 通知2：这里通知监听者 动画完成
+            notifyListeners();
+          }
+        });
+    } else {
+      _indexIsChangingCount += 1;
+      _animationController!.value = _index.toDouble();
+      _indexIsChangingCount -= 1;
+      // 不执行动画 只通知一次
+      notifyListeners();
+    }
+  }
+</code></pre>
+
+<h2 id="toc_1">怎么解决呢</h2>
+
+<p>在该文件第222行中</p>
+
+<pre><code class="language-text">  _animationController!
+        .animateTo(_index.toDouble(), duration: duration, curve: curve!)
+</code></pre>
+
+<p>这里是动画执行的时候把目标<code>target</code>传递给 <code>_animationController</code>, 而<code>animation_controller.dart</code> 中会做判断</p>
+
+<ol>
+<li><p>在第593行</p>
+<pre><code class="language-text">if (target == value) {
+  // Already at target, don&#39;t animate.<br/>
+  simulationDuration = Duration.zero;<br/>
+}
+</code></pre></li>
+<li><p>在第600行</p>
+<pre><code class="language-text">_value = target.clamp(lowerBound, upperBound);
+</code></pre></li>
+</ol>
+
+<p>执行到最后的时候 <code>_value</code> 就是传入的<code>target</code>。 如果不执行动画会直接进行赋值操作<code>_animationController!.value = _index.toDouble();</code> 。所以我们可以在通知中判断动画的值是否和target一致，一致就是动画完成了。这时再做处理就不会执行多次了。</p>
+
+<p>所以我们可以做如下判断：</p>
+
+<pre><code class="language-text">  _tabController.addListener(() {
+      if(_tabController.index.toDouble() == _tabController.animation!.value){
+        // 这里是我们要执行的。。。
+      }
+  });
+</code></pre>
+
+<h2 id="toc_2">这里如果是我要怎么设计</h2>
+
+<p><code>tab_controller.dart</code> 是经常和动画打交道的，所以可以选择添加</p>
+
+<pre><code class="language-text">  void addStatusListener(AnimationStatusListener listener) {
+    didRegisterListener();
+    _statusListeners.add(listener);
+  }
+</code></pre>
+
+<p>根据状态来进行选择执行操作,这样也符合苹果设计的通知，notification中可以添加info根据info做判断。</p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="16267690953146.html">Flutter 中 listView 嵌套 listView</a></h1>
 			<p class="meta"><time datetime="2021-07-20T16:18:15+08:00" 
 			pubdate data-updated="true">2021/7/20</time></p>
@@ -255,35 +352,6 @@ bundle exec pod install
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="16158207840706.html">AR 模型格式转换和导入</a></h1>
-			<p class="meta"><time datetime="2021-03-15T23:06:24+08:00" 
-			pubdate data-updated="true">2021/3/15</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>需要软件：Reality Converter 去 <a href="https://developer.apple.com/download/">https://developer.apple.com/download/</a> 下载<br/>
-<img src="media/16158207840706/16158208366495.jpg" alt="" style="width:1086px;"/></p>
-
-<p>AR创作中使用USD格式，然后使用Reality Converter 转换成 USDZ格式</p>
-
-<p>模型来源，除了自己制作外还可以通过网上其他人分享的模型来用，比如在 <a href="https://sketchfab.com/">https://sketchfab.com/</a> 中可以搜索自己喜欢的模型。</p>
-
-<p>比如这个模型是gltf格式的，可以下载后把解压后的文件夹拖拽到 Reality Converter 中<br/>
-<img src="media/16158207840706/16158221517356.jpg" alt="" style="width:900px;"/><br/>
-然后选择文件-&gt; 导出  这时就导出了usdz格式的模型。 </p>
-
-<p><img src="media/16158207840706/16158224521993.jpg" alt="" style="width:448px;"/><br/>
-打开后选择文件-&gt; 新建</p>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_1.html">&larr; Older</a> 
@@ -383,6 +451,12 @@ bundle exec pod install
 	  
 	      
 		      <li class="post">
+		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267690953146.html">Flutter 中 listView 嵌套 listView</a>
 		      </li>
 	     
@@ -402,12 +476,6 @@ bundle exec pod install
 	      
 		      <li class="post">
 		        <a href="16189060168232.html">iOS 开发环境配置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16158207840706.html">AR 模型格式转换和导入</a>
 		      </li>
 	     
 	  
