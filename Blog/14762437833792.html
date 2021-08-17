@@ -82,18 +82,13 @@ $(document).ready(function(event) {
 			 </header>
 		  	<div class="entry-content">
 			  	<p>如果在包含UITableView视图中添加单击手势，这个单击手势会屏蔽掉UITableView的</p>
-
-<pre><code class="language-text">- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath;
+<pre><code>- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath;
 </code></pre>
-
 <p>可以利用<code>UIGestureRecognizer</code>的<code>Delegate</code>中的</p>
-
-<pre><code class="language-text">- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer;
+<pre><code>- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer;
 </code></pre>
-
 <p>在单击点位于UITableView内的时候取消响应</p>
-
-<pre><code class="language-text">- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer{
+<pre><code>- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer{
     CGPoint point = [gestureRecognizer locationInView:self];
     if(CGRectContainsPoint(menuTableView.frame, point)){
         return NO;
@@ -101,10 +96,8 @@ $(document).ready(function(event) {
     return YES;
 }
 </code></pre>
-
 <p>或者将单击手势的cancelsTouchesInView设置为NO</p>
-
-<pre><code class="language-text">singleTap.cancelsTouchesInView = NO;
+<pre><code>singleTap.cancelsTouchesInView = NO;
 </code></pre>
 
 			</div>
@@ -237,6 +230,12 @@ $(document).ready(function(event) {
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -256,12 +255,6 @@ $(document).ready(function(event) {
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

@@ -84,13 +84,11 @@ $(document).ready(function(event) {
 		 </header>
 	  	<div class="entry-content">
 		  	
-		  	<p>首先: <code>swift</code> 与 <code>C</code> 兼容不如 <code>OC</code> </p>
-
+		  	<p>首先: <code>swift</code> 与 <code>C</code> 兼容不如 <code>OC</code></p>
 <ol>
 <li>生成<code>CFRunLoopObserverContext</code>比<code>OC</code>艰难好多...</li>
 </ol>
-
-<pre><code class="language-text">func addRunloopObserver() {
+<pre><code>func addRunloopObserver() {
         autoreleasepool {
             guard let runloop = CFRunLoopGetCurrent() else {return}
             let unmanaged = Unmanaged.passRetained(self)
@@ -102,14 +100,11 @@ $(document).ready(function(event) {
         }
     }
 </code></pre>
-
 <p>注意 content ,真是比OC复杂啊</p>
-
-<ol>
+<ol start="2">
 <li>强转也变了...</li>
 </ol>
-
-<pre><code class="language-text">func observerCallbackFunc() -&gt; CFRunLoopObserverCallBack {
+<pre><code>func observerCallbackFunc() -&gt; CFRunLoopObserverCallBack {
         
         return {(observer, activity, context) -&gt; Void in
             guard let context = context else {
@@ -145,18 +140,13 @@ $(document).ready(function(event) {
 		 </header>
 	  	<div class="entry-content">
 		  	
-		  	<p>出现问题:<br/>
+		  	<p>出现问题:<br />
 自己打framework真机与模拟器合并后在使用的时候提示 <code>Undefined symbols for architecture i386</code></p>
-
-<p>原因: 打framework的时候使用的是<code>debug</code> 改为<code>release</code><br/>
-<img src="media/14963702971919/14963704118450.jpg" alt=""/></p>
-
+<p>原因: 打framework的时候使用的是<code>debug</code> 改为<code>release</code><br />
+<img src="media/14963702971919/14963704118450.jpg" alt="" /></p>
 <p><strong>合并命令:</strong></p>
-
 <p><code>lipo -create 真机(或者模拟器)framework地址 模拟器(或者真机)ramework地址 -output 输出地址(一般我选择真机framework地址)</code></p>
-
 <p><strong>查看信息:</strong></p>
-
 <p><code>lipo -info 真机(或者模拟器)framework地址</code></p>
 
 
@@ -177,10 +167,8 @@ $(document).ready(function(event) {
 		  	<blockquote>
 <p>错误信息: Unknown class XXXX in Interface Builder file. (lldb)</p>
 </blockquote>
-
-<p>原因,Xib是在其他项目中创建的,拖进来的时候没有注意,只要修改<br/>
-<img src="media/14802973825600/14802974822042.jpg" alt=""/></p>
-
+<p>原因,Xib是在其他项目中创建的,拖进来的时候没有注意,只要修改<br />
+<img src="media/14802973825600/14802974822042.jpg" alt="" /></p>
 <p>修改module为项目的就好了</p>
 
 
@@ -198,10 +186,9 @@ $(document).ready(function(event) {
 		 </header>
 	  	<div class="entry-content">
 		  	
-		  	<p>问题:代码实现 UILabel 时出现的边缘黑线问题<br/>
+		  	<p>问题:代码实现 UILabel 时出现的边缘黑线问题<br />
 原因:当 UILabel 的宽高出现浮点型数字时,在高清屏下有可能出现右侧边缘黑线问题, 解决方法是使用 <code>CGRectIntegral()</code> 方法确保 <code>frame</code> 中不存在非整形数值</p>
-
-<pre><code class="language-text">label.frame = CGRectIntegral(CGRectMake(0, 0, ceil(width),40));
+<pre><code>label.frame = CGRectIntegral(CGRectMake(0, 0, ceil(width),40));
 </code></pre>
 
 
@@ -220,57 +207,35 @@ $(document).ready(function(event) {
 	  	<div class="entry-content">
 		  	
 		  	<p>错误信息:</p>
-
 <blockquote>
 <p>Project ERROR: Xcode not set up properly. You may need to confirm the license agreement by running /usr/bin/xcodebuild.</p>
 </blockquote>
-
-<p>解决办法:<br/>
+<p>解决办法:<br />
 <strong>&gt;= Xcode 8</strong></p>
-
 <p>In Xcode 8, as Bruce said, this happens when Qt tries to find <code>xcrun</code> when it should be looking for <code>xcodebuild</code>.</p>
-
 <p><strong>Step 1:</strong></p>
-
 <p>Open the file:</p>
-
-<pre><code class="language-text">Qt_install_folder/5.7/clang_64/mkspecs/features/mac/default_pre.prf
+<pre><code>Qt_install_folder/5.7/clang_64/mkspecs/features/mac/default_pre.prf
 </code></pre>
-
 <p><strong>Step 2:</strong></p>
-
 <p>Replace:</p>
-
-<pre><code class="language-text">isEmpty($$list($$system(&quot;/usr/bin/xcrun -find xcrun 2&gt;/dev/null&quot;)))
+<pre><code>isEmpty($$list($$system(&quot;/usr/bin/xcrun -find xcrun 2&gt;/dev/null&quot;)))
 </code></pre>
-
 <p>With:</p>
-
-<pre><code class="language-text">isEmpty($$list($$system(&quot;/usr/bin/xcrun -find xcodebuild 2&gt;/dev/null&quot;)))
+<pre><code>isEmpty($$list($$system(&quot;/usr/bin/xcrun -find xcodebuild 2&gt;/dev/null&quot;)))
 </code></pre>
-
 <p><strong>~&gt; Xcode 8</strong></p>
-
 <p>Before Xcode 8, this problem occurs when command line tools are installed after Xcode is installed. What happens is the <code>Xcode-select</code> developer directory gets pointed to <code>/Library/Developer/CommandLineTools</code>.</p>
-
 <p><strong>Step 1:</strong></p>
-
 <p>Point <code>Xcode-select</code> to the correct Xcode Developer directory with the command:</p>
-
-<pre><code class="language-text">sudo xcode-select -switch /Applications/Xcode.app/Contents/Developer
+<pre><code>sudo xcode-select -switch /Applications/Xcode.app/Contents/Developer
 </code></pre>
-
 <p><strong>Step 2:</strong></p>
-
 <p>Confirm the license agreement with the command:</p>
-
-<pre><code class="language-text">xcodebuild -license
+<pre><code>xcodebuild -license
 </code></pre>
-
 <p>This will prompt you to read through the license agreement.</p>
-
 <p>Enter <code>agree</code> to accept the terms.</p>
-
 <p>详见stackoverflow 中 <a href="http://stackoverflow.com/questions/33728905/qt-creator-project-error-xcode-not-set-up-properly-you-may-need-to-confirm-t">Qt Creator - Project ERROR: Xcode not set up properly. You may need to confirm the license agreement by running /usr/bin/xcodebuild</a></p>
 
 
@@ -378,6 +343,12 @@ $(document).ready(function(event) {
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -397,12 +368,6 @@ $(document).ready(function(event) {
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

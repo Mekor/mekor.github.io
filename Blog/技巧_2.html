@@ -85,34 +85,26 @@ $(document).ready(function(event) {
 	  	<div class="entry-content">
 		  	
 		  	<p>实施反馈项目在<code>iPad 2</code>上比较卡顿,所以要对项目进行优化.</p>
-
-<h2 id="toc_0">优化集中点为collectionView</h2>
-
+<h2><a id="%E4%BC%98%E5%8C%96%E9%9B%86%E4%B8%AD%E7%82%B9%E4%B8%BAcollectionview" class="anchor" aria-hidden="true" href="#%E4%BC%98%E5%8C%96%E9%9B%86%E4%B8%AD%E7%82%B9%E4%B8%BAcollectionview"><span class="octicon octicon-link"></span></a>优化集中点为collectionView</h2>
 <p>项目有两种显示效果,一种是图片模式,一种是纯文字模式. 纯文字模式滑动起来还不错,图片模式就比较卡了.经分析,项目做了部分修改,使滑动效果比较顺畅.</p>
-
 <ul>
 <li>栅格化: 目的是离屏渲染,不过还是卡顿</li>
 </ul>
-
-<pre><code class="language-text">    self.layer.shouldRasterize = true
+<pre><code>    self.layer.shouldRasterize = true
     self.layer.rasterizationScale = UIScreen.main.scale
     self.layer.drawsAsynchronously = true
 </code></pre>
-
 <ul>
-<li>Color Blended Layers 处理
-<img src="media/15058021769287/15058027400968.jpg" alt=""/>
-发现部分UILabel存在问题,解决方案:
-<img src="media/15058021769287/15058028256147.jpg" alt=""/></li>
+<li>Color Blended Layers 处理<br />
+<img src="media/15058021769287/15058027400968.jpg" alt="" /><br />
+发现部分UILabel存在问题,解决方案:<br />
+<img src="media/15058021769287/15058028256147.jpg" alt="" /></li>
 </ul>
-
 <p>添加 <code>label.layer.masksToBounds = true</code>,效果还是不行.</p>
-
 <ul>
-<li> 使用iOS最新的API<code>UICollectionViewDataSourcePrefetching</code></li>
+<li>使用iOS最新的API<code>UICollectionViewDataSourcePrefetching</code></li>
 </ul>
-
-<pre><code class="language-text">extension DishesViewController: UICollectionViewDataSourcePrefetching {
+<pre><code>extension DishesViewController: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         let urls = indexPaths.flatMap { (index) -&gt; URL? in
             let big = dishsArray[index.section]
@@ -127,15 +119,12 @@ $(document).ready(function(event) {
 }
 
 </code></pre>
-
 <ul>
-<li>上面优化后效果不是很明显,最后采取了<strong>以空间换时间</strong>的方式优化图片列表页<br/>
+<li>上面优化后效果不是很明显,最后采取了<strong>以空间换时间</strong>的方式优化图片列表页<br />
 提前用<code>Kingfisher</code>下载图片(这个过程原先就有)下载过图片也做了不再下载的处理,由于图片过多导致不会有太多列表页的图片缓存中内存中. 针对这个问题,我采用了每次进入app就把列表页的图片使用<code>NSCache&lt;NSString, UIImage&gt;</code>缓存起来,效果很明显.</li>
 </ul>
-
-<h2 id="toc_1">目前还存在问题</h2>
-
-<p>下载图片失败率还是很高的,我设置的超时时间为60s <code>downloader.downloadTimeout = 60</code> 但是还是有很多图片下载超时,导致首次加载的时候需要下载图片滑动卡顿.<br/>
+<h2><a id="%E7%9B%AE%E5%89%8D%E8%BF%98%E5%AD%98%E5%9C%A8%E9%97%AE%E9%A2%98" class="anchor" aria-hidden="true" href="#%E7%9B%AE%E5%89%8D%E8%BF%98%E5%AD%98%E5%9C%A8%E9%97%AE%E9%A2%98"><span class="octicon octicon-link"></span></a>目前还存在问题</h2>
+<p>下载图片失败率还是很高的,我设置的超时时间为60s <code>downloader.downloadTimeout = 60</code> 但是还是有很多图片下载超时,导致首次加载的时候需要下载图片滑动卡顿.<br />
 由于<code>NSCache</code>的特殊性,不能保证图片一直在内存中,正在考虑是否替换成Dictionary,然后自己处理内存警告.这个稍后验证下.</p>
 
 
@@ -153,26 +142,19 @@ $(document).ready(function(event) {
 		 </header>
 	  	<div class="entry-content">
 		  	
-		  	<h2 id="toc_0">1/添加</h2>
-
+		  	<h2><a id="1%E6%B7%BB%E5%8A%A0" class="anchor" aria-hidden="true" href="#1%E6%B7%BB%E5%8A%A0"><span class="octicon octicon-link"></span></a>1/添加</h2>
 <p><code>vim .zshrc</code></p>
-
-<p>添加 <br/>
- <code>alias subl=&quot;open -a Sublime\ Text&quot;</code>（如果你是Sublime Text ）<br/>
-  或者<br/>
+<p>添加<br />
+<code>alias subl=&quot;open -a Sublime\ Text&quot;</code>（如果你是Sublime Text ）<br />
+或者<br />
 <code>alias subl=&quot;open -a Sublime\ Text\ 2&quot;</code> （如果你是Sublime Text 2）</p>
-
-<h2 id="toc_1">2/生效</h2>
-
+<h2><a id="2%E7%94%9F%E6%95%88" class="anchor" aria-hidden="true" href="#2%E7%94%9F%E6%95%88"><span class="octicon octicon-link"></span></a>2/生效</h2>
 <p><code>source ~/.zshrc</code></p>
-
-<h2 id="toc_2">3/测试</h2>
-
-<p>在命令行输入：<br/>
-    <code>subl</code>     就可以打开sublime</p>
-
-<p>输入：<br/>
-    <code>subl test.txt</code> 就可以打开文件</p>
+<h2><a id="3%E6%B5%8B%E8%AF%95" class="anchor" aria-hidden="true" href="#3%E6%B5%8B%E8%AF%95"><span class="octicon octicon-link"></span></a>3/测试</h2>
+<p>在命令行输入：<br />
+<code>subl</code>     就可以打开sublime</p>
+<p>输入：<br />
+<code>subl test.txt</code> 就可以打开文件</p>
 
 
 		</div>
@@ -189,7 +171,7 @@ $(document).ready(function(event) {
 		 </header>
 	  	<div class="entry-content">
 		  	
-		  	<p>把A控制器中的数组 传递给 B  ,然后 B 再把数据传递给 C <br/>
+		  	<p>把A控制器中的数组 传递给 B  ,然后 B 再把数据传递给 C<br />
 这时如果 A中数组进行了修改,那么 C 中数据也会修改</p>
 
 
@@ -210,42 +192,29 @@ $(document).ready(function(event) {
 		  	<blockquote>
 <p>synchronized关键字代表这个方法加锁,相当于不管哪一个线 程A每次运行到这个法时,都要检查有没有其它正在用这个方法的线程B（或者C D等）,有的话要等正在使用这个方法的线程B（或者C D）运行完这个方法后再运行此线程A,没有的话,直接运行 它包括两种用法：synchronized 方法和 synchronized 块。</p>
 </blockquote>
-
-<h2 id="toc_0">1. synchronized 方法：</h2>
-
-<p>通过在方法声明中加入 synchronized关键字来声明 synchronized 方法。如： <br/>
-　　<code>public synchronized void accessVal(int newVal);</code><br/>
-　　synchronized 方法控制对类成员变量的访问：每个类实例对应一把锁，每个 synchronized 方法都必须获得调用该方法的类实例的锁方能执行，否则所属线程阻塞，方法一旦执行，就独占该锁，直到从该方法返回时才将锁释放，此后被阻塞的线程方能获得 该锁，重新进入可执行状态。这种机制确保了同一时刻对于每一个类实例，其所有声明为 synchronized 的成员函数中至多只有一个处于可执行状态（因为至多只有一个能够获得该类实例对应的锁），从而有效避免了类成员变量的访问冲突（只要所有可能访问类成员变 量的方法均被声明为 synchronized）。 <br/>
-　　在 Java 中，不光是类实例，每一个类也对应一把锁，这样我们也可将类的静态成员函数声明为 synchronized ，以控制其对类的静态成员变量的访问。 <br/>
-　　synchronized 方法的缺陷：若将一个大的方法声明为synchronized 将会大大影响效率，典型地，若将线程类的方法 run() 声明为 synchronized ，由于在线程的整个生命期内它一直在运行，因此将导致它对本类任何 synchronized 方法的调用都永远不会成功。当然我们可以通过将访问类成员变量的代码放到专门的方法中，将其声明为 synchronized ，并在主方法中调用来解决这一问题，但是 Java 为我们提供了更好的解决办法，那就是 synchronized 块。 <br/>
-　　</p>
-
-<h2 id="toc_1">2. synchronized 块：</h2>
-
-<p>通过 synchronized关键字来声明synchronized 块。语法如下： </p>
-
-<pre><code class="language-text">　　synchronized(syncObject) { 
+<p>##1. synchronized 方法：<br />
+通过在方法声明中加入 synchronized关键字来声明 synchronized 方法。如：<br />
+　　<code>public synchronized void accessVal(int newVal); </code><br />
+　　synchronized 方法控制对类成员变量的访问：每个类实例对应一把锁，每个 synchronized 方法都必须获得调用该方法的类实例的锁方能执行，否则所属线程阻塞，方法一旦执行，就独占该锁，直到从该方法返回时才将锁释放，此后被阻塞的线程方能获得 该锁，重新进入可执行状态。这种机制确保了同一时刻对于每一个类实例，其所有声明为 synchronized 的成员函数中至多只有一个处于可执行状态（因为至多只有一个能够获得该类实例对应的锁），从而有效避免了类成员变量的访问冲突（只要所有可能访问类成员变 量的方法均被声明为 synchronized）。<br />
+　　在 Java 中，不光是类实例，每一个类也对应一把锁，这样我们也可将类的静态成员函数声明为 synchronized ，以控制其对类的静态成员变量的访问。<br />
+　　synchronized 方法的缺陷：若将一个大的方法声明为synchronized 将会大大影响效率，典型地，若将线程类的方法 run() 声明为 synchronized ，由于在线程的整个生命期内它一直在运行，因此将导致它对本类任何 synchronized 方法的调用都永远不会成功。当然我们可以通过将访问类成员变量的代码放到专门的方法中，将其声明为 synchronized ，并在主方法中调用来解决这一问题，但是 Java 为我们提供了更好的解决办法，那就是 synchronized 块。<br />
+　　<br />
+##2. synchronized 块：<br />
+通过 synchronized关键字来声明synchronized 块。语法如下：</p>
+<pre><code>　　synchronized(syncObject) { 
 　　//允许访问控制的代码 
 　　}
 </code></pre>
-
-<p>　　<br/>
-　　synchronized 块是这样一个代码块，其中的代码必须获得对象 syncObject （如前所述，可以是类实例或类）的锁方能执行，具体机制同前所述。由于可以针对任意代码块，且可任意指定上锁的对象，故灵活性较高<br/>
-　　</p>
-
-<h2 id="toc_2">对synchronized(object)的一些理解</h2>
-
-<p>　<br/>
-<strong>一、</strong>当两个并发线程访问同一个对象object中的这个synchronized(this) 同步代码块时，一个时间内只能有一个线程得到执行。另一个线程必须等待当前线程执行完这个代码块以后才能执行该代码块。 </p>
-
-<p><strong>二、</strong>当一个线程访问object的一个synchronized(this)同步代码块时，其 他线程对object中所有其它synchronized(this)同步代码块的访问将被阻塞。</p>
-
-<p><strong>三、</strong>然而，当一个线程访问object的一个synchronized(this)同步代码块 时，另一个线程仍然可以访问该object中的除synchronized(this)同步代码块以外的部分。 </p>
-
-<p><strong>四、</strong>第三个例子同样适用其它同步代码块。也就是说，当一个线程访问object的一个 synchronized(this)同步代码块时，它就获得了这个object的对象锁。结果，其它线程对该object对象 所有同步代码部分的访问都被暂时阻塞。 </p>
-
-<p><strong>五、</strong>以上规则对其它对象锁同样适用 </p>
-
+<p>　　<br />
+　　synchronized 块是这样一个代码块，其中的代码必须获得对象 syncObject （如前所述，可以是类实例或类）的锁方能执行，具体机制同前所述。由于可以针对任意代码块，且可任意指定上锁的对象，故灵活性较高<br />
+　　<br />
+##对synchronized(object)的一些理解<br />
+　<br />
+**一、**当两个并发线程访问同一个对象object中的这个synchronized(this) 同步代码块时，一个时间内只能有一个线程得到执行。另一个线程必须等待当前线程执行完这个代码块以后才能执行该代码块。</p>
+<p>**二、**当一个线程访问object的一个synchronized(this)同步代码块时，其 他线程对object中所有其它synchronized(this)同步代码块的访问将被阻塞。</p>
+<p>**三、**然而，当一个线程访问object的一个synchronized(this)同步代码块 时，另一个线程仍然可以访问该object中的除synchronized(this)同步代码块以外的部分。</p>
+<p>**四、**第三个例子同样适用其它同步代码块。也就是说，当一个线程访问object的一个 synchronized(this)同步代码块时，它就获得了这个object的对象锁。结果，其它线程对该object对象 所有同步代码部分的访问都被暂时阻塞。</p>
+<p>**五、**以上规则对其它对象锁同样适用</p>
 <p>原文: <a href="http://fei263.blog.163.com/blog/static/9279372420103752814/">http://fei263.blog.163.com/blog/static/9279372420103752814/</a></p>
 
 
@@ -266,12 +235,9 @@ $(document).ready(function(event) {
 		  	<blockquote>
 <p>这片文章可以和<a href="http://www.citynight.cn/Blog/14790381443417.html">Swift - KVC 和 运行时获取属性列表</a> 一起看,当然配上<a href="http://www.citynight.cn/Blog/14793034700265.html">隐藏tabBar的小技巧</a>就更好了😀</p>
 </blockquote>
-
-<h2 id="toc_0">第一种: 通过<code>runtime</code>与<code>KVC</code>配合完成</h2>
-
+<p>##第一种: 通过<code>runtime</code>与<code>KVC</code>配合完成</p>
 <p>在<code>UINavigationController</code>的<code>viewDidLoad</code>方法中:</p>
-
-<pre><code class="language-text">// 获取系统的手势
+<pre><code>// 获取系统的手势
 let gest = self.interactivePopGestureRecognizer!
 // 禁用系统的手势
 interactivePopGestureRecognizer?.isEnabled = false
@@ -286,12 +252,9 @@ let target = targets[0].value(forKey: &quot;_target&quot;)
 let pan = UIPanGestureRecognizer(target: target, action: NSSelectorFromString(&quot;handleNavigationTransition:&quot;))
 view.addGestureRecognizer(pan)
 </code></pre>
-
-<h2 id="toc_1">第二种: 通过原有的代理完成</h2>
-
-<p>直接上代码:</p>
-
-<pre><code class="language-text">class BaseNavigationController: UINavigationController {
+<p>##第二种: 通过原有的代理完成<br />
+直接上代码:</p>
+<pre><code>class BaseNavigationController: UINavigationController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -319,16 +282,12 @@ extension BaseNavigationController:UIGestureRecognizerDelegate {
 }
 
 </code></pre>
-
 <p>第一种也应该设置代理,不设置代理的话跟控制出现手势就会有bug</p>
-
 <p>简单比较一下,第二种更简洁.不过应用了一个小技巧,看代码:</p>
-
-<pre><code class="language-text">    let pan = UIPanGestureRecognizer(target: self, action: NSSelectorFromString(&quot;handleNavigationTransition:&quot;))
+<pre><code>    let pan = UIPanGestureRecognizer(target: self, action: NSSelectorFromString(&quot;handleNavigationTransition:&quot;))
     pan.delegate = self
     view.addGestureRecognizer(pan)
 </code></pre>
-
 <p>可见<code>target</code>&amp;<code>delegate</code>通常都是同一个对象,当让也可以是不同的,这里应用这个小技巧让代码变得更简洁.</p>
 
 
@@ -436,6 +395,12 @@ extension BaseNavigationController:UIGestureRecognizerDelegate {
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -455,12 +420,6 @@ extension BaseNavigationController:UIGestureRecognizerDelegate {
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

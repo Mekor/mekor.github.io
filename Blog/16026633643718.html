@@ -82,25 +82,17 @@ $(document).ready(function(event) {
 			 </header>
 		  	<div class="entry-content">
 			  	<p>创建一个小磁盘映像:</p>
-
-<pre><code class="language-text">hdiutil create -size 2m -fs HFS+ /tmp/2meg.dmg
+<pre><code>hdiutil create -size 2m -fs HFS+ /tmp/2meg.dmg
 </code></pre>
-
 <p>将其挂载到模拟器应用程序中的相关目录，例如:</p>
-
-<pre><code class="language-text">hdiutil attach /tmp/2meg.dmg -mountpoint /Users/.../Library/Developer/CoreSimulator/Devices/.../data/Applications/.../Library/Caches
+<pre><code>hdiutil attach /tmp/2meg.dmg -mountpoint /Users/.../Library/Developer/CoreSimulator/Devices/.../data/Applications/.../Library/Caches
 </code></pre>
-
 <p>运行应用程序并执行测试。也可以在应用运行时完成此操作。在这种情况下，您可能不想直接将其安装为<code>Caches</code>或<code>Documents</code>目录，因为这会将当前文件隐藏在那些文件夹中。改为挂载到子目录。如果在不更改应用程序路径的情况下很难做到这一点，请在将映像挂载到非空目录之上之前，将映像挂载到其他位置并复制数据。</p>
-
 <p>卸载:</p>
-
-<pre><code class="language-text">hdiutil detach /Users/.../Library/Developer/CoreSimulator/Devi...
+<pre><code>hdiutil detach /Users/.../Library/Developer/CoreSimulator/Devi...
 </code></pre>
-
 <p>但是，请注意，如果移动安装点，则分离操作将失败。这总是发生，因为每次运行应用程序时，Apple都会在iOS 8上重命名模拟器目录。在这种情况下，请使用<code>mount</code>命令查找已安装的设备，例如<code>/dev/disk3s1 /Users/.../Library/...</code>，然后使用设备名称而不是安装点来卸载磁盘映像:</p>
-
-<pre><code class="language-text">hdiutil detach disk3s1
+<pre><code>hdiutil detach disk3s1
 </code></pre>
 
 			</div>
@@ -233,6 +225,12 @@ $(document).ready(function(event) {
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -252,12 +250,6 @@ $(document).ready(function(event) {
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

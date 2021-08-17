@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <title>
     
-  Swift - 李小争
+  Flutter - 李小争
   
 
   </title>
@@ -78,266 +78,111 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
-		  	<h1 class="entry-title"><a href="14799970254990.html">Swift - 面向协议编程</a></h1>
-			<p class="meta"><time datetime="2016-11-24T22:17:05+08:00" 
-			pubdate data-updated="true">2016/11/24</time></p>
+		  	<h1 class="entry-title"><a href="16291783311992.html">方便实用的小组件</a></h1>
+			<p class="meta"><time datetime="2021-08-17T13:32:11+08:00" 
+			pubdate data-updated="true">2021/8/17</time></p>
 		 </header>
 	  	<div class="entry-content">
 		  	
-		  	<p>跟全部写在base中比较:</p>
-<ol>
-<li>代码没有增多,却更复用</li>
-<li>面向协议(接口),而不是实现,充分解耦</li>
-<li>静态类型检查版主在编译时发现问题</li>
-<li>写代码像搭积木,先设计接口,再逐一实现</li>
-<li>依赖少,更容易调试</li>
-</ol>
-<pre><code>protocol Hello {
-    func sayHello()
-}
+		  	<h2><a id="1-fittedbox" class="anchor" aria-hidden="true" href="#1-fittedbox"><span class="octicon octicon-link"></span></a>1. FittedBox</h2>
+<pre><code>这个组件可以缩放子组件，组件的大小不够的时候可以缩放子组件。比如：
 
-extension Hello {
-    func sayHello() {
-        print(&quot;Hello!&quot;)
-    }
-}
+```dart
+Container(
+	color: Colors.red,
+	width:double.infinity,
+	child:FittedBox(
+		fit: BoxFit.sacleDown, // 小于等于当前的控件大小. 也就是字体小于等于20
+		child:Text(&quot;You have pushed the button this many times&quot;, style: TextStyle(fontSize:20),),	
+	),	
+),
+```
 
-struct Person: Hello {
-    
-}
-
-let p = Person()
-p.sayHello()
+当Container组件所在的宽度不够文本宽度的时候，就会缩小文本的字体大小。
 </code></pre>
-<p>创建一个协议,并且做一个默认实现.使用的时候可以直接调用</p>
+<h2><a id="2-safearea" class="anchor" aria-hidden="true" href="#2-safearea"><span class="octicon octicon-link"></span></a>2. SafeArea</h2>
+<pre><code>和iOS中的SafeArea一样，为了异形屏显示而做的适配工作。
 
+```dart
+// 除了 top/bottom/left/right 等参数可以设置外，还有一个好用的参数 minimum。这个参数可以设置最小padding，也就是满足安全区域的时候使用安全区域，没有安全区域的时候使用minimum。
+```
 
-		</div>
-
-		
-
-	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14799126696997.html">Swift - 函数式编程</a></h1>
-			<p class="meta"><time datetime="2016-11-23T22:51:09+08:00" 
-			pubdate data-updated="true">2016/11/23</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>一般情况:</p>
-<pre><code>struct User {
-    func login(password: String){
-        print(password)
-    }
-}
-
-let passwd = &quot;123123123&quot;
-let usr = User()
-
-usr.login(password: passwd)
+注意： 使用的时候不要把Safe Area 放在顶层，哪里需要放在哪里就好了，有些组件就是需要延伸到安全区域才美观的。
 </code></pre>
-<p>函数式编程</p>
-<pre><code>struct User {
-    func login(password: String){
-        print(password)
-    }
-}
+<h2><a id="3-layoutbuilder" class="anchor" aria-hidden="true" href="#3-layoutbuilder"><span class="octicon octicon-link"></span></a>3. LayoutBuilder</h2>
+<pre><code>约束组件，会把constraint传递给子组件。
 
-let passwd = &quot;123123123&quot;
-let usr = User()
+```dart
+...
+LayoutBuilder(
+	builder: (BuildContext context, BoxConstraints constranits) {
+		print(constraints);
+		return SizedBox(
+			height: constraints.maxHeight / 2,
+			child: Text(&quot;xxxxxxxx&quot; * 500),
+		);
+	}
+),
+```
 
-User.login(usr)(password: passwd)
+上述代码实现了文本组件是父组件一半的高度。当然也可以使用Culum之类的组件通过Expend做到类似的效果。
+
+首页中可以使用LayoutBuilder计算剩余的空间，而不用使用MediaQuery.of(content).size 来自己就散各个组件的高度。
 </code></pre>
-<p>由此可见: <code>usr.login(password: passwd)</code> == <code>User.login(usr)(password: passwd)</code></p>
-<p>如果忽略外部参数</p>
-<pre><code>struct User {
-    func login(_ password: String){
-        print(password)
-    }
-}
+<h2><a id="4-defaulttextstyle" class="anchor" aria-hidden="true" href="#4-defaulttextstyle"><span class="octicon octicon-link"></span></a>4. DefaultTextStyle</h2>
+<pre><code>默认的文本样式，这样子组件就能使用外层的默认样式了。
 
-let passwd = &quot;123123123&quot;
-let usr = User()
-usr.login(passwd)
-User.login(usr)(passwd)
+```dart
+...
+DefaultTextStyle(
+	style: TextStyle(color: Colors.red),// 子组件如果没有设置颜色的话就会使用改处设置的颜色。
+	child: Center(
+		child: Column(
+			mainAxisAlignment: MainAxisAlignment.center,
+			children:&lt;Widget&gt;[Text(&quot;hhhh&quot;),Text(&quot;字体大小更改&quot;,style: TextStyle(fontSize:48)),Text(&quot;颜色使用自己的&quot;,style: TextStyle(color: Colors.black))],
+		),	
+	),
+),
+```
+
+当然我们使用的过程中如果需要使用上层组件的样式可以这样。DefaultTextStyle.merge 这样默认样式就会和上层的样式merge。比如Scaffold中也会有默认样式（Material中会有默认样式），我们只是想要更改颜色就可以这样写：
+
+```dart
+return Scaffold(
+	...
+	body: DefaultTextStyle.merge(
+		style: TextStyle(color: Colors.red),// 这样就会设置默认的颜色为红色，其他的样式使用上层的样式。
+	),
+);
+```
+
+隐式动画
+
+AnimatedDefaultTextStyle
 </code></pre>
-<p>这样就更简洁了</p>
-<hr />
-<p>--- 11.24更 --<br />
-##柯里化(Currying)</p>
-<pre><code>// 柯里化(Currying)
+<h2><a id="5-interactiveviewer" class="anchor" aria-hidden="true" href="#5-interactiveviewer"><span class="octicon octicon-link"></span></a>5. InteractiveViewer</h2>
+<pre><code>如果子组件超出屏幕范围可以任意方向滚动
 
-func addOne(num:Int) -&gt;Int {
-    return num + 1
-}
+```dart
+...
+InteractiveViewer(
+	constrained: false,// 表示不去约束子组件
+	child: SizeBox(
+		width: 800, // 超出屏幕宽度，这样能狗左右滑动
+		maxScale:5, // 最大缩放5倍
+		minScale:0.2,// 最小缩放0.2倍
 
-print(addOne(num: 10))
+		child: Column(
+			mainAxisAlignment: MainAxisAlignment.center,
+			children:&lt;Widget&gt;[Text(&quot;hello world&quot; * 200),],
+		),
+	),
 
-func addTo(_ adder:Int) -&gt;(_ num:Int) -&gt; Int {
-    return {
-        num in
-        return num + adder
-    }
-}
+),
+```
 
-let addTwo = addTo(2)
-
-print(addTwo(6))
-
-// 更简单的调用方式
-print(addTo(9)(1))
-
+SingleChildScrollView 是一个维度的滚动，InteractiveViewer是二维滚动。
 </code></pre>
-<p>----12.8----<br />
-说到函数式编程,我突然想起了今天实现一个功能所用到的技术,这里只做简单记录.</p>
-<p>项目中遇到一个问题:根据参数创建相应个数的视图,视图中按钮的点击事件还要回调..我一开始想用代理来做,发现如果层级结构比较深的话代理不是很好用.既然否定了代理那么怎样还能实现该效果呢?我尝试用函数(闭包).</p>
-<p>需要传递的数据</p>
-<pre><code>let dict = [
-    [&quot;title&quot;:GLOBAL_LANGUAGE(&quot;历史锅底&quot;) ,
-     &quot;subtitle&quot;:GLOBAL_LANGUAGE(&quot;上次的定制锅底,再来一单&quot;),
-     &quot;imagename&quot;:&quot;OrderDishOrPot1&quot;,
-     &quot;callback&quot;:historyPotsList!]  // callback 中存放的就是函数名或者闭包名
-]
-</code></pre>
-<pre><code>let showTitle =  data[i][&quot;title&quot;] as! String
-let showSubTitle = data[i][&quot;subtitle&quot;] as! String
-let imageName = data[i][&quot;imagename&quot;] as! String
-let callBack = data[i][&quot;callback&quot;] as! (()-&gt;()) // 这里就是我需要的闭包
-
-//=======
-
-callBack() // 闭包调用
-
-</code></pre>
-<p>只需要这样我就能实现需求了...函数的传递虽然不像👆所说的那样函数式编程,但是还是有必要记录下,swift跟OC比还是灵活了很多.</p>
-<p>----未完待续---</p>
-
-
-		</div>
-
-		
-
-	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14796301513904.html">Swift - 使用代理和闭包传值</a></h1>
-			<p class="meta"><time datetime="2016-11-20T16:22:31+08:00" 
-			pubdate data-updated="true">2016/11/20</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>##代理传值</p>
-<p>声明协议:</p>
-<pre><code>protocol FunctionButtonViewDelegate {
-    func gotoViewController(vcString:String)
-}
-</code></pre>
-<pre><code>var delegate :FunctionButtonViewDelegate?
-</code></pre>
-<p>这里<code>?</code>就具有<code>weak</code>的作用</p>
-<p>传值:</p>
-<pre><code>delegate?.gotoViewController(vcString: button.currentTitle!)
-</code></pre>
-<p>实现代理方法</p>
-<pre><code>extension PersonalCenterViewController:FunctionButtonViewDelegate {
-    //MARK: - 跳转到对应的功能模块
-    func gotoViewController(vcString: String) {
-        print(vcString)
-    }
-}
-</code></pre>
-<p>##闭包传值</p>
-<p>声明:</p>
-<pre><code>var callback : ((Int?) -&gt; Void)?
-</code></pre>
-<p>传值</p>
-<pre><code>if let cb = callback {
-    cb(200)
-}
-</code></pre>
-<p>实现:</p>
-<pre><code>bottomView.callback = { (num)-&gt;Void in
-    print(num ?? 0)
-}
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14796201135474.html">Swift - 在swift中如何使用 hexcolor 值表示颜色</a></h1>
-			<p class="meta"><time datetime="2016-11-20T13:35:13+08:00" 
-			pubdate data-updated="true">2016/11/20</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<blockquote>
-<p>结果来自<a href="http://stackoverflow.com/questions/24263007/how-to-use-hex-colour-values-in-swift-ios">How to use hex colour values in Swift, iOS</a></p>
-</blockquote>
-<pre><code>extension UIColor {
-    convenience init(hexString: String) {
-        let hex = hexString.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
-        var int = UInt32()
-        Scanner(string: hex).scanHexInt32(&amp;int)
-        let a, r, g, b: UInt32
-        switch hex.characters.count {
-        case 3: // RGB (12-bit)
-            (a, r, g, b) = (255, (int &gt;&gt; 8) * 17, (int &gt;&gt; 4 &amp; 0xF) * 17, (int &amp; 0xF) * 17)
-        case 6: // RGB (24-bit)
-            (a, r, g, b) = (255, int &gt;&gt; 16, int &gt;&gt; 8 &amp; 0xFF, int &amp; 0xFF)
-        case 8: // ARGB (32-bit)
-            (a, r, g, b) = (int &gt;&gt; 24, int &gt;&gt; 16 &amp; 0xFF, int &gt;&gt; 8 &amp; 0xFF, int &amp; 0xFF)
-        default:
-            (a, r, g, b) = (255, 0, 0, 0)
-        }
-        self.init(red: CGFloat(r) / 255, green: CGFloat(g) / 255, blue: CGFloat(b) / 255, alpha: CGFloat(a) / 255)
-    }
-}
-</code></pre>
-<p>使用方法:</p>
-<pre><code>let darkGrey = UIColor(hexString: &quot;#757575&quot;)
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14793055516073.html">Swift - 自定义tableViewCell</a></h1>
-			<p class="meta"><time datetime="2016-11-16T22:12:31+08:00" 
-			pubdate data-updated="true">2016/11/16</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>习惯 OC 刚刚接触 Swift 还是有很多地方不适应,创建自定义cell的时候出现如下情况</p>
-<pre><code>    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-    }
-</code></pre>
-<p>OC 中,我们会用 self 来接 super 初始化来判断是否创建成功,但是 Swift 中怎样做呢?调用 <code>super.init</code>是没有返回值的,那么我们怎样判断呢?</p>
-<p>从网上看<a href="http://stackoverflow.com/questions/37098742/super-init-in-swift">Super init in Swift</a>没有必要在进行<code>if(self)</code>判断了...不过,我还是找到了一种更容易理解的方法:</p>
-<pre><code>    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        if !self.isEqual(nil) {
-            setupInterface()
-        }
-    }
-
-</code></pre>
-<p>虽然感觉有点画蛇添足,不过很符合刚刚从OC 转 Swift 的理解方式</p>
 
 
 		</div>
@@ -347,9 +192,9 @@ callBack() // 闭包调用
 	</article>
   
 	<div class="pagination">
-	 <a class="prev" href="Swift_3.html">&larr; Older</a> 
+	
 <a href="archives.html">Blog Archives</a>
-	 <a class="next" href="Swift_1.html">Newer &rarr;</a>  
+	 
 	    
 	</div>
 </div>

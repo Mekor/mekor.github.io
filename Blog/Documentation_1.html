@@ -84,192 +84,257 @@ $(document).ready(function(event) {
 		 </header>
 	  	<div class="entry-content">
 		  	
-		  	<h2 id="toc_0"><a href="https://stackoverflow.com/documentation/ios/1362/custom-uiviews-from-xib-files/4443/wiring-elements">Wiring elements</a></h2>
-
+		  	<p>##<a href="https://stackoverflow.com/documentation/ios/1362/custom-uiviews-from-xib-files/4443/wiring-elements">Wiring elements</a></p>
 <ul>
-<li><blockquote>
-<p>Create a XIB file</p>
-</blockquote>
-<p>Xcode Menu Bar &gt; File &gt; New &gt; File.<br/>
-Select iOS, User Interface and then &quot;View&quot;:</p>
-<p><a href="media/15036540820094/RSkzu.png"><img src="media/15036540820094/RSkzu.png" alt="First step"/></a></p>
-<p>Give your XIB a name (yes, we are doing a Pokemon example 👾).<br/>
-<strong>Remember to check your target</strong> and hit &quot;Create&quot;.</p>
-<p><a href="media/15036540820094/oJ1s1.png"><img src="media/15036540820094/oJ1s1.png" alt="Second step"/></a></p>
-<blockquote>
-<p>Design your view</p>
-</blockquote>
-<p>To make things easier, set:</p>
-<ul>
-<li>Size: Freeform</li>
-<li>Status Bar: None</li>
-<li>Top Bar: None</li>
-<li>Bottom Bar: None</li>
+<li></li>
 </ul>
-<p><a href="media/15036540820094/Gy0KD.png"><img src="media/15036540820094/Gy0KD.png" alt="Third step"/></a></p>
-<p>Click on the Size Inspector and resize the view.<br/>
-For this example we&#39;ll be using width 321 and height 256.</p>
-<p><a href="media/15036540820094/PNIek.png"><img src="media/15036540820094/PNIek.png" alt="Fourth step"/></a></p>
-<p>Drop some elements into your XIB file like shown below.<br/>
-Here we&#39;ll be adding an <strong>Image View</strong> (256x256) and a <strong>Switch</strong>.</p>
-<p><a href="media/15036540820094/6u3pd.png"><img src="media/15036540820094/6u3pd.png" alt="Fifth step"/></a></p>
-<p>Add Auto-Layout constraints by clicking on &quot;Resolve Auto Layout Issues&quot; (bottom-right) and selecting &quot;Add Missing Constraints&quot; under &quot;All Views&quot;.</p>
-<p><a href="media/15036540820094/esZhQ.png"><img src="media/15036540820094/esZhQ.png" alt="Sixth step"/></a></p>
-<p>Preview the changes you made by clicking on &quot;Show the Assistant Editor&quot; (top-right), then &quot;Preview&quot;.<br/>
-You can add iPhone screens by clicking on the &quot;Plus&quot; button.<br/>
-The preview should look like this:</p>
-<p><a href="media/15036540820094/D3rac.png"><img src="media/15036540820094/D3rac.png" alt="Seventh step"/></a></p>
-<blockquote>
-<p>Subclass UIView</p>
-</blockquote>
-<p>Create the class that is going to manage the XIB file.<br/>
-Xcode Menu Bar &gt; File &gt; New &gt; File.<br/>
-Select iOS / Source / Cocoa Touch Class. Hit &quot;Next&quot;.</p>
-<p><a href="media/15036540820094/0EyHy.png"><img src="media/15036540820094/0EyHy.png" alt="Eighth step"/></a></p>
-<p>Give the class a name, which must be the same name as the XIB file (Pokemon).<br/>
-Select UIView as the subclass type, then hit &quot;Next&quot;.</p>
-<p><a href="media/15036540820094/qbo3s.png"><img src="media/15036540820094/qbo3s.png" alt="Nineth step"/></a></p>
-<p>On the next window, select your target and hit &quot;Create&quot;.</p>
-<p><a href="media/15036540820094/Ks9Tu.png"><img src="media/15036540820094/Ks9Tu.png" alt="Tenth step"/></a></p>
-<blockquote>
-<p>Connect Pokemon.xib to Pokemon.swift via &quot;File’s Owner&quot; attribute</p>
-</blockquote>
-<p>Click on the Pokemon.xib file in Xcode.<br/>
-Click on the &quot;File&#39;s Owner&quot; outlet.<br/>
-On the &quot;Identity inspector&quot; (top-right), set the Class to our recently created Pokemon.swift file.</p>
-<p><a href="media/15036540820094/4YT3i.png"><img src="media/15036540820094/4YT3i.png" alt="Eleventh step"/></a></p>
-<blockquote>
-<p>POKEMONS!!!</p>
-</blockquote>
-<p>Yes! Drag and drop some Pokemons into your project to finish up our &quot;infrastructure&quot;.<br/>
-Here we are adding two PGN files, 256x256, transparent.</p>
-<p><a href="media/15036540820094/ibqxZ.png"><img src="media/15036540820094/ibqxZ.png" alt="Twelfth step"/></a></p>
-<blockquote>
-<p>Show me code already.</p>
-</blockquote>
-<p>All right, all right.<br/>
-Time to add some code to our Pokemon.swift class.</p>
-<p>It&#39;s actually pretty simple:</p>
-<ol>
-<li>Implement required initializers</li>
-<li>Load the XIB file</li>
-<li>Configure the view that will display the XIB file</li>
-<li>Show the above view</li>
-</ol>
-<p>Add the following code to the Pokemon.swift class:</p>
-<pre><code class="language-text">import UIKit
-class Pokemon: UIView {<br/>
-    // MARK: - Initializers<br/>
-    override init(frame: CGRect) {<br/>
-        super.init(frame: frame)<br/>
-        setupView()<br/>
-    }<br/>
-    required init?(coder aDecoder: NSCoder) {<br/>
-        super.init(coder: aDecoder)<br/>
-        setupView()<br/>
-    }<br/>
-    // MARK: - Private Helper Methods<br/>
-    // Performs the initial setup.<br/>
-    private func setupView() {<br/>
-        let view = viewFromNibForClass()<br/>
-        view.frame = bounds<br/>
-        // Auto-layout stuff.<br/>
-        view.autoresizingMask = [<br/>
-            UIViewAutoresizing.flexibleWidth,<br/>
-            UIViewAutoresizing.flexibleHeight<br/>
-        ]<br/>
-        // Show the view.<br/>
-        addSubview(view)<br/>
-    }<br/>
-    // Loads a XIB file into a view and returns this view.<br/>
-    private func viewFromNibForClass() -&gt; UIView {<br/>
-        let bundle = Bundle(for: type(of: self))<br/>
-        let nib = UINib(nibName: String(describing: type(of: self)), bundle: bundle)<br/>
-        let view = nib.instantiate(withOwner: self, options: nil).first as! UIView<br/>
-        /* Usage for swift &lt; 3.x<br/>
-        let bundle = NSBundle(forClass: self.dynamicType)<br/>
-        let nib = UINib(nibName: String(self.dynamicType), bundle: bundle)<br/>
-        let view = nib.instantiateWithOwner(self, options: nil)[0] as! UIView<br/>
-        */<br/>
-        return view<br/>
-    }<br/>
+<pre><code>&gt; Create a XIB file
+
+Xcode Menu Bar &gt; File &gt; New &gt; File.
+Select iOS, User Interface and then &quot;View&quot;:
+
+[![First step](media/15036540820094/RSkzu.png)](media/15036540820094/RSkzu.png)
+
+Give your XIB a name (yes, we are doing a Pokemon example 👾).
+**Remember to check your target** and hit &quot;Create&quot;.
+
+[![Second step](media/15036540820094/oJ1s1.png)](media/15036540820094/oJ1s1.png)
+
+&gt; Design your view
+
+To make things easier, set:
+
+* Size: Freeform
+* Status Bar: None
+* Top Bar: None
+* Bottom Bar: None
+
+[![Third step](media/15036540820094/Gy0KD.png)](media/15036540820094/Gy0KD.png)
+
+Click on the Size Inspector and resize the view.
+For this example we'll be using width 321 and height 256.
+
+[![Fourth step](media/15036540820094/PNIek.png)](media/15036540820094/PNIek.png)
+
+Drop some elements into your XIB file like shown below.
+Here we'll be adding an **Image View** (256x256) and a **Switch**.
+
+[![Fifth step](media/15036540820094/6u3pd.png)](media/15036540820094/6u3pd.png)
+
+Add Auto-Layout constraints by clicking on &quot;Resolve Auto Layout Issues&quot; (bottom-right) and selecting &quot;Add Missing Constraints&quot; under &quot;All Views&quot;.
+
+[![Sixth step](media/15036540820094/esZhQ.png)](media/15036540820094/esZhQ.png)
+
+Preview the changes you made by clicking on &quot;Show the Assistant Editor&quot; (top-right), then &quot;Preview&quot;.
+You can add iPhone screens by clicking on the &quot;Plus&quot; button.
+The preview should look like this:
+
+[![Seventh step](media/15036540820094/D3rac.png)](media/15036540820094/D3rac.png)
+
+&gt; Subclass UIView
+
+Create the class that is going to manage the XIB file.
+Xcode Menu Bar &gt; File &gt; New &gt; File.
+Select iOS / Source / Cocoa Touch Class. Hit &quot;Next&quot;.
+
+[![Eighth step](media/15036540820094/0EyHy.png)](media/15036540820094/0EyHy.png)
+
+Give the class a name, which must be the same name as the XIB file (Pokemon).
+Select UIView as the subclass type, then hit &quot;Next&quot;.
+
+[![Nineth step](media/15036540820094/qbo3s.png)](media/15036540820094/qbo3s.png)
+
+On the next window, select your target and hit &quot;Create&quot;.
+
+[![Tenth step](media/15036540820094/Ks9Tu.png)](media/15036540820094/Ks9Tu.png)
+
+&gt; Connect Pokemon.xib to Pokemon.swift via &quot;File’s Owner&quot; attribute
+
+Click on the Pokemon.xib file in Xcode.
+Click on the &quot;File's Owner&quot; outlet.
+On the &quot;Identity inspector&quot; (top-right), set the Class to our recently created Pokemon.swift file.
+
+[![Eleventh step](media/15036540820094/4YT3i.png)](media/15036540820094/4YT3i.png)
+
+&gt; POKEMONS!!!
+
+Yes! Drag and drop some Pokemons into your project to finish up our &quot;infrastructure&quot;.
+Here we are adding two PGN files, 256x256, transparent.
+
+[![Twelfth step](media/15036540820094/ibqxZ.png)](media/15036540820094/ibqxZ.png)
+
+&gt; Show me code already.
+
+All right, all right.
+Time to add some code to our Pokemon.swift class.
+
+It's actually pretty simple:
+
+1. Implement required initializers
+2. Load the XIB file
+3. Configure the view that will display the XIB file
+4. Show the above view
+
+Add the following code to the Pokemon.swift class:
+
+```
+import UIKit
+
+class Pokemon: UIView {
+
+    // MARK: - Initializers
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupView()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setupView()
+    }
+
+    // MARK: - Private Helper Methods
+
+    // Performs the initial setup.
+    private func setupView() {
+        let view = viewFromNibForClass()
+        view.frame = bounds
+
+        // Auto-layout stuff.
+        view.autoresizingMask = [
+            UIViewAutoresizing.flexibleWidth,
+            UIViewAutoresizing.flexibleHeight
+        ]
+
+        // Show the view.
+        addSubview(view)
+    }
+
+    // Loads a XIB file into a view and returns this view.
+    private func viewFromNibForClass() -&gt; UIView {
+
+        let bundle = Bundle(for: type(of: self))
+        let nib = UINib(nibName: String(describing: type(of: self)), bundle: bundle)
+        let view = nib.instantiate(withOwner: self, options: nil).first as! UIView
+
+        /* Usage for swift &lt; 3.x
+        let bundle = NSBundle(forClass: self.dynamicType)
+        let nib = UINib(nibName: String(self.dynamicType), bundle: bundle)
+        let view = nib.instantiateWithOwner(self, options: nil)[0] as! UIView
+        */
+
+        return view
+    }
 }
-</code></pre>
-<blockquote>
-<p>@IBDesignable and @IBInspectable</p>
-</blockquote>
-<p>By adding <code>@IBDesignable</code> to your class, you make possible for it to live-render in Interface Builder.<br/>
-By adding <code>@IBInspectable</code> to the properties of your class, you can see your custom views changing in Interface Builder as soon as you modify those properties.</p>
-<p>Let&#39;s make the <code>Image View</code> of our custom view &quot;Inspectable&quot;.</p>
-<p>First, hook up the <code>Image View</code> from the Pokemon.xib file to the Pokemon.swift class.</p>
-<p><a href="media/15036540820094/Dxyv2.png"><img src="media/15036540820094/Dxyv2.png" alt="Thirteenth step"/></a></p>
-<p>Call the outlet <code>imageView</code> and then add the following code (notice the <code>@IBDesignable</code> before the class name):</p>
-<pre><code class="language-text">@IBDesignable class Pokemon: UIView {
-    // MARK: - Properties<br/>
-    @IBOutlet weak var imageView: UIImageView!<br/>
-    @IBInspectable var image: UIImage? {<br/>
-        get {<br/>
-            return imageView.image<br/>
-        }<br/>
-        set(image) {<br/>
-            imageView.image = image<br/>
-        }<br/>
-    }<br/>
-    // MARK: - Initializers<br/>
+
+```
+
+&gt; @IBDesignable and @IBInspectable
+
+By adding `@IBDesignable` to your class, you make possible for it to live-render in Interface Builder.
+By adding `@IBInspectable` to the properties of your class, you can see your custom views changing in Interface Builder as soon as you modify those properties.
+
+Let's make the `Image View` of our custom view &quot;Inspectable&quot;.
+
+First, hook up the `Image View` from the Pokemon.xib file to the Pokemon.swift class.
+
+[![Thirteenth step](media/15036540820094/Dxyv2.png)](media/15036540820094/Dxyv2.png)
+
+Call the outlet `imageView` and then add the following code (notice the `@IBDesignable` before the class name):
+
+```
+@IBDesignable class Pokemon: UIView {
+
+    // MARK: - Properties
+
+    @IBOutlet weak var imageView: UIImageView!
+
+    @IBInspectable var image: UIImage? {
+        get {
+            return imageView.image
+        }
+        set(image) {
+            imageView.image = image
+        }
+    }
+
+    // MARK: - Initializers
     ...
-</code></pre>
-<blockquote>
-<p>Using your Custom Views</p>
-</blockquote>
-<p>Got to your Main storyboard file, drag a UIView into it.<br/>
-Resize the view to, say 200x200. Centralize.<br/>
-Go to the Identity inspector (top-right) and set the Class to Pokemon.</p>
-<p><a href="media/15036540820094/Iah3Y.png"><img src="media/15036540820094/Iah3Y.png" alt="Fourteenth steps"/></a></p>
-<p>To select a Pokemon, go to the Attribute Inspector (top-right) and select one of the Pokemon images you previously added using the awesome <code>@IBInspectable</code> image property.</p>
-<p><a href="media/15036540820094/727mm.png"><img src="media/15036540820094/727mm.png" alt="Fifteenth step"/></a></p>
-<p>Now duplicate your custom Pokemon view.<br/>
-Give it a different size, say 150x150.<br/>
-Choose another Pokemon image, observe:</p>
-<p><a href="media/15036540820094/xrTXw.png"><img src="media/15036540820094/xrTXw.png" alt="Sixteenth step"/></a></p>
-<p>Now we are going to add more logic to that self-containing custom UI element.<br/>
-The button will allow Pokemons to be enabled/disabled.</p>
-<p>Create an <code>IBAction</code> from the Switch button to the Pokemon.swift class.<br/>
-Call the action something like <code>switchTapped</code>.<br/>
-Add the following code to it:</p>
-<pre><code class="language-text">// MARK: - Actions
-@IBAction func switchTapped(sender: UISwitch) {<br/>
-    imageView.alpha = sender.on ? 1.0 : 0.2<br/>
-}<br/>
-// MARK: - Initializers<br/>
+
+```
+
+&gt; Using your Custom Views
+
+Got to your Main storyboard file, drag a UIView into it.
+Resize the view to, say 200x200\. Centralize.
+Go to the Identity inspector (top-right) and set the Class to Pokemon.
+
+[![Fourteenth steps](media/15036540820094/Iah3Y.png)](media/15036540820094/Iah3Y.png)
+
+To select a Pokemon, go to the Attribute Inspector (top-right) and select one of the Pokemon images you previously added using the awesome `@IBInspectable` image property.
+
+[![Fifteenth step](media/15036540820094/727mm.png)](media/15036540820094/727mm.png)
+
+Now duplicate your custom Pokemon view.
+Give it a different size, say 150x150.
+Choose another Pokemon image, observe:
+
+[![Sixteenth step](media/15036540820094/xrTXw.png)](media/15036540820094/xrTXw.png)
+
+Now we are going to add more logic to that self-containing custom UI element.
+The button will allow Pokemons to be enabled/disabled.
+
+Create an `IBAction` from the Switch button to the Pokemon.swift class.
+Call the action something like `switchTapped`.
+Add the following code to it:
+
+```
+// MARK: - Actions
+
+@IBAction func switchTapped(sender: UISwitch) {
+    imageView.alpha = sender.on ? 1.0 : 0.2
+}
+
+// MARK: - Initializers
 ...
+
+```
+
+Final result:
+
+[![Final](media/15036540820094/DQJvO.gif)](media/15036540820094/DQJvO.gif)
+
+You are done!
+Now you can create complex custom views and reuse them anywhere you want.
+This will increase productivity while isolating code into self-contained UI elements.
+
+[The final project can be cloned in Github.](https://github.com/singledev/custom-uiviews-from-xib)
+(**Updated to Swift 3.1**)
 </code></pre>
-<p>Final result:</p>
-<p><a href="media/15036540820094/DQJvO.gif"><img src="media/15036540820094/DQJvO.gif" alt="Final"/></a></p>
-<p>You are done!<br/>
-Now you can create complex custom views and reuse them anywhere you want.<br/>
-This will increase productivity while isolating code into self-contained UI elements.</p>
-<p><a href="https://github.com/singledev/custom-uiviews-from-xib">The final project can be cloned in Github.</a><br/>
-(<strong>Updated to Swift 3.1</strong>)</p></li>
-</ul>
-
-<h2 id="toc_1"><a href="https://stackoverflow.com/documentation/ios/1362/custom-uiviews-from-xib-files/11599/how-to-make-custom-reusable-uiview-using-xib">How to make custom reusable UIView using XIB</a></h2>
-
+<p>##<a href="https://stackoverflow.com/documentation/ios/1362/custom-uiviews-from-xib-files/11599/how-to-make-custom-reusable-uiview-using-xib">How to make custom reusable UIView using XIB</a></p>
 <p>Following example shows steps involved in initializing a view from XIB.</p>
-
 <p>This is not a complex operation but exact steps need to be followed in order to do it right way first time, avoiding exceptions.</p>
-
 <p><a href="http://stackoverflow.com/questions/20323393/how-does-loadnibnamed-work-uiview-outlets-not-initializing-using-loadnibnamed">How does loadNibNamed Works</a></p>
-
 <p>Main steps are:</p>
-
 <ol>
-<li>Create XIB</li>
-<li>Create class .h and .m</li>
-<li>Define outlets in .h</li>
-<li><p>Connect outlets between .h and XIB</p>
+<li>
+<p>Create XIB</p>
+</li>
+<li>
+<p>Create class .h and .m</p>
+</li>
+<li>
+<p>Define outlets in .h</p>
+</li>
+<li>
+<p>Connect outlets between .h and XIB</p>
 <p>See attached screenshot:</p>
-<p><a href="media/15036540820094/rSBw6.png"><img src="media/15036540820094/rSBw6.png" alt="Label Object connected to myLabel IBOutlet UILabel variable"/></a></p></li>
-<li><p>Invoke loadNibNamed inside initWithCoder function of .m file. This is needed to ensure you can directly place UIView object into storyboard / Parent UIView XIB file and define it as your custom view. No other initialization code is needed once you load the storyboard / parent XIB. Your custom view can be added to other views just like other built-in Objective C view objects given in XCode.</p></li>
+<p><a href="media/15036540820094/rSBw6.png"><img src="media/15036540820094/rSBw6.png" alt="Label Object connected to myLabel IBOutlet UILabel variable" /></a></p>
+</li>
+<li>
+<p>Invoke loadNibNamed inside initWithCoder function of .m file. This is needed to ensure you can directly place UIView object into storyboard / Parent UIView XIB file and define it as your custom view. No other initialization code is needed once you load the storyboard / parent XIB. Your custom view can be added to other views just like other built-in Objective C view objects given in XCode.</p>
+</li>
 </ol>
 
 
@@ -290,36 +355,23 @@ This will increase productivity while isolating code into self-contained UI elem
 		  	<blockquote>
 <p>由于Stack Overflow中Documentation将要关闭,所以我将部分内容转载至这里</p>
 </blockquote>
-
-<h2 id="toc_0"><a href="https://stackoverflow.com/documentation/ios/3186/uibezierpath/13624/designing-and-drawing-a-bezier-path">Designing and drawing a Bezier Path</a></h2>
-
+<p>##<a href="https://stackoverflow.com/documentation/ios/3186/uibezierpath/13624/designing-and-drawing-a-bezier-path">Designing and drawing a Bezier Path</a></p>
 <p>This example shows the process from designing the shape you want to drawing it on a view. A specific shap is used but the concepts you learn can be applied to any shape.</p>
-
-<h3 id="toc_1">How to draw a <a href="https://developer.apple.com/library/ios/documentation/2DDrawing/Conceptual/DrawingPrintingiOS/BezierPaths/BezierPaths.html">Bézier path</a> in a custom view</h3>
-
+<h3><a id="how-to-draw-a%C2%A0-b%C3%A9zier-path-https-developer-apple-comlibraryiosdocumentation2ddrawingconceptualdrawingprintingiosbezierpathsbezierpaths-html%C2%A0-in-a-custom-view" class="anchor" aria-hidden="true" href="#how-to-draw-a%C2%A0-b%C3%A9zier-path-https-developer-apple-comlibraryiosdocumentation2ddrawingconceptualdrawingprintingiosbezierpathsbezierpaths-html%C2%A0-in-a-custom-view"><span class="octicon octicon-link"></span></a>How to draw a <a href="https://developer.apple.com/library/ios/documentation/2DDrawing/Conceptual/DrawingPrintingiOS/BezierPaths/BezierPaths.html">Bézier path</a> in a custom view</h3>
 <p>These are the main steps:</p>
-
 <ol>
 <li>Design the outline of the shape you want.</li>
 <li>Divide the outline path into segments of lines, arcs, and curves.</li>
 <li>Build that path programmatically.</li>
 <li>Draw the path either in <code>drawRect</code> or using a <code>CAShapeLayer</code>.</li>
 </ol>
-
-<h3 id="toc_2">Design shape outline</h3>
-
+<h3><a id="design-shape-outline" class="anchor" aria-hidden="true" href="#design-shape-outline"><span class="octicon octicon-link"></span></a>Design shape outline</h3>
 <p>You could do anything, but as an example I have chosen the shape below. It could be a popup key on a keyboard.</p>
-
-<p><a href="media/15036524793322/geckR.png"><img src="media/15036524793322/geckR.png" alt="enter image description here"/></a></p>
-
-<h3 id="toc_3">Divide the path into segments</h3>
-
+<p><a href="media/15036524793322/geckR.png"><img src="media/15036524793322/geckR.png" alt="enter image description here" /></a></p>
+<h3><a id="divide-the-path-into-segments" class="anchor" aria-hidden="true" href="#divide-the-path-into-segments"><span class="octicon octicon-link"></span></a>Divide the path into segments</h3>
 <p>Look back at your shape design and break it down into simpler elements of lines (for straight lines), arcs (for circles and round corners), and curves (for anything else).</p>
-
 <p>Here is what our example design would look like:</p>
-
-<p><a href="media/15036524793322/4mkcI.png"><img src="media/15036524793322/4mkcI.png" alt="enter image description here"/></a></p>
-
+<p><a href="media/15036524793322/4mkcI.png"><img src="media/15036524793322/4mkcI.png" alt="enter image description here" /></a></p>
 <ul>
 <li>Black are line segments</li>
 <li>Light blue are arc segments</li>
@@ -329,32 +381,24 @@ This will increase productivity while isolating code into self-contained UI elem
 <li>Dotted lines show the bounding rectangle</li>
 <li>Dark blue numbers are the segments in the order that they will be added programmatically</li>
 </ul>
-
-<h3 id="toc_4">Build the path programmatically</h3>
-
-<p>We&#39;ll arbitrarily start in the bottom left corner and work clockwise. I&#39;ll use the grid in the image to get the x and y values for the points. I&#39;ll hardcode everything here, but of course you wouldn&#39;t do that in a real project.</p>
-
+<h3><a id="build-the-path-programmatically" class="anchor" aria-hidden="true" href="#build-the-path-programmatically"><span class="octicon octicon-link"></span></a>Build the path programmatically</h3>
+<p>We'll arbitrarily start in the bottom left corner and work clockwise. I'll use the grid in the image to get the x and y values for the points. I'll hardcode everything here, but of course you wouldn't do that in a real project.</p>
 <p>The basic process is:</p>
-
 <ol>
 <li>Create a new <code>UIBezierPath</code></li>
 <li>Choose a starting point on the path with <code>moveToPoint</code></li>
-<li><p>Add segments to the path</p></li>
+<li>Add segments to the path</li>
 </ol>
-
 <ul>
 <li>line: <code>addLineToPoint</code></li>
 <li>arc: <code>addArcWithCenter</code></li>
-<li><p>curve: <code>addCurveToPoint</code></p></li>
+<li>curve: <code>addCurveToPoint</code></li>
 </ul>
-
 <ol>
 <li>Close the path with <code>closePath</code></li>
 </ol>
-
 <p>Here is the code to make the path in the image above.</p>
-
-<pre><code class="language-text">func createBezierPath() -&gt; UIBezierPath {
+<pre><code>func createBezierPath() -&gt; UIBezierPath {
 
     // create a new path
     let path = UIBezierPath()
@@ -423,18 +467,12 @@ This will increase productivity while isolating code into self-contained UI elem
     return path
 }
 </code></pre>
-
 <p>Note: Some of the above code can be reduced by adding a line and an arc in a single command (since the arc has an implied starting point). See <a href="http://ronnqvi.st/thinking-like-a-bzier-path/">here</a> for more details.</p>
-
-<h3 id="toc_5">Draw the path</h3>
-
+<h3><a id="draw-the-path" class="anchor" aria-hidden="true" href="#draw-the-path"><span class="octicon octicon-link"></span></a>Draw the path</h3>
 <p>We can draw the path either in a layer or in <code>drawRect</code>.</p>
-
 <p><strong>Method 1: Draw path in a layer</strong></p>
-
 <p>Our custom class looks like this. We add our Bezier path to a new <code>CAShapeLayer</code> when the view is initialized.</p>
-
-<pre><code class="language-text">import UIKit
+<pre><code>import UIKit
 class MyCustomView: UIView {
 
     override init(frame: CGRect) {
@@ -472,10 +510,8 @@ class MyCustomView: UIView {
     }
 }
 </code></pre>
-
 <p>And creating our view in the View Controller like this</p>
-
-<pre><code class="language-text">override func viewDidLoad() {
+<pre><code>override func viewDidLoad() {
     super.viewDidLoad()
 
     // create a new UIView and add it to the view controller
@@ -486,28 +522,19 @@ class MyCustomView: UIView {
 
 }
 </code></pre>
-
 <p>We get...</p>
-
-<p><a href="media/15036524793322/oELys.png"><img src="media/15036524793322/oELys.png" alt="enter image description here"/></a></p>
-
-<p>Hmm, that&#39;s a little small because I hardcoded all the numbers in. I can scale the path size up, though, like this:</p>
-
-<pre><code class="language-text">let path = createBezierPath()
+<p><a href="media/15036524793322/oELys.png"><img src="media/15036524793322/oELys.png" alt="enter image description here" /></a></p>
+<p>Hmm, that's a little small because I hardcoded all the numbers in. I can scale the path size up, though, like this:</p>
+<pre><code>let path = createBezierPath()
 let scale = CGAffineTransformMakeScale(2, 2)
 path.applyTransform(scale)
 shapeLayer.path = path.CGPath
 </code></pre>
-
-<p><a href="media/15036524793322/LXvPc.png"><img src="media/15036524793322/LXvPc.png" alt="enter image description here"/></a></p>
-
+<p><a href="media/15036524793322/LXvPc.png"><img src="media/15036524793322/LXvPc.png" alt="enter image description here" /></a></p>
 <p><strong>Method 2: Draw path in <code>drawRect</code></strong></p>
-
-<p>Using <code>drawRect</code> is slower than drawing to the layer, so this is not the recommended method if you don&#39;t need it.</p>
-
+<p>Using <code>drawRect</code> is slower than drawing to the layer, so this is not the recommended method if you don't need it.</p>
 <p>Here is the revised code for our custom view:</p>
-
-<pre><code class="language-text">import UIKit
+<pre><code>import UIKit
 class MyCustomView: UIView {
 
     override func drawRect(rect: CGRect) {
@@ -539,120 +566,82 @@ class MyCustomView: UIView {
     }
 }
 </code></pre>
-
 <p>which gives us the same result...</p>
-
-<p><a href="media/15036524793322/2hqMa.png"><img src="media/15036524793322/2hqMa.png" alt="enter image description here"/></a></p>
-
-<h3 id="toc_6">Further study</h3>
-
+<p><a href="media/15036524793322/2hqMa.png"><img src="media/15036524793322/2hqMa.png" alt="enter image description here" /></a></p>
+<h3><a id="further-study" class="anchor" aria-hidden="true" href="#further-study"><span class="octicon octicon-link"></span></a>Further study</h3>
 <p>Excellent articles for understanding Bezier paths.</p>
-
 <ul>
-<li><a href="http://ronnqvi.st/thinking-like-a-bzier-path/">Thinking like a Bézier path</a> (Everything I&#39;ve ever read from this author is good and the inspiration for my example above came from here.)</li>
+<li><a href="http://ronnqvi.st/thinking-like-a-bzier-path/">Thinking like a Bézier path</a> (Everything I've ever read from this author is good and the inspiration for my example above came from here.)</li>
 <li><a href="https://www.youtube.com/watch?v=dXECQRlmIaE">Coding Math: Episode 19 - Bezier Curves</a> (entertaining and good visual illustrations)</li>
 <li><a href="https://www.youtube.com/watch?v=Qu-QK3uoMdY">Bezier Curves</a> (how they are used in graphics applications)</li>
 <li><a href="https://www.youtube.com/watch?v=2HvH9cmHbG4">Bezier Curves</a> (good description of how the mathematical formulas are derived)</li>
 </ul>
-
-<h3 id="toc_7">Notes</h3>
-
+<h3><a id="notes" class="anchor" aria-hidden="true" href="#notes"><span class="octicon octicon-link"></span></a>Notes</h3>
 <ul>
 <li>This example originally comes from <a href="http://stackoverflow.com/a/34659468/3681880">this Stack Overflow answer</a>.</li>
-<li>In your actual projects you probably shouldn&#39;t use hard coded numbers, but rather get the sizes from your view&#39;s bounds.</li>
+<li>In your actual projects you probably shouldn't use hard coded numbers, but rather get the sizes from your view's bounds.</li>
 </ul>
-
-<hr/>
-
-<h2 id="toc_8"><a href="https://stackoverflow.com/documentation/ios/3186/uibezierpath/10890/how-to-apply-corner-radius-to-rectangles-drawn-by-uibezierpath">How to apply corner radius to rectangles drawn by UIBezierPath</a></h2>
-
+<hr />
+<h2><a id="how-to-apply-corner-radius-to-rectangles-drawn-by-uibezierpath-https-stackoverflow-comdocumentationios3186uibezierpath10890how-to-apply-corner-radius-to-rectangles-drawn-by-uibezierpath" class="anchor" aria-hidden="true" href="#how-to-apply-corner-radius-to-rectangles-drawn-by-uibezierpath-https-stackoverflow-comdocumentationios3186uibezierpath10890how-to-apply-corner-radius-to-rectangles-drawn-by-uibezierpath"><span class="octicon octicon-link"></span></a><a href="https://stackoverflow.com/documentation/ios/3186/uibezierpath/10890/how-to-apply-corner-radius-to-rectangles-drawn-by-uibezierpath">How to apply corner radius to rectangles drawn by UIBezierPath</a></h2>
 <p><em>Corner radius for all 4 edges:</em></p>
-
-<p><a href="media/15036524793322/O8qTg.png"><img src="media/15036524793322/O8qTg.png" alt="enter image description here"/></a></p>
-
-<pre><code class="language-text"> UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRoundedRect: CGRectMake(x,y,width,height) cornerRadius: 11];
+<p><a href="media/15036524793322/O8qTg.png"><img src="media/15036524793322/O8qTg.png" alt="enter image description here" /></a></p>
+<pre><code> UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRoundedRect: CGRectMake(x,y,width,height) cornerRadius: 11];
 [UIColor.grayColor setFill];
 [rectanglePath fill];
 </code></pre>
-
 <p><em>Corner radius for top-left edge:</em></p>
-
-<p><a href="media/15036524793322/OEOJa.png"><img src="media/15036524793322/OEOJa.png" alt="enter image description here"/></a></p>
-
-<pre><code class="language-text"> UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRoundedRect: CGRectMake(x,y,width,height) byRoundingCorners: UIRectCornerTopLeft cornerRadii: CGSizeMake(11, 11)];
+<p><a href="media/15036524793322/OEOJa.png"><img src="media/15036524793322/OEOJa.png" alt="enter image description here" /></a></p>
+<pre><code> UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRoundedRect: CGRectMake(x,y,width,height) byRoundingCorners: UIRectCornerTopLeft cornerRadii: CGSizeMake(11, 11)];
 [rectanglePath closePath];
 [UIColor.grayColor setFill];
 [rectanglePath fill];
 </code></pre>
-
 <p><em>Corner radius for top-right edge:</em></p>
-
-<p><a href="media/15036524793322/1xhp8.png"><img src="media/15036524793322/1xhp8.png" alt="enter image description here"/></a></p>
-
-<pre><code class="language-text">UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRoundedRect: CGRectMake(x,y,width,height) byRoundingCorners: UIRectCornerTopRight cornerRadii: CGSizeMake(11, 11)];
+<p><a href="media/15036524793322/1xhp8.png"><img src="media/15036524793322/1xhp8.png" alt="enter image description here" /></a></p>
+<pre><code>UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRoundedRect: CGRectMake(x,y,width,height) byRoundingCorners: UIRectCornerTopRight cornerRadii: CGSizeMake(11, 11)];
 [rectanglePath closePath];
 [UIColor.grayColor setFill];
 [rectanglePath fill];
 </code></pre>
-
 <p><em>corner radius for bottom-left edge:</em></p>
-
-<p><a href="media/15036524793322/yqd87.png"><img src="media/15036524793322/yqd87.png" alt="enter image description here"/></a></p>
-
-<pre><code class="language-text">UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRoundedRect: CGRectMake(x,y,width,height) byRoundingCorners: UIRectCornerBottomLeft cornerRadii: CGSizeMake(11, 11)];
+<p><a href="media/15036524793322/yqd87.png"><img src="media/15036524793322/yqd87.png" alt="enter image description here" /></a></p>
+<pre><code>UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRoundedRect: CGRectMake(x,y,width,height) byRoundingCorners: UIRectCornerBottomLeft cornerRadii: CGSizeMake(11, 11)];
 [rectanglePath closePath];
 [UIColor.grayColor setFill];
 [rectanglePath fill];
 </code></pre>
-
 <p><em>corner radius for bottom-right edge:</em></p>
-
-<p><a href="media/15036524793322/AIgP0.png"><img src="media/15036524793322/AIgP0.png" alt="enter image description here"/></a></p>
-
-<pre><code class="language-text"> UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRoundedRect: CGRectMake(x,y,width,height) byRoundingCorners: UIRectCornerBottomRight cornerRadii: CGSizeMake(11, 11)];
+<p><a href="media/15036524793322/AIgP0.png"><img src="media/15036524793322/AIgP0.png" alt="enter image description here" /></a></p>
+<pre><code> UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRoundedRect: CGRectMake(x,y,width,height) byRoundingCorners: UIRectCornerBottomRight cornerRadii: CGSizeMake(11, 11)];
 [rectanglePath closePath];
 [UIColor.grayColor setFill];
 [rectanglePath fill];
 </code></pre>
-
 <p><em>corner radius for bottom edges:</em></p>
-
-<p><a href="media/15036524793322/4BrrS.png"><img src="media/15036524793322/4BrrS.png" alt="enter image description here"/></a></p>
-
-<pre><code class="language-text">UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRoundedRect: CGRectMake(x,y,width,height) byRoundingCorners: UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii: CGSizeMake(11, 11)];
+<p><a href="media/15036524793322/4BrrS.png"><img src="media/15036524793322/4BrrS.png" alt="enter image description here" /></a></p>
+<pre><code>UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRoundedRect: CGRectMake(x,y,width,height) byRoundingCorners: UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii: CGSizeMake(11, 11)];
 [rectanglePath closePath];
 [UIColor.grayColor setFill];
 [rectanglePath fill];
 </code></pre>
-
 <p><em>corner radius for top edges:</em></p>
-
-<p><a href="media/15036524793322/lecWo.png"><img src="media/15036524793322/lecWo.png" alt="enter image description here"/></a></p>
-
-<pre><code class="language-text">UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRoundedRect: CGRectMake(x,y,width,height) byRoundingCorners: UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii: CGSizeMake(11, 11)];
+<p><a href="media/15036524793322/lecWo.png"><img src="media/15036524793322/lecWo.png" alt="enter image description here" /></a></p>
+<pre><code>UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRoundedRect: CGRectMake(x,y,width,height) byRoundingCorners: UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii: CGSizeMake(11, 11)];
 [rectanglePath closePath];
 [UIColor.grayColor setFill];
 [rectanglePath fill];
 </code></pre>
-
-<hr/>
-
-<h2 id="toc_9"><a href="https://stackoverflow.com/documentation/ios/3186/uibezierpath/10893/how-to-apply-shadows-to-uibezierpath">How to apply shadows to UIBezierPath</a></h2>
-
+<hr />
+<p>##<a href="https://stackoverflow.com/documentation/ios/3186/uibezierpath/10893/how-to-apply-shadows-to-uibezierpath">How to apply shadows to UIBezierPath</a></p>
 <p>Consider a simple rectangle that is drawn by the bezier path.</p>
-
-<p><a href="media/15036524793322/imDTW.png"><img src="media/15036524793322/imDTW.png" alt="enter image description here"/></a></p>
-
-<pre><code class="language-text"> UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRect: CGRectMake(x,y,width,height)];
+<p><a href="media/15036524793322/imDTW.png"><img src="media/15036524793322/imDTW.png" alt="enter image description here" /></a></p>
+<pre><code> UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRect: CGRectMake(x,y,width,height)];
  [UIColor.grayColor setFill];
  [rectanglePath fill];
 </code></pre>
-
 <p><em>Basic Outer-fill shadow:</em></p>
-
-<p><a href="media/15036524793322/mqiIV.png"><img src="media/15036524793322/mqiIV.png" alt="enter image description here"/></a></p>
-
-<pre><code class="language-text">CGContextRef context = UIGraphicsGetCurrentContext();
+<p><a href="media/15036524793322/mqiIV.png"><img src="media/15036524793322/mqiIV.png" alt="enter image description here" /></a></p>
+<pre><code>CGContextRef context = UIGraphicsGetCurrentContext();
 
 NSShadow* shadow = [[NSShadow alloc] init];
 [shadow setShadowColor: UIColor.blackColor];
@@ -666,12 +655,9 @@ CGContextSetShadowWithColor(context, shadow.shadowOffset, shadow.shadowBlurRadiu
 [rectanglePath fill];
 CGContextRestoreGState(context);
 </code></pre>
-
 <p><em>Basic Inner fill shadow:</em></p>
-
-<p><a href="media/15036524793322/C1rZk.png"><img src="media/15036524793322/C1rZk.png" alt="enter image description here"/></a></p>
-
-<pre><code class="language-text">CGContextRef context = UIGraphicsGetCurrentContext();
+<p><a href="media/15036524793322/C1rZk.png"><img src="media/15036524793322/C1rZk.png" alt="enter image description here" /></a></p>
+<pre><code>CGContextRef context = UIGraphicsGetCurrentContext();
 
 NSShadow* shadow = [[NSShadow alloc] init];
 [shadow setShadowColor: UIColor.blackColor];
@@ -702,68 +688,49 @@ CGContextBeginTransparencyLayer(context, NULL);
 CGContextEndTransparencyLayer(context);
 CGContextRestoreGState(context);
 </code></pre>
-
-<h2 id="toc_10"><a href="https://stackoverflow.com/documentation/ios/3186/uibezierpath/10891/how-to-create-a-simple-shapes-using-uibezierpath">How to create a simple shapes using UIBezierPath</a></h2>
-
-<p><em>For a simple circle:</em></p>
-
-<p><a href="media/15036524793322/ymoay.png"><img src="media/15036524793322/ymoay.png" alt="enter image description here"/></a></p>
-
-<pre><code class="language-text">UIBezierPath* ovalPath = [UIBezierPath bezierPathWithOvalInRect: CGRectMake(0,0,50,50)];
+<p>##<a href="https://stackoverflow.com/documentation/ios/3186/uibezierpath/10891/how-to-create-a-simple-shapes-using-uibezierpath">How to create a simple shapes using UIBezierPath</a><br />
+<em>For a simple circle:</em></p>
+<p><a href="media/15036524793322/ymoay.png"><img src="media/15036524793322/ymoay.png" alt="enter image description here" /></a></p>
+<pre><code>UIBezierPath* ovalPath = [UIBezierPath bezierPathWithOvalInRect: CGRectMake(0,0,50,50)];
 [UIColor.grayColor setFill];
 [ovalPath fill];
 </code></pre>
-
 <p>Swift:</p>
-
-<pre><code class="language-text">let ovalPath = UIBezierPath(ovalInRect: CGRect(x: 0, y: 0, width: 50, height: 50))
+<pre><code>let ovalPath = UIBezierPath(ovalInRect: CGRect(x: 0, y: 0, width: 50, height: 50))
 UIColor.grayColor().setFill()
 ovalPath.fill()
 </code></pre>
-
 <p><em>For a simple Rectangle:</em></p>
-
-<p><a href="media/15036524793322/C1GFH.png"><img src="media/15036524793322/C1GFH.png" alt="enter image description here"/></a></p>
-
-<pre><code class="language-text">UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRect: CGRectMake(0,0,50,50)];
+<p><a href="media/15036524793322/C1GFH.png"><img src="media/15036524793322/C1GFH.png" alt="enter image description here" /></a></p>
+<pre><code>UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRect: CGRectMake(0,0,50,50)];
 [UIColor.grayColor setFill];
 [rectanglePath fill];
 </code></pre>
-
 <p>Swift:</p>
-
-<pre><code class="language-text">let rectanglePath = UIBezierPath(rect: CGRect(x: 0, y: 0, width: 50, height: 50))
+<pre><code>let rectanglePath = UIBezierPath(rect: CGRect(x: 0, y: 0, width: 50, height: 50))
 UIColor.grayColor().setFill()
 rectanglePath.fill()
 </code></pre>
-
 <p><em>For a simple Line:</em></p>
-
-<p><a href="media/15036524793322/KIAOK.png"><img src="media/15036524793322/KIAOK.png" alt="enter image description here"/></a></p>
-
-<pre><code class="language-text">UIBezierPath* bezierPath = [UIBezierPath bezierPath];
+<p><a href="media/15036524793322/KIAOK.png"><img src="media/15036524793322/KIAOK.png" alt="enter image description here" /></a></p>
+<pre><code>UIBezierPath* bezierPath = [UIBezierPath bezierPath];
 [bezierPath moveToPoint: CGPointMake(x1,y1)];
 [bezierPath addLineToPoint: CGPointMake(x2,y2)];
 [UIColor.blackColor setStroke];
 bezierPath.lineWidth = 1;
 [bezierPath stroke];
 </code></pre>
-
 <p>Swift:</p>
-
-<pre><code class="language-text">let bezierPath = UIBezierPath()
+<pre><code>let bezierPath = UIBezierPath()
 bezierPath.moveToPoint(CGPoint(x: x1, y: y1))
 bezierPath.addLineToPoint(CGPoint(x: x2, y: y2))
 UIColor.blackColor().setStroke()
 bezierPath.lineWidth = 1
 bezierPath.stroke()
 </code></pre>
-
 <p><em>For a half circle:</em></p>
-
-<p><a href="media/15036524793322/3Nywj.png"><img src="media/15036524793322/3Nywj.png" alt="enter image description here"/></a></p>
-
-<pre><code class="language-text"> CGRect ovalRect = CGRectMake(x,y,width,height);
+<p><a href="media/15036524793322/3Nywj.png"><img src="media/15036524793322/3Nywj.png" alt="enter image description here" /></a></p>
+<pre><code> CGRect ovalRect = CGRectMake(x,y,width,height);
 UIBezierPath* ovalPath = [UIBezierPath bezierPath];
 [ovalPath addArcWithCenter: CGPointMake(0, 0) radius: CGRectGetWidth(ovalRect) / 2 startAngle: 180 * M_PI/180 endAngle: 0 * M_PI/180 clockwise: YES];
 [ovalPath addLineToPoint: CGPointMake(0, 0)];
@@ -776,10 +743,8 @@ ovalTransform = CGAffineTransformScale(ovalTransform, 1, CGRectGetHeight(ovalRec
 [UIColor.grayColor setFill];
 [ovalPath fill];
 </code></pre>
-
 <p>Swift:</p>
-
-<pre><code class="language-text">let ovalRect = CGRect(x: 0, y: 0, width: 50, height: 50)
+<pre><code>let ovalRect = CGRect(x: 0, y: 0, width: 50, height: 50)
 let ovalPath = UIBezierPath()
 ovalPath.addArcWithCenter(CGPoint.zero, radius: ovalRect.width / 2, startAngle: 180 * CGFloat(M_PI)/180, endAngle: 0 * CGFloat(M_PI)/180, clockwise: true)
 ovalPath.addLineToPoint(CGPoint.zero)
@@ -792,12 +757,9 @@ ovalPath.applyTransform(ovalTransform)
 UIColor.grayColor().setFill()
 ovalPath.fill()
 </code></pre>
-
 <p><em>For a simple triangle:</em></p>
-
-<p><a href="media/15036524793322/5r6IE.png"><img src="media/15036524793322/5r6IE.png" alt="enter image description here"/></a></p>
-
-<pre><code class="language-text">UIBezierPath* polygonPath = [UIBezierPath bezierPath];
+<p><a href="media/15036524793322/5r6IE.png"><img src="media/15036524793322/5r6IE.png" alt="enter image description here" /></a></p>
+<pre><code>UIBezierPath* polygonPath = [UIBezierPath bezierPath];
 [polygonPath moveToPoint: CGPointMake(x1, y1)];
 [polygonPath addLineToPoint: CGPointMake(x2, y2)];
 [polygonPath addLineToPoint: CGPointMake(x3, y2)];
@@ -805,10 +767,8 @@ ovalPath.fill()
 [UIColor.grayColor setFill];
 [polygonPath fill];
 </code></pre>
-
 <p>Swift:</p>
-
-<pre><code class="language-text">let polygonPath = UIBezierPath()
+<pre><code>let polygonPath = UIBezierPath()
 polygonPath.moveToPoint(CGPoint(x: x1, y: y1))
 polygonPath.addLineToPoint(CGPoint(x: x2, y: y2))
 polygonPath.addLineToPoint(CGPoint(x: x3, y: y3))
@@ -816,17 +776,13 @@ polygonPath.closePath()
 UIColor.grayColor().setFill()
 polygonPath.fill()
 </code></pre>
-
-<hr/>
-
-<h2 id="toc_11"><a href="https://stackoverflow.com/documentation/ios/3186/uibezierpath/18109/pie-view-column-view-with-uibezierpath">pie view &amp; column view with UIBezierPath</a></h2>
-
+<hr />
+<p>##<a href="https://stackoverflow.com/documentation/ios/3186/uibezierpath/18109/pie-view-column-view-with-uibezierpath">pie view &amp; column view with UIBezierPath</a></p>
 <ul>
-<li>pie view
-<img src="media/15036524793322/oh0DL.png" alt="pie view"/></li>
+<li>pie view<br />
+<img src="media/15036524793322/oh0DL.png" alt="pie view" /></li>
 </ul>
-
-<pre><code class="language-text">- (void)drawRect:(CGRect)rect {
+<pre><code>- (void)drawRect:(CGRect)rect {
 
     NSArray *data = @[@30, @15, @5, @17, @3, @10, @20];
 
@@ -891,13 +847,11 @@ override func draw(_ rect: CGRect) {
     }
   }
 </code></pre>
-
 <ul>
-<li>column view
-<img src="media/15036524793322/ayD5Y.png" alt="column view"/></li>
+<li>column view<br />
+<img src="media/15036524793322/ayD5Y.png" alt="column view" /></li>
 </ul>
-
-<pre><code class="language-text">- (void)drawRect:(CGRect)rect {
+<pre><code>- (void)drawRect:(CGRect)rect {
 
     NSArray *data = @[@300, @150.65, @55.3, @507.7, @95.8, @700, @650.65];
 
@@ -936,14 +890,10 @@ override func draw(_ rect: CGRect) {
     }
   }
 </code></pre>
-
-<hr/>
-
-<h2 id="toc_12"><a href="https://stackoverflow.com/documentation/ios/3186/uibezierpath/10892/uibezierpath-autolayout">UIBezierPath + AutoLayout</a></h2>
-
+<hr />
+<p>##<a href="https://stackoverflow.com/documentation/ios/3186/uibezierpath/10892/uibezierpath-autolayout">UIBezierPath + AutoLayout</a></p>
 <p>For bezier path to get resized based on the view frame, override the drawRect of view that you are drawing the bezier path :</p>
-
-<pre><code class="language-text">- (void)drawRect:(CGRect)frame
+<pre><code>- (void)drawRect:(CGRect)frame
 {
     UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRect: CGRectMake(CGRectGetMinX(frame), CGRectGetMinY(frame), CGRectGetWidth(frame), CGRectGetHeight(frame))];
     [UIColor.grayColor setFill];
@@ -969,20 +919,14 @@ override func draw(_ rect: CGRect) {
 		  	<blockquote>
 <p>由于Stack Overflow中Documentation将要关闭,所以我将部分内容转载至这里</p>
 </blockquote>
-
-<p>Grand Central Dispatch (GCD) is Apple&#39;s answer to multithreading. It is a lightweight framework for performing tasks synchronously or asynchronously in queues and handles CPU threads for you behind the scenes.</p>
-
-<h2 id="toc_0">Dispatch Semaphore</h2>
-
-<p><a href="https://stackoverflow.com/documentation/ios/4626/gcd-grand-central-dispatch/28284/dispatch-semaphore">Stack Overflow地址</a></p>
-
+<p>Grand Central Dispatch (GCD) is Apple's answer to multithreading. It is a lightweight framework for performing tasks synchronously or asynchronously in queues and handles CPU threads for you behind the scenes.</p>
+<p>##Dispatch Semaphore<br />
+<a href="https://stackoverflow.com/documentation/ios/4626/gcd-grand-central-dispatch/28284/dispatch-semaphore">Stack Overflow地址</a></p>
 <blockquote>
 <p>DispatchSemaphore provides an efficient implementation of a traditional counting semaphore, which can be used to control access to a resource across multiple execution contexts.</p>
 </blockquote>
-
 <p>A scenario for when to use a semaphore could be if you are doing some file reading/writing, if multiple tasks are trying to read and write from file at the same time, it could increase your performance to make each task wait its turn so as to not overburden the I/O controller.</p>
-
-<pre><code class="language-text">func do2TasksAtATime () {
+<pre><code>func do2TasksAtATime () {
     print(&quot;starting long running tasks (2 at a time)&quot;)
     let sem = DispatchSemaphore(value: 2)            //this semaphore only allows 2 tasks to run at the same time (the resource count)
     for i in 0...7 {                                 //launch a bunch of tasks
@@ -995,10 +939,8 @@ override func draw(_ rect: CGRect) {
     }
 }
 </code></pre>
-
 <p>Example output: (notice the time stamps)</p>
-
-<pre><code class="language-text">starting long running tasks (2 at a time)
+<pre><code>starting long running tasks (2 at a time)
 long task 0 done! 2017-02-16 07:11:53 +0000
 long task 1 done! 2017-02-16 07:11:53 +0000
 long task 2 done! 2017-02-16 07:11:55 +0000
@@ -1008,20 +950,14 @@ long task 4 done! 2017-02-16 07:11:57 +0000
 long task 6 done! 2017-02-16 07:11:59 +0000
 long task 7 done! 2017-02-16 07:11:59 +0000
 </code></pre>
-
-<h2 id="toc_1">Dispatch Group</h2>
-
-<p><a href="https://stackoverflow.com/documentation/ios/4626/gcd-grand-central-dispatch/28278/dispatch-group">Stack Overflow地址</a></p>
-
+<p>##Dispatch Group<br />
+<a href="https://stackoverflow.com/documentation/ios/4626/gcd-grand-central-dispatch/28278/dispatch-group">Stack Overflow地址</a></p>
 <blockquote>
 <p>DispatchGroup allows for aggregate synchronization of work. You can use them to submit multiple different work items and track when they all complete, even though they might run on different queues. This behavior can be helpful when progress can’t be made until all of the specified tasks are complete.</p>
 </blockquote>
-
 <p>A Scenario when this could be useful is if you have multiple webservice calls that all need to finish before continuing. For example, you need to download multiple sets of data that needs to be processed by some function. You have to wait for all webservices to complete before calling the function to process all the received data.</p>
-
 <p><strong>Swift 3</strong></p>
-
-<pre><code class="language-text">func doLongTasksAndWait () {
+<pre><code>func doLongTasksAndWait () {
     print(&quot;starting long running tasks&quot;)
     let group = DispatchGroup()          //create a group for a bunch of tasks we are about to do
     for i in 0...3 {                     //launch a bunch of tasks (eg a bunch of webservice calls that all need to be finished before proceeding to the next ViewController)
@@ -1036,30 +972,23 @@ long task 7 done! 2017-02-16 07:11:59 +0000
     print(&quot;all tasks done!&quot;)
 }
 </code></pre>
-
 <p>Alternatively, if you do not want to wait for the groups to finish, but instead want to run a function once all the tasks have completed, use the <code>notify</code> function in place of the <code>group.wait()</code></p>
-
-<pre><code class="language-text">group.notify(queue: DispatchQueue.main) { //the queue: parameter is which queue this block will run on, if you need to do UI updates, use the main queue
+<pre><code>group.notify(queue: DispatchQueue.main) { //the queue: parameter is which queue this block will run on, if you need to do UI updates, use the main queue
     print(&quot;all tasks done!&quot;)              //this will execute when all tasks have left the group
 }
 </code></pre>
-
 <p>Example output:</p>
-
-<pre><code class="language-text">starting long running tasks
+<pre><code>starting long running tasks
 long task 0 done!
 long task 3 done!
 long task 1 done!
 long task 2 done!
 all tasks done!
 </code></pre>
-
-<h2 id="toc_2">Serial vs Concurrent Dispatch Queues</h2>
-
-<p><a href="https://stackoverflow.com/documentation/ios/4626/gcd-grand-central-dispatch/28286/serial-vs-concurrent-dispatch-queues">Stack Overflow地址</a><br/>
+<p>##Serial vs Concurrent Dispatch Queues</p>
+<p><a href="https://stackoverflow.com/documentation/ios/4626/gcd-grand-central-dispatch/28286/serial-vs-concurrent-dispatch-queues">Stack Overflow地址</a><br />
 <strong>Serial Queue</strong></p>
-
-<pre><code class="language-text">func serialQueues () {
+<pre><code>func serialQueues () {
     let serialQueue = DispatchQueue(label: &quot;com.example.serial&quot;) //default queue type is a serial queue
     let start = Date ()
     for i in 0...3 {                                             //launch a bunch of tasks
@@ -1071,18 +1000,14 @@ all tasks done!
     }
 }
 </code></pre>
-
 <p>Example output:</p>
-
-<pre><code class="language-text">serial long task 0 done! total time taken: 2.07241100072861
+<pre><code>serial long task 0 done! total time taken: 2.07241100072861
 serial long task 1 done! total time taken: 4.16347700357437
 serial long task 2 done! total time taken: 6.23209798336029
 serial long task 3 done! total time taken: 8.30682599544525
 </code></pre>
-
 <p><strong>Concurrent Queue</strong></p>
-
-<pre><code class="language-text">func concurrentQueues () {
+<pre><code>func concurrentQueues () {
     let concurrentQueue = DispatchQueue(label: &quot;com.example.concurrent&quot;, attributes: .concurrent) //explicitly specify the queue to be a concurrent queue
     let start = Date ()
     for i in 0...3 {            //launch a bunch of tasks
@@ -1094,19 +1019,14 @@ serial long task 3 done! total time taken: 8.30682599544525
     }
 }
 </code></pre>
-
 <p>Example output:</p>
-
-<pre><code class="language-text">concurrent long task 3 done! total time taken: 2.07092100381851
+<pre><code>concurrent long task 3 done! total time taken: 2.07092100381851
 concurrent long task 0 done! total time taken: 2.07087397575378
 concurrent long task 2 done! total time taken: 2.07086700201035
 concurrent long task 1 done! total time taken: 2.07089096307755
 </code></pre>
-
 <p><strong>Discussion</strong></p>
-
 <p>As we can see from the examples above, a serial queue will complete each task in the order they are submitted to the queue. Each task will wait for the previous task to finish before executing. As for the concurrent queue, each task does not wait on the others in the queue and executes as soon as possible; the advantage is that all tasks on the queue will run at the same time on separate threads, making a concurrent queue take less time than a serial queue.</p>
-
 <p>If order of execution of tasks is not important, always use a concurrent queue for the best efficiency.</p>
 
 
@@ -1214,6 +1134,12 @@ concurrent long task 1 done! total time taken: 2.07089096307755
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -1233,12 +1159,6 @@ concurrent long task 1 done! total time taken: 2.07089096307755
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

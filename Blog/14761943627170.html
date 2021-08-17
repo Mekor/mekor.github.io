@@ -82,57 +82,35 @@ $(document).ready(function(event) {
 			 </header>
 		  	<div class="entry-content">
 			  	<p>错误信息:</p>
-
 <blockquote>
 <p>Project ERROR: Xcode not set up properly. You may need to confirm the license agreement by running /usr/bin/xcodebuild.</p>
 </blockquote>
-
-<p>解决办法:<br/>
+<p>解决办法:<br />
 <strong>&gt;= Xcode 8</strong></p>
-
 <p>In Xcode 8, as Bruce said, this happens when Qt tries to find <code>xcrun</code> when it should be looking for <code>xcodebuild</code>.</p>
-
 <p><strong>Step 1:</strong></p>
-
 <p>Open the file:</p>
-
-<pre><code class="language-text">Qt_install_folder/5.7/clang_64/mkspecs/features/mac/default_pre.prf
+<pre><code>Qt_install_folder/5.7/clang_64/mkspecs/features/mac/default_pre.prf
 </code></pre>
-
 <p><strong>Step 2:</strong></p>
-
 <p>Replace:</p>
-
-<pre><code class="language-text">isEmpty($$list($$system(&quot;/usr/bin/xcrun -find xcrun 2&gt;/dev/null&quot;)))
+<pre><code>isEmpty($$list($$system(&quot;/usr/bin/xcrun -find xcrun 2&gt;/dev/null&quot;)))
 </code></pre>
-
 <p>With:</p>
-
-<pre><code class="language-text">isEmpty($$list($$system(&quot;/usr/bin/xcrun -find xcodebuild 2&gt;/dev/null&quot;)))
+<pre><code>isEmpty($$list($$system(&quot;/usr/bin/xcrun -find xcodebuild 2&gt;/dev/null&quot;)))
 </code></pre>
-
 <p><strong>~&gt; Xcode 8</strong></p>
-
 <p>Before Xcode 8, this problem occurs when command line tools are installed after Xcode is installed. What happens is the <code>Xcode-select</code> developer directory gets pointed to <code>/Library/Developer/CommandLineTools</code>.</p>
-
 <p><strong>Step 1:</strong></p>
-
 <p>Point <code>Xcode-select</code> to the correct Xcode Developer directory with the command:</p>
-
-<pre><code class="language-text">sudo xcode-select -switch /Applications/Xcode.app/Contents/Developer
+<pre><code>sudo xcode-select -switch /Applications/Xcode.app/Contents/Developer
 </code></pre>
-
 <p><strong>Step 2:</strong></p>
-
 <p>Confirm the license agreement with the command:</p>
-
-<pre><code class="language-text">xcodebuild -license
+<pre><code>xcodebuild -license
 </code></pre>
-
 <p>This will prompt you to read through the license agreement.</p>
-
 <p>Enter <code>agree</code> to accept the terms.</p>
-
 <p>详见stackoverflow 中 <a href="http://stackoverflow.com/questions/33728905/qt-creator-project-error-xcode-not-set-up-properly-you-may-need-to-confirm-t">Qt Creator - Project ERROR: Xcode not set up properly. You may need to confirm the license agreement by running /usr/bin/xcodebuild</a></p>
 
 			</div>
@@ -265,6 +243,12 @@ $(document).ready(function(event) {
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -284,12 +268,6 @@ $(document).ready(function(event) {
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

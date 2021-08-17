@@ -82,27 +82,20 @@ $(document).ready(function(event) {
 			 </header>
 		  	<div class="entry-content">
 			  	<p>项目中如果显示图片比较多,会遇到内存涨的比较厉害,项目中用到 SDWebImage, 所以可以很简单的让内存缓存变稳定:</p>
-
-<pre><code class="language-text">-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+<pre><code>-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
     [[SDImageCache sharedImageCache] clearMemory];
 }
 </code></pre>
-
 <p>原理:</p>
-
-<pre><code class="language-text">- (void)clearMemory {
+<pre><code>- (void)clearMemory {
     [self.memCache removeAllObjects];
 }
 </code></pre>
-
 <p>_memCache 是 NSCache 类型的,</p>
-
-<p>没有做任何操作的时候大概是这个样子的<br/>
-<img src="media/14752152861722/14752174866625.jpg" alt=""/></p>
-
-<p>添加clearMemory后:<br/>
-<img src="media/14752152861722/14752177858503.jpg" alt=""/></p>
-
+<p>没有做任何操作的时候大概是这个样子的<br />
+<img src="media/14752152861722/14752174866625.jpg" alt="" /></p>
+<p>添加clearMemory后:<br />
+<img src="media/14752152861722/14752177858503.jpg" alt="" /></p>
 <p>这也是为什么滚动后屏幕上还显示图片的原因.</p>
 
 			</div>
@@ -235,6 +228,12 @@ $(document).ready(function(event) {
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -254,12 +253,6 @@ $(document).ready(function(event) {
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

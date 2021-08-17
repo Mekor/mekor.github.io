@@ -81,13 +81,11 @@ $(document).ready(function(event) {
 				<p class="meta"><time datetime="2017-11-09T11:05:45+08:00" pubdate data-updated="true">2017/11/9</time></p>
 			 </header>
 		  	<div class="entry-content">
-			  	<p>首先: <code>swift</code> 与 <code>C</code> 兼容不如 <code>OC</code> </p>
-
+			  	<p>首先: <code>swift</code> 与 <code>C</code> 兼容不如 <code>OC</code></p>
 <ol>
 <li>生成<code>CFRunLoopObserverContext</code>比<code>OC</code>艰难好多...</li>
 </ol>
-
-<pre><code class="language-text">func addRunloopObserver() {
+<pre><code>func addRunloopObserver() {
         autoreleasepool {
             guard let runloop = CFRunLoopGetCurrent() else {return}
             let unmanaged = Unmanaged.passRetained(self)
@@ -99,14 +97,11 @@ $(document).ready(function(event) {
         }
     }
 </code></pre>
-
 <p>注意 content ,真是比OC复杂啊</p>
-
-<ol>
+<ol start="2">
 <li>强转也变了...</li>
 </ol>
-
-<pre><code class="language-text">func observerCallbackFunc() -&gt; CFRunLoopObserverCallBack {
+<pre><code>func observerCallbackFunc() -&gt; CFRunLoopObserverCallBack {
         
         return {(observer, activity, context) -&gt; Void in
             guard let context = context else {
@@ -257,6 +252,12 @@ $(document).ready(function(event) {
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -276,12 +277,6 @@ $(document).ready(function(event) {
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

@@ -82,21 +82,17 @@ $(document).ready(function(event) {
 			 </header>
 		  	<div class="entry-content">
 			  	<p>最近看到B站上有人写代码没有定义log(<code>private final Logger log = LoggerFactory.getLogger(XXX.class);</code>)就能直接用<code>log</code></p>
-
 <p>查了下可能的方案:</p>
-
 <ol>
 <li>pom引入 <code>lombok</code></li>
 </ol>
-
-<pre><code class="language-text">            &lt;dependency&gt;
+<pre><code>            &lt;dependency&gt;
                 &lt;groupId&gt;org.projectlombok&lt;/groupId&gt;
                 &lt;artifactId&gt;lombok&lt;/artifactId&gt;
                 &lt;version&gt;${lombok.version}&lt;/version&gt;
                 &lt;optional&gt;true&lt;/optional&gt;
             &lt;/dependency&gt;
 </code></pre>
-
 <ol>
 <li>在目标类上添加<code>@Slf4j</code>注解</li>
 <li>然后直接在方法中使用<code>log.info(&quot;*****插入结果：&quot;+result);</code></li>
@@ -233,6 +229,12 @@ $(document).ready(function(event) {
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -252,12 +254,6 @@ $(document).ready(function(event) {
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

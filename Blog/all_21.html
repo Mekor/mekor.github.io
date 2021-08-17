@@ -78,22 +78,88 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14781433227076.html">获取当前显示的UIViewController</a></h1>
+			<p class="meta"><time datetime="2016-11-03T11:22:02+08:00" 
+			pubdate data-updated="true">2016/11/3</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<pre><code>+ (UIViewController *)getCurrentRootViewController {
+
+    CommonTool *tool = [[CommonTool alloc]init];
+
+    UIViewController *result;
+    UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
+
+    if (topWindow.windowLevel != UIWindowLevelNormal){
+        NSArray *windows = [[UIApplication sharedApplication] windows];
+        for(topWindow in windows){
+            if (topWindow.windowLevel == UIWindowLevelNormal)
+                break;
+        }
+    }
+
+    UIView *rootView = [topWindow subviews].firstObject;
+    id nextResponder = [rootView nextResponder];
+
+    if ([nextResponder isMemberOfClass:[UIViewController class]]){
+        result = nextResponder;
+    }
+    else if ([nextResponder isMemberOfClass:[UITabBarController class]] | [nextResponder isMemberOfClass:[UINavigationController class]]){
+        result = [tool findViewController:nextResponder];
+    }
+    else if ([topWindow respondsToSelector:@selector(rootViewController)] &amp;&amp; topWindow.rootViewController != nil){
+        result = topWindow.rootViewController;
+    }
+
+    else{
+        NSAssert(NO, @&quot;找不到顶端VC&quot;);
+    }
+    return result;
+}
+
+</code></pre>
+<pre><code>- (UIViewController *)findViewController:(id)controller{
+    if ([controller isMemberOfClass:[UINavigationController class]]) {
+        return [self findViewController:[(UINavigationController *)controller visibleViewController]];
+    }
+    else if ([controller isMemberOfClass:[UITabBarController class]]){
+        return [self findViewController:[(UITabBarController *)controller selectedViewController]];
+    }
+    else if ([controller isKindOfClass:[UIViewController class]]){
+        return controller;
+    }
+    else{
+        NSAssert(NO, @&quot;找不到顶端VC&quot;);
+        return nil;
+    }
+}
+
+</code></pre>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14778331858080.html">如何获取手机上安装的所有App</a></h1>
 			<p class="meta"><time datetime="2016-10-30T21:13:05+08:00" 
 			pubdate data-updated="true">2016/10/30</time></p>
 		 </header>
 	  	<div class="entry-content">
 		  	
-		  	<pre><code class="language-text">#include &lt;objc/runtime.h&gt; 
+		  	<pre><code>#include &lt;objc/runtime.h&gt; 
 
 Class LSApplicationWorkspace_class = objc_getClass(&quot;LSApplicationWorkspace&quot;);
 NSObject* workspace = [LSApplicationWorkspace_class performSelector:@selector(defaultWorkspace)];
 NSLog(@&quot;apps: %@&quot;, [workspace performSelector:@selector(allApplications)]);
 </code></pre>
-
 <p>模拟器打印结果:</p>
-
-<pre><code class="language-text">apps: (
+<pre><code>apps: (
     &quot;&lt;LSApplicationProxy: 0x7fbd34603da0&gt; com.apple.appleaccount.AACredentialRecoveryDialog file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/AACredentialRecoveryDialog.app &lt;com.apple.appleaccount.AACredentialRecoveryDialog &lt;installed &gt;&gt;&quot;,
     &quot;&lt;LSApplicationProxy: 0x7fbd383073a0&gt; com.apple.AccountAuthenticationDialog file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/AccountAuthenticationDialog.app &lt;com.apple.AccountAuthenticationDialog &lt;installed &gt;&gt;&quot;,
     &quot;&lt;LSApplicationProxy: 0x7fbd38308a00&gt; com.apple.AdSheetPhone file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/AdSheet.app &lt;com.apple.AdSheetPhone &lt;installed &gt;&gt;&quot;,
@@ -148,8 +214,7 @@ NSLog(@&quot;apps: %@&quot;, [workspace performSelector:@selector(allApplication
 )
 
 </code></pre>
-
-<p>动态调用加上简单的混淆应该就可以了<br/>
+<p>动态调用加上简单的混淆应该就可以了<br />
 上架要自己拼接字符串绕过审查</p>
 
 
@@ -170,16 +235,12 @@ NSLog(@&quot;apps: %@&quot;, [workspace performSelector:@selector(allApplication
 		  	<blockquote>
 <p>NSCountedSet这个一直没有用过,看到其他人使用在此记录下.</p>
 </blockquote>
-
 <p>计算老虎机中奖等级的问题：老虎机有四列，每列四个图案，如果四个相同就是等级1，三个相同就是等级2，以此类推。说是用<code>if else</code>太麻烦，有没有什么比较快捷的方法，首先想到的是用KVC中剔除重复数据的办法。比如：</p>
-
-<pre><code class="language-text">NSArray *array = @[@2, @2, @2, @1];
+<pre><code>NSArray *array = @[@2, @2, @2, @1];
 NSLog(@&quot;%@&quot;, [array valueForKeyPath:@&quot;@distinctUnionOfObjects.self&quot;]);
 </code></pre>
-
 <p>然后得到数组的个数为2，看起来很合理，如果数组是<code>NSArray *array = @[@2, @1, @2, @1];</code>这时候计算出来的数组个数是也是2，但是正确结果应该是等级3，后来突然想起一个类:NSCountedSet</p>
-
-<pre><code class="language-text">    NSArray *array = @[@1, @2, @2, @1];
+<pre><code>    NSArray *array = @[@1, @2, @2, @1];
     NSCountedSet *set = [[NSCountedSet alloc]initWithArray:array];
 
     [set enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
@@ -187,8 +248,7 @@ NSLog(@&quot;%@&quot;, [array valueForKeyPath:@&quot;@distinctUnionOfObjects.sel
     }];
 
 </code></pre>
-
-<pre><code class="language-text">1 =&gt; 2
+<pre><code>1 =&gt; 2
 2 =&gt; 2
 </code></pre>
 
@@ -210,36 +270,25 @@ NSLog(@&quot;%@&quot;, [array valueForKeyPath:@&quot;@distinctUnionOfObjects.sel
 		  	<blockquote>
 <p>如果Xcode8下无法正常使用Qt,解决办法参见:<a href="http://www.citynight.cn/Blog/14761943627170.html">http://www.citynight.cn/Blog/14761943627170.html</a></p>
 </blockquote>
-
-<p>最终实现的效果:<br/>
-<img src="media/14771170894039/14771178501064.jpg" alt=""/></p>
-
-<p><img src="media/14771170894039/14771179340151.jpg" alt=""/></p>
-
-<p>选择桌面应用程序<br/>
-<img src="media/14771170894039/14771179611437.jpg" alt=""/></p>
-
-<p><img src="media/14771170894039/14771180181773.jpg" alt=""/></p>
-
+<p>最终实现的效果:<br />
+<img src="media/14771170894039/14771178501064.jpg" alt="" /></p>
+<p><img src="media/14771170894039/14771179340151.jpg" alt="" /></p>
+<p>选择桌面应用程序<br />
+<img src="media/14771170894039/14771179611437.jpg" alt="" /></p>
+<p><img src="media/14771170894039/14771180181773.jpg" alt="" /></p>
 <p>OK,现在项目创建好了....接下来就是写代码了...</p>
-
-<p><img src="media/14771170894039/14771173227361.jpg" alt=""/></p>
-
-<p>然后在<code>mainwindow.cpp</code>文件中编写代码:<br/>
+<p><img src="media/14771170894039/14771173227361.jpg" alt="" /></p>
+<p>然后在<code>mainwindow.cpp</code>文件中编写代码:<br />
 引入需要的头文件</p>
-
-<pre><code class="language-text">#include &lt;QPainter&gt;
+<pre><code>#include &lt;QPainter&gt;
 #include &lt;QPen&gt;
 #include &lt;math.h&gt;
 </code></pre>
-
 <p>在<code>MainWindow</code>中设置窗口位置</p>
-
-<pre><code class="language-text">    // 设置在桌面上显示的位置&amp;大小
+<pre><code>    // 设置在桌面上显示的位置&amp;大小
     this-&gt;setGeometry(600,300,600,300);
 </code></pre>
-
-<pre><code class="language-text">void MainWindow::paintEvent(QPaintEvent *e){
+<pre><code>void MainWindow::paintEvent(QPaintEvent *e){
         // 定义画笔
         QPainter painter(this);
 
@@ -282,7 +331,6 @@ NSLog(@&quot;%@&quot;, [array valueForKeyPath:@&quot;@distinctUnionOfObjects.sel
         painter.drawPolyline(pVector);
 }
 </code></pre>
-
 <p>开心的run下吧..</p>
 
 
@@ -303,149 +351,38 @@ NSLog(@&quot;%@&quot;, [array valueForKeyPath:@&quot;@distinctUnionOfObjects.sel
 		  	<blockquote>
 <p><a href="https://github.com/facebook/chisel">https://github.com/facebook/chisel</a> 英文版使用说明</p>
 </blockquote>
-
-<h2 id="toc_0">安装</h2>
-
+<p>##安装</p>
 <ol>
 <li>安装 <a href="http://brew.sh/index_zh-cn.html">Homebrew</a> (如果已经安装了,可以跳过这一步)</li>
 </ol>
-
-<pre><code class="language-text">/usr/bin/ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;
+<pre><code>/usr/bin/ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;
 </code></pre>
-
-<ol>
+<ol start="2">
 <li>更新 Homebrew (如果已经最新了,可以跳过这一步)</li>
 </ol>
-
-<pre><code class="language-text">brew update
+<pre><code>brew update
 </code></pre>
-
-<ol>
+<ol start="3">
 <li>通过 Homebrew 安装 chisel</li>
 </ol>
-
-<pre><code class="language-text">brew install chisel
+<pre><code>brew install chisel
 </code></pre>
-
-<ol>
+<ol start="4">
 <li>添加 chisel 命令至 ~/.lldbinit</li>
 </ol>
-
-<pre><code class="language-text">touch ~/.lldbinit echo &quot;command script import /usr/local/opt/chisel/libexec/fblldb.py&quot; &gt;&gt; ~/.lldbinit
+<pre><code>touch ~/.lldbinit echo &quot;command script import /usr/local/opt/chisel/libexec/fblldb.py&quot; &gt;&gt; ~/.lldbinit
 </code></pre>
-
-<ol>
+<ol start="5">
 <li>更新 chisel</li>
 </ol>
-
-<pre><code class="language-text">brew upgrade chisel
+<pre><code>brew upgrade chisel
 </code></pre>
-
-<h2 id="toc_1">使用</h2>
-
+<p>##使用</p>
 <ol>
 <li>通过 <code>pviews</code> 命令直接查看页面层级关系</li>
 </ol>
-
-<hr/>
-
-<p>未完... </p>
-
-
-		</div>
-
-		
-
-	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14766308131126.html">UITableView优化方案(收集)</a></h1>
-			<p class="meta"><time datetime="2016-10-16T23:13:33+08:00" 
-			pubdate data-updated="true">2016/10/16</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<h2 id="toc_0">相关文章/博客</h2>
-
-<p><a href="http://www.cocoachina.com/ios/20150906/13212.html">一次 TableView 性能优化经历</a><br/>
-<a href="http://blog.jobbole.com/37984/">iOS应用性能调优的25个建议和技巧</a><br/>
-<a href="http://longxdragon.github.io/2015/05/26/UITableView%E4%BC%98%E5%8C%96%E6%8A%80%E5%B7%A7/">UITableView优化技巧</a><br/>
-<a href="http://blog.csdn.net/shang_ri_la/article/details/25954383">UITableView 滚动流畅性优化</a> (备注:这个原始网站挂了,幸好有朋友转载过.)</p>
-
-<h2 id="toc_1">注意点:</h2>
-
-<h4 id="toc_2">1. 列表卡顿问题最好真机测试，有条件的尽量选择低版本硬件和系统进行测试；</h4>
-
-<h4 id="toc_3">2. 使用 Instruments 的 Time Profiler 工具定位造成卡顿时间消耗的位置；</h4>
-
-<h4 id="toc_4">3. 避免 UITableView 的多次刷新( reloadData )，尤其 Xib 加载 UITableView 时避免首次自动加载；</h4>
-
-<h4 id="toc_5">4. 为 Cell 专门定义显示 Model；</h4>
-
-<h4 id="toc_6">5. Model 需要包含已提前计算出的 Cell 高度；</h4>
-
-<h4 id="toc_7">6. 对于显示的 NSString，提前在 Model 中组装完成，避免在 Cell 中组装转换；</h4>
-
-<h4 id="toc_8">7. 对于需要加载的网络图片链接，提前在 Model 中组装完成 NSURL,避免在 Cell 中组装转换；</h4>
-
-<h4 id="toc_9">8. 尽量减少 Cell 中的逻辑判断和运算并使用正确的数据格式;</h4>
-
-<h4 id="toc_10">9. 避免在 Cell 中反复创建 View,最好在初始化时一并创建，通过设置 Hidden 属性控制显示和隐藏;</h4>
-
-<h4 id="toc_11">10. 对于 UIImageView ,注意加载的图片大小是否与控件大小一致，尽量保持一致；</h4>
-
-<h4 id="toc_12">11. 正确使用 reuseIdentifier</h4>
-
-<pre><code class="language-text">static NSString *CellIdentifier = @&quot;MyFancyCell&quot;;
-UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-
-</code></pre>
-
-<h4 id="toc_13">12. 尽量把所有的 UIView 以及其子类控件设置为不透明（Opaque = YES）,你可以在模拟器中用Debug\Color Blended Layers选项来发现哪些view没有被设置为opaque。目标就是，能设为opaque的就全设为opaque!</h4>
-
-<h4 id="toc_14">13. 尽量避免图片压缩，模拟器条件下使用 Debug\Color Misaligned Images 选项检查像素是否对其:如果图片边界没有与目标像素完美对齐，该功能可为图片叠加上一层品红色。如果图片使用确定的比例大小绘制，那么该功能会为图片添加一层黄色叠加。真机条件下使用 Instrument 中的 Core Animation 工具检查；</h4>
-
-<h4 id="toc_15">14. 使用 shadowPath 来画阴影;</h4>
-
-<pre><code class="language-text">#import &lt;QuartzCore/QuartzCore.h&gt;
-
-// Somewhere later ...
-UIView *view = [[UIView alloc] init];
-
-// Setup the shadow ...
-view.layer.shadowOffset = CGSizeMake(-1.0f, 1.0f);
-view.layer.shadowRadius = 5.0f;
-view.layer.shadowOpacity = 0.6;
-</code></pre>
-
-<h4 id="toc_16">15. 减少 subviews 的数量;</h4>
-
-<h4 id="toc_17">16. 尽量不使用 cellForRowAtIndexPath: ，如果你需要用到它，只用一次然后缓存结果；</h4>
-
-<h4 id="toc_18">17. 使用 Autorelease Pool；</h4>
-
-<pre><code class="language-text">NSArray *urls = &lt;# An array of file URLs #&gt;;
-for (NSURL *url in urls) {
-    @autoreleasepool {
-        NSError *error;
-        NSString *fileContents = [NSString stringWithContentsOfURL:url
-                                         encoding:NSUTF8StringEncoding error:&amp;error];
-    }
-}
-</code></pre>
-
-<h4 id="toc_19">18. 选择是否需要缓存；</h4>
-
-<pre><code class="language-text">UIImage *img = [UIImage imageNamed:@&quot;myImage&quot;]; // caching
-
-// or
- UIImage *img = [UIImage imageWithContentsOfFile:@&quot;myImage&quot;]; // no caching
-</code></pre>
-
-<p>如果你要加载一个大图片而且是一次性使用，那么就没必要缓存这个图片，用 imageWithContentsOfFile 足矣，这样不会浪费内存来缓存它。然而，在图片反复重用的情况下 imageNamed 是一个好得多的选择。</p>
-
-<h4 id="toc_20">19. 避免日期格式转换；相关日期显示应该在 Model 中定义完成。</h4>
+<hr />
+<p>未完...</p>
 
 
 		</div>
@@ -552,6 +489,12 @@ for (NSURL *url in urls) {
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -571,12 +514,6 @@ for (NSURL *url in urls) {
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

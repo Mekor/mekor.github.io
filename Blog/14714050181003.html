@@ -84,20 +84,13 @@ $(document).ready(function(event) {
 			  	<blockquote>
 <p>来源：<a href="http://www.jianshu.com/p/742b4b248da9">Sindri的小巢</a></p>
 </blockquote>
-
 <p><strong>前言</strong></p>
-
 <p>在iOS开发中，苹果提供了许多机制给我们进行回调。KVO(key-value-observing)是一种十分有趣的回调机制，在某个对象注册监听者后，在被监听的对象发生改变时，对象会发送一个通知给监听者，以便监听者执行回调操作。最常见的KVO运用是监听scrollView的contentOffset属性，来完成用户滚动时动态改变某些控件的属性实现效果，包括渐变导航栏、下拉刷新控件等效果。</p>
-
-<p><img src="http://mmbiz.qpic.cn/mmbiz/foPACGrddJ2RICbWq0ibOxfFDmygDGicuRRjLKzYTqMibXMxTiaNXIdeRT6s0aalp1ibbib7BxAYqUyPhHd1iahRY45uQ/0?wx_fmt=gif&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt="" title="1450081725511768.gif"/></p>
-
+<p><img src="http://mmbiz.qpic.cn/mmbiz/foPACGrddJ2RICbWq0ibOxfFDmygDGicuRRjLKzYTqMibXMxTiaNXIdeRT6s0aalp1ibbib7BxAYqUyPhHd1iahRY45uQ/0?wx_fmt=gif&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt="" title="1450081725511768.gif" /></p>
 <p>渐变导航栏</p>
-
 <p><strong>使用</strong></p>
-
 <p>KVO的使用非常简单，使用KVO的要求是对象必须能支持kvc机制——所有NSObject的子类都支持这个机制。拿上面的渐变导航栏做??，我们为tableView添加了一个监听者controller，在我们滑动列表的时候，会计算当前列表的滚动偏移量，然后改变导航栏的背景色透明度。</p>
-
-<pre><code class="language-text">//添加监听者
+<pre><code>//添加监听者
 [self.tableView addObserver: self forKeyPath: @&quot;contentOffset&quot; options: NSKeyValueObservingOptionNew context: nil];
 /**
  * 监听属性值发生改变时回调
@@ -110,32 +103,22 @@ $(document).ready(function(event) {
     [self alphaNavController].barAlpha = MIN(1, delta);
 }
 </code></pre>
-
 <p>毫无疑问，kvo是一种非常便捷的回调方式，但是编译器是怎么完成监听这个任务的呢？先来看看苹果文档对于KVO的实现描述</p>
-
 <blockquote>
 <p>Automatic key-value observing is implemented using a technique called isa-swizzling... When an observer is registered for an attribute of an object the isa pointer of the observed object is modified, pointing to an intermediate class rather than at the true class ..</p>
 </blockquote>
-
 <p>简要的来说，在我们对某个对象完成监听的注册后，编译器会修改监听对象（上文中的tableView）的isa指针，让这个指针指向一个新生成的中间类。从某个意义上来说，这是一场骗局。</p>
-
-<pre><code class="language-text">typedef struct objc_class *Class;
+<pre><code>typedef struct objc_class *Class;
 typedef struct objc_object {
     Class isa;
 } *id;
 </code></pre>
-
 <p>这里要说明的是isa这个指针，isa是一个Class类型的指针，用来指向类的类型，我们可以通过object_getClass方法来获取这个值(正常来说，class方法内部的实现就是获取这个isa指针，但是在kvo中苹果对监听对象的这个方法进行了重写。之前这里描述有误，说成是指向父类，多谢<a href="http://www.jianshu.com/users/1498e495a4b1/timeline">夏都</a>为我纠正)。</p>
-
 <p>在oc中，规定了只要拥有isa指针的变量，通通都属于对象。上面的objc_object表示的是NSObject这个类的结构体表示，因此oc不允许出现非NSObject子类的对象（block是一个特殊的例外）</p>
-
 <p>当然了，苹果并不想讲述更多的实现细节，但是我们可以通过运行时机制来完成一些有趣的调试。</p>
-
 <p><strong>苹果的黑魔法</strong></p>
-
 <p>根据苹果的说法，在对象完成监听注册后，修改了被监听对象的某些属性，并且改变了isa指针，那么我们可以在监听前后输出被监听对象的相关属性来进一步探索kvo的原理。为了保证能够得到对象的真实类型，我使用了object_getClass方法（class方法本质上是调用这个函数），这个方法在runtime.h头文件中</p>
-
-<pre><code class="language-text">NSLog(@&quot;address: %p&quot;, self.tableView);
+<pre><code>NSLog(@&quot;address: %p&quot;, self.tableView);
 NSLog(@&quot;class method: %@&quot;, self.tableView.class);
 NSLog(@&quot;description method: %@&quot;, self.tableView);
 NSLog(@&quot;use runtime to get class: %@&quot;, object_getClass(self.tableView));
@@ -146,10 +129,8 @@ NSLog(@&quot;class method: %@&quot;, self.tableView.class);
 NSLog(@&quot;description method: %@&quot;, self.tableView);
 NSLog(@&quot;use runtime to get class %@&quot;, object_getClass(self.tableView));
 </code></pre>
-
 <p>在看官们运行这段代码之前，可以先思考一下上面的代码会输出什么。</p>
-
-<pre><code class="language-text">2015-12-12 23:02:33.216 LXDAlphaNavigationController[1487:63171] address: 0x7f927a81d200
+<pre><code>2015-12-12 23:02:33.216 LXDAlphaNavigationController[1487:63171] address: 0x7f927a81d200
 2015-12-12 23:02:33.216 LXDAlphaNavigationController[1487:63171] class method: UITableView
 2015-12-12 23:02:33.217 LXDAlphaNavigationController[1487:63171] description method: 2015-12-12 23:02:33.217 LXDAlphaNavigationController[1487:63171] use runtime to get class: UITableView
 2015-12-12 23:02:33.217 LXDAlphaNavigationController[1487:63171] ===================================================
@@ -157,29 +138,18 @@ NSLog(@&quot;use runtime to get class %@&quot;, object_getClass(self.tableView))
 2015-12-12 23:02:33.218 LXDAlphaNavigationController[1487:63171] class method: UITableView
 2015-12-12 23:02:33.218 LXDAlphaNavigationController[1487:63171] description method: 2015-12-12 23:02:33.230 LXDAlphaNavigationController[1487:63171] use runtime to get class NSKVONotifying_UITableView
 </code></pre>
-
 <p>除了通过object_getClass获取的类型之外，其他的输出没有任何变化。class方法跟description方法可以重写实现上面的效果，但是为什么连地址都是一样的。</p>
-
 <p>这里可以通过一句小代码来说明一下：</p>
-
-<pre><code class="language-text">NSLog(@&quot;%@, %@&quot;, self.class, super.class);
+<pre><code>NSLog(@&quot;%@, %@&quot;, self.class, super.class);
 </code></pre>
-
 <p>上面这段代码不管你怎么输出，两个结果都是一样的。这是由于super本质上指向的是父类内存。这话说起来有点绕口，但是我们可以通过对象内存图来表示：</p>
-
-<p><img src="http://mmbiz.qpic.cn/mmbiz/foPACGrddJ2RICbWq0ibOxfFDmygDGicuRn1E06HjV4SicWpj23ss5lIoibBxfyEKHxnx22HmZdMItVZa4ViaSlAU5A/640?wx_fmt=png" alt=""/></p>
-
+<p><img src="http://mmbiz.qpic.cn/mmbiz/foPACGrddJ2RICbWq0ibOxfFDmygDGicuRn1E06HjV4SicWpj23ss5lIoibBxfyEKHxnx22HmZdMItVZa4ViaSlAU5A/640?wx_fmt=png" alt="" /></p>
 <p>类的内存</p>
-
 <p>每一个对象占用的内存中，一部分是父类属性占用的；在父类占用的内存中，又有一部分是父类的父类占用的。前文已经说过isa指针指向的是父类，因此在这个图中，Son的地址从Father开始，Father的地址从NSObject开始，这三个对象内存的地址都是一样的。通过这个，我们可以猜到苹果文档中所提及的中间类就是被监听对象的子类。并且为了隐藏实现，苹果还重写了这个子类的class方法跟description方法来掩人耳目。另外，我们还看到了新类相对于父类添加了一个NSKVONotifying_前缀，添加这个前缀是为了避免多次创建监听子类，节省资源</p>
-
 <p><strong>怎么实现类似效果</strong></p>
-
 <p>既然知道了苹果的实现过程，那么我们可以自己动手通过运行时机制来实现KVO。runtime允许我们在程序运行时动态的创建新类、拓展方法、method-swizzling、绑定属性等等这些有趣的事情。</p>
-
 <p>在创建新类之前，我们应该学习苹果的做法，判断当前是否存在这个类，如果不存在我们再进行创建，并且重新实现这个新类的class方法来掩盖具体实现。基于这些原则，我们用下面的方法来获取新类</p>
-
-<pre><code class="language-text">- (Class)createKVOClassWithOriginalClassName: (NSString *)className
+<pre><code>- (Class)createKVOClassWithOriginalClassName: (NSString *)className
 {
     NSString * kvoClassName = [kLXDkvoClassPrefix stringByAppendingString: className];
     Class observedClass = NSClassFromString(kvoClassName);
@@ -195,10 +165,8 @@ NSLog(@&quot;use runtime to get class %@&quot;, object_getClass(self.tableView))
     return kvoClass;
 }
 </code></pre>
-
 <p>另外，在判断是否需要中间类来完成监听的注册前，我们还要判断监听的属性的有效性。通过获取变量的setter方法名（将首字母大写并加上前缀set），以此来获取setter实现，如果不存在实现代码，则抛出异常使程序崩溃。</p>
-
-<pre><code class="language-text">SEL setterSelector = NSSelectorFromString(setterForGetter(key));
+<pre><code>SEL setterSelector = NSSelectorFromString(setterForGetter(key));
 Method setterMethod = class_getInstanceMethod([self class], setterSelector);
 if (!setterMethod) {
     @throw [NSException exceptionWithName: NSInvalidArgumentException reason: [NSString stringWithFormat: @&quot;unrecognized selector sent to instance %p&quot;, self] userInfo: nil];
@@ -217,10 +185,8 @@ class_addMethod(observedClass, setterSelector, (IMP)KVO_setter, types);
 
 
 </code></pre>
-
 <p>在重新实现setter方法的时候，有两个重要的方法：willChangeValueForKey和didChangeValueForKey，分别在赋值前后进行调用。此外，还要遍历所有的回调监听者，然后通知这些监听者：</p>
-
-<pre><code class="language-text">static void KVO_setter(id self, SEL _cmd, id newValue)
+<pre><code>static void KVO_setter(id self, SEL _cmd, id newValue)
 {
     NSString * setterName = NSStringFromSelector(_cmd);
     NSString * getterName = getterForSetter(setterName);
@@ -248,10 +214,8 @@ class_addMethod(observedClass, setterSelector, (IMP)KVO_setter, types);
     }
 }
 </code></pre>
-
 <p>所有的监听者通过动态绑定的方式将其存储起来，但这样也会产生强引用，所以我们还需要提供释放监听的方法：</p>
-
-<pre><code class="language-text">- (void)LXD_removeObserver:(NSObject *)object forKey:(NSString *)key
+<pre><code>- (void)LXD_removeObserver:(NSObject *)object forKey:(NSString *)key
 {
     NSMutableArray * observers = objc_getAssociatedObject(self, (__bridge void *)kLXDkvoAssiociateObserver);
     LXD_ObserverInfo * observerRemoved = nil;
@@ -264,15 +228,10 @@ class_addMethod(observedClass, setterSelector, (IMP)KVO_setter, types);
     [observers removeObject: observerRemoved];
 }
 </code></pre>
-
 <p>虽然上面已经粗略的实现了kvo，并且我们还能自定义回调方式。使用target-action或者block的方式进行回调会比单一的系统回调要全面的多。但kvo真正的实现并没有这么简单，上述代码目前只能实现对象类型的监听，基本类型无法监听，况且还有keyPath可以监听对象的成员对象的属性这种更强大的功能。</p>
-
 <p><strong>尾言</strong></p>
-
 <p>对于基本类型的监听，苹果可能是通过void *类型对对象进行桥接转换，然后直接获取内存，通过type encoding我们可以获取所有setter对象的具体类型，虽然实现比较麻烦，但是确实能够达成类似的效果。</p>
-
 <p>钻研kvo的实现可以让我们对苹果的代码实现有更深层次的了解，这些知识涉及到了更深层次的技术，探究它们对我们的开发视野有着很重要的作用。同时，对比其他的回调方式，KVO的实现在创建子类、重写方法等等方面的内存消耗是很巨大的，因此博主更加推荐使用delegate、block等回调方式，甚至直接使用method-swizzling来替换这种重写setter方式也是可行的。</p>
-
 <p>文章代码：<a href="https://github.com/JustKeepRunning/LXD_KeyValueObserveDemo">自实现KVO</a></p>
 
 			</div>
@@ -403,6 +362,12 @@ class_addMethod(observedClass, setterSelector, (IMP)KVO_setter, types);
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -422,12 +387,6 @@ class_addMethod(observedClass, setterSelector, (IMP)KVO_setter, types);
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

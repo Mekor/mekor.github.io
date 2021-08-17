@@ -84,29 +84,19 @@ $(document).ready(function(event) {
 			  	<blockquote>
 <p>原因：项目中想要实现购物车右上角显示购物车中上品数量，但是直接用UIBarButtonItem不能实现要求</p>
 </blockquote>
-
 <p>这里是实现后的效果图：</p>
-
-<p><img src="media/14747835330079/strip." alt="购物车动画"/></p>
-
+<p><img src="media/14747835330079/strip." alt="购物车动画" /></p>
 <p>一开始直接创建的UIBarButtonItem，但是不能直接往上面添加想要的效果，因为</p>
-
-<pre><code class="language-text">NS_CLASS_AVAILABLE_IOS(2_0) @interface UIBarButtonItem : UIBarItem &lt;NSCoding&gt;
+<pre><code>NS_CLASS_AVAILABLE_IOS(2_0) @interface UIBarButtonItem : UIBarItem &lt;NSCoding&gt;
 </code></pre>
-
 <p>而且</p>
-
-<pre><code class="language-text">NS_CLASS_AVAILABLE_IOS(2_0) @interface UIBarItem : NSObject &lt;NSCoding, UIAppearance&gt;
+<pre><code>NS_CLASS_AVAILABLE_IOS(2_0) @interface UIBarItem : NSObject &lt;NSCoding, UIAppearance&gt;
 </code></pre>
-
 <p>退而求其次，我们知道UIBarButtonItem有一个属性</p>
-
-<pre><code class="language-text">@property(nullable, nonatomic,strong)  __kindof UIView     *customView;       // default is nil
+<pre><code>@property(nullable, nonatomic,strong)  __kindof UIView     *customView;       // default is nil
 </code></pre>
-
 <p>这说明我们可以使用UIButton来代替UIBarButtonItem，在UIButton上面添加想要的动画效果。</p>
-
-<pre><code class="language-text">    static CGFloat const kButtonWidth = 43.0f;
+<pre><code>    static CGFloat const kButtonWidth = 43.0f;
     static CGFloat const kButtonHeight = 43.0f;
 
     UIImage *cartImage = [[UIImage imageNamed:@&quot;iconfont-cart&quot;]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
@@ -122,10 +112,8 @@ $(document).ready(function(event) {
     UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:cartButton];
     self.navigationItem.rightBarButtonItem = rightBarButtonItem;
 </code></pre>
-
 <p>创建Label使用懒加载：</p>
-
-<pre><code class="language-text">#pragma mark 购物车上面显示的按钮
+<pre><code>#pragma mark 购物车上面显示的按钮
 -(UILabel *)numberLabel
 {
     if (!_numberLabel) {
@@ -150,8 +138,7 @@ $(document).ready(function(event) {
     return _numberLabel;
 }
 </code></pre>
-
-<p>这里说下为什么设置为hidden，因为要求数量为0的时候不显示，数量不为0显示，如果删除后还要添加不如直接控制hidden。<br/>
+<p>这里说下为什么设置为hidden，因为要求数量为0的时候不显示，数量不为0显示，如果删除后还要添加不如直接控制hidden。<br />
 其他的就是设置Label显示的数字了，这里就不写了。</p>
 
 			</div>
@@ -284,6 +271,12 @@ $(document).ready(function(event) {
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -303,12 +296,6 @@ $(document).ready(function(event) {
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

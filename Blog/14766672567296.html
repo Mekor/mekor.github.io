@@ -84,53 +84,38 @@ $(document).ready(function(event) {
 			  	<blockquote>
 <p><a href="https://github.com/facebook/chisel">https://github.com/facebook/chisel</a> 英文版使用说明</p>
 </blockquote>
-
-<h2 id="toc_0">安装</h2>
-
+<p>##安装</p>
 <ol>
 <li>安装 <a href="http://brew.sh/index_zh-cn.html">Homebrew</a> (如果已经安装了,可以跳过这一步)</li>
 </ol>
-
-<pre><code class="language-text">/usr/bin/ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;
+<pre><code>/usr/bin/ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;
 </code></pre>
-
-<ol>
+<ol start="2">
 <li>更新 Homebrew (如果已经最新了,可以跳过这一步)</li>
 </ol>
-
-<pre><code class="language-text">brew update
+<pre><code>brew update
 </code></pre>
-
-<ol>
+<ol start="3">
 <li>通过 Homebrew 安装 chisel</li>
 </ol>
-
-<pre><code class="language-text">brew install chisel
+<pre><code>brew install chisel
 </code></pre>
-
-<ol>
+<ol start="4">
 <li>添加 chisel 命令至 ~/.lldbinit</li>
 </ol>
-
-<pre><code class="language-text">touch ~/.lldbinit echo &quot;command script import /usr/local/opt/chisel/libexec/fblldb.py&quot; &gt;&gt; ~/.lldbinit
+<pre><code>touch ~/.lldbinit echo &quot;command script import /usr/local/opt/chisel/libexec/fblldb.py&quot; &gt;&gt; ~/.lldbinit
 </code></pre>
-
-<ol>
+<ol start="5">
 <li>更新 chisel</li>
 </ol>
-
-<pre><code class="language-text">brew upgrade chisel
+<pre><code>brew upgrade chisel
 </code></pre>
-
-<h2 id="toc_1">使用</h2>
-
+<p>##使用</p>
 <ol>
 <li>通过 <code>pviews</code> 命令直接查看页面层级关系</li>
 </ol>
-
-<hr/>
-
-<p>未完... </p>
+<hr />
+<p>未完...</p>
 
 			</div>
 
@@ -262,6 +247,12 @@ $(document).ready(function(event) {
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -281,12 +272,6 @@ $(document).ready(function(event) {
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

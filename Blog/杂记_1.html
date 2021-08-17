@@ -85,36 +85,25 @@ $(document).ready(function(event) {
 	  	<div class="entry-content">
 		  	
 		  	<p>生活处处都透露着哲学，作者从骑摩托车旅行的途中对事物进行了深入的思考。</p>
-
-<h2 id="toc_0">关于·忙·</h2>
-
-<p>书中这样写道：</p>
-
+<p>##关于·忙·<br />
+书中这样写道：</p>
 <blockquote>
 <p>我们常常太忙而没有时间好好聊聊，结果日复一日地过着无聊的生活，单调乏味的日子让人几年后想起来不禁怀疑，究竟自己是怎么过的，而时间已悄悄溜走了。现在我们的确空下来了，我想谈一些我自己觉得颇为重要的事。</p>
 </blockquote>
-
-<h2 id="toc_1">关于·过程·</h2>
-
+<p>##关于·过程·</p>
 <blockquote>
 <p>如果搭飞机抵达洛基山，你只会觉得景致很美，但是如果你是经过几天辛苦的旅程，通过这一片大草原，才抵达洛基山，那么你会从另一个角度来看它，那里仿佛是你的目标，是你的应许之地。</p>
 </blockquote>
-
 <p>我们的目标不应该仅仅是到达终点，旅途中的风景会让这个过程变得充实。我在记笔记的时候写的是“有过程的经历是印象深刻的”</p>
-
-<h2 id="toc_2">关于·识人·</h2>
-
+<p>##关于·识人·</p>
 <blockquote>
-<p>又钻进死胡同了。如果有人不懂心存感激，而你当面告诉他，那么你就等于是在骂他，这样你什么事都解决不了。<br/>
+<p>又钻进死胡同了。如果有人不懂心存感激，而你当面告诉他，那么你就等于是在骂他，这样你什么事都解决不了。<br />
 每个人的性格都是不一样的，需要针对不同的性格做出不同的处理方式。错误的处理方式只会加深矛盾</p>
 </blockquote>
-
-<h2 id="toc_3">关于·认知·</h2>
-
+<p>##关于·认知·</p>
 <blockquote>
 <p>一名没有受过训练的旁观者只看到修理人员所付出的劳力，就以为他最主要的工作在于劳力。事实上，这正是他最轻松也是工作上最小的一部分，他最重要的工作就在于仔细观察和精确思考，这就是为什么技术人员往往显得沉默寡言，甚至在做实验的时候有些畏缩。他们不喜欢在做实验的时候讲话，那样就无法专心地思考问题了。他们借着实验推论出问题的结构，然后与心里正常的运作结构相比较，所以他们看到的是基本形式。</p>
 </blockquote>
-
 <p>隔行如隔山，拿程序员举例，其他人看到程序员噼里啪啦敲代码感觉这个人很厉害这其实是不对的。在敲代码之前的思考才是最重要的，敲代码只不过是把他思考的东西进行验证。</p>
 
 
@@ -132,7 +121,7 @@ $(document).ready(function(event) {
 		 </header>
 	  	<div class="entry-content">
 		  	
-		  	<pre><code class="language-text">//初始化NumberFormatter
+		  	<pre><code>//初始化NumberFormatter
 let format = NumberFormatter()
 //设置numberStyle（有多种格式）
 format.numberStyle = .decimal
@@ -198,11 +187,9 @@ public enum Style : UInt {
 		 </header>
 	  	<div class="entry-content">
 		  	
-		  	<h2 id="toc_0">死锁（Dead Lock）</h2>
-
+		  	<h2><a id="%E6%AD%BB%E9%94%81%EF%BC%88dead-lock%EF%BC%89" class="anchor" aria-hidden="true" href="#%E6%AD%BB%E9%94%81%EF%BC%88dead-lock%EF%BC%89"><span class="octicon octicon-link"></span></a>死锁（Dead Lock）</h2>
 <p>第一种情况：</p>
-
-<pre><code class="language-text">let serialQueue = DispatchQueue(label:&quot;test&quot;)
+<pre><code>let serialQueue = DispatchQueue(label:&quot;test&quot;)
 serialQueue.async {
     //.....
     serialQueue.sync {
@@ -211,26 +198,20 @@ serialQueue.async {
 }
 
 </code></pre>
-
 <p>第二种情况：</p>
-
-<pre><code class="language-text">let operationA = Operation()
+<pre><code>let operationA = Operation()
 let operationB = Operation()
 operationA.addDependency(operationB)
 operationB.addDependency(operationA)
 
 </code></pre>
-
 <p>怎样避免死锁：</p>
-
 <ol>
 <li>少用依赖</li>
 <li>慎用同步</li>
 </ol>
-
-<h2 id="toc_1">优先倒置（Priority Inversion）</h2>
-
-<pre><code class="language-text">var highPriorityQueue = DispatchQueue.global(qos: .userInitiated)
+<h2><a id="%E4%BC%98%E5%85%88%E5%80%92%E7%BD%AE%EF%BC%88priority-inversion%EF%BC%89" class="anchor" aria-hidden="true" href="#%E4%BC%98%E5%85%88%E5%80%92%E7%BD%AE%EF%BC%88priority-inversion%EF%BC%89"><span class="octicon octicon-link"></span></a>优先倒置（Priority Inversion）</h2>
+<pre><code>var highPriorityQueue = DispatchQueue.global(qos: .userInitiated)
 var lowPriorityQueue = DispatchQueue.global(qos: .utility)
 
 let semaphore = DispatchSemaphore(value: 1)
@@ -251,8 +232,7 @@ highPriorityQueue.async {
 }
 
 </code></pre>
-
-<p>解决办法：<br/>
+<p>解决办法：<br />
 同一个资源用同一个Qos</p>
 
 
@@ -271,12 +251,10 @@ highPriorityQueue.async {
 	  	<div class="entry-content">
 		  	
 		  	<p>重置Launchpad</p>
-
-<pre><code class="language-text">rm ~/Library/Application\ Support/Dock/*.db
+<pre><code>rm ~/Library/Application\ Support/Dock/*.db
 
 </code></pre>
-
-<pre><code class="language-text">killall Dock
+<pre><code>killall Dock
 </code></pre>
 
 
@@ -295,19 +273,15 @@ highPriorityQueue.async {
 	  	<div class="entry-content">
 		  	
 		  	<p>报错</p>
-
-<pre><code class="language-text">➜  PersonalMusic git:(master) carthage update
+<pre><code>➜  PersonalMusic git:(master) carthage update
 *** Cloning GCDWebServer
 A shell task (/usr/bin/env git clone --bare --quiet https://github.com/swisspol/GCDWebServer.git /Users/lixzzzzzz/Library/Caches/org.carthage.CarthageKit/dependencies/GCDWebServer) failed with exit code 128:
-fatal: unable to access &#39;https://github.com/swisspol/GCDWebServer.git/&#39;: LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to github.com:443
+fatal: unable to access 'https://github.com/swisspol/GCDWebServer.git/': LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to github.com:443
 
 </code></pre>
-
 <p>解决办法：</p>
-
 <p>清缓存</p>
-
-<pre><code class="language-text">rm -rf ~/Library/Caches/org.carthage.CarthageKit
+<pre><code>rm -rf ~/Library/Caches/org.carthage.CarthageKit
 </code></pre>
 
 
@@ -415,6 +389,12 @@ fatal: unable to access &#39;https://github.com/swisspol/GCDWebServer.git/&#39;:
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -434,12 +414,6 @@ fatal: unable to access &#39;https://github.com/swisspol/GCDWebServer.git/&#39;:
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

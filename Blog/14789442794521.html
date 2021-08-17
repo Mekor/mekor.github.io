@@ -84,92 +84,68 @@ $(document).ready(function(event) {
 			  	<blockquote>
 <p>最近没怎么更新,主要是最近刚入职新公司.正在熟悉环境中... 好了题目是<code>Swift - 数组遍历</code> 主要是项目要使用 Swift 开发,所以需要熟悉下语法.</p>
 </blockquote>
-
-<h2 id="toc_0">传统的下标遍历方法</h2>
-
-<pre><code class="language-text">let array = [&quot;张三&quot;,&quot;李四&quot;,&quot;王五&quot;]
+<p>##传统的下标遍历方法</p>
+<pre><code>let array = [&quot;张三&quot;,&quot;李四&quot;,&quot;王五&quot;]
 
 // 第一种 下标遍历
 for i in 0..&lt;array.count {
     print(array[i])
 }
 </code></pre>
-
-<h2 id="toc_1">for in 遍历元素</h2>
-
-<pre><code class="language-text">// 第二种 for in 遍历元素
+<p>##for in 遍历元素</p>
+<pre><code>// 第二种 for in 遍历元素
 for s in array {
     print(s)
 }
 </code></pre>
-
-<h2 id="toc_2">enum block遍历</h2>
-
-<pre><code class="language-text">// 第三种 enum block 遍历
+<p>##enum block遍历</p>
+<pre><code>// 第三种 enum block 遍历
 for e in array.enumerated() {
     print(e)
 }
 </code></pre>
-
 <p>结果:</p>
-
-<pre><code class="language-text">(0, &quot;张三&quot;)
+<pre><code>(0, &quot;张三&quot;)
 (1, &quot;李四&quot;)
 (2, &quot;王五&quot;)
 </code></pre>
-
-<p>我们可以看下e的类型--元组<br/>
-<img src="media/14789442794521/14789449636069.jpg" alt=""/></p>
-
-<h2 id="toc_3">元组方法遍历下标和内容</h2>
-
-<p>由上面第三种方法我们可以知道 e 的类型是元组,那么同样我们可以直接使用元组</p>
-
-<pre><code class="language-text">// 第四种 元组使用
+<p>我们可以看下e的类型--元组<br />
+<img src="media/14789442794521/14789449636069.jpg" alt="" /></p>
+<p>##元组方法遍历下标和内容<br />
+由上面第三种方法我们可以知道 e 的类型是元组,那么同样我们可以直接使用元组</p>
+<pre><code>// 第四种 元组使用
 for (n,s) in array.enumerated() {
     print(&quot;\(n) \(s)&quot;)
 }
 </code></pre>
-
 <p>结果:</p>
-
-<pre><code class="language-text">0 张三
+<pre><code>0 张三
 1 李四
 2 王五
 </code></pre>
-
-<h2 id="toc_4">反序遍历</h2>
-
-<pre><code class="language-text">// 第五种 反序遍历
+<p>##反序遍历</p>
+<pre><code>// 第五种 反序遍历
 for i in array.reversed() {
     print(i)
 }
 </code></pre>
-
 <p>结果</p>
-
-<pre><code class="language-text">王五
+<pre><code>王五
 李四
 张三
 </code></pre>
-
-<h2 id="toc_5">反序遍历 带索引</h2>
-
-<pre><code class="language-text">// 第六种 反序遍历 带索引
+<p>##反序遍历 带索引</p>
+<pre><code>// 第六种 反序遍历 带索引
 for (n,s) in array.enumerated().reversed() {
     print(&quot;\(n) \(s)&quot;)
 }
 </code></pre>
-
 <p>结果:</p>
-
-<pre><code class="language-text">2 王五
+<pre><code>2 王五
 1 李四
 0 张三
 </code></pre>
-
 <p>注意: <strong>先枚举再反序</strong></p>
-
 <p>总结:Swift 太灵活了...</p>
 
 			</div>
@@ -302,6 +278,12 @@ for (n,s) in array.enumerated().reversed() {
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -321,12 +303,6 @@ for (n,s) in array.enumerated().reversed() {
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

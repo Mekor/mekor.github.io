@@ -82,18 +82,13 @@ $(document).ready(function(event) {
 			 </header>
 		  	<div class="entry-content">
 			  	<p>cell的创建</p>
-
-<pre><code class="language-text">- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+<pre><code>- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 </code></pre>
-
 <p>数据处理建议在这里进行:</p>
-
-<pre><code class="language-text">-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+<pre><code>-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 </code></pre>
-
 <p>cell将要显示的时候我们进行一些处理(来自苹果Demo)</p>
-
-<pre><code class="language-text">// Only load cached images; defer new downloads until scrolling ends
+<pre><code>// Only load cached images; defer new downloads until scrolling ends
 if (!appRecord.appIcon)
 {
     if (self.tableView.dragging == NO &amp;&amp; self.tableView.decelerating == NO)
@@ -108,25 +103,23 @@ else
     cell.imageView.image = appRecord.appIcon;
 }
 </code></pre>
-
 <p>这里可以看出,拖拽和滚动的时候不进行图片下载,只有停止的时候才进行.当然我们还需要在scrollView停止滚动和拖拽的时候进行下载</p>
-
-<pre><code class="language-text">#pragma mark - UIScrollViewDelegate
+<pre><code>#pragma mark - UIScrollViewDelegate
 
 // -------------------------------------------------------------------------------
-//  scrollViewDidEndDragging:willDecelerate:
+//	scrollViewDidEndDragging:willDecelerate:
 //  Load images for all onscreen rows when scrolling is finished.
 // -------------------------------------------------------------------------------
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
     if (!decelerate)
-    {
+	{
         [self loadImagesForOnscreenRows];
     }
 }
 
 // -------------------------------------------------------------------------------
-//  scrollViewDidEndDecelerating:scrollView
+//	scrollViewDidEndDecelerating:scrollView
 //  When scrolling stops, proceed to load the app icons that are on screen.
 // -------------------------------------------------------------------------------
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
@@ -135,12 +128,10 @@ else
 }
 
 </code></pre>
-
 <p>下载显示cell的图片</p>
-
-<pre><code class="language-text">// -------------------------------------------------------------------------------
-//  loadImagesForOnscreenRows
-//  This method is used in case the user scrolled into a set of cells that don&#39;t
+<pre><code>// -------------------------------------------------------------------------------
+//	loadImagesForOnscreenRows
+//  This method is used in case the user scrolled into a set of cells that don't
 //  have their app icons yet.
 // -------------------------------------------------------------------------------
 - (void)loadImagesForOnscreenRows
@@ -161,13 +152,11 @@ else
     }
 }
 </code></pre>
-
 <p>具体下载:</p>
-
-<pre><code class="language-text">#pragma mark - Table cell image support
+<pre><code>#pragma mark - Table cell image support
 
 // -------------------------------------------------------------------------------
-//  startIconDownload:forIndexPath:
+//	startIconDownload:forIndexPath:
 // -------------------------------------------------------------------------------
 - (void)startIconDownload:(AppRecord *)appRecord forIndexPath:(NSIndexPath *)indexPath
 {
@@ -194,10 +183,8 @@ else
     }
 }
 </code></pre>
-
 <p>IconDownloader文件</p>
-
-<pre><code class="language-text">//.h文件
+<pre><code>//.h文件
 @class AppRecord;
 
 @interface IconDownloader : NSObject
@@ -230,7 +217,7 @@ else
 @implementation IconDownloader
 
 // -------------------------------------------------------------------------------
-//  startDownload
+//	startDownload
 // -------------------------------------------------------------------------------
 - (void)startDownload
 {
@@ -285,7 +272,7 @@ else
 }
 
 // -------------------------------------------------------------------------------
-//  cancelDownload
+//	cancelDownload
 // -------------------------------------------------------------------------------
 - (void)cancelDownload
 {
@@ -293,7 +280,6 @@ else
     _sessionTask = nil;
 }
 </code></pre>
-
 <blockquote>
 <p><a href="https://developer.apple.com/library/ios/samplecode/LazyTableImages/Introduction/Intro.html">Apple Demo</a></p>
 </blockquote>
@@ -428,6 +414,12 @@ else
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -447,12 +439,6 @@ else
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

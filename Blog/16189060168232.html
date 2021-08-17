@@ -82,53 +82,82 @@ $(document).ready(function(event) {
 			 </header>
 		  	<div class="entry-content">
 			  	<ol>
-<li><p>安装Xcode(Version 12.4)</p>
-<p>不要去App Store下载安装，因为App Store会自动更新，为了确保Xcode版本一致需要去开发者网站下载 <a href="https://developer.apple.com/download/more/">Apple Developer</a></p></li>
-<li><p>安装brew</p>
+<li>
+<p>安装Xcode(Version 12.4)</p>
+<p>不要去App Store下载安装，因为App Store会自动更新，为了确保Xcode版本一致需要去开发者网站下载 <a href="https://developer.apple.com/download/more/">Apple Developer</a></p>
+</li>
+<li>
+<p>安装brew</p>
 <ol>
-<li><p>由于访问外网太慢，建议从gitee安装</p>
+<li>
+<p>由于访问外网太慢，建议从gitee安装</p>
 <pre><code class="language-shell">/bin/zsh -c &quot;$(curl -fsSL https://gitee.com/cunkai/HomebrewCN/raw/master/Homebrew.sh)&quot;
-</code></pre></li>
-<li><p>可以选择科大的源也可以选择清华的源，我一般用清华的源</p></li>
-</ol></li>
-<li><p>安装rbenv </p>
-<ol>
-<li><p>rbenv是 Ruby 环境管理工具 <code>brew install rbenv</code></p></li>
-<li><p>更新配置文件</p>
-<pre><code class="language-bash">export PATH=&quot;$HOME/.rbenv/bin:$PATH&quot; 
-eval &quot;$(rbenv init -)&quot;
-</code></pre></li>
-<li><p>我现在用的Ruby环境是2.7.1</p>
-<pre><code class="language-shell">$ cd $(PROJECT_DIR)
-$ rbenv install 2.7.1<br/>
-$ rbenv local 2.7.1
-</code></pre></li>
-</ol></li>
-<li><p>安装Bundler</p>
-<ol>
-<li><p>执行<code>gem install bundler</code>命令进行，之后，再执行<code>bundle init</code>就可以生成一个 Gemfile 文件</p></li>
-<li><p>添加CocoaPods 和 fastlane 等依赖包</p>
-<pre><code class="language-shell">source &quot;https://rubygems.org&quot;
-gem &quot;cocoapods&quot;, &quot;1.10.1&quot;<br/>
-gem &quot;fastlane&quot;,&quot;2.180.1&quot;
-</code></pre></li>
-</ol></li>
-<li><p>使用脚本确认环境</p>
-<pre><code class="language-shell"># Install ruby using rbenv
-ruby_version=`cat .ruby-version`<br/>
-if [[ ! -d &quot;$HOME/.rbenv/versions/$ruby_version&quot; ]]; then<br/>
- rbenv install $ruby_version;<br/>
-fi<br/>
-# Install bunlder<br/>
-gem install bundler<br/>
-# Install all gems<br/>
-bundle install<br/>
-# Install all pods<br/>
-bundle exec pod install
 </code></pre>
-<p>​    脚本主要做了四件事情，第一步是在 rbenv 下安装特定版本的 Ruby 开发环境，然后通过 RubyGems 安装 Bunlder，接着使用 Bundler 安装 CocoaPods 和 fastlane 等依赖包，最后安装各个 Pod。这样，一个统一的项目环境就搭建完成了，接下来开发者就可以打开 <strong>项目名.xcworkspace</strong>进行开发了.</p></li>
-<li><p>项目添加gitignore</p>
-<p>可以去gitignore.io 输入Xcode，Swift等关键字生成.gitignore文件</p></li>
+</li>
+<li>
+<p>可以选择科大的源也可以选择清华的源，我一般用清华的源</p>
+</li>
+</ol>
+</li>
+<li>
+<p>安装rbenv</p>
+<ol>
+<li>
+<p>rbenv是 Ruby 环境管理工具 <code>brew install rbenv</code></p>
+</li>
+<li>
+<p>更新配置文件</p>
+<pre><code class="language-sh">export PATH=&quot;$HOME/.rbenv/bin:$PATH&quot; 
+eval &quot;$(rbenv init -)&quot;
+</code></pre>
+</li>
+<li>
+<p>我现在用的Ruby环境是2.7.1</p>
+<pre><code class="language-shell">$ cd $(PROJECT_DIR)
+$ rbenv install 2.7.1
+$ rbenv local 2.7.1
+</code></pre>
+</li>
+</ol>
+</li>
+<li>
+<p>安装Bundler</p>
+<ol>
+<li>
+<p>执行<code>gem install bundler</code>命令进行，之后，再执行<code>bundle init</code>就可以生成一个 Gemfile 文件</p>
+</li>
+<li>
+<p>添加CocoaPods 和 fastlane 等依赖包</p>
+<pre><code class="language-shell">source &quot;https://rubygems.org&quot;
+
+gem &quot;cocoapods&quot;, &quot;1.10.1&quot;
+gem &quot;fastlane&quot;,&quot;2.180.1&quot;
+</code></pre>
+</li>
+</ol>
+</li>
+<li>
+<p>使用脚本确认环境</p>
+<pre><code class="language-shell"># Install ruby using rbenv
+
+ruby_version=`cat .ruby-version`
+if [[ ! -d &quot;$HOME/.rbenv/versions/$ruby_version&quot; ]]; then
+  rbenv install $ruby_version;
+fi
+# Install bunlder
+gem install bundler
+# Install all gems
+bundle install
+# Install all pods
+bundle exec pod install
+
+</code></pre>
+<p>​	脚本主要做了四件事情，第一步是在 rbenv 下安装特定版本的 Ruby 开发环境，然后通过 RubyGems 安装 Bunlder，接着使用 Bundler 安装 CocoaPods 和 fastlane 等依赖包，最后安装各个 Pod。这样，一个统一的项目环境就搭建完成了，接下来开发者就可以打开 <strong>项目名.xcworkspace</strong>进行开发了.</p>
+</li>
+<li>
+<p>项目添加gitignore</p>
+<p>可以去gitignore.io 输入Xcode，Swift等关键字生成.gitignore文件</p>
+</li>
 </ol>
 
 			</div>
@@ -261,6 +290,12 @@ bundle exec pod install
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -280,12 +315,6 @@ bundle exec pod install
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

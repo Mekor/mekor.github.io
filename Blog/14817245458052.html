@@ -84,49 +84,43 @@ $(document).ready(function(event) {
 			  	<blockquote>
 <p>项目中部分功能打算使用数据库进行数据本地存储,所以复习了下数据库语句</p>
 </blockquote>
-
-<h2 id="toc_0">DDL</h2>
-
-<pre><code class="language-text">/*
+<p>##DDL</p>
+<pre><code>/*
 删除表,如果存在表就删除表
 */
-DROP TABLE IF EXISTS &#39;t_student&#39;;
+DROP TABLE IF EXISTS 't_student';
 
 /*
 创建表
 */
 
-CREATE TABLE IF NOT EXISTS &#39;t_student&#39; (
-    &#39;id&#39; INTEGER NOT NULL PRIMARY KEY  AUTOINCREMENT,
-    &#39;name&#39; TEXT,
-    &#39;age&#39; INTEGER
+CREATE TABLE IF NOT EXISTS 't_student' (
+	'id' INTEGER NOT NULL PRIMARY KEY  AUTOINCREMENT,
+	'name' TEXT,
+	'age' INTEGER
 );
 </code></pre>
-
-<h2 id="toc_1">DML</h2>
-
-<pre><code class="language-text">/*
+<p>##DML</p>
+<pre><code>/*
 插入数据
 */
 /*
-INSERT INTO &#39;t_student&#39; (name, age) VALUES (&#39;lxz1&#39;, 18);
-INSERT INTO &#39;t_student&#39; (name, age) VALUES (&#39;lxz2&#39;, 19);
-INSERT INTO &#39;t_student&#39; (name, age) VALUES (&#39;lxz3&#39;, 21);
-INSERT INTO &#39;t_student&#39; (name, age) VALUES (&#39;lxz4&#39;, 22);
+INSERT INTO 't_student' (name, age) VALUES ('lxz1', 18);
+INSERT INTO 't_student' (name, age) VALUES ('lxz2', 19);
+INSERT INTO 't_student' (name, age) VALUES ('lxz3', 21);
+INSERT INTO 't_student' (name, age) VALUES ('lxz4', 22);
 */
 
 /*更新*/
--- UPDATE t_student SET age = 20 WHERE name = &#39;lxz1&#39;
-UPDATE t_student SET name = &#39;xxx&#39; WHERE age &gt; 20
+-- UPDATE t_student SET age = 20 WHERE name = 'lxz1'
+UPDATE t_student SET name = 'xxx' WHERE age &gt; 20
 
 
 /*删除*/
-DELETE FROM t_student WHERE name = &#39;xxx&#39;
+DELETE FROM t_student WHERE name = 'xxx'
 </code></pre>
-
-<h2 id="toc_2">DQL</h2>
-
-<pre><code class="language-text">/*查询语句*/
+<p>##DQL</p>
+<pre><code>/*查询语句*/
 -- SELECT * FROM t_student;
 
 /*查询特殊的字段*/
@@ -136,13 +130,13 @@ DELETE FROM t_student WHERE name = &#39;xxx&#39;
 -- SELECT name, age FROM t_student WHERE age &lt; 20;
 
 /*模糊查询*/
--- SELECT name,age FROM t_student WHERE name LIKE &#39;%l%&#39;
+-- SELECT name,age FROM t_student WHERE name LIKE '%l%'
 
 /*多个条件的查询
 AND 并且
 OR 或者
 */
--- SELECT name, age FROM t_student WHERE name LIKE &#39;%l%&#39; AND age &lt; 20;
+-- SELECT name, age FROM t_student WHERE name LIKE '%l%' AND age &lt; 20;
 
 /*计算个数*/
 -- SELECT count(*) FROM t_student WHERE age &lt; 20
@@ -302,6 +296,12 @@ SELECT * FROM t_student LIMIT 5
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -321,12 +321,6 @@ SELECT * FROM t_student LIMIT 5
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

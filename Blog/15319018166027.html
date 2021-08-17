@@ -82,8 +82,7 @@ $(document).ready(function(event) {
 			 </header>
 		  	<div class="entry-content">
 			  	<p>看到这篇文章<a href="https://www.lidaren.com/archives/1333">UILabel取消自动Trim空格和换行等空白字符</a></p>
-
-<pre><code class="language-text">UILabel会自动清除的空白字符（UNICODE）
+<pre><code>UILabel会自动清除的空白字符（UNICODE）
 \u0009 CHARACTER TABULATION
 \u000A LINE FEED
 \u000D CARRIAGE RETURN
@@ -101,10 +100,8 @@ $(document).ready(function(event) {
 \u205F MEDIUM MATHEMATICAL SPACE
 \u3000 IDEOGRAPHIC SPACE
 </code></pre>
-
 <p>解决方案</p>
-
-<pre><code class="language-text">    let paragraphStyle = NSMutableParagraphStyle()
+<pre><code>    let paragraphStyle = NSMutableParagraphStyle()
     paragraphStyle.alignment = .right
     paragraphStyle.tailIndent = -10
     let myMutableString = NSMutableAttributedString(
@@ -247,6 +244,12 @@ $(document).ready(function(event) {
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -266,12 +269,6 @@ $(document).ready(function(event) {
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

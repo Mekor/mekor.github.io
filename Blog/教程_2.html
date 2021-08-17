@@ -87,36 +87,25 @@ $(document).ready(function(event) {
 		  	<blockquote>
 <p>如果Xcode8下无法正常使用Qt,解决办法参见:<a href="http://www.citynight.cn/Blog/14761943627170.html">http://www.citynight.cn/Blog/14761943627170.html</a></p>
 </blockquote>
-
-<p>最终实现的效果:<br/>
-<img src="media/14771170894039/14771178501064.jpg" alt=""/></p>
-
-<p><img src="media/14771170894039/14771179340151.jpg" alt=""/></p>
-
-<p>选择桌面应用程序<br/>
-<img src="media/14771170894039/14771179611437.jpg" alt=""/></p>
-
-<p><img src="media/14771170894039/14771180181773.jpg" alt=""/></p>
-
+<p>最终实现的效果:<br />
+<img src="media/14771170894039/14771178501064.jpg" alt="" /></p>
+<p><img src="media/14771170894039/14771179340151.jpg" alt="" /></p>
+<p>选择桌面应用程序<br />
+<img src="media/14771170894039/14771179611437.jpg" alt="" /></p>
+<p><img src="media/14771170894039/14771180181773.jpg" alt="" /></p>
 <p>OK,现在项目创建好了....接下来就是写代码了...</p>
-
-<p><img src="media/14771170894039/14771173227361.jpg" alt=""/></p>
-
-<p>然后在<code>mainwindow.cpp</code>文件中编写代码:<br/>
+<p><img src="media/14771170894039/14771173227361.jpg" alt="" /></p>
+<p>然后在<code>mainwindow.cpp</code>文件中编写代码:<br />
 引入需要的头文件</p>
-
-<pre><code class="language-text">#include &lt;QPainter&gt;
+<pre><code>#include &lt;QPainter&gt;
 #include &lt;QPen&gt;
 #include &lt;math.h&gt;
 </code></pre>
-
 <p>在<code>MainWindow</code>中设置窗口位置</p>
-
-<pre><code class="language-text">    // 设置在桌面上显示的位置&amp;大小
+<pre><code>    // 设置在桌面上显示的位置&amp;大小
     this-&gt;setGeometry(600,300,600,300);
 </code></pre>
-
-<pre><code class="language-text">void MainWindow::paintEvent(QPaintEvent *e){
+<pre><code>void MainWindow::paintEvent(QPaintEvent *e){
         // 定义画笔
         QPainter painter(this);
 
@@ -159,7 +148,6 @@ $(document).ready(function(event) {
         painter.drawPolyline(pVector);
 }
 </code></pre>
-
 <p>开心的run下吧..</p>
 
 
@@ -180,53 +168,38 @@ $(document).ready(function(event) {
 		  	<blockquote>
 <p><a href="https://github.com/facebook/chisel">https://github.com/facebook/chisel</a> 英文版使用说明</p>
 </blockquote>
-
-<h2 id="toc_0">安装</h2>
-
+<p>##安装</p>
 <ol>
 <li>安装 <a href="http://brew.sh/index_zh-cn.html">Homebrew</a> (如果已经安装了,可以跳过这一步)</li>
 </ol>
-
-<pre><code class="language-text">/usr/bin/ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;
+<pre><code>/usr/bin/ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;
 </code></pre>
-
-<ol>
+<ol start="2">
 <li>更新 Homebrew (如果已经最新了,可以跳过这一步)</li>
 </ol>
-
-<pre><code class="language-text">brew update
+<pre><code>brew update
 </code></pre>
-
-<ol>
+<ol start="3">
 <li>通过 Homebrew 安装 chisel</li>
 </ol>
-
-<pre><code class="language-text">brew install chisel
+<pre><code>brew install chisel
 </code></pre>
-
-<ol>
+<ol start="4">
 <li>添加 chisel 命令至 ~/.lldbinit</li>
 </ol>
-
-<pre><code class="language-text">touch ~/.lldbinit echo &quot;command script import /usr/local/opt/chisel/libexec/fblldb.py&quot; &gt;&gt; ~/.lldbinit
+<pre><code>touch ~/.lldbinit echo &quot;command script import /usr/local/opt/chisel/libexec/fblldb.py&quot; &gt;&gt; ~/.lldbinit
 </code></pre>
-
-<ol>
+<ol start="5">
 <li>更新 chisel</li>
 </ol>
-
-<pre><code class="language-text">brew upgrade chisel
+<pre><code>brew upgrade chisel
 </code></pre>
-
-<h2 id="toc_1">使用</h2>
-
+<p>##使用</p>
 <ol>
 <li>通过 <code>pviews</code> 命令直接查看页面层级关系</li>
 </ol>
-
-<hr/>
-
-<p>未完... </p>
+<hr />
+<p>未完...</p>
 
 
 		</div>
@@ -244,19 +217,12 @@ $(document).ready(function(event) {
 	  	<div class="entry-content">
 		  	
 		  	<p>开发中如果遇到修改配置文件的时候经常用到 vim .今天把常用到的 vim 命令进行简单的总结</p>
-
-<h2 id="toc_0">开始学习 vim</h2>
-
-<p>在 terminal 中输入  <code>vimtutor -g zh</code> 就会开始 vim  学习教程 </p>
-
-<h2 id="toc_1">简单总结</h2>
-
-<h3 id="toc_2">vim 编辑器中有三种状态模式</h3>
-
-<p><img src="media/14764220018619/14768675919240.jpg" alt=""/></p>
-
-<h3 id="toc_3">vim 编辑器的启动与退出</h3>
-
+<p>##开始学习 vim<br />
+在 terminal 中输入  <code>vimtutor -g zh</code> 就会开始 vim  学习教程</p>
+<p>##简单总结<br />
+###vim 编辑器中有三种状态模式<br />
+<img src="media/14764220018619/14768675919240.jpg" alt="" /></p>
+<p>###vim 编辑器的启动与退出</p>
 <table>
 <thead>
 <tr>
@@ -264,7 +230,6 @@ $(document).ready(function(event) {
 <th>释意</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>$ vim</td>
@@ -280,9 +245,7 @@ $(document).ready(function(event) {
 </tr>
 </tbody>
 </table>
-
-<h3 id="toc_4">文件操作</h3>
-
+<p>###文件操作</p>
 <table>
 <thead>
 <tr>
@@ -290,7 +253,6 @@ $(document).ready(function(event) {
 <th>释意</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>:w</td>
@@ -310,9 +272,7 @@ $(document).ready(function(event) {
 </tr>
 </tbody>
 </table>
-
-<h3 id="toc_5">光标移动操作</h3>
-
+<p>###光标移动操作</p>
 <table>
 <thead>
 <tr>
@@ -321,7 +281,6 @@ $(document).ready(function(event) {
 <th>释意</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>光标移动</td>
@@ -415,9 +374,7 @@ $(document).ready(function(event) {
 </tr>
 </tbody>
 </table>
-
-<h3 id="toc_6">编辑操作</h3>
-
+<h3><a id="%E7%BC%96%E8%BE%91%E6%93%8D%E4%BD%9C" class="anchor" aria-hidden="true" href="#%E7%BC%96%E8%BE%91%E6%93%8D%E4%BD%9C"><span class="octicon octicon-link"></span></a>编辑操作</h3>
 <table>
 <thead>
 <tr>
@@ -426,7 +383,6 @@ $(document).ready(function(event) {
 <th>释意</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>进入输入模式</td>
@@ -545,9 +501,7 @@ $(document).ready(function(event) {
 </tr>
 </tbody>
 </table>
-
-<h3 id="toc_7">查找与替换操作</h3>
-
+<p>###查找与替换操作</p>
 <table>
 <thead>
 <tr>
@@ -556,7 +510,6 @@ $(document).ready(function(event) {
 <th>释意</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>查找</td>
@@ -605,12 +558,9 @@ $(document).ready(function(event) {
 </tr>
 </tbody>
 </table>
-
-<h2 id="toc_8">简易配置</h2>
-
+<p>##简易配置</p>
 <p>输入 vim ~/.vimrc 该文件是一个隐藏文件,如果没有则 创建它,该文件中保存一些,vim 的常用配置。</p>
-
-<pre><code class="language-text">set nu //代码显示行号
+<pre><code>set nu //代码显示行号
 syntax on //关键词高亮显示
 set cindent //c 语法自动缩进
 set autoindent //新行自动缩进
@@ -635,19 +585,13 @@ set nobackup //不备份
 		 </header>
 	  	<div class="entry-content">
 		  	
-		  	<h2 id="toc_0">优化</h2>
-
-<p><a href="http://www.mulle-kybernetik.com/artikel/Optimization/opti-3-imp-deluxe.html">极致优化</a></p>
-
+		  	<p>##优化<br />
+<a href="http://www.mulle-kybernetik.com/artikel/Optimization/opti-3-imp-deluxe.html">极致优化</a></p>
 <p>美团点评技术团队: <a href="http://tech.meituan.com/DiveIntoMethodCache.html">深入理解Objective-C：方法缓存</a></p>
-
-<h2 id="toc_1">Runloop</h2>
-
+<h2><a id="runloop" class="anchor" aria-hidden="true" href="#runloop"><span class="octicon octicon-link"></span></a>Runloop</h2>
 <p><a href="http://blog.ibireme.com/2015/05/18/runloop/">深入理解RunLoop</a>  --- 内部分享文章runloop中使用了该文章中的一张图.</p>
-
-<h2 id="toc_2">GCD</h2>
-
-<p><a href="http://www.raywenderlich.com/60749/grand-central-dispatch-in-depth-part-1">GCD 深入理解：第一部分</a> 中文翻译:<a href="https://github.com/nixzhu/dev-blog/blob/master/2014-04-19-grand-central-dispatch-in-depth-part-1.md">译文</a><br/>
+<p>##GCD<br />
+<a href="http://www.raywenderlich.com/60749/grand-central-dispatch-in-depth-part-1">GCD 深入理解：第一部分</a> 中文翻译:<a href="https://github.com/nixzhu/dev-blog/blob/master/2014-04-19-grand-central-dispatch-in-depth-part-1.md">译文</a><br />
 <a href="https://github.com/nixzhu/dev-blog/blob/master/2014-05-14-grand-central-dispatch-in-depth-part-2.md">GCD 深入理解：第二部分</a></p>
 
 
@@ -665,7 +609,7 @@ set nobackup //不备份
 		 </header>
 	  	<div class="entry-content">
 		  	
-		  	<pre><code class="language-text">1.先升级Gem
+		  	<pre><code>1.先升级Gem
     sudo gem update --system
 2.切换cocoapods的数据源
     【先删除，再添加，查看】
@@ -699,15 +643,15 @@ pod install --no-repo-update
 pod update --no-repo-update
 
 9.说明
-platform :ios, &#39;8.0&#39; 用来设置所有第三方库所支持的iOS最低版本
-pod &#39;SDWebImage&#39;,&#39;~&gt;2.6&#39; 设置框架的名称和版本号
+platform :ios, '8.0' 用来设置所有第三方库所支持的iOS最低版本
+pod 'SDWebImage','~&gt;2.6' 设置框架的名称和版本号
 版本号的规则：
-&#39;&gt;1.0&#39;    可以安装任何高于1.0的版本
-&#39;&gt;=1.0&#39;   可以安装任何高于或等于1.0的版本
-&#39;&lt;1.0&#39;    任何低于1.0的版本
-&#39;&lt;=1.0&#39;   任何低于或等于1.0的版本
-&#39;~&gt;0.1&#39;   任何高于或等于0.1的版本，但是不包含高于1.0的版本
-&#39;~&gt;0&#39;     任何版本，相当于不指定版本，默认采用最新版本号
+'&gt;1.0'    可以安装任何高于1.0的版本
+'&gt;=1.0'   可以安装任何高于或等于1.0的版本
+'&lt;1.0'    任何低于1.0的版本
+'&lt;=1.0'   任何低于或等于1.0的版本
+'~&gt;0.1'   任何高于或等于0.1的版本，但是不包含高于1.0的版本
+'~&gt;0'     任何版本，相当于不指定版本，默认采用最新版本号
 
 10.使用pod install命令安装框架后的大致过程：
 01 分析依赖:该步骤会分析Podfile,查看不同类库之间的依赖情况。如果有多个类库依赖于同一个类库，但是依赖于不同的版本，那么cocoaPods会自动设置一个兼容的版本。
@@ -822,6 +766,12 @@ pod &#39;SDWebImage&#39;,&#39;~&gt;2.6&#39; 设置框架的名称和版本号
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -841,12 +791,6 @@ pod &#39;SDWebImage&#39;,&#39;~&gt;2.6&#39; 设置框架的名称和版本号
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

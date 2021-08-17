@@ -81,7 +81,7 @@ $(document).ready(function(event) {
 				<p class="meta"><time datetime="2016-11-03T11:22:02+08:00" pubdate data-updated="true">2016/11/3</time></p>
 			 </header>
 		  	<div class="entry-content">
-			  	<pre><code class="language-text">+ (UIViewController *)getCurrentRootViewController {
+			  	<pre><code>+ (UIViewController *)getCurrentRootViewController {
 
     CommonTool *tool = [[CommonTool alloc]init];
 
@@ -116,8 +116,7 @@ $(document).ready(function(event) {
 }
 
 </code></pre>
-
-<pre><code class="language-text">- (UIViewController *)findViewController:(id)controller{
+<pre><code>- (UIViewController *)findViewController:(id)controller{
     if ([controller isMemberOfClass:[UINavigationController class]]) {
         return [self findViewController:[(UINavigationController *)controller visibleViewController]];
     }
@@ -265,6 +264,12 @@ $(document).ready(function(event) {
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -284,12 +289,6 @@ $(document).ready(function(event) {
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

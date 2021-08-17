@@ -81,27 +81,34 @@ $(document).ready(function(event) {
 				<p class="meta"><time datetime="2017-09-13T10:10:19+08:00" pubdate data-updated="true">2017/9/13</time></p>
 			 </header>
 		  	<div class="entry-content">
-			  	<h2 id="toc_0">1. 指针是一种数据类型</h2>
-
+			  	<h2><a id="1%E6%8C%87%E9%92%88%E6%98%AF%E4%B8%80%E7%A7%8D%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B" class="anchor" aria-hidden="true" href="#1%E6%8C%87%E9%92%88%E6%98%AF%E4%B8%80%E7%A7%8D%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="octicon octicon-link"></span></a>1. 指针是一种数据类型</h2>
 <ol>
-<li>指针也是一种变量,占有内存空间,用来保存内存地址  指针的大小--&gt; 32位: 4  64位: 8</li>
-<li><p><code>*p</code> 操作内存</p>
-<pre><code class="language-text">在指针声明时,`*`号表示所声明的变量为指针
-在指针使用时,`*`号表示**操作**指针所指向的内存空间中的值<br/>
-`*p`相当于通过地址(p变量的值)找到一块内存,然后操作内存<br/>
-`*p`放在等号左边赋值(给内存赋值)<br/>
+<li>
+<p>指针也是一种变量,占有内存空间,用来保存内存地址  指针的大小--&gt; 32位: 4  64位: 8</p>
+</li>
+<li>
+<p><code>*p</code> 操作内存</p>
+<pre><code>在指针声明时,`*`号表示所声明的变量为指针
+在指针使用时,`*`号表示**操作**指针所指向的内存空间中的值
+`*p`相当于通过地址(p变量的值)找到一块内存,然后操作内存
+`*p`放在等号左边赋值(给内存赋值)
 `*p`放在等号右边取值(从内存获取值)
-</code></pre></li>
-<li><p>指针变量和它指向的内存块是两个不同的概念</p>
-<pre><code class="language-text">含义1: 给p赋值 p = 0x1111; 只会改变指针变量值,不会改变所指的内容; p = p+1
-含义2: 给`*p`赋值 *p = &#39;a&#39;;不会改变指针变量的值,只会改变所指的内存块的值<br/>
-保证所指向的内存空间能修改()<br/>
+</code></pre>
+</li>
+<li>
+<p>指针变量和它指向的内存块是两个不同的概念</p>
+<pre><code>含义1: 给p赋值 p = 0x1111; 只会改变指针变量值,不会改变所指的内容; p = p+1
+含义2: 给`*p`赋值 *p = 'a';不会改变指针变量的值,只会改变所指的内存块的值
+保证所指向的内存空间能修改()
 *就像一把钥匙,通过一个地址(&amp;a),去修改a变量的标示的内存空间
-</code></pre></li>
-<li><p>指针是一种数据类型,是指它指向的内存空间的数据类型</p>
-<pre><code class="language-text">指针步长(p++),根据所指内存空间的数据类型类确定
+</code></pre>
+</li>
+<li>
+<p>指针是一种数据类型,是指它指向的内存空间的数据类型</p>
+<pre><code>指针步长(p++),根据所指内存空间的数据类型类确定
 p++ = ---&gt; p+sizeof(a)
-</code></pre></li>
+</code></pre>
+</li>
 </ol>
 
 			</div>
@@ -234,6 +241,12 @@ p++ = ---&gt; p+sizeof(a)
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -253,12 +266,6 @@ p++ = ---&gt; p+sizeof(a)
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

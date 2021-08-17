@@ -82,8 +82,7 @@ $(document).ready(function(event) {
 			 </header>
 		  	<div class="entry-content">
 			  	<p>项目中使用<code>Nacos</code>,想覆盖nacos的默认配置,配置信息如下:</p>
-
-<pre><code class="language-text">/**
+<pre><code>/**
  * @author cloud
  * @date 2019-10-31
  * &lt;p&gt;
@@ -111,10 +110,8 @@ public interface ConfigConstants {
     String AUTH_ENABLED = &quot;nacos.core.auth.enabled&quot;;
 }
 </code></pre>
-
 <p>在启动类中设置想要覆盖配置的值</p>
-
-<pre><code class="language-text">/**
+<pre><code>/**
  * @author nacos
  * &lt;p&gt;
  * nacos console 源码运行，方便开发
@@ -124,13 +121,13 @@ public interface ConfigConstants {
 @SpringBootApplication
 public class CloudNacosApplication {
 
-    public static void main(String[] args) {
-        System.setProperty(ConfigConstants.TOMCAT_DIR, &quot;logs&quot;);
-        System.setProperty(ConfigConstants.TOMCAT_ACCESS_LOG, &quot;false&quot;);
+	public static void main(String[] args) {
+		System.setProperty(ConfigConstants.TOMCAT_DIR, &quot;logs&quot;);
+		System.setProperty(ConfigConstants.TOMCAT_ACCESS_LOG, &quot;false&quot;);
         System.setProperty(ConfigConstants.STANDALONE_MODE, &quot;true&quot;);
         System.setProperty(ConfigConstants.AUTH_ENABLED, &quot;false&quot;);
-        SpringApplication.run(CloudNacosApplication.class, args);
-    }
+		SpringApplication.run(CloudNacosApplication.class, args);
+	}
 }
 
 </code></pre>
@@ -265,6 +262,12 @@ public class CloudNacosApplication {
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -284,12 +287,6 @@ public class CloudNacosApplication {
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

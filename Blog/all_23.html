@@ -78,6 +78,40 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14762437833792.html">在包含UITableView视图中添加单击手势</a></h1>
+			<p class="meta"><time datetime="2016-10-12T11:43:03+08:00" 
+			pubdate data-updated="true">2016/10/12</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>如果在包含UITableView视图中添加单击手势，这个单击手势会屏蔽掉UITableView的</p>
+<pre><code>- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath;
+</code></pre>
+<p>可以利用<code>UIGestureRecognizer</code>的<code>Delegate</code>中的</p>
+<pre><code>- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer;
+</code></pre>
+<p>在单击点位于UITableView内的时候取消响应</p>
+<pre><code>- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer{
+    CGPoint point = [gestureRecognizer locationInView:self];
+    if(CGRectContainsPoint(menuTableView.frame, point)){
+        return NO;
+    }
+    return YES;
+}
+</code></pre>
+<p>或者将单击手势的cancelsTouchesInView设置为NO</p>
+<pre><code>singleTap.cancelsTouchesInView = NO;
+</code></pre>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14761943627170.html">升级到Xcode8后Qt无法正常使用</a></h1>
 			<p class="meta"><time datetime="2016-10-11T21:59:22+08:00" 
 			pubdate data-updated="true">2016/10/11</time></p>
@@ -85,57 +119,35 @@ $(document).ready(function(event) {
 	  	<div class="entry-content">
 		  	
 		  	<p>错误信息:</p>
-
 <blockquote>
 <p>Project ERROR: Xcode not set up properly. You may need to confirm the license agreement by running /usr/bin/xcodebuild.</p>
 </blockquote>
-
-<p>解决办法:<br/>
+<p>解决办法:<br />
 <strong>&gt;= Xcode 8</strong></p>
-
 <p>In Xcode 8, as Bruce said, this happens when Qt tries to find <code>xcrun</code> when it should be looking for <code>xcodebuild</code>.</p>
-
 <p><strong>Step 1:</strong></p>
-
 <p>Open the file:</p>
-
-<pre><code class="language-text">Qt_install_folder/5.7/clang_64/mkspecs/features/mac/default_pre.prf
+<pre><code>Qt_install_folder/5.7/clang_64/mkspecs/features/mac/default_pre.prf
 </code></pre>
-
 <p><strong>Step 2:</strong></p>
-
 <p>Replace:</p>
-
-<pre><code class="language-text">isEmpty($$list($$system(&quot;/usr/bin/xcrun -find xcrun 2&gt;/dev/null&quot;)))
+<pre><code>isEmpty($$list($$system(&quot;/usr/bin/xcrun -find xcrun 2&gt;/dev/null&quot;)))
 </code></pre>
-
 <p>With:</p>
-
-<pre><code class="language-text">isEmpty($$list($$system(&quot;/usr/bin/xcrun -find xcodebuild 2&gt;/dev/null&quot;)))
+<pre><code>isEmpty($$list($$system(&quot;/usr/bin/xcrun -find xcodebuild 2&gt;/dev/null&quot;)))
 </code></pre>
-
 <p><strong>~&gt; Xcode 8</strong></p>
-
 <p>Before Xcode 8, this problem occurs when command line tools are installed after Xcode is installed. What happens is the <code>Xcode-select</code> developer directory gets pointed to <code>/Library/Developer/CommandLineTools</code>.</p>
-
 <p><strong>Step 1:</strong></p>
-
 <p>Point <code>Xcode-select</code> to the correct Xcode Developer directory with the command:</p>
-
-<pre><code class="language-text">sudo xcode-select -switch /Applications/Xcode.app/Contents/Developer
+<pre><code>sudo xcode-select -switch /Applications/Xcode.app/Contents/Developer
 </code></pre>
-
 <p><strong>Step 2:</strong></p>
-
 <p>Confirm the license agreement with the command:</p>
-
-<pre><code class="language-text">xcodebuild -license
+<pre><code>xcodebuild -license
 </code></pre>
-
 <p>This will prompt you to read through the license agreement.</p>
-
 <p>Enter <code>agree</code> to accept the terms.</p>
-
 <p>详见stackoverflow 中 <a href="http://stackoverflow.com/questions/33728905/qt-creator-project-error-xcode-not-set-up-properly-you-may-need-to-confirm-t">Qt Creator - Project ERROR: Xcode not set up properly. You may need to confirm the license agreement by running /usr/bin/xcodebuild</a></p>
 
 
@@ -153,19 +165,13 @@ $(document).ready(function(event) {
 		 </header>
 	  	<div class="entry-content">
 		  	
-		  	<h2 id="toc_0">优化</h2>
-
-<p><a href="http://www.mulle-kybernetik.com/artikel/Optimization/opti-3-imp-deluxe.html">极致优化</a></p>
-
+		  	<p>##优化<br />
+<a href="http://www.mulle-kybernetik.com/artikel/Optimization/opti-3-imp-deluxe.html">极致优化</a></p>
 <p>美团点评技术团队: <a href="http://tech.meituan.com/DiveIntoMethodCache.html">深入理解Objective-C：方法缓存</a></p>
-
-<h2 id="toc_1">Runloop</h2>
-
+<h2><a id="runloop" class="anchor" aria-hidden="true" href="#runloop"><span class="octicon octicon-link"></span></a>Runloop</h2>
 <p><a href="http://blog.ibireme.com/2015/05/18/runloop/">深入理解RunLoop</a>  --- 内部分享文章runloop中使用了该文章中的一张图.</p>
-
-<h2 id="toc_2">GCD</h2>
-
-<p><a href="http://www.raywenderlich.com/60749/grand-central-dispatch-in-depth-part-1">GCD 深入理解：第一部分</a> 中文翻译:<a href="https://github.com/nixzhu/dev-blog/blob/master/2014-04-19-grand-central-dispatch-in-depth-part-1.md">译文</a><br/>
+<p>##GCD<br />
+<a href="http://www.raywenderlich.com/60749/grand-central-dispatch-in-depth-part-1">GCD 深入理解：第一部分</a> 中文翻译:<a href="https://github.com/nixzhu/dev-blog/blob/master/2014-04-19-grand-central-dispatch-in-depth-part-1.md">译文</a><br />
 <a href="https://github.com/nixzhu/dev-blog/blob/master/2014-05-14-grand-central-dispatch-in-depth-part-2.md">GCD 深入理解：第二部分</a></p>
 
 
@@ -184,27 +190,20 @@ $(document).ready(function(event) {
 	  	<div class="entry-content">
 		  	
 		  	<p>项目中如果显示图片比较多,会遇到内存涨的比较厉害,项目中用到 SDWebImage, 所以可以很简单的让内存缓存变稳定:</p>
-
-<pre><code class="language-text">-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+<pre><code>-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
     [[SDImageCache sharedImageCache] clearMemory];
 }
 </code></pre>
-
 <p>原理:</p>
-
-<pre><code class="language-text">- (void)clearMemory {
+<pre><code>- (void)clearMemory {
     [self.memCache removeAllObjects];
 }
 </code></pre>
-
 <p>_memCache 是 NSCache 类型的,</p>
-
-<p>没有做任何操作的时候大概是这个样子的<br/>
-<img src="media/14752152861722/14752174866625.jpg" alt=""/></p>
-
-<p>添加clearMemory后:<br/>
-<img src="media/14752152861722/14752177858503.jpg" alt=""/></p>
-
+<p>没有做任何操作的时候大概是这个样子的<br />
+<img src="media/14752152861722/14752174866625.jpg" alt="" /></p>
+<p>添加clearMemory后:<br />
+<img src="media/14752152861722/14752177858503.jpg" alt="" /></p>
 <p>这也是为什么滚动后屏幕上还显示图片的原因.</p>
 
 
@@ -222,7 +221,7 @@ $(document).ready(function(event) {
 		 </header>
 	  	<div class="entry-content">
 		  	
-		  	<pre><code class="language-text">1.先升级Gem
+		  	<pre><code>1.先升级Gem
     sudo gem update --system
 2.切换cocoapods的数据源
     【先删除，再添加，查看】
@@ -256,15 +255,15 @@ pod install --no-repo-update
 pod update --no-repo-update
 
 9.说明
-platform :ios, &#39;8.0&#39; 用来设置所有第三方库所支持的iOS最低版本
-pod &#39;SDWebImage&#39;,&#39;~&gt;2.6&#39; 设置框架的名称和版本号
+platform :ios, '8.0' 用来设置所有第三方库所支持的iOS最低版本
+pod 'SDWebImage','~&gt;2.6' 设置框架的名称和版本号
 版本号的规则：
-&#39;&gt;1.0&#39;    可以安装任何高于1.0的版本
-&#39;&gt;=1.0&#39;   可以安装任何高于或等于1.0的版本
-&#39;&lt;1.0&#39;    任何低于1.0的版本
-&#39;&lt;=1.0&#39;   任何低于或等于1.0的版本
-&#39;~&gt;0.1&#39;   任何高于或等于0.1的版本，但是不包含高于1.0的版本
-&#39;~&gt;0&#39;     任何版本，相当于不指定版本，默认采用最新版本号
+'&gt;1.0'    可以安装任何高于1.0的版本
+'&gt;=1.0'   可以安装任何高于或等于1.0的版本
+'&lt;1.0'    任何低于1.0的版本
+'&lt;=1.0'   任何低于或等于1.0的版本
+'~&gt;0.1'   任何高于或等于0.1的版本，但是不包含高于1.0的版本
+'~&gt;0'     任何版本，相当于不指定版本，默认采用最新版本号
 
 10.使用pod install命令安装框架后的大致过程：
 01 分析依赖:该步骤会分析Podfile,查看不同类库之间的依赖情况。如果有多个类库依赖于同一个类库，但是依赖于不同的版本，那么cocoaPods会自动设置一个兼容的版本。
@@ -272,66 +271,6 @@ pod &#39;SDWebImage&#39;,&#39;~&gt;2.6&#39; 设置框架的名称和版本号
 03 生成Pods项目：创建一个Pods项目专门用来编译和管理第三方框架，CocoaPods会将所需的框架，库等内容添加到项目中，并且进行相应的配置。
 04 整合Pods项目：将Pods和项目整合到一个工作空间中，并且设置文件链接。
 
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14747868502733.html">GCD(Grand Central Dispatch)使用</a></h1>
-			<p class="meta"><time datetime="2016-09-25T15:00:50+08:00" 
-			pubdate data-updated="true">2016/9/25</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>可以让程序长时间压后台</p>
-
-<pre><code class="language-text">//  后台执行：
-dispatch_async(dispatch_get_global_queue(0, 0), ^{
-  // something
-});
-
-// 主线程执行：
-dispatch_async(dispatch_get_main_queue(), ^{
-  // something
-});
-
-// 一次性执行：
-static dispatch_once_t onceToken;
-dispatch_once(&amp;onceToken, ^{
-  // code to be executed once
-});
-
-// 延迟2秒执行：
-double delayInSeconds = 2.0;
-dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-   // code to be executed on the main queue after delay
-});
-
-// 自定义dispatch_queue_t
-dispatch_queue_t urls_queue = dispatch_queue_create(&quot;blog.devtang.com&quot;, NULL);
-dispatch_async(urls_queue, ^{
-  // your code
-});
-dispatch_release(urls_queue);
-
-// 合并汇总结果
-dispatch_group_t group = dispatch_group_create();
-dispatch_group_async(group, dispatch_get_global_queue(0,0), ^{
-  // 并行执行的线程一
-});
-dispatch_group_async(group, dispatch_get_global_queue(0,0), ^{
-  // 并行执行的线程二
-});
-dispatch_group_notify(group, dispatch_get_global_queue(0,0), ^{
-  // 汇总结果
-});
 </code></pre>
 
 
@@ -439,6 +378,12 @@ dispatch_group_notify(group, dispatch_get_global_queue(0,0), ^{
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -458,12 +403,6 @@ dispatch_group_notify(group, dispatch_get_global_queue(0,0), ^{
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

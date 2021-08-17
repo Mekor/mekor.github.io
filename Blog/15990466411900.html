@@ -82,14 +82,11 @@ $(document).ready(function(event) {
 			 </header>
 		  	<div class="entry-content">
 			  	<p>要使用JDBC与数据库连接，需要选择获取相应数据库的驱动程序并注册该驱动程序,有两种方式可以注册</p>
-
-<pre><code class="language-text">DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+<pre><code>DriverManager.registerDriver(new com.mysql.jdbc.Driver());
 </code></pre>
-
-<pre><code class="language-text">Class.forName(&quot;com.mysql.jdbc.Driver&quot;);
+<pre><code>Class.forName(&quot;com.mysql.jdbc.Driver&quot;);
 </code></pre>
-
-<p>当然现在也可以不用执行上面的操作也能正常执行,原因就是<code>SPI机制</code><br/>
+<p>当然现在也可以不用执行上面的操作也能正常执行,原因就是<code>SPI机制</code><br />
 <a href="https://juejin.im/post/6844903605695152142">Java SPI机制详解</a></p>
 
 			</div>
@@ -222,6 +219,12 @@ $(document).ready(function(event) {
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -241,12 +244,6 @@ $(document).ready(function(event) {
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

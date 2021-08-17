@@ -81,9 +81,8 @@ $(document).ready(function(event) {
 				<p class="meta"><time datetime="2017-08-27T23:05:05+08:00" pubdate data-updated="true">2017/8/27</time></p>
 			 </header>
 		  	<div class="entry-content">
-			  	<h2 id="toc_0"><a href="https://stackoverflow.com/documentation/ios/1190/cagradientlayer/3856/creating-a-cagradientlayer">Creating a CAGradientLayer</a></h2>
-
-<pre><code class="language-text">// View to hold the CAGradientLayer.
+			  	<h2><a id="creating-a-cagradientlayer-https-stackoverflow-comdocumentationios1190cagradientlayer3856creating-a-cagradientlayer" class="anchor" aria-hidden="true" href="#creating-a-cagradientlayer-https-stackoverflow-comdocumentationios1190cagradientlayer3856creating-a-cagradientlayer"><span class="octicon octicon-link"></span></a><a href="https://stackoverflow.com/documentation/ios/1190/cagradientlayer/3856/creating-a-cagradientlayer">Creating a CAGradientLayer</a></h2>
+<pre><code>// View to hold the CAGradientLayer.
 let view: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 320))
 
 // Initialize gradient layer.
@@ -104,17 +103,13 @@ gradientLayer.colors = [topColor, bottomColor]
 // Set locations of the colors.
 gradientLayer.locations = [0.0, 1.0]
 
-// Insert gradient layer into view&#39;s layer heirarchy.
+// Insert gradient layer into view's layer heirarchy.
 view.layer.insertSublayer(gradientLayer, at: 0)
 </code></pre>
-
 <p>Result :</p>
-
-<p><img src="media/15038463059094/q26bv.png" alt="Simple CAGradientLayer."/></p>
-
-<h2 id="toc_1"><a href="https://stackoverflow.com/documentation/ios/1190/cagradientlayer/12652/animating-a-color-change-in-cagradientlayer">Animating a color change in CAGradientLayer.</a></h2>
-
-<pre><code class="language-text">// Get the current colors of the gradient.
+<p><img src="media/15038463059094/q26bv.png" alt="Simple CAGradientLayer." /></p>
+<p>##<a href="https://stackoverflow.com/documentation/ios/1190/cagradientlayer/12652/animating-a-color-change-in-cagradientlayer">Animating a color change in CAGradientLayer.</a></p>
+<pre><code>// Get the current colors of the gradient.
 let oldColors = self.gradientLayer.colors
 
 // Define the new colors for the gradient.
@@ -150,14 +145,10 @@ animation.delegate = self
 // Add the animation.
 self.gradientLayer.addAnimation(animation, forKey: &quot;animateGradientColorChange&quot;)
 </code></pre>
-
 <p>Result :</p>
-
-<p><img src="media/15038463059094/AquKd.gif" alt="Basic CAGradientLayer color change animation."/></p>
-
-<h2 id="toc_2"><a href="https://stackoverflow.com/documentation/ios/1190/cagradientlayer/4229/creating-a-horizontal-cagradientlayer-with-multiple-colors">Creating a horizontal CAGradientLayer with multiple colors.</a></h2>
-
-<pre><code class="language-text">// View to hold the CAGradientLayer.
+<p><img src="media/15038463059094/AquKd.gif" alt="Basic CAGradientLayer color change animation." /></p>
+<p>##<a href="https://stackoverflow.com/documentation/ios/1190/cagradientlayer/4229/creating-a-horizontal-cagradientlayer-with-multiple-colors">Creating a horizontal CAGradientLayer with multiple colors.</a></p>
+<pre><code>// View to hold the CAGradientLayer.
 let view: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 320))
 
 // Initialize gradient layer.
@@ -184,17 +175,13 @@ gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
 // Set end point.
 gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
 
-// Insert gradient layer into view&#39;s layer heirarchy.
+// Insert gradient layer into view's layer heirarchy.
 view.layer.insertSublayer(gradientLayer, atIndex: 0)
 </code></pre>
-
 <p>Result :</p>
-
-<p><img src="media/15038463059094/I4OGH.png" alt="enter image description here"/></p>
-
-<h2 id="toc_3"><a href="https://stackoverflow.com/documentation/ios/1190/cagradientlayer/4228/creating-a-horizontal-cagradientlayer">Creating a horizontal CAGradientLayer.</a></h2>
-
-<pre><code class="language-text">// View to hold the CAGradientLayer.
+<p><img src="media/15038463059094/I4OGH.png" alt="enter image description here" /></p>
+<p>##<a href="https://stackoverflow.com/documentation/ios/1190/cagradientlayer/4228/creating-a-horizontal-cagradientlayer">Creating a horizontal CAGradientLayer.</a></p>
+<pre><code>// View to hold the CAGradientLayer.
 let view: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 320))
 
 // Initialize gradient layer.
@@ -218,17 +205,13 @@ gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
 // Set end point.
 gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
 
-// Insert gradient layer into view&#39;s layer heirarchy.
+// Insert gradient layer into view's layer heirarchy.
 view.layer.insertSublayer(gradientLayer, atIndex: 0)
 </code></pre>
-
 <p>Result :</p>
-
-<p><img src="media/15038463059094/7VCnW.png" alt="Horizontal CAGradientLayer."/></p>
-
-<h2 id="toc_4"><a href="https://stackoverflow.com/documentation/ios/1190/cagradientlayer/4227/creating-a-cggradientlayer-with-multiple-colors">Creating a CGGradientLayer with multiple colors.</a></h2>
-
-<pre><code class="language-text">// View to hold the CAGradientLayer.
+<p><img src="media/15038463059094/7VCnW.png" alt="Horizontal CAGradientLayer." /></p>
+<p>##<a href="https://stackoverflow.com/documentation/ios/1190/cagradientlayer/4227/creating-a-cggradientlayer-with-multiple-colors">Creating a CGGradientLayer with multiple colors.</a></p>
+<pre><code>// View to hold the CAGradientLayer.
 let view: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 320))
 
 // Initialize gradient layer.
@@ -252,25 +235,18 @@ gradientLayer.colors = [topColor, middleColor, bottomColor]
 // Set locations of the colors.
 gradientLayer.locations = [0.0, 0.5, 1.0]
 
-// Insert gradient layer into view&#39;s layer heirarchy.
+// Insert gradient layer into view's layer heirarchy.
 view.layer.insertSublayer(gradientLayer, at: 0)
 </code></pre>
-
 <p>Result :</p>
-
-<p><img src="media/15038463059094/tV4OL.png" alt="Complex CAGradientLayer."/></p>
-
-<hr/>
-
-<h2 id="toc_5">Syntax</h2>
-
-<pre><code class="language-text">CAGradientLayer() // Returns an initialized CALayer object.
+<p><img src="media/15038463059094/tV4OL.png" alt="Complex CAGradientLayer." /></p>
+<hr />
+<h2><a id="syntax" class="anchor" aria-hidden="true" href="#syntax"><span class="octicon octicon-link"></span></a>Syntax</h2>
+<pre><code>CAGradientLayer() // Returns an initialized CALayer object.
 -------------------
 CAGradientLayer(layer: layer) // Override to copy or initialize custom fields of the specified layer.
 </code></pre>
-
-<h2 id="toc_6">Parameters</h2>
-
+<h2><a id="parameters" class="anchor" aria-hidden="true" href="#parameters"><span class="octicon octicon-link"></span></a>Parameters</h2>
 <table>
 <thead>
 <tr>
@@ -278,7 +254,6 @@ CAGradientLayer(layer: layer) // Override to copy or initialize custom fields of
 <th style="text-align: left">Details</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td style="text-align: left">color</td>
@@ -302,9 +277,7 @@ CAGradientLayer(layer: layer) // Override to copy or initialize custom fields of
 </tr>
 </tbody>
 </table>
-
-<h2 id="toc_7">Remarks</h2>
-
+<h2><a id="remarks" class="anchor" aria-hidden="true" href="#remarks"><span class="octicon octicon-link"></span></a>Remarks</h2>
 <ul>
 <li>Use <code>startPoint</code> and <code>endPoint</code> to change the orientation of the <code>CAGradientLayer</code>.</li>
 <li>Use the <code>locations</code> to affect the spread/positions of the colors.</li>
@@ -440,6 +413,12 @@ CAGradientLayer(layer: layer) // Override to copy or initialize custom fields of
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -459,12 +438,6 @@ CAGradientLayer(layer: layer) // Override to copy or initialize custom fields of
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

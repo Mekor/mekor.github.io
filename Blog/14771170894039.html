@@ -84,36 +84,25 @@ $(document).ready(function(event) {
 			  	<blockquote>
 <p>如果Xcode8下无法正常使用Qt,解决办法参见:<a href="http://www.citynight.cn/Blog/14761943627170.html">http://www.citynight.cn/Blog/14761943627170.html</a></p>
 </blockquote>
-
-<p>最终实现的效果:<br/>
-<img src="media/14771170894039/14771178501064.jpg" alt=""/></p>
-
-<p><img src="media/14771170894039/14771179340151.jpg" alt=""/></p>
-
-<p>选择桌面应用程序<br/>
-<img src="media/14771170894039/14771179611437.jpg" alt=""/></p>
-
-<p><img src="media/14771170894039/14771180181773.jpg" alt=""/></p>
-
+<p>最终实现的效果:<br />
+<img src="media/14771170894039/14771178501064.jpg" alt="" /></p>
+<p><img src="media/14771170894039/14771179340151.jpg" alt="" /></p>
+<p>选择桌面应用程序<br />
+<img src="media/14771170894039/14771179611437.jpg" alt="" /></p>
+<p><img src="media/14771170894039/14771180181773.jpg" alt="" /></p>
 <p>OK,现在项目创建好了....接下来就是写代码了...</p>
-
-<p><img src="media/14771170894039/14771173227361.jpg" alt=""/></p>
-
-<p>然后在<code>mainwindow.cpp</code>文件中编写代码:<br/>
+<p><img src="media/14771170894039/14771173227361.jpg" alt="" /></p>
+<p>然后在<code>mainwindow.cpp</code>文件中编写代码:<br />
 引入需要的头文件</p>
-
-<pre><code class="language-text">#include &lt;QPainter&gt;
+<pre><code>#include &lt;QPainter&gt;
 #include &lt;QPen&gt;
 #include &lt;math.h&gt;
 </code></pre>
-
 <p>在<code>MainWindow</code>中设置窗口位置</p>
-
-<pre><code class="language-text">    // 设置在桌面上显示的位置&amp;大小
+<pre><code>    // 设置在桌面上显示的位置&amp;大小
     this-&gt;setGeometry(600,300,600,300);
 </code></pre>
-
-<pre><code class="language-text">void MainWindow::paintEvent(QPaintEvent *e){
+<pre><code>void MainWindow::paintEvent(QPaintEvent *e){
         // 定义画笔
         QPainter painter(this);
 
@@ -156,7 +145,6 @@ $(document).ready(function(event) {
         painter.drawPolyline(pVector);
 }
 </code></pre>
-
 <p>开心的run下吧..</p>
 
 			</div>
@@ -289,6 +277,12 @@ $(document).ready(function(event) {
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -308,12 +302,6 @@ $(document).ready(function(event) {
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

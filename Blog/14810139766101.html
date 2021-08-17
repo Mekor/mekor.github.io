@@ -82,14 +82,11 @@ $(document).ready(function(event) {
 			 </header>
 		  	<div class="entry-content">
 			  	<p>新界面左右联动的时候遇到了一个问题,怎么在左侧tableView点击某一cell的时候右侧collectionView跳转到对应的section</p>
-
 <p>如果没有section header View 的时候直接跳转到这个section的第一个Item就ok了,但是如果有section header View 的时候就需要注意了,不能这样进行跳转了,下面👇是经过测试的方法能够完美跳转到相应的section:</p>
-
-<pre><code class="language-text">let attributes = self.collectionView.collectionViewLayout.layoutAttributesForSupplementaryViewOfKind(UICollectionElementKindSectionHeader, atIndexPath: NSIndexPath(forItem: 0, inSection: index))
+<pre><code>let attributes = self.collectionView.collectionViewLayout.layoutAttributesForSupplementaryViewOfKind(UICollectionElementKindSectionHeader, atIndexPath: NSIndexPath(forItem: 0, inSection: index))
 
 self.collectionView.setContentOffset(CGPointMake(0, attributes!.frame.origin.y - self.collectionView.contentInset.top), animated: true)
 </code></pre>
-
 <p>参见:<a href="http://stackoverflow.com/questions/22100227/scroll-uicollectionview-to-section-header-view">Scroll UICollectionView to section header view</a></p>
 
 			</div>
@@ -222,6 +219,12 @@ self.collectionView.setContentOffset(CGPointMake(0, attributes!.frame.origin.y -
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -241,12 +244,6 @@ self.collectionView.setContentOffset(CGPointMake(0, attributes!.frame.origin.y -
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

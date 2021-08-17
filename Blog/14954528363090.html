@@ -81,16 +81,11 @@ $(document).ready(function(event) {
 				<p class="meta"><time datetime="2017-05-22T19:33:56+08:00" pubdate data-updated="true">2017/5/22</time></p>
 			 </header>
 		  	<div class="entry-content">
-			  	<h2 id="toc_0">1.文件管理</h2>
-
-<h3 id="toc_1">查看文件信息：ls</h3>
-
+			  	<h2><a id="1%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86" class="anchor" aria-hidden="true" href="#1%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86"><span class="octicon octicon-link"></span></a>1.文件管理</h2>
+<h3><a id="%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E4%BF%A1%E6%81%AF%EF%BC%9Als" class="anchor" aria-hidden="true" href="#%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E4%BF%A1%E6%81%AF%EF%BC%9Als"><span class="octicon octicon-link"></span></a>查看文件信息：ls</h3>
 <p>ls是英文单词list的简写，其功能为列出目录的内容，是用户最常用的命令之一，它类似于DOS下的dir命令。</p>
-
 <p><code>Linux文件或者目录名称最长可以有265个字符，“.”代表当前目录，“..”代表上一级目录，以“.”开头的文件为隐藏文件，需要用 -a 参数才能显示。</code></p>
-
 <p>ls常用参数：</p>
-
 <table>
 <thead>
 <tr>
@@ -98,7 +93,6 @@ $(document).ready(function(event) {
 <th>含义</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td style="text-align: center">-a</td>
@@ -114,15 +108,10 @@ $(document).ready(function(event) {
 </tr>
 </tbody>
 </table>
-
-<p><img src="media/14954528363090/14954529185223.jpg" alt=""/></p>
-
+<p><img src="media/14954528363090/14954529185223.jpg" alt="" /></p>
 <p>图中列出的信息含义如下图所示：</p>
-
-<p><img src="media/14954528363090/14954529393080.jpg" alt=""/></p>
-
+<p><img src="media/14954528363090/14954529393080.jpg" alt="" /></p>
 <p>与DOS下的文件操作类似，在Unix/Linux系统中，也同样允许使用特殊字符来同时引用多个文件名，这些特殊字符被称为通配符。</p>
-
 <table>
 <thead>
 <tr>
@@ -130,7 +119,6 @@ $(document).ready(function(event) {
 <th>含义</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td style="text-align: left">*</td>
@@ -186,40 +174,23 @@ $(document).ready(function(event) {
 </tr>
 </tbody>
 </table>
-
-<h3 id="toc_2">输出重定向命令：&gt;</h3>
-
+<h3><a id="%E8%BE%93%E5%87%BA%E9%87%8D%E5%AE%9A%E5%90%91%E5%91%BD%E4%BB%A4%EF%BC%9A" class="anchor" aria-hidden="true" href="#%E8%BE%93%E5%87%BA%E9%87%8D%E5%AE%9A%E5%90%91%E5%91%BD%E4%BB%A4%EF%BC%9A"><span class="octicon octicon-link"></span></a>输出重定向命令：&gt;</h3>
 <p>Linux允许将命令执行结果重定向到一个文件，本应显示在终端上的内容保存到指定文件中。</p>
-
 <p>如：ls &gt; test.txt ( test.txt 如果不存在，则创建，存在则覆盖其内容 )</p>
-
-<p><img src="media/14954528363090/14954530933243.jpg" alt=""/><br/>
+<p><img src="media/14954528363090/14954530933243.jpg" alt="" /><br />
 注意： <code>&gt;输出重定向会覆盖原来的内容，&gt;&gt;输出重定向则会追加到文件的尾部。</code></p>
-
-<h3 id="toc_3">分屏显示：more</h3>
-
+<h3><a id="%E5%88%86%E5%B1%8F%E6%98%BE%E7%A4%BA%EF%BC%9Amore" class="anchor" aria-hidden="true" href="#%E5%88%86%E5%B1%8F%E6%98%BE%E7%A4%BA%EF%BC%9Amore"><span class="octicon octicon-link"></span></a>分屏显示：more</h3>
 <p>查看内容时，在信息过长无法在一屏上显示时，会出现快速滚屏，使得用户无法看清文件的内容，此时可以使用more命令，每次只显示一页，按下空格键可以显示下一页，按下q键退出显示，按下h键可以获取帮助。</p>
-
-<p><img src="media/14954528363090/14954533115641.jpg" alt=""/></p>
-
-<h3 id="toc_4">管道：|</h3>
-
+<p><img src="media/14954528363090/14954533115641.jpg" alt="" /></p>
+<h3><a id="%E7%AE%A1%E9%81%93%EF%BC%9A" class="anchor" aria-hidden="true" href="#%E7%AE%A1%E9%81%93%EF%BC%9A"><span class="octicon octicon-link"></span></a>管道：|</h3>
 <p>管道：一个命令的输出可以通过管道做为另一个命令的输入。</p>
-
 <p>管道我们可以理解现实生活中的管子，管子的一头塞东西进去，另一头取出来，这里“ | ”的左右分为两端，左端塞东西(写)，右端取东西(读)。</p>
-
-<p><img src="media/14954528363090/14954534699128.jpg" alt=""/></p>
-
-<h3 id="toc_5">清屏：clear</h3>
-
+<p><img src="media/14954528363090/14954534699128.jpg" alt="" /></p>
+<h3><a id="%E6%B8%85%E5%B1%8F%EF%BC%9Aclear" class="anchor" aria-hidden="true" href="#%E6%B8%85%E5%B1%8F%EF%BC%9Aclear"><span class="octicon octicon-link"></span></a>清屏：clear</h3>
 <p>clear作用为清除终端上的显示(类似于DOS的cls清屏功能)，也可使用快捷键：Ctrl + l ( “l” 为字母 )。</p>
-
-<h3 id="toc_6">切换工作目录： cd</h3>
-
+<h3><a id="%E5%88%87%E6%8D%A2%E5%B7%A5%E4%BD%9C%E7%9B%AE%E5%BD%95%EF%BC%9Acd" class="anchor" aria-hidden="true" href="#%E5%88%87%E6%8D%A2%E5%B7%A5%E4%BD%9C%E7%9B%AE%E5%BD%95%EF%BC%9Acd"><span class="octicon octicon-link"></span></a>切换工作目录： cd</h3>
 <p>在使用Unix/Linux的时候，经常需要更换工作目录。cd命令可以帮助用户切换工作目录。<code>Linux所有的目录和文件名大小写敏感</code></p>
-
 <p>cd后面可跟绝对路径，也可以跟相对路径。如果省略目录，则默认切换到当前用户的主目录。</p>
-
 <table>
 <thead>
 <tr>
@@ -227,7 +198,6 @@ $(document).ready(function(event) {
 <th>含义</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td style="text-align: left">cd</td>
@@ -251,37 +221,23 @@ $(document).ready(function(event) {
 </tr>
 </tbody>
 </table>
-
-<p><img src="media/14954528363090/14955894273051.jpg" alt=""/><br/>
+<p><img src="media/14954528363090/14955894273051.jpg" alt="" /><br />
 注意：</p>
-
 <ul>
 <li>如果路径是从根路径开始的，则路径的前面需要加上 “ / ”，如 “ /mnt ”，通常进入某个目录里的文件夹，前面不用加 “ / ”。</li>
 </ul>
-
-<p><img src="media/14954528363090/14955900895519.jpg" alt=""/></p>
-
-<h3 id="toc_7">显示当前路径：pwd</h3>
-
+<p><img src="media/14954528363090/14955900895519.jpg" alt="" /></p>
+<h3><a id="%E6%98%BE%E7%A4%BA%E5%BD%93%E5%89%8D%E8%B7%AF%E5%BE%84%EF%BC%9Apwd" class="anchor" aria-hidden="true" href="#%E6%98%BE%E7%A4%BA%E5%BD%93%E5%89%8D%E8%B7%AF%E5%BE%84%EF%BC%9Apwd"><span class="octicon octicon-link"></span></a>显示当前路径：pwd</h3>
 <p>使用pwd命令可以显示当前的工作目录，该命令很简单，直接输入pwd即可，后面不带参数。</p>
-
-<h3 id="toc_8">创建目录：mkdir</h3>
-
+<h3><a id="%E5%88%9B%E5%BB%BA%E7%9B%AE%E5%BD%95%EF%BC%9Amkdir" class="anchor" aria-hidden="true" href="#%E5%88%9B%E5%BB%BA%E7%9B%AE%E5%BD%95%EF%BC%9Amkdir"><span class="octicon octicon-link"></span></a>创建目录：mkdir</h3>
 <p>通过mkdir命令可以创建一个新的目录。参数-p可递归创建目录。</p>
-
-<p>需要注意的是新建目录的名称不能与当前目录中已有的目录或文件同名，并且目录创建者必须对当前目录具有写权限。<br/>
-<img src="media/14954528363090/14955907314659.jpg" alt=""/></p>
-
-<h3 id="toc_9">删除目录：rmdir</h3>
-
+<p>需要注意的是新建目录的名称不能与当前目录中已有的目录或文件同名，并且目录创建者必须对当前目录具有写权限。<br />
+<img src="media/14954528363090/14955907314659.jpg" alt="" /></p>
+<h3><a id="%E5%88%A0%E9%99%A4%E7%9B%AE%E5%BD%95%EF%BC%9Armdir" class="anchor" aria-hidden="true" href="#%E5%88%A0%E9%99%A4%E7%9B%AE%E5%BD%95%EF%BC%9Armdir"><span class="octicon octicon-link"></span></a>删除目录：rmdir</h3>
 <p>可使用rmdir命令删除一个目录。必须离开目录，并且目录必须为空目录，不然提示删除失败。</p>
-
-<h3 id="toc_10">删除文件：rm</h3>
-
+<h3><a id="%E5%88%A0%E9%99%A4%E6%96%87%E4%BB%B6%EF%BC%9Arm" class="anchor" aria-hidden="true" href="#%E5%88%A0%E9%99%A4%E6%96%87%E4%BB%B6%EF%BC%9Arm"><span class="octicon octicon-link"></span></a>删除文件：rm</h3>
 <p>可通过rm删除文件或目录。使用rm命令要小心，因为文件删除后不能恢复。为了防止文件误删，可以在rm后使用-i参数以逐个确认要删除的文件。</p>
-
 <p>常用参数及含义如下表所示：</p>
-
 <table>
 <thead>
 <tr>
@@ -289,7 +245,6 @@ $(document).ready(function(event) {
 <th>含义</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td style="text-align: left">-i</td>
@@ -305,44 +260,27 @@ $(document).ready(function(event) {
 </tr>
 </tbody>
 </table>
-
-<h3 id="toc_11">建立链接文件：ln</h3>
-
+<h3><a id="%E5%BB%BA%E7%AB%8B%E9%93%BE%E6%8E%A5%E6%96%87%E4%BB%B6%EF%BC%9Aln" class="anchor" aria-hidden="true" href="#%E5%BB%BA%E7%AB%8B%E9%93%BE%E6%8E%A5%E6%96%87%E4%BB%B6%EF%BC%9Aln"><span class="octicon octicon-link"></span></a>建立链接文件：ln</h3>
 <p>Linux链接文件类似于Windows下的快捷方式。</p>
-
 <p>链接文件分为软链接和硬链接。</p>
-
 <p>软链接：软链接不占用磁盘空间，源文件删除则软链接失效。</p>
-
 <p>硬链接：硬链接只能链接普通文件，不能链接目录。</p>
-
 <p>使用格式：</p>
-
-<pre><code class="language-text">ln 源文件 链接文件
+<pre><code>ln 源文件 链接文件
 ln -s 源文件 链接文件
 
 </code></pre>
-
 <p>如果<code>没有-s</code>选项代表建立一个硬链接文件，两个文件占用相同大小的硬盘空间，即使删除了源文件，链接文件还是存在，所以-s选项是更常见的形式。</p>
-
 <p>注意：如果软链接文件和源文件不在同一个目录，源文件要使用绝对路径，不能使用相对路径。</p>
-
-<h3 id="toc_12">查看或者合并文件内容：cat</h3>
-
-<h3 id="toc_13">文本搜索：grep</h3>
-
+<h3><a id="%E6%9F%A5%E7%9C%8B%E6%88%96%E8%80%85%E5%90%88%E5%B9%B6%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%EF%BC%9Acat" class="anchor" aria-hidden="true" href="#%E6%9F%A5%E7%9C%8B%E6%88%96%E8%80%85%E5%90%88%E5%B9%B6%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%EF%BC%9Acat"><span class="octicon octicon-link"></span></a>查看或者合并文件内容：cat</h3>
+<h3><a id="%E6%96%87%E6%9C%AC%E6%90%9C%E7%B4%A2%EF%BC%9Agrep" class="anchor" aria-hidden="true" href="#%E6%96%87%E6%9C%AC%E6%90%9C%E7%B4%A2%EF%BC%9Agrep"><span class="octicon octicon-link"></span></a>文本搜索：grep</h3>
 <p>Linux系统中grep命令是一种强大的文本搜索工具，grep允许对文本文件进行模式查找。如果找到匹配模式， grep打印包含模式的所有行。</p>
-
 <p>grep一般格式为：</p>
-
-<pre><code class="language-text">grep [-选项] ‘搜索内容串’文件名
+<pre><code>grep [-选项] ‘搜索内容串’文件名
 
 </code></pre>
-
 <p>在grep命令中输入字符串参数时，最好引号或双引号括起来。例如：grep‘a ’1.txt。</p>
-
 <p>常用选项说明：</p>
-
 <table>
 <thead>
 <tr>
@@ -350,7 +288,6 @@ ln -s 源文件 链接文件
 <th>含义</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td style="text-align: left">-v</td>
@@ -366,13 +303,9 @@ ln -s 源文件 链接文件
 </tr>
 </tbody>
 </table>
-
 <p>grep搜索内容串可以是正则表达式。</p>
-
 <p>正则表达式是对字符串操作的一种逻辑公式，就是用事先定义好的一些特定字符、及这些特定字符的组合，组成一个“规则字符串”，这个“规则字符串”用来表达对字符串的一种过滤逻辑。</p>
-
 <p>grep常用正则表达式：</p>
-
 <table>
 <thead>
 <tr>
@@ -380,33 +313,28 @@ ln -s 源文件 链接文件
 <th>含义</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
-<td style="text-align: left"><sup>a</sup></td>
-<td>行首,搜寻以 m 开头的行；grep -n &#39;<sup>a&#39;</sup> 1.txt</td>
+<td style="text-align: left">^a</td>
+<td>行首,搜寻以 m 开头的行；grep -n '^a' 1.txt</td>
 </tr>
 <tr>
-<td style="text-align: left">ke$</td>
-<td>行尾,搜寻以 ke 结束的行；grep -n &#39;ke$&#39; 1.txt</td>
+<td style="text-align: left">ke``</td>
+<td>行尾,搜寻以 ke 结束的行；grep -n 'ke``' 1.txt</td>
 </tr>
 <tr>
 <td style="text-align: left">[Ss]igna[Ll]</td>
-<td>匹配 [] 里中一系列字符中的一个；搜寻匹配单词signal、signaL、Signal、SignaL的行；grep -n &#39;[Ss]igna[Ll]&#39; 1.txt</td>
+<td>匹配 [] 里中一系列字符中的一个；搜寻匹配单词signal、signaL、Signal、SignaL的行；grep -n '[Ss]igna[Ll]' 1.txt</td>
 </tr>
 <tr>
 <td style="text-align: left">.</td>
-<td>(点)匹配一个非换行符的字符；匹配 e 和 e 之间有任意一个字符，可以匹配 eee，eae，eve，但是不匹配 ee，eaae；grep -n &#39;e.e&#39; 1.txt</td>
+<td>(点)匹配一个非换行符的字符；匹配 e 和 e 之间有任意一个字符，可以匹配 eee，eae，eve，但是不匹配 ee，eaae；grep -n 'e.e' 1.txt</td>
 </tr>
 </tbody>
 </table>
-
-<h3 id="toc_14">查找文件：find</h3>
-
+<h3><a id="%E6%9F%A5%E6%89%BE%E6%96%87%E4%BB%B6%EF%BC%9Afind" class="anchor" aria-hidden="true" href="#%E6%9F%A5%E6%89%BE%E6%96%87%E4%BB%B6%EF%BC%9Afind"><span class="octicon octicon-link"></span></a>查找文件：find</h3>
 <p>find命令功能非常强大，通常用来在特定的目录下搜索符合条件的文件，也可以用来搜索特定用户属主的文件。</p>
-
 <p>常用用法：</p>
-
 <table>
 <thead>
 <tr>
@@ -414,14 +342,13 @@ ln -s 源文件 链接文件
 <th>含义</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td style="text-align: left">find ./ -name test.sh</td>
 <td>查找当前目录下所有名为test.sh的文件</td>
 </tr>
 <tr>
-<td style="text-align: left">find ./ -name &#39;*.sh&#39;</td>
+<td style="text-align: left">find ./ -name '*.sh'</td>
 <td>查找当前目录下所有后缀为.sh的文件</td>
 </tr>
 <tr>
@@ -450,13 +377,9 @@ ln -s 源文件 链接文件
 </tr>
 </tbody>
 </table>
-
-<h3 id="toc_15">拷贝文件：cp</h3>
-
+<h3><a id="%E6%8B%B7%E8%B4%9D%E6%96%87%E4%BB%B6%EF%BC%9Acp" class="anchor" aria-hidden="true" href="#%E6%8B%B7%E8%B4%9D%E6%96%87%E4%BB%B6%EF%BC%9Acp"><span class="octicon octicon-link"></span></a>拷贝文件：cp</h3>
 <p>cp命令的功能是将给出的文件或目录复制到另一个文件或目录中，相当于DOS下的copy命令。</p>
-
 <p>常用选项说明：</p>
-
 <table>
 <thead>
 <tr>
@@ -464,7 +387,6 @@ ln -s 源文件 链接文件
 <th>含义</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td style="text-align: left">-a</td>
@@ -488,17 +410,11 @@ ln -s 源文件 链接文件
 </tr>
 </tbody>
 </table>
-
 <p>cp vim_configure/ code/ -ivr 把文件夹 vim_configure 拷贝到 code 目录里：</p>
-
 <p><strong>暂时缺图稍后补</strong></p>
-
-<h3 id="toc_16">移动文件：mv</h3>
-
+<h3><a id="%E7%A7%BB%E5%8A%A8%E6%96%87%E4%BB%B6%EF%BC%9Amv" class="anchor" aria-hidden="true" href="#%E7%A7%BB%E5%8A%A8%E6%96%87%E4%BB%B6%EF%BC%9Amv"><span class="octicon octicon-link"></span></a>移动文件：mv</h3>
 <p>用户可以使用mv命令来移动文件或目录，也可以给文件或目录重命名。</p>
-
 <p>常用选项说明：</p>
-
 <table>
 <thead>
 <tr>
@@ -506,7 +422,6 @@ ln -s 源文件 链接文件
 <th>含义</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td style="text-align: left">-f</td>
@@ -522,17 +437,11 @@ ln -s 源文件 链接文件
 </tr>
 </tbody>
 </table>
-
-<h3 id="toc_17">归档管理：tar</h3>
-
+<h3><a id="%E5%BD%92%E6%A1%A3%E7%AE%A1%E7%90%86%EF%BC%9Atar" class="anchor" aria-hidden="true" href="#%E5%BD%92%E6%A1%A3%E7%AE%A1%E7%90%86%EF%BC%9Atar"><span class="octicon octicon-link"></span></a>归档管理：tar</h3>
 <p>计算机中的数据经常需要备份，tar是Unix/Linux中最常用的备份工具，此命令可以把一系列文件归档到一个大文件中，也可以把档案文件解开以恢复数据。</p>
-
 <p>tar使用格式 tar [参数] 打包文件名 文件</p>
-
 <p>tar命令很特殊，其参数前面可以使用“-”，也可以不使用。</p>
-
 <p>常用参数：</p>
-
 <table>
 <thead>
 <tr>
@@ -540,7 +449,6 @@ ln -s 源文件 链接文件
 <th>含义</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td style="text-align: left">-c</td>
@@ -564,34 +472,22 @@ ln -s 源文件 链接文件
 </tr>
 </tbody>
 </table>
-
 <p>注意：除了f需要放在参数的最后，其它参数的顺序任意。</p>
-
-<h3 id="toc_18">文件压缩解压：gzip</h3>
-
+<h3><a id="%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9%E8%A7%A3%E5%8E%8B%EF%BC%9Agzip" class="anchor" aria-hidden="true" href="#%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9%E8%A7%A3%E5%8E%8B%EF%BC%9Agzip"><span class="octicon octicon-link"></span></a>文件压缩解压：gzip</h3>
 <p>tar与gzip命令结合使用实现文件打包、压缩。 tar只负责打包文件，但不压缩，用gzip压缩tar打包后的文件，其扩展名一般用xxxx.tar.gz。</p>
-
 <p>gzip使用格式如下：</p>
-
-<pre><code class="language-text">gzip  [选项]  被压缩文件
+<pre><code>gzip  [选项]  被压缩文件
 
 </code></pre>
-
 <p>常用选项：</p>
-
 <p>|选项|含义| |-d|解压| |-r|压缩所有子目录|</p>
-
 <p><strong>这里缺图</strong></p>
-
 <p>tar这个命令并没有压缩的功能，它只是一个打包的命令，但是在tar命令中增加一个选项(-z)可以调用gzip实现了一个压缩的功能，实行一个先打包后压缩的过程。</p>
-
 <p>压缩用法：tar cvzf 压缩包包名 文件1 文件2 ...</p>
-
-<pre><code class="language-text">-z ：指定压缩包的格式为：file.tar.gz
+<pre><code>-z ：指定压缩包的格式为：file.tar.gz
 
 </code></pre>
-
-<p>例如： tar zcvf test.tar.gz 1.c 2.c 3.c 4.c把 1.c 2.c 3.c 4.c 压缩成 test.tar.gz<br/>
+<p>例如： tar zcvf test.tar.gz 1.c 2.c 3.c 4.c把 1.c 2.c 3.c 4.c 压缩成 test.tar.gz<br />
 <strong>这里缺图</strong></p>
 
 			</div>
@@ -724,6 +620,12 @@ ln -s 源文件 链接文件
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -743,12 +645,6 @@ ln -s 源文件 链接文件
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  
@@ -794,6 +690,9 @@ ln -s 源文件 链接文件
 </footer>
 
 
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
 
   
 

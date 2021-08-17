@@ -84,16 +84,12 @@ $(document).ready(function(event) {
 			  	<blockquote>
 <p>NSCountedSet这个一直没有用过,看到其他人使用在此记录下.</p>
 </blockquote>
-
 <p>计算老虎机中奖等级的问题：老虎机有四列，每列四个图案，如果四个相同就是等级1，三个相同就是等级2，以此类推。说是用<code>if else</code>太麻烦，有没有什么比较快捷的方法，首先想到的是用KVC中剔除重复数据的办法。比如：</p>
-
-<pre><code class="language-text">NSArray *array = @[@2, @2, @2, @1];
+<pre><code>NSArray *array = @[@2, @2, @2, @1];
 NSLog(@&quot;%@&quot;, [array valueForKeyPath:@&quot;@distinctUnionOfObjects.self&quot;]);
 </code></pre>
-
 <p>然后得到数组的个数为2，看起来很合理，如果数组是<code>NSArray *array = @[@2, @1, @2, @1];</code>这时候计算出来的数组个数是也是2，但是正确结果应该是等级3，后来突然想起一个类:NSCountedSet</p>
-
-<pre><code class="language-text">    NSArray *array = @[@1, @2, @2, @1];
+<pre><code>    NSArray *array = @[@1, @2, @2, @1];
     NSCountedSet *set = [[NSCountedSet alloc]initWithArray:array];
 
     [set enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
@@ -101,8 +97,7 @@ NSLog(@&quot;%@&quot;, [array valueForKeyPath:@&quot;@distinctUnionOfObjects.sel
     }];
 
 </code></pre>
-
-<pre><code class="language-text">1 =&gt; 2
+<pre><code>1 =&gt; 2
 2 =&gt; 2
 </code></pre>
 
@@ -236,6 +231,12 @@ NSLog(@&quot;%@&quot;, [array valueForKeyPath:@&quot;@distinctUnionOfObjects.sel
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -255,12 +256,6 @@ NSLog(@&quot;%@&quot;, [array valueForKeyPath:@&quot;@distinctUnionOfObjects.sel
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

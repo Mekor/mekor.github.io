@@ -87,12 +87,9 @@ $(document).ready(function(event) {
 		  	<blockquote>
 <p>本文涉及到的Demo地址 <a href="https://github.com/Mekor/runtimeDemo">https://github.com/Mekor/runtimeDemo</a></p>
 </blockquote>
-
-<h2 id="toc_0">理解self,super,class,superclass</h2>
-
+<p>##理解self,super,class,superclass</p>
 <p>创建一个Person里面有一个类方法:</p>
-
-<pre><code class="language-objectivec">#import &quot;Person.h&quot;
+<pre><code class="language-objc">#import &quot;Person.h&quot;
 
 @implementation Person
 +(void)study {
@@ -100,10 +97,8 @@ $(document).ready(function(event) {
 }
 @end
 </code></pre>
-
 <p>Student继承自Person,重写父类方法</p>
-
-<pre><code class="language-objectivec">#import &quot;Student.h&quot;
+<pre><code class="language-objc">#import &quot;Student.h&quot;
 
 @implementation Student
 +(void)study {
@@ -111,15 +106,11 @@ $(document).ready(function(event) {
 }
 @end
 </code></pre>
-
 <!--more-->
-
-<p>这两个输出的都是什么?<br/>
-<img src="media/14727863232294/14729913552743.jpg" alt=""/></p>
-
+<p>这两个输出的都是什么?<br />
+<img src="media/14727863232294/14729913552743.jpg" alt="" /></p>
 <p>这时,我们在Student中用这样写:</p>
-
-<pre><code class="language-objectivec">#import &quot;Student.h&quot;
+<pre><code class="language-objc">#import &quot;Student.h&quot;
 
 @implementation Student
 +(void)study {
@@ -129,43 +120,31 @@ $(document).ready(function(event) {
 }
 @end
 </code></pre>
-
-<p>打断点我们可以看到:<br/>
-<img src="media/14727863232294/14729934417192.jpg" alt=""/></p>
-
+<p>打断点我们可以看到:<br />
+<img src="media/14727863232294/14729934417192.jpg" alt="" /></p>
 <p>可以看出:</p>
-
-<pre><code class="language-objectivec">super：是编译器指示符，仅仅是一个标志,并不是指针，仅仅是标志的当前对象去调用父类的方法，本质还是当前对象调用
+<pre><code class="language-objc">super：是编译器指示符，仅仅是一个标志,并不是指针，仅仅是标志的当前对象去调用父类的方法，本质还是当前对象调用
 super:并不是让父类对象调用方法，调用者还是本身
 class：获取方法调用者的类
 superclass:获取方法调用者的父类
 </code></pre>
-
-<p>消息机制:(来自:<a href="https://developer.apple.com/library/prerelease/content/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtHowMessagingWorks.html">官方文档</a>)<br/>
-<img src="media/14727863232294/messaging1.gif" alt="消息框架"/></p>
-
+<p>消息机制:(来自:<a href="https://developer.apple.com/library/prerelease/content/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtHowMessagingWorks.html">官方文档</a>)<br />
+<img src="media/14727863232294/messaging1.gif" alt="消息框架" /></p>
 <p>当对象收到消息时,消息函数首先根据该对象的 isa 指针找到该对象所对应的类的方法表,并从表中寻找 该消息对应的方法选标。如果找不到,objc_msgSend 将继续从父类中寻找,直到 NSObject 类。一旦找到了方法选标, objc_msgSend 则以消息接收者对象为参数调用,调用该选标对应的方法实现。</p>
-
-<h2 id="toc_1">self是从哪里来的?</h2>
-
+<p>##self是从哪里来的?</p>
 <blockquote>
-<p>官方解释:<a href="https://developer.apple.com/library/prerelease/content/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtHowMessagingWorks.html">Objective-C Runtime Programming Guide</a><img src="media/14727863232294/14729941396965.jpg" alt=""/></p>
+<p>官方解释:<a href="https://developer.apple.com/library/prerelease/content/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtHowMessagingWorks.html">Objective-C Runtime Programming Guide</a><img src="media/14727863232294/14729941396965.jpg" alt="" /></p>
 </blockquote>
-
-<p>简单说每个方法都存在并且隐藏的两个参数(self,_cmd),随便写个方法看下:<br/>
-Student中写个text方法,然后打印下这两个隐藏参数.<br/>
-<img src="media/14727863232294/14729960900273.jpg" alt=""/><br/>
-<img src="media/14727863232294/14729961142923.jpg" alt=""/></p>
-
-<h2 id="toc_2">动态添加方法</h2>
-
-<p>上面说了一些貌似和runtime没有什么关系,runtime基础知识类似类的构成,对象的构成这里不再介绍,可以自己去看定义.当然也可以去<a href="http://opensource.apple.com/source/objc4/objc4-680/runtime/">苹果的开源网站</a>查看,如果网站不方便可以去苹果的<a href="https://github.com/opensource-apple/objc4">github</a>下载开源代码研究...  ...继续...那么根据上面所说的方法说下动态添加方法.</p>
-
+<p>简单说每个方法都存在并且隐藏的两个参数(self,_cmd),随便写个方法看下:<br />
+Student中写个text方法,然后打印下这两个隐藏参数.<br />
+<img src="media/14727863232294/14729960900273.jpg" alt="" /><br />
+<img src="media/14727863232294/14729961142923.jpg" alt="" /></p>
+<p>##动态添加方法<br />
+上面说了一些貌似和runtime没有什么关系,runtime基础知识类似类的构成,对象的构成这里不再介绍,可以自己去看定义.当然也可以去<a href="http://opensource.apple.com/source/objc4/objc4-680/runtime/">苹果的开源网站</a>查看,如果网站不方便可以去苹果的<a href="https://github.com/opensource-apple/objc4">github</a>下载开源代码研究...  ...继续...那么根据上面所说的方法说下动态添加方法.</p>
 <blockquote>
 <p>思考一下,咱们new项目中将采用路由模式进行页面跳转,从网页跳转进入app调用一个方法,一般情况下都是移动端和后台协议好的内容,这样跳转不会出现问题.但是如果后台写错了或者传输中出现问题导致url中包含的方法名不是规定的方法名.这时怎么办?</p>
 </blockquote>
-
-<pre><code class="language-objectivec">    Student *s = [Student new];
+<pre><code class="language-objc">    Student *s = [Student new];
     
     // 1. 比如我们要调用 Student中的eat方法, 默认这样写[s eat]; 但是不行,因为我们没有定义.
 //    [s eat];
@@ -180,41 +159,29 @@ Student中写个text方法,然后打印下这两个隐藏参数.<br/>
     
     // 上面这样调用会报错,我们在对象调用未实现方法的时候动态的创建一个方法,避免抛出异常.
 </code></pre>
-
 <p>怎么忽略编译器警告已经分享过,可以参考:<a href="http://www.citynight.cn/Blog/14676105703423.html">http://www.citynight.cn/Blog/14676105703423.html</a></p>
-
-<h3 id="toc_3">怎么动态添加方法呢?</h3>
-
-<p><img src="media/14727863232294/14729983827897.jpg" alt=""/><br/>
-上面是动态添加对象方法的例子,动态添加类方法也是一样的<code>+(BOOL)resolveClassMethod:(SEL)sel</code><br/>
-<strong>注意:</strong>上面函数类型,有人可能好奇这块为什么写成&quot;v@:&quot;  ?参见:函数类型, 更多关于转发机制参见:<a href="http://www.citynight.cn/Blog/14733118707964.html">转发机制</a></p>
-
-<h3 id="toc_4">关于函数类型</h3>
-
-<p>先看文档:<br/>
-<img src="media/14727863232294/14730056768742.jpg" alt=""/><br/>
-查看<code>Objective-C type encodings</code> <img src="media/14727863232294/14730058881001.jpg" alt=""/><br/>
+<p>###怎么动态添加方法呢?<br />
+<img src="media/14727863232294/14729983827897.jpg" alt="" /><br />
+上面是动态添加对象方法的例子,动态添加类方法也是一样的<code>+(BOOL)resolveClassMethod:(SEL)sel</code><br />
+**注意:**上面函数类型,有人可能好奇这块为什么写成&quot;v@:&quot;  ?参见:函数类型, 更多关于转发机制参见:<a href="http://www.citynight.cn/Blog/14733118707964.html">转发机制</a></p>
+<h3><a id="%E5%85%B3%E4%BA%8E%E5%87%BD%E6%95%B0%E7%B1%BB%E5%9E%8B" class="anchor" aria-hidden="true" href="#%E5%85%B3%E4%BA%8E%E5%87%BD%E6%95%B0%E7%B1%BB%E5%9E%8B"><span class="octicon octicon-link"></span></a>关于函数类型</h3>
+<p>先看文档:<br />
+<img src="media/14727863232294/14730056768742.jpg" alt="" /><br />
+查看<code>Objective-C type encodings</code> <img src="media/14727863232294/14730058881001.jpg" alt="" /><br />
 所以上面void eat(...)应该表述成 <code>&quot;v@:&quot;</code></p>
-
 <p><strong>补充:</strong> 动态调用方法系统默认提供一到两个参数的方法调用, <del>这里封装了一个无限参数的方法调用.<a href="https://github.com/Mekor/NSObject-SEL">NSObject-SEL****</a></del>  我把一些扩展进行了总结,还不完善,地址<a href="https://github.com/Mekor/MKExtension">MKExtension</a></p>
-
-<h3 id="toc_5">关于IMP(函数指针)</h3>
-
-<pre><code class="language-objectivec">/// A pointer to the function of a method implementation. 
+<p>###关于IMP(函数指针)</p>
+<pre><code class="language-objc">/// A pointer to the function of a method implementation. 
 #if !OBJC_OLD_DISPATCH_PROTOTYPES
 typedef void (*IMP)(void /* id, SEL, ... */ ); 
 #else
 typedef id (*IMP)(id, SEL, ...); 
 #endif
 </code></pre>
-
 <p>当前版本Xcode如果使用IMP的话,默认是选择第一个也就是无参无返回值.如果需要参数有返回值的话,需要修改配置文件.如下:</p>
-
-<h2 id="toc_6">方法交换(Method Swizzling:传说中的黑魔法)</h2>
-
+<h2><a id="%E6%96%B9%E6%B3%95%E4%BA%A4%E6%8D%A2method-swizzling%E4%BC%A0%E8%AF%B4%E4%B8%AD%E7%9A%84%E9%BB%91%E9%AD%94%E6%B3%95" class="anchor" aria-hidden="true" href="#%E6%96%B9%E6%B3%95%E4%BA%A4%E6%8D%A2method-swizzling%E4%BC%A0%E8%AF%B4%E4%B8%AD%E7%9A%84%E9%BB%91%E9%AD%94%E6%B3%95"><span class="octicon octicon-link"></span></a>方法交换(Method Swizzling:传说中的黑魔法)</h2>
 <p>一般使用方法交换都是想给系统提供的方法添加一些其他的功能的时候使用.new中使用方法交换的例子:</p>
-
-<pre><code class="language-objectivec">#import &quot;UIActionSheet+Front.h&quot;
+<pre><code class="language-objc">#import &quot;UIActionSheet+Front.h&quot;
 
 #import &lt;objc/runtime.h&gt;
 
@@ -239,10 +206,8 @@ void swizzleAllActionSheet(){
     method_exchangeImplementations(origMethod, newMethod);
 }
 </code></pre>
-
 <p>关于方法交换,在new项目中已经封装好了,代码如下:</p>
-
-<pre><code class="language-objectivec">// ObjcRuntime.h文件
+<pre><code class="language-objc">// ObjcRuntime.h文件
 void Swizzle(Class c, SEL origSEL, SEL newSEL);
 
 //ObjcRuntime.m文件
@@ -275,11 +240,9 @@ void Swizzle(Class c, SEL origSEL, SEL newSEL)
     }
 }
 </code></pre>
-
-<p>用法(还是以Student为例):<br/>
+<p>用法(还是以Student为例):<br />
 Student中添加两个对象方法,一个run,一个sleep.我们的目的是交换两个方法的实现</p>
-
-<pre><code class="language-objectivec">-(void)run {
+<pre><code class="language-objc">-(void)run {
     NSLog(@&quot;跑🏃&quot;);
 }
 -(void)sleep {
@@ -289,15 +252,11 @@ Student中添加两个对象方法,一个run,一个sleep.我们的目的是交�
     Swizzle(self, @selector(run), @selector(sleep));
 }
 </code></pre>
-
-<p>控制器调用的结果:<br/>
-<img src="media/14727863232294/14730042652865.jpg" alt=""/></p>
-
-<h2 id="toc_7">添加属性</h2>
-
-<p>动态添加属性用的最多的地方应该是给分类添加属性.  <del>我在项目中添加过一个分类<code>UIView+Tap</code>这个也可以在这里查看<a href="https://github.com/Mekor/UIView-Tap">UIView-Tap</a></del>  我把一些扩展进行了总结,还不完善,地址<a href="https://github.com/Mekor/MKExtension">MKExtension</a></p>
-
-<pre><code class="language-objectivec">#import &quot;UIView+Tap.h&quot;
+<p>控制器调用的结果:<br />
+<img src="media/14727863232294/14730042652865.jpg" alt="" /></p>
+<p>##添加属性<br />
+动态添加属性用的最多的地方应该是给分类添加属性.  <del>我在项目中添加过一个分类<code> UIView+Tap</code>这个也可以在这里查看<a href="https://github.com/Mekor/UIView-Tap">UIView-Tap</a></del>  我把一些扩展进行了总结,还不完善,地址<a href="https://github.com/Mekor/MKExtension">MKExtension</a></p>
+<pre><code class="language-objc">#import &quot;UIView+Tap.h&quot;
 #import &lt;objc/runtime.h&gt;
 
 static const void* tagValue = &amp;tagValue;
@@ -329,19 +288,17 @@ static const void* tagValue = &amp;tagValue;
 }
 @end
 </code></pre>
-
 <p>主要是set&amp;get方法,这点注意了也就没啥了..</p>
-
-<h2 id="toc_8">其他</h2>
-
+<p>##其他</p>
 <ol>
-<li>系统中常见的使用到runtime的地方:
+<li>系统中常见的使用到runtime的地方:<br />
 <a href="http://www.citynight.cn/Blog/14726525723684.html">KVO内部实现原理</a></li>
 <li>日常开发中使用到runtime的地方:</li>
-<li>字典转模型: 可以参看<code>MJExtension</code> 它的核心代码在:<code>NSObject+MJProperty.m</code>第150行开始</li>
 </ol>
-
-<pre><code class="language-objectivec">#pragma mark - 公共方法
+<ul>
+<li>字典转模型: 可以参看<code>MJExtension</code> 它的核心代码在:<code>NSObject+MJProperty.m</code>第150行开始</li>
+</ul>
+<pre><code class="language-objc">#pragma mark - 公共方法
 + (NSMutableArray *)properties
 {
     NSMutableArray *cachedProperties = [self dictForKey:&amp;MJCachedPropertiesKey][NSStringFromClass(self)];
@@ -375,10 +332,8 @@ static const void* tagValue = &amp;tagValue;
     return cachedProperties;
 }
 </code></pre>
-
 <p>自定义字典转模型中log的输出可以参见Xcode插件<code>ESJsonFormat</code>中<code>ESJsonFormatManager.m</code>第47行:</p>
-
-<pre><code class="language-objectivec">/**
+<pre><code class="language-objc">/**
  *  格式化OC属性字符串
  *
  *  @param key       JSON里面key字段
@@ -397,7 +352,7 @@ static const void* tagValue = &amp;tagValue;
     if ([value isKindOfClass:[NSString class]]) {
         return [NSString stringWithFormat:@&quot;@property (nonatomic, %@) %@ *%@;&quot;,qualifierStr,typeStr,key];
     }else if([value isKindOfClass:[@(YES) class]]){
-        //the &#39;NSCFBoolean&#39; is private subclass of &#39;NSNumber&#39;
+        //the 'NSCFBoolean' is private subclass of 'NSNumber'
         qualifierStr = @&quot;assign&quot;;
         typeStr = @&quot;BOOL&quot;;
         return [NSString stringWithFormat:@&quot;@property (nonatomic, %@) %@ %@;&quot;,qualifierStr,typeStr,key];
@@ -418,7 +373,7 @@ static const void* tagValue = &amp;tagValue;
     }else if([value isKindOfClass:[NSArray class]]){
         NSArray *array = (NSArray *)value;
         
-        //May be &#39;NSString&#39;，will crash
+        //May be 'NSString'，will crash
         NSString *genericTypeStr = @&quot;&quot;;
         NSObject *firstObj = [array firstObject];
         if ([firstObj isKindOfClass:[NSDictionary class]]) {
@@ -469,28 +424,19 @@ static const void* tagValue = &amp;tagValue;
 <li>KVO是基于runtime机制实现的</li>
 <li>当某个类的对象第一次被观察时,系统就会在运行期动态地创建该类的一个派生类,在这个派生类中重写基类中任何被观察属性的setter方法.派生类在被重写的setter方法实现真正的通知机制.</li>
 </ol>
-
-<p>添加监听前:<br/>
-<img src="media/14726525723684/14726530320712.jpg" alt=""/></p>
-
-<p>添加监听后:(派生出:NSKVONotifying_Person)<br/>
-<img src="media/14726525723684/14726532061641.jpg" alt=""/></p>
-
+<p>添加监听前:<br />
+<img src="media/14726525723684/14726530320712.jpg" alt="" /></p>
+<p>添加监听后:(派生出:NSKVONotifying_Person)<br />
+<img src="media/14726525723684/14726532061641.jpg" alt="" /></p>
 <p>把前后两份代码全部转换成cpp文件,这时我们查找两个文件不同的地方.</p>
-
-<p><img src="media/14726525723684/14726564797185.jpg" alt=""/></p>
-
-<p>经过简单整理的两份代码:<br/>
-<img src="media/14726525723684/14726568603743.jpg" alt=""/></p>
-
+<p><img src="media/14726525723684/14726564797185.jpg" alt="" /></p>
+<p>经过简单整理的两份代码:<br />
+<img src="media/14726525723684/14726568603743.jpg" alt="" /></p>
 <p>可以看出mi_0 &amp; mi_1之间就是Person &amp; NSKVONotifying_Person之间的关系.</p>
-
-<p>-------------------2018.1.20更新(读&lt;编写高质量代码&gt;)--------------------<br/>
+<p>-------------------2018.1.20更新(读&lt;编写高质量代码&gt;)--------------------<br />
 KVC 通过实现名为NSKeyValueCoding的非正式协议,使开发者可以通过键直接设置和获取对象属性,而不需要调用对象的存取方法(Cocoa为该协议提供了默认的实现).键通常和被访问对象中的实例变量或存取方法的名称相对应.</p>
-
 <p>KVC主要利用一种使用字符串标识符,简介访问属性的机制,他是很多技术的基础.主要有<code>setValue: forKey</code>,<code>valueForKey</code>和<code>setValue: forKeyPath</code>,<code>valueForKeyPath</code></p>
-
-<p>key 与keyPath 基本一样,只是keyPath的值是一个路径,路径之间用<code>.</code>分割,比如数据成员就是对象自己,寻值过程就会向下深入下去.<img src="media/14726525723684/WechatIMG26.png" alt="WechatIMG26"/></p>
+<p>key 与keyPath 基本一样,只是keyPath的值是一个路径,路径之间用<code>.</code>分割,比如数据成员就是对象自己,寻值过程就会向下深入下去.<img src="media/14726525723684/WechatIMG26.png" alt="WechatIMG26" /></p>
 
 
 		</div>
@@ -507,8 +453,7 @@ KVC 通过实现名为NSKeyValueCoding的非正式协议,使开发者可以通�
 		 </header>
 	  	<div class="entry-content">
 		  	
-		  	<h3 id="toc_0">一、runtime简介</h3>
-
+		  	<h3><a id="%E4%B8%80%E3%80%81runtime%E7%AE%80%E4%BB%8B" class="anchor" aria-hidden="true" href="#%E4%B8%80%E3%80%81runtime%E7%AE%80%E4%BB%8B"><span class="octicon octicon-link"></span></a>一、runtime简介</h3>
 <ul>
 <li>runTime简称运行时。OC就是<code>运行时机制</code>，也就是在运行时候的一些机制，其中最主要的是消息机制。</li>
 <li>对于C语言，<code>函数的调用在编译的时候会决定调用哪个函数</code>。</li>
@@ -517,22 +462,19 @@ KVC 通过实现名为NSKeyValueCoding的非正式协议,使开发者可以通�
 <ul>
 <li>在编译阶段，OC可以<code>调用任何函数</code>，即使这个函数并未实现，只要声明过就不会报错。</li>
 <li>在编译阶段，C语言调用<code>未实现的函数</code>就会报错。</li>
-</ul></li>
 </ul>
-
-<h3 id="toc_1">二、runtime作用</h3>
-
-<h4 id="toc_2">1.发送消息</h4>
-
+</li>
+</ul>
+<h3><a id="%E4%BA%8C%E3%80%81runtime%E4%BD%9C%E7%94%A8" class="anchor" aria-hidden="true" href="#%E4%BA%8C%E3%80%81runtime%E4%BD%9C%E7%94%A8"><span class="octicon octicon-link"></span></a>二、runtime作用</h3>
+<h4><a id="1%E5%8F%91%E9%80%81%E6%B6%88%E6%81%AF" class="anchor" aria-hidden="true" href="#1%E5%8F%91%E9%80%81%E6%B6%88%E6%81%AF"><span class="octicon octicon-link"></span></a>1.发送消息</h4>
 <ul>
 <li>方法调用的本质，就是让对象发送消息。</li>
 <li>objc_msgSend,只有对象才能发送消息，因此以objc开头.</li>
-<li>使用<code>消息机制</code>前提，必须导入#import </li>
+<li>使用<code>消息机制</code>前提，必须导入#import</li>
 <li>消息机制简单使用</li>
 <li>clang -rewrite-objc main.m 查看最终生成代码</li>
 </ul>
-
-<pre><code class="language-text">    // 创建person对象
+<pre><code>    // 创建person对象
     Person *p = [[Person alloc] init];
 
     // 调用对象方法
@@ -552,21 +494,17 @@ KVC 通过实现名为NSKeyValueCoding的非正式协议,使开发者可以通�
     objc_msgSend([Person class], @selector(eat));
 
 </code></pre>
-
 <ul>
-<li>消息机制原理:对象根据方法编号SEL去映射表查找对应的方法实现
-<img src="media/14717809514175/14717888515211.jpg" alt=""/></li>
+<li>消息机制原理:对象根据方法编号SEL去映射表查找对应的方法实现<br />
+<img src="media/14717809514175/14717888515211.jpg" alt="" /></li>
 </ul>
-
-<h4 id="toc_3">2.交换方法</h4>
-
+<h4><a id="2%E4%BA%A4%E6%8D%A2%E6%96%B9%E6%B3%95" class="anchor" aria-hidden="true" href="#2%E4%BA%A4%E6%8D%A2%E6%96%B9%E6%B3%95"><span class="octicon octicon-link"></span></a>2.交换方法</h4>
 <ul>
 <li>开发使用场景:系统自带的方法功能不够，给系统自带的方法扩展一些功能，并且保持原有的功能。</li>
 <li>方式一:继承系统的类，重写方法.</li>
 <li>方式二:使用runtime,交换方法.</li>
 </ul>
-
-<pre><code class="language-text">@implementation ViewController
+<pre><code>@implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -616,26 +554,27 @@ KVC 通过实现名为NSKeyValueCoding的非正式协议,使开发者可以通�
 @end
 
 </code></pre>
-
 <ul>
-<li><p>交换原理：</p>
+<li>交换原理：
 <ul>
-<li><p>交换之前： <br/>
-<img src="media/14717809514175/14717892191490.jpg" alt=""/></p></li>
-<li><p>交换之后： <br/>
-<img src="media/14717809514175/14717892801791.jpg" alt=""/></p></li>
-</ul></li>
+<li>
+<p>交换之前：<br />
+<img src="media/14717809514175/14717892191490.jpg" alt="" /></p>
+</li>
+<li>
+<p>交换之后：<br />
+<img src="media/14717809514175/14717892801791.jpg" alt="" /></p>
+</li>
 </ul>
-
-<h4 id="toc_4">3.动态添加方法</h4>
-
+</li>
+</ul>
+<h4><a id="3%E5%8A%A8%E6%80%81%E6%B7%BB%E5%8A%A0%E6%96%B9%E6%B3%95" class="anchor" aria-hidden="true" href="#3%E5%8A%A8%E6%80%81%E6%B7%BB%E5%8A%A0%E6%96%B9%E6%B3%95"><span class="octicon octicon-link"></span></a>3.动态添加方法</h4>
 <ul>
 <li>开发使用场景：如果一个类方法非常多，加载类到内存的时候也比较耗费资源，需要给每个方法生成映射表，可以使用动态给某个类，添加方法解决。</li>
 <li>经典面试题：有没有使用performSelector，其实主要想问你有没有动态添加过方法。</li>
 <li>简单使用</li>
 </ul>
-
-<pre><code class="language-text">@implementation ViewController
+<pre><code>@implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -680,14 +619,11 @@ void eat(id self,SEL sel)
 @end
 
 </code></pre>
-
-<h4 id="toc_5">4.给分类添加属性</h4>
-
+<h4><a id="4%E7%BB%99%E5%88%86%E7%B1%BB%E6%B7%BB%E5%8A%A0%E5%B1%9E%E6%80%A7" class="anchor" aria-hidden="true" href="#4%E7%BB%99%E5%88%86%E7%B1%BB%E6%B7%BB%E5%8A%A0%E5%B1%9E%E6%80%A7"><span class="octicon octicon-link"></span></a>4.给分类添加属性</h4>
 <ul>
 <li>原理：给一个类声明属性，其实本质就是给这个类添加关联，并不是直接把这个值的内存空间添加到类存空间。</li>
 </ul>
-
-<pre><code class="language-text">
+<pre><code>
 @implementation ViewController
 
 - (void)viewDidLoad {
@@ -727,9 +663,7 @@ static const char *key = &quot;name&quot;;
 @end
 
 </code></pre>
-
-<h4 id="toc_6">5.字典转模型</h4>
-
+<h4><a id="5%E5%AD%97%E5%85%B8%E8%BD%AC%E6%A8%A1%E5%9E%8B" class="anchor" aria-hidden="true" href="#5%E5%AD%97%E5%85%B8%E8%BD%AC%E6%A8%A1%E5%9E%8B"><span class="octicon octicon-link"></span></a>5.字典转模型</h4>
 <ul>
 <li>设计模型：字典转模型的第一步
 <ul>
@@ -737,10 +671,10 @@ static const char *key = &quot;name&quot;;
 <li>问题：一个一个的生成模型属性，很慢？</li>
 <li>需求：能不能自动根据一个字典，生成对应的属性。</li>
 <li>解决：提供一个分类，专门根据字典生成对应的属性字符串。</li>
-</ul></li>
 </ul>
-
-<pre><code class="language-text">    @implementation NSObject (Log)
+</li>
+</ul>
+<pre><code>    @implementation NSObject (Log)
 
 // 自动打印属性字符串
 + (void)resolveDict:(NSDictionary *)dict{
@@ -785,12 +719,10 @@ static const char *key = &quot;name&quot;;
 @end
 
 </code></pre>
-
 <ul>
 <li>字典转模型的方式一：KVC</li>
 </ul>
-
-<pre><code class="language-text">@implementation Status
+<pre><code>@implementation Status
 
 + (instancetype)statusWithDict:(NSDictionary *)dict
 {
@@ -805,32 +737,30 @@ static const char *key = &quot;name&quot;;
 @end
 
 </code></pre>
-
 <ul>
 <li>KVC字典转模型弊端：必须保证，模型中的属性和字典中的key一一对应。
 <ul>
 <li>如果不一致，就会调用<code>[ setValue:forUndefinedKey:]</code> 报<code>key</code>找不到的错。</li>
 <li>分析:模型中的属性和字典的key不一一对应，系统就会调用<code>setValue:forUndefinedKey:</code>报错。</li>
 <li>解决:重写对象的<code>setValue:forUndefinedKey:</code>,把系统的方法覆盖， 就能继续使用KVC，字典转模型了。</li>
-</ul></li>
 </ul>
-
-<pre><code class="language-text">- (void)setValue:(id)value forUndefinedKey:(NSString *)key
+</li>
+</ul>
+<pre><code>- (void)setValue:(id)value forUndefinedKey:(NSString *)key
 {
 
 }
 
 </code></pre>
-
 <ul>
 <li>字典转模型的方式二：Runtime
 <ul>
 <li>思路：利用运行时，遍历模型中所有属性，根据模型的属性名，去字典中查找key，取出对应的值，给模型的属性赋值。</li>
 <li>步骤：提供一个NSObject分类，专门字典转模型，以后所有模型都可以通过这个分类转。</li>
-</ul></li>
 </ul>
-
-<pre><code class="language-text">
+</li>
+</ul>
+<pre><code>
 @implementation ViewController
 
 - (void)viewDidLoad {
@@ -1086,6 +1016,12 @@ static const char *key = &quot;name&quot;;
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -1105,12 +1041,6 @@ static const char *key = &quot;name&quot;;
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

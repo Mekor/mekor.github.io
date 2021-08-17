@@ -85,8 +85,7 @@ $(document).ready(function(event) {
 	  	<div class="entry-content">
 		  	
 		  	<p>直接上代码:</p>
-
-<pre><code class="language-text">    @IBOutlet weak var popoverButton: UIButton!
+<pre><code>    @IBOutlet weak var popoverButton: UIButton!
     @IBAction func popoverClick(_ sender: Any) {
         
         // 需要被展示的控制器
@@ -101,10 +100,8 @@ $(document).ready(function(event) {
         self.present(popover, animated: true, completion: nil)
     }
 </code></pre>
-
 <p>在被呈现的控制器中设置显示的大小:</p>
-
-<pre><code class="language-text">class PopoverViewController: UIViewController {
+<pre><code>class PopoverViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -113,7 +110,6 @@ $(document).ready(function(event) {
     }
 }
 </code></pre>
-
 <p>以上设置,如果是iPhone的话,模态弹出视图,popover属性就会被忽略.iPad则会Popover弹出</p>
 
 
@@ -134,91 +130,59 @@ $(document).ready(function(event) {
 		  	<blockquote>
 <p>在微指的时候,商户详情界面中就存在左右联动,具体实现可见<a href="https://github.com/Mekor/MKShowDetail">MKShowDetail</a> .当然这次和微指的时候有所不同,层级结构更深,所属视图跨控制器.下面是正文👇</p>
 </blockquote>
-
-<h2 id="toc_0">数据结构</h2>
-
-<p>在海底捞Pad版本项目中,点菜和点锅是两种完全不同的东西,但是又都属于点菜类中,所以数据结构比较复杂:</p>
-
-<pre><code class="language-text">点锅: 大分类 --&gt; 具体的锅底
+<p>##数据结构<br />
+在海底捞Pad版本项目中,点菜和点锅是两种完全不同的东西,但是又都属于点菜类中,所以数据结构比较复杂:</p>
+<pre><code>点锅: 大分类 --&gt; 具体的锅底
 点菜: 大分类 --&gt; 小分类 --&gt; 具体菜品
 </code></pre>
-
 <p><strong>需求:</strong> <em>大分类下如果有小分类并且小分类个数大于1个的时候显示小分类,如果小于一个则不显示.</em></p>
-
 <p>这样两种数据结构完全不同的数据需要整合成相同的显示样式,跟同事讨论后决定粗暴的也是最简单的方法修改点锅数据,给大分类后面强行包裹一层小分类.</p>
-
-<h2 id="toc_1">视图设计</h2>
-
-<p>数据层搞定了,又到了显示问题了:<br/>
+<p>##视图设计<br />
+数据层搞定了,又到了显示问题了:<br />
 分类显示马上想到了<code>tableView</code>,但是<code>点锅</code>和<code>点菜</code>互不干扰,我想到的就是分成两个<code>section</code>,这时又有一个问题,需求又要求大分类和小分类的样式是不一样的,不一样的,不一样的...怎么办? 使用<code>tableViewSectionHeader</code>.按大类进行划分,<code>点锅</code>和<code>点菜</code>之间的区分用数据.小分类则用cell表示.</p>
-
-<h3 id="toc_2">tableViewSectionHeader 设计</h3>
-
-<p>既然已经决定了用<code>headerView</code>那么怎么设计呢?</p>
-
+<p>###tableViewSectionHeader 设计<br />
+既然已经决定了用<code>headerView</code>那么怎么设计呢?</p>
 <ol>
 <li>点击事件</li>
 <li>确定具体点击的是哪个</li>
 </ol>
-
 <p>所以我在设计<code>headerView</code>的时候让它在显示数据的时候也要传入当前的<code>index</code>:</p>
-
-<pre><code class="language-text">    func setName(_ name: String, index: Int) {
+<pre><code>    func setName(_ name: String, index: Int) {
         nameLabel.text = name
         self.index = index
     }
 </code></pre>
-
 <p>(ps: 不要吐槽,刚开始用Swift写项目😂)</p>
-
 <p>这样我自己记录下传入的<code>index</code>当点击事件的时候再告诉外界具体点击的是哪一个:</p>
-
-<pre><code class="language-text">    @objc private func labelClick() {
+<pre><code>    @objc private func labelClick() {
         delegate?.didSelectedHeader(section : self.index)
     }
 </code></pre>
-
 <p>很明显的知道我是使用代理进行数据传递的..说下为啥不使用属性记录<code>index</code>?? 任性😁</p>
-
 <p>到这里<code>headerView</code>基本完成了,控制器实现代理方法就好了,然后根据<code>index</code>让右侧具体的菜品滚动到相应的位置就好了...</p>
-
-<h3 id="toc_3">点锅点菜区分&amp;跳转</h3>
-
-<p>接上,左侧显示的大分类与小分类都是统一的了,但是右侧的点菜与点锅是分开的<strong>锅是锅,菜是菜</strong>.怎样区分呢?使用两套数据源,然后随时切换&gt;?? 不行🚫...要求要像淘宝或者京东详情页那样,可以滚动到下一页还可以滚回到上一页...怎么办? 使用两个collection控制器,一个显示点锅数据,一个显示点菜数据.这样做能够尽量减少某一个单独的控制器中存在过多的逻辑代码.那么谁来承载这两个控制器呢?再创建一个控制器然后把这两个放进去? 这样也能实现,就是控制器太多了...我想用的是一个<code>scrollow</code>来包裹这两个控制器,好处是能够控制显示那个控制器,逻辑也比较简单..比如说滚到第一个视图:</p>
-
-<pre><code class="language-text">        UIView.animate(withDuration: 0.25, delay: 0, options: .layoutSubviews, animations: ({
+<p>###点锅点菜区分&amp;跳转<br />
+接上,左侧显示的大分类与小分类都是统一的了,但是右侧的点菜与点锅是分开的<strong>锅是锅,菜是菜</strong>.怎样区分呢?使用两套数据源,然后随时切换&gt;?? 不行🚫...要求要像淘宝或者京东详情页那样,可以滚动到下一页还可以滚回到上一页...怎么办? 使用两个collection控制器,一个显示点锅数据,一个显示点菜数据.这样做能够尽量减少某一个单独的控制器中存在过多的逻辑代码.那么谁来承载这两个控制器呢?再创建一个控制器然后把这两个放进去? 这样也能实现,就是控制器太多了...我想用的是一个<code>scrollow</code>来包裹这两个控制器,好处是能够控制显示那个控制器,逻辑也比较简单..比如说滚到第一个视图:</p>
+<pre><code>        UIView.animate(withDuration: 0.25, delay: 0, options: .layoutSubviews, animations: ({
             self.contentView.contentOffset = CGPoint(x: 0, y: 0)
         }), completion: nil)
 </code></pre>
-
 <p>直接设置<code>scrollow</code>的<code>contentOffset</code>就可以了</p>
-
 <p><strong>怎么做到电商网站中详情页与图文详情页滚动呢?</strong> 以当前项目为例(点锅在首屏),最简单的一种实现方式:</p>
-
 <p>使用下拉刷新&amp;上拉加载更多实现</p>
-
 <ol>
 <li>点锅页面上拉加载更多跳转到点菜页面(通过上面代码设置<code>scrollow</code>的<code>contentOffset</code>实现)</li>
 <li>点菜页面下拉刷新跳转到点锅页面,实现方式同上..</li>
 </ol>
-
 <p>这样很容易实现两个页面之间的跳转.</p>
-
-<h3 id="toc_4">右侧具体菜品数据处理</h3>
-
-<p>终于到数据处理了...这里的主要矛盾点在与collectionView是一个二级结构数据即可分成<code>section</code>与具体的<code>Item</code>,<code>点锅</code>数据还好,可以强制抹除大分类和具体内容之间强加的子分类封装,那么点菜数据怎么处理呢?毕竟右侧数据滚动后还要通知左侧视图跳转到相应的分类...<br/>
+<p>###右侧具体菜品数据处理<br />
+终于到数据处理了...这里的主要矛盾点在与collectionView是一个二级结构数据即可分成<code>section</code>与具体的<code>Item</code>,<code>点锅</code>数据还好,可以强制抹除大分类和具体内容之间强加的子分类封装,那么点菜数据怎么处理呢?毕竟右侧数据滚动后还要通知左侧视图跳转到相应的分类...<br />
 我想到的一种处理方式,可能不是最好的,但是这是我在短时间内想到比较行之有效的方法:</p>
-
-<p>把点菜数据也通过一层操作转成两层数据:  <code>三层数据 --&gt; 遍历 --&gt; 数组 + 字典</code><br/>
+<p>把点菜数据也通过一层操作转成两层数据:  <code>三层数据 --&gt; 遍历 --&gt; 数组 + 字典 </code><br />
 具体点就是遍历三层数据,然后使用IndexPath当做 key ,具体的<code>Item</code>数组当做 value 这样就转换成立一个二级结构数据.具体<code>IndexPath</code>中<code>section</code>存放原有的大分类信息,<code>row</code>存放子分类数据信息..这样我们就可以通过 key 找到原有的数据结构信息,然后通过 key 把原有的信息传递到tableView,实现联动.</p>
-
-<h3 id="toc_5">具体联动效果实现</h3>
-
+<p>###具体联动效果实现</p>
 <p>左侧点击后使用 <code>collectionView?.scrollToItem(at: IndexPath(item: 0, section: section), at: .top, animated: true)</code> 让右侧数据滚动到相应位置,关键是右侧滚动怎么判断左侧滚动到相应位置</p>
-
 <p>在<code>scrollViewDidScroll</code>方法中获得当前显示的<code>Item</code>,具体计算方法如下:</p>
-
-<pre><code class="language-text">    private func minCurrentSection(collectionView:UICollectionView) -&gt; Int {
+<pre><code>    private func minCurrentSection(collectionView:UICollectionView) -&gt; Int {
         // 根据屏幕的某一坐标,获取当前的index
         // 将collectionView在控制器屏幕的点转化成collectionView上的坐标
         let topPoint = CGPoint(x: UIScreen.main.bounds.size.width*0.5, y: 64)
@@ -232,40 +196,29 @@ $(document).ready(function(event) {
     }
 
 </code></pre>
-
-<p>这样就能够得到当前<code>Item</code>的<code>section</code>,<code>点锅</code>数据就可以直接让row等于0 然后直接回调就OK了,点菜数据还有些差别:<br/>
+<p>这样就能够得到当前<code>Item</code>的<code>section</code>,<code>点锅</code>数据就可以直接让row等于0 然后直接回调就OK了,点菜数据还有些差别:<br />
 点菜需要返回具体的<code>indexPathNow</code>而不是只返回所在<code>section</code>,因为我们需要返回来的<code>index</code>寻找所在的<code>Item</code></p>
-
-<pre><code class="language-text">guard let cell = collectionView?.cellForItem(at: index) as? OrderDishOrPotCollectionCell else {
+<pre><code>guard let cell = collectionView?.cellForItem(at: index) as? OrderDishOrPotCollectionCell else {
             return
         }
         delegate?.orderDishCurrent(position: IndexPath(row:cell.index.row , section: cell.index.section))
 </code></pre>
-
 <p>如上,我在<code>cell</code>中存放一个使用元组的属性</p>
-
-<pre><code class="language-text">    // 记录对应的大分类与小分类
+<pre><code>    // 记录对应的大分类与小分类
     var index:(section:Int,row:Int) = (section: 0,row: 0)
 </code></pre>
-
 <p>处理菜品数据的时候所说的,<code>点菜</code>比较特殊我用<code>IndexPath</code>来记录原先所在的大分类与小分类,那么这里的属性就是记录<code>Key</code>中<code>IndexPath</code>所对应的值.我们既然能够找到这个<code>Item</code>那么问题就都解决了,就像上面代码中的回调.</p>
-
-<h3 id="toc_6">注意</h3>
-
-<p>因为这次需求是右侧数据滚动的过程中让左侧数据及时响应,而不是滚动结束的时候响应,所以需要判断是触摸滚动还是左侧数据点击后右侧数据滚动,毕竟两侧联动吗不做处理的话点击右侧数据左侧滚动,在左侧数据滚动的过程中又会及时回调让左侧数据滚动..</p>
-
-<h3 id="toc_7">思考🤔</h3>
-
-<p>第一种:<br/>
-<img src="media/14807724917867/14809480143802.jpg" alt=""/><br/>
-第二种:(目前采用)<br/>
-<img src="media/14807724917867/14809473897512.jpg" alt=""/></p>
-
-<p>第一种是所要展现的内容控制器是底层控制器的自控制器<br/>
-第二种是所要展现内容的控制器在collectionView中,collectionView将不仅仅是一个视图而是变成了一个中间层<br/>
+<p>###注意<br />
+因为这次需求是右侧数据滚动的过程中让左侧数据及时响应,而不是滚动结束的时候响应,所以需要判断是触摸滚动还是左侧数据点击后右侧数据滚动,毕竟两侧联动吗不做处理的话点击右侧数据左侧滚动,在左侧数据滚动的过程中又会及时回调让左侧数据滚动..</p>
+<p>###思考🤔</p>
+<p>第一种:<br />
+<img src="media/14807724917867/14809480143802.jpg" alt="" /><br />
+第二种:(目前采用)<br />
+<img src="media/14807724917867/14809473897512.jpg" alt="" /></p>
+<p>第一种是所要展现的内容控制器是底层控制器的自控制器<br />
+第二种是所要展现内容的控制器在collectionView中,collectionView将不仅仅是一个视图而是变成了一个中间层<br />
 这两种方式那种更好?</p>
-
-<p>--- 12.7 ----<br/>
+<p>--- 12.7 ----<br />
 需求有变动,不过改动起来看,还是第二种修改方便些😂,所有的逻辑跳转代码没有混合在最外层VC.</p>
 
 
@@ -284,145 +237,105 @@ $(document).ready(function(event) {
 	  	<div class="entry-content">
 		  	
 		  	<p>工作中必须使用git,但是原先一直使用svn,所以有点坑...这里简单总结下简单用法</p>
-
-<h2 id="toc_0">svn与git的不同</h2>
-
-<p>一个是集中式版本管理控制,一个是分布式</p>
-
-<p><strong>集中式版本控制:</strong><br/>
-<img src="media/14793607171148/14795544773647.jpg" alt=""/></p>
-
-<p><strong>分布式版本控制:</strong><br/>
-<img src="media/14793607171148/14795545177377.jpg" alt=""/></p>
-
-<h2 id="toc_1">git简单实用</h2>
-
-<h3 id="toc_2">git help</h3>
-
-<pre><code class="language-text">$ git help
+<p>##svn与git的不同<br />
+一个是集中式版本管理控制,一个是分布式</p>
+<p><strong>集中式版本控制:</strong><br />
+<img src="media/14793607171148/14795544773647.jpg" alt="" /></p>
+<p><strong>分布式版本控制:</strong><br />
+<img src="media/14793607171148/14795545177377.jpg" alt="" /></p>
+<p>##git简单实用</p>
+<p>###git help</p>
+<pre><code>$ git help
 </code></pre>
-
 <p>查看git所有命令的帮助</p>
-
-<pre><code class="language-text">$ git help 子命令
+<pre><code>$ git help 子命令
 </code></pre>
-
-<p>要退出帮助信息，按<code>&quot;q&quot;</code><br/>
-翻看下页，按<code>&quot;空格&quot;</code><br/>
-翻看上页，按<code>&quot;CTRL+B&quot;</code><br/>
+<p>要退出帮助信息，按<code>&quot;q&quot;</code><br />
+翻看下页，按<code>&quot;空格&quot;</code><br />
+翻看上页，按<code>&quot;CTRL+B&quot;</code><br />
 要搜索相关文字，按<code>&quot;/&quot;</code>然后输入<code>&quot;相关文字&quot;</code></p>
-
-<h3 id="toc_3">配置</h3>
-
-<p>1&gt;  创建代码仓库</p>
-
-<pre><code class="language-text">$ git init
+<p>###配置<br />
+1&gt;  创建代码仓库</p>
+<pre><code>$ git init
 </code></pre>
-
 <p>2&gt;  配置用户名和邮箱</p>
-
-<pre><code class="language-text">$ git config user.name manager
+<pre><code>$ git config user.name manager
 $ git config user.email manager@gmail.com
 </code></pre>
-
 <ul>
 <li>以上两个命令会将用户信息保存在当前代码仓库中</li>
 </ul>
-
 <p>3&gt;  如果要一次性配置完成可以使用一下命令</p>
-
-<pre><code class="language-text">$ git config --global user.name manager
+<pre><code>$ git config --global user.name manager
 $ git config --global user.email manager@gmail.com
 </code></pre>
-
 <ul>
 <li>以上两个命令会将用户信息保存在用户目录下的 <code>.gitconfig</code> 文件中</li>
 </ul>
-
 <p>4&gt;  查看当前所有配置</p>
-
-<pre><code class="language-text">$ git config -l
+<pre><code>$ git config -l
 </code></pre>
-
-<h3 id="toc_4">开发中常用</h3>
-
-<p>1&gt;  创建代码，开始开发</p>
-
-<pre><code class="language-text">$ touch main.c
+<p>###开发中常用<br />
+1&gt;  创建代码，开始开发</p>
+<pre><code>$ touch main.c
 $ open main.c
 </code></pre>
-
 <p>2&gt;  将代码添加到代码库</p>
-
 <ol>
-<li> 查看当前代码库状态
-<code>
-$ git status
-</code></li>
-<li> 将文件添加到代码库
-<code>
-$ git add main.c
-</code></li>
-<li><p>将修改提交到代码库</p>
-<pre><code class="language-text">$ git commit -m &quot;添加了main.c&quot;
+<li>查看当前代码库状态</li>
+</ol>
+<pre><code>$ git status
+</code></pre>
+<ol start="2">
+<li>将文件添加到代码库</li>
+</ol>
+<pre><code>$ git add main.c
+</code></pre>
+<ol start="3">
+<li>将修改提交到代码库</li>
+</ol>
+<pre><code>$ git commit -m &quot;添加了main.c&quot;
 </code></pre>
 <p>提示：</p>
-<ul>
-<li>   在此一定要使用 -m 参数指定修改的备注信息</li>
-<li>   否则会进入 vim 编辑器，如果对vim不熟悉，会是很糟糕的事情</li>
-</ul></li>
-<li><p>将当前文件夹下的所有新建或修改的文件一次性添加到代码库<br/>
-<code>$ git add .</code></p></li>
+<pre><code>*    在此一定要使用 -m 参数指定修改的备注信息
+*    否则会进入 vim 编辑器，如果对vim不熟悉，会是很糟糕的事情
+</code></pre>
+<ol start="4">
+<li>将当前文件夹下的所有新建或修改的文件一次性添加到代码库<br />
+<code>$ git add .</code></li>
 </ol>
-
 <p>3&gt;  添加多个文件</p>
-
-<pre><code class="language-text">$ touch Person.h Person.m
+<pre><code>$ touch Person.h Person.m
 $ git add .
 $ git commit -m &quot;添加了Person类&quot;
 $ open Person.h
 $ git add .
 $ git commit -m &quot;增加Person类属性&quot;
 </code></pre>
-
 <ul>
 <li>注意 使用git时，每一次修改都需要添加再提交，这一点是与svn不一样的</li>
 </ul>
-
-<h2 id="toc_5">git 的重要概念及工作原理</h2>
-
-<p>工作区<br/>
-暂存区(staged)<br/>
+<p>##git 的重要概念及工作原理<br />
+工作区<br />
+暂存区(staged)<br />
 分支(HEAD)</p>
-
-<h2 id="toc_6">别名 &amp; 日志</h2>
-
-<pre><code class="language-text">$ git config alias.st status
+<p>##别名 &amp; 日志</p>
+<pre><code>$ git config alias.st status
 $ git config alias.ci &quot;commit -m&quot;
 </code></pre>
-
 <p>除非特殊原因，最好不要设置别名，否则换一台机器就不会用了</p>
-
 <p>查看所有版本库日志</p>
-
-<pre><code class="language-text">$ git log
+<pre><code>$ git log
 </code></pre>
-
 <p>查看指定文件的版本库日志</p>
-
-<pre><code class="language-text">$ git log 文件名
+<pre><code>$ git log 文件名
 </code></pre>
-
 <p>配置带颜色的log别名</p>
-
-<pre><code class="language-text">git config --global alias.lg &quot;log --color --graph --pretty=format:&#39;%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset&#39; --abbrev-commit&quot;
+<pre><code>git config --global alias.lg &quot;log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset' --abbrev-commit&quot;
 </code></pre>
-
 <p>提示：在git中，版本号是一个由SHA1生成的哈希值</p>
-
-<h2 id="toc_7">版本号，让我们在任意版本之间穿梭</h2>
-
-<pre><code class="language-text"># 回到当前版本，放弃所有没有提交的修改
+<p>##版本号，让我们在任意版本之间穿梭</p>
+<pre><code># 回到当前版本，放弃所有没有提交的修改
 $ git reset --hard HEAD
 # 回到上一个版本
 $ git reset --hard HEAD^
@@ -435,13 +348,11 @@ $ git reset --hard e695b67
 $ git reflog
 
 </code></pre>
-
-<h2 id="toc_8">分支管理 - Tag</h2>
-
-<pre><code class="language-text"># 查看当前标签
+<p>##分支管理 - Tag</p>
+<pre><code># 查看当前标签
 $ git tag
 # 在本地代码库给项目打上一个标签
-$ git tag -a v1.0 -m &#39;Version 1.0&#39;
+$ git tag -a v1.0 -m 'Version 1.0'
 # 将标签添推送到远程代码库中
 $ git push origin v1.0
 
@@ -469,67 +380,47 @@ git push origin :branch-name
 冒号前面的空格不能少，原理是把一个空分支push到server上，相当于删除该分支。
 
 </code></pre>
-
 <p>删除修改返回到上次提交状态</p>
-
-<pre><code class="language-text">git checkout -f
+<pre><code>git checkout -f
 </code></pre>
-
 <p>查看本地分支对应的远程分支</p>
-
-<pre><code class="language-text">git branch -vv
+<pre><code>git branch -vv
 </code></pre>
-
-<h2 id="toc_9">更换远程服务器地址</h2>
-
+<h2><a id="%E6%9B%B4%E6%8D%A2%E8%BF%9C%E7%A8%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%9C%B0%E5%9D%80" class="anchor" aria-hidden="true" href="#%E6%9B%B4%E6%8D%A2%E8%BF%9C%E7%A8%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%9C%B0%E5%9D%80"><span class="octicon octicon-link"></span></a>更换远程服务器地址</h2>
 <p>先查看remote的名字</p>
-
-<pre><code class="language-text">git branch -r
+<pre><code>git branch -r
 </code></pre>
-
 <p>假设你的remote是origin，用git remote set_url 更换地址</p>
-
-<pre><code class="language-text">git remote set-url origin remote_git_address
+<pre><code>git remote set-url origin remote_git_address
 </code></pre>
-
 <p><code>remote_git_address</code>更换成你的新的仓库地址</p>
-
-<pre><code class="language-text">#查看远程地址
+<pre><code>#查看远程地址
 git remote -v  
 </code></pre>
-
-<h3 id="toc_10">Git 命令快速查询</h3>
-
-<h4 id="toc_11"><a href="https://github.com/BaiduHiDeviOS/Git#git-config"></a>git config</h4>
-
+<h3><a id="git%E5%91%BD%E4%BB%A4%E5%BF%AB%E9%80%9F%E6%9F%A5%E8%AF%A2" class="anchor" aria-hidden="true" href="#git%E5%91%BD%E4%BB%A4%E5%BF%AB%E9%80%9F%E6%9F%A5%E8%AF%A2"><span class="octicon octicon-link"></span></a>Git 命令快速查询</h3>
+<h4><a id="https-github-combaiduhideviosgit-git-config-git-config" class="anchor" aria-hidden="true" href="#https-github-combaiduhideviosgit-git-config-git-config"><span class="octicon octicon-link"></span></a><a href="https://github.com/BaiduHiDeviOS/Git#git-config"></a>git config</h4>
 <pre><code class="language-source-shell">$ git config --global alias.co checkout 
 $ git config --global alias.br branch 
 $ git config --global alias.ci commit 
 $ git config --global alias.st status
-$ git config --global alias.last &#39;log -1 HEAD&#39;
-$ git config --global alias.unstage &#39;reset HEAD --&#39;
+$ git config --global alias.last 'log -1 HEAD'
+$ git config --global alias.unstage 'reset HEAD --'
 $ git config user.name &quot;donganyuan&quot;
 $ git config user.email &quot;donganyuan@baidu.com&quot;
 $ git config --global core.editor &quot;atom --wait&quot;
 </code></pre>
-
-<h4 id="toc_12"><a href="https://github.com/BaiduHiDeviOS/Git#git-commit"></a>git commit</h4>
-
+<h4><a id="https-github-combaiduhideviosgit-git-commit-git-commit" class="anchor" aria-hidden="true" href="#https-github-combaiduhideviosgit-git-commit-git-commit"><span class="octicon octicon-link"></span></a><a href="https://github.com/BaiduHiDeviOS/Git#git-commit"></a>git commit</h4>
 <pre><code class="language-source-shell">$ git commit -a -m &quot;comment&quot; //添加并提交
 $ git commit --amend //修改上次commit, do not amend your last commit if you have already pushed it
 
 </code></pre>
-
-<h4 id="toc_13"><a href="https://github.com/BaiduHiDeviOS/Git#git-merge"></a>git merge</h4>
-
+<h4><a id="https-github-combaiduhideviosgit-git-merge-git-merge" class="anchor" aria-hidden="true" href="#https-github-combaiduhideviosgit-git-merge-git-merge"><span class="octicon octicon-link"></span></a><a href="https://github.com/BaiduHiDeviOS/Git#git-merge"></a>git merge</h4>
 <pre><code class="language-source-shell">$ git merge [branch name]
 
 禁用fast forward merge
 $ git merge --no-ff -m &quot;comment&quot; branch_name
 </code></pre>
-
-<h4 id="toc_14"><a href="https://github.com/BaiduHiDeviOS/Git#git-log"></a>git log</h4>
-
+<h4><a id="https-github-combaiduhideviosgit-git-log-git-log" class="anchor" aria-hidden="true" href="#https-github-combaiduhideviosgit-git-log-git-log"><span class="octicon octicon-link"></span></a><a href="https://github.com/BaiduHiDeviOS/Git#git-log"></a>git log</h4>
 <pre><code class="language-source-shell">$ git log -p -2 //查看每次提交的diff
 $ git log --since=2.weeks
 $ git log --author=AnYuan
@@ -540,17 +431,13 @@ $ git log --oneline --decorate // show you where the branch pointers are pointin
 //the master branch on your origin remote.
 $ git log origin/master..HEAD
 </code></pre>
-
-<h4 id="toc_15"><a href="https://github.com/BaiduHiDeviOS/Git#git-remote"></a>git remote</h4>
-
+<h4><a id="https-github-combaiduhideviosgit-git-remote-git-remote" class="anchor" aria-hidden="true" href="#https-github-combaiduhideviosgit-git-remote-git-remote"><span class="octicon octicon-link"></span></a><a href="https://github.com/BaiduHiDeviOS/Git#git-remote"></a>git remote</h4>
 <pre><code class="language-source-shell">查看远程仓库信息：
 $ git remote -v
 $ git remote add dev https://github.com/ddd/git
 $ git remote show origin //inspecting a remote
 </code></pre>
-
-<h4 id="toc_16"><a href="https://github.com/BaiduHiDeviOS/Git#git-stash"></a>git stash</h4>
-
+<h4><a id="https-github-combaiduhideviosgit-git-stash-git-stash" class="anchor" aria-hidden="true" href="#https-github-combaiduhideviosgit-git-stash-git-stash"><span class="octicon octicon-link"></span></a><a href="https://github.com/BaiduHiDeviOS/Git#git-stash"></a>git stash</h4>
 <pre><code class="language-source-shell">$ git stash --保存未提交修改
 $ git stash list --查看当前stash
 
@@ -559,9 +446,7 @@ $ git stash drop
 等价于
 $ git stash pop
 </code></pre>
-
-<h4 id="toc_17"><a href="https://github.com/BaiduHiDeviOS/Git#git-branch"></a>git branch</h4>
-
+<h4><a id="https-github-combaiduhideviosgit-git-branch-git-branch" class="anchor" aria-hidden="true" href="#https-github-combaiduhideviosgit-git-branch-git-branch"><span class="octicon octicon-link"></span></a><a href="https://github.com/BaiduHiDeviOS/Git#git-branch"></a>git branch</h4>
 <pre><code class="language-source-shell">分支管理：
 
 $ git checkout -b dev //-b 表示创建并切换分支
@@ -584,9 +469,7 @@ $ git push origin branch_name
 //delete remote branch
 $ git push origin --delete [branchname]
 </code></pre>
-
-<h4 id="toc_18"><a href="https://github.com/BaiduHiDeviOS/Git#undo"></a>undo</h4>
-
+<h4><a id="https-github-combaiduhideviosgit-undo-undo" class="anchor" aria-hidden="true" href="#https-github-combaiduhideviosgit-undo-undo"><span class="octicon octicon-link"></span></a><a href="https://github.com/BaiduHiDeviOS/Git#undo"></a>undo</h4>
 <pre><code class="language-source-shell">1.未add 修改文件时（工作区），撤销可以：
 $ git checkout -- [filename] 把文件在工作区的修改全部撤销， 把这个文件会退到最近一次commit或add状态
 这个操作很危险，checkout后无法恢复了
@@ -597,20 +480,14 @@ $ git reset HEAD [filename]
 3.commit后，撤销：
 $ git reset --hard HEAD^
 </code></pre>
-
-<h4 id="toc_19"><a href="https://github.com/BaiduHiDeviOS/Git#git-reflog"></a>git reflog</h4>
-
+<h4><a id="https-github-combaiduhideviosgit-git-reflog-git-reflog" class="anchor" aria-hidden="true" href="#https-github-combaiduhideviosgit-git-reflog-git-reflog"><span class="octicon octicon-link"></span></a><a href="https://github.com/BaiduHiDeviOS/Git#git-reflog"></a>git reflog</h4>
 <pre><code class="language-source-shell">$ git reflog 记录每次命令
 </code></pre>
-
-<h4 id="toc_20"><a href="https://github.com/BaiduHiDeviOS/Git#git-diff"></a>git diff</h4>
-
+<h4><a id="https-github-combaiduhideviosgit-git-diff-git-diff" class="anchor" aria-hidden="true" href="#https-github-combaiduhideviosgit-git-diff-git-diff"><span class="octicon octicon-link"></span></a><a href="https://github.com/BaiduHiDeviOS/Git#git-diff"></a>git diff</h4>
 <pre><code class="language-source-shell">$ git diff //to see what you have changed but not yet staged
 $ git diff --staged or cache // compares your staged changes to your last commit.
 </code></pre>
-
-<h4 id="toc_21"><a href="https://github.com/BaiduHiDeviOS/Git#git-reset"></a>git reset</h4>
-
+<h4><a id="https-github-combaiduhideviosgit-git-reset-git-reset" class="anchor" aria-hidden="true" href="#https-github-combaiduhideviosgit-git-reset-git-reset"><span class="octicon octicon-link"></span></a><a href="https://github.com/BaiduHiDeviOS/Git#git-reset"></a>git reset</h4>
 <pre><code class="language-source-shell">$ git reset --hard HEAD^ 回退到上一次commit
 $ git reset --hard 3628164
 //HEAD^^ 回退到上两个版本
@@ -624,17 +501,13 @@ $ git reset --hard //update working copy
 //squashing
 $ git reset --soft HEAD~2
 </code></pre>
-
-<h4 id="toc_22"><a href="https://github.com/BaiduHiDeviOS/Git#git-rm"></a>git rm</h4>
-
+<h4><a id="https-github-combaiduhideviosgit-git-rm-git-rm" class="anchor" aria-hidden="true" href="#https-github-combaiduhideviosgit-git-rm-git-rm"><span class="octicon octicon-link"></span></a><a href="https://github.com/BaiduHiDeviOS/Git#git-rm"></a>git rm</h4>
 <pre><code class="language-source-shell">$ git rm [filename]
 
 //keep the file in your working tree but remove it from your staging area.
 $ git rm --cached filename
 </code></pre>
-
-<h4 id="toc_23"><a href="https://github.com/BaiduHiDeviOS/Git#git-tag"></a>git tag</h4>
-
+<h4><a id="https-github-combaiduhideviosgit-git-tag-git-tag" class="anchor" aria-hidden="true" href="#https-github-combaiduhideviosgit-git-tag-git-tag"><span class="octicon octicon-link"></span></a><a href="https://github.com/BaiduHiDeviOS/Git#git-tag"></a>git tag</h4>
 <pre><code class="language-source-shell">打标签,tag默认在本地，必须显示的push到服务器
 $ git tag v1.0
 $ git tag v0.9 commit-id
@@ -664,16 +537,14 @@ $ git push origin :refs/tags/v0.9
 		 </header>
 	  	<div class="entry-content">
 		  	
-		  	<pre><code class="language-text">#include &lt;objc/runtime.h&gt; 
+		  	<pre><code>#include &lt;objc/runtime.h&gt; 
 
 Class LSApplicationWorkspace_class = objc_getClass(&quot;LSApplicationWorkspace&quot;);
 NSObject* workspace = [LSApplicationWorkspace_class performSelector:@selector(defaultWorkspace)];
 NSLog(@&quot;apps: %@&quot;, [workspace performSelector:@selector(allApplications)]);
 </code></pre>
-
 <p>模拟器打印结果:</p>
-
-<pre><code class="language-text">apps: (
+<pre><code>apps: (
     &quot;&lt;LSApplicationProxy: 0x7fbd34603da0&gt; com.apple.appleaccount.AACredentialRecoveryDialog file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/AACredentialRecoveryDialog.app &lt;com.apple.appleaccount.AACredentialRecoveryDialog &lt;installed &gt;&gt;&quot;,
     &quot;&lt;LSApplicationProxy: 0x7fbd383073a0&gt; com.apple.AccountAuthenticationDialog file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/AccountAuthenticationDialog.app &lt;com.apple.AccountAuthenticationDialog &lt;installed &gt;&gt;&quot;,
     &quot;&lt;LSApplicationProxy: 0x7fbd38308a00&gt; com.apple.AdSheetPhone file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/AdSheet.app &lt;com.apple.AdSheetPhone &lt;installed &gt;&gt;&quot;,
@@ -728,8 +599,7 @@ NSLog(@&quot;apps: %@&quot;, [workspace performSelector:@selector(allApplication
 )
 
 </code></pre>
-
-<p>动态调用加上简单的混淆应该就可以了<br/>
+<p>动态调用加上简单的混淆应该就可以了<br />
 上架要自己拼接字符串绕过审查</p>
 
 
@@ -750,16 +620,12 @@ NSLog(@&quot;apps: %@&quot;, [workspace performSelector:@selector(allApplication
 		  	<blockquote>
 <p>NSCountedSet这个一直没有用过,看到其他人使用在此记录下.</p>
 </blockquote>
-
 <p>计算老虎机中奖等级的问题：老虎机有四列，每列四个图案，如果四个相同就是等级1，三个相同就是等级2，以此类推。说是用<code>if else</code>太麻烦，有没有什么比较快捷的方法，首先想到的是用KVC中剔除重复数据的办法。比如：</p>
-
-<pre><code class="language-text">NSArray *array = @[@2, @2, @2, @1];
+<pre><code>NSArray *array = @[@2, @2, @2, @1];
 NSLog(@&quot;%@&quot;, [array valueForKeyPath:@&quot;@distinctUnionOfObjects.self&quot;]);
 </code></pre>
-
 <p>然后得到数组的个数为2，看起来很合理，如果数组是<code>NSArray *array = @[@2, @1, @2, @1];</code>这时候计算出来的数组个数是也是2，但是正确结果应该是等级3，后来突然想起一个类:NSCountedSet</p>
-
-<pre><code class="language-text">    NSArray *array = @[@1, @2, @2, @1];
+<pre><code>    NSArray *array = @[@1, @2, @2, @1];
     NSCountedSet *set = [[NSCountedSet alloc]initWithArray:array];
 
     [set enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
@@ -767,8 +633,7 @@ NSLog(@&quot;%@&quot;, [array valueForKeyPath:@&quot;@distinctUnionOfObjects.sel
     }];
 
 </code></pre>
-
-<pre><code class="language-text">1 =&gt; 2
+<pre><code>1 =&gt; 2
 2 =&gt; 2
 </code></pre>
 
@@ -877,6 +742,12 @@ NSLog(@&quot;%@&quot;, [array valueForKeyPath:@&quot;@distinctUnionOfObjects.sel
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -896,12 +767,6 @@ NSLog(@&quot;%@&quot;, [array valueForKeyPath:@&quot;@distinctUnionOfObjects.sel
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

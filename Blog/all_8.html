@@ -78,17 +78,81 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="15271249936113.html">金额显示</a></h1>
+			<p class="meta"><time datetime="2018-05-24T09:23:13+08:00" 
+			pubdate data-updated="true">2018/5/24</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<pre><code>//初始化NumberFormatter
+let format = NumberFormatter()
+//设置numberStyle（有多种格式）
+format.numberStyle = .decimal
+//转换后的string
+let string = format.string(from: NSNumber(value: 1234567.89))
+//打印
+print(string)  //1,234,567.89
+
+//显示样式和输出样式
+numberStyle:
+public enum Style : UInt {  
+
+        case none //1234567.89
+
+        case decimal //1,234,567.89
+
+        case currency //￥1,234,567.89
+
+        case percent //123,456,789%
+
+        case scientific //1.23456789E6
+
+        case spellOut //一百二十三万四千五百六十七点八九
+
+        @available(iOS 9.0, *)
+        case ordinal //第123,4568
+
+        @available(iOS 9.0, *)
+        case currencyISOCode //CNY1,234,567.89
+
+        @available(iOS 9.0, *)
+        case currencyPlural//1,234,567.89人民币
+
+        @available(iOS 9.0, *)
+        case currencyAccounting//￥1,234,567.89
+    }
+
+//输入123456789分别输出
+// 123456789
+// 123,456,789
+//￥123,456,789.00
+//12345678900%
+//1.23456789E8
+//一亿二千三百四十五万六千七百八十九
+//第1,2345,6789
+//CNY123,456,789.00
+//123,456,789.00人民币
+//￥123,456,789.00
+</code></pre>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="15257017136249.html">线程需要注意的问题</a></h1>
 			<p class="meta"><time datetime="2018-05-07T22:01:53+08:00" 
 			pubdate data-updated="true">2018/5/7</time></p>
 		 </header>
 	  	<div class="entry-content">
 		  	
-		  	<h2 id="toc_0">死锁（Dead Lock）</h2>
-
+		  	<h2><a id="%E6%AD%BB%E9%94%81%EF%BC%88dead-lock%EF%BC%89" class="anchor" aria-hidden="true" href="#%E6%AD%BB%E9%94%81%EF%BC%88dead-lock%EF%BC%89"><span class="octicon octicon-link"></span></a>死锁（Dead Lock）</h2>
 <p>第一种情况：</p>
-
-<pre><code class="language-text">let serialQueue = DispatchQueue(label:&quot;test&quot;)
+<pre><code>let serialQueue = DispatchQueue(label:&quot;test&quot;)
 serialQueue.async {
     //.....
     serialQueue.sync {
@@ -97,26 +161,20 @@ serialQueue.async {
 }
 
 </code></pre>
-
 <p>第二种情况：</p>
-
-<pre><code class="language-text">let operationA = Operation()
+<pre><code>let operationA = Operation()
 let operationB = Operation()
 operationA.addDependency(operationB)
 operationB.addDependency(operationA)
 
 </code></pre>
-
 <p>怎样避免死锁：</p>
-
 <ol>
 <li>少用依赖</li>
 <li>慎用同步</li>
 </ol>
-
-<h2 id="toc_1">优先倒置（Priority Inversion）</h2>
-
-<pre><code class="language-text">var highPriorityQueue = DispatchQueue.global(qos: .userInitiated)
+<h2><a id="%E4%BC%98%E5%85%88%E5%80%92%E7%BD%AE%EF%BC%88priority-inversion%EF%BC%89" class="anchor" aria-hidden="true" href="#%E4%BC%98%E5%85%88%E5%80%92%E7%BD%AE%EF%BC%88priority-inversion%EF%BC%89"><span class="octicon octicon-link"></span></a>优先倒置（Priority Inversion）</h2>
+<pre><code>var highPriorityQueue = DispatchQueue.global(qos: .userInitiated)
 var lowPriorityQueue = DispatchQueue.global(qos: .utility)
 
 let semaphore = DispatchSemaphore(value: 1)
@@ -137,8 +195,7 @@ highPriorityQueue.async {
 }
 
 </code></pre>
-
-<p>解决办法：<br/>
+<p>解决办法：<br />
 同一个资源用同一个Qos</p>
 
 
@@ -157,12 +214,10 @@ highPriorityQueue.async {
 	  	<div class="entry-content">
 		  	
 		  	<p>重置Launchpad</p>
-
-<pre><code class="language-text">rm ~/Library/Application\ Support/Dock/*.db
+<pre><code>rm ~/Library/Application\ Support/Dock/*.db
 
 </code></pre>
-
-<pre><code class="language-text">killall Dock
+<pre><code>killall Dock
 </code></pre>
 
 
@@ -181,19 +236,15 @@ highPriorityQueue.async {
 	  	<div class="entry-content">
 		  	
 		  	<p>报错</p>
-
-<pre><code class="language-text">➜  PersonalMusic git:(master) carthage update
+<pre><code>➜  PersonalMusic git:(master) carthage update
 *** Cloning GCDWebServer
 A shell task (/usr/bin/env git clone --bare --quiet https://github.com/swisspol/GCDWebServer.git /Users/lixzzzzzz/Library/Caches/org.carthage.CarthageKit/dependencies/GCDWebServer) failed with exit code 128:
-fatal: unable to access &#39;https://github.com/swisspol/GCDWebServer.git/&#39;: LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to github.com:443
+fatal: unable to access 'https://github.com/swisspol/GCDWebServer.git/': LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to github.com:443
 
 </code></pre>
-
 <p>解决办法：</p>
-
 <p>清缓存</p>
-
-<pre><code class="language-text">rm -rf ~/Library/Caches/org.carthage.CarthageKit
+<pre><code>rm -rf ~/Library/Caches/org.carthage.CarthageKit
 </code></pre>
 
 
@@ -212,52 +263,15 @@ fatal: unable to access &#39;https://github.com/swisspol/GCDWebServer.git/&#39;:
 	  	<div class="entry-content">
 		  	
 		  	<p>从前设置颜色可能是这样的：</p>
-
-<pre><code class="language-text">self.textField.setValue(UIColor.white, forKeyPath: &quot;_placeholderLabel.textColor&quot;)
+<pre><code>self.textField.setValue(UIColor.white, forKeyPath: &quot;_placeholderLabel.textColor&quot;)
 
 </code></pre>
-
 <p>今天发现，居然有一个属性可以设置：</p>
-
-<pre><code class="language-text">self.textField.attributedPlaceholder =
+<pre><code>self.textField.attributedPlaceholder =
             NSAttributedString(string: &quot;自定义金额&quot;,
                                attributes:
                 [NSAttributedStringKey.foregroundColor: UIColor.white]
         )
-
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="15257015215231.html">懒加载的另一种写法</a></h1>
-			<p class="meta"><time datetime="2018-05-07T21:58:41+08:00" 
-			pubdate data-updated="true">2018/5/7</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>原先我一直这样写：</p>
-
-<pre><code class="language-text">    private lazy var imageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: &quot;placeholder&quot;))
-        imageView.contentMode = .center
-        return imageView
-    }()
-
-</code></pre>
-
-<p>今天看到了另一种比较简洁的写法</p>
-
-<pre><code class="language-text">private lazy var imageView: UIImageView = {
-        $0.contentMode = .center
-        return $0
-    }(UIImageView())
 
 </code></pre>
 
@@ -366,6 +380,12 @@ fatal: unable to access &#39;https://github.com/swisspol/GCDWebServer.git/&#39;:
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -385,12 +405,6 @@ fatal: unable to access &#39;https://github.com/swisspol/GCDWebServer.git/&#39;:
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

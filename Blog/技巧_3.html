@@ -85,14 +85,11 @@ $(document).ready(function(event) {
 	  	<div class="entry-content">
 		  	
 		  	<p>新界面左右联动的时候遇到了一个问题,怎么在左侧tableView点击某一cell的时候右侧collectionView跳转到对应的section</p>
-
 <p>如果没有section header View 的时候直接跳转到这个section的第一个Item就ok了,但是如果有section header View 的时候就需要注意了,不能这样进行跳转了,下面👇是经过测试的方法能够完美跳转到相应的section:</p>
-
-<pre><code class="language-text">let attributes = self.collectionView.collectionViewLayout.layoutAttributesForSupplementaryViewOfKind(UICollectionElementKindSectionHeader, atIndexPath: NSIndexPath(forItem: 0, inSection: index))
+<pre><code>let attributes = self.collectionView.collectionViewLayout.layoutAttributesForSupplementaryViewOfKind(UICollectionElementKindSectionHeader, atIndexPath: NSIndexPath(forItem: 0, inSection: index))
 
 self.collectionView.setContentOffset(CGPointMake(0, attributes!.frame.origin.y - self.collectionView.contentInset.top), animated: true)
 </code></pre>
-
 <p>参见:<a href="http://stackoverflow.com/questions/22100227/scroll-uicollectionview-to-section-header-view">Scroll UICollectionView to section header view</a></p>
 
 
@@ -111,10 +108,8 @@ self.collectionView.setContentOffset(CGPointMake(0, attributes!.frame.origin.y -
 	  	<div class="entry-content">
 		  	
 		  	<p>突然想起来 <code>微指App</code> 里面控制 tabBar 显示与隐藏非常麻烦,在控制器中的 <code>viewWillAppear</code> 和 <code>viewWillDisappear</code>中做处理,这样能保证在控制器中控制 tabBar 的显示与隐藏,但是也非常麻烦,每个控制器都需要控制..</p>
-
 <p>一劳永逸的做法:</p>
-
-<pre><code class="language-text">    // 重写 push 方法
+<pre><code>    // 重写 push 方法
     override func pushViewController(_ viewController: UIViewController, animated: Bool) {
         // 如果不是栈底控制器才需要隐藏, 根控制器 不需要处理
         if childViewControllers.count &gt; 0 {
@@ -124,7 +119,6 @@ self.collectionView.setContentOffset(CGPointMake(0, attributes!.frame.origin.y -
         super.pushViewController(viewController, animated: true)
     }
 </code></pre>
-
 <p>在导航控制器中重写 <code>push</code> 方法,这样就能省去好多麻烦..</p>
 
 
@@ -143,10 +137,8 @@ self.collectionView.setContentOffset(CGPointMake(0, attributes!.frame.origin.y -
 	  	<div class="entry-content">
 		  	
 		  	<p><code>brew</code> 一行命令搞定 <code>brew install tree</code></p>
-
 <p>效果图:</p>
-
-<pre><code class="language-text">.
+<pre><code>.
 ├── LICENSE
 ├── MKShowDetail
 │   ├── MKShowDetail.h
@@ -211,7 +203,6 @@ self.collectionView.setContentOffset(CGPointMake(0, attributes!.frame.origin.y -
 └── shopdetail.gif
 
 </code></pre>
-
 <p>看起来效果不错.</p>
 
 
@@ -229,7 +220,7 @@ self.collectionView.setContentOffset(CGPointMake(0, attributes!.frame.origin.y -
 		 </header>
 	  	<div class="entry-content">
 		  	
-		  	<pre><code class="language-text">+ (UIViewController *)getCurrentRootViewController {
+		  	<pre><code>+ (UIViewController *)getCurrentRootViewController {
 
     CommonTool *tool = [[CommonTool alloc]init];
 
@@ -264,8 +255,7 @@ self.collectionView.setContentOffset(CGPointMake(0, attributes!.frame.origin.y -
 }
 
 </code></pre>
-
-<pre><code class="language-text">- (UIViewController *)findViewController:(id)controller{
+<pre><code>- (UIViewController *)findViewController:(id)controller{
     if ([controller isMemberOfClass:[UINavigationController class]]) {
         return [self findViewController:[(UINavigationController *)controller visibleViewController]];
     }
@@ -298,49 +288,31 @@ self.collectionView.setContentOffset(CGPointMake(0, attributes!.frame.origin.y -
 		 </header>
 	  	<div class="entry-content">
 		  	
-		  	<h2 id="toc_0">相关文章/博客</h2>
-
-<p><a href="http://www.cocoachina.com/ios/20150906/13212.html">一次 TableView 性能优化经历</a><br/>
-<a href="http://blog.jobbole.com/37984/">iOS应用性能调优的25个建议和技巧</a><br/>
-<a href="http://longxdragon.github.io/2015/05/26/UITableView%E4%BC%98%E5%8C%96%E6%8A%80%E5%B7%A7/">UITableView优化技巧</a><br/>
+		  	<p>##相关文章/博客<br />
+<a href="http://www.cocoachina.com/ios/20150906/13212.html">一次 TableView 性能优化经历</a><br />
+<a href="http://blog.jobbole.com/37984/">iOS应用性能调优的25个建议和技巧</a><br />
+<a href="http://longxdragon.github.io/2015/05/26/UITableView%E4%BC%98%E5%8C%96%E6%8A%80%E5%B7%A7/">UITableView优化技巧</a><br />
 <a href="http://blog.csdn.net/shang_ri_la/article/details/25954383">UITableView 滚动流畅性优化</a> (备注:这个原始网站挂了,幸好有朋友转载过.)</p>
-
-<h2 id="toc_1">注意点:</h2>
-
-<h4 id="toc_2">1. 列表卡顿问题最好真机测试，有条件的尽量选择低版本硬件和系统进行测试；</h4>
-
-<h4 id="toc_3">2. 使用 Instruments 的 Time Profiler 工具定位造成卡顿时间消耗的位置；</h4>
-
-<h4 id="toc_4">3. 避免 UITableView 的多次刷新( reloadData )，尤其 Xib 加载 UITableView 时避免首次自动加载；</h4>
-
-<h4 id="toc_5">4. 为 Cell 专门定义显示 Model；</h4>
-
-<h4 id="toc_6">5. Model 需要包含已提前计算出的 Cell 高度；</h4>
-
-<h4 id="toc_7">6. 对于显示的 NSString，提前在 Model 中组装完成，避免在 Cell 中组装转换；</h4>
-
-<h4 id="toc_8">7. 对于需要加载的网络图片链接，提前在 Model 中组装完成 NSURL,避免在 Cell 中组装转换；</h4>
-
-<h4 id="toc_9">8. 尽量减少 Cell 中的逻辑判断和运算并使用正确的数据格式;</h4>
-
-<h4 id="toc_10">9. 避免在 Cell 中反复创建 View,最好在初始化时一并创建，通过设置 Hidden 属性控制显示和隐藏;</h4>
-
-<h4 id="toc_11">10. 对于 UIImageView ,注意加载的图片大小是否与控件大小一致，尽量保持一致；</h4>
-
-<h4 id="toc_12">11. 正确使用 reuseIdentifier</h4>
-
-<pre><code class="language-text">static NSString *CellIdentifier = @&quot;MyFancyCell&quot;;
+<p>##注意点:</p>
+<p>####1. 列表卡顿问题最好真机测试，有条件的尽量选择低版本硬件和系统进行测试；</p>
+<p>####2. 使用 Instruments 的 Time Profiler 工具定位造成卡顿时间消耗的位置；</p>
+<p>####3. 避免 UITableView 的多次刷新( reloadData )，尤其 Xib 加载 UITableView 时避免首次自动加载；</p>
+<p>####4. 为 Cell 专门定义显示 Model；</p>
+<p>####5. Model 需要包含已提前计算出的 Cell 高度；</p>
+<p>####6. 对于显示的 NSString，提前在 Model 中组装完成，避免在 Cell 中组装转换；</p>
+<p>####7. 对于需要加载的网络图片链接，提前在 Model 中组装完成 NSURL,避免在 Cell 中组装转换；</p>
+<p>####8. 尽量减少 Cell 中的逻辑判断和运算并使用正确的数据格式;</p>
+<p>####9. 避免在 Cell 中反复创建 View,最好在初始化时一并创建，通过设置 Hidden 属性控制显示和隐藏;</p>
+<p>####10. 对于 UIImageView ,注意加载的图片大小是否与控件大小一致，尽量保持一致；</p>
+<p>####11. 正确使用 reuseIdentifier</p>
+<pre><code>static NSString *CellIdentifier = @&quot;MyFancyCell&quot;;
 UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
 
 </code></pre>
-
-<h4 id="toc_13">12. 尽量把所有的 UIView 以及其子类控件设置为不透明（Opaque = YES）,你可以在模拟器中用Debug\Color Blended Layers选项来发现哪些view没有被设置为opaque。目标就是，能设为opaque的就全设为opaque!</h4>
-
-<h4 id="toc_14">13. 尽量避免图片压缩，模拟器条件下使用 Debug\Color Misaligned Images 选项检查像素是否对其:如果图片边界没有与目标像素完美对齐，该功能可为图片叠加上一层品红色。如果图片使用确定的比例大小绘制，那么该功能会为图片添加一层黄色叠加。真机条件下使用 Instrument 中的 Core Animation 工具检查；</h4>
-
-<h4 id="toc_15">14. 使用 shadowPath 来画阴影;</h4>
-
-<pre><code class="language-text">#import &lt;QuartzCore/QuartzCore.h&gt;
+<p>####12. 尽量把所有的 UIView 以及其子类控件设置为不透明（Opaque = YES）,你可以在模拟器中用Debug\Color Blended Layers选项来发现哪些view没有被设置为opaque。目标就是，能设为opaque的就全设为opaque!</p>
+<p>####13. 尽量避免图片压缩，模拟器条件下使用 Debug\Color Misaligned Images 选项检查像素是否对其:如果图片边界没有与目标像素完美对齐，该功能可为图片叠加上一层品红色。如果图片使用确定的比例大小绘制，那么该功能会为图片添加一层黄色叠加。真机条件下使用 Instrument 中的 Core Animation 工具检查；<br />
+####14. 使用 shadowPath 来画阴影;</p>
+<pre><code>#import &lt;QuartzCore/QuartzCore.h&gt;
 
 // Somewhere later ...
 UIView *view = [[UIView alloc] init];
@@ -350,14 +322,10 @@ view.layer.shadowOffset = CGSizeMake(-1.0f, 1.0f);
 view.layer.shadowRadius = 5.0f;
 view.layer.shadowOpacity = 0.6;
 </code></pre>
-
-<h4 id="toc_16">15. 减少 subviews 的数量;</h4>
-
-<h4 id="toc_17">16. 尽量不使用 cellForRowAtIndexPath: ，如果你需要用到它，只用一次然后缓存结果；</h4>
-
-<h4 id="toc_18">17. 使用 Autorelease Pool；</h4>
-
-<pre><code class="language-text">NSArray *urls = &lt;# An array of file URLs #&gt;;
+<p>####15. 减少 subviews 的数量;</p>
+<p>####16. 尽量不使用 cellForRowAtIndexPath: ，如果你需要用到它，只用一次然后缓存结果；<br />
+####17. 使用 Autorelease Pool；</p>
+<pre><code>NSArray *urls = &lt;# An array of file URLs #&gt;;
 for (NSURL *url in urls) {
     @autoreleasepool {
         NSError *error;
@@ -366,18 +334,14 @@ for (NSURL *url in urls) {
     }
 }
 </code></pre>
-
-<h4 id="toc_19">18. 选择是否需要缓存；</h4>
-
-<pre><code class="language-text">UIImage *img = [UIImage imageNamed:@&quot;myImage&quot;]; // caching
+<p>####18. 选择是否需要缓存；</p>
+<pre><code>UIImage *img = [UIImage imageNamed:@&quot;myImage&quot;]; // caching
 
 // or
  UIImage *img = [UIImage imageWithContentsOfFile:@&quot;myImage&quot;]; // no caching
 </code></pre>
-
 <p>如果你要加载一个大图片而且是一次性使用，那么就没必要缓存这个图片，用 imageWithContentsOfFile 足矣，这样不会浪费内存来缓存它。然而，在图片反复重用的情况下 imageNamed 是一个好得多的选择。</p>
-
-<h4 id="toc_20">19. 避免日期格式转换；相关日期显示应该在 Model 中定义完成。</h4>
+<p>####19. 避免日期格式转换；相关日期显示应该在 Model 中定义完成。</p>
 
 
 		</div>
@@ -484,6 +448,12 @@ for (NSURL *url in urls) {
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -503,12 +473,6 @@ for (NSURL *url in urls) {
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

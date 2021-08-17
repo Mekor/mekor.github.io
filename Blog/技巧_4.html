@@ -84,8 +84,8 @@ $(document).ready(function(event) {
 		 </header>
 	  	<div class="entry-content">
 		  	
-		  	<p>把图片拖到模拟器主屏幕,或者Safari中,保存图片7 <br/>
-<img src="media/14765420394973/tips.gif" alt="tips"/></p>
+		  	<p>把图片拖到模拟器主屏幕,或者Safari中,保存图片7<br />
+<img src="media/14765420394973/tips.gif" alt="tips" /></p>
 
 
 		</div>
@@ -103,24 +103,19 @@ $(document).ready(function(event) {
 	  	<div class="entry-content">
 		  	
 		  	<p>开发中常用到计算字符串的size或者rect</p>
-
 <p>经常见到如下接口:</p>
-
-<pre><code class="language-text">- (CGSize)sizeWithAttributes:(nullable NSDictionary&lt;NSString *, id&gt; *)attrs NS_AVAILABLE(10_0, 7_0);
+<pre><code>- (CGSize)sizeWithAttributes:(nullable NSDictionary&lt;NSString *, id&gt; *)attrs NS_AVAILABLE(10_0, 7_0);
 
 - (CGRect)boundingRectWithSize:(CGSize)size options:(NSStringDrawingOptions)options attributes:(nullable NSDictionary&lt;NSString *, id&gt; *)attributes context:(nullable NSStringDrawingContext *)context NS_AVAILABLE(10_11, 7_0);
 </code></pre>
-
 <p>项目中使用的例子:</p>
-
-<pre><code class="language-text">    // shopNameLabel frame
+<pre><code>    // shopNameLabel frame
     {
         CGSize stringSize = [self.shopNameLabel.text sizeWithAttributes:@{NSFontAttributeName: self.shopNameLabel.font}];
         self.shopNameLabel.frame = CGRectMake(margin, margin, ceil(stringSize.width), ceil(stringSize.height));
     }
 </code></pre>
-
-<pre><code class="language-text">    // addressLabel frame
+<pre><code>    // addressLabel frame
     {
         CGFloat lwidth = width - imageWH - 3*margin;
         
@@ -129,9 +124,7 @@ $(document).ready(function(event) {
     }
 
 </code></pre>
-
 <p>由于经常使用,所以我把这些都抽取成代码块,方便调用.</p>
-
 <p>其中由于需要预估字符串的高度,<code>boundingRectWithSize</code>,由于iOS所提供的默认字体是可能变化的,所以这里我们不能凭借经验10号字体默认高度就是10,这是不准确的.使用<code>self.addressLabel.font.lineHeight</code>应该使用行高来计算.并且显示的行数也不要写死,需要写成 <code>self.addressLabel.numberOfLines</code>.这样做才能得到想要的效果.</p>
 
 
@@ -150,18 +143,13 @@ $(document).ready(function(event) {
 	  	<div class="entry-content">
 		  	
 		  	<p>如果在包含UITableView视图中添加单击手势，这个单击手势会屏蔽掉UITableView的</p>
-
-<pre><code class="language-text">- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath;
+<pre><code>- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath;
 </code></pre>
-
 <p>可以利用<code>UIGestureRecognizer</code>的<code>Delegate</code>中的</p>
-
-<pre><code class="language-text">- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer;
+<pre><code>- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer;
 </code></pre>
-
 <p>在单击点位于UITableView内的时候取消响应</p>
-
-<pre><code class="language-text">- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer{
+<pre><code>- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer{
     CGPoint point = [gestureRecognizer locationInView:self];
     if(CGRectContainsPoint(menuTableView.frame, point)){
         return NO;
@@ -169,10 +157,8 @@ $(document).ready(function(event) {
     return YES;
 }
 </code></pre>
-
 <p>或者将单击手势的cancelsTouchesInView设置为NO</p>
-
-<pre><code class="language-text">singleTap.cancelsTouchesInView = NO;
+<pre><code>singleTap.cancelsTouchesInView = NO;
 </code></pre>
 
 
@@ -191,27 +177,20 @@ $(document).ready(function(event) {
 	  	<div class="entry-content">
 		  	
 		  	<p>项目中如果显示图片比较多,会遇到内存涨的比较厉害,项目中用到 SDWebImage, 所以可以很简单的让内存缓存变稳定:</p>
-
-<pre><code class="language-text">-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+<pre><code>-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
     [[SDImageCache sharedImageCache] clearMemory];
 }
 </code></pre>
-
 <p>原理:</p>
-
-<pre><code class="language-text">- (void)clearMemory {
+<pre><code>- (void)clearMemory {
     [self.memCache removeAllObjects];
 }
 </code></pre>
-
 <p>_memCache 是 NSCache 类型的,</p>
-
-<p>没有做任何操作的时候大概是这个样子的<br/>
-<img src="media/14752152861722/14752174866625.jpg" alt=""/></p>
-
-<p>添加clearMemory后:<br/>
-<img src="media/14752152861722/14752177858503.jpg" alt=""/></p>
-
+<p>没有做任何操作的时候大概是这个样子的<br />
+<img src="media/14752152861722/14752174866625.jpg" alt="" /></p>
+<p>添加clearMemory后:<br />
+<img src="media/14752152861722/14752177858503.jpg" alt="" /></p>
 <p>这也是为什么滚动后屏幕上还显示图片的原因.</p>
 
 
@@ -232,29 +211,19 @@ $(document).ready(function(event) {
 		  	<blockquote>
 <p>原因：项目中想要实现购物车右上角显示购物车中上品数量，但是直接用UIBarButtonItem不能实现要求</p>
 </blockquote>
-
 <p>这里是实现后的效果图：</p>
-
-<p><img src="media/14747835330079/strip." alt="购物车动画"/></p>
-
+<p><img src="media/14747835330079/strip." alt="购物车动画" /></p>
 <p>一开始直接创建的UIBarButtonItem，但是不能直接往上面添加想要的效果，因为</p>
-
-<pre><code class="language-text">NS_CLASS_AVAILABLE_IOS(2_0) @interface UIBarButtonItem : UIBarItem &lt;NSCoding&gt;
+<pre><code>NS_CLASS_AVAILABLE_IOS(2_0) @interface UIBarButtonItem : UIBarItem &lt;NSCoding&gt;
 </code></pre>
-
 <p>而且</p>
-
-<pre><code class="language-text">NS_CLASS_AVAILABLE_IOS(2_0) @interface UIBarItem : NSObject &lt;NSCoding, UIAppearance&gt;
+<pre><code>NS_CLASS_AVAILABLE_IOS(2_0) @interface UIBarItem : NSObject &lt;NSCoding, UIAppearance&gt;
 </code></pre>
-
 <p>退而求其次，我们知道UIBarButtonItem有一个属性</p>
-
-<pre><code class="language-text">@property(nullable, nonatomic,strong)  __kindof UIView     *customView;       // default is nil
+<pre><code>@property(nullable, nonatomic,strong)  __kindof UIView     *customView;       // default is nil
 </code></pre>
-
 <p>这说明我们可以使用UIButton来代替UIBarButtonItem，在UIButton上面添加想要的动画效果。</p>
-
-<pre><code class="language-text">    static CGFloat const kButtonWidth = 43.0f;
+<pre><code>    static CGFloat const kButtonWidth = 43.0f;
     static CGFloat const kButtonHeight = 43.0f;
 
     UIImage *cartImage = [[UIImage imageNamed:@&quot;iconfont-cart&quot;]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
@@ -270,10 +239,8 @@ $(document).ready(function(event) {
     UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:cartButton];
     self.navigationItem.rightBarButtonItem = rightBarButtonItem;
 </code></pre>
-
 <p>创建Label使用懒加载：</p>
-
-<pre><code class="language-text">#pragma mark 购物车上面显示的按钮
+<pre><code>#pragma mark 购物车上面显示的按钮
 -(UILabel *)numberLabel
 {
     if (!_numberLabel) {
@@ -298,8 +265,7 @@ $(document).ready(function(event) {
     return _numberLabel;
 }
 </code></pre>
-
-<p>这里说下为什么设置为hidden，因为要求数量为0的时候不显示，数量不为0显示，如果删除后还要添加不如直接控制hidden。<br/>
+<p>这里说下为什么设置为hidden，因为要求数量为0的时候不显示，数量不为0显示，如果删除后还要添加不如直接控制hidden。<br />
 其他的就是设置Label显示的数字了，这里就不写了。</p>
 
 
@@ -407,6 +373,12 @@ $(document).ready(function(event) {
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -426,12 +398,6 @@ $(document).ready(function(event) {
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

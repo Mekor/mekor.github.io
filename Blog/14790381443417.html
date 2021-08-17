@@ -81,9 +81,8 @@ $(document).ready(function(event) {
 				<p class="meta"><time datetime="2016-11-13T19:55:44+08:00" pubdate data-updated="true">2016/11/13</time></p>
 			 </header>
 		  	<div class="entry-content">
-			  	<h2 id="toc_0">Swift中如何使用KVC</h2>
-
-<pre><code class="language-text">import UIKit
+			  	<p>##Swift中如何使用KVC</p>
+<pre><code>import UIKit
 
 class Person: NSObject {
     var name:String?
@@ -101,12 +100,9 @@ class Person: NSObject {
     }
 }
 </code></pre>
-
 <p>注意:基本数据类型一开始要设置默认值.</p>
-
-<h2 id="toc_1">Swift中运行时获取属性列表</h2>
-
-<pre><code class="language-text">class Person: NSObject {
+<p>##Swift中运行时获取属性列表</p>
+<pre><code>class Person: NSObject {
     var name:String?
     var age: Int = 0
     var title:String?
@@ -144,10 +140,8 @@ class Person: NSObject {
 }
 
 </code></pre>
-
 <p>上面是OC写法,可以改进的更Swift一点:</p>
-
-<pre><code class="language-text">    class func propertyList() -&gt; [String] {
+<pre><code>    class func propertyList() -&gt; [String] {
         var count:UInt32 = 0
         
         let list = class_copyPropertyList(self,&amp;count)
@@ -169,11 +163,9 @@ class Person: NSObject {
         return array
     }
 </code></pre>
-
 <p>通过运行时可以发现:</p>
-
 <ol>
-<li>基本数据类型如果设置成可选类型则运行时获取不到(在OC中没有可选)....  这就说明了上面的注意点,否则使用<code>KVC</code>会崩溃 </li>
+<li>基本数据类型如果设置成可选类型则运行时获取不到(在OC中没有可选)....  这就说明了上面的注意点,否则使用<code>KVC</code>会崩溃</li>
 <li>如果属性为<code>private</code>同样获取不到属性(可以获取到ivar),同样会让<code>KVC</code>崩溃</li>
 </ol>
 
@@ -307,6 +299,12 @@ class Person: NSObject {
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -326,12 +324,6 @@ class Person: NSObject {
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

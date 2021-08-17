@@ -82,8 +82,7 @@ $(document).ready(function(event) {
 			 </header>
 		  	<div class="entry-content">
 			  	<p>一般情况:</p>
-
-<pre><code class="language-text">struct User {
+<pre><code>struct User {
     func login(password: String){
         print(password)
     }
@@ -94,10 +93,8 @@ let usr = User()
 
 usr.login(password: passwd)
 </code></pre>
-
 <p>函数式编程</p>
-
-<pre><code class="language-text">struct User {
+<pre><code>struct User {
     func login(password: String){
         print(password)
     }
@@ -108,12 +105,9 @@ let usr = User()
 
 User.login(usr)(password: passwd)
 </code></pre>
-
 <p>由此可见: <code>usr.login(password: passwd)</code> == <code>User.login(usr)(password: passwd)</code></p>
-
 <p>如果忽略外部参数</p>
-
-<pre><code class="language-text">struct User {
+<pre><code>struct User {
     func login(_ password: String){
         print(password)
     }
@@ -124,16 +118,11 @@ let usr = User()
 usr.login(passwd)
 User.login(usr)(passwd)
 </code></pre>
-
 <p>这样就更简洁了</p>
-
-<hr/>
-
-<p>--- 11.24更 --</p>
-
-<h2 id="toc_0">柯里化(Currying)</h2>
-
-<pre><code class="language-text">// 柯里化(Currying)
+<hr />
+<p>--- 11.24更 --<br />
+##柯里化(Currying)</p>
+<pre><code>// 柯里化(Currying)
 
 func addOne(num:Int) -&gt;Int {
     return num + 1
@@ -156,23 +145,18 @@ print(addTwo(6))
 print(addTo(9)(1))
 
 </code></pre>
-
-<p>----12.8----<br/>
+<p>----12.8----<br />
 说到函数式编程,我突然想起了今天实现一个功能所用到的技术,这里只做简单记录.</p>
-
 <p>项目中遇到一个问题:根据参数创建相应个数的视图,视图中按钮的点击事件还要回调..我一开始想用代理来做,发现如果层级结构比较深的话代理不是很好用.既然否定了代理那么怎样还能实现该效果呢?我尝试用函数(闭包).</p>
-
 <p>需要传递的数据</p>
-
-<pre><code class="language-text">let dict = [
+<pre><code>let dict = [
     [&quot;title&quot;:GLOBAL_LANGUAGE(&quot;历史锅底&quot;) ,
      &quot;subtitle&quot;:GLOBAL_LANGUAGE(&quot;上次的定制锅底,再来一单&quot;),
      &quot;imagename&quot;:&quot;OrderDishOrPot1&quot;,
      &quot;callback&quot;:historyPotsList!]  // callback 中存放的就是函数名或者闭包名
 ]
 </code></pre>
-
-<pre><code class="language-text">let showTitle =  data[i][&quot;title&quot;] as! String
+<pre><code>let showTitle =  data[i][&quot;title&quot;] as! String
 let showSubTitle = data[i][&quot;subtitle&quot;] as! String
 let imageName = data[i][&quot;imagename&quot;] as! String
 let callBack = data[i][&quot;callback&quot;] as! (()-&gt;()) // 这里就是我需要的闭包
@@ -182,9 +166,7 @@ let callBack = data[i][&quot;callback&quot;] as! (()-&gt;()) // 这里就是我�
 callBack() // 闭包调用
 
 </code></pre>
-
 <p>只需要这样我就能实现需求了...函数的传递虽然不像👆所说的那样函数式编程,但是还是有必要记录下,swift跟OC比还是灵活了很多.</p>
-
 <p>----未完待续---</p>
 
 			</div>
@@ -317,6 +299,12 @@ callBack() // 闭包调用
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -336,12 +324,6 @@ callBack() // 闭包调用
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

@@ -82,14 +82,12 @@ $(document).ready(function(event) {
 			 </header>
 		  	<div class="entry-content">
 			  	<blockquote>
-<p>今天,YouTube推荐了一个自定义layout的视频( Custom Collection View Layouts in iOS),看了一下挺简单明了的,而且基本的操作都包含了. <br/>
-<strong>视频地址:</strong> <a href="https://www.youtube.com/watch?v=DIxyCh55SqQ">Pinterest Basic Layout - Custom Collection View Layouts in iOS - raywenderlich.com</a><br/>
+<p>今天,YouTube推荐了一个自定义layout的视频( Custom Collection View Layouts in iOS),看了一下挺简单明了的,而且基本的操作都包含了.<br />
+<strong>视频地址:</strong> <a href="https://www.youtube.com/watch?v=DIxyCh55SqQ">Pinterest Basic Layout - Custom Collection View Layouts in iOS - raywenderlich.com</a><br />
 <strong>github地址:</strong> <a href="https://github.com/AZCoder2/Pinterest">Pinterest</a></p>
 </blockquote>
-
 <p>核心代码:</p>
-
-<pre><code class="language-text">//
+<pre><code>//
 //  PinterestLayout.swift
 //  Pinterest
 //
@@ -287,10 +285,8 @@ class PinterestLayout: UICollectionViewLayout {
 }
 
 </code></pre>
-
 <p>比较有意思的一个计算高度方式:</p>
-
-<pre><code class="language-text">  // This provides the height of the photos
+<pre><code>  // This provides the height of the photos
   
   /* It uses AVMakeRectWithAspectRatioInsideRect() from AVFoundation to calculate a height that retains the photo’s aspect ratio, restricted to the cell’s width.
    */
@@ -306,10 +302,8 @@ class PinterestLayout: UICollectionViewLayout {
     return rect.size.height
   }
 </code></pre>
-
 <p>图片解压:</p>
-
-<pre><code class="language-text">extension UIImage {
+<pre><code>extension UIImage {
   
   var decompressedImage: UIImage {
     UIGraphicsBeginImageContextWithOptions(size, true, 0)
@@ -321,10 +315,8 @@ class PinterestLayout: UICollectionViewLayout {
   
 }
 </code></pre>
-
 <p>一个从前没有用过的Api:</p>
-
-<pre><code class="language-text">  /* 
+<pre><code>  /* 
    This code calls the super implementation to make sure that the standard attributes are applied. Then, it casts the attributes object into an instance of PinterestLayoutAttributes to obtain the photo height and then changes the image view height by setting the imageViewHeightLayoutConstraint constant value.
   */
   
@@ -336,8 +328,7 @@ class PinterestLayout: UICollectionViewLayout {
     }
   }
 </code></pre>
-
-<p>===========<mark>完</mark>=========</p>
+<p>=============完===========</p>
 
 			</div>
 
@@ -469,6 +460,12 @@ class PinterestLayout: UICollectionViewLayout {
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -488,12 +485,6 @@ class PinterestLayout: UICollectionViewLayout {
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

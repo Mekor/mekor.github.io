@@ -81,35 +81,23 @@ $(document).ready(function(event) {
 				<p class="meta"><time datetime="2016-12-29T17:34:02+08:00" pubdate data-updated="true">2016/12/29</time></p>
 			 </header>
 		  	<div class="entry-content">
-			  	<h2 id="toc_0">规范问题</h2>
-
-<p>关于视图该不该把控件暴露出去?<br/>
+			  	<p>##规范问题<br />
+关于视图该不该把控件暴露出去?<br />
 通常情况下不能,原因:为了<del>部落</del>封闭性.</p>
-
 <p>我的理解,每个视图都是一个盒子,如果有需要我可以给外面提供一个update接口来更改数据.视图中的点击事件可以通过<code>Target-Action</code>实现,当然闭包&amp;代理同样可以.非常符合<code>Cocoa</code>提倡的<code>MVC</code>模式</p>
-
-<p><img src="media/14830040423390/14834530948549.jpg" alt=""/></p>
-
-<p>关于视图中空间是否暴露出去,默认都是<code>private</code>,我认为苹果<code>Cocoa Touch</code>中<code>UIKit</code>部分控件设计的不是很好,举个🌰:<br/>
+<p><img src="media/14830040423390/14834530948549.jpg" alt="" /></p>
+<p>关于视图中空间是否暴露出去,默认都是<code>private</code>,我认为苹果<code>Cocoa Touch</code>中<code>UIKit</code>部分控件设计的不是很好,举个🌰:<br />
 <code>UIButton</code>如果设置字体的大小,需要通过<code>titleLabel?.font</code>来设置.我认为这样是不好的,通过一个方法来设置font感觉更合适.</p>
-
-<h2 id="toc_1">更Swift</h2>
-
-<p>毕竟大部分同学都是刚接触Swift,整个项目感觉有点像翻译,还是<code>OC</code>的味道,关于这个问题讨论了两点,一个是面向协议编程,一个是函数式编程</p>
-
-<h3 id="toc_2">面向协议编程</h3>
-
-<p>问题:某一个视图是其他视图所需要的一部分,现在的做法是将共有的视图抽取出来,成为一个视图,然后其他视图包含这个视图.<br/>
+<p>##更Swift<br />
+毕竟大部分同学都是刚接触Swift,整个项目感觉有点像翻译,还是<code>OC</code>的味道,关于这个问题讨论了两点,一个是面向协议编程,一个是函数式编程<br />
+###面向协议编程<br />
+问题:某一个视图是其他视图所需要的一部分,现在的做法是将共有的视图抽取出来,成为一个视图,然后其他视图包含这个视图.<br />
 面向协议:公共的子视图设置为一个协议,然后给一个默认的实现.像搭积木一样做视图的拼接.</p>
-
-<p>参考资料:<a href="https://github.com/atConf/atswift-2016-resources">atswift-2016大会</a>中<code>李洁信_Pop in Swift</code>这个section可以参考.</p>
-
-<h3 id="toc_3">函数式编程</h3>
-
-<p>周欣对自己代码优化的时候发现的问题:<br/>
+<p>参考资料:<a href="https://github.com/atConf/atswift-2016-resources">atswift-2016大会</a>中<code>李洁信_Pop in Swift</code>这个section可以参考.<br />
+###函数式编程<br />
+周欣对自己代码优化的时候发现的问题:<br />
 一开始的逻辑:</p>
-
-<pre><code class="language-text">class func fetchAllDish() -&gt; [Any] {
+<pre><code>class func fetchAllDish() -&gt; [Any] {
         var mutableBigCategorys = [Any]()
         let bigCategorys = DatabaseManager.shared.fetchAllDishCategory()
         for bigCategory in bigCategorys {
@@ -132,10 +120,8 @@ $(document).ready(function(event) {
         return mutableBigCategorys
     }
 </code></pre>
-
 <p>优化后的:</p>
-
-<pre><code class="language-text">class func fetchAllDish() -&gt; [Any] {
+<pre><code>class func fetchAllDish() -&gt; [Any] {
         let bigCategorys = DatabaseManager.shared.fetchAllDishCategory()
         let results = bigCategorys.map { (bigCategory) -&gt; [String: Any] in
             var bigCategory = bigCategory
@@ -152,14 +138,10 @@ $(document).ready(function(event) {
         return results
     }
 </code></pre>
-
 <p>通过<code>map</code>与<code>filter</code>的灵活使用,使代码逻辑更清晰,同时也减少了不必要的临时变量.</p>
-
-<h3 id="toc_4">元组</h3>
-
-<p>这个甲冠用的比较6..代码参见<code>NeoSubDishDetailView.swift</code>简单🌰:</p>
-
-<pre><code class="language-text">    func refreshInfo(data : (UIButton,DishTypeModel)){
+<p>###元组<br />
+这个甲冠用的比较6..代码参见<code>NeoSubDishDetailView.swift</code>简单🌰:</p>
+<pre><code>    func refreshInfo(data : (UIButton,DishTypeModel)){
         dishNameLabel.text = data.1.name
         moneyLabel.text = data.1.price
         numLabel.text = String(data.1.num)
@@ -173,7 +155,6 @@ $(document).ready(function(event) {
     }
 
 </code></pre>
-
 <p>还有好多地方使用,这个文件可以好好观摩一下,很Swift...</p>
 
 			</div>
@@ -306,6 +287,12 @@ $(document).ready(function(event) {
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -325,12 +312,6 @@ $(document).ready(function(event) {
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

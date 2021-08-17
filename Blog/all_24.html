@@ -78,6 +78,65 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14747868502733.html">GCD(Grand Central Dispatch)使用</a></h1>
+			<p class="meta"><time datetime="2016-09-25T15:00:50+08:00" 
+			pubdate data-updated="true">2016/9/25</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>可以让程序长时间压后台</p>
+<pre><code>//  后台执行：
+dispatch_async(dispatch_get_global_queue(0, 0), ^{
+  // something
+});
+
+// 主线程执行：
+dispatch_async(dispatch_get_main_queue(), ^{
+  // something
+});
+
+// 一次性执行：
+static dispatch_once_t onceToken;
+dispatch_once(&amp;onceToken, ^{
+  // code to be executed once
+});
+
+// 延迟2秒执行：
+double delayInSeconds = 2.0;
+dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+   // code to be executed on the main queue after delay
+});
+
+// 自定义dispatch_queue_t
+dispatch_queue_t urls_queue = dispatch_queue_create(&quot;blog.devtang.com&quot;, NULL);
+dispatch_async(urls_queue, ^{
+  // your code
+});
+dispatch_release(urls_queue);
+
+// 合并汇总结果
+dispatch_group_t group = dispatch_group_create();
+dispatch_group_async(group, dispatch_get_global_queue(0,0), ^{
+  // 并行执行的线程一
+});
+dispatch_group_async(group, dispatch_get_global_queue(0,0), ^{
+  // 并行执行的线程二
+});
+dispatch_group_notify(group, dispatch_get_global_queue(0,0), ^{
+  // 汇总结果
+});
+</code></pre>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14747835330079.html">如何在UIBarButtonItem上显示数字(BadgeValue)</a></h1>
 			<p class="meta"><time datetime="2016-09-25T14:05:33+08:00" 
 			pubdate data-updated="true">2016/9/25</time></p>
@@ -87,29 +146,19 @@ $(document).ready(function(event) {
 		  	<blockquote>
 <p>原因：项目中想要实现购物车右上角显示购物车中上品数量，但是直接用UIBarButtonItem不能实现要求</p>
 </blockquote>
-
 <p>这里是实现后的效果图：</p>
-
-<p><img src="media/14747835330079/strip." alt="购物车动画"/></p>
-
+<p><img src="media/14747835330079/strip." alt="购物车动画" /></p>
 <p>一开始直接创建的UIBarButtonItem，但是不能直接往上面添加想要的效果，因为</p>
-
-<pre><code class="language-text">NS_CLASS_AVAILABLE_IOS(2_0) @interface UIBarButtonItem : UIBarItem &lt;NSCoding&gt;
+<pre><code>NS_CLASS_AVAILABLE_IOS(2_0) @interface UIBarButtonItem : UIBarItem &lt;NSCoding&gt;
 </code></pre>
-
 <p>而且</p>
-
-<pre><code class="language-text">NS_CLASS_AVAILABLE_IOS(2_0) @interface UIBarItem : NSObject &lt;NSCoding, UIAppearance&gt;
+<pre><code>NS_CLASS_AVAILABLE_IOS(2_0) @interface UIBarItem : NSObject &lt;NSCoding, UIAppearance&gt;
 </code></pre>
-
 <p>退而求其次，我们知道UIBarButtonItem有一个属性</p>
-
-<pre><code class="language-text">@property(nullable, nonatomic,strong)  __kindof UIView     *customView;       // default is nil
+<pre><code>@property(nullable, nonatomic,strong)  __kindof UIView     *customView;       // default is nil
 </code></pre>
-
 <p>这说明我们可以使用UIButton来代替UIBarButtonItem，在UIButton上面添加想要的动画效果。</p>
-
-<pre><code class="language-text">    static CGFloat const kButtonWidth = 43.0f;
+<pre><code>    static CGFloat const kButtonWidth = 43.0f;
     static CGFloat const kButtonHeight = 43.0f;
 
     UIImage *cartImage = [[UIImage imageNamed:@&quot;iconfont-cart&quot;]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
@@ -125,10 +174,8 @@ $(document).ready(function(event) {
     UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:cartButton];
     self.navigationItem.rightBarButtonItem = rightBarButtonItem;
 </code></pre>
-
 <p>创建Label使用懒加载：</p>
-
-<pre><code class="language-text">#pragma mark 购物车上面显示的按钮
+<pre><code>#pragma mark 购物车上面显示的按钮
 -(UILabel *)numberLabel
 {
     if (!_numberLabel) {
@@ -153,8 +200,7 @@ $(document).ready(function(event) {
     return _numberLabel;
 }
 </code></pre>
-
-<p>这里说下为什么设置为hidden，因为要求数量为0的时候不显示，数量不为0显示，如果删除后还要添加不如直接控制hidden。<br/>
+<p>这里说下为什么设置为hidden，因为要求数量为0的时候不显示，数量不为0显示，如果删除后还要添加不如直接控制hidden。<br />
 其他的就是设置Label显示的数字了，这里就不写了。</p>
 
 
@@ -173,14 +219,11 @@ $(document).ready(function(event) {
 	  	<div class="entry-content">
 		  	
 		  	<p>错误信息:</p>
-
-<pre><code class="language-text">Error Domain=NSCocoaErrorDomain Code=3840 &quot;The operation couldn’t be completed. (Cocoa error 3840.)&quot; (Unescaped control character around character 135.) UserInfo=0x170e79d00 {NSDebugDescription=Unescaped control character around character 135.}
+<pre><code>Error Domain=NSCocoaErrorDomain Code=3840 &quot;The operation couldn’t be completed. (Cocoa error 3840.)&quot; (Unescaped control character around character 135.) UserInfo=0x170e79d00 {NSDebugDescription=Unescaped control character around character 135.}
 </code></pre>
-
-<p><strong>如何处理</strong><br/>
+<p><strong>如何处理</strong><br />
 最关键的地方:</p>
-
-<pre><code class="language-text">-(NSString *)removeUnescapedCharacter:(NSString *)inputStr
+<pre><code>-(NSString *)removeUnescapedCharacter:(NSString *)inputStr
 {
     NSCharacterSet *controlChars = [NSCharacterSet controlCharacterSet];//获取那些特殊字符
     NSRange range = [inputStr rangeOfCharacterFromSet:controlChars];//寻找字符串中有没有这些特殊字符
@@ -197,10 +240,8 @@ $(document).ready(function(event) {
     return inputStr;
 }
 </code></pre>
-
 <p>举例:</p>
-
-<pre><code class="language-text">    NSString *responseString = [NSMutableString stringWithString:[request responseString]];
+<pre><code>    NSString *responseString = [NSMutableString stringWithString:[request responseString]];
     responseString =[self removeUnescapedCharacter:responseString];
     NSData *jsonData = [responseString dataUsingEncoding:NSUTF8StringEncoding];
     NSError *error;
@@ -223,7 +264,6 @@ $(document).ready(function(event) {
 	  	<div class="entry-content">
 		  	
 		  	<p>iOS10 用户权限设置新增，在info.plist文件中，新增字段：</p>
-
 <table>
 <thead>
 <tr>
@@ -232,7 +272,6 @@ $(document).ready(function(event) {
 <th>说明</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>相册权限</td>
@@ -256,7 +295,6 @@ $(document).ready(function(event) {
 </tr>
 </tbody>
 </table>
-
 <p>iOS10 新用户下载app，使用以上前3种权限，如果不添加授权描述，会导致程序崩溃</p>
 
 
@@ -277,36 +315,32 @@ $(document).ready(function(event) {
 		  	<blockquote>
 <p>基本逻辑来源自官方文档 <a href="https://developer.apple.com/library/prerelease/content/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtForwarding.html">Message Forwarding</a> ,这里只做相关例子的解析.</p>
 </blockquote>
-
-<p>当一个对象能接收一个消息时，就会走正常的方法调用流程。但如果一个对象无法接收指定消息时，又会发生什么事呢？默认情况下，如果是以 [object message]的方式调用方法，如果object无法响应message消息时，编译器会报错。但如果是以perform…的形式来调用，则需要等到运 行时才能确定object是否能接收message消息。如果不能，则程序崩溃。<br/>
+<p>当一个对象能接收一个消息时，就会走正常的方法调用流程。但如果一个对象无法接收指定消息时，又会发生什么事呢？默认情况下，如果是以 [object message]的方式调用方法，如果object无法响应message消息时，编译器会报错。但如果是以perform…的形式来调用，则需要等到运 行时才能确定object是否能接收message消息。如果不能，则程序崩溃。<br />
 通常，当我们不能确定一个对象是否能接收某个消息时，会先调用<code>respondsToSelector:</code>来判断一下。如下代码所示：</p>
-
-<pre><code class="language-text">if ([self respondsToSelector:@selector(method)]) {
+<pre><code>if ([self respondsToSelector:@selector(method)]) {
     [self performSelector:@selector(method)];
 }
 </code></pre>
-
-<p>当不使用<code>respondsToSelector:</code>判断时,就会启动&#39;消息转发(message forwarding)&#39;机制,通过这一机制我们可以告诉对象如何处理未知的消息.如果不做任何处理会导致程序崩溃,我们可以看到异常信息如下:</p>
-
-<pre><code class="language-text">2016-09-08 13:26:53.094 selfsuper[65176:7154658] -[Student eat]: unrecognized selector sent to instance 0x7ff1b9f9f690
-2016-09-08 13:26:53.103 selfsuper[65176:7154658] *** Terminating app due to uncaught exception &#39;NSInvalidArgumentException&#39;, reason: &#39;-[Student eat]: unrecognized selector sent to instance 0x7ff1b9f9f690&#39;
+<p>当不使用<code>respondsToSelector:</code>判断时,就会启动'消息转发(message forwarding)'机制,通过这一机制我们可以告诉对象如何处理未知的消息.如果不做任何处理会导致程序崩溃,我们可以看到异常信息如下:</p>
+<pre><code>2016-09-08 13:26:53.094 selfsuper[65176:7154658] -[Student eat]: unrecognized selector sent to instance 0x7ff1b9f9f690
+2016-09-08 13:26:53.103 selfsuper[65176:7154658] *** Terminating app due to uncaught exception 'NSInvalidArgumentException', reason: '-[Student eat]: unrecognized selector sent to instance 0x7ff1b9f9f690'
 </code></pre>
-
 <p>这段异常信息实际上是由NSObject的<code>doesNotRecognizeSelector</code>方法抛出的。不过，我们可以采取一些措施，让我们的程序执行特定的逻辑，而避免程序的崩溃。</p>
-
 <p>消息转发机制基本上分为三个步骤：</p>
-
 <ol>
-<li><p>动态方法解析</p></li>
-<li><p>备用接收者</p></li>
-<li><p>完整转发</p></li>
+<li>
+<p>动态方法解析</p>
+</li>
+<li>
+<p>备用接收者</p>
+</li>
+<li>
+<p>完整转发</p>
+</li>
 </ol>
-
-<h2 id="toc_0">动态方法解析</h2>
-
-<p>对象在接收到未知的消息时，首先会调用所属类的类方法+resolveInstanceMethod:(实例方法)或 者+resolveClassMethod:(类方法)。在这个方法中，我们有机会为该未知消息新增一个”处理方法”“。不过使用该方法的前提是我们已经 实现了该”处理方法”，只需要在运行时通过class_addMethod函数动态添加到类里面就可以了。如下代码所示：</p>
-
-<pre><code class="language-text">// void(*)()
+<p>##动态方法解析<br />
+对象在接收到未知的消息时，首先会调用所属类的类方法+resolveInstanceMethod:(实例方法)或 者+resolveClassMethod:(类方法)。在这个方法中，我们有机会为该未知消息新增一个”处理方法”“。不过使用该方法的前提是我们已经 实现了该”处理方法”，只需要在运行时通过class_addMethod函数动态添加到类里面就可以了。如下代码所示：</p>
+<pre><code>// void(*)()
 // 默认方法都有两个隐式参数，
 void eat(id self,SEL sel)
 {
@@ -332,21 +366,14 @@ void eat(id self,SEL sel)
 }
 
 </code></pre>
-
 <p>不过这种方案更多的是为了实现@dynamic属性。</p>
-
-<h2 id="toc_1">备用接收者</h2>
-
-<p>如果在上一步无法处理消息，则Runtime会继续调以下方法：</p>
-
-<pre><code class="language-text">- (id)forwardingTargetForSelector:(SEL)aSelector
+<p>##备用接收者<br />
+如果在上一步无法处理消息，则Runtime会继续调以下方法：</p>
+<pre><code>- (id)forwardingTargetForSelector:(SEL)aSelector
 </code></pre>
-
 <p>如果一个对象实现了这个方法，并返回一个非nil的结果，则这个对象会作为消息的新接收者，且消息会被分发到这个对象。当然这个对象不能是self自身，否则就是出现无限循环。当然，如果我们没有指定相应的对象来处理aSelector，则应该调用父类的实现来返回结果。</p>
-
 <p>使用这个方法通常是在对象内部，可能还有一系列其它对象能处理该消息，我们便可借这些对象来处理消息并返回，这样在对象外部看来，还是由该对象亲自处理了这一消息。如下代码所示：</p>
-
-<pre><code class="language-text">/**
+<pre><code>/**
  * 测试消息转发
  */
 -(id)forwardingTargetForSelector:(SEL)aSelector {
@@ -360,19 +387,13 @@ void eat(id self,SEL sel)
 }
 
 </code></pre>
-
 <p>这一步合适于我们只想将消息转发到另一个能处理该消息的对象上。但这一步无法对消息进行处理，如操作消息的参数和返回值。如果需要修改参数和返回值,可以使用完整消息转发.</p>
-
-<h2 id="toc_2">完整消息转发</h2>
-
-<p>如果在上一步还不能处理未知消息，则唯一能做的就是启用完整的消息转发机制了。此时会调用以下方法:</p>
-
-<pre><code class="language-text">- (void)forwardInvocation:(NSInvocation *)anInvocation
+<p>##完整消息转发<br />
+如果在上一步还不能处理未知消息，则唯一能做的就是启用完整的消息转发机制了。此时会调用以下方法:</p>
+<pre><code>- (void)forwardInvocation:(NSInvocation *)anInvocation
 </code></pre>
-
 <p>完整代码:</p>
-
-<pre><code class="language-text">/**
+<pre><code>/**
  *  完整的消息转发
  */
 
@@ -397,330 +418,7 @@ void eat(id self,SEL sel)
     }
 }
 </code></pre>
-
 <p>关于 NSInvocation 可以参见<a href="https://github.com/Mekor/MKExtension">MKExtension</a>中<code>NSObject+SEL</code>,里面有关于 NSInvocation 的应用.</p>
-
-
-		</div>
-
-		
-
-	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14731740142157.html">RunLoop</a></h1>
-			<p class="meta"><time datetime="2016-09-06T23:00:14+08:00" 
-			pubdate data-updated="true">2016/9/6</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<h2 id="toc_0">1. 什么是runloop</h2>
-
-<ul>
-<li>Run loops 是线程相关的的基础框架的一部分。一个 run loop 就是一个事件处理 的循环,用来不停的调度工作以及处理输入事件。使用 run loop 的目的是让你的线程在有工作的时候忙于工作,而没工作的时候处于休眠状态。</li>
-<li>runloop就是运行循环(内部do-while),它的基本作用就是让程序持续运行,处理App中的各种事件(触摸,定时器,Selector).</li>
-<li>main函数中UIApplicationMain内部就启动了一个runloop,这样UIApplicationMain就会一直没有返回值,保持了程序的持续运行.这个默认的runloop是跟主线程相关联的.</li>
-<li>runloop 只能选择一个模式(Mode)启动,如果想切换其他模式只能退出当前循环再切换其他模式.如果当前模式中没有任何Source,timer,observer就会退出runloop</li>
-</ul>
-
-<h2 id="toc_1">2. RunLoop与线程</h2>
-
-<p>每条线程都有唯一的一个与之对应的RunLoop对象,主线程的RunLoop启动的时候已经默认创建好了,其他线程的RunLoop需要主动创建(RunLoop在第一次获取的时候创建,在线程结束的时候销毁)</p>
-
-<h2 id="toc_2">3. RunLoop对象</h2>
-
-<h4 id="toc_3">iOS中有2套API来访问和使用runloop</h4>
-
-<ul>
-<li> Foundation -&gt; NSRunLoop</li>
-<li> Core Foundation -&gt; CFRunLoopRef</li>
-</ul>
-
-<p>NSRunLoop和CFRunLoopRef都是runloop对象.NSRunLoop是基于CFRunLoopRef的一层OC封装</p>
-
-<h4 id="toc_4">获得RunLoop对象</h4>
-
-<ul>
-<li><p>Foundation </p>
-<pre><code class="language-objectivec">[NSRunLoop currentRunLoop]; // 获得当前线程的RunLoop对象
-[NSRunLoop mainRunLoop]; // 获得主线程的RunLoop对象
-</code></pre></li>
-<li><p>Core Foundation </p>
-<pre><code class="language-objectivec">CFRunLoopGetCurrent(): // 获得当前线程的RunLoop对象
-CFRunLoopGetMain(): //获得主线程的RunLoop对象
-</code></pre></li>
-</ul>
-
-<h2 id="toc_5">4. RunLoop相关类</h2>
-
-<h3 id="toc_6">Core Foundation中关于RunLoop的5个类</h3>
-
-<ul>
-<li>CFRunLoopRef</li>
-<li>CFRunLoopModeRef</li>
-<li>CFRunLoopSourceRef</li>
-<li>CFRunLoopTimerRef</li>
-<li>CFRunLoopObserverRef</li>
-</ul>
-
-<p>网上其他人博客总结(图一):<br/>
-<img src="media/14731740142157/14731758243846.jpg" alt=""/></p>
-
-<h3 id="toc_7">CFRunLoopModeRef(Run Loop 模式)</h3>
-
-<p><strong>CFRunLoopModeRef代表RunLoop的运行模式</strong>  一个RunLoop包含若干个Mode,每个Mode又包含若干个Source/Timer/Observer. 每次RunLoop启动时,只能指定其中一个Mode,这个Mode被称之为CurrentMode. 如果需要切换Mode,只能退出Loop,再重新指定一个Mode进入. 这样做主要是为了分隔开不同组的Source/Timer/Observer,让他们互不影响.</p>
-
-<p>Run loop 模式是所有要监视的输入源和定时源以及要通知的 run loop 注册观察者的集合。每次运行你的 run loop,你都要指定(无论显示还是隐式)其运行个模式。在 run loop 运行过程中,只有和模式相关的源才会被监视并允许他们传递事件消息。(类似的,只有和模式相关的观察者会通知 run loop 的进程)。和其他模式关联的源只有在 run loop 运行在其模式下才会运行,否则处于暂停状态。</p>
-
-<h3 id="toc_8">CFRunLoopModeRef</h3>
-
-<p><strong>系统默认注册了5个Mode:</strong></p>
-
-<ul>
-<li><p><strong>kCFRunLoopDefaultMode:</strong> App的默认Mode，通常主线程是在这个Mode下运行</p></li>
-<li><p><strong>UITrackingRunLoopMode:</strong> 界面跟踪 Mode，用于 ScrollView 追踪触摸滑动，保证界面滑动时不受其他 Mode 影响</p></li>
-<li><p><strong>UIInitializationRunLoopMode:</strong> 在刚启动 App 时第进入的第一个 Mode，启动完成后就不再使用</p></li>
-<li><p><strong>GSEventReceiveRunLoopMode:</strong> 接受系统事件的内部 Mode，通常用不到</p></li>
-<li><p><strong>kCFRunLoopCommonModes:</strong> 这是一个占位用的Mode，不是一种真正的Mode</p></li>
-</ul>
-
-<p>Cocoa 和 Core foundation 定义了一个默认的和一些常用的模式,通常在代码中都是用字符串来标识这些模式。当然你也可以给模式名称指定一个字符串来自定义模式.<br/>
-runloop一启动就会选中一种模式，当选中了一种模式之后其它的模式就都不鸟。一个mode里面可以添加多个NSTimer(见上面图一),也就是说以后当创建NSTimer的时候，可以指定它是在什么模式下运行的。</p>
-
-<h3 id="toc_9">CFRunLoopSourceRef</h3>
-
-<p><strong>CFRunLoopSourceRef是事件源（输入源）</strong></p>
-
-<p>输入源异步的发送消息给你的线程。事件来源取决于输入源的种类:基于端口的输入源和自定义输入源。基于端口的输入源监听程序相应的端口。自定义输入源则监听自定义的事件源。至于 run loop,它不关心输入源的是基于端口的输入源还是自 定义的输入源。系统会实现两种输入源供你使用。两类输入源的区别在于如何显示: 基于端口的输入源由内核自动发送,而自定义的则需要人工从其他线程发送。</p>
-
-<p>当你创建输入源,你需要将其分配给 run loop 中的一个或多个模式。模式只会 在特定事件影响监听的源。大多数情况下,run loop 运行在默认模式下,但是你也 可以使其运行在自定义模式。若某一源在当前模式下不被监听,那么任何其生成的消 息只在 run loop 运行在其关联的模式下才会被传递。</p>
-
-<p>以前的分法:<br/>
-Port-Based Sources<br/>
-Custom Input Sources<br/>
-Cocoa Perform Selector Sources</p>
-
-<p>现在的分法:<br/>
-Source0：非基于Port的<br/>
-Source1：基于Port的</p>
-
-<h3 id="toc_10">CFRunLoopTimerRef</h3>
-
-<p><strong>CFRunLoopTimerRef是基于时间的触发器</strong></p>
-
-<h4 id="toc_11">NSTimer:</h4>
-
-<pre><code class="language-text">- (void)timer2
-{
-    //NSTimer 调用了scheduledTimer方法，那么会自动添加到当前的runloop里面去，而且runloop的运行模式kCFRunLoopDefaultMode
-
-    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(run) userInfo:nil repeats:YES];
-
-    //更改模式
-    [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
-
-}
-
-- (void)timer1
-{
-    //    [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(run) userInfo:nil repeats:YES];
-
-    NSTimer *timer = [NSTimer timerWithTimeInterval:2.0 target:self selector:@selector(run) userInfo:nil repeats:YES];
-
-    //定时器添加到UITrackingRunLoopMode模式，一旦runloop切换模式，那么定时器就不工作
-    //    [[NSRunLoop currentRunLoop] addTimer:timer forMode:UITrackingRunLoopMode];
-
-    //定时器添加到NSDefaultRunLoopMode模式，一旦runloop切换模式，那么定时器就不工作
-    //    [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
-
-    //占位模式：common modes标记
-    //被标记为common modes的模式 kCFRunLoopDefaultMode  UITrackingRunLoopMode
-    [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
-
-    //    NSLog(@&quot;%@&quot;,[NSRunLoop currentRunLoop]);
-}
-
-- (void)run
-{
-    NSLog(@&quot;---run---%@&quot;,[NSRunLoop currentRunLoop].currentMode);
-}
-
-- (IBAction)btnClick {
-
-    NSLog(@&quot;---btnClick---&quot;);
-}
-</code></pre>
-
-<h4 id="toc_12">GCD中的定时器</h4>
-
-<pre><code class="language-text">//0.创建一个队列
-    dispatch_queue_t queue = dispatch_get_global_queue(0, 0);
-
-    //1.创建一个GCD的定时器
-    /*
-     第一个参数：说明这是一个定时器
-     第四个参数：GCD的回调任务添加到那个队列中执行，如果是主队列则在主线程执行
-     */
-    dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
-
-    //2.设置定时器的开始时间，间隔时间以及精准度
-
-    //设置开始时间，三秒钟之后调用
-    dispatch_time_t start = dispatch_time(DISPATCH_TIME_NOW,3.0 *NSEC_PER_SEC);
-    //设置定时器工作的间隔时间
-    uint64_t intevel = 1.0 * NSEC_PER_SEC;
-
-    /*
-     第一个参数：要给哪个定时器设置
-     第二个参数：定时器的开始时间DISPATCH_TIME_NOW表示从当前开始
-     第三个参数：定时器调用方法的间隔时间
-     第四个参数：定时器的精准度，如果传0则表示采用最精准的方式计算，如果传大于0的数值，则表示该定时切换i可以接收该值范围内的误差，通常传0
-     该参数的意义：可以适当的提高程序的性能
-     注意点：GCD定时器中的时间以纳秒为单位（面试）
-     */
-
-    dispatch_source_set_timer(timer, start, intevel, 0 * NSEC_PER_SEC);
-
-    //3.设置定时器开启后回调的方法
-    /*
-     第一个参数：要给哪个定时器设置
-     第二个参数：回调block
-     */
-    dispatch_source_set_event_handler(timer, ^{
-        NSLog(@&quot;------%@&quot;,[NSThread currentThread]);
-    });
-
-    //4.执行定时器
-    dispatch_resume(timer);
-
-    //注意：dispatch_source_t本质上是OC类，在这里是个局部变量，需要强引用
-    self.timer = timer;
-
-GCD定时器补充
-/*
- DISPATCH_SOURCE_TYPE_TIMER         定时响应（定时器事件）
- DISPATCH_SOURCE_TYPE_SIGNAL        接收到UNIX信号时响应
-
- DISPATCH_SOURCE_TYPE_READ          IO操作，如对文件的操作、socket操作的读响应
- DISPATCH_SOURCE_TYPE_WRITE         IO操作，如对文件的操作、socket操作的写响应
- DISPATCH_SOURCE_TYPE_VNODE         文件状态监听，文件被删除、移动、重命名
- DISPATCH_SOURCE_TYPE_PROC          进程监听,如进程的退出、创建一个或更多的子线程、进程收到UNIX信号
-
- 下面两个都属于Mach相关事件响应
-    DISPATCH_SOURCE_TYPE_MACH_SEND
-    DISPATCH_SOURCE_TYPE_MACH_RECV
- 下面两个都属于自定义的事件，并且也是有自己来触发
-    DISPATCH_SOURCE_TYPE_DATA_ADD
-    DISPATCH_SOURCE_TYPE_DATA_OR
- */
-</code></pre>
-
-<h3 id="toc_13">CFRunLoopObserverRef</h3>
-
-<p><strong>CFRunLoopObserverRef是观察者，能够监听RunLoop的状态改变</strong></p>
-
-<p>可以监听的时间点有以下几个</p>
-
-<pre><code class="language-text">/* Run Loop Observer Activities */
-typedef CF_OPTIONS(CFOptionFlags, CFRunLoopActivity) {
-    kCFRunLoopEntry = (1UL &lt;&lt; 0),           // 即将进入 Loop
-    kCFRunLoopBeforeTimers = (1UL &lt;&lt; 1),    // 即将处理 Timer
-    kCFRunLoopBeforeSources = (1UL &lt;&lt; 2),   // 即将处理 Source
-    kCFRunLoopBeforeWaiting = (1UL &lt;&lt; 5),   // 即将进入休眠
-    kCFRunLoopAfterWaiting = (1UL &lt;&lt; 6),    // 刚从休眠中唤醒
-    kCFRunLoopExit = (1UL &lt;&lt; 7),            // 刚从休眠中唤醒
-    kCFRunLoopAllActivities = 0x0FFFFFFFU   // 所有状态改变
-};
-</code></pre>
-
-<p>如何监听:</p>
-
-<pre><code class="language-text"> //创建一个runloop监听者
-    CFRunLoopObserverRef observer = CFRunLoopObserverCreateWithHandler(CFAllocatorGetDefault(),kCFRunLoopAllActivities, YES, 0, ^(CFRunLoopObserverRef observer, CFRunLoopActivity activity) {
-
-        NSLog(@&quot;监听runloop状态改变---%zd&quot;,activity);
-    });
-
-    //为runloop添加一个监听者
-    CFRunLoopAddObserver(CFRunLoopGetCurrent(), observer, kCFRunLoopDefaultMode);
-
-    CFRelease(observer);
-</code></pre>
-
-<h2 id="toc_14">5. RunLoop处理逻辑</h2>
-
-<p><img src="media/14731740142157/14732109138343.jpg" alt=""/><br/>
-<img src="media/14731740142157/14732110397325.jpg" alt=""/></p>
-
-<p>网友整理如下:<br/>
-<img src="media/14731740142157/14732111027007.jpg" alt=""/></p>
-
-<h2 id="toc_15">6.RunLoop应用</h2>
-
-<ul>
-<li>NSTimer</li>
-<li>ImageView显示  控制方法在特定的模式下可用</li>
-<li>PerformSelector</li>
-<li>常驻线程 在子线程中开启一个runloop</li>
-<li>自动释放池
-<ul>
-<li>第一次创建：进入runloop的时候</li>
-<li>最后一次释放：runloop退出的时候</li>
-<li>其它创建和释放：当runloop即将休眠的时候会把之前的自动释放池释放，然后重新创建一个新的释放池</li>
-</ul></li>
-</ul>
-
-<h3 id="toc_16">常见问题</h3>
-
-<blockquote>
-<p>自动释放池什么时候释放?</p>
-</blockquote>
-
-<p>通过Obserber监听在runloop的状态,一旦监听到runloop即将进行睡眠等待状态(kCFRunLoopBeforeWaiting),就释放</p>
-
-<p><img src="media/14731740142157/15167055358673.jpg" alt=""/></p>
-
-<blockquote>
-<p>在开发中如何使用runloop?</p>
-</blockquote>
-
-<ol>
-<li>开启一个常驻线程(让一个子线程不进入消亡状态,等待从其他线程发来的消息,处理各种事件)举例:1&gt;在子线程中开启一个定时器 2&gt; 在子线程中进行一些场景监控</li>
-<li>可以控制定时器在那种模式下运行</li>
-<li>可以让某些事件(行为,任务)在特定模式下执行(performSelector)</li>
-<li>可以添加observer监听runloop的一些状态,比如监听点击事件的处理(在所有点击事件处理之前做一些事情)<br/>
-###参考资料:</li>
-</ol>
-
-<hr/>
-
-<p>官方文档 <a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/Multithreading/RunLoopManagement/RunLoopManagement.html">Threading Programming Guide</a><br/><br/>
-CFRunLoopRef<a href="http://opensource.apple.com/source/CF/CF-1151.16/">源代码</a></p>
-
-<h3 id="toc_17">最后给出几个学习链接</h3>
-
-<p><a href="http://www.jianshu.com/p/20d3bb3e8df5">RunLoop深度探究（一）</a></p>
-
-<p><a href="http://www.jianshu.com/p/6582c47a13c8">RunLoop深度探究（二）</a></p>
-
-<p><a href="http://www.jianshu.com/p/240683510692">RunLoop深度探究（三）</a></p>
-
-<p><a href="http://www.jianshu.com/p/f3ed25944aef">RunLoop深度探究（四）</a></p>
-
-<p><a href="http://www.jianshu.com/p/1c50d0b0fe1a">RunLoop深度探究（五）</a></p>
-
-<p><a href="http://www.jianshu.com/p/dc7ce81eda23">深入理解RunLoop文章</a></p>
-
-<p><a href="http://blog.ibireme.com/2015/05/18/runloop/">http://blog.ibireme.com/2015/05/18/runloop/</a></p>
-
-<p><a href="http://www.jianshu.com/p/ccd379c6db98">读 Threading Programming Guide 笔记（一）</a></p>
-
-<p><a href="http://www.jianshu.com/p/30782af3fe1a">读 Threading Programming Guide 笔记（二）</a></p>
-
-<p><a href="http://www.jianshu.com/p/30782af3fe1a">读 Threading Programming Guide 笔记（三）</a></p>
-
-<p><a href="http://www.jianshu.com/p/ccd379c6db98">读 Threading Programming Guide 笔记（四）</a></p>
 
 
 		</div>
@@ -827,6 +525,12 @@ CFRunLoopRef<a href="http://opensource.apple.com/source/CF/CF-1151.16/">源代�
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -846,12 +550,6 @@ CFRunLoopRef<a href="http://opensource.apple.com/source/CF/CF-1151.16/">源代�
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

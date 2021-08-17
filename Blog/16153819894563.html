@@ -81,28 +81,27 @@ $(document).ready(function(event) {
 				<p class="meta"><time datetime="2021-03-10T21:13:09+08:00" pubdate data-updated="true">2021/3/10</time></p>
 			 </header>
 		  	<div class="entry-content">
-			  	<p><img src="media/16153819894563/IMG_1E8AAA2E770B-1.jpeg" alt="IMG_1E8AAA2E770B-1"/></p>
-
+			  	<p><img src="media/16153819894563/IMG_1E8AAA2E770B-1.jpeg" alt="IMG_1E8AAA2E770B-1" /></p>
 <ol>
-<li>首先进入 ssh 文件夹
-<code>
-cd ~/.ssh
-</code></li>
-<li>然后生成公钥和私钥
-<code>
-ssh-keygen
-</code>
-按三次回车，这样就生成了公钥和私钥，</li>
-<li>把生成的公钥追加到服务器的授权文件的尾部
-<code>
-ssh-copy-id root@192.168.1.7 
-</code>
-这样就完成了免密登录的设置
-<img src="media/16153819894563/16153824552757.jpg" alt="" style="width:606px;"/></li>
+<li>首先进入 ssh 文件夹</li>
 </ol>
-
-<p>追加完后我们可以看下是否一致<br/>
-<img src="media/16153819894563/16153840301369.jpg" alt="" style="width:606px;"/><br/>
+<pre><code>cd ~/.ssh
+</code></pre>
+<ol start="2">
+<li>然后生成公钥和私钥</li>
+</ol>
+<pre><code>ssh-keygen
+</code></pre>
+<p>按三次回车，这样就生成了公钥和私钥，</p>
+<ol>
+<li>把生成的公钥追加到服务器的授权文件的尾部</li>
+</ol>
+<pre><code>ssh-copy-id root@192.168.1.7 
+</code></pre>
+<p>这样就完成了免密登录的设置<br />
+<img src="media/16153819894563/16153824552757.jpg" alt="" style="width:606px;" /></p>
+<p>追加完后我们可以看下是否一致<br />
+<img src="media/16153819894563/16153840301369.jpg" alt="" style="width:606px;" /><br />
 我们能看到服务端授权文件追加的公钥就是我们客户端生成的公钥。</p>
 
 			</div>
@@ -235,6 +234,12 @@ ssh-copy-id root@192.168.1.7
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -254,12 +259,6 @@ ssh-copy-id root@192.168.1.7
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  
@@ -319,6 +318,8 @@ ssh-copy-id root@192.168.1.7
 
 
 
+
+<script src="asset/prism.js"></script>
 
 
 <style type="text/css">

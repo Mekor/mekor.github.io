@@ -81,14 +81,11 @@ $(document).ready(function(event) {
 				<p class="meta"><time datetime="2016-07-11T20:39:09+08:00" pubdate data-updated="true">2016/7/11</time></p>
 			 </header>
 		  	<div class="entry-content">
-			  	<p>项目中有很多地方需要添加点击事件,重复代码很多,所以做了一个UIView的分类,专门做点击事件使用.<br/>
+			  	<p>项目中有很多地方需要添加点击事件,重复代码很多,所以做了一个UIView的分类,专门做点击事件使用.<br />
 项目地址:<a href="https://github.com/Mekor/UIView-Tap">UIView-Tap</a></p>
-
 <p>代码很简单,主要有一点就是注意分类不能直接添加属性,需要用到运行时相关内容.</p>
-
 <p>代码如下:</p>
-
-<pre><code class="language-text">\\UIView+Tap.h文件
+<pre><code>\\UIView+Tap.h文件
 @interface UIView (Tap)
 - (void)addTapBlock:(void(^)(id obj))tapAction;
 @end
@@ -125,12 +122,9 @@ static const void* tagValue = &amp;tagValue;
 }
 @end
 </code></pre>
-
 <p>正如大家所见,如果要接收点击事件,必须userInteractionEnabled设置为YES,所以不管怎么只要确认要给视图添加点击事件,都会被设置为<code>userInteractionEnabled = YES</code></p>
-
 <p>简单实用:</p>
-
-<pre><code class="language-text">UIView *redView = [[UIView alloc]initWithFrame:CGRectMake(100, 100, 100, 100)];
+<pre><code>UIView *redView = [[UIView alloc]initWithFrame:CGRectMake(100, 100, 100, 100)];
 redView.backgroundColor = [UIColor redColor];
 [redView addTapBlock:^(UIView* obj) {
     NSLog(@&quot;redView%@&quot;,obj.backgroundColor);
@@ -283,6 +277,12 @@ label.text = @&quot;这是label,点击这里...&quot;;
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -302,12 +302,6 @@ label.text = @&quot;这是label,点击这里...&quot;;
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

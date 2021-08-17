@@ -81,11 +81,9 @@ $(document).ready(function(event) {
 				<p class="meta"><time datetime="2018-05-07T22:01:53+08:00" pubdate data-updated="true">2018/5/7</time></p>
 			 </header>
 		  	<div class="entry-content">
-			  	<h2 id="toc_0">死锁（Dead Lock）</h2>
-
+			  	<h2><a id="%E6%AD%BB%E9%94%81%EF%BC%88dead-lock%EF%BC%89" class="anchor" aria-hidden="true" href="#%E6%AD%BB%E9%94%81%EF%BC%88dead-lock%EF%BC%89"><span class="octicon octicon-link"></span></a>死锁（Dead Lock）</h2>
 <p>第一种情况：</p>
-
-<pre><code class="language-text">let serialQueue = DispatchQueue(label:&quot;test&quot;)
+<pre><code>let serialQueue = DispatchQueue(label:&quot;test&quot;)
 serialQueue.async {
     //.....
     serialQueue.sync {
@@ -94,26 +92,20 @@ serialQueue.async {
 }
 
 </code></pre>
-
 <p>第二种情况：</p>
-
-<pre><code class="language-text">let operationA = Operation()
+<pre><code>let operationA = Operation()
 let operationB = Operation()
 operationA.addDependency(operationB)
 operationB.addDependency(operationA)
 
 </code></pre>
-
 <p>怎样避免死锁：</p>
-
 <ol>
 <li>少用依赖</li>
 <li>慎用同步</li>
 </ol>
-
-<h2 id="toc_1">优先倒置（Priority Inversion）</h2>
-
-<pre><code class="language-text">var highPriorityQueue = DispatchQueue.global(qos: .userInitiated)
+<h2><a id="%E4%BC%98%E5%85%88%E5%80%92%E7%BD%AE%EF%BC%88priority-inversion%EF%BC%89" class="anchor" aria-hidden="true" href="#%E4%BC%98%E5%85%88%E5%80%92%E7%BD%AE%EF%BC%88priority-inversion%EF%BC%89"><span class="octicon octicon-link"></span></a>优先倒置（Priority Inversion）</h2>
+<pre><code>var highPriorityQueue = DispatchQueue.global(qos: .userInitiated)
 var lowPriorityQueue = DispatchQueue.global(qos: .utility)
 
 let semaphore = DispatchSemaphore(value: 1)
@@ -134,8 +126,7 @@ highPriorityQueue.async {
 }
 
 </code></pre>
-
-<p>解决办法：<br/>
+<p>解决办法：<br />
 同一个资源用同一个Qos</p>
 
 			</div>
@@ -268,6 +259,12 @@ highPriorityQueue.async {
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -287,12 +284,6 @@ highPriorityQueue.async {
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

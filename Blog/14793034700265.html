@@ -82,10 +82,8 @@ $(document).ready(function(event) {
 			 </header>
 		  	<div class="entry-content">
 			  	<p>突然想起来 <code>微指App</code> 里面控制 tabBar 显示与隐藏非常麻烦,在控制器中的 <code>viewWillAppear</code> 和 <code>viewWillDisappear</code>中做处理,这样能保证在控制器中控制 tabBar 的显示与隐藏,但是也非常麻烦,每个控制器都需要控制..</p>
-
 <p>一劳永逸的做法:</p>
-
-<pre><code class="language-text">    // 重写 push 方法
+<pre><code>    // 重写 push 方法
     override func pushViewController(_ viewController: UIViewController, animated: Bool) {
         // 如果不是栈底控制器才需要隐藏, 根控制器 不需要处理
         if childViewControllers.count &gt; 0 {
@@ -95,7 +93,6 @@ $(document).ready(function(event) {
         super.pushViewController(viewController, animated: true)
     }
 </code></pre>
-
 <p>在导航控制器中重写 <code>push</code> 方法,这样就能省去好多麻烦..</p>
 
 			</div>
@@ -228,6 +225,12 @@ $(document).ready(function(event) {
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -247,12 +250,6 @@ $(document).ready(function(event) {
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

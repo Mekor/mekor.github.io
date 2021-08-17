@@ -85,14 +85,12 @@ $(document).ready(function(event) {
 	  	<div class="entry-content">
 		  	
 		  	<blockquote>
-<p>今天,YouTube推荐了一个自定义layout的视频( Custom Collection View Layouts in iOS),看了一下挺简单明了的,而且基本的操作都包含了. <br/>
-<strong>视频地址:</strong> <a href="https://www.youtube.com/watch?v=DIxyCh55SqQ">Pinterest Basic Layout - Custom Collection View Layouts in iOS - raywenderlich.com</a><br/>
+<p>今天,YouTube推荐了一个自定义layout的视频( Custom Collection View Layouts in iOS),看了一下挺简单明了的,而且基本的操作都包含了.<br />
+<strong>视频地址:</strong> <a href="https://www.youtube.com/watch?v=DIxyCh55SqQ">Pinterest Basic Layout - Custom Collection View Layouts in iOS - raywenderlich.com</a><br />
 <strong>github地址:</strong> <a href="https://github.com/AZCoder2/Pinterest">Pinterest</a></p>
 </blockquote>
-
 <p>核心代码:</p>
-
-<pre><code class="language-text">//
+<pre><code>//
 //  PinterestLayout.swift
 //  Pinterest
 //
@@ -290,10 +288,8 @@ class PinterestLayout: UICollectionViewLayout {
 }
 
 </code></pre>
-
 <p>比较有意思的一个计算高度方式:</p>
-
-<pre><code class="language-text">  // This provides the height of the photos
+<pre><code>  // This provides the height of the photos
   
   /* It uses AVMakeRectWithAspectRatioInsideRect() from AVFoundation to calculate a height that retains the photo’s aspect ratio, restricted to the cell’s width.
    */
@@ -309,10 +305,8 @@ class PinterestLayout: UICollectionViewLayout {
     return rect.size.height
   }
 </code></pre>
-
 <p>图片解压:</p>
-
-<pre><code class="language-text">extension UIImage {
+<pre><code>extension UIImage {
   
   var decompressedImage: UIImage {
     UIGraphicsBeginImageContextWithOptions(size, true, 0)
@@ -324,10 +318,8 @@ class PinterestLayout: UICollectionViewLayout {
   
 }
 </code></pre>
-
 <p>一个从前没有用过的Api:</p>
-
-<pre><code class="language-text">  /* 
+<pre><code>  /* 
    This code calls the super implementation to make sure that the standard attributes are applied. Then, it casts the attributes object into an instance of PinterestLayoutAttributes to obtain the photo height and then changes the image view height by setting the imageViewHeightLayoutConstraint constant value.
   */
   
@@ -339,8 +331,7 @@ class PinterestLayout: UICollectionViewLayout {
     }
   }
 </code></pre>
-
-<p>===========<mark>完</mark>=========</p>
+<p>=============完===========</p>
 
 
 		</div>
@@ -357,12 +348,10 @@ class PinterestLayout: UICollectionViewLayout {
 		 </header>
 	  	<div class="entry-content">
 		  	
-		  	<h2 id="toc_0">首页显示</h2>
-
-<p>重点: 数据处理放在获取数据的时候,尽管这样数据不会实时更新,但是保证了数据显示的速度.<br/>
+		  	<h2><a id="%E9%A6%96%E9%A1%B5%E6%98%BE%E7%A4%BA" class="anchor" aria-hidden="true" href="#%E9%A6%96%E9%A1%B5%E6%98%BE%E7%A4%BA"><span class="octicon octicon-link"></span></a>首页显示</h2>
+<p>重点: 数据处理放在获取数据的时候,尽管这样数据不会实时更新,但是保证了数据显示的速度.<br />
 关于Cache, 目前使用数据库.关于异步访问要用 <code>safeAsync</code></p>
-
-<pre><code class="language-text">extension DispatchQueue {
+<pre><code>extension DispatchQueue {
     // This method will dispatch the `block` to self.
     // If `self` is the main queue, and current thread is main thread, the block
     // will be invoked immediately instead of being dispatched.
@@ -375,19 +364,12 @@ class PinterestLayout: UICollectionViewLayout {
     }
 }
 </code></pre>
-
-<h2 id="toc_1">Topbar 移除</h2>
-
+<h2><a id="topbar%E7%A7%BB%E9%99%A4" class="anchor" aria-hidden="true" href="#topbar%E7%A7%BB%E9%99%A4"><span class="octicon octicon-link"></span></a>Topbar 移除</h2>
 <p>这个原有的导航对项目入侵太深,已经忍无可忍了...这周终于下决心移除它用原生的导航栏和自定义视图代替她..进展非常顺利.写了一天自定义控件,然后让大家各自把自己的控制过滤一遍.总耗时,我自己一天,其他同事不到1个小时.还是非常顺利的.用比较少的时间完成了项目中的毒瘤.</p>
-
-<h2 id="toc_2">下拉刷新封装</h2>
-
+<h2><a id="%E4%B8%8B%E6%8B%89%E5%88%B7%E6%96%B0%E5%B0%81%E8%A3%85" class="anchor" aria-hidden="true" href="#%E4%B8%8B%E6%8B%89%E5%88%B7%E6%96%B0%E5%B0%81%E8%A3%85"><span class="octicon octicon-link"></span></a>下拉刷新封装</h2>
 <p>老版本使用的是<code>MJRefresh</code> 但是需要定制, 在老项目中我是通过继承完成的功能修改,这样做的原因是老项目是OC和Swift混编的,而且都是把第三方库源文件拖到项目中的方式进行的. 在重构的时候我把第三方库放到了公司的git上,然后更改源码.再打包成成库调用.</p>
-
-<h2 id="toc_3">关于时间比较</h2>
-
+<h2><a id="%E5%85%B3%E4%BA%8E%E6%97%B6%E9%97%B4%E6%AF%94%E8%BE%83" class="anchor" aria-hidden="true" href="#%E5%85%B3%E4%BA%8E%E6%97%B6%E9%97%B4%E6%AF%94%E8%BE%83"><span class="octicon octicon-link"></span></a>关于时间比较</h2>
 <p>新项目中存在一个功能比如 <code>10:00:00</code> 到 <code>11:59:59</code> 算早市,需要判断当前时间是否是早市. 一种更方便的处理方式:</p>
-
 <p>时间格式 <code>HH:mm:ss</code> 一共6位数字,我们可以去掉中间的<code>:</code>,这样时间就是一个整数了,然后三个整数之间进行比较比 先比小时再比分钟最后比秒数要方便很多.</p>
 
 
@@ -405,21 +387,15 @@ class PinterestLayout: UICollectionViewLayout {
 		 </header>
 	  	<div class="entry-content">
 		  	
-		  	<h2 id="toc_0">单一职责原则(Single Responsibility Principe 简称SRP)</h2>
-
+		  	<p>##单一职责原则(Single Responsibility Principe 简称SRP)</p>
 <blockquote>
-<p>定义: 应该有且仅有一个原因引起类的变更.. </p>
+<p>定义: 应该有且仅有一个原因引起类的变更..</p>
 </blockquote>
-
-<h3 id="toc_1">对职责的定义,什么是类的职责,以及怎么划分类的职责.</h3>
-
-<p>图书中 &lt;图1-1用户信息IUserInfo位图类图&gt; 中设计的有问题:<br/>
+<p>###对职责的定义,什么是类的职责,以及怎么划分类的职责.<br />
+图书中 &lt;图1-1用户信息IUserInfo位图类图&gt; 中设计的有问题:<br />
 用户的属性和用户的行为没有分开,这是一个严重的错误.. 应该把用户的信息抽取成一个BO(Bussiness Object,业务对象),把行为抽取成一个Biz(Bussiness Logic,业务逻辑)</p>
-
-<p>重新拆封成两个接口. IUserBO 负责用户的属性,简单的说就是收集和反馈用户的属性信息.IUserBiz负责用户的行为,完成用户信息的维护和变更.</p>
-
-<h3 id="toc_2">好处</h3>
-
+<p>重新拆封成两个接口. IUserBO 负责用户的属性,简单的说就是收集和反馈用户的属性信息.IUserBiz负责用户的行为,完成用户信息的维护和变更.<br />
+###好处</p>
 <ol>
 <li>类的复杂性降低.实现什么职责都有清晰明确的定义了;</li>
 <li>可读性提高.复杂性降低,当然可读性提高了;</li>
@@ -442,41 +418,25 @@ class PinterestLayout: UICollectionViewLayout {
 		 </header>
 	  	<div class="entry-content">
 		  	
-		  	<h2 id="toc_0">同步逻辑(全量上传):</h2>
-
-<p>原定: 切台\转台 全量上传<br/>
-现在: 轮询即上传(每次轮询信息都走这个接口),切台/轮询同样走这个接口</p>
-
-<h2 id="toc_1">关于延时</h2>
-
-<p>12.27泽祥刚跟海底捞确定逻辑和备注一致即这道菜如果半份延时了再次点这道菜不论整份半份都是延时的.</p>
-
-<h2 id="toc_2">整份半份显示(如果新需求的话,可能还需要改变正在和泽祥确定中)</h2>
-
-<p>需求:点菜点锅界面菜品包含整份与半份 购物车界面整份与半份是分开的.</p>
-
-<p>目前的做法: 购物车等地方如果调用<code>-(NSArray *)getLocalDishArray</code>这个操作会把数据拆分成整份半份给调用者.但是在点菜点锅页面,我会调用<code>configLocalDishArray</code> 这个操作会把整份半份整合成一个菜给调用者</p>
-
-<h2 id="toc_3">关于估清</h2>
-
-<p>原有逻辑就是根据数据库中获取菜品信息进行估清操作判断的,<strong>目前</strong>的逻辑是这样的,数据库返回字段和轮询回来的估清数据中只要有一个是估清就显示估清,显示需要调用<code>-(BOOL)judgeIsSellOutWithDish:(HTDishEntity *)dish</code></p>
-
-<h2 id="toc_4">关于已点</h2>
-
-<p>新加菜&amp;已下单数据只要一个地方有该菜品都显示已点<code>-(BOOL)haveOrderThisDish:(NSString *)dishid</code></p>
-
-<h2 id="toc_5">匹配菜品中整份半份数量</h2>
-
-<p><code>-(nonnull HTDishEntity *)configNumberOfDish:(nonnull HTDishEntity *)dish</code><br/>
+		  	<p>##同步逻辑(全量上传):<br />
+原定: 切台\转台 全量上传<br />
+现在: 轮询即上传(每次轮询信息都走这个接口),切台/轮询同样走这个接口<br />
+##关于延时<br />
+12.27泽祥刚跟海底捞确定逻辑和备注一致即这道菜如果半份延时了再次点这道菜不论整份半份都是延时的.<br />
+##整份半份显示(如果新需求的话,可能还需要改变正在和泽祥确定中)<br />
+需求:点菜点锅界面菜品包含整份与半份 购物车界面整份与半份是分开的.</p>
+<p>目前的做法: 购物车等地方如果调用<code>-(NSArray *)getLocalDishArray </code>这个操作会把数据拆分成整份半份给调用者.但是在点菜点锅页面,我会调用<code>configLocalDishArray</code> 这个操作会把整份半份整合成一个菜给调用者</p>
+<p>##关于估清<br />
+原有逻辑就是根据数据库中获取菜品信息进行估清操作判断的,<strong>目前</strong>的逻辑是这样的,数据库返回字段和轮询回来的估清数据中只要有一个是估清就显示估清,显示需要调用<code>-(BOOL)judgeIsSellOutWithDish:(HTDishEntity *)dish</code></p>
+<p>##关于已点<br />
+新加菜&amp;已下单数据只要一个地方有该菜品都显示已点<code>-(BOOL)haveOrderThisDish:(NSString *)dishid </code></p>
+<p>##匹配菜品中整份半份数量<br />
+<code>-(nonnull HTDishEntity *)configNumberOfDish:(nonnull HTDishEntity *)dish </code><br />
 会计算未下单数据中所有整份半份数量</p>
-
-<h2 id="toc_6">延时倍增拆分等操作</h2>
-
-<p>这里需要的菜品都是通过<code>getLocalDishArray</code>来获取否则有问题,详细逻辑大伟比较清楚</p>
-
-<h2 id="toc_7">目前问题</h2>
-
-<p>如果某一道菜设置延时了,将来这道菜每次进行数量的加减时都要同步到服务器,这个操作会不会导致网络请求发送比较频繁<br/>
+<p>##延时倍增拆分等操作<br />
+这里需要的菜品都是通过<code>getLocalDishArray</code>来获取否则有问题,详细逻辑大伟比较清楚</p>
+<p>##目前问题<br />
+如果某一道菜设置延时了,将来这道菜每次进行数量的加减时都要同步到服务器,这个操作会不会导致网络请求发送比较频繁<br />
 点锅后,使用最新的同步接口延时太久.吃饭前同步的数据,中午午休后发现数据回来了...点菜的数据同步很快..这个是接口用错了还是后台接口需要调整?</p>
 
 
@@ -497,49 +457,43 @@ class PinterestLayout: UICollectionViewLayout {
 		  	<blockquote>
 <p>项目中部分功能打算使用数据库进行数据本地存储,所以复习了下数据库语句</p>
 </blockquote>
-
-<h2 id="toc_0">DDL</h2>
-
-<pre><code class="language-text">/*
+<p>##DDL</p>
+<pre><code>/*
 删除表,如果存在表就删除表
 */
-DROP TABLE IF EXISTS &#39;t_student&#39;;
+DROP TABLE IF EXISTS 't_student';
 
 /*
 创建表
 */
 
-CREATE TABLE IF NOT EXISTS &#39;t_student&#39; (
-    &#39;id&#39; INTEGER NOT NULL PRIMARY KEY  AUTOINCREMENT,
-    &#39;name&#39; TEXT,
-    &#39;age&#39; INTEGER
+CREATE TABLE IF NOT EXISTS 't_student' (
+	'id' INTEGER NOT NULL PRIMARY KEY  AUTOINCREMENT,
+	'name' TEXT,
+	'age' INTEGER
 );
 </code></pre>
-
-<h2 id="toc_1">DML</h2>
-
-<pre><code class="language-text">/*
+<p>##DML</p>
+<pre><code>/*
 插入数据
 */
 /*
-INSERT INTO &#39;t_student&#39; (name, age) VALUES (&#39;lxz1&#39;, 18);
-INSERT INTO &#39;t_student&#39; (name, age) VALUES (&#39;lxz2&#39;, 19);
-INSERT INTO &#39;t_student&#39; (name, age) VALUES (&#39;lxz3&#39;, 21);
-INSERT INTO &#39;t_student&#39; (name, age) VALUES (&#39;lxz4&#39;, 22);
+INSERT INTO 't_student' (name, age) VALUES ('lxz1', 18);
+INSERT INTO 't_student' (name, age) VALUES ('lxz2', 19);
+INSERT INTO 't_student' (name, age) VALUES ('lxz3', 21);
+INSERT INTO 't_student' (name, age) VALUES ('lxz4', 22);
 */
 
 /*更新*/
--- UPDATE t_student SET age = 20 WHERE name = &#39;lxz1&#39;
-UPDATE t_student SET name = &#39;xxx&#39; WHERE age &gt; 20
+-- UPDATE t_student SET age = 20 WHERE name = 'lxz1'
+UPDATE t_student SET name = 'xxx' WHERE age &gt; 20
 
 
 /*删除*/
-DELETE FROM t_student WHERE name = &#39;xxx&#39;
+DELETE FROM t_student WHERE name = 'xxx'
 </code></pre>
-
-<h2 id="toc_2">DQL</h2>
-
-<pre><code class="language-text">/*查询语句*/
+<p>##DQL</p>
+<pre><code>/*查询语句*/
 -- SELECT * FROM t_student;
 
 /*查询特殊的字段*/
@@ -549,13 +503,13 @@ DELETE FROM t_student WHERE name = &#39;xxx&#39;
 -- SELECT name, age FROM t_student WHERE age &lt; 20;
 
 /*模糊查询*/
--- SELECT name,age FROM t_student WHERE name LIKE &#39;%l%&#39;
+-- SELECT name,age FROM t_student WHERE name LIKE '%l%'
 
 /*多个条件的查询
 AND 并且
 OR 或者
 */
--- SELECT name, age FROM t_student WHERE name LIKE &#39;%l%&#39; AND age &lt; 20;
+-- SELECT name, age FROM t_student WHERE name LIKE '%l%' AND age &lt; 20;
 
 /*计算个数*/
 -- SELECT count(*) FROM t_student WHERE age &lt; 20
@@ -690,6 +644,12 @@ SELECT * FROM t_student LIMIT 5
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -709,12 +669,6 @@ SELECT * FROM t_student LIMIT 5
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

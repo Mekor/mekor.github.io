@@ -81,110 +81,82 @@ $(document).ready(function(event) {
 				<p class="meta"><time datetime="2020-08-01T23:08:43+08:00" pubdate data-updated="true">2020/8/1</time></p>
 			 </header>
 		  	<div class="entry-content">
-			  	<p>题目地址:<a href="https://leetcode-cn.com/problems/smallest-range-covering-elements-from-k-lists/">632. 最小区间</a><br/>
-You have <code>k</code> lists of sorted integers in ascending order. Find the smallest range that includes at least one number from each of the <code>k</code> lists. </p>
-
+			  	<p>题目地址:<a href="https://leetcode-cn.com/problems/smallest-range-covering-elements-from-k-lists/">632. 最小区间</a><br />
+You have <code>k</code> lists of sorted integers in ascending order. Find the smallest range that includes at least one number from each of the <code>k</code> lists.</p>
 <p>We define the range <code>[a,b]</code> is smaller than range <code>[c,d]</code> if <code>b-a &lt; d-c</code> or <code>a &lt; c</code> if <code>b-a == d-c</code>.</p>
-
 <ul>
 <li><strong>Example 1:</strong></li>
 </ul>
-
-<pre><code class="language-text">Input: [[4,10,15,24,26], [0,9,12,20], [5,18,22,30]]
+<pre><code>Input: [[4,10,15,24,26], [0,9,12,20], [5,18,22,30]]
 Output: [20,24]
 Explanation: 
 List 1: [4, 10, 15, 24,26], 24 is in range [20,24].
 List 2: [0, 9, 12, 20], 20 is in range [20,24].
 List 3: [5, 18, 22, 30], 22 is in range [20,24].
 </code></pre>
-
-<p>Note: </p>
-
+<p>Note:</p>
 <ol>
 <li>The given list may contain duplicates, so ascending order means &gt;= here.</li>
 <li>1 &lt;= k &lt;= 3500</li>
-<li>-10<sup>5</sup> &lt;= value of elements &lt;= 10<sup>5.</sup></li>
+<li>-10^5 &lt;= value of elements &lt;= 10^5.</li>
 </ol>
-
-<p>解题思路：<br/>
+<p>解题思路：<br />
 先看🌰</p>
-
-<pre><code class="language-text">4,10,15,24,26
+<pre><code>4,10,15,24,26
 0, 9,12,20
 5,18,22,30
 </code></pre>
-
 <p>因为每个数组中必须有一个数字包含在其中，一开始我们取每个数组中的第一个数字</p>
-
-<pre><code class="language-text">*4*,10,15,24,26
+<pre><code>*4*,10,15,24,26
 *0*, 9,12,20
 *5*,18,22,30
 </code></pre>
-
-<p><code>4,0,5</code>最小的是<code>0</code>,最大值是<code>5</code>区间是<code>5-0=5</code><br/>
-把第一个最小区间5的坐标记录下来就是<code>[0,5]</code><br/>
+<p><code>4,0,5</code>最小的是<code>0</code>,最大值是<code>5</code>区间是<code>5-0=5</code><br />
+把第一个最小区间5的坐标记录下来就是<code>[0,5]</code><br />
 去掉最小的值,然后最小值所在的数组向后取一位即</p>
-
-<pre><code class="language-text">*4*,10,15,24,26
+<pre><code>*4*,10,15,24,26
 0, *9*,12,20
 *5*,18,22,30
 </code></pre>
-
 <p><code>4,9,5</code>最小的是<code>4</code>,最大值是<code>9</code>区间是<code>9-4=5</code>最小区间不变还是5,所以去掉最小的值,然后最小值所在的数组向后取一位即</p>
-
-<pre><code class="language-text">4,*10*,15,24,26
+<pre><code>4,*10*,15,24,26
 0, *9*,12,20
 *5*,18,22,30
 </code></pre>
-
 <p><code>10,9,5</code>最小的是<code>5</code>,最大值是<code>10</code>区间是<code>10-5=5</code>最小区间不变还是5,所以去掉最小的值,然后最小值所在的数组向后取一位即</p>
-
-<pre><code class="language-text">4,*10*,15,24,26
+<pre><code>4,*10*,15,24,26
 0, *9*,12,20
 5,*18*,22,30
 </code></pre>
-
 <p><code>10,9,18</code>最小的是<code>9</code>,最大值是<code>18</code>区间是<code>18-9=9</code>,因为<code>9&gt;5</code>不符合规则,最小区间不变还是5,所以去掉最小的值,然后最小值所在的数组向后取一位即</p>
-
-<pre><code class="language-text">4,*10*,15,24,26
+<pre><code>4,*10*,15,24,26
 0, 9,*12*,20
 5,*18*,22,30
 </code></pre>
-
 <p><code>10,12,18</code>最小的是<code>10</code>,最大值是<code>18</code>区间是<code>18-10=8</code>,因为<code>8&gt;5</code>不符合规则,最小区间不变还是5,所以去掉最小的值,然后最小值所在的数组向后取一位即</p>
-
-<pre><code class="language-text">4,10,*15*,24,26
+<pre><code>4,10,*15*,24,26
 0, 9,*12*,20
 5,*18*,22,30
 </code></pre>
-
 <p><code>15,12,18</code>最小的是<code>12</code>,最大值是<code>18</code>区间是<code>18-12=6</code>,因为<code>6&gt;5</code>不符合规则,最小区间不变还是5,所以去掉最小的值,然后最小值所在的数组向后取一位即</p>
-
-<pre><code class="language-text">4,10,*15*,24,26
+<pre><code>4,10,*15*,24,26
 0, 9,12,*20*
 5,*18*,22,30
 </code></pre>
-
 <p><code>15,20,18</code>最小的是<code>15</code>,最大值是<code>20</code>区间是<code>20-15=5</code>,最小区间不变还是5,所以去掉最小的值,然后最小值所在的数组向后取一位即</p>
-
-<pre><code class="language-text">4,10,15,*24*,26
+<pre><code>4,10,15,*24*,26
 0, 9,12,*20*
 5,*18*,22,30
 </code></pre>
-
 <p><code>24,20,18</code>最小的是<code>18</code>,最大值是<code>24</code>区间是<code>24-18=6</code>,因为<code>6&gt;5</code>不符合规则,最小区间不变还是5,所以去掉最小的值,然后最小值所在的数组向后取一位即</p>
-
-<pre><code class="language-text">4,10,15,*24*,26
+<pre><code>4,10,15,*24*,26
 0, 9,12,*20*
 5,18,*22*,30
 </code></pre>
-
-<p><code>24,20,22</code>最小的是<code>20</code>,最大值是<code>24</code>区间是<code>24-20=4</code>,因为<code>4&lt;5</code>符合规则,最小区间变更为4,把最小区间4的坐标记录下来就是<code>[20,24]</code>,这时继续向后走,由于最小值是<code>20</code>而<code>20</code>所在的数组已经走到了结尾,不能继续走,再走就不能满足每个数组中必须有一个数包含在其中.<br/>
+<p><code>24,20,22</code>最小的是<code>20</code>,最大值是<code>24</code>区间是<code>24-20=4</code>,因为<code>4&lt;5</code>符合规则,最小区间变更为4,把最小区间4的坐标记录下来就是<code>[20,24]</code>,这时继续向后走,由于最小值是<code>20</code>而<code>20</code>所在的数组已经走到了结尾,不能继续走,再走就不能满足每个数组中必须有一个数包含在其中.<br />
 所以返回最小区间<code>[20,24</code></p>
-
 <p>参考代码:</p>
-
-<pre><code class="language-java">class Solution {
+<pre><code class="language-Java">class Solution {
     public int[] smallestRange(List&lt;List&lt;Integer&gt;&gt; nums) {
         // 里面存储的是行列数据位置，优先级是列中数据大小
         PriorityQueue&lt;int[]&gt; q = new PriorityQueue&lt;&gt;(Comparator.comparingInt(o -&gt; nums.get(o[0]).get(o[1])));
@@ -343,6 +315,12 @@ List 3: [5, 18, 22, 30], 22 is in range [20,24].
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -362,12 +340,6 @@ List 3: [5, 18, 22, 30], 22 is in range [20,24].
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

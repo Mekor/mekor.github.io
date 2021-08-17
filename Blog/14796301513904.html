@@ -81,52 +81,37 @@ $(document).ready(function(event) {
 				<p class="meta"><time datetime="2016-11-20T16:22:31+08:00" pubdate data-updated="true">2016/11/20</time></p>
 			 </header>
 		  	<div class="entry-content">
-			  	<h2 id="toc_0">代理传值</h2>
-
+			  	<p>##代理传值</p>
 <p>声明协议:</p>
-
-<pre><code class="language-text">protocol FunctionButtonViewDelegate {
+<pre><code>protocol FunctionButtonViewDelegate {
     func gotoViewController(vcString:String)
 }
 </code></pre>
-
-<pre><code class="language-text">var delegate :FunctionButtonViewDelegate?
+<pre><code>var delegate :FunctionButtonViewDelegate?
 </code></pre>
-
 <p>这里<code>?</code>就具有<code>weak</code>的作用</p>
-
 <p>传值:</p>
-
-<pre><code class="language-text">delegate?.gotoViewController(vcString: button.currentTitle!)
+<pre><code>delegate?.gotoViewController(vcString: button.currentTitle!)
 </code></pre>
-
 <p>实现代理方法</p>
-
-<pre><code class="language-text">extension PersonalCenterViewController:FunctionButtonViewDelegate {
+<pre><code>extension PersonalCenterViewController:FunctionButtonViewDelegate {
     //MARK: - 跳转到对应的功能模块
     func gotoViewController(vcString: String) {
         print(vcString)
     }
 }
 </code></pre>
-
-<h2 id="toc_1">闭包传值</h2>
-
+<p>##闭包传值</p>
 <p>声明:</p>
-
-<pre><code class="language-text">var callback : ((Int?) -&gt; Void)?
+<pre><code>var callback : ((Int?) -&gt; Void)?
 </code></pre>
-
 <p>传值</p>
-
-<pre><code class="language-text">if let cb = callback {
+<pre><code>if let cb = callback {
     cb(200)
 }
 </code></pre>
-
 <p>实现:</p>
-
-<pre><code class="language-text">bottomView.callback = { (num)-&gt;Void in
+<pre><code>bottomView.callback = { (num)-&gt;Void in
     print(num ?? 0)
 }
 </code></pre>
@@ -261,6 +246,12 @@ $(document).ready(function(event) {
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -280,12 +271,6 @@ $(document).ready(function(event) {
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

@@ -81,16 +81,14 @@ $(document).ready(function(event) {
 				<p class="meta"><time datetime="2016-10-30T21:13:05+08:00" pubdate data-updated="true">2016/10/30</time></p>
 			 </header>
 		  	<div class="entry-content">
-			  	<pre><code class="language-text">#include &lt;objc/runtime.h&gt; 
+			  	<pre><code>#include &lt;objc/runtime.h&gt; 
 
 Class LSApplicationWorkspace_class = objc_getClass(&quot;LSApplicationWorkspace&quot;);
 NSObject* workspace = [LSApplicationWorkspace_class performSelector:@selector(defaultWorkspace)];
 NSLog(@&quot;apps: %@&quot;, [workspace performSelector:@selector(allApplications)]);
 </code></pre>
-
 <p>模拟器打印结果:</p>
-
-<pre><code class="language-text">apps: (
+<pre><code>apps: (
     &quot;&lt;LSApplicationProxy: 0x7fbd34603da0&gt; com.apple.appleaccount.AACredentialRecoveryDialog file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/AACredentialRecoveryDialog.app &lt;com.apple.appleaccount.AACredentialRecoveryDialog &lt;installed &gt;&gt;&quot;,
     &quot;&lt;LSApplicationProxy: 0x7fbd383073a0&gt; com.apple.AccountAuthenticationDialog file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/AccountAuthenticationDialog.app &lt;com.apple.AccountAuthenticationDialog &lt;installed &gt;&gt;&quot;,
     &quot;&lt;LSApplicationProxy: 0x7fbd38308a00&gt; com.apple.AdSheetPhone file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/AdSheet.app &lt;com.apple.AdSheetPhone &lt;installed &gt;&gt;&quot;,
@@ -145,8 +143,7 @@ NSLog(@&quot;apps: %@&quot;, [workspace performSelector:@selector(allApplication
 )
 
 </code></pre>
-
-<p>动态调用加上简单的混淆应该就可以了<br/>
+<p>动态调用加上简单的混淆应该就可以了<br />
 上架要自己拼接字符串绕过审查</p>
 
 			</div>
@@ -279,6 +276,12 @@ NSLog(@&quot;apps: %@&quot;, [workspace performSelector:@selector(allApplication
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -298,12 +301,6 @@ NSLog(@&quot;apps: %@&quot;, [workspace performSelector:@selector(allApplication
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

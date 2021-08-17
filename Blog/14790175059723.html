@@ -81,9 +81,8 @@ $(document).ready(function(event) {
 				<p class="meta"><time datetime="2016-11-13T14:11:45+08:00" pubdate data-updated="true">2016/11/13</time></p>
 			 </header>
 		  	<div class="entry-content">
-			  	<h2 id="toc_0">函数的几种情况</h2>
-
-<pre><code class="language-text">// 正常
+			  	<p>##函数的几种情况</p>
+<pre><code>// 正常
 func sum(x:Int, y:Int) -&gt; Int {
     return x+y
 }
@@ -107,14 +106,11 @@ func sum(x:Int = 1, y:Int = 2) -&gt; Int {
 }
 print(sum())
 </code></pre>
-
-<h2 id="toc_1">闭包</h2>
-
+<p>##闭包</p>
 <blockquote>
 <p>闭包类似于OC中的block,但应用更广. 与OC对比, OC中block是特殊的函数,在Swift中函数是特殊的闭包</p>
 </blockquote>
-
-<pre><code class="language-text">// 最简单的闭包
+<pre><code>// 最简单的闭包
 // 定义
 let foo = {
     print(&quot;最简单的闭包&quot;)
@@ -134,12 +130,9 @@ let foo = { (x:Int) -&gt; Int in
 }
 foo(10)
 </code></pre>
-
-<p>block常用在异步执行,回调...Swift中异步跟OC稍微有些区别.</p>
-
-<h3 id="toc_2">模拟异步加载</h3>
-
-<pre><code class="language-text">    /// 加载数据
+<p>block常用在异步执行,回调...Swift中异步跟OC稍微有些区别.<br />
+###模拟异步加载</p>
+<pre><code>    /// 加载数据
     func loadData(completion:@escaping (_ result: [String])-&gt;()) {
         
         DispatchQueue.global().async {
@@ -153,12 +146,9 @@ foo(10)
         }
     }
 </code></pre>
-
-<p>注:关于<strong>@escaping</strong>参见 Swifter 中<code>@escaping</code></p>
-
-<h3 id="toc_3">尾随闭包</h3>
-
-<pre><code class="language-text">        // 如果函数的最后一个参数是闭包,函数参数可以提前结束,最后一个参数直接使用{}包装闭包的代码
+<p>注:关于**@escaping**参见 Swifter 中<code>@escaping</code></p>
+<p>###尾随闭包</p>
+<pre><code>        // 如果函数的最后一个参数是闭包,函数参数可以提前结束,最后一个参数直接使用{}包装闭包的代码
         loadData { (JSON) in
             print(JSON)
         }
@@ -295,6 +285,12 @@ foo(10)
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -314,12 +310,6 @@ foo(10)
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

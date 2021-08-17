@@ -78,6 +78,24 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14878335740172.html">数组传递</a></h1>
+			<p class="meta"><time datetime="2017-02-23T15:06:14+08:00" 
+			pubdate data-updated="true">2017/2/23</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>把A控制器中的数组 传递给 B  ,然后 B 再把数据传递给 C<br />
+这时如果 A中数组进行了修改,那么 C 中数据也会修改</p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14877545165696.html">synchronized(object)</a></h1>
 			<p class="meta"><time datetime="2017-02-22T17:08:36+08:00" 
 			pubdate data-updated="true">2017/2/22</time></p>
@@ -87,42 +105,29 @@ $(document).ready(function(event) {
 		  	<blockquote>
 <p>synchronized关键字代表这个方法加锁,相当于不管哪一个线 程A每次运行到这个法时,都要检查有没有其它正在用这个方法的线程B（或者C D等）,有的话要等正在使用这个方法的线程B（或者C D）运行完这个方法后再运行此线程A,没有的话,直接运行 它包括两种用法：synchronized 方法和 synchronized 块。</p>
 </blockquote>
-
-<h2 id="toc_0">1. synchronized 方法：</h2>
-
-<p>通过在方法声明中加入 synchronized关键字来声明 synchronized 方法。如： <br/>
-　　<code>public synchronized void accessVal(int newVal);</code><br/>
-　　synchronized 方法控制对类成员变量的访问：每个类实例对应一把锁，每个 synchronized 方法都必须获得调用该方法的类实例的锁方能执行，否则所属线程阻塞，方法一旦执行，就独占该锁，直到从该方法返回时才将锁释放，此后被阻塞的线程方能获得 该锁，重新进入可执行状态。这种机制确保了同一时刻对于每一个类实例，其所有声明为 synchronized 的成员函数中至多只有一个处于可执行状态（因为至多只有一个能够获得该类实例对应的锁），从而有效避免了类成员变量的访问冲突（只要所有可能访问类成员变 量的方法均被声明为 synchronized）。 <br/>
-　　在 Java 中，不光是类实例，每一个类也对应一把锁，这样我们也可将类的静态成员函数声明为 synchronized ，以控制其对类的静态成员变量的访问。 <br/>
-　　synchronized 方法的缺陷：若将一个大的方法声明为synchronized 将会大大影响效率，典型地，若将线程类的方法 run() 声明为 synchronized ，由于在线程的整个生命期内它一直在运行，因此将导致它对本类任何 synchronized 方法的调用都永远不会成功。当然我们可以通过将访问类成员变量的代码放到专门的方法中，将其声明为 synchronized ，并在主方法中调用来解决这一问题，但是 Java 为我们提供了更好的解决办法，那就是 synchronized 块。 <br/>
-　　</p>
-
-<h2 id="toc_1">2. synchronized 块：</h2>
-
-<p>通过 synchronized关键字来声明synchronized 块。语法如下： </p>
-
-<pre><code class="language-text">　　synchronized(syncObject) { 
+<p>##1. synchronized 方法：<br />
+通过在方法声明中加入 synchronized关键字来声明 synchronized 方法。如：<br />
+　　<code>public synchronized void accessVal(int newVal); </code><br />
+　　synchronized 方法控制对类成员变量的访问：每个类实例对应一把锁，每个 synchronized 方法都必须获得调用该方法的类实例的锁方能执行，否则所属线程阻塞，方法一旦执行，就独占该锁，直到从该方法返回时才将锁释放，此后被阻塞的线程方能获得 该锁，重新进入可执行状态。这种机制确保了同一时刻对于每一个类实例，其所有声明为 synchronized 的成员函数中至多只有一个处于可执行状态（因为至多只有一个能够获得该类实例对应的锁），从而有效避免了类成员变量的访问冲突（只要所有可能访问类成员变 量的方法均被声明为 synchronized）。<br />
+　　在 Java 中，不光是类实例，每一个类也对应一把锁，这样我们也可将类的静态成员函数声明为 synchronized ，以控制其对类的静态成员变量的访问。<br />
+　　synchronized 方法的缺陷：若将一个大的方法声明为synchronized 将会大大影响效率，典型地，若将线程类的方法 run() 声明为 synchronized ，由于在线程的整个生命期内它一直在运行，因此将导致它对本类任何 synchronized 方法的调用都永远不会成功。当然我们可以通过将访问类成员变量的代码放到专门的方法中，将其声明为 synchronized ，并在主方法中调用来解决这一问题，但是 Java 为我们提供了更好的解决办法，那就是 synchronized 块。<br />
+　　<br />
+##2. synchronized 块：<br />
+通过 synchronized关键字来声明synchronized 块。语法如下：</p>
+<pre><code>　　synchronized(syncObject) { 
 　　//允许访问控制的代码 
 　　}
 </code></pre>
-
-<p>　　<br/>
-　　synchronized 块是这样一个代码块，其中的代码必须获得对象 syncObject （如前所述，可以是类实例或类）的锁方能执行，具体机制同前所述。由于可以针对任意代码块，且可任意指定上锁的对象，故灵活性较高<br/>
-　　</p>
-
-<h2 id="toc_2">对synchronized(object)的一些理解</h2>
-
-<p>　<br/>
-<strong>一、</strong>当两个并发线程访问同一个对象object中的这个synchronized(this) 同步代码块时，一个时间内只能有一个线程得到执行。另一个线程必须等待当前线程执行完这个代码块以后才能执行该代码块。 </p>
-
-<p><strong>二、</strong>当一个线程访问object的一个synchronized(this)同步代码块时，其 他线程对object中所有其它synchronized(this)同步代码块的访问将被阻塞。</p>
-
-<p><strong>三、</strong>然而，当一个线程访问object的一个synchronized(this)同步代码块 时，另一个线程仍然可以访问该object中的除synchronized(this)同步代码块以外的部分。 </p>
-
-<p><strong>四、</strong>第三个例子同样适用其它同步代码块。也就是说，当一个线程访问object的一个 synchronized(this)同步代码块时，它就获得了这个object的对象锁。结果，其它线程对该object对象 所有同步代码部分的访问都被暂时阻塞。 </p>
-
-<p><strong>五、</strong>以上规则对其它对象锁同样适用 </p>
-
+<p>　　<br />
+　　synchronized 块是这样一个代码块，其中的代码必须获得对象 syncObject （如前所述，可以是类实例或类）的锁方能执行，具体机制同前所述。由于可以针对任意代码块，且可任意指定上锁的对象，故灵活性较高<br />
+　　<br />
+##对synchronized(object)的一些理解<br />
+　<br />
+**一、**当两个并发线程访问同一个对象object中的这个synchronized(this) 同步代码块时，一个时间内只能有一个线程得到执行。另一个线程必须等待当前线程执行完这个代码块以后才能执行该代码块。</p>
+<p>**二、**当一个线程访问object的一个synchronized(this)同步代码块时，其 他线程对object中所有其它synchronized(this)同步代码块的访问将被阻塞。</p>
+<p>**三、**然而，当一个线程访问object的一个synchronized(this)同步代码块 时，另一个线程仍然可以访问该object中的除synchronized(this)同步代码块以外的部分。</p>
+<p>**四、**第三个例子同样适用其它同步代码块。也就是说，当一个线程访问object的一个 synchronized(this)同步代码块时，它就获得了这个object的对象锁。结果，其它线程对该object对象 所有同步代码部分的访问都被暂时阻塞。</p>
+<p>**五、**以上规则对其它对象锁同样适用</p>
 <p>原文: <a href="http://fei263.blog.163.com/blog/static/9279372420103752814/">http://fei263.blog.163.com/blog/static/9279372420103752814/</a></p>
 
 
@@ -141,18 +146,13 @@ $(document).ready(function(event) {
 	  	<div class="entry-content">
 		  	
 		  	<blockquote>
-<p>使用<code>iostream</code>库.<code>iostream</code>中包含两个基础类型<code>istream</code>和<code>ostream</code>,分别表示输入流和输出流</p>
-
-<h2 id="toc_0">标准输入输出对象</h2>
-
-<p>标准库中定义了4个IO对象.为了处理输入,我们使用了一个名为<code>cin</code>的<code>istream</code>类型的对象.这个对象也被称为<strong>标准输入</strong>.对于输出,我们使用一个名为<code>cout</code>的<code>ostream</code>类型的对象.此对象也被称为<strong>标准输出</strong>.标准库中还定义了其他两个<code>ostream</code>对象,名为<code>cerr</code>和<code>clog</code>.我们通常用<code>cerr</code>来输出警告和错误信心,因此它也被称为<strong>标准错误</strong>,而<code>clog</code>用来输出程序运行时的一般性信息.</p>
+<p>使用<code>iostream</code>库.<code>iostream</code>中包含两个基础类型<code>istream</code>和<code>ostream</code>,分别表示输入流和输出流<br />
+##标准输入输出对象<br />
+标准库中定义了4个IO对象.为了处理输入,我们使用了一个名为<code>cin</code>的<code>istream</code>类型的对象.这个对象也被称为<strong>标准输入</strong>.对于输出,我们使用一个名为<code>cout</code>的<code>ostream</code>类型的对象.此对象也被称为<strong>标准输出</strong>.标准库中还定义了其他两个<code>ostream</code>对象,名为<code>cerr</code>和<code>clog</code>.我们通常用<code>cerr</code>来输出警告和错误信心,因此它也被称为<strong>标准错误</strong>,而<code>clog</code>用来输出程序运行时的一般性信息.</p>
 </blockquote>
-
 <p>系统通常将程序所运行的窗口与这些对象关联起来.因此,当我们读取cin,数据将从程序正在运行的窗口读入,当我们像cout,cerr,clog写入数据的时候,将会写到同一个窗口.</p>
-
-<h2 id="toc_1">Demo</h2>
-
-<pre><code class="language-text">#include &lt;iostream&gt;
+<p>##Demo</p>
+<pre><code>#include &lt;iostream&gt;
 using namespace std;
 
 int main(int argc, char *argv[])
@@ -180,32 +180,26 @@ int main(int argc, char *argv[])
 		 </header>
 	  	<div class="entry-content">
 		  	
-		  	<p>访问<code>main</code>的返回值的方法依赖于系统.在UNIX和Windows系统中,执行完一个程序后,都可以通过echo命令获得其返回值.<br/>
-在UNIX中通过<code>echo $?</code><br/>
+		  	<p>访问<code>main</code>的返回值的方法依赖于系统.在UNIX和Windows系统中,执行完一个程序后,都可以通过echo命令获得其返回值.<br />
+在UNIX中通过<code>echo $?</code><br />
 在Windows中通过<code>echo %ERRORLEVEL%</code></p>
-
-<p>使用方式:<br/>
+<p>使用方式:<br />
 在terminal中, <code>vim prog1.cc</code> ,然后在vim下输入(<code>i</code>是插入键)</p>
-
-<pre><code class="language-text"> int main()
+<pre><code> int main()
  {
      return 0;
  }
 </code></pre>
-
-<p>退出编辑器(先按<code>esc</code>,然后<code>:wq</code>)<br/>
+<p>退出编辑器(先按<code>esc</code>,然后<code>:wq</code>)<br />
 在terminal中运行</p>
-
-<pre><code class="language-text">cc prog1.cc
+<pre><code>cc prog1.cc
 ./a.out
 echo $?
 </code></pre>
-
 <p>最终会得到我们的返回值<code>0</code></p>
-
-<p><strong>1.1节练习</strong><br/>
-1.2: main中返回-1.返回值-1通常被当做程序错误的标识.重新编译运行我再次获取错误值为255<br/>
-<img src="media/14866089688413/14866102127236.jpg" alt=""/></p>
+<p><strong>1.1节练习</strong><br />
+1.2: main中返回-1.返回值-1通常被当做程序错误的标识.重新编译运行我再次获取错误值为255<br />
+<img src="media/14866089688413/14866102127236.jpg" alt="" /></p>
 
 
 		</div>
@@ -223,40 +217,28 @@ echo $?
 	  	<div class="entry-content">
 		  	
 		  	<ol>
-<li><p><code>#selector集中起来管理</code><br/>
-参考<a href="http://weibo.com/3321824014/ErQJDdL4L?type=repost#_rnd1486189248963">微博</a>中第二点<br/>
-<img src="media/14861891967085/14861893764185.jpg" alt=""/></p></li>
-<li><p>关于Xib的使用问题<br/>
-老生常谈的问题了,看个人喜好,不过尽量让其他人看懂,遵守xib规范.<br/>
-备注:<br/>
-    1. <a href="http://nshipster.cn/ibinspectable-ibdesignable/">IBInspectable / IBDesignable</a><br/>
-    2. <a href="http://tips.producter.io/you-ya-di-zi-ding-yi-xibview/">优雅地自定义XibView</a></p></li>
-<li><p>关于什么时候提取出方法<br/>
-一个函数如果行数过长不便于阅读,可以按照步骤抽取出字方法<br/>
-如果一个功能有2个以上地方用到需要抽取为一个方法</p></li>
-<li><p>多种样式Cell如何配置</p></li>
+<li>
+<p><code>#selector集中起来管理</code><br />
+参考<a href="http://weibo.com/3321824014/ErQJDdL4L?type=repost#_rnd1486189248963">微博</a>中第二点<br />
+<img src="media/14861891967085/14861893764185.jpg" alt="" /></p>
+</li>
+<li>
+<p>关于Xib的使用问题<br />
+老生常谈的问题了,看个人喜好,不过尽量让其他人看懂,遵守xib规范.<br />
+备注:<br />
+1. <a href="http://nshipster.cn/ibinspectable-ibdesignable/">IBInspectable / IBDesignable</a><br />
+2. <a href="http://tips.producter.io/you-ya-di-zi-ding-yi-xibview/">优雅地自定义XibView</a></p>
+</li>
+<li>
+<p>关于什么时候提取出方法<br />
+一个函数如果行数过长不便于阅读,可以按照步骤抽取出字方法<br />
+如果一个功能有2个以上地方用到需要抽取为一个方法</p>
+</li>
+<li>
+<p>多种样式Cell如何配置</p>
+</li>
 </ol>
-
 <p>撕逼未完....</p>
-
-
-		</div>
-
-		
-
-	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14860911508877.html">Swift - Swift Talk: Networking</a></h1>
-			<p class="meta"><time datetime="2017-02-03T11:05:50+08:00" 
-			pubdate data-updated="true">2017/2/3</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<blockquote>
-<p>Swift Talk 学习笔记,<a href="https://talk.objc.io/episodes/S01E01-networking">https://talk.objc.io/episodes/S01E01-networking</a></p>
-</blockquote>
 
 
 		</div>
@@ -363,6 +345,12 @@ echo $?
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -382,12 +370,6 @@ echo $?
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

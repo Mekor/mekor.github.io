@@ -85,18 +85,15 @@ $(document).ready(function(event) {
 	  	<div class="entry-content">
 		  	
 		  	<p>原先我一直这样写：</p>
-
-<pre><code class="language-text">    private lazy var imageView: UIImageView = {
+<pre><code>    private lazy var imageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: &quot;placeholder&quot;))
         imageView.contentMode = .center
         return imageView
     }()
 
 </code></pre>
-
 <p>今天看到了另一种比较简洁的写法</p>
-
-<pre><code class="language-text">private lazy var imageView: UIImageView = {
+<pre><code>private lazy var imageView: UIImageView = {
         $0.contentMode = .center
         return $0
     }(UIImageView())
@@ -119,8 +116,7 @@ $(document).ready(function(event) {
 	  	<div class="entry-content">
 		  	
 		  	<p><a href="https://stackoverflow.com/questions/5687991/uitableview-didselectrowatindexpath-called-twice">stackoverflow上面的解决方案</a></p>
-
-<pre><code class="language-text">func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+<pre><code>func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 
     tableView.deselectRowAtIndexPath(indexPath, animated: true)
 
@@ -148,10 +144,9 @@ $(document).ready(function(event) {
 		 </header>
 	  	<div class="entry-content">
 		  	
-		  	<p>在<code>OC</code>中可以使用<code>NSProxy</code> 的转发机制防止timer强引用<br/>
+		  	<p>在<code>OC</code>中可以使用<code>NSProxy</code> 的转发机制防止timer强引用<br />
 具体例子可以参考<a href="https://github.com/ibireme/YYKit/blob/3869686e0e560db0b27a7140188fad771e271508/YYKit/Utility/YYWeakProxy.h">YYKit</a>中的处理方式,代码如下：</p>
-
-<pre><code class="language-text">#import &quot;YYWeakProxy.h&quot;
+<pre><code>#import &quot;YYWeakProxy.h&quot;
 
 
 @implementation YYWeakProxy
@@ -222,10 +217,8 @@ $(document).ready(function(event) {
     return [_target debugDescription];
 }
 </code></pre>
-
 <p>在Swift中怎么处理？王巍的<a href="https://gist.github.com/onevcat/2d1ceff1c657591eebde">Gist</a>中写了一种</p>
-
-<pre><code class="language-text">private class Block&lt;T&gt; {
+<pre><code>private class Block&lt;T&gt; {
     let f : T
     init (_ f: T) { self.f = f }
 }
@@ -243,13 +236,10 @@ extension NSTimer {
     }
 }
 </code></pre>
-
-<p>当然还有其他的方式比如：<a href="https://stackoverflow.com/questions/44096793/how-to-set-cadisplaylink-in-swift-with-weak-reference-between-target-and-cadispl">How to set CADisplayLink in Swift with weak reference between target and CADisplayLink instance<br/>
+<p>当然还有其他的方式比如：<a href="https://stackoverflow.com/questions/44096793/how-to-set-cadisplaylink-in-swift-with-weak-reference-between-target-and-cadispl">How to set CADisplayLink in Swift with weak reference between target and CADisplayLink instance<br />
 </a> 等等。。。</p>
-
 <p>目前公司项目中采用的方式如下：</p>
-
-<pre><code class="language-text">class WeakTimer: NSObject {
+<pre><code>class WeakTimer: NSObject {
     
     private weak var target: NSObject?
     private weak var timer: Timer?
@@ -280,20 +270,16 @@ extension NSTimer {
     }
 }
 </code></pre>
-
 <p>应用</p>
-
-<pre><code class="language-text">    @objc private func dismissSelf() {
+<pre><code>    @objc private func dismissSelf() {
         self.weakTimer?.invalidate()
         self.weakTimer = nil
         // HHTSwitchGlobalData.shared.waiterLoginTimeOut
         self.weakTimer = WeakTimer.scheduledTimer(timeInterval: HHTSwitchGlobalData.shared.waiterLoginTimeOut, target: self, selector: #selector(autoDismiss), userInfo: nil, repeats: true)
     }
 </code></pre>
-
 <p>第三方库 Kingfisher 中的处理办法</p>
-
-<pre><code class="language-text">    /// Proxy object for prevending a reference cycle between the CADDisplayLink and AnimatedImageView.
+<pre><code>    /// Proxy object for prevending a reference cycle between the CADDisplayLink and AnimatedImageView.
     class TargetProxy {
         private weak var target: AnimatedImageView?
         
@@ -306,10 +292,8 @@ extension NSTimer {
         }
     }
 </code></pre>
-
 <p>应用:</p>
-
-<pre><code class="language-text">private lazy var displayLink: CADisplayLink = {
+<pre><code>private lazy var displayLink: CADisplayLink = {
         self.isDisplayLinkInitialized = true
         let displayLink = CADisplayLink(target: TargetProxy(target: self), selector: #selector(TargetProxy.onScreenUpdate))
         displayLink.add(to: .main, forMode: self.runLoopMode)
@@ -333,11 +317,9 @@ extension NSTimer {
 		 </header>
 	  	<div class="entry-content">
 		  	
-		  	<h3 id="toc_0">OC中显示</h3>
-
-<h5 id="toc_1">添加中划线:</h5>
-
-<pre><code class="language-text">  UILabel * strikeLabel = [[UILabel alloc] initWithFrame:(CGRectMake(10, 10, 50, 30))];
+		  	<h3><a id="oc%E4%B8%AD%E6%98%BE%E7%A4%BA" class="anchor" aria-hidden="true" href="#oc%E4%B8%AD%E6%98%BE%E7%A4%BA"><span class="octicon octicon-link"></span></a>OC中显示</h3>
+<h5><a id="%E6%B7%BB%E5%8A%A0%E4%B8%AD%E5%88%92%E7%BA%BF" class="anchor" aria-hidden="true" href="#%E6%B7%BB%E5%8A%A0%E4%B8%AD%E5%88%92%E7%BA%BF"><span class="octicon octicon-link"></span></a>添加中划线:</h5>
+<pre><code>  UILabel * strikeLabel = [[UILabel alloc] initWithFrame:(CGRectMake(10, 10, 50, 30))];
   NSString *textStr = [NSString stringWithFormat:@&quot;%@元&quot;, primeCost];
 
   //中划线
@@ -349,10 +331,8 @@ extension NSTimer {
 
   [self.view addSubview:strikeLabel];
 </code></pre>
-
-<h5 id="toc_2">添加下划线:</h5>
-
-<pre><code class="language-text">  UILabel *underlineLabel = [[UILabel alloc] initWithFrame:(CGRectMake(10, 10, 50, 30))];
+<h5><a id="%E6%B7%BB%E5%8A%A0%E4%B8%8B%E5%88%92%E7%BA%BF" class="anchor" aria-hidden="true" href="#%E6%B7%BB%E5%8A%A0%E4%B8%8B%E5%88%92%E7%BA%BF"><span class="octicon octicon-link"></span></a>添加下划线:</h5>
+<pre><code>  UILabel *underlineLabel = [[UILabel alloc] initWithFrame:(CGRectMake(10, 10, 50, 30))];
   NSString *textStr = [NSString stringWithFormat:@&quot;%@元&quot;, primeCost];
 
   // 下划线
@@ -364,10 +344,8 @@ extension NSTimer {
 
   [self.view addSubview:underlineLabel];
 </code></pre>
-
-<h3 id="toc_3">Swift中显示</h3>
-
-<pre><code class="language-text">let myAttributes: [NSAttributedStringKey : Any] = [NSAttributedStringKey.strikethroughStyle: NSUnderlineStyle.styleSingle.rawValue]
+<h3><a id="swift%E4%B8%AD%E6%98%BE%E7%A4%BA" class="anchor" aria-hidden="true" href="#swift%E4%B8%AD%E6%98%BE%E7%A4%BA"><span class="octicon octicon-link"></span></a>Swift中显示</h3>
+<pre><code>let myAttributes: [NSAttributedStringKey : Any] = [NSAttributedStringKey.strikethroughStyle: NSUnderlineStyle.styleSingle.rawValue]
             
 let attributedText = NSAttributedString(string: &quot;被划线文字&quot;, attributes: myAttributes)
 </code></pre>
@@ -387,13 +365,10 @@ let attributedText = NSAttributedString(string: &quot;被划线文字&quot;, att
 		 </header>
 	  	<div class="entry-content">
 		  	
-		  	<h2 id="toc_0">集中处理@objc</h2>
-
-<p><img src="media/15158138774013/WX20180113-112401@2x.png" alt="WX20180113-112401@2x"/></p>
-
-<h2 id="toc_1">模拟器不能执行的代码单独处理</h2>
-
-<p><img src="media/15158138774013/15159872783257.jpg" alt=""/></p>
+		  	<h2><a id="%E9%9B%86%E4%B8%AD%E5%A4%84%E7%90%86objc" class="anchor" aria-hidden="true" href="#%E9%9B%86%E4%B8%AD%E5%A4%84%E7%90%86objc"><span class="octicon octicon-link"></span></a>集中处理@objc</h2>
+<p><img src="media/15158138774013/WX20180113-112401@2x.png" alt="WX20180113-112401@2x" /></p>
+<h2><a id="%E6%A8%A1%E6%8B%9F%E5%99%A8%E4%B8%8D%E8%83%BD%E6%89%A7%E8%A1%8C%E7%9A%84%E4%BB%A3%E7%A0%81%E5%8D%95%E7%8B%AC%E5%A4%84%E7%90%86" class="anchor" aria-hidden="true" href="#%E6%A8%A1%E6%8B%9F%E5%99%A8%E4%B8%8D%E8%83%BD%E6%89%A7%E8%A1%8C%E7%9A%84%E4%BB%A3%E7%A0%81%E5%8D%95%E7%8B%AC%E5%A4%84%E7%90%86"><span class="octicon octicon-link"></span></a>模拟器不能执行的代码单独处理</h2>
+<p><img src="media/15158138774013/15159872783257.jpg" alt="" /></p>
 
 
 		</div>
@@ -500,6 +475,12 @@ let attributedText = NSAttributedString(string: &quot;被划线文字&quot;, att
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -519,12 +500,6 @@ let attributedText = NSAttributedString(string: &quot;被划线文字&quot;, att
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

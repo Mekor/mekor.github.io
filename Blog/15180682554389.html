@@ -81,10 +81,9 @@ $(document).ready(function(event) {
 				<p class="meta"><time datetime="2018-02-08T13:37:35+08:00" pubdate data-updated="true">2018/2/8</time></p>
 			 </header>
 		  	<div class="entry-content">
-			  	<p>在<code>OC</code>中可以使用<code>NSProxy</code> 的转发机制防止timer强引用<br/>
+			  	<p>在<code>OC</code>中可以使用<code>NSProxy</code> 的转发机制防止timer强引用<br />
 具体例子可以参考<a href="https://github.com/ibireme/YYKit/blob/3869686e0e560db0b27a7140188fad771e271508/YYKit/Utility/YYWeakProxy.h">YYKit</a>中的处理方式,代码如下：</p>
-
-<pre><code class="language-text">#import &quot;YYWeakProxy.h&quot;
+<pre><code>#import &quot;YYWeakProxy.h&quot;
 
 
 @implementation YYWeakProxy
@@ -155,10 +154,8 @@ $(document).ready(function(event) {
     return [_target debugDescription];
 }
 </code></pre>
-
 <p>在Swift中怎么处理？王巍的<a href="https://gist.github.com/onevcat/2d1ceff1c657591eebde">Gist</a>中写了一种</p>
-
-<pre><code class="language-text">private class Block&lt;T&gt; {
+<pre><code>private class Block&lt;T&gt; {
     let f : T
     init (_ f: T) { self.f = f }
 }
@@ -176,13 +173,10 @@ extension NSTimer {
     }
 }
 </code></pre>
-
-<p>当然还有其他的方式比如：<a href="https://stackoverflow.com/questions/44096793/how-to-set-cadisplaylink-in-swift-with-weak-reference-between-target-and-cadispl">How to set CADisplayLink in Swift with weak reference between target and CADisplayLink instance<br/>
+<p>当然还有其他的方式比如：<a href="https://stackoverflow.com/questions/44096793/how-to-set-cadisplaylink-in-swift-with-weak-reference-between-target-and-cadispl">How to set CADisplayLink in Swift with weak reference between target and CADisplayLink instance<br />
 </a> 等等。。。</p>
-
 <p>目前公司项目中采用的方式如下：</p>
-
-<pre><code class="language-text">class WeakTimer: NSObject {
+<pre><code>class WeakTimer: NSObject {
     
     private weak var target: NSObject?
     private weak var timer: Timer?
@@ -213,20 +207,16 @@ extension NSTimer {
     }
 }
 </code></pre>
-
 <p>应用</p>
-
-<pre><code class="language-text">    @objc private func dismissSelf() {
+<pre><code>    @objc private func dismissSelf() {
         self.weakTimer?.invalidate()
         self.weakTimer = nil
         // HHTSwitchGlobalData.shared.waiterLoginTimeOut
         self.weakTimer = WeakTimer.scheduledTimer(timeInterval: HHTSwitchGlobalData.shared.waiterLoginTimeOut, target: self, selector: #selector(autoDismiss), userInfo: nil, repeats: true)
     }
 </code></pre>
-
 <p>第三方库 Kingfisher 中的处理办法</p>
-
-<pre><code class="language-text">    /// Proxy object for prevending a reference cycle between the CADDisplayLink and AnimatedImageView.
+<pre><code>    /// Proxy object for prevending a reference cycle between the CADDisplayLink and AnimatedImageView.
     class TargetProxy {
         private weak var target: AnimatedImageView?
         
@@ -239,10 +229,8 @@ extension NSTimer {
         }
     }
 </code></pre>
-
 <p>应用:</p>
-
-<pre><code class="language-text">private lazy var displayLink: CADisplayLink = {
+<pre><code>private lazy var displayLink: CADisplayLink = {
         self.isDisplayLinkInitialized = true
         let displayLink = CADisplayLink(target: TargetProxy(target: self), selector: #selector(TargetProxy.onScreenUpdate))
         displayLink.add(to: .main, forMode: self.runLoopMode)
@@ -381,6 +369,12 @@ extension NSTimer {
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -400,12 +394,6 @@ extension NSTimer {
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

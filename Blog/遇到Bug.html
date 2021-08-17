@@ -84,8 +84,7 @@ $(document).ready(function(event) {
 		 </header>
 	  	<div class="entry-content">
 		  	
-		  	<p>解决方案：<img src="media/15585883897383/WX20190523-110605@2x.png" alt="WX20190523-110605@2x"/></p>
-
+		  	<p>解决方案：<img src="media/15585883897383/WX20190523-110605@2x.png" alt="WX20190523-110605@2x" /></p>
 <p>Assets中的图片Slicing 设置<code>Center</code>为<code>Stretches</code></p>
 
 
@@ -103,12 +102,10 @@ $(document).ready(function(event) {
 		 </header>
 	  	<div class="entry-content">
 		  	
-		  	<p><img src="media/15460677821989/15460678427638.jpg" alt="" style="width:531px;"/><br/>
-<img src="media/15460677821989/15460678670280.jpg" alt="" style="width:1054px;"/></p>
-
+		  	<p><img src="media/15460677821989/15460678427638.jpg" alt="" style="width:531px;" /><br />
+<img src="media/15460677821989/15460678670280.jpg" alt="" style="width:1054px;" /></p>
 <p>发生崩溃的原因是<code>tableView</code> <code>reloadData</code> 的时候直接设置<code>tableView</code> 的 <code>scrollRectToVisible</code> 解决方案</p>
-
-<pre><code class="language-text">        UIView.animate(withDuration: 0, animations: {
+<pre><code>        UIView.animate(withDuration: 0, animations: {
             self.tableView.reloadData()
         }) { (finish) in
             let rect = self.tableView.rect(forSection: section)
@@ -132,14 +129,12 @@ $(document).ready(function(event) {
 	  	<div class="entry-content">
 		  	
 		  	<p>在buildsetting中的以下两个路径中添加对应的设置，重现编译即可解决，stackoverflow地址：<a href="https://stackoverflow.com/questions/45779591/failed-to-emit-precompiled-header-for-bridging-header?answertab=votes#tab-top">Failed to emit precompiled header for bridging header</a></p>
-
-<pre><code class="language-text">Solution:
+<pre><code>Solution:
 1 I added $(inherited) non-recursive to Search Path -&gt; Header Search Paths
 2 Then added ${PODS_ROOT} recursive to Search Path -&gt; User Header Search Paths
-Both the above in my projects&#39; target build settings.
+Both the above in my projects' target build settings.
 </code></pre>
-
-<p><img src="media/15374224515215/15374225919741.jpg" alt="" style="width:794px;"/></p>
+<p><img src="media/15374224515215/15374225919741.jpg" alt="" style="width:794px;" /></p>
 
 
 		</div>
@@ -157,17 +152,14 @@ Both the above in my projects&#39; target build settings.
 	  	<div class="entry-content">
 		  	
 		  	<p>设置控制器透明</p>
-
-<pre><code class="language-text">let vc = AfterOrderPotADViewController()
+<pre><code>let vc = AfterOrderPotADViewController()
 self.definesPresentationContext = true
 vc.modalPresentationStyle = .overCurrentContext
 vc.view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3)
 self.present(vc, animated: false, completion: nil)
 </code></pre>
-
 <p>webView 设置透明</p>
-
-<pre><code class="language-text">webView.backgroundColor = UIColor.clear
+<pre><code>webView.backgroundColor = UIColor.clear
 webView.isOpaque = false
 </code></pre>
 
@@ -187,8 +179,7 @@ webView.isOpaque = false
 	  	<div class="entry-content">
 		  	
 		  	<p>看到这篇文章<a href="https://www.lidaren.com/archives/1333">UILabel取消自动Trim空格和换行等空白字符</a></p>
-
-<pre><code class="language-text">UILabel会自动清除的空白字符（UNICODE）
+<pre><code>UILabel会自动清除的空白字符（UNICODE）
 \u0009 CHARACTER TABULATION
 \u000A LINE FEED
 \u000D CARRIAGE RETURN
@@ -206,10 +197,8 @@ webView.isOpaque = false
 \u205F MEDIUM MATHEMATICAL SPACE
 \u3000 IDEOGRAPHIC SPACE
 </code></pre>
-
 <p>解决方案</p>
-
-<pre><code class="language-text">    let paragraphStyle = NSMutableParagraphStyle()
+<pre><code>    let paragraphStyle = NSMutableParagraphStyle()
     paragraphStyle.alignment = .right
     paragraphStyle.tailIndent = -10
     let myMutableString = NSMutableAttributedString(
@@ -327,6 +316,12 @@ webView.isOpaque = false
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -346,12 +341,6 @@ webView.isOpaque = false
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  

@@ -84,24 +84,23 @@ $(document).ready(function(event) {
 		 </header>
 	  	<div class="entry-content">
 		  	
-		  	<h3 id="toc_0">一、const与宏的区别（面试题）:</h3>
-
+		  	<h3><a id="%E4%B8%80%E3%80%81const%E4%B8%8E%E5%AE%8F%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%88%E9%9D%A2%E8%AF%95%E9%A2%98%EF%BC%89" class="anchor" aria-hidden="true" href="#%E4%B8%80%E3%80%81const%E4%B8%8E%E5%AE%8F%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%88%E9%9D%A2%E8%AF%95%E9%A2%98%EF%BC%89"><span class="octicon octicon-link"></span></a>一、const与宏的区别（面试题）:</h3>
 <ul>
-<li><p><code>const简介</code>:之前常用的字符串常量，一般是抽成宏，但是苹果不推荐我们抽成宏，推荐我们使用const常量。</p>
+<li>
+<p><code>const简介</code>:之前常用的字符串常量，一般是抽成宏，但是苹果不推荐我们抽成宏，推荐我们使用const常量。</p>
 <ul>
 <li><code>编译时刻</code>:宏是预编译（编译之前处理），const是编译阶段。</li>
 <li><code>编译检查</code>:宏不做检查，不会报编译错误，只是替换，const会编译检查，会报编译错误。</li>
 <li><code>宏的好处</code>:宏能定义一些函数，方法。 const不能。</li>
 <li><code>宏的坏处</code>:使用大量宏，容易造成编译时间久，每次都需要重新替换。</li>
 </ul>
-<p>注意:很多Blog都说使用宏，会消耗很多内存. define宏仅仅是展开，有多少地方使用，就展开多少次，不会分配内存。（宏定义不分配内存，<strong>变量定义</strong>分配内存。）<br/>
- <img src="media/14718293013293/14719323806994.jpg" alt=""/></p>
-<p><img src="media/14718293013293/14719331536266.jpg" alt=""/></p></li>
+<p>注意:很多Blog都说使用宏，会消耗很多内存. define宏仅仅是展开，有多少地方使用，就展开多少次，不会分配内存。（宏定义不分配内存，<strong>变量定义</strong>分配内存。）<br />
+<img src="media/14718293013293/14719323806994.jpg" alt="" /></p>
+<p><img src="media/14718293013293/14719331536266.jpg" alt="" /></p>
+</li>
 </ul>
-
 <p>产生上述问题的原因:可以查看<a href="https://www.zhihu.com/question/29662431">知乎</a>上面的回答,可以简单理解为编译器优化.</p>
-
-<pre><code class="language-text">// 常见的常量：抽成宏
+<pre><code>// 常见的常量：抽成宏
 #define MKAccount @&quot;account&quot;
 
 #define MKUserDefault [NSUserDefaults standardUserDefaults]
@@ -122,16 +121,19 @@ static NSString * const account = @&quot;account&quot;;
 }
 
 </code></pre>
-
-<h3 id="toc_1">二、const作用：限制类型</h3>
-
+<h3><a id="%E4%BA%8C%E3%80%81const%E4%BD%9C%E7%94%A8%EF%BC%9A%E9%99%90%E5%88%B6%E7%B1%BB%E5%9E%8B" class="anchor" aria-hidden="true" href="#%E4%BA%8C%E3%80%81const%E4%BD%9C%E7%94%A8%EF%BC%9A%E9%99%90%E5%88%B6%E7%B1%BB%E5%9E%8B"><span class="octicon octicon-link"></span></a>二、const作用：限制类型</h3>
 <ul>
-<li>1.const仅仅用来修饰右边的变量（基本数据变量p，指针变量*p）</li>
-<li><p>2.被const修饰的变量是只读的。</p></li>
-<li><p><code>const基本使用</code></p></li>
+<li>
+<p>1.const仅仅用来修饰右边的变量（基本数据变量p，指针变量*p）</p>
+</li>
+<li>
+<p>2.被const修饰的变量是只读的。</p>
+</li>
+<li>
+<p><code>const基本使用</code></p>
+</li>
 </ul>
-
-<pre><code class="language-text">- (void)viewDidLoad {
+<pre><code>- (void)viewDidLoad {
     [super viewDidLoad];
 
     // 定义变量
@@ -178,15 +180,12 @@ static NSString * const account = @&quot;account&quot;;
 }
 
 </code></pre>
-
-<h3 id="toc_2">三、const开发中使用场景:</h3>
-
+<h3><a id="%E4%B8%89%E3%80%81const%E5%BC%80%E5%8F%91%E4%B8%AD%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF" class="anchor" aria-hidden="true" href="#%E4%B8%89%E3%80%81const%E5%BC%80%E5%8F%91%E4%B8%AD%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="octicon octicon-link"></span></a>三、const开发中使用场景:</h3>
 <ul>
 <li>1.当一个方法参数只读</li>
 <li>2.定义只读全局变量</li>
 </ul>
-
-<pre><code class="language-text">@implementation ViewController
+<pre><code>@implementation ViewController
 
 // 定义只读全局常量
 NSString * const str  = @&quot;123&quot;;
@@ -211,29 +210,36 @@ NSString * const str  = @&quot;123&quot;;
 @end
 
 </code></pre>
-
-<h3 id="toc_3">四、static和extern简单使用(要使用一个东西，先了解其作用)</h3>
-
+<h3><a id="%E5%9B%9B%E3%80%81static%E5%92%8Cextern%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8%E8%A6%81%E4%BD%BF%E7%94%A8%E4%B8%80%E4%B8%AA%E4%B8%9C%E8%A5%BF%EF%BC%8C%E5%85%88%E4%BA%86%E8%A7%A3%E5%85%B6%E4%BD%9C%E7%94%A8" class="anchor" aria-hidden="true" href="#%E5%9B%9B%E3%80%81static%E5%92%8Cextern%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8%E8%A6%81%E4%BD%BF%E7%94%A8%E4%B8%80%E4%B8%AA%E4%B8%9C%E8%A5%BF%EF%BC%8C%E5%85%88%E4%BA%86%E8%A7%A3%E5%85%B6%E4%BD%9C%E7%94%A8"><span class="octicon octicon-link"></span></a>四、static和extern简单使用(要使用一个东西，先了解其作用)</h3>
 <ul>
-<li><p><code>static作用</code>:</p>
+<li>
+<p><code>static作用</code>:</p>
 <ul>
-<li><p>修饰局部变量：</p>
+<li>
+<p>修饰局部变量：</p>
 <p>1.延长局部变量的生命周期,程序结束才会销毁。</p>
-<p>2.局部变量只会生成一份内存,只会初始化一次。</p></li>
-<li><p>修饰全局变量</p>
-<p>1.只能在本文件中访问,修改全局变量的作用域,生命周期不会改</p></li>
-</ul></li>
-<li><p><code>extern作用</code>:</p>
+<p>2.局部变量只会生成一份内存,只会初始化一次。</p>
+</li>
+<li>
+<p>修饰全局变量</p>
+<p>1.只能在本文件中访问,修改全局变量的作用域,生命周期不会改</p>
+</li>
+</ul>
+</li>
+<li>
+<p><code>extern作用</code>:</p>
 <ul>
 <li>只是用来获取全局变量(包括全局静态变量)的值，不能用于定义变量</li>
-</ul></li>
-<li><p><code>extern工作原理</code>:</p>
+</ul>
+</li>
+<li>
+<p><code>extern工作原理</code>:</p>
 <ul>
 <li>先在当前文件查找有没有全局变量，没有找到，才会去其他文件查找。</li>
-</ul></li>
 </ul>
-
-<pre><code class="language-text">// 全局变量：只有一份内存，所有文件共享，与extern联合使用。
+</li>
+</ul>
+<pre><code>// 全局变量：只有一份内存，所有文件共享，与extern联合使用。
 int a = 20;
 
 // static修饰全局变量
@@ -260,15 +266,12 @@ static int age = 20;
 I
 
 </code></pre>
-
-<h3 id="toc_4">五、static与const联合使用</h3>
-
+<h3><a id="%E4%BA%94%E3%80%81static%E4%B8%8Econst%E8%81%94%E5%90%88%E4%BD%BF%E7%94%A8" class="anchor" aria-hidden="true" href="#%E4%BA%94%E3%80%81static%E4%B8%8Econst%E8%81%94%E5%90%88%E4%BD%BF%E7%94%A8"><span class="octicon octicon-link"></span></a>五、static与const联合使用</h3>
 <ul>
 <li>static与const作用:声明一个只读的静态变量</li>
 <li>开发使用场景:在<code>一个文件中</code>经常使用的字符串常量，可以使用static与const组合</li>
 </ul>
-
-<pre><code class="language-text">// 开发中常用static修饰全局变量,只改变作用域
+<pre><code>// 开发中常用static修饰全局变量,只改变作用域
 
 // 为什么要改变全局变量作用域，防止重复声明全局变量。
 
@@ -291,33 +294,36 @@ static  NSString * const key = @&quot;name&quot;;
 static  NSString const *key1 = @&quot;name&quot;;
 
 </code></pre>
-
-<h3 id="toc_5">六、extern与const联合使用</h3>
-
+<h3><a id="%E5%85%AD%E3%80%81extern%E4%B8%8Econst%E8%81%94%E5%90%88%E4%BD%BF%E7%94%A8" class="anchor" aria-hidden="true" href="#%E5%85%AD%E3%80%81extern%E4%B8%8Econst%E8%81%94%E5%90%88%E4%BD%BF%E7%94%A8"><span class="octicon octicon-link"></span></a>六、extern与const联合使用</h3>
 <ul>
-<li>开发中使用场景:在<code>多个文件中</code>经常使用的同一个字符串常量，可以使用extern与const组合。</li>
-<li>原因:
+<li>
+<p>开发中使用场景:在<code>多个文件中</code>经常使用的同一个字符串常量，可以使用extern与const组合。</p>
+</li>
+<li>
+<p>原因:</p>
 <ul>
 <li>static与const组合：在每个文件都需要定义一份静态全局变量。</li>
 <li>extern与const组合:只需要定义一份全局变量，多个文件共享。</li>
-</ul></li>
-<li><p>全局常量正规写法:开发中便于管理所有的全局变量，通常搞一个GlobeConst文件，里面专门定义全局变量，统一管理，要不然项目文件多不好找。</p></li>
-<li><p>GlobeConst.h</p></li>
 </ul>
-
-<pre><code class="language-text">/*******************************首页****************************/
+</li>
+<li>
+<p>全局常量正规写法:开发中便于管理所有的全局变量，通常搞一个GlobeConst文件，里面专门定义全局变量，统一管理，要不然项目文件多不好找。</p>
+</li>
+<li>
+<p>GlobeConst.h</p>
+</li>
+</ul>
+<pre><code>/*******************************首页****************************/
 
 extern NSString * const nameKey = @&quot;name&quot;;
 
 /*******************************首页****************************/
 
 </code></pre>
-
 <ul>
 <li>GlobeConst.m</li>
 </ul>
-
-<pre><code class="language-text">#import 
+<pre><code>#import 
 
 /*******************************首页****************************/
 
@@ -341,32 +347,25 @@ NSString * const nameKey = @&quot;name&quot;;
 		 </header>
 	  	<div class="entry-content">
 		  	
-		  	<p><strong>对象销毁</strong><br/>
+		  	<p><strong>对象销毁</strong><br />
 对象的销毁虽然消耗资源不多，但累积起来也是不容忽视的。通常当容器类持有大量对象时，其销毁时的资源消耗就非常明显。同样的，如果对象可以放到后台线程去释放，那就挪到后台线程去。这里有个小 Tip：把对象捕获到 block 中，然后扔到后台队列去随便发送个消息以避免编译器警告，就可以让对象在后台线程销毁了。</p>
-
-<pre><code class="language-text">NSArray *tmp = self.array;
+<pre><code>NSArray *tmp = self.array;
 self.array = nil;
 dispatch_async(queue, ^{
     [tmp class];
 });
 </code></pre>
-
 <blockquote>
 <p>来自:<a href="http://blog.ibireme.com/2015/11/12/smooth_user_interfaces_for_ios/">iOS 保持界面流畅的技巧</a></p>
 </blockquote>
-
-<p><strong>拖拽收起键盘</strong><br/>
+<p><strong>拖拽收起键盘</strong><br />
 UIScrollView有个keyboardDismissMode属性，设置成UIScrollViewKeyboardDismissModeOnDrag就可以在拖拽ScrollView的时候自动缩起键盘</p>
-
-<pre><code class="language-text">@property(nonatomic) UIScrollViewKeyboardDismissMode keyboardDismissMode NS_AVAILABLE_IOS(7_0); // default is UIScrollViewKeyboardDismissModeNone
+<pre><code>@property(nonatomic) UIScrollViewKeyboardDismissMode keyboardDismissMode NS_AVAILABLE_IOS(7_0); // default is UIScrollViewKeyboardDismissModeNone
 </code></pre>
-
-<p><strong>让view的一部分响应手势点击</strong><br/>
+<p><strong>让view的一部分响应手势点击</strong><br />
 让view的一部分响应手势点击，其余部分实现手势透传给下方的view的方法</p>
-
 <p>在View中重写:</p>
-
-<pre><code class="language-text">-(UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+<pre><code>-(UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
     NSLog(@&quot;%@-------------&gt;&gt;&gt;&gt;&gt;&gt;&gt;point = %@&quot;,NSStringFromSelector(_cmd),NSStringFromCGPoint(point));
     
     // 设置能够点击的区域
@@ -380,7 +379,6 @@ UIScrollView有个keyboardDismissMode属性，设置成UIScrollViewKeyboardDismi
 }
 
 </code></pre>
-
 <p>控制按钮的点击范围可以参见:<a href="https://github.com/Mekor/MKExtension">MKExtension</a>中的<code>UIButton+TapScope</code></p>
 
 
@@ -399,16 +397,14 @@ UIScrollView有个keyboardDismissMode属性，设置成UIScrollViewKeyboardDismi
 	  	<div class="entry-content">
 		  	
 		  	<p>网上有很多tab自动补全的脚本,但是在Mac上面都不能正常的运行,在<a href="http://stackoverflow.com/questions/7116038/python-tab-completion-mac-osx-10-7-lion">stackoverflow</a>找到一个能用的.</p>
-
-<pre><code class="language-text">import readline
+<pre><code>import readline
 import rlcompleter
-if &#39;libedit&#39; in readline.__doc__:
+if 'libedit' in readline.__doc__:
     readline.parse_and_bind(&quot;bind ^I rl_complete&quot;)
 else:
     readline.parse_and_bind(&quot;tab: complete&quot;)
 
 </code></pre>
-
 <p>进入Python后直接import tab 就可以了</p>
 
 
@@ -426,14 +422,11 @@ else:
 		 </header>
 	  	<div class="entry-content">
 		  	
-		  	<p>项目中有很多地方需要添加点击事件,重复代码很多,所以做了一个UIView的分类,专门做点击事件使用.<br/>
+		  	<p>项目中有很多地方需要添加点击事件,重复代码很多,所以做了一个UIView的分类,专门做点击事件使用.<br />
 项目地址:<a href="https://github.com/Mekor/UIView-Tap">UIView-Tap</a></p>
-
 <p>代码很简单,主要有一点就是注意分类不能直接添加属性,需要用到运行时相关内容.</p>
-
 <p>代码如下:</p>
-
-<pre><code class="language-text">\\UIView+Tap.h文件
+<pre><code>\\UIView+Tap.h文件
 @interface UIView (Tap)
 - (void)addTapBlock:(void(^)(id obj))tapAction;
 @end
@@ -470,12 +463,9 @@ static const void* tagValue = &amp;tagValue;
 }
 @end
 </code></pre>
-
 <p>正如大家所见,如果要接收点击事件,必须userInteractionEnabled设置为YES,所以不管怎么只要确认要给视图添加点击事件,都会被设置为<code>userInteractionEnabled = YES</code></p>
-
 <p>简单实用:</p>
-
-<pre><code class="language-text">UIView *redView = [[UIView alloc]initWithFrame:CGRectMake(100, 100, 100, 100)];
+<pre><code>UIView *redView = [[UIView alloc]initWithFrame:CGRectMake(100, 100, 100, 100)];
 redView.backgroundColor = [UIColor redColor];
 [redView addTapBlock:^(UIView* obj) {
     NSLog(@&quot;redView%@&quot;,obj.backgroundColor);
@@ -514,18 +504,13 @@ label.text = @&quot;这是label,点击这里...&quot;;
 	  	<div class="entry-content">
 		  	
 		  	<p>cell的创建</p>
-
-<pre><code class="language-text">- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+<pre><code>- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 </code></pre>
-
 <p>数据处理建议在这里进行:</p>
-
-<pre><code class="language-text">-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+<pre><code>-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 </code></pre>
-
 <p>cell将要显示的时候我们进行一些处理(来自苹果Demo)</p>
-
-<pre><code class="language-text">// Only load cached images; defer new downloads until scrolling ends
+<pre><code>// Only load cached images; defer new downloads until scrolling ends
 if (!appRecord.appIcon)
 {
     if (self.tableView.dragging == NO &amp;&amp; self.tableView.decelerating == NO)
@@ -540,25 +525,23 @@ else
     cell.imageView.image = appRecord.appIcon;
 }
 </code></pre>
-
 <p>这里可以看出,拖拽和滚动的时候不进行图片下载,只有停止的时候才进行.当然我们还需要在scrollView停止滚动和拖拽的时候进行下载</p>
-
-<pre><code class="language-text">#pragma mark - UIScrollViewDelegate
+<pre><code>#pragma mark - UIScrollViewDelegate
 
 // -------------------------------------------------------------------------------
-//  scrollViewDidEndDragging:willDecelerate:
+//	scrollViewDidEndDragging:willDecelerate:
 //  Load images for all onscreen rows when scrolling is finished.
 // -------------------------------------------------------------------------------
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
     if (!decelerate)
-    {
+	{
         [self loadImagesForOnscreenRows];
     }
 }
 
 // -------------------------------------------------------------------------------
-//  scrollViewDidEndDecelerating:scrollView
+//	scrollViewDidEndDecelerating:scrollView
 //  When scrolling stops, proceed to load the app icons that are on screen.
 // -------------------------------------------------------------------------------
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
@@ -567,12 +550,10 @@ else
 }
 
 </code></pre>
-
 <p>下载显示cell的图片</p>
-
-<pre><code class="language-text">// -------------------------------------------------------------------------------
-//  loadImagesForOnscreenRows
-//  This method is used in case the user scrolled into a set of cells that don&#39;t
+<pre><code>// -------------------------------------------------------------------------------
+//	loadImagesForOnscreenRows
+//  This method is used in case the user scrolled into a set of cells that don't
 //  have their app icons yet.
 // -------------------------------------------------------------------------------
 - (void)loadImagesForOnscreenRows
@@ -593,13 +574,11 @@ else
     }
 }
 </code></pre>
-
 <p>具体下载:</p>
-
-<pre><code class="language-text">#pragma mark - Table cell image support
+<pre><code>#pragma mark - Table cell image support
 
 // -------------------------------------------------------------------------------
-//  startIconDownload:forIndexPath:
+//	startIconDownload:forIndexPath:
 // -------------------------------------------------------------------------------
 - (void)startIconDownload:(AppRecord *)appRecord forIndexPath:(NSIndexPath *)indexPath
 {
@@ -626,10 +605,8 @@ else
     }
 }
 </code></pre>
-
 <p>IconDownloader文件</p>
-
-<pre><code class="language-text">//.h文件
+<pre><code>//.h文件
 @class AppRecord;
 
 @interface IconDownloader : NSObject
@@ -662,7 +639,7 @@ else
 @implementation IconDownloader
 
 // -------------------------------------------------------------------------------
-//  startDownload
+//	startDownload
 // -------------------------------------------------------------------------------
 - (void)startDownload
 {
@@ -717,7 +694,7 @@ else
 }
 
 // -------------------------------------------------------------------------------
-//  cancelDownload
+//	cancelDownload
 // -------------------------------------------------------------------------------
 - (void)cancelDownload
 {
@@ -725,7 +702,6 @@ else
     _sessionTask = nil;
 }
 </code></pre>
-
 <blockquote>
 <p><a href="https://developer.apple.com/library/ios/samplecode/LazyTableImages/Introduction/Intro.html">Apple Demo</a></p>
 </blockquote>
@@ -835,6 +811,12 @@ else
 	  
 	      
 		      <li class="post">
+		        <a href="16291783311992.html">方便实用的小组件</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
@@ -854,12 +836,6 @@ else
 	      
 		      <li class="post">
 		        <a href="16246203092572.html">flutter 多环境设置</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16189060168232.html">iOS 开发环境配置</a>
 		      </li>
 	     
 	  
