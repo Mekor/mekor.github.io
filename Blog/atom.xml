@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[李小争]]></title>
-  <link href="http://www.citynight.cn/Blog/atom.xml" rel="self"/>
-  <link href="http://www.citynight.cn/Blog/"/>
-  <updated>2021-08-18T11:04:29+08:00</updated>
-  <id>http://www.citynight.cn/Blog/</id>
+  <link href="http://www.citynight.cn/blog/atom.xml" rel="self"/>
+  <link href="http://www.citynight.cn/blog/"/>
+  <updated>2021-08-18T13:43:21+08:00</updated>
+  <id>http://www.citynight.cn/blog/</id>
   <author>
     <name><![CDATA[]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[避免和WillPopScope与iOS手势冲突]]></title>
-    <link href="http://www.citynight.cn/Blog/16292522945585.html"/>
+    <link href="http://www.citynight.cn/blog/16292522945585.html"/>
     <updated>2021-08-18T10:04:54+08:00</updated>
-    <id>http://www.citynight.cn/Blog/16292522945585.html</id>
+    <id>http://www.citynight.cn/blog/16292522945585.html</id>
     <content type="html"><![CDATA[
 <p>开发中有一个需求，表单填写中点击返回按钮需要提示。这个需求可以使用WillPopScope处理</p>
 <pre><code class="language-dart">bool _locked = false;
@@ -114,9 +114,9 @@ return Scaffold(
   
   <entry>
     <title type="html"><![CDATA[方便实用的小组件]]></title>
-    <link href="http://www.citynight.cn/Blog/16291783311992.html"/>
+    <link href="http://www.citynight.cn/blog/16291783311992.html"/>
     <updated>2021-08-17T13:32:11+08:00</updated>
-    <id>http://www.citynight.cn/Blog/16291783311992.html</id>
+    <id>http://www.citynight.cn/blog/16291783311992.html</id>
     <content type="html"><![CDATA[
 <h2><a id="1-fittedbox" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>1. FittedBox</h2>
 <pre><code>这个组件可以缩放子组件，组件的大小不够的时候可以缩放子组件。比如：
@@ -223,9 +223,9 @@ SingleChildScrollView 是一个维度的滚动，InteractiveViewer是二维滚�
   
   <entry>
     <title type="html"><![CDATA[Flutter 中 TabBarView 点击切换，监听会调用多出]]></title>
-    <link href="http://www.citynight.cn/Blog/16267829476143.html"/>
+    <link href="http://www.citynight.cn/blog/16267829476143.html"/>
     <updated>2021-07-20T20:09:07+08:00</updated>
-    <id>http://www.citynight.cn/Blog/16267829476143.html</id>
+    <id>http://www.citynight.cn/blog/16267829476143.html</id>
     <content type="html"><![CDATA[
 <h2><a id="%E8%B0%83%E7%94%A8%E5%A4%9A%E6%AC%A1%E5%8E%9F%E5%9B%A0" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>调用多次原因</h2>
 <p>在Flutter源码中 <code>src/material/tab_controller.dart</code> 中 <code>void _changeIndex(int value, { Duration? duration, Curve? curve })</code> 方法里面动画调用会通知两次</p>
@@ -304,9 +304,9 @@ SingleChildScrollView 是一个维度的滚动，InteractiveViewer是二维滚�
   
   <entry>
     <title type="html"><![CDATA[Flutter 中 listView 嵌套 listView]]></title>
-    <link href="http://www.citynight.cn/Blog/16267690953146.html"/>
+    <link href="http://www.citynight.cn/blog/16267690953146.html"/>
     <updated>2021-07-20T16:18:15+08:00</updated>
-    <id>http://www.citynight.cn/Blog/16267690953146.html</id>
+    <id>http://www.citynight.cn/blog/16267690953146.html</id>
     <content type="html"><![CDATA[
 <p><img src="media/16267690953146/Simulator%20Screen%20Shot%20-%20iPhone%2012%20-%202021-07-20%20at%2016.18.53.png" alt="Simulator Screen Shot - iPhone 12 - 2021-07-20 at 16.18.53" /></p>
 <p>实现上述嵌套效果只需要在里面的listView中使用</p>
@@ -322,9 +322,9 @@ SingleChildScrollView 是一个维度的滚动，InteractiveViewer是二维滚�
   
   <entry>
     <title type="html"><![CDATA[Flutter中Row中的子控件左右两端对齐]]></title>
-    <link href="http://www.citynight.cn/Blog/16261554677251.html"/>
+    <link href="http://www.citynight.cn/blog/16261554677251.html"/>
     <updated>2021-07-13T13:51:07+08:00</updated>
-    <id>http://www.citynight.cn/Blog/16261554677251.html</id>
+    <id>http://www.citynight.cn/blog/16261554677251.html</id>
     <content type="html"><![CDATA[
 <p>假如我们要实现这样一个效果：两个子控件（例如2个文本）在一行显示，但我们想让它们分别左右两侧对齐，也就是左右一边一个。如何实现呢？<br />
 方法一：<br />
@@ -341,9 +341,9 @@ new Row( children: [ new Text(&quot;开始日期：&quot;), Flexible(fit: FlexFi
   
   <entry>
     <title type="html"><![CDATA[flutter 多环境设置]]></title>
-    <link href="http://www.citynight.cn/Blog/16246203092572.html"/>
+    <link href="http://www.citynight.cn/blog/16246203092572.html"/>
     <updated>2021-06-25T19:25:09+08:00</updated>
-    <id>http://www.citynight.cn/Blog/16246203092572.html</id>
+    <id>http://www.citynight.cn/blog/16246203092572.html</id>
     <content type="html"><![CDATA[
 <p>Flutter开发中我们需要切换不同的环境进行数据处理</p>
 <h2><a id="%E5%8E%9F%E7%90%86" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>原理</h2>
@@ -398,9 +398,9 @@ new Row( children: [ new Text(&quot;开始日期：&quot;), Flexible(fit: FlexFi
   
   <entry>
     <title type="html"><![CDATA[iOS 开发环境配置]]></title>
-    <link href="http://www.citynight.cn/Blog/16189060168232.html"/>
+    <link href="http://www.citynight.cn/blog/16189060168232.html"/>
     <updated>2021-04-20T16:06:56+08:00</updated>
-    <id>http://www.citynight.cn/Blog/16189060168232.html</id>
+    <id>http://www.citynight.cn/blog/16189060168232.html</id>
     <content type="html"><![CDATA[
 <ol>
 <li>
@@ -486,9 +486,9 @@ bundle exec pod install
   
   <entry>
     <title type="html"><![CDATA[AR 模型格式转换和导入]]></title>
-    <link href="http://www.citynight.cn/Blog/16158207840706.html"/>
+    <link href="http://www.citynight.cn/blog/16158207840706.html"/>
     <updated>2021-03-15T23:06:24+08:00</updated>
-    <id>http://www.citynight.cn/Blog/16158207840706.html</id>
+    <id>http://www.citynight.cn/blog/16158207840706.html</id>
     <content type="html"><![CDATA[
 <p>需要软件：Reality Converter 去 <a href="https://developer.apple.com/download/">https://developer.apple.com/download/</a> 下载<br />
 <img src="media/16158207840706/16158208366495.jpg" alt="" style="width:1086px;" /></p>
@@ -505,9 +505,9 @@ bundle exec pod install
   
   <entry>
     <title type="html"><![CDATA[节流防抖]]></title>
-    <link href="http://www.citynight.cn/Blog/16158207797865.html"/>
+    <link href="http://www.citynight.cn/blog/16158207797865.html"/>
     <updated>2021-03-15T23:06:19+08:00</updated>
-    <id>http://www.citynight.cn/Blog/16158207797865.html</id>
+    <id>http://www.citynight.cn/blog/16158207797865.html</id>
     <content type="html"><![CDATA[
 <p>节流和防抖演示网站： <a href="http://demo.nimius.net/debounce_throttle/">http://demo.nimius.net/debounce_throttle/</a></p>
 <p><strong>防抖 Debounce</strong></p>
@@ -622,9 +622,9 @@ private extension Date {
   
   <entry>
     <title type="html"><![CDATA[Flutter 环境变量设置]]></title>
-    <link href="http://www.citynight.cn/Blog/16154734553187.html"/>
+    <link href="http://www.citynight.cn/blog/16154734553187.html"/>
     <updated>2021-03-11T22:37:35+08:00</updated>
-    <id>http://www.citynight.cn/Blog/16154734553187.html</id>
+    <id>http://www.citynight.cn/blog/16154734553187.html</id>
     <content type="html"><![CDATA[
 <p>我把flutter文件夹拖到资源库中<br />
 <img src="media/16154734553187/16154735272429.jpg" alt="" style="width:920px;" /></p>
@@ -650,9 +650,9 @@ Tools • Dart 2.12.0
   
   <entry>
     <title type="html"><![CDATA[SSH 免密登录设置]]></title>
-    <link href="http://www.citynight.cn/Blog/16153819894563.html"/>
+    <link href="http://www.citynight.cn/blog/16153819894563.html"/>
     <updated>2021-03-10T21:13:09+08:00</updated>
-    <id>http://www.citynight.cn/Blog/16153819894563.html</id>
+    <id>http://www.citynight.cn/blog/16153819894563.html</id>
     <content type="html"><![CDATA[
 <p><img src="media/16153819894563/IMG_1E8AAA2E770B-1.jpeg" alt="IMG_1E8AAA2E770B-1" /></p>
 <ol>
@@ -682,9 +682,9 @@ Tools • Dart 2.12.0
   
   <entry>
     <title type="html"><![CDATA[Flutter 相关网站]]></title>
-    <link href="http://www.citynight.cn/Blog/16152544377232.html"/>
+    <link href="http://www.citynight.cn/blog/16152544377232.html"/>
     <updated>2021-03-09T09:47:17+08:00</updated>
-    <id>http://www.citynight.cn/Blog/16152544377232.html</id>
+    <id>http://www.citynight.cn/blog/16152544377232.html</id>
     <content type="html"><![CDATA[
 <p><a href="https://github.com/flutter/flutter/issues">github地址</a></p>
 <p><a href="https://flutterchina.club/">Flutter中文网</a></p>
@@ -731,9 +731,9 @@ Tools • Dart 2.12.0
   
   <entry>
     <title type="html"><![CDATA[使用iOS模拟器测试“磁盘空间不足”情况的实用方法是什么？]]></title>
-    <link href="http://www.citynight.cn/Blog/16026633643718.html"/>
+    <link href="http://www.citynight.cn/blog/16026633643718.html"/>
     <updated>2020-10-14T16:16:04+08:00</updated>
-    <id>http://www.citynight.cn/Blog/16026633643718.html</id>
+    <id>http://www.citynight.cn/blog/16026633643718.html</id>
     <content type="html"><![CDATA[
 <p>创建一个小磁盘映像:</p>
 <pre><code>hdiutil create -size 2m -fs HFS+ /tmp/2meg.dmg
@@ -754,9 +754,9 @@ Tools • Dart 2.12.0
   
   <entry>
     <title type="html"><![CDATA[JDBC Class.forName vs DriverManager.registerDriver]]></title>
-    <link href="http://www.citynight.cn/Blog/15990466411900.html"/>
+    <link href="http://www.citynight.cn/blog/15990466411900.html"/>
     <updated>2020-09-02T19:37:21+08:00</updated>
-    <id>http://www.citynight.cn/Blog/15990466411900.html</id>
+    <id>http://www.citynight.cn/blog/15990466411900.html</id>
     <content type="html"><![CDATA[
 <p>要使用JDBC与数据库连接，需要选择获取相应数据库的驱动程序并注册该驱动程序,有两种方式可以注册</p>
 <pre><code>DriverManager.registerDriver(new com.mysql.jdbc.Driver());
@@ -771,9 +771,9 @@ Tools • Dart 2.12.0
   
   <entry>
     <title type="html"><![CDATA[Java开发环境搭建的准备工作]]></title>
-    <link href="http://www.citynight.cn/Blog/15989690336270.html"/>
+    <link href="http://www.citynight.cn/blog/15989690336270.html"/>
     <updated>2020-09-01T22:03:53+08:00</updated>
-    <id>http://www.citynight.cn/Blog/15989690336270.html</id>
+    <id>http://www.citynight.cn/blog/15989690336270.html</id>
     <content type="html"><![CDATA[
 <h3><a id="%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE%EF%BC%88%E4%BF%AE%E6%94%B9hosts%EF%BC%89" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>网络配置（修改hosts）</h3>
 <h4><a id="%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E9%9C%80%E8%A6%81" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>什么时候需要</h4>
@@ -832,9 +832,9 @@ export CLASSPATH
   
   <entry>
     <title type="html"><![CDATA[529. Minesweeper（529. 扫雷游戏）]]></title>
-    <link href="http://www.citynight.cn/Blog/15978901087507.html"/>
+    <link href="http://www.citynight.cn/blog/15978901087507.html"/>
     <updated>2020-08-20T10:21:48+08:00</updated>
-    <id>http://www.citynight.cn/Blog/15978901087507.html</id>
+    <id>http://www.citynight.cn/blog/15978901087507.html</id>
     <content type="html"><![CDATA[
 <p>题目地址:<a href="https://leetcode-cn.com/problems/minesweeper/">529. 扫雷游戏</a></p>
 <p>Let's play the minesweeper game (<a href="https://en.wikipedia.org/wiki/Minesweeper_(video_game)">Wikipedia</a>, <a href="http://minesweeperonline.com/">online game</a>)!</p>
@@ -946,9 +946,9 @@ Click : [1,2]
   
   <entry>
     <title type="html"><![CDATA[647. Palindromic Substrings]]></title>
-    <link href="http://www.citynight.cn/Blog/15978472756793.html"/>
+    <link href="http://www.citynight.cn/blog/15978472756793.html"/>
     <updated>2020-08-19T22:27:55+08:00</updated>
-    <id>http://www.citynight.cn/Blog/15978472756793.html</id>
+    <id>http://www.citynight.cn/blog/15978472756793.html</id>
     <content type="html"><![CDATA[
 <p>题目地址:<a href="https://leetcode-cn.com/problems/palindromic-substrings/">647. 回文子串</a><br />
 Given a string, your task is to count how many palindromic substrings in this string.</p>
@@ -1014,9 +1014,9 @@ The input string length won't exceed 1000.</p>
   
   <entry>
     <title type="html"><![CDATA[setProperty 应用]]></title>
-    <link href="http://www.citynight.cn/Blog/15966161528946.html"/>
+    <link href="http://www.citynight.cn/blog/15966161528946.html"/>
     <updated>2020-08-05T16:29:12+08:00</updated>
-    <id>http://www.citynight.cn/Blog/15966161528946.html</id>
+    <id>http://www.citynight.cn/blog/15966161528946.html</id>
     <content type="html"><![CDATA[
 <p>项目中使用<code>Nacos</code>,想覆盖nacos的默认配置,配置信息如下:</p>
 <pre><code>/**
@@ -1074,9 +1074,9 @@ public class CloudNacosApplication {
   
   <entry>
     <title type="html"><![CDATA[devtools 热启动]]></title>
-    <link href="http://www.citynight.cn/Blog/15965236438323.html"/>
+    <link href="http://www.citynight.cn/blog/15965236438323.html"/>
     <updated>2020-08-04T14:47:23+08:00</updated>
-    <id>http://www.citynight.cn/Blog/15965236438323.html</id>
+    <id>http://www.citynight.cn/blog/15965236438323.html</id>
     <content type="html"><![CDATA[
 <p>第一步:添加pom</p>
 <pre><code>        &lt;dependency&gt;
@@ -1115,9 +1115,9 @@ Setting-&gt;Build-&gt;Compiler<br />
   
   <entry>
     <title type="html"><![CDATA[@Slf4j注解实现日志输出]]></title>
-    <link href="http://www.citynight.cn/Blog/15965198984201.html"/>
+    <link href="http://www.citynight.cn/blog/15965198984201.html"/>
     <updated>2020-08-04T13:44:58+08:00</updated>
-    <id>http://www.citynight.cn/Blog/15965198984201.html</id>
+    <id>http://www.citynight.cn/blog/15965198984201.html</id>
     <content type="html"><![CDATA[
 <p>最近看到B站上有人写代码没有定义log(<code>private final Logger log = LoggerFactory.getLogger(XXX.class);</code>)就能直接用<code>log</code></p>
 <p>查了下可能的方案:</p>
