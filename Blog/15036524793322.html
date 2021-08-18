@@ -86,7 +86,7 @@ $(document).ready(function(event) {
 </blockquote>
 <p>##<a href="https://stackoverflow.com/documentation/ios/3186/uibezierpath/13624/designing-and-drawing-a-bezier-path">Designing and drawing a Bezier Path</a></p>
 <p>This example shows the process from designing the shape you want to drawing it on a view. A specific shap is used but the concepts you learn can be applied to any shape.</p>
-<h3><a id="how-to-draw-a%C2%A0-b%C3%A9zier-path-https-developer-apple-comlibraryiosdocumentation2ddrawingconceptualdrawingprintingiosbezierpathsbezierpaths-html%C2%A0-in-a-custom-view" class="anchor" aria-hidden="true" href="#how-to-draw-a%C2%A0-b%C3%A9zier-path-https-developer-apple-comlibraryiosdocumentation2ddrawingconceptualdrawingprintingiosbezierpathsbezierpaths-html%C2%A0-in-a-custom-view"><span class="octicon octicon-link"></span></a>How to draw a <a href="https://developer.apple.com/library/ios/documentation/2DDrawing/Conceptual/DrawingPrintingiOS/BezierPaths/BezierPaths.html">Bézier path</a> in a custom view</h3>
+<h3><a id="how-to-draw-a%C2%A0-b%C3%A9zier-path-https-developer-apple-comlibraryiosdocumentation2ddrawingconceptualdrawingprintingiosbezierpathsbezierpaths-html%C2%A0-in-a-custom-view" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>How to draw a <a href="https://developer.apple.com/library/ios/documentation/2DDrawing/Conceptual/DrawingPrintingiOS/BezierPaths/BezierPaths.html">Bézier path</a> in a custom view</h3>
 <p>These are the main steps:</p>
 <ol>
 <li>Design the outline of the shape you want.</li>
@@ -94,10 +94,10 @@ $(document).ready(function(event) {
 <li>Build that path programmatically.</li>
 <li>Draw the path either in <code>drawRect</code> or using a <code>CAShapeLayer</code>.</li>
 </ol>
-<h3><a id="design-shape-outline" class="anchor" aria-hidden="true" href="#design-shape-outline"><span class="octicon octicon-link"></span></a>Design shape outline</h3>
+<h3><a id="design-shape-outline" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Design shape outline</h3>
 <p>You could do anything, but as an example I have chosen the shape below. It could be a popup key on a keyboard.</p>
 <p><a href="media/15036524793322/geckR.png"><img src="media/15036524793322/geckR.png" alt="enter image description here" /></a></p>
-<h3><a id="divide-the-path-into-segments" class="anchor" aria-hidden="true" href="#divide-the-path-into-segments"><span class="octicon octicon-link"></span></a>Divide the path into segments</h3>
+<h3><a id="divide-the-path-into-segments" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Divide the path into segments</h3>
 <p>Look back at your shape design and break it down into simpler elements of lines (for straight lines), arcs (for circles and round corners), and curves (for anything else).</p>
 <p>Here is what our example design would look like:</p>
 <p><a href="media/15036524793322/4mkcI.png"><img src="media/15036524793322/4mkcI.png" alt="enter image description here" /></a></p>
@@ -110,7 +110,7 @@ $(document).ready(function(event) {
 <li>Dotted lines show the bounding rectangle</li>
 <li>Dark blue numbers are the segments in the order that they will be added programmatically</li>
 </ul>
-<h3><a id="build-the-path-programmatically" class="anchor" aria-hidden="true" href="#build-the-path-programmatically"><span class="octicon octicon-link"></span></a>Build the path programmatically</h3>
+<h3><a id="build-the-path-programmatically" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Build the path programmatically</h3>
 <p>We'll arbitrarily start in the bottom left corner and work clockwise. I'll use the grid in the image to get the x and y values for the points. I'll hardcode everything here, but of course you wouldn't do that in a real project.</p>
 <p>The basic process is:</p>
 <ol>
@@ -197,7 +197,7 @@ $(document).ready(function(event) {
 }
 </code></pre>
 <p>Note: Some of the above code can be reduced by adding a line and an arc in a single command (since the arc has an implied starting point). See <a href="http://ronnqvi.st/thinking-like-a-bzier-path/">here</a> for more details.</p>
-<h3><a id="draw-the-path" class="anchor" aria-hidden="true" href="#draw-the-path"><span class="octicon octicon-link"></span></a>Draw the path</h3>
+<h3><a id="draw-the-path" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Draw the path</h3>
 <p>We can draw the path either in a layer or in <code>drawRect</code>.</p>
 <p><strong>Method 1: Draw path in a layer</strong></p>
 <p>Our custom class looks like this. We add our Bezier path to a new <code>CAShapeLayer</code> when the view is initialized.</p>
@@ -297,7 +297,7 @@ class MyCustomView: UIView {
 </code></pre>
 <p>which gives us the same result...</p>
 <p><a href="media/15036524793322/2hqMa.png"><img src="media/15036524793322/2hqMa.png" alt="enter image description here" /></a></p>
-<h3><a id="further-study" class="anchor" aria-hidden="true" href="#further-study"><span class="octicon octicon-link"></span></a>Further study</h3>
+<h3><a id="further-study" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Further study</h3>
 <p>Excellent articles for understanding Bezier paths.</p>
 <ul>
 <li><a href="http://ronnqvi.st/thinking-like-a-bzier-path/">Thinking like a Bézier path</a> (Everything I've ever read from this author is good and the inspiration for my example above came from here.)</li>
@@ -305,13 +305,13 @@ class MyCustomView: UIView {
 <li><a href="https://www.youtube.com/watch?v=Qu-QK3uoMdY">Bezier Curves</a> (how they are used in graphics applications)</li>
 <li><a href="https://www.youtube.com/watch?v=2HvH9cmHbG4">Bezier Curves</a> (good description of how the mathematical formulas are derived)</li>
 </ul>
-<h3><a id="notes" class="anchor" aria-hidden="true" href="#notes"><span class="octicon octicon-link"></span></a>Notes</h3>
+<h3><a id="notes" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Notes</h3>
 <ul>
 <li>This example originally comes from <a href="http://stackoverflow.com/a/34659468/3681880">this Stack Overflow answer</a>.</li>
 <li>In your actual projects you probably shouldn't use hard coded numbers, but rather get the sizes from your view's bounds.</li>
 </ul>
 <hr />
-<h2><a id="how-to-apply-corner-radius-to-rectangles-drawn-by-uibezierpath-https-stackoverflow-comdocumentationios3186uibezierpath10890how-to-apply-corner-radius-to-rectangles-drawn-by-uibezierpath" class="anchor" aria-hidden="true" href="#how-to-apply-corner-radius-to-rectangles-drawn-by-uibezierpath-https-stackoverflow-comdocumentationios3186uibezierpath10890how-to-apply-corner-radius-to-rectangles-drawn-by-uibezierpath"><span class="octicon octicon-link"></span></a><a href="https://stackoverflow.com/documentation/ios/3186/uibezierpath/10890/how-to-apply-corner-radius-to-rectangles-drawn-by-uibezierpath">How to apply corner radius to rectangles drawn by UIBezierPath</a></h2>
+<h2><a id="how-to-apply-corner-radius-to-rectangles-drawn-by-uibezierpath-https-stackoverflow-comdocumentationios3186uibezierpath10890how-to-apply-corner-radius-to-rectangles-drawn-by-uibezierpath" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://stackoverflow.com/documentation/ios/3186/uibezierpath/10890/how-to-apply-corner-radius-to-rectangles-drawn-by-uibezierpath">How to apply corner radius to rectangles drawn by UIBezierPath</a></h2>
 <p><em>Corner radius for all 4 edges:</em></p>
 <p><a href="media/15036524793322/O8qTg.png"><img src="media/15036524793322/O8qTg.png" alt="enter image description here" /></a></p>
 <pre><code> UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRoundedRect: CGRectMake(x,y,width,height) cornerRadius: 11];
@@ -753,7 +753,7 @@ override func draw(_ rect: CGRect) {
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Flutter.html"><strong>Flutter&nbsp;(1)</strong></a>
+	        <a href="Flutter.html"><strong>Flutter&nbsp;(2)</strong></a>
 	        
 	        
 	        
@@ -764,6 +764,12 @@ override func draw(_ rect: CGRect) {
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16292522945585.html">避免和WillPopScope与iOS手势冲突</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -786,12 +792,6 @@ override func draw(_ rect: CGRect) {
 	      
 		      <li class="post">
 		        <a href="16261554677251.html">Flutter中Row中的子控件左右两端对齐</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16246203092572.html">flutter 多环境设置</a>
 		      </li>
 	     
 	  

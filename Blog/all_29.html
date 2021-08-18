@@ -78,6 +78,38 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14677030322532.html">键盘消失后又再次显示并立即消失问题</a></h1>
+			<p class="meta"><time datetime="2016-07-05T15:17:12+08:00" 
+			pubdate data-updated="true">2016/7/5</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>Keyboard will appeared automatically while displaying alertview or alertcontroller</p>
+<blockquote>
+<p><a href="http://stackoverflow.com/questions/30498972/keyboard-will-appeared-automatically-in-ios-8-3-while-displaying-alertview-or-al">stackoverflow</a></p>
+</blockquote>
+<p>我采用其中</p>
+<pre><code> [YOUR_TEXT resignFirstResponder];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+
+
+                    _alertVw = [[UIAlertView alloc] initWithTitle:@&quot;&quot; message:@&quot;message.&quot; delegate:self cancelButtonTitle:@&quot;Ok&quot; otherButtonTitles:nil, nil];
+
+                    [_alertVw show];
+});
+
+</code></pre>
+<p>这种方案解决的</p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14676996936809.html">为项目添加podspec</a></h1>
 			<p class="meta"><time datetime="2016-07-05T14:21:33+08:00" 
 			pubdate data-updated="true">2016/7/5</time></p>
@@ -319,14 +351,14 @@ FOUNDATION_EXPORT NSString * const AFNetworkingOperationFailingURLResponseDataEr
 		 </header>
 	  	<div class="entry-content">
 		  	
-		  	<h2><a id="%E7%AC%AC%E4%B8%80%E7%A7%8D%E6%96%B9%E6%B3%95" class="anchor" aria-hidden="true" href="#%E7%AC%AC%E4%B8%80%E7%A7%8D%E6%96%B9%E6%B3%95"><span class="octicon octicon-link"></span></a>第一种方法</h2>
+		  	<h2><a id="%E7%AC%AC%E4%B8%80%E7%A7%8D%E6%96%B9%E6%B3%95" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>第一种方法</h2>
 <p>举例<br />
 <img src="media/14672570618572/14672571503878.jpg" alt="" /><br />
 <img src="media/14672570618572/14672573103735.jpg" alt="" /><br />
 接下来,<br />
 <img src="media/14672570618572/14672575411986.jpg" alt="" /><br />
 <img src="media/14672570618572/14672577757507.jpg" alt="" /></p>
-<h2><a id="%E7%AC%AC%E4%BA%8C%E7%A7%8D%E6%96%B9%E6%B3%95" class="anchor" aria-hidden="true" href="#%E7%AC%AC%E4%BA%8C%E7%A7%8D%E6%96%B9%E6%B3%95"><span class="octicon octicon-link"></span></a>第二种方法</h2>
+<h2><a id="%E7%AC%AC%E4%BA%8C%E7%A7%8D%E6%96%B9%E6%B3%95" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>第二种方法</h2>
 <pre><code>#pragma clang diagnostic push
 #pragma clang diagnostic ignored&quot; -Wcompare-distinct-pointer-types&quot;
     //写在这个中间的代码,都不会被编译器提示-Wcompare-distinct-pointer-types
@@ -351,81 +383,9 @@ OK,这样就没有警告了</p>
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14676101998537.html">百度坐标&火星坐标转换</a></h1>
-			<p class="meta"><time datetime="2016-07-04T13:29:59+08:00" 
-			pubdate data-updated="true">2016/7/4</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>LocationHelper.h文件</p>
-<pre><code>#import &lt;Foundation/Foundation.h&gt;
-#import &lt;CoreLocation/CoreLocation.h&gt;
-
-@interface LocationHelper : NSObject
-
-//百度转火星坐标
-+ (CLLocationCoordinate2D )bdToGGEncrypt:(CLLocationCoordinate2D)coord;
-//火星转百度坐标
-+ (CLLocationCoordinate2D )ggToBDEncrypt:(CLLocationCoordinate2D)coord;
-
-@end
-</code></pre>
-<p>LocationHelper.m文件</p>
-<pre><code>//
-//  LocationHelper.m
-//  Coding_iOS
-//
-//  Created by Kevin on 3/21/15.
-//  Copyright (c) 2015 Coding. All rights reserved.
-//
-
-#import &quot;LocationHelper.h&quot;
-
-@implementation LocationHelper
-
-//百度转火星坐标
-+ (CLLocationCoordinate2D )bdToGGEncrypt:(CLLocationCoordinate2D)coord
-{
-    double x = coord.longitude - 0.0065, y = coord.latitude - 0.006;
-    double z = sqrt(x * x + y * y) - 0.00002 * sin(y * M_PI);
-    double theta = atan2(y, x) - 0.000003 * cos(x * M_PI);
-    CLLocationCoordinate2D transformLocation ;
-    transformLocation.longitude = z * cos(theta);
-    transformLocation.latitude = z * sin(theta);
-    return transformLocation;
-}
-
-//火星坐标转百度坐标
-+ (CLLocationCoordinate2D )ggToBDEncrypt:(CLLocationCoordinate2D)coord
-{
-    double x = coord.longitude, y = coord.latitude;
-    
-    double z = sqrt(x * x + y * y) + 0.00002 * sin(y * M_PI);
-    double theta = atan2(y, x) + 0.000003 * cos(x * M_PI);
-    
-    CLLocationCoordinate2D transformLocation ;
-    transformLocation.longitude = z * cos(theta) + 0.0065;
-    transformLocation.latitude = z * sin(theta) + 0.006;
-    
-    return transformLocation;
-}
-
-@end
-
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
-	
+	 <a class="prev" href="all_30.html">&larr; Older</a> 
 <a href="archives.html">Blog Archives</a>
 	 <a class="next" href="all_28.html">Newer &rarr;</a>  
 	    
@@ -515,7 +475,7 @@ OK,这样就没有警告了</p>
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Flutter.html"><strong>Flutter&nbsp;(1)</strong></a>
+	        <a href="Flutter.html"><strong>Flutter&nbsp;(2)</strong></a>
 	        
 	        
 	        
@@ -526,6 +486,12 @@ OK,这样就没有警告了</p>
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16292522945585.html">避免和WillPopScope与iOS手势冲突</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -548,12 +514,6 @@ OK,这样就没有警告了</p>
 	      
 		      <li class="post">
 		        <a href="16261554677251.html">Flutter中Row中的子控件左右两端对齐</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16246203092572.html">flutter 多环境设置</a>
 		      </li>
 	     
 	  

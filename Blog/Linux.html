@@ -84,8 +84,8 @@ $(document).ready(function(event) {
 		 </header>
 	  	<div class="entry-content">
 		  	
-		  	<h2><a id="1%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86" class="anchor" aria-hidden="true" href="#1%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86"><span class="octicon octicon-link"></span></a>1.文件管理</h2>
-<h3><a id="%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E4%BF%A1%E6%81%AF%EF%BC%9Als" class="anchor" aria-hidden="true" href="#%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E4%BF%A1%E6%81%AF%EF%BC%9Als"><span class="octicon octicon-link"></span></a>查看文件信息：ls</h3>
+		  	<h2><a id="1%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>1.文件管理</h2>
+<h3><a id="%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E4%BF%A1%E6%81%AF%EF%BC%9Als" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>查看文件信息：ls</h3>
 <p>ls是英文单词list的简写，其功能为列出目录的内容，是用户最常用的命令之一，它类似于DOS下的dir命令。</p>
 <p><code>Linux文件或者目录名称最长可以有265个字符，“.”代表当前目录，“..”代表上一级目录，以“.”开头的文件为隐藏文件，需要用 -a 参数才能显示。</code></p>
 <p>ls常用参数：</p>
@@ -177,21 +177,21 @@ $(document).ready(function(event) {
 </tr>
 </tbody>
 </table>
-<h3><a id="%E8%BE%93%E5%87%BA%E9%87%8D%E5%AE%9A%E5%90%91%E5%91%BD%E4%BB%A4%EF%BC%9A" class="anchor" aria-hidden="true" href="#%E8%BE%93%E5%87%BA%E9%87%8D%E5%AE%9A%E5%90%91%E5%91%BD%E4%BB%A4%EF%BC%9A"><span class="octicon octicon-link"></span></a>输出重定向命令：&gt;</h3>
+<h3><a id="%E8%BE%93%E5%87%BA%E9%87%8D%E5%AE%9A%E5%90%91%E5%91%BD%E4%BB%A4%EF%BC%9A" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>输出重定向命令：&gt;</h3>
 <p>Linux允许将命令执行结果重定向到一个文件，本应显示在终端上的内容保存到指定文件中。</p>
 <p>如：ls &gt; test.txt ( test.txt 如果不存在，则创建，存在则覆盖其内容 )</p>
 <p><img src="media/14954528363090/14954530933243.jpg" alt="" /><br />
 注意： <code>&gt;输出重定向会覆盖原来的内容，&gt;&gt;输出重定向则会追加到文件的尾部。</code></p>
-<h3><a id="%E5%88%86%E5%B1%8F%E6%98%BE%E7%A4%BA%EF%BC%9Amore" class="anchor" aria-hidden="true" href="#%E5%88%86%E5%B1%8F%E6%98%BE%E7%A4%BA%EF%BC%9Amore"><span class="octicon octicon-link"></span></a>分屏显示：more</h3>
+<h3><a id="%E5%88%86%E5%B1%8F%E6%98%BE%E7%A4%BA%EF%BC%9Amore" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>分屏显示：more</h3>
 <p>查看内容时，在信息过长无法在一屏上显示时，会出现快速滚屏，使得用户无法看清文件的内容，此时可以使用more命令，每次只显示一页，按下空格键可以显示下一页，按下q键退出显示，按下h键可以获取帮助。</p>
 <p><img src="media/14954528363090/14954533115641.jpg" alt="" /></p>
-<h3><a id="%E7%AE%A1%E9%81%93%EF%BC%9A" class="anchor" aria-hidden="true" href="#%E7%AE%A1%E9%81%93%EF%BC%9A"><span class="octicon octicon-link"></span></a>管道：|</h3>
+<h3><a id="%E7%AE%A1%E9%81%93%EF%BC%9A" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>管道：|</h3>
 <p>管道：一个命令的输出可以通过管道做为另一个命令的输入。</p>
 <p>管道我们可以理解现实生活中的管子，管子的一头塞东西进去，另一头取出来，这里“ | ”的左右分为两端，左端塞东西(写)，右端取东西(读)。</p>
 <p><img src="media/14954528363090/14954534699128.jpg" alt="" /></p>
-<h3><a id="%E6%B8%85%E5%B1%8F%EF%BC%9Aclear" class="anchor" aria-hidden="true" href="#%E6%B8%85%E5%B1%8F%EF%BC%9Aclear"><span class="octicon octicon-link"></span></a>清屏：clear</h3>
+<h3><a id="%E6%B8%85%E5%B1%8F%EF%BC%9Aclear" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>清屏：clear</h3>
 <p>clear作用为清除终端上的显示(类似于DOS的cls清屏功能)，也可使用快捷键：Ctrl + l ( “l” 为字母 )。</p>
-<h3><a id="%E5%88%87%E6%8D%A2%E5%B7%A5%E4%BD%9C%E7%9B%AE%E5%BD%95%EF%BC%9Acd" class="anchor" aria-hidden="true" href="#%E5%88%87%E6%8D%A2%E5%B7%A5%E4%BD%9C%E7%9B%AE%E5%BD%95%EF%BC%9Acd"><span class="octicon octicon-link"></span></a>切换工作目录： cd</h3>
+<h3><a id="%E5%88%87%E6%8D%A2%E5%B7%A5%E4%BD%9C%E7%9B%AE%E5%BD%95%EF%BC%9Acd" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>切换工作目录： cd</h3>
 <p>在使用Unix/Linux的时候，经常需要更换工作目录。cd命令可以帮助用户切换工作目录。<code>Linux所有的目录和文件名大小写敏感</code></p>
 <p>cd后面可跟绝对路径，也可以跟相对路径。如果省略目录，则默认切换到当前用户的主目录。</p>
 <table>
@@ -230,15 +230,15 @@ $(document).ready(function(event) {
 <li>如果路径是从根路径开始的，则路径的前面需要加上 “ / ”，如 “ /mnt ”，通常进入某个目录里的文件夹，前面不用加 “ / ”。</li>
 </ul>
 <p><img src="media/14954528363090/14955900895519.jpg" alt="" /></p>
-<h3><a id="%E6%98%BE%E7%A4%BA%E5%BD%93%E5%89%8D%E8%B7%AF%E5%BE%84%EF%BC%9Apwd" class="anchor" aria-hidden="true" href="#%E6%98%BE%E7%A4%BA%E5%BD%93%E5%89%8D%E8%B7%AF%E5%BE%84%EF%BC%9Apwd"><span class="octicon octicon-link"></span></a>显示当前路径：pwd</h3>
+<h3><a id="%E6%98%BE%E7%A4%BA%E5%BD%93%E5%89%8D%E8%B7%AF%E5%BE%84%EF%BC%9Apwd" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>显示当前路径：pwd</h3>
 <p>使用pwd命令可以显示当前的工作目录，该命令很简单，直接输入pwd即可，后面不带参数。</p>
-<h3><a id="%E5%88%9B%E5%BB%BA%E7%9B%AE%E5%BD%95%EF%BC%9Amkdir" class="anchor" aria-hidden="true" href="#%E5%88%9B%E5%BB%BA%E7%9B%AE%E5%BD%95%EF%BC%9Amkdir"><span class="octicon octicon-link"></span></a>创建目录：mkdir</h3>
+<h3><a id="%E5%88%9B%E5%BB%BA%E7%9B%AE%E5%BD%95%EF%BC%9Amkdir" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>创建目录：mkdir</h3>
 <p>通过mkdir命令可以创建一个新的目录。参数-p可递归创建目录。</p>
 <p>需要注意的是新建目录的名称不能与当前目录中已有的目录或文件同名，并且目录创建者必须对当前目录具有写权限。<br />
 <img src="media/14954528363090/14955907314659.jpg" alt="" /></p>
-<h3><a id="%E5%88%A0%E9%99%A4%E7%9B%AE%E5%BD%95%EF%BC%9Armdir" class="anchor" aria-hidden="true" href="#%E5%88%A0%E9%99%A4%E7%9B%AE%E5%BD%95%EF%BC%9Armdir"><span class="octicon octicon-link"></span></a>删除目录：rmdir</h3>
+<h3><a id="%E5%88%A0%E9%99%A4%E7%9B%AE%E5%BD%95%EF%BC%9Armdir" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>删除目录：rmdir</h3>
 <p>可使用rmdir命令删除一个目录。必须离开目录，并且目录必须为空目录，不然提示删除失败。</p>
-<h3><a id="%E5%88%A0%E9%99%A4%E6%96%87%E4%BB%B6%EF%BC%9Arm" class="anchor" aria-hidden="true" href="#%E5%88%A0%E9%99%A4%E6%96%87%E4%BB%B6%EF%BC%9Arm"><span class="octicon octicon-link"></span></a>删除文件：rm</h3>
+<h3><a id="%E5%88%A0%E9%99%A4%E6%96%87%E4%BB%B6%EF%BC%9Arm" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>删除文件：rm</h3>
 <p>可通过rm删除文件或目录。使用rm命令要小心，因为文件删除后不能恢复。为了防止文件误删，可以在rm后使用-i参数以逐个确认要删除的文件。</p>
 <p>常用参数及含义如下表所示：</p>
 <table>
@@ -263,7 +263,7 @@ $(document).ready(function(event) {
 </tr>
 </tbody>
 </table>
-<h3><a id="%E5%BB%BA%E7%AB%8B%E9%93%BE%E6%8E%A5%E6%96%87%E4%BB%B6%EF%BC%9Aln" class="anchor" aria-hidden="true" href="#%E5%BB%BA%E7%AB%8B%E9%93%BE%E6%8E%A5%E6%96%87%E4%BB%B6%EF%BC%9Aln"><span class="octicon octicon-link"></span></a>建立链接文件：ln</h3>
+<h3><a id="%E5%BB%BA%E7%AB%8B%E9%93%BE%E6%8E%A5%E6%96%87%E4%BB%B6%EF%BC%9Aln" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>建立链接文件：ln</h3>
 <p>Linux链接文件类似于Windows下的快捷方式。</p>
 <p>链接文件分为软链接和硬链接。</p>
 <p>软链接：软链接不占用磁盘空间，源文件删除则软链接失效。</p>
@@ -275,8 +275,8 @@ ln -s 源文件 链接文件
 </code></pre>
 <p>如果<code>没有-s</code>选项代表建立一个硬链接文件，两个文件占用相同大小的硬盘空间，即使删除了源文件，链接文件还是存在，所以-s选项是更常见的形式。</p>
 <p>注意：如果软链接文件和源文件不在同一个目录，源文件要使用绝对路径，不能使用相对路径。</p>
-<h3><a id="%E6%9F%A5%E7%9C%8B%E6%88%96%E8%80%85%E5%90%88%E5%B9%B6%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%EF%BC%9Acat" class="anchor" aria-hidden="true" href="#%E6%9F%A5%E7%9C%8B%E6%88%96%E8%80%85%E5%90%88%E5%B9%B6%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%EF%BC%9Acat"><span class="octicon octicon-link"></span></a>查看或者合并文件内容：cat</h3>
-<h3><a id="%E6%96%87%E6%9C%AC%E6%90%9C%E7%B4%A2%EF%BC%9Agrep" class="anchor" aria-hidden="true" href="#%E6%96%87%E6%9C%AC%E6%90%9C%E7%B4%A2%EF%BC%9Agrep"><span class="octicon octicon-link"></span></a>文本搜索：grep</h3>
+<h3><a id="%E6%9F%A5%E7%9C%8B%E6%88%96%E8%80%85%E5%90%88%E5%B9%B6%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%EF%BC%9Acat" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>查看或者合并文件内容：cat</h3>
+<h3><a id="%E6%96%87%E6%9C%AC%E6%90%9C%E7%B4%A2%EF%BC%9Agrep" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>文本搜索：grep</h3>
 <p>Linux系统中grep命令是一种强大的文本搜索工具，grep允许对文本文件进行模式查找。如果找到匹配模式， grep打印包含模式的所有行。</p>
 <p>grep一般格式为：</p>
 <pre><code>grep [-选项] ‘搜索内容串’文件名
@@ -335,7 +335,7 @@ ln -s 源文件 链接文件
 </tr>
 </tbody>
 </table>
-<h3><a id="%E6%9F%A5%E6%89%BE%E6%96%87%E4%BB%B6%EF%BC%9Afind" class="anchor" aria-hidden="true" href="#%E6%9F%A5%E6%89%BE%E6%96%87%E4%BB%B6%EF%BC%9Afind"><span class="octicon octicon-link"></span></a>查找文件：find</h3>
+<h3><a id="%E6%9F%A5%E6%89%BE%E6%96%87%E4%BB%B6%EF%BC%9Afind" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>查找文件：find</h3>
 <p>find命令功能非常强大，通常用来在特定的目录下搜索符合条件的文件，也可以用来搜索特定用户属主的文件。</p>
 <p>常用用法：</p>
 <table>
@@ -380,7 +380,7 @@ ln -s 源文件 链接文件
 </tr>
 </tbody>
 </table>
-<h3><a id="%E6%8B%B7%E8%B4%9D%E6%96%87%E4%BB%B6%EF%BC%9Acp" class="anchor" aria-hidden="true" href="#%E6%8B%B7%E8%B4%9D%E6%96%87%E4%BB%B6%EF%BC%9Acp"><span class="octicon octicon-link"></span></a>拷贝文件：cp</h3>
+<h3><a id="%E6%8B%B7%E8%B4%9D%E6%96%87%E4%BB%B6%EF%BC%9Acp" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>拷贝文件：cp</h3>
 <p>cp命令的功能是将给出的文件或目录复制到另一个文件或目录中，相当于DOS下的copy命令。</p>
 <p>常用选项说明：</p>
 <table>
@@ -415,7 +415,7 @@ ln -s 源文件 链接文件
 </table>
 <p>cp vim_configure/ code/ -ivr 把文件夹 vim_configure 拷贝到 code 目录里：</p>
 <p><strong>暂时缺图稍后补</strong></p>
-<h3><a id="%E7%A7%BB%E5%8A%A8%E6%96%87%E4%BB%B6%EF%BC%9Amv" class="anchor" aria-hidden="true" href="#%E7%A7%BB%E5%8A%A8%E6%96%87%E4%BB%B6%EF%BC%9Amv"><span class="octicon octicon-link"></span></a>移动文件：mv</h3>
+<h3><a id="%E7%A7%BB%E5%8A%A8%E6%96%87%E4%BB%B6%EF%BC%9Amv" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>移动文件：mv</h3>
 <p>用户可以使用mv命令来移动文件或目录，也可以给文件或目录重命名。</p>
 <p>常用选项说明：</p>
 <table>
@@ -440,7 +440,7 @@ ln -s 源文件 链接文件
 </tr>
 </tbody>
 </table>
-<h3><a id="%E5%BD%92%E6%A1%A3%E7%AE%A1%E7%90%86%EF%BC%9Atar" class="anchor" aria-hidden="true" href="#%E5%BD%92%E6%A1%A3%E7%AE%A1%E7%90%86%EF%BC%9Atar"><span class="octicon octicon-link"></span></a>归档管理：tar</h3>
+<h3><a id="%E5%BD%92%E6%A1%A3%E7%AE%A1%E7%90%86%EF%BC%9Atar" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>归档管理：tar</h3>
 <p>计算机中的数据经常需要备份，tar是Unix/Linux中最常用的备份工具，此命令可以把一系列文件归档到一个大文件中，也可以把档案文件解开以恢复数据。</p>
 <p>tar使用格式 tar [参数] 打包文件名 文件</p>
 <p>tar命令很特殊，其参数前面可以使用“-”，也可以不使用。</p>
@@ -476,7 +476,7 @@ ln -s 源文件 链接文件
 </tbody>
 </table>
 <p>注意：除了f需要放在参数的最后，其它参数的顺序任意。</p>
-<h3><a id="%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9%E8%A7%A3%E5%8E%8B%EF%BC%9Agzip" class="anchor" aria-hidden="true" href="#%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9%E8%A7%A3%E5%8E%8B%EF%BC%9Agzip"><span class="octicon octicon-link"></span></a>文件压缩解压：gzip</h3>
+<h3><a id="%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9%E8%A7%A3%E5%8E%8B%EF%BC%9Agzip" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>文件压缩解压：gzip</h3>
 <p>tar与gzip命令结合使用实现文件打包、压缩。 tar只负责打包文件，但不压缩，用gzip压缩tar打包后的文件，其扩展名一般用xxxx.tar.gz。</p>
 <p>gzip使用格式如下：</p>
 <pre><code>gzip  [选项]  被压缩文件
@@ -508,7 +508,7 @@ ln -s 源文件 链接文件
 		 </header>
 	  	<div class="entry-content">
 		  	
-		  	<h2><a id="1%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95" class="anchor" aria-hidden="true" href="#1%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="octicon octicon-link"></span></a>1.命令使用方法</h2>
+		  	<h2><a id="1%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>1.命令使用方法</h2>
 <p>Linux命令格式:</p>
 <pre><code>    command  [-options]  [parameter1]  …
 </code></pre>
@@ -518,11 +518,11 @@ ln -s 源文件 链接文件
 </ul>
 <p>例：</p>
 <p><img src="media/14954518367171/14954519660499.jpg" alt="" /></p>
-<h2><a id="2%E6%9F%A5%E7%9C%8B%E5%B8%AE%E5%8A%A9%E6%96%87%E6%A1%A3" class="anchor" aria-hidden="true" href="#2%E6%9F%A5%E7%9C%8B%E5%B8%AE%E5%8A%A9%E6%96%87%E6%A1%A3"><span class="octicon octicon-link"></span></a>2.查看帮助文档</h2>
-<h3><a id="1-help" class="anchor" aria-hidden="true" href="#1-help"><span class="octicon octicon-link"></span></a>&lt;1&gt; --help</h3>
+<h2><a id="2%E6%9F%A5%E7%9C%8B%E5%B8%AE%E5%8A%A9%E6%96%87%E6%A1%A3" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>2.查看帮助文档</h2>
+<h3><a id="1-help" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>&lt;1&gt; --help</h3>
 <p>一般是linux命令自带的帮助信息</p>
 <p>如：ls --help</p>
-<h3><a id="2-man%E6%9C%89%E9%97%AE%E9%A2%98%E6%89%BE%E7%94%B7%E4%BA%BA%EF%BC%8C-manual" class="anchor" aria-hidden="true" href="#2-man%E6%9C%89%E9%97%AE%E9%A2%98%E6%89%BE%E7%94%B7%E4%BA%BA%EF%BC%8C-manual"><span class="octicon octicon-link"></span></a>&lt;2&gt; man(有问题找男人，manual)</h3>
+<h3><a id="2-man%E6%9C%89%E9%97%AE%E9%A2%98%E6%89%BE%E7%94%B7%E4%BA%BA%EF%BC%8C-manual" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>&lt;2&gt; man(有问题找男人，manual)</h3>
 <p>man是linux提供的一个手册，包含了绝大部分的命令、函数使用说明</p>
 <p>该手册分成很多章节（section），使用man时可以指定不同的章节来浏览。</p>
 <p>例：man ls ; man 2 printf</p>
@@ -579,9 +579,9 @@ ln -s 源文件 链接文件
 </table>
 <p><img src="media/14954518367171/14954525011190.jpg" alt="" /></p>
 <p>注意：实际上，我们不用指定第几个章节也用查看，如，man ls</p>
-<h2><a id="3%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8%EF%BC%9A" class="anchor" aria-hidden="true" href="#3%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8%EF%BC%9A"><span class="octicon octicon-link"></span></a>3.自动补全：</h2>
+<h2><a id="3%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8%EF%BC%9A" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>3.自动补全：</h2>
 <p>在敲出命令的前几个字母的同时，按下tab键，系统会自动帮我们补全命令</p>
-<h2><a id="4%E5%8E%86%E5%8F%B2%E5%91%BD%E4%BB%A4%EF%BC%9A" class="anchor" aria-hidden="true" href="#4%E5%8E%86%E5%8F%B2%E5%91%BD%E4%BB%A4%EF%BC%9A"><span class="octicon octicon-link"></span></a>4.历史命令：</h2>
+<h2><a id="4%E5%8E%86%E5%8F%B2%E5%91%BD%E4%BB%A4%EF%BC%9A" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>4.历史命令：</h2>
 <p>当系统执行过一些命令后，可按上下键翻看以前的命令，history将执行过的命令列举出来</p>
 
 
@@ -599,10 +599,10 @@ ln -s 源文件 链接文件
 		 </header>
 	  	<div class="entry-content">
 		  	
-		  	<h2><a id="%E7%B1%BBunix%E7%B3%BB%E7%BB%9F%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84" class="anchor" aria-hidden="true" href="#%E7%B1%BBunix%E7%B3%BB%E7%BB%9F%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="octicon octicon-link"></span></a>类Unix系统目录结构</h2>
+		  	<h2><a id="%E7%B1%BBunix%E7%B3%BB%E7%BB%9F%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>类Unix系统目录结构</h2>
 <p>ubuntu没有盘符这个概念，只有一个根目录/，所有文件都在它下面</p>
 <p><img src="media/14954377078014/14954378312055.jpg" alt="" /></p>
-<h2><a id="linux%E7%9B%AE%E5%BD%95" class="anchor" aria-hidden="true" href="#linux%E7%9B%AE%E5%BD%95"><span class="octicon octicon-link"></span></a>Linux 目录</h2>
+<h2><a id="linux%E7%9B%AE%E5%BD%95" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Linux 目录</h2>
 <ul>
 <li>/：根目录，一般根目录下只存放目录，在Linux下有且只有一个根目录。所有的东西都是从这里开始。当你在终端里输入“/home”，你其实是在告诉电脑，先从/（根目录）开始，再进入到home目录。</li>
 <li>/bin: /usr/bin: 可执行二进制文件的目录，如常用的命令ls、tar、mv、cat等。</li>
@@ -622,35 +622,35 @@ ln -s 源文件 链接文件
 <li>/usr：应用程序存放目录，/usr/bin 存放应用程序，/usr/share 存放共享数据，/usr/lib 存放不能直接运行的，却是许多程序运行所必需的一些函数库文件。/usr/local: 存放软件升级包。/usr/share/doc: 系统说明文件存放目录。/usr/share/man: 程序说明文件存放目录。</li>
 <li>/var：放置系统执行过程中经常变化的文件，如随时更改的日志文件 /var/log，/var/log/message：所有的登录文件存放目录，/var/spool/mail：邮件存放的目录，/var/run:程序或服务启动后，其PID存放在该目录下。</li>
 </ul>
-<h2><a id="%E7%94%A8%E6%88%B7%E7%9B%AE%E5%BD%95" class="anchor" aria-hidden="true" href="#%E7%94%A8%E6%88%B7%E7%9B%AE%E5%BD%95"><span class="octicon octicon-link"></span></a>用户目录</h2>
+<h2><a id="%E7%94%A8%E6%88%B7%E7%9B%AE%E5%BD%95" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>用户目录</h2>
 <p>位于/home/user，称之为用户工作目录或家目录,表示方式：</p>
 <pre><code>/home/user
 ~
 
 </code></pre>
-<h3><a id="%E7%9B%B8%E5%AF%B9%E8%B7%AF%E5%BE%84%E5%92%8C%E7%BB%9D%E5%AF%B9%E8%B7%AF%E5%BE%84" class="anchor" aria-hidden="true" href="#%E7%9B%B8%E5%AF%B9%E8%B7%AF%E5%BE%84%E5%92%8C%E7%BB%9D%E5%AF%B9%E8%B7%AF%E5%BE%84"><span class="octicon octicon-link"></span></a>相对路径和绝对路径</h3>
-<h4><a id="%E7%BB%9D%E5%AF%B9%E8%B7%AF%E5%BE%84" class="anchor" aria-hidden="true" href="#%E7%BB%9D%E5%AF%B9%E8%B7%AF%E5%BE%84"><span class="octicon octicon-link"></span></a>绝对路径</h4>
+<h3><a id="%E7%9B%B8%E5%AF%B9%E8%B7%AF%E5%BE%84%E5%92%8C%E7%BB%9D%E5%AF%B9%E8%B7%AF%E5%BE%84" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>相对路径和绝对路径</h3>
+<h4><a id="%E7%BB%9D%E5%AF%B9%E8%B7%AF%E5%BE%84" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>绝对路径</h4>
 <p>从/目录开始描述的路径为绝对路径，如：</p>
 <pre><code>cd /home
 ls /usr
 
 </code></pre>
-<h4><a id="%E7%9B%B8%E5%AF%B9%E8%B7%AF%E5%BE%84" class="anchor" aria-hidden="true" href="#%E7%9B%B8%E5%AF%B9%E8%B7%AF%E5%BE%84"><span class="octicon octicon-link"></span></a>相对路径</h4>
+<h4><a id="%E7%9B%B8%E5%AF%B9%E8%B7%AF%E5%BE%84" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>相对路径</h4>
 <p>从当前位置开始描述的路径为相对路径，如：</p>
 <pre><code>cd ../../
 ls abc/def
 
 </code></pre>
-<h4><a id="%E5%92%8C" class="anchor" aria-hidden="true" href="#%E5%92%8C"><span class="octicon octicon-link"></span></a>.和..</h4>
+<h4><a id="%E5%92%8C" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>.和..</h4>
 <p>每个目录下都有.和..</p>
 <p>. 表示当前目录</p>
 <p>.. 表示上一级目录，即父目录</p>
 <p>根目录下的.和..都表示当前目录</p>
-<h2><a id="%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90" class="anchor" aria-hidden="true" href="#%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90"><span class="octicon octicon-link"></span></a>文件权限</h2>
+<h2><a id="%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>文件权限</h2>
 <p>文件权限就是文件的访问控制权限，即哪些用户和组群可以访问文件以及可以执行什么样的操作。</p>
 <p>Unix/Linux系统是一个典型的多用户系统，不同的用户处于不同的地位，对文件和目录有不同的访问权限。为了保护系统的安全性，Unix/Linux系统除了对用户权限作了严格的界定外，还在用户身份认证、访问控制、传输安全、文件读写权限等方面作了周密的控制。</p>
 <p>在 Unix/Linux中的每一个文件或目录都包含有访问权限，这些访问权限决定了谁能访问和如何访问这些文件和目录。</p>
-<h3><a id="%E8%AE%BF%E9%97%AE%E7%94%A8%E6%88%B7" class="anchor" aria-hidden="true" href="#%E8%AE%BF%E9%97%AE%E7%94%A8%E6%88%B7"><span class="octicon octicon-link"></span></a>访问用户</h3>
+<h3><a id="%E8%AE%BF%E9%97%AE%E7%94%A8%E6%88%B7" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>访问用户</h3>
 <p>通过设定权限可以从以下三种访问方式限制访问权限：</p>
 <ul>
 <li>
@@ -670,7 +670,7 @@ ls abc/def
 <li>同时，我可以设置允许 QQ 好友访问，而这些 QQ 好友则类似于“用户组”。</li>
 <li>当然，我可以允许所有人访问，这里的所有人则类似于“其他用户”。</li>
 </ul>
-<h3><a id="%E8%AE%BF%E9%97%AE%E6%9D%83%E9%99%90" class="anchor" aria-hidden="true" href="#%E8%AE%BF%E9%97%AE%E6%9D%83%E9%99%90"><span class="octicon octicon-link"></span></a>访问权限</h3>
+<h3><a id="%E8%AE%BF%E9%97%AE%E6%9D%83%E9%99%90" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>访问权限</h3>
 <p>用户能够控制一个给定的文件或目录的访问程度，一个文件或目录可能有读、写及执行权限：</p>
 <ul>
 <li>读权限（r） 对文件而言，具有读取文件内容的权限；对目录来说，具有浏览目录的权限。</li>
@@ -678,7 +678,7 @@ ls abc/def
 <li>可执行权限（x） 对文件而言，具有执行文件的权限；对目录了来说该用户具有进入目录的权限。</li>
 </ul>
 <p>注意：通常，Unix/Linux系统只允许文件的属主(所有者)或超级用户改变文件的读写权限。</p>
-<h3><a id="%E7%A4%BA%E4%BE%8B%E8%AF%B4%E6%98%8E" class="anchor" aria-hidden="true" href="#%E7%A4%BA%E4%BE%8B%E8%AF%B4%E6%98%8E"><span class="octicon octicon-link"></span></a>示例说明</h3>
+<h3><a id="%E7%A4%BA%E4%BE%8B%E8%AF%B4%E6%98%8E" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>示例说明</h3>
 <p><img src="media/14954377078014/14954394260837.jpg" alt="" /><br />
 (图中  用户改为 用户组)</p>
 <p>第1个字母代表文件的类型：“d” 代表文件夹、“-” 代表普通文件、“c” 代表硬件字符设备、“b” 代表硬件块设备、“s”表示管道文件、“l” 代表软链接文件。 后 9 个字母分别代表三组权限：文件所有者、用户者、其他用户拥有的权限。</p>
@@ -788,7 +788,7 @@ ls abc/def
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Flutter.html"><strong>Flutter&nbsp;(1)</strong></a>
+	        <a href="Flutter.html"><strong>Flutter&nbsp;(2)</strong></a>
 	        
 	        
 	        
@@ -799,6 +799,12 @@ ls abc/def
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16292522945585.html">避免和WillPopScope与iOS手势冲突</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -821,12 +827,6 @@ ls abc/def
 	      
 		      <li class="post">
 		        <a href="16261554677251.html">Flutter中Row中的子控件左右两端对齐</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16246203092572.html">flutter 多环境设置</a>
 		      </li>
 	     
 	  

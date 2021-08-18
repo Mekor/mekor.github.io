@@ -81,7 +81,7 @@ $(document).ready(function(event) {
 				<p class="meta"><time datetime="2021-08-17T13:32:11+08:00" pubdate data-updated="true">2021/8/17</time></p>
 			 </header>
 		  	<div class="entry-content">
-			  	<h2><a id="1-fittedbox" class="anchor" aria-hidden="true" href="#1-fittedbox"><span class="octicon octicon-link"></span></a>1. FittedBox</h2>
+			  	<h2><a id="1-fittedbox" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>1. FittedBox</h2>
 <pre><code>这个组件可以缩放子组件，组件的大小不够的时候可以缩放子组件。比如：
 
 ```dart
@@ -97,7 +97,7 @@ Container(
 
 当Container组件所在的宽度不够文本宽度的时候，就会缩小文本的字体大小。
 </code></pre>
-<h2><a id="2-safearea" class="anchor" aria-hidden="true" href="#2-safearea"><span class="octicon octicon-link"></span></a>2. SafeArea</h2>
+<h2><a id="2-safearea" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>2. SafeArea</h2>
 <pre><code>和iOS中的SafeArea一样，为了异形屏显示而做的适配工作。
 
 ```dart
@@ -106,7 +106,7 @@ Container(
 
 注意： 使用的时候不要把Safe Area 放在顶层，哪里需要放在哪里就好了，有些组件就是需要延伸到安全区域才美观的。
 </code></pre>
-<h2><a id="3-layoutbuilder" class="anchor" aria-hidden="true" href="#3-layoutbuilder"><span class="octicon octicon-link"></span></a>3. LayoutBuilder</h2>
+<h2><a id="3-layoutbuilder" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>3. LayoutBuilder</h2>
 <pre><code>约束组件，会把constraint传递给子组件。
 
 ```dart
@@ -126,7 +126,7 @@ LayoutBuilder(
 
 首页中可以使用LayoutBuilder计算剩余的空间，而不用使用MediaQuery.of(content).size 来自己就散各个组件的高度。
 </code></pre>
-<h2><a id="4-defaulttextstyle" class="anchor" aria-hidden="true" href="#4-defaulttextstyle"><span class="octicon octicon-link"></span></a>4. DefaultTextStyle</h2>
+<h2><a id="4-defaulttextstyle" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>4. DefaultTextStyle</h2>
 <pre><code>默认的文本样式，这样子组件就能使用外层的默认样式了。
 
 ```dart
@@ -157,7 +157,7 @@ return Scaffold(
 
 AnimatedDefaultTextStyle
 </code></pre>
-<h2><a id="5-interactiveviewer" class="anchor" aria-hidden="true" href="#5-interactiveviewer"><span class="octicon octicon-link"></span></a>5. InteractiveViewer</h2>
+<h2><a id="5-interactiveviewer" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>5. InteractiveViewer</h2>
 <pre><code>如果子组件超出屏幕范围可以任意方向滚动
 
 ```dart
@@ -208,6 +208,9 @@ SingleChildScrollView 是一个维度的滚动，InteractiveViewer是二维滚�
 		</div>
 
 	    <p class="meta">
+	    
+	        <a class="basic-alignment left" href="16292522945585.html" 
+	        title="Previous Post: 避免和WillPopScope与iOS手势冲突">&laquo; 避免和WillPopScope与iOS手势冲突</a>
 	    
 	    
 	        <a class="basic-alignment right" href="16267829476143.html" 
@@ -301,7 +304,7 @@ SingleChildScrollView 是一个维度的滚动，InteractiveViewer是二维滚�
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Flutter.html"><strong>Flutter&nbsp;(1)</strong></a>
+	        <a href="Flutter.html"><strong>Flutter&nbsp;(2)</strong></a>
 	        
 	        
 	        
@@ -312,6 +315,12 @@ SingleChildScrollView 是一个维度的滚动，InteractiveViewer是二维滚�
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16292522945585.html">避免和WillPopScope与iOS手势冲突</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -334,12 +343,6 @@ SingleChildScrollView 是一个维度的滚动，InteractiveViewer是二维滚�
 	      
 		      <li class="post">
 		        <a href="16261554677251.html">Flutter中Row中的子控件左右两端对齐</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16246203092572.html">flutter 多环境设置</a>
 		      </li>
 	     
 	  

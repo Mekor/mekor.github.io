@@ -81,16 +81,16 @@ $(document).ready(function(event) {
 				<p class="meta"><time datetime="2016-09-06T23:00:14+08:00" pubdate data-updated="true">2016/9/6</time></p>
 			 </header>
 		  	<div class="entry-content">
-			  	<h2><a id="1%E4%BB%80%E4%B9%88%E6%98%AF-runloop" class="anchor" aria-hidden="true" href="#1%E4%BB%80%E4%B9%88%E6%98%AF-runloop"><span class="octicon octicon-link"></span></a>1. 什么是runloop</h2>
+			  	<h2><a id="1%E4%BB%80%E4%B9%88%E6%98%AF-runloop" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>1. 什么是runloop</h2>
 <ul>
 <li>Run loops 是线程相关的的基础框架的一部分。一个 run loop 就是一个事件处理 的循环,用来不停的调度工作以及处理输入事件。使用 run loop 的目的是让你的线程在有工作的时候忙于工作,而没工作的时候处于休眠状态。</li>
 <li>runloop就是运行循环(内部do-while),它的基本作用就是让程序持续运行,处理App中的各种事件(触摸,定时器,Selector).</li>
 <li>main函数中UIApplicationMain内部就启动了一个runloop,这样UIApplicationMain就会一直没有返回值,保持了程序的持续运行.这个默认的runloop是跟主线程相关联的.</li>
 <li>runloop 只能选择一个模式(Mode)启动,如果想切换其他模式只能退出当前循环再切换其他模式.如果当前模式中没有任何Source,timer,observer就会退出runloop</li>
 </ul>
-<h2><a id="2-runloop%E4%B8%8E%E7%BA%BF%E7%A8%8B" class="anchor" aria-hidden="true" href="#2-runloop%E4%B8%8E%E7%BA%BF%E7%A8%8B"><span class="octicon octicon-link"></span></a>2. RunLoop与线程</h2>
+<h2><a id="2-runloop%E4%B8%8E%E7%BA%BF%E7%A8%8B" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>2. RunLoop与线程</h2>
 <p>每条线程都有唯一的一个与之对应的RunLoop对象,主线程的RunLoop启动的时候已经默认创建好了,其他线程的RunLoop需要主动创建(RunLoop在第一次获取的时候创建,在线程结束的时候销毁)</p>
-<h2><a id="3-runloop%E5%AF%B9%E8%B1%A1" class="anchor" aria-hidden="true" href="#3-runloop%E5%AF%B9%E8%B1%A1"><span class="octicon octicon-link"></span></a>3. RunLoop对象</h2>
+<h2><a id="3-runloop%E5%AF%B9%E8%B1%A1" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>3. RunLoop对象</h2>
 <p>####iOS中有2套API来访问和使用runloop</p>
 <ul>
 <li>Foundation -&gt; NSRunLoop</li>
@@ -112,7 +112,7 @@ CFRunLoopGetMain(): //获得主线程的RunLoop对象
 </code></pre>
 </li>
 </ul>
-<h2><a id="4-runloop%E7%9B%B8%E5%85%B3%E7%B1%BB" class="anchor" aria-hidden="true" href="#4-runloop%E7%9B%B8%E5%85%B3%E7%B1%BB"><span class="octicon octicon-link"></span></a>4. RunLoop相关类</h2>
+<h2><a id="4-runloop%E7%9B%B8%E5%85%B3%E7%B1%BB" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>4. RunLoop相关类</h2>
 <p>###Core Foundation中关于RunLoop的5个类</p>
 <ul>
 <li>CFRunLoopRef</li>
@@ -289,12 +289,12 @@ typedef CF_OPTIONS(CFOptionFlags, CFRunLoopActivity) {
 
     CFRelease(observer);
 </code></pre>
-<h2><a id="5-runloop%E5%A4%84%E7%90%86%E9%80%BB%E8%BE%91" class="anchor" aria-hidden="true" href="#5-runloop%E5%A4%84%E7%90%86%E9%80%BB%E8%BE%91"><span class="octicon octicon-link"></span></a>5. RunLoop处理逻辑</h2>
+<h2><a id="5-runloop%E5%A4%84%E7%90%86%E9%80%BB%E8%BE%91" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>5. RunLoop处理逻辑</h2>
 <p><img src="media/14731740142157/14732109138343.jpg" alt="" /><br />
 <img src="media/14731740142157/14732110397325.jpg" alt="" /></p>
 <p>网友整理如下:<br />
 <img src="media/14731740142157/14732111027007.jpg" alt="" /></p>
-<h2><a id="6-runloop%E5%BA%94%E7%94%A8" class="anchor" aria-hidden="true" href="#6-runloop%E5%BA%94%E7%94%A8"><span class="octicon octicon-link"></span></a>6.RunLoop应用</h2>
+<h2><a id="6-runloop%E5%BA%94%E7%94%A8" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>6.RunLoop应用</h2>
 <ul>
 <li>NSTimer</li>
 <li>ImageView显示  控制方法在特定的模式下可用</li>
@@ -308,7 +308,7 @@ typedef CF_OPTIONS(CFOptionFlags, CFRunLoopActivity) {
 </ul>
 </li>
 </ul>
-<h3><a id="%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98" class="anchor" aria-hidden="true" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="octicon octicon-link"></span></a>常见问题</h3>
+<h3><a id="%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>常见问题</h3>
 <blockquote>
 <p>自动释放池什么时候释放?</p>
 </blockquote>
@@ -327,7 +327,7 @@ typedef CF_OPTIONS(CFOptionFlags, CFRunLoopActivity) {
 <hr />
 <p>官方文档 <a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/Multithreading/RunLoopManagement/RunLoopManagement.html">Threading Programming Guide</a><br />
 CFRunLoopRef<a href="http://opensource.apple.com/source/CF/CF-1151.16/">源代码</a></p>
-<h3><a id="%E6%9C%80%E5%90%8E%E7%BB%99%E5%87%BA%E5%87%A0%E4%B8%AA%E5%AD%A6%E4%B9%A0%E9%93%BE%E6%8E%A5" class="anchor" aria-hidden="true" href="#%E6%9C%80%E5%90%8E%E7%BB%99%E5%87%BA%E5%87%A0%E4%B8%AA%E5%AD%A6%E4%B9%A0%E9%93%BE%E6%8E%A5"><span class="octicon octicon-link"></span></a>最后给出几个学习链接</h3>
+<h3><a id="%E6%9C%80%E5%90%8E%E7%BB%99%E5%87%BA%E5%87%A0%E4%B8%AA%E5%AD%A6%E4%B9%A0%E9%93%BE%E6%8E%A5" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>最后给出几个学习链接</h3>
 <p><a href="http://www.jianshu.com/p/20d3bb3e8df5">RunLoop深度探究（一）</a></p>
 <p><a href="http://www.jianshu.com/p/6582c47a13c8">RunLoop深度探究（二）</a></p>
 <p><a href="http://www.jianshu.com/p/240683510692">RunLoop深度探究（三）</a></p>
@@ -463,7 +463,7 @@ CFRunLoopRef<a href="http://opensource.apple.com/source/CF/CF-1151.16/">源代�
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Flutter.html"><strong>Flutter&nbsp;(1)</strong></a>
+	        <a href="Flutter.html"><strong>Flutter&nbsp;(2)</strong></a>
 	        
 	        
 	        
@@ -474,6 +474,12 @@ CFRunLoopRef<a href="http://opensource.apple.com/source/CF/CF-1151.16/">源代�
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16292522945585.html">避免和WillPopScope与iOS手势冲突</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -496,12 +502,6 @@ CFRunLoopRef<a href="http://opensource.apple.com/source/CF/CF-1151.16/">源代�
 	      
 		      <li class="post">
 		        <a href="16261554677251.html">Flutter中Row中的子控件左右两端对齐</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16246203092572.html">flutter 多环境设置</a>
 		      </li>
 	     
 	  

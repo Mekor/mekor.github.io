@@ -78,6 +78,95 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14790175059723.html">Swift - 函数</a></h1>
+			<p class="meta"><time datetime="2016-11-13T14:11:45+08:00" 
+			pubdate data-updated="true">2016/11/13</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>##函数的几种情况</p>
+<pre><code>// 正常
+func sum(x:Int, y:Int) -&gt; Int {
+    return x+y
+}
+print(sum(x: 10, y: 20))
+
+// 去掉形参
+func sum(_ x:Int,_ y:Int) -&gt; Int {
+    return x+y
+}
+print(sum(10, 20))
+
+// 外部参数
+func sum(num1 x:Int,num2 y:Int) -&gt; Int {
+    return x+y
+}
+print(sum(num1: 10, num2: 20))
+
+// 函数带默认值
+func sum(x:Int = 1, y:Int = 2) -&gt; Int {
+    return x+y
+}
+print(sum())
+</code></pre>
+<p>##闭包</p>
+<blockquote>
+<p>闭包类似于OC中的block,但应用更广. 与OC对比, OC中block是特殊的函数,在Swift中函数是特殊的闭包</p>
+</blockquote>
+<pre><code>// 最简单的闭包
+// 定义
+let foo = {
+    print(&quot;最简单的闭包&quot;)
+}
+// 调用
+foo()
+
+// 带参数无返回值
+let foo = { (x:Int) -&gt; () in
+    print(x)
+}
+foo(100)
+
+// 带参数有返回值
+let foo = { (x:Int) -&gt; Int in
+    return x+1
+}
+foo(10)
+</code></pre>
+<p>block常用在异步执行,回调...Swift中异步跟OC稍微有些区别.<br />
+###模拟异步加载</p>
+<pre><code>    /// 加载数据
+    func loadData(completion:@escaping (_ result: [String])-&gt;()) {
+        
+        DispatchQueue.global().async {
+            print(&quot;耗时操作\(Thread.current)&quot;)
+            
+            DispatchQueue.main.async {
+                print(&quot;主线程更新\(Thread.current)&quot;)
+                let json = [&quot;头条&quot;,&quot;八卦&quot;,&quot;出大事了&quot;]
+                completion(json)
+            }
+        }
+    }
+</code></pre>
+<p>注:关于**@escaping**参见 Swifter 中<code>@escaping</code></p>
+<p>###尾随闭包</p>
+<pre><code>        // 如果函数的最后一个参数是闭包,函数参数可以提前结束,最后一个参数直接使用{}包装闭包的代码
+        loadData { (JSON) in
+            print(JSON)
+        }
+
+</code></pre>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14789481799893.html">Swift - 字典中的增删改,遍历与合并</a></h1>
 			<p class="meta"><time datetime="2016-11-12T18:56:19+08:00" 
 			pubdate data-updated="true">2016/11/12</time></p>
@@ -324,7 +413,7 @@ for (n,s) in array.enumerated().reversed() {
 <li>提升管队效率</li>
 </ul>
 <p>###3个工件(过程成果和交付物)</p>
-<h4><a id="product-backlog" class="anchor" aria-hidden="true" href="#product-backlog"><span class="octicon octicon-link"></span></a>Product Backlog</h4>
+<h4><a id="product-backlog" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Product Backlog</h4>
 <ul>
 <li>动态列表,包含产品功能(用户故事:)</li>
 <li>其他能给用户带来的价值的工作(技术故事:一般由主设计由产品经理确认)</li>
@@ -388,7 +477,7 @@ for (n,s) in array.enumerated().reversed() {
 <li>形成明确的改进计划,并在下一个迭代会回顾会检视效果</li>
 </ul>
 <p>####把Scrum本身也做为一个活动</p>
-<h3><a id="5%E4%B8%AA%E4%BB%B7%E5%80%BC%E8%A7%82" class="anchor" aria-hidden="true" href="#5%E4%B8%AA%E4%BB%B7%E5%80%BC%E8%A7%82"><span class="octicon octicon-link"></span></a>5个价值观</h3>
+<h3><a id="5%E4%B8%AA%E4%BB%B7%E5%80%BC%E8%A7%82" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>5个价值观</h3>
 <p>##scrum拆解</p>
 <p>#案例<br />
 ##1.团队要敏捷,从哪里开始<br />
@@ -396,90 +485,6 @@ for (n,s) in array.enumerated().reversed() {
 团队组件:PO,SM(敏捷教练),开发团队(开发和测试不要很明确)<br />
 ###项目启动会<br />
 ##2.git支管理办法</p>
-
-
-		</div>
-
-		
-
-	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14781615036446.html">安装tree命令</a></h1>
-			<p class="meta"><time datetime="2016-11-03T16:25:03+08:00" 
-			pubdate data-updated="true">2016/11/3</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p><code>brew</code> 一行命令搞定 <code>brew install tree</code></p>
-<p>效果图:</p>
-<pre><code>.
-├── LICENSE
-├── MKShowDetail
-│   ├── MKShowDetail.h
-│   ├── XZBaseViewController.h
-│   ├── XZBaseViewController.m
-│   ├── XZBaseViewController.xib
-│   ├── XZCustomViewController.h
-│   ├── XZCustomViewController.m
-│   ├── XZTableView.h
-│   ├── XZTableView.m
-│   └── bgImage.gif
-├── MKShowDetail.podspec
-├── MKShowDetailDemo
-│   ├── DetailShow
-│   │   ├── AppDelegate.h
-│   │   ├── AppDelegate.m
-│   │   ├── Assets.xcassets
-│   │   │   ├── AppIcon.appiconset
-│   │   │   │   └── Contents.json
-│   │   │   ├── Contents.json
-│   │   │   └── icon.imageset
-│   │   │       ├── Contents.json
-│   │   │       └── icon.jpg
-│   │   ├── Base.lproj
-│   │   │   ├── LaunchScreen.storyboard
-│   │   │   └── Main.storyboard
-│   │   ├── Info.plist
-│   │   ├── OneViewController.h
-│   │   ├── OneViewController.m
-│   │   ├── TestViewController.h
-│   │   ├── TestViewController.m
-│   │   ├── ThreeViewController.h
-│   │   ├── ThreeViewController.m
-│   │   ├── TwoViewController.h
-│   │   ├── TwoViewController.m
-│   │   ├── ViewController.h
-│   │   ├── ViewController.m
-│   │   ├── lol.jpg
-│   │   ├── main.m
-│   │   └── timo.jpg
-│   └── DetailShow.xcodeproj
-│       ├── project.pbxproj
-│       ├── project.xcworkspace
-│       │   ├── contents.xcworkspacedata
-│       │   └── xcuserdata
-│       │       ├── mekor.xcuserdatad
-│       │       │   └── UserInterfaceState.xcuserstate
-│       │       └── weizhi.xcuserdatad
-│       │           └── UserInterfaceState.xcuserstate
-│       └── xcuserdata
-│           ├── mekor.xcuserdatad
-│           │   └── xcschemes
-│           │       ├── DetailShow.xcscheme
-│           │       └── xcschememanagement.plist
-│           └── weizhi.xcuserdatad
-│               ├── xcdebugger
-│               │   └── Breakpoints_v2.xcbkptlist
-│               └── xcschemes
-│                   ├── DetailShow.xcscheme
-│                   └── xcschememanagement.plist
-├── README.md
-└── shopdetail.gif
-
-</code></pre>
-<p>看起来效果不错.</p>
 
 
 		</div>
@@ -579,7 +584,7 @@ for (n,s) in array.enumerated().reversed() {
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Flutter.html"><strong>Flutter&nbsp;(1)</strong></a>
+	        <a href="Flutter.html"><strong>Flutter&nbsp;(2)</strong></a>
 	        
 	        
 	        
@@ -590,6 +595,12 @@ for (n,s) in array.enumerated().reversed() {
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16292522945585.html">避免和WillPopScope与iOS手势冲突</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -612,12 +623,6 @@ for (n,s) in array.enumerated().reversed() {
 	      
 		      <li class="post">
 		        <a href="16261554677251.html">Flutter中Row中的子控件左右两端对齐</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16246203092572.html">flutter 多环境设置</a>
 		      </li>
 	     
 	  

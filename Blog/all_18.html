@@ -78,6 +78,109 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14799126696997.html">Swift - 函数式编程</a></h1>
+			<p class="meta"><time datetime="2016-11-23T22:51:09+08:00" 
+			pubdate data-updated="true">2016/11/23</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>一般情况:</p>
+<pre><code>struct User {
+    func login(password: String){
+        print(password)
+    }
+}
+
+let passwd = &quot;123123123&quot;
+let usr = User()
+
+usr.login(password: passwd)
+</code></pre>
+<p>函数式编程</p>
+<pre><code>struct User {
+    func login(password: String){
+        print(password)
+    }
+}
+
+let passwd = &quot;123123123&quot;
+let usr = User()
+
+User.login(usr)(password: passwd)
+</code></pre>
+<p>由此可见: <code>usr.login(password: passwd)</code> == <code>User.login(usr)(password: passwd)</code></p>
+<p>如果忽略外部参数</p>
+<pre><code>struct User {
+    func login(_ password: String){
+        print(password)
+    }
+}
+
+let passwd = &quot;123123123&quot;
+let usr = User()
+usr.login(passwd)
+User.login(usr)(passwd)
+</code></pre>
+<p>这样就更简洁了</p>
+<hr />
+<p>--- 11.24更 --<br />
+##柯里化(Currying)</p>
+<pre><code>// 柯里化(Currying)
+
+func addOne(num:Int) -&gt;Int {
+    return num + 1
+}
+
+print(addOne(num: 10))
+
+func addTo(_ adder:Int) -&gt;(_ num:Int) -&gt; Int {
+    return {
+        num in
+        return num + adder
+    }
+}
+
+let addTwo = addTo(2)
+
+print(addTwo(6))
+
+// 更简单的调用方式
+print(addTo(9)(1))
+
+</code></pre>
+<p>----12.8----<br />
+说到函数式编程,我突然想起了今天实现一个功能所用到的技术,这里只做简单记录.</p>
+<p>项目中遇到一个问题:根据参数创建相应个数的视图,视图中按钮的点击事件还要回调..我一开始想用代理来做,发现如果层级结构比较深的话代理不是很好用.既然否定了代理那么怎样还能实现该效果呢?我尝试用函数(闭包).</p>
+<p>需要传递的数据</p>
+<pre><code>let dict = [
+    [&quot;title&quot;:GLOBAL_LANGUAGE(&quot;历史锅底&quot;) ,
+     &quot;subtitle&quot;:GLOBAL_LANGUAGE(&quot;上次的定制锅底,再来一单&quot;),
+     &quot;imagename&quot;:&quot;OrderDishOrPot1&quot;,
+     &quot;callback&quot;:historyPotsList!]  // callback 中存放的就是函数名或者闭包名
+]
+</code></pre>
+<pre><code>let showTitle =  data[i][&quot;title&quot;] as! String
+let showSubTitle = data[i][&quot;subtitle&quot;] as! String
+let imageName = data[i][&quot;imagename&quot;] as! String
+let callBack = data[i][&quot;callback&quot;] as! (()-&gt;()) // 这里就是我需要的闭包
+
+//=======
+
+callBack() // 闭包调用
+
+</code></pre>
+<p>只需要这样我就能实现需求了...函数的传递虽然不像👆所说的那样函数式编程,但是还是有必要记录下,swift跟OC比还是灵活了很多.</p>
+<p>----未完待续---</p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14796301513904.html">Swift - 使用代理和闭包传值</a></h1>
 			<p class="meta"><time datetime="2016-11-20T16:22:31+08:00" 
 			pubdate data-updated="true">2016/11/20</time></p>
@@ -326,7 +429,7 @@ git push origin :branch-name
 <p>查看本地分支对应的远程分支</p>
 <pre><code>git branch -vv
 </code></pre>
-<h2><a id="%E6%9B%B4%E6%8D%A2%E8%BF%9C%E7%A8%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%9C%B0%E5%9D%80" class="anchor" aria-hidden="true" href="#%E6%9B%B4%E6%8D%A2%E8%BF%9C%E7%A8%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%9C%B0%E5%9D%80"><span class="octicon octicon-link"></span></a>更换远程服务器地址</h2>
+<h2><a id="%E6%9B%B4%E6%8D%A2%E8%BF%9C%E7%A8%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%9C%B0%E5%9D%80" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>更换远程服务器地址</h2>
 <p>先查看remote的名字</p>
 <pre><code>git branch -r
 </code></pre>
@@ -337,8 +440,8 @@ git push origin :branch-name
 <pre><code>#查看远程地址
 git remote -v  
 </code></pre>
-<h3><a id="git%E5%91%BD%E4%BB%A4%E5%BF%AB%E9%80%9F%E6%9F%A5%E8%AF%A2" class="anchor" aria-hidden="true" href="#git%E5%91%BD%E4%BB%A4%E5%BF%AB%E9%80%9F%E6%9F%A5%E8%AF%A2"><span class="octicon octicon-link"></span></a>Git 命令快速查询</h3>
-<h4><a id="https-github-combaiduhideviosgit-git-config-git-config" class="anchor" aria-hidden="true" href="#https-github-combaiduhideviosgit-git-config-git-config"><span class="octicon octicon-link"></span></a><a href="https://github.com/BaiduHiDeviOS/Git#git-config"></a>git config</h4>
+<h3><a id="git%E5%91%BD%E4%BB%A4%E5%BF%AB%E9%80%9F%E6%9F%A5%E8%AF%A2" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Git 命令快速查询</h3>
+<h4><a id="https-github-combaiduhideviosgit-git-config-git-config" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://github.com/BaiduHiDeviOS/Git#git-config"></a>git config</h4>
 <pre><code class="language-source-shell">$ git config --global alias.co checkout 
 $ git config --global alias.br branch 
 $ git config --global alias.ci commit 
@@ -349,18 +452,18 @@ $ git config user.name &quot;donganyuan&quot;
 $ git config user.email &quot;donganyuan@baidu.com&quot;
 $ git config --global core.editor &quot;atom --wait&quot;
 </code></pre>
-<h4><a id="https-github-combaiduhideviosgit-git-commit-git-commit" class="anchor" aria-hidden="true" href="#https-github-combaiduhideviosgit-git-commit-git-commit"><span class="octicon octicon-link"></span></a><a href="https://github.com/BaiduHiDeviOS/Git#git-commit"></a>git commit</h4>
+<h4><a id="https-github-combaiduhideviosgit-git-commit-git-commit" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://github.com/BaiduHiDeviOS/Git#git-commit"></a>git commit</h4>
 <pre><code class="language-source-shell">$ git commit -a -m &quot;comment&quot; //添加并提交
 $ git commit --amend //修改上次commit, do not amend your last commit if you have already pushed it
 
 </code></pre>
-<h4><a id="https-github-combaiduhideviosgit-git-merge-git-merge" class="anchor" aria-hidden="true" href="#https-github-combaiduhideviosgit-git-merge-git-merge"><span class="octicon octicon-link"></span></a><a href="https://github.com/BaiduHiDeviOS/Git#git-merge"></a>git merge</h4>
+<h4><a id="https-github-combaiduhideviosgit-git-merge-git-merge" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://github.com/BaiduHiDeviOS/Git#git-merge"></a>git merge</h4>
 <pre><code class="language-source-shell">$ git merge [branch name]
 
 禁用fast forward merge
 $ git merge --no-ff -m &quot;comment&quot; branch_name
 </code></pre>
-<h4><a id="https-github-combaiduhideviosgit-git-log-git-log" class="anchor" aria-hidden="true" href="#https-github-combaiduhideviosgit-git-log-git-log"><span class="octicon octicon-link"></span></a><a href="https://github.com/BaiduHiDeviOS/Git#git-log"></a>git log</h4>
+<h4><a id="https-github-combaiduhideviosgit-git-log-git-log" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://github.com/BaiduHiDeviOS/Git#git-log"></a>git log</h4>
 <pre><code class="language-source-shell">$ git log -p -2 //查看每次提交的diff
 $ git log --since=2.weeks
 $ git log --author=AnYuan
@@ -371,13 +474,13 @@ $ git log --oneline --decorate // show you where the branch pointers are pointin
 //the master branch on your origin remote.
 $ git log origin/master..HEAD
 </code></pre>
-<h4><a id="https-github-combaiduhideviosgit-git-remote-git-remote" class="anchor" aria-hidden="true" href="#https-github-combaiduhideviosgit-git-remote-git-remote"><span class="octicon octicon-link"></span></a><a href="https://github.com/BaiduHiDeviOS/Git#git-remote"></a>git remote</h4>
+<h4><a id="https-github-combaiduhideviosgit-git-remote-git-remote" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://github.com/BaiduHiDeviOS/Git#git-remote"></a>git remote</h4>
 <pre><code class="language-source-shell">查看远程仓库信息：
 $ git remote -v
 $ git remote add dev https://github.com/ddd/git
 $ git remote show origin //inspecting a remote
 </code></pre>
-<h4><a id="https-github-combaiduhideviosgit-git-stash-git-stash" class="anchor" aria-hidden="true" href="#https-github-combaiduhideviosgit-git-stash-git-stash"><span class="octicon octicon-link"></span></a><a href="https://github.com/BaiduHiDeviOS/Git#git-stash"></a>git stash</h4>
+<h4><a id="https-github-combaiduhideviosgit-git-stash-git-stash" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://github.com/BaiduHiDeviOS/Git#git-stash"></a>git stash</h4>
 <pre><code class="language-source-shell">$ git stash --保存未提交修改
 $ git stash list --查看当前stash
 
@@ -386,7 +489,7 @@ $ git stash drop
 等价于
 $ git stash pop
 </code></pre>
-<h4><a id="https-github-combaiduhideviosgit-git-branch-git-branch" class="anchor" aria-hidden="true" href="#https-github-combaiduhideviosgit-git-branch-git-branch"><span class="octicon octicon-link"></span></a><a href="https://github.com/BaiduHiDeviOS/Git#git-branch"></a>git branch</h4>
+<h4><a id="https-github-combaiduhideviosgit-git-branch-git-branch" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://github.com/BaiduHiDeviOS/Git#git-branch"></a>git branch</h4>
 <pre><code class="language-source-shell">分支管理：
 
 $ git checkout -b dev //-b 表示创建并切换分支
@@ -409,7 +512,7 @@ $ git push origin branch_name
 //delete remote branch
 $ git push origin --delete [branchname]
 </code></pre>
-<h4><a id="https-github-combaiduhideviosgit-undo-undo" class="anchor" aria-hidden="true" href="#https-github-combaiduhideviosgit-undo-undo"><span class="octicon octicon-link"></span></a><a href="https://github.com/BaiduHiDeviOS/Git#undo"></a>undo</h4>
+<h4><a id="https-github-combaiduhideviosgit-undo-undo" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://github.com/BaiduHiDeviOS/Git#undo"></a>undo</h4>
 <pre><code class="language-source-shell">1.未add 修改文件时（工作区），撤销可以：
 $ git checkout -- [filename] 把文件在工作区的修改全部撤销， 把这个文件会退到最近一次commit或add状态
 这个操作很危险，checkout后无法恢复了
@@ -420,14 +523,14 @@ $ git reset HEAD [filename]
 3.commit后，撤销：
 $ git reset --hard HEAD^
 </code></pre>
-<h4><a id="https-github-combaiduhideviosgit-git-reflog-git-reflog" class="anchor" aria-hidden="true" href="#https-github-combaiduhideviosgit-git-reflog-git-reflog"><span class="octicon octicon-link"></span></a><a href="https://github.com/BaiduHiDeviOS/Git#git-reflog"></a>git reflog</h4>
+<h4><a id="https-github-combaiduhideviosgit-git-reflog-git-reflog" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://github.com/BaiduHiDeviOS/Git#git-reflog"></a>git reflog</h4>
 <pre><code class="language-source-shell">$ git reflog 记录每次命令
 </code></pre>
-<h4><a id="https-github-combaiduhideviosgit-git-diff-git-diff" class="anchor" aria-hidden="true" href="#https-github-combaiduhideviosgit-git-diff-git-diff"><span class="octicon octicon-link"></span></a><a href="https://github.com/BaiduHiDeviOS/Git#git-diff"></a>git diff</h4>
+<h4><a id="https-github-combaiduhideviosgit-git-diff-git-diff" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://github.com/BaiduHiDeviOS/Git#git-diff"></a>git diff</h4>
 <pre><code class="language-source-shell">$ git diff //to see what you have changed but not yet staged
 $ git diff --staged or cache // compares your staged changes to your last commit.
 </code></pre>
-<h4><a id="https-github-combaiduhideviosgit-git-reset-git-reset" class="anchor" aria-hidden="true" href="#https-github-combaiduhideviosgit-git-reset-git-reset"><span class="octicon octicon-link"></span></a><a href="https://github.com/BaiduHiDeviOS/Git#git-reset"></a>git reset</h4>
+<h4><a id="https-github-combaiduhideviosgit-git-reset-git-reset" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://github.com/BaiduHiDeviOS/Git#git-reset"></a>git reset</h4>
 <pre><code class="language-source-shell">$ git reset --hard HEAD^ 回退到上一次commit
 $ git reset --hard 3628164
 //HEAD^^ 回退到上两个版本
@@ -441,13 +544,13 @@ $ git reset --hard //update working copy
 //squashing
 $ git reset --soft HEAD~2
 </code></pre>
-<h4><a id="https-github-combaiduhideviosgit-git-rm-git-rm" class="anchor" aria-hidden="true" href="#https-github-combaiduhideviosgit-git-rm-git-rm"><span class="octicon octicon-link"></span></a><a href="https://github.com/BaiduHiDeviOS/Git#git-rm"></a>git rm</h4>
+<h4><a id="https-github-combaiduhideviosgit-git-rm-git-rm" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://github.com/BaiduHiDeviOS/Git#git-rm"></a>git rm</h4>
 <pre><code class="language-source-shell">$ git rm [filename]
 
 //keep the file in your working tree but remove it from your staging area.
 $ git rm --cached filename
 </code></pre>
-<h4><a id="https-github-combaiduhideviosgit-git-tag-git-tag" class="anchor" aria-hidden="true" href="#https-github-combaiduhideviosgit-git-tag-git-tag"><span class="octicon octicon-link"></span></a><a href="https://github.com/BaiduHiDeviOS/Git#git-tag"></a>git tag</h4>
+<h4><a id="https-github-combaiduhideviosgit-git-tag-git-tag" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://github.com/BaiduHiDeviOS/Git#git-tag"></a>git tag</h4>
 <pre><code class="language-source-shell">打标签,tag默认在本地，必须显示的push到服务器
 $ git tag v1.0
 $ git tag v0.9 commit-id
@@ -494,35 +597,6 @@ $ git push origin :refs/tags/v0.9
 
 </code></pre>
 <p>虽然感觉有点画蛇添足,不过很符合刚刚从OC 转 Swift 的理解方式</p>
-
-
-		</div>
-
-		
-
-	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14793034700265.html">隐藏tabBar的小技巧</a></h1>
-			<p class="meta"><time datetime="2016-11-16T21:37:50+08:00" 
-			pubdate data-updated="true">2016/11/16</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>突然想起来 <code>微指App</code> 里面控制 tabBar 显示与隐藏非常麻烦,在控制器中的 <code>viewWillAppear</code> 和 <code>viewWillDisappear</code>中做处理,这样能保证在控制器中控制 tabBar 的显示与隐藏,但是也非常麻烦,每个控制器都需要控制..</p>
-<p>一劳永逸的做法:</p>
-<pre><code>    // 重写 push 方法
-    override func pushViewController(_ viewController: UIViewController, animated: Bool) {
-        // 如果不是栈底控制器才需要隐藏, 根控制器 不需要处理
-        if childViewControllers.count &gt; 0 {
-            // 隐藏底部的 TabBar
-            viewController.hidesBottomBarWhenPushed = true
-        }
-        super.pushViewController(viewController, animated: true)
-    }
-</code></pre>
-<p>在导航控制器中重写 <code>push</code> 方法,这样就能省去好多麻烦..</p>
 
 
 		</div>
@@ -622,7 +696,7 @@ $ git push origin :refs/tags/v0.9
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Flutter.html"><strong>Flutter&nbsp;(1)</strong></a>
+	        <a href="Flutter.html"><strong>Flutter&nbsp;(2)</strong></a>
 	        
 	        
 	        
@@ -633,6 +707,12 @@ $ git push origin :refs/tags/v0.9
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16292522945585.html">避免和WillPopScope与iOS手势冲突</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -655,12 +735,6 @@ $ git push origin :refs/tags/v0.9
 	      
 		      <li class="post">
 		        <a href="16261554677251.html">Flutter中Row中的子控件左右两端对齐</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16246203092572.html">flutter 多环境设置</a>
 		      </li>
 	     
 	  

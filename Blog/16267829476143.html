@@ -81,7 +81,7 @@ $(document).ready(function(event) {
 				<p class="meta"><time datetime="2021-07-20T20:09:07+08:00" pubdate data-updated="true">2021/7/20</time></p>
 			 </header>
 		  	<div class="entry-content">
-			  	<h2><a id="%E8%B0%83%E7%94%A8%E5%A4%9A%E6%AC%A1%E5%8E%9F%E5%9B%A0" class="anchor" aria-hidden="true" href="#%E8%B0%83%E7%94%A8%E5%A4%9A%E6%AC%A1%E5%8E%9F%E5%9B%A0"><span class="octicon octicon-link"></span></a>调用多次原因</h2>
+			  	<h2><a id="%E8%B0%83%E7%94%A8%E5%A4%9A%E6%AC%A1%E5%8E%9F%E5%9B%A0" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>调用多次原因</h2>
 <p>在Flutter源码中 <code>src/material/tab_controller.dart</code> 中 <code>void _changeIndex(int value, { Duration? duration, Curve? curve })</code> 方法里面动画调用会通知两次</p>
 <pre><code class="language-Swift">
   void _changeIndex(int value, { Duration? duration, Curve? curve }) {
@@ -115,7 +115,7 @@ $(document).ready(function(event) {
     }
   }
 </code></pre>
-<h2><a id="%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3%E5%91%A2" class="anchor" aria-hidden="true" href="#%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3%E5%91%A2"><span class="octicon octicon-link"></span></a>怎么解决呢</h2>
+<h2><a id="%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3%E5%91%A2" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>怎么解决呢</h2>
 <p>在该文件第222行中</p>
 <pre><code>  _animationController!
         .animateTo(_index.toDouble(), duration: duration, curve: curve!)
@@ -144,7 +144,7 @@ $(document).ready(function(event) {
     }
 });
 </code></pre>
-<h2><a id="%E8%BF%99%E9%87%8C%E5%A6%82%E6%9E%9C%E6%98%AF%E6%88%91%E8%A6%81%E6%80%8E%E4%B9%88%E8%AE%BE%E8%AE%A1" class="anchor" aria-hidden="true" href="#%E8%BF%99%E9%87%8C%E5%A6%82%E6%9E%9C%E6%98%AF%E6%88%91%E8%A6%81%E6%80%8E%E4%B9%88%E8%AE%BE%E8%AE%A1"><span class="octicon octicon-link"></span></a>这里如果是我要怎么设计</h2>
+<h2><a id="%E8%BF%99%E9%87%8C%E5%A6%82%E6%9E%9C%E6%98%AF%E6%88%91%E8%A6%81%E6%80%8E%E4%B9%88%E8%AE%BE%E8%AE%A1" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>这里如果是我要怎么设计</h2>
 <p><code>tab_controller.dart</code> 是经常和动画打交道的，所以可以选择添加</p>
 <pre><code>void addStatusListener(AnimationStatusListener listener) {
   didRegisterListener();
@@ -274,7 +274,7 @@ $(document).ready(function(event) {
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Flutter.html"><strong>Flutter&nbsp;(1)</strong></a>
+	        <a href="Flutter.html"><strong>Flutter&nbsp;(2)</strong></a>
 	        
 	        
 	        
@@ -285,6 +285,12 @@ $(document).ready(function(event) {
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16292522945585.html">避免和WillPopScope与iOS手势冲突</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -307,12 +313,6 @@ $(document).ready(function(event) {
 	      
 		      <li class="post">
 		        <a href="16261554677251.html">Flutter中Row中的子控件左右两端对齐</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16246203092572.html">flutter 多环境设置</a>
 		      </li>
 	     
 	  

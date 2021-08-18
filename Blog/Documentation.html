@@ -87,13 +87,13 @@ $(document).ready(function(event) {
 		  	<blockquote>
 <p>原文来自<a href="https://juejin.im/post/5d396ef7518825453b605afa">掘金</a></p>
 </blockquote>
-<h2><a id="%E5%89%8D%E8%A8%80" class="anchor" aria-hidden="true" href="#%E5%89%8D%E8%A8%80"><span class="octicon octicon-link"></span></a>前言</h2>
+<h2><a id="%E5%89%8D%E8%A8%80" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>前言</h2>
 <p>这篇文章始于一个需求：我们在 SDK 提供的某个 View 的 Subview 中实现了单击双击等多个 Gesture Recognizer，而客户希望自己在这个 View 上的单击手势不会冲突，同时没有延迟。</p>
 <p>借此机会，我们来重温下 iOS 的事件机制和手势冲突，重点介绍下 UIGestureRecognizer 之间以及与原生触摸事件的相互关系。</p>
-<h2><a id="%E4%BA%8B%E4%BB%B6%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F" class="anchor" aria-hidden="true" href="#%E4%BA%8B%E4%BB%B6%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="octicon octicon-link"></span></a>事件的生命周期</h2>
+<h2><a id="%E4%BA%8B%E4%BB%B6%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>事件的生命周期</h2>
 <p>当指尖触碰屏幕时，一个触摸事件就在系统中生成了。经过 IPC 进程间通信，事件最终被传递到了合适的应用。在应用内历经峰回路转的奇幻之旅后，最终被释放。大致经过如下图：</p>
 <p><img src="media/15654059537017/15654060901311.jpg" alt="" /></p>
-<h3><a id="%E7%B3%BB%E7%BB%9F%E5%93%8D%E5%BA%94%E9%98%B6%E6%AE%B5" class="anchor" aria-hidden="true" href="#%E7%B3%BB%E7%BB%9F%E5%93%8D%E5%BA%94%E9%98%B6%E6%AE%B5"><span class="octicon octicon-link"></span></a>系统响应阶段</h3>
+<h3><a id="%E7%B3%BB%E7%BB%9F%E5%93%8D%E5%BA%94%E9%98%B6%E6%AE%B5" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>系统响应阶段</h3>
 <ol>
 <li>
 <p>手指触碰屏幕，屏幕感应到触碰后，将事件交由 IOKit 处理。</p>
@@ -109,7 +109,7 @@ $(document).ready(function(event) {
 <ol>
 <li>SpringBoard 进程因接收到触摸事件，触发了主线程 runloop 的 source1 事件源的回调。此时 SpringBoard 会根据当前桌面的状态，判断应该由谁处理此次触摸事件。因为事件发生时，你可能正在桌面上翻页，也可能正在刷微博。若是前者（即前台无 APP 运行），则触发 SpringBoard 本身主线程 runloop 的 source0 事件源的回调，将事件交由桌面系统去消耗；若是后者（即有 APP 正在前台运行），则将触摸事件通过 IPC 传递给前台 APP 进程，接下来的事情便是 APP 内部对于触摸事件的响应了。</li>
 </ol>
-<h3><a id="app%E5%93%8D%E5%BA%94%E9%98%B6%E6%AE%B5" class="anchor" aria-hidden="true" href="#app%E5%93%8D%E5%BA%94%E9%98%B6%E6%AE%B5"><span class="octicon octicon-link"></span></a>APP响应阶段</h3>
+<h3><a id="app%E5%93%8D%E5%BA%94%E9%98%B6%E6%AE%B5" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>APP响应阶段</h3>
 <ol>
 <li>
 <p>APP 进程的 mach port 接受到 SpringBoard 进程传递来的触摸事件，主线程的 runloop 被唤醒，触发了 source1 回调。</p>
@@ -127,8 +127,8 @@ $(document).ready(function(event) {
 <p>触摸事件历经坎坷后要么被某个响应对象捕获后释放，要么至死也没能找到能够响应的对象，最终释放。至此，这个触摸事件的使命就算终结了。runloop 若没有其他事件需要处理，也将重归于眠，等待新的事件到来后唤醒。</p>
 </li>
 </ol>
-<h2><a id="%E6%8E%A2%E6%B5%8B%E9%93%BE%E4%B8%8E%E5%93%8D%E5%BA%94%E9%93%BE" class="anchor" aria-hidden="true" href="#%E6%8E%A2%E6%B5%8B%E9%93%BE%E4%B8%8E%E5%93%8D%E5%BA%94%E9%93%BE"><span class="octicon octicon-link"></span></a>探测链与响应链</h2>
-<h3><a id="hit-testing" class="anchor" aria-hidden="true" href="#hit-testing"><span class="octicon octicon-link"></span></a>Hit-Testing</h3>
+<h2><a id="%E6%8E%A2%E6%B5%8B%E9%93%BE%E4%B8%8E%E5%93%8D%E5%BA%94%E9%93%BE" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>探测链与响应链</h2>
+<h3><a id="hit-testing" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Hit-Testing</h3>
 <p>从逻辑上来说，探测链是最先发生的机制，当触摸事件发生后，iOS 系统根据 Hit-Testing 来确定触摸事件发生在哪个视图对象上。其中主要用到了两个 UIView 中的方法：</p>
 <pre><code>// recursively calls -pointInside:withEvent:. point is in the receiver's coordinate system
 - (nullable UIView *)hitTest:(CGPoint)point withEvent:(nullable UIEvent *)event;
@@ -139,10 +139,10 @@ $(document).ready(function(event) {
 </code></pre>
 <p>前者会通过递归调用后者来返回一个适合响应触摸事件的视图，下面这张图描述了这个过程：</p>
 <p><img src="media/15654059537017/15654061281073.jpg" alt="" /></p>
-<h3><a id="responder-chain" class="anchor" aria-hidden="true" href="#responder-chain"><span class="octicon octicon-link"></span></a>Responder Chain</h3>
+<h3><a id="responder-chain" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Responder Chain</h3>
 <p>Hit-Testing 找到的视图拥有最先对触摸事件进行处理的机会，如果该视图无法处理这个事件，那么事件对象就会沿着响应器的视图链向上传递，直到找到可以处理该事件的对象为止。下面这张图描述了这个过程：</p>
 <p><img src="media/15654059537017/15654061526891.jpg" alt="" /></p>
-<h3><a id="demo%E9%AA%8C%E8%AF%81" class="anchor" aria-hidden="true" href="#demo%E9%AA%8C%E8%AF%81"><span class="octicon octicon-link"></span></a>Demo 验证</h3>
+<h3><a id="demo%E9%AA%8C%E8%AF%81" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Demo 验证</h3>
 <p>接下来我们通过官方文档的 Demo 以代码的方式来进行验证：</p>
 <p><img src="media/15654059537017/15654061728509.jpg" alt="" /></p>
 <p>对于每个 View，我们重载父类的方法：</p>
@@ -232,13 +232,13 @@ A_touchesEnded
 <blockquote>
 <p>Yes, it’s normal. The system may tweak the point being hit tested between the calls. Since hitTest should be a pure function with no side-effects, this should be fine.</p>
 </blockquote>
-<h3><a id="%E5%B0%8F%E7%BB%93" class="anchor" aria-hidden="true" href="#%E5%B0%8F%E7%BB%93"><span class="octicon octicon-link"></span></a>小结</h3>
+<h3><a id="%E5%B0%8F%E7%BB%93" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>小结</h3>
 <p><strong>1. 系统通过 <code>hitTest:withEvent:</code> 方法沿视图层级树从底向上（从根视图开始）从后向前（从逻辑上更靠近屏幕的视图开始）进行遍历，最终返回一个适合响应触摸事件的 View。</strong></p>
 <p><strong>2. 原生触摸事件从 Hit-Testing 返回的 View 开始，沿着响应链从上向下进行传递。</strong></p>
 <p>探测链与响应链的机制总体比较清晰，不再赘述，但熟悉这两个机制并不能帮我们解决任何问题，接下来我们继续深入探究下手势识别器。</p>
-<h2><a id="%E6%89%8B%E5%8A%BF%E8%AF%86%E5%88%AB%E5%99%A8" class="anchor" aria-hidden="true" href="#%E6%89%8B%E5%8A%BF%E8%AF%86%E5%88%AB%E5%99%A8"><span class="octicon octicon-link"></span></a>手势识别器</h2>
+<h2><a id="%E6%89%8B%E5%8A%BF%E8%AF%86%E5%88%AB%E5%99%A8" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>手势识别器</h2>
 <p>我们首先思考一个问题，对于官方文档里的 Demo，我们在每个 View 上添加一个 UITapGestureRecognizer，当点击 View D 时，UITapGestureRecognizer 之间的响应顺序是什么样的，哪个 View 上的 UITapGestureRecognizer 又会最终响应这个事件？</p>
-<h3><a id="%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3" class="anchor" aria-hidden="true" href="#%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3"><span class="octicon octicon-link"></span></a>官方文档</h3>
+<h3><a id="%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>官方文档</h3>
 <p>我们先来看看官方文档是怎么说的：</p>
 <blockquote>
 <p>When a view has multiple gesture recognizers attached to it, you may want to alter how the competing gesture recognizers receive and analyze touch events. By default, there is no set order for which gesture recognizers receive a touch first, and for this reason touches can be passed to gesture recognizers in a different order each time. You can override this default behavior to:</p>
@@ -256,7 +256,7 @@ A_touchesEnded
 <p>Use the UIGestureRecognizer class methods, delegate methods, and methods overridden by subclasses to effect these behaviors.</p>
 </blockquote>
 <p>根据文档的说法，当触摸事件发生时，哪个 UIGestureRecognizer 先收到这个事件并没有固定的顺序，并且文档建议我们使用 UIGestureRecognizer 提供的方法来控制它们之间的顺序和相互关系。</p>
-<h3><a id="uigesturerecognizer-methods" class="anchor" aria-hidden="true" href="#uigesturerecognizer-methods"><span class="octicon octicon-link"></span></a>UIGestureRecognizer Methods</h3>
+<h3><a id="uigesturerecognizer-methods" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>UIGestureRecognizer Methods</h3>
 <p>所以我们依次看下系统的 UIGestureRecognizer 都提供了哪些与它们之间相互关系有关的方法：</p>
 <pre><code>// create a relationship with another gesture recognizer that will prevent this gesture's actions from being called until otherGestureRecognizer transitions to UIGestureRecognizerStateFailed
 // if otherGestureRecognizer transitions to UIGestureRecognizerStateRecognized or UIGestureRecognizerStateBegan then this recognizer will instead transition to UIGestureRecognizerStateFailed
@@ -307,7 +307,7 @@ A_touchesEnded
 </code></pre>
 <p>与 UIResponder 中的触摸事件相关的方法相同，UIGestureRecognizer 有一套自己的触摸事件的方法，区别在于，UIGestureRecognizer 并不在响应链中，这些方法一般是写用来对特定的手势进行判断和识别的逻辑，例如我们可以在子类中重写这些方法来创建自己的 UIGestureRecognizer。使用 <code>gestureRecognizer:shouldReceiveTouch:</code> 可以让这些方法不被调用。</p>
 <p>至此，UIGestureRecognizer 已经为我们提供了足够多的方法来控制它们之间的相互关系了，我们接下来在 Demo 中试试看。</p>
-<h3><a id="demo%E9%AA%8C%E8%AF%81" class="anchor" aria-hidden="true" href="#demo%E9%AA%8C%E8%AF%81"><span class="octicon octicon-link"></span></a>Demo 验证</h3>
+<h3><a id="demo%E9%AA%8C%E8%AF%81" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Demo 验证</h3>
 <p>对于官方文档中的 Demo 的每个 View，我们增加一个继承自 UITapGestureRecognizer 的 ZTTapGestureRecognizer 并实现相应的回调：</p>
 <pre><code>- (void)singleTapGesture
 {
@@ -490,7 +490,7 @@ D_singleTapGesture
 <p><img src="media/15654059537017/15654063204292.jpg" alt="" /></p>
 <p>可以看到，最先由 UIApplication 通过 <code>sendEvent:</code> 发送了 UIEvent 事件，然后被 UIWindow 转发给了 UIGestureEnvironment，而 UIGestureEnvironment 通过遍历一个 UIGestureRecognizer 数组来调起相关的 UIGestureRecognizer 方法。</p>
 <p>到此为止，整个过程仍然有很多疑点，我们重新进行下梳理。</p>
-<h3><a id="uievent%E4%B8%8E-uigestureenvironment" class="anchor" aria-hidden="true" href="#uievent%E4%B8%8E-uigestureenvironment"><span class="octicon octicon-link"></span></a>UIEvent 与 UIGestureEnvironment</h3>
+<h3><a id="uievent%E4%B8%8E-uigestureenvironment" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>UIEvent 与 UIGestureEnvironment</h3>
 <p>实际上，系统最先通过 Hit-Testing 机制来对 UIEvent 进行了包装，我们先看下 UIEvent 这个类：</p>
 <pre><code>NS_CLASS_AVAILABLE_IOS(2_0) @interface UIEvent : NSObject
 
@@ -581,12 +581,12 @@ D_singleTapGesture
 <li>询问 UIGestureRecognizer 的 delegate 是否应该失效或者是否能够同时处理事件<code>gestureRecognizer:shouldRequireFailureOfGestureRecognizer:``gestureRecognizer:shouldRecognizeSimultaneouslyWithGestureRecognizer:</code></li>
 <li>UIGestureRecognizer 识别事件之后最终调用了 Action Method</li>
 </ol>
-<h3><a id="%E5%B0%8F%E7%BB%93" class="anchor" aria-hidden="true" href="#%E5%B0%8F%E7%BB%93"><span class="octicon octicon-link"></span></a>小结</h3>
+<h3><a id="%E5%B0%8F%E7%BB%93" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>小结</h3>
 <p><strong>1. 系统在探测阶段结束后创建了 UITouch，并封装了 UIEvent 将其传递。</strong></p>
 <p><strong>2. 手势上下文 UIGestureEnvironment 最先收到 UIEvent，并负责通知给相关的 UIGestureRecognizer。</strong></p>
 <p><strong>3. UIGestureEnvironment 根据 UIGestureRecognizer 的 delegate 方法来判断其是否能够对触摸事件进行响应。</strong></p>
 <p>至此，UIGestureRecognizer 对事件的处理以及它们之间的相互关系告一段落。需要注意的是，建议最好使用官方文档推荐的方法对 UIGestureRecognizer 进行控制，而不要依赖上文中没有存在于文档中的具体实现细节和结论，苹果没有对外暴露这些，有可能会在接下来的版本中修改具体实现。</p>
-<h2><a id="%E6%89%8B%E5%8A%BF%E8%AF%86%E5%88%AB%E5%99%A8%E4%B8%8E%E5%8E%9F%E7%94%9F%E8%A7%A6%E6%91%B8%E4%BA%8B%E4%BB%B6" class="anchor" aria-hidden="true" href="#%E6%89%8B%E5%8A%BF%E8%AF%86%E5%88%AB%E5%99%A8%E4%B8%8E%E5%8E%9F%E7%94%9F%E8%A7%A6%E6%91%B8%E4%BA%8B%E4%BB%B6"><span class="octicon octicon-link"></span></a>手势识别器与原生触摸事件</h2>
+<h2><a id="%E6%89%8B%E5%8A%BF%E8%AF%86%E5%88%AB%E5%99%A8%E4%B8%8E%E5%8E%9F%E7%94%9F%E8%A7%A6%E6%91%B8%E4%BA%8B%E4%BB%B6" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>手势识别器与原生触摸事件</h2>
 <p>接下来我们终于可以对上一节中 UIResponder 相关的系统原生触摸事件方法进行探讨了，我们去掉 Hit-Testing 与 UIGestureRecognizer 的 delegate 等相关方法，重新运行 Demo，点击 View D，log 显示如下：</p>
 <pre><code>A_view_tapGestureRecognizer_touchesBegan
 D_view_tapGestureRecognizer_touchesBegan
@@ -602,7 +602,7 @@ C_singleTapGesture
 D_singleTapGesture
 复制代码
 </code></pre>
-<h3><a id="%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3" class="anchor" aria-hidden="true" href="#%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3"><span class="octicon octicon-link"></span></a>官方文档</h3>
+<h3><a id="%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>官方文档</h3>
 <p>按照惯例，我们先来看下官方文档是怎么说的：</p>
 <blockquote>
 <p>There may be times when you want a view to receive a touch before a gesture recognizer. But, before you can alter the delivery path of touches to views, you need to understand the default behavior. In the simple case, when a touch occurs, the touch object is passed from the UIApplication object to the UIWindow object. Then, the window first sends touches to any gesture recognizers attached the view where the touches occurred (or to that view’s superviews), before it passes the touch to the view object itself.</p>
@@ -612,7 +612,7 @@ D_singleTapGesture
 <p><img src="media/15654059537017/15654064332119.jpg" alt="" /></p>
 <p>文档实际上说的比较清楚：UIWindow 会先将触摸事件发送给 Hit-Testing 返回的 View 和它的父 View 上的 UIGestureRecognizer，然后才会发送给这个 View 本身，如果 UIGestureRecognizer 成功识别了这个手势，之后 UIWindow 不会再向 View 发送触摸事件，并且会取消之前发送的触摸事件。</p>
 <p>下面让我们回到 Demo 来进行验证。</p>
-<h3><a id="demo%E9%AA%8C%E8%AF%81" class="anchor" aria-hidden="true" href="#demo%E9%AA%8C%E8%AF%81"><span class="octicon octicon-link"></span></a>Demo 验证</h3>
+<h3><a id="demo%E9%AA%8C%E8%AF%81" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Demo 验证</h3>
 <p>从 log 上看，现象与官方文档的说法吻合，我们用几个调用栈来对其进行进一步证明：</p>
 <p>ZTTapGestureRecognizer 的 <code>touchesBegan:withEvent:</code> 的调用栈:</p>
 <p><img src="media/15654059537017/15654064509943.jpg" alt="" /></p>
@@ -621,7 +621,7 @@ D_singleTapGesture
 <p>View D 的 <code>touchesCancelled:withEvent:</code> 的调用栈：</p>
 <p><img src="media/15654059537017/15654064771703.jpg" alt="" /></p>
 <p>可以看到，UIWindow 首先通过 <code>sendEvent:</code> 方法经过 UIGestureEnvironment 发送触摸事件给了 ZTTapGestureRecognizer，随后通过 <code>sendTouchesForEvent:</code> 方法发送触摸事件给 View D 并沿着响应链传递，而当 A_view_tapGestureRecognizer 第一个成功识别手势之后，UIGestureEnvironment 发起响应链的 cancel 并经过 UIApplication 发送给 View D 并沿着响应链取消。</p>
-<h3><a id="uigesturerecognizer-properties" class="anchor" aria-hidden="true" href="#uigesturerecognizer-properties"><span class="octicon octicon-link"></span></a>UIGestureRecognizer Properties</h3>
+<h3><a id="uigesturerecognizer-properties" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>UIGestureRecognizer Properties</h3>
 <p>UIGestureRecognizer 有一些与响应链触摸事件相关的属性，这里简单说明一下：</p>
 <pre><code>// default is YES. causes touchesCancelled:withEvent: or pressesCancelled:withEvent: to be sent to the view for all touches or presses recognized as part of this gesture immediately before the action method is called.
 @property(nonatomic) BOOL cancelsTouchesInView;
@@ -638,11 +638,11 @@ D_singleTapGesture
 复制代码
 </code></pre>
 <p>默认为 YES，当手势识别失败时，若此时触摸事件已经结束，会延迟一小段时间（0.15s）再调用响应者的 <code>touchesEnded:withEvent:</code>，若设置成NO，则在手势识别失败时会立即通知 UIApplication 发送状态为 end 的 触摸事件给 Hit-Testing 返回的 View 以调用 <code>touchesEnded:withEvent:</code> 结束事件响应。</p>
-<h3><a id="%E5%B0%8F%E7%BB%93" class="anchor" aria-hidden="true" href="#%E5%B0%8F%E7%BB%93"><span class="octicon octicon-link"></span></a>小结</h3>
+<h3><a id="%E5%B0%8F%E7%BB%93" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>小结</h3>
 <p><strong>1. UIGestureRecognizer 首先收到触摸事件，Hit-Testing 返回的 View 延迟收到，两者的调起方法不同。</strong></p>
 <p><strong>2. 第一个 UIGestureRecognizer 识别成功后，UIGestureEnvironment 会发起响应链的 cancel。</strong></p>
 <p><strong>3. 可以通过设置 UIGestureRecognizer 的 Properties 来控制对响应链的影响。</strong></p>
-<h2><a id="uicontrol%E7%89%B9%E4%BE%8B" class="anchor" aria-hidden="true" href="#uicontrol%E7%89%B9%E4%BE%8B"><span class="octicon octicon-link"></span></a>UIControl 特例</h2>
+<h2><a id="uicontrol%E7%89%B9%E4%BE%8B" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>UIControl 特例</h2>
 <p>我们现在给 Demo 中的 View D 上加一个 UIButton：</p>
 <p><img src="media/15654059537017/15654064977862.jpg" alt="" /></p>
 <pre><code>- (void)buttonTapped
@@ -691,7 +691,7 @@ D_buttonTapped
 <li>UIButton 成功的响应了触摸事件。</li>
 </ol>
 <p>这又是什么原因导致的呢？</p>
-<h3><a id="%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3" class="anchor" aria-hidden="true" href="#%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3"><span class="octicon octicon-link"></span></a>官方文档</h3>
+<h3><a id="%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>官方文档</h3>
 <p>惯例，先看官方文档：</p>
 <blockquote>
 <p>Interacting with Other User Interface Controls</p>
@@ -711,7 +711,7 @@ D_buttonTapped
 </blockquote>
 <p>这次文档解释清楚了所有的原因：对于 <strong>部分 UIControl</strong> 来说（自己实现的不行），为了防止 UIControl 默认的手势与其父 View 上的 UIGestureRecognizer 的冲突，UIControl 最后会响应触摸事件，如果想要 UIGestureRecognizer 处理触摸事件，则需要将其直接与 UIControl 进行绑定。</p>
 <p>原因清楚了，但是我们还是回到 Demo 之中来看看系统具体是怎么做的。</p>
-<h3><a id="demo%E9%AA%8C%E8%AF%81" class="anchor" aria-hidden="true" href="#demo%E9%AA%8C%E8%AF%81"><span class="octicon octicon-link"></span></a>Demo 验证</h3>
+<h3><a id="demo%E9%AA%8C%E8%AF%81" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Demo 验证</h3>
 <p>我们去掉 View A C D 中的 log，实现一个 UIButton 的子类 FButton，对 FButton 添加一个 ZTTapGestureRecognizer，并且实现方法 <code>gestureRecognizerShouldBegin：</code>：</p>
 <pre><code>@implementation FButton
 
@@ -785,13 +785,13 @@ F_singleTapGesture
 <p>然后我们看下 FButton 的响应方法的调用栈（去掉 FButton 上的 UIGestureRecognizer）：</p>
 <p><img src="media/15654059537017/15654065324630.jpg" alt="" /></p>
 <p>这里文档没有说全，实际上，FButton 重写了 <code>touchesBegan:withEvent:</code> 方法，在收到触摸事件后将其截断不再沿响应链进行传递；在响应触摸事件时，FButton 使用 Target-Action 机制通过 <code>sendAction:to:forEvent:</code> 方法通知 UIApplication，UIApplication 在通过 <code>sendAction:to:from:forEvent:</code> 方法向 target 发送 action，而当 target 为 nil 时就会沿着响应链进行寻找，知道找到了实现了相应方法的对象。</p>
-<h3><a id="%E5%B0%8F%E7%BB%93" class="anchor" aria-hidden="true" href="#%E5%B0%8F%E7%BB%93"><span class="octicon octicon-link"></span></a>小结</h3>
+<h3><a id="%E5%B0%8F%E7%BB%93" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>小结</h3>
 <p><strong>1. UIGestureRecognizer 仍然会先于 UIControl 接收到触摸事件。</strong></p>
 <p><strong>2. UIButton 等部分 UIControl 会拦截其父 View 上的 UIGestureRecognizer，但不会拦截自己和子 View 上的 UIGestureRecognizer。</strong></p>
 <p><strong>3. UIButton 会截断响应链的事件传递，也可以利用响应链来寻找 Action Method。</strong></p>
-<h2><a id="uitableview%E4%B8%8E-uiscrollview" class="anchor" aria-hidden="true" href="#uitableview%E4%B8%8E-uiscrollview"><span class="octicon octicon-link"></span></a>UITableView 与 UIScrollView</h2>
+<h2><a id="uitableview%E4%B8%8E-uiscrollview" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>UITableView 与 UIScrollView</h2>
 <p>当场景中存在 UITableView 和 UIScrollView 时，又会有不一样的情况，感兴趣的读者可以试着自己研究一下。</p>
-<h2><a id="%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3" class="anchor" aria-hidden="true" href="#%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3"><span class="octicon octicon-link"></span></a>问题解决</h2>
+<h2><a id="%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>问题解决</h2>
 <p>现在，我们回过头看看最初的问题，解决起来应该就比较简单了。</p>
 <p>首先在我们对外的 View 上添加一个 UITapGestureRecognizer，通过回调使其能与内部的 UIGestureRecognizer 同时处理触摸事件，并且与内部双击手势不会冲突：</p>
 <pre><code>- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
@@ -841,13 +841,13 @@ F_singleTapGesture
 复制代码
 </code></pre>
 <p>我们可以通过修改 <code>UISHORT_TAP_MAX_DELAY</code> 参数来控制等待的时间。</p>
-<h2><a id="%E6%80%BB%E7%BB%93" class="anchor" aria-hidden="true" href="#%E6%80%BB%E7%BB%93"><span class="octicon octicon-link"></span></a>总结</h2>
+<h2><a id="%E6%80%BB%E7%BB%93" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>总结</h2>
 <p><strong>1. 触摸事件发生后，IOKit 会通过 mach port 传递给 SpringBoad 进程，并最终传递给了 UIApplication。</strong></p>
 <p><strong>2. UIApplication 通过 Hit-Testing 寻找到了最佳响应者，遍历得到所有的 UIGestureRecognizer，然后根据最佳响应者、UIGestureRecognizer、Window 创建 UITouch 并将其保存在 UIEvent 中。</strong></p>
 <p><strong>3. UIApplication 将 UIEvent 发送给 UIWindow，UIWindow 首先发送事件给 UIGestureRecognizer，然后发送给最佳响应者，事件沿响应链传递。</strong></p>
 <p><strong>4. UIGestureRecognizer 根据 Delegate 以及最佳响应者来判断是否能够成功进行状态转换并取消响应链的触摸事件。</strong></p>
 <p><strong>5. 系统实现的部分 UIControl 会截断响应链，并使父 View 上的 UIGestureRecognizer 失效。</strong></p>
-<h2><a id="%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99" class="anchor" aria-hidden="true" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="octicon octicon-link"></span></a>参考资料</h2>
+<h2><a id="%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>参考资料</h2>
 <p><a href="https://link.juejin.im/?target=https%3A%2F%2Fgithub.com%2FBladeTail%2FEvent-Handling-Guide-for-iOS%2Fblob%2Fmaster%2FEvent%2520Handling%2520Guide%2520for%2520iOS.pdf">Event Handling Guide for iOS</a></p>
 <p><a href="https://link.juejin.im/?target=https%3A%2F%2Fwww.jianshu.com%2Fp%2Fd8512dff2b3e">iOS 事件响应链中 Hit-Test View 的应用</a></p>
 <p><a href="https://link.juejin.im/?target=https%3A%2F%2Fwww.jianshu.com%2Fp%2Fc294d1bd963d">iOS 触摸事件全家桶</a></p>
@@ -1034,7 +1034,7 @@ if ([self.traitCollection respondsToSelector:@selector(forceTouchCapability)] &a
 		 </header>
 	  	<div class="entry-content">
 		  	
-		  	<h2><a id="creating-a-cagradientlayer-https-stackoverflow-comdocumentationios1190cagradientlayer3856creating-a-cagradientlayer" class="anchor" aria-hidden="true" href="#creating-a-cagradientlayer-https-stackoverflow-comdocumentationios1190cagradientlayer3856creating-a-cagradientlayer"><span class="octicon octicon-link"></span></a><a href="https://stackoverflow.com/documentation/ios/1190/cagradientlayer/3856/creating-a-cagradientlayer">Creating a CAGradientLayer</a></h2>
+		  	<h2><a id="creating-a-cagradientlayer-https-stackoverflow-comdocumentationios1190cagradientlayer3856creating-a-cagradientlayer" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://stackoverflow.com/documentation/ios/1190/cagradientlayer/3856/creating-a-cagradientlayer">Creating a CAGradientLayer</a></h2>
 <pre><code>// View to hold the CAGradientLayer.
 let view: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 320))
 
@@ -1194,12 +1194,12 @@ view.layer.insertSublayer(gradientLayer, at: 0)
 <p>Result :</p>
 <p><img src="media/15038463059094/tV4OL.png" alt="Complex CAGradientLayer." /></p>
 <hr />
-<h2><a id="syntax" class="anchor" aria-hidden="true" href="#syntax"><span class="octicon octicon-link"></span></a>Syntax</h2>
+<h2><a id="syntax" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Syntax</h2>
 <pre><code>CAGradientLayer() // Returns an initialized CALayer object.
 -------------------
 CAGradientLayer(layer: layer) // Override to copy or initialize custom fields of the specified layer.
 </code></pre>
-<h2><a id="parameters" class="anchor" aria-hidden="true" href="#parameters"><span class="octicon octicon-link"></span></a>Parameters</h2>
+<h2><a id="parameters" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parameters</h2>
 <table>
 <thead>
 <tr>
@@ -1230,7 +1230,7 @@ CAGradientLayer(layer: layer) // Override to copy or initialize custom fields of
 </tr>
 </tbody>
 </table>
-<h2><a id="remarks" class="anchor" aria-hidden="true" href="#remarks"><span class="octicon octicon-link"></span></a>Remarks</h2>
+<h2><a id="remarks" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Remarks</h2>
 <ul>
 <li>Use <code>startPoint</code> and <code>endPoint</code> to change the orientation of the <code>CAGradientLayer</code>.</li>
 <li>Use the <code>locations</code> to affect the spread/positions of the colors.</li>
@@ -1334,7 +1334,7 @@ CAGradientLayer(layer: layer) // Override to copy or initialize custom fields of
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Flutter.html"><strong>Flutter&nbsp;(1)</strong></a>
+	        <a href="Flutter.html"><strong>Flutter&nbsp;(2)</strong></a>
 	        
 	        
 	        
@@ -1345,6 +1345,12 @@ CAGradientLayer(layer: layer) // Override to copy or initialize custom fields of
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16292522945585.html">避免和WillPopScope与iOS手势冲突</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -1367,12 +1373,6 @@ CAGradientLayer(layer: layer) // Override to copy or initialize custom fields of
 	      
 		      <li class="post">
 		        <a href="16261554677251.html">Flutter中Row中的子控件左右两端对齐</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16246203092572.html">flutter 多环境设置</a>
 		      </li>
 	     
 	  

@@ -78,13 +78,115 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="16292522945585.html">避免和WillPopScope与iOS手势冲突</a></h1>
+			<p class="meta"><time datetime="2021-08-18T10:04:54+08:00" 
+			pubdate data-updated="true">2021/8/18</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>开发中有一个需求，表单填写中点击返回按钮需要提示。这个需求可以使用WillPopScope处理</p>
+<pre><code class="language-dart">bool _locked = false;
+...
+return Scaffold(
+	appBar: AppBar(title:&quot;Detail Page&quot;),
+	body: WillPopScope(
+		onWillPop: () async {
+			print(&quot;这里处理退出前的逻辑处理&quot;);
+			if(_locked) {
+				return false; // 锁住的时候不允许返回
+			} else {
+				reutrn true; // 没有锁的时候直接返回
+			}
+		},	
+		child: Center(
+			child: TextButton(
+				child:Icon_locked ? Icons.lock : Icons.lock_open, size: 200),
+				onPressed: () =&gt; setState(()=&gt;_locked = !_locked),
+			),
+		),
+	),
+);
+</code></pre>
+<p>使用WillPopScope 使用的时候就没有了iOS平台的侧滑返回了。</p>
+<h2><a id="%E4%B8%8D%E8%83%BD%E4%BE%A7%E6%BB%91%E8%BF%94%E5%9B%9E%E7%9A%84%E5%8E%9F%E5%9B%A0%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>不能侧滑返回的原因是什么？</h2>
+<p>在<code>route.dart</code>文件中能看到有一个私有方法<code>_isPopGestureEnabled</code>。这个方法会判断当前是否是第一个是否是全屏Dialog等。其中有一种情况就是<code>hasScopedWillPopCallback</code></p>
+<h2><a id="%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>解决方案</h2>
+<ol>
+<li>不使用WillPopScope组件，而是手动添加或者移出WillPopCallback</li>
+</ol>
+<pre><code class="language-dart">bool _locked = false;
+...
+return Scaffold(
+	appBar: AppBar(title:&quot;Detail Page&quot;),
+	body:
+		Center(
+			child: TextButton(
+				child:Icon_locked ? Icons.lock : Icons.lock_open, size: 200),
+				onPressed: (){ 
+					setState(()=&gt;_locked = !_locked);
+					if(_locked) {
+						ModalRoute.of(context)!.addScopedWillPopCallback(preventExit);
+					} else {
+						ModalRoute.of(context)!.removeScopedWillPopCallback(prevenExit);
+					}
+
+				},
+			),
+		);
+);
+
+...
+
+Future&lt;bool&gt; preventExit() async =&gt; false;
+</code></pre>
+<ol start="2">
+<li>还是在onWillPopScope组件中进行处理</li>
+</ol>
+<pre><code class="language-dart">bool _locked = false;
+...
+return Scaffold(
+	appBar: AppBar(title:&quot;Detail Page&quot;),
+	body: WillPopScope(
+		onWillPop: _locked ? () async =&gt; false : null,
+		child: Center(
+			child: TextButton(
+				child:Icon_locked ? Icons.lock : Icons.lock_open, size: 200),
+				onPressed: () =&gt; setState(()=&gt;_locked = !_locked),
+			),
+		),
+	),
+);
+</code></pre>
+<p>这样处理的原因是<code>will_pop_scope.dart</code> 中，在133行 <code>didUpdateWidget</code>中会对是否有<code>onWillPop</code>进行判断，如果为<code>onWillPop</code>是null的时候不会添加。</p>
+<ol start="3">
+<li>项目中还有一种方式就是自定义AppBar的leading</li>
+</ol>
+<pre><code>appBar: AppBar(
+  leading: IconButton(
+    icon: Icon(Icons.arrow_back, color: Colors.black),
+    onPressed: () =&gt; Navigator.of(context).pop(),
+  ), 
+  title: Text(&quot;Sample&quot;),
+  centerTitle: true,
+),
+</code></pre>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="16291783311992.html">方便实用的小组件</a></h1>
 			<p class="meta"><time datetime="2021-08-17T13:32:11+08:00" 
 			pubdate data-updated="true">2021/8/17</time></p>
 		 </header>
 	  	<div class="entry-content">
 		  	
-		  	<h2><a id="1-fittedbox" class="anchor" aria-hidden="true" href="#1-fittedbox"><span class="octicon octicon-link"></span></a>1. FittedBox</h2>
+		  	<h2><a id="1-fittedbox" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>1. FittedBox</h2>
 <pre><code>这个组件可以缩放子组件，组件的大小不够的时候可以缩放子组件。比如：
 
 ```dart
@@ -100,7 +202,7 @@ Container(
 
 当Container组件所在的宽度不够文本宽度的时候，就会缩小文本的字体大小。
 </code></pre>
-<h2><a id="2-safearea" class="anchor" aria-hidden="true" href="#2-safearea"><span class="octicon octicon-link"></span></a>2. SafeArea</h2>
+<h2><a id="2-safearea" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>2. SafeArea</h2>
 <pre><code>和iOS中的SafeArea一样，为了异形屏显示而做的适配工作。
 
 ```dart
@@ -109,7 +211,7 @@ Container(
 
 注意： 使用的时候不要把Safe Area 放在顶层，哪里需要放在哪里就好了，有些组件就是需要延伸到安全区域才美观的。
 </code></pre>
-<h2><a id="3-layoutbuilder" class="anchor" aria-hidden="true" href="#3-layoutbuilder"><span class="octicon octicon-link"></span></a>3. LayoutBuilder</h2>
+<h2><a id="3-layoutbuilder" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>3. LayoutBuilder</h2>
 <pre><code>约束组件，会把constraint传递给子组件。
 
 ```dart
@@ -129,7 +231,7 @@ LayoutBuilder(
 
 首页中可以使用LayoutBuilder计算剩余的空间，而不用使用MediaQuery.of(content).size 来自己就散各个组件的高度。
 </code></pre>
-<h2><a id="4-defaulttextstyle" class="anchor" aria-hidden="true" href="#4-defaulttextstyle"><span class="octicon octicon-link"></span></a>4. DefaultTextStyle</h2>
+<h2><a id="4-defaulttextstyle" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>4. DefaultTextStyle</h2>
 <pre><code>默认的文本样式，这样子组件就能使用外层的默认样式了。
 
 ```dart
@@ -160,7 +262,7 @@ return Scaffold(
 
 AnimatedDefaultTextStyle
 </code></pre>
-<h2><a id="5-interactiveviewer" class="anchor" aria-hidden="true" href="#5-interactiveviewer"><span class="octicon octicon-link"></span></a>5. InteractiveViewer</h2>
+<h2><a id="5-interactiveviewer" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>5. InteractiveViewer</h2>
 <pre><code>如果子组件超出屏幕范围可以任意方向滚动
 
 ```dart
@@ -199,7 +301,7 @@ SingleChildScrollView 是一个维度的滚动，InteractiveViewer是二维滚�
 		 </header>
 	  	<div class="entry-content">
 		  	
-		  	<h2><a id="%E8%B0%83%E7%94%A8%E5%A4%9A%E6%AC%A1%E5%8E%9F%E5%9B%A0" class="anchor" aria-hidden="true" href="#%E8%B0%83%E7%94%A8%E5%A4%9A%E6%AC%A1%E5%8E%9F%E5%9B%A0"><span class="octicon octicon-link"></span></a>调用多次原因</h2>
+		  	<h2><a id="%E8%B0%83%E7%94%A8%E5%A4%9A%E6%AC%A1%E5%8E%9F%E5%9B%A0" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>调用多次原因</h2>
 <p>在Flutter源码中 <code>src/material/tab_controller.dart</code> 中 <code>void _changeIndex(int value, { Duration? duration, Curve? curve })</code> 方法里面动画调用会通知两次</p>
 <pre><code class="language-Swift">
   void _changeIndex(int value, { Duration? duration, Curve? curve }) {
@@ -233,7 +335,7 @@ SingleChildScrollView 是一个维度的滚动，InteractiveViewer是二维滚�
     }
   }
 </code></pre>
-<h2><a id="%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3%E5%91%A2" class="anchor" aria-hidden="true" href="#%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3%E5%91%A2"><span class="octicon octicon-link"></span></a>怎么解决呢</h2>
+<h2><a id="%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3%E5%91%A2" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>怎么解决呢</h2>
 <p>在该文件第222行中</p>
 <pre><code>  _animationController!
         .animateTo(_index.toDouble(), duration: duration, curve: curve!)
@@ -262,7 +364,7 @@ SingleChildScrollView 是一个维度的滚动，InteractiveViewer是二维滚�
     }
 });
 </code></pre>
-<h2><a id="%E8%BF%99%E9%87%8C%E5%A6%82%E6%9E%9C%E6%98%AF%E6%88%91%E8%A6%81%E6%80%8E%E4%B9%88%E8%AE%BE%E8%AE%A1" class="anchor" aria-hidden="true" href="#%E8%BF%99%E9%87%8C%E5%A6%82%E6%9E%9C%E6%98%AF%E6%88%91%E8%A6%81%E6%80%8E%E4%B9%88%E8%AE%BE%E8%AE%A1"><span class="octicon octicon-link"></span></a>这里如果是我要怎么设计</h2>
+<h2><a id="%E8%BF%99%E9%87%8C%E5%A6%82%E6%9E%9C%E6%98%AF%E6%88%91%E8%A6%81%E6%80%8E%E4%B9%88%E8%AE%BE%E8%AE%A1" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>这里如果是我要怎么设计</h2>
 <p><code>tab_controller.dart</code> 是经常和动画打交道的，所以可以选择添加</p>
 <pre><code>void addStatusListener(AnimationStatusListener listener) {
   didRegisterListener();
@@ -319,69 +421,6 @@ new Row( children: [ new Text(&quot;开始日期：&quot;), Expanded(child: Size
 new Row( children: [ new Text(&quot;开始日期：&quot;), Spacer(), new Text(“2020-12-29&quot;), ],),<br />
 方法四：使用 Flexible<br />
 new Row( children: [ new Text(&quot;开始日期：&quot;), Flexible(fit: FlexFit.tight, child: SizedBox()), new Text(“2020-12-29&quot;), ],),</p>
-
-
-		</div>
-
-		
-
-	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="16246203092572.html">flutter 多环境设置</a></h1>
-			<p class="meta"><time datetime="2021-06-25T19:25:09+08:00" 
-			pubdate data-updated="true">2021/6/25</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>Flutter开发中我们需要切换不同的环境进行数据处理</p>
-<h2><a id="%E5%8E%9F%E7%90%86" class="anchor" aria-hidden="true" href="#%E5%8E%9F%E7%90%86"><span class="octicon octicon-link"></span></a>原理</h2>
-<p>根据Dart-Define进行参数控制</p>
-<p>具体接收参数的实现在 env_config.dart 文件中</p>
-<p>代码如下：<img src="media/16246203092572/image2021-6-25%2019_15_8.png" alt="image2021-6-25 19_15_8" /></p>
-<h2><a id="%E4%BC%A0%E9%80%92%E5%8F%82%E6%95%B0" class="anchor" aria-hidden="true" href="#%E4%BC%A0%E9%80%92%E5%8F%82%E6%95%B0"><span class="octicon octicon-link"></span></a>传递参数</h2>
-<p>我们可以直接输入命令行进行运行，可以使用shell进行脚本封装，也可以使用开发工具进行设置。</p>
-<h3><a id="shell%E8%84%9A%E6%9C%AC%E5%90%AF%E5%8A%A8%E6%96%B9%E5%BC%8F" class="anchor" aria-hidden="true" href="#shell%E8%84%9A%E6%9C%AC%E5%90%AF%E5%8A%A8%E6%96%B9%E5%BC%8F"><span class="octicon octicon-link"></span></a>shell脚本启动方式</h3>
-<p>已经写好了简单的执行脚本位置如下：</p>
-<p><img src="media/16246203092572/image-20210625182202555.png" alt="image-20210625182202555" /></p>
-<p><strong>使用方式</strong></p>
-<ol>
-<li>
-<p>先赋予脚本读、执行权限 <code>chmod 755 ./scripts/run.sh</code></p>
-</li>
-<li>
-<p>执行对应的脚本</p>
-<pre><code class="language-shell"># 开发环境
-./script/run.sh dev
-# 测试环境
-./script/run.sh test
-# 发布环境
-./script/run.sh release
-</code></pre>
-<p>当然也可以直接在命令行中直接输入运行。</p>
-<h3><a id="%E4%BD%BF%E7%94%A8android-studio%E8%BF%9B%E8%A1%8C%E8%AE%BE%E7%BD%AE" class="anchor" aria-hidden="true" href="#%E4%BD%BF%E7%94%A8android-studio%E8%BF%9B%E8%A1%8C%E8%AE%BE%E7%BD%AE"><span class="octicon octicon-link"></span></a>使用Android Studio 进行设置</h3>
-</li>
-<li>
-<p>编辑配置信息<img src="media/16246203092572/image-20210625171212841.png" alt="image-20210625171212841" /></p>
-</li>
-<li>
-<p>设置参数<img src="media/16246203092572/image-20210625171413373.png" alt="image-20210625171413373" /></p>
-</li>
-<li>
-<p>设置其他环境的参数<img src="media/16246203092572/image-20210625181701520.png" alt="image-20210625181701520" /></p>
-</li>
-<li>
-<p>配置完成<img src="media/16246203092572/image-20210625181827464.png" alt="image-20210625181827464" /></p>
-</li>
-<li>
-<p>开发中选择对应的环境执行<br />
-<img src="media/16246203092572/image-20210625182807269.png" alt="image-20210625182807269" /></p>
-</li>
-</ol>
-<h3><a id="vscode%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE" class="anchor" aria-hidden="true" href="#vscode%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="octicon octicon-link"></span></a>VSCode环境配置</h3>
-<p><img src="media/16246203092572/image-20210625184614465.png" alt="image-20210625184614465" /></p>
-<p>执行的时候选择对应的环境进行执行</p>
 
 
 		</div>
@@ -481,7 +520,7 @@ new Row( children: [ new Text(&quot;开始日期：&quot;), Flexible(fit: FlexFi
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Flutter.html"><strong>Flutter&nbsp;(1)</strong></a>
+	        <a href="Flutter.html"><strong>Flutter&nbsp;(2)</strong></a>
 	        
 	        
 	        
@@ -492,6 +531,12 @@ new Row( children: [ new Text(&quot;开始日期：&quot;), Flexible(fit: FlexFi
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16292522945585.html">避免和WillPopScope与iOS手势冲突</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -514,12 +559,6 @@ new Row( children: [ new Text(&quot;开始日期：&quot;), Flexible(fit: FlexFi
 	      
 		      <li class="post">
 		        <a href="16261554677251.html">Flutter中Row中的子控件左右两端对齐</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16246203092572.html">flutter 多环境设置</a>
 		      </li>
 	     
 	  

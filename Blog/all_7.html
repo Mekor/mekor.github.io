@@ -78,6 +78,60 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="15345002536089.html">framework脚本</a></h1>
+			<p class="meta"><time datetime="2018-08-17T18:04:13+08:00" 
+			pubdate data-updated="true">2018/8/17</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<pre><code>if [ &quot;${ACTION}&quot; = &quot;build&quot; ]
+
+then
+
+INSTALL_DIR=${SRCROOT}/Products/${PROJECT_NAME}.framework
+
+DEVICE_DIR=${BUILD_ROOT}/${CONFIGURATION}-iphoneos/${PROJECT_NAME}.framework
+
+SIMULATOR_DIR=${BUILD_ROOT}/${CONFIGURATION}-iphonesimulator/${PROJECT_NAME}.framework
+
+SIMULATOR_SWIFT_MODULE_DIR=&quot;${SIMULATOR_DIR}/Modules/${PROJECT_NAME}.swiftmodule/*&quot;
+
+INSTALL_SWIFT_MODULE_DIR=${INSTALL_DIR}/Modules/${PROJECT_NAME}.swiftmodule/
+
+if [ -d &quot;${INSTALL_DIR}&quot; ]
+
+then
+
+rm -rf &quot;${INSTALL_DIR}&quot;
+
+fi
+
+mkdir -p &quot;${INSTALL_DIR}&quot;
+
+cp -R &quot;${DEVICE_DIR}/&quot; &quot;${INSTALL_DIR}/&quot;
+
+#ditto &quot;${DEVICE_DIR}/Headers&quot; &quot;${INSTALL_DIR}/Headers&quot;
+
+lipo -create &quot;${DEVICE_DIR}/${PROJECT_NAME}&quot; &quot;${SIMULATOR_DIR}/${PROJECT_NAME}&quot; -output &quot;${INSTALL_DIR}/${PROJECT_NAME}&quot;
+
+cp ${SIMULATOR_SWIFT_MODULE_DIR} &quot;${INSTALL_SWIFT_MODULE_DIR}&quot;
+
+#open &quot;${DEVICE_DIR}&quot;
+
+open &quot;${SRCROOT}/Products&quot;
+
+fi
+</code></pre>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="15336071866624.html">UITableView 第0的sectionHeaderView 不显示</a></h1>
 			<p class="meta"><time datetime="2018-08-07T09:59:46+08:00" 
 			pubdate data-updated="true">2018/8/7</time></p>
@@ -133,7 +187,7 @@ webView.isOpaque = false
 		 </header>
 	  	<div class="entry-content">
 		  	
-		  	<h2><a id="fibonacci%EF%BC%88%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0%E5%88%97%E5%AE%9E%E7%8E%B0%EF%BC%89" class="anchor" aria-hidden="true" href="#fibonacci%EF%BC%88%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0%E5%88%97%E5%AE%9E%E7%8E%B0%EF%BC%89"><span class="octicon octicon-link"></span></a>Fibonacci （斐波那契数列实现）</h2>
+		  	<h2><a id="fibonacci%EF%BC%88%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0%E5%88%97%E5%AE%9E%E7%8E%B0%EF%BC%89" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Fibonacci （斐波那契数列实现）</h2>
 <pre><code>///Fibonacci （斐波那契数列实现）
 func fibonacci(_ n: Int) -&gt; Int{
     let result = [0,1]
@@ -153,8 +207,8 @@ func fibonacci(_ n: Int) -&gt; Int{
     return fibN
 }
 </code></pre>
-<h2><a id="binarysearch%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE" class="anchor" aria-hidden="true" href="#binarysearch%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE"><span class="octicon octicon-link"></span></a>BinarySearch (二分查找)</h2>
-<h3><a id="%E9%9D%9E%E9%80%92%E5%BD%92" class="anchor" aria-hidden="true" href="#%E9%9D%9E%E9%80%92%E5%BD%92"><span class="octicon octicon-link"></span></a>非递归</h3>
+<h2><a id="binarysearch%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>BinarySearch (二分查找)</h2>
+<h3><a id="%E9%9D%9E%E9%80%92%E5%BD%92" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>非递归</h3>
 <pre><code>func binarySearch&lt;T: Comparable&gt;(_ a:[T], key: T) -&gt; Int {
     print(key)
     var lowerBound = 0
@@ -268,28 +322,6 @@ print(quicksort(list))
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="15299939008214.html">图片加载方式</a></h1>
-			<p class="meta"><time datetime="2018-06-26T14:18:20+08:00" 
-			pubdate data-updated="true">2018/6/26</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p><img src="media/15299939008214/15299939112098.jpg" alt="" /><br />
-<img src="media/15299939008214/15299939172785.jpg" alt="" /></p>
-<p>图像的降采样</p>
-<p>不要使用昂贵的UIImage：UIImage会解压原始的图片占用大量的内存<br />
-内部的坐标变换也非常昂贵</p>
-<p>使用ImageIO的CGImageSourceCreateThumbnailAtIndex API: 无视原始图片尺寸，resize的内存开销只是目标尺寸（请看Session中后半部分的Demo）</p>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_8.html">&larr; Older</a> 
@@ -382,7 +414,7 @@ print(quicksort(list))
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Flutter.html"><strong>Flutter&nbsp;(1)</strong></a>
+	        <a href="Flutter.html"><strong>Flutter&nbsp;(2)</strong></a>
 	        
 	        
 	        
@@ -393,6 +425,12 @@ print(quicksort(list))
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16292522945585.html">避免和WillPopScope与iOS手势冲突</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -415,12 +453,6 @@ print(quicksort(list))
 	      
 		      <li class="post">
 		        <a href="16261554677251.html">Flutter中Row中的子控件左右两端对齐</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16246203092572.html">flutter 多环境设置</a>
 		      </li>
 	     
 	  

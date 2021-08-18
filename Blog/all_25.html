@@ -78,22 +78,145 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14733118707964.html">转发机制</a></h1>
+			<p class="meta"><time datetime="2016-09-08T13:17:50+08:00" 
+			pubdate data-updated="true">2016/9/8</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<blockquote>
+<p>基本逻辑来源自官方文档 <a href="https://developer.apple.com/library/prerelease/content/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtForwarding.html">Message Forwarding</a> ,这里只做相关例子的解析.</p>
+</blockquote>
+<p>当一个对象能接收一个消息时，就会走正常的方法调用流程。但如果一个对象无法接收指定消息时，又会发生什么事呢？默认情况下，如果是以 [object message]的方式调用方法，如果object无法响应message消息时，编译器会报错。但如果是以perform…的形式来调用，则需要等到运 行时才能确定object是否能接收message消息。如果不能，则程序崩溃。<br />
+通常，当我们不能确定一个对象是否能接收某个消息时，会先调用<code>respondsToSelector:</code>来判断一下。如下代码所示：</p>
+<pre><code>if ([self respondsToSelector:@selector(method)]) {
+    [self performSelector:@selector(method)];
+}
+</code></pre>
+<p>当不使用<code>respondsToSelector:</code>判断时,就会启动'消息转发(message forwarding)'机制,通过这一机制我们可以告诉对象如何处理未知的消息.如果不做任何处理会导致程序崩溃,我们可以看到异常信息如下:</p>
+<pre><code>2016-09-08 13:26:53.094 selfsuper[65176:7154658] -[Student eat]: unrecognized selector sent to instance 0x7ff1b9f9f690
+2016-09-08 13:26:53.103 selfsuper[65176:7154658] *** Terminating app due to uncaught exception 'NSInvalidArgumentException', reason: '-[Student eat]: unrecognized selector sent to instance 0x7ff1b9f9f690'
+</code></pre>
+<p>这段异常信息实际上是由NSObject的<code>doesNotRecognizeSelector</code>方法抛出的。不过，我们可以采取一些措施，让我们的程序执行特定的逻辑，而避免程序的崩溃。</p>
+<p>消息转发机制基本上分为三个步骤：</p>
+<ol>
+<li>
+<p>动态方法解析</p>
+</li>
+<li>
+<p>备用接收者</p>
+</li>
+<li>
+<p>完整转发</p>
+</li>
+</ol>
+<p>##动态方法解析<br />
+对象在接收到未知的消息时，首先会调用所属类的类方法+resolveInstanceMethod:(实例方法)或 者+resolveClassMethod:(类方法)。在这个方法中，我们有机会为该未知消息新增一个”处理方法”“。不过使用该方法的前提是我们已经 实现了该”处理方法”，只需要在运行时通过class_addMethod函数动态添加到类里面就可以了。如下代码所示：</p>
+<pre><code>// void(*)()
+// 默认方法都有两个隐式参数，
+void eat(id self,SEL sel)
+{
+    NSLog(@&quot;%@ %@&quot;,self,NSStringFromSelector(sel));
+}
+
+// 当一个对象调用未实现的方法，会调用这个方法处理,并且会把对应的方法列表传过来.
+// 刚好可以用来判断，未实现的方法是不是我们想要动态添加的方法
++ (BOOL)resolveInstanceMethod:(SEL)sel
+{
+    if (sel == NSSelectorFromString(@&quot;eat&quot;)) {
+        // 动态添加eat方法
+        
+        // 第一个参数：给哪个类添加方法
+        // 第二个参数：添加方法的方法编号
+        // 第三个参数：添加方法的函数实现（函数地址）
+        // 第四个参数：函数的类型，(返回值+参数类型) v:void @:对象-&gt;self :表示SEL-&gt;_cmd
+        class_addMethod(self, NSSelectorFromString(@&quot;eat&quot;), (IMP)eat, &quot;v@:&quot;);
+        
+    }
+    
+    return [super resolveInstanceMethod:sel];
+}
+
+</code></pre>
+<p>不过这种方案更多的是为了实现@dynamic属性。</p>
+<p>##备用接收者<br />
+如果在上一步无法处理消息，则Runtime会继续调以下方法：</p>
+<pre><code>- (id)forwardingTargetForSelector:(SEL)aSelector
+</code></pre>
+<p>如果一个对象实现了这个方法，并返回一个非nil的结果，则这个对象会作为消息的新接收者，且消息会被分发到这个对象。当然这个对象不能是self自身，否则就是出现无限循环。当然，如果我们没有指定相应的对象来处理aSelector，则应该调用父类的实现来返回结果。</p>
+<p>使用这个方法通常是在对象内部，可能还有一系列其它对象能处理该消息，我们便可借这些对象来处理消息并返回，这样在对象外部看来，还是由该对象亲自处理了这一消息。如下代码所示：</p>
+<pre><code>/**
+ * 测试消息转发
+ */
+-(id)forwardingTargetForSelector:(SEL)aSelector {
+    NSLog(@&quot;消息转发&quot;);
+    NSString *selectorString = NSStringFromSelector(aSelector);
+    if ([selectorString isEqualToString:@&quot;eat2&quot;]){
+        // 将消息转给 RuntimeHelper 对象,让他来处理
+        return [RuntimeHelper new];
+    }
+    return [super forwardingTargetForSelector:aSelector];
+}
+
+</code></pre>
+<p>这一步合适于我们只想将消息转发到另一个能处理该消息的对象上。但这一步无法对消息进行处理，如操作消息的参数和返回值。如果需要修改参数和返回值,可以使用完整消息转发.</p>
+<p>##完整消息转发<br />
+如果在上一步还不能处理未知消息，则唯一能做的就是启用完整的消息转发机制了。此时会调用以下方法:</p>
+<pre><code>- (void)forwardInvocation:(NSInvocation *)anInvocation
+</code></pre>
+<p>完整代码:</p>
+<pre><code>/**
+ *  完整的消息转发
+ */
+
+/* 必须重写 (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector
+ * 消息转发机制使用从这个方法中获取的信息来创建NSInvocation对象。因此我们必须重写这个方法，为给定的selector提供一个合适的方法签名。
+ */
+- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector {
+    NSMethodSignature *signature = [super methodSignatureForSelector:aSelector];
+    
+    if (!signature) {
+        if ([RuntimeHelper instancesRespondToSelector:aSelector]) {
+            signature = [RuntimeHelper instanceMethodSignatureForSelector:aSelector];
+        }
+    }
+    
+    return signature;
+}
+
+-(void)forwardInvocation:(NSInvocation *)anInvocation {
+    if ([RuntimeHelper instanceMethodSignatureForSelector:anInvocation.selector]) {
+        [anInvocation invokeWithTarget:[RuntimeHelper new]];
+    }
+}
+</code></pre>
+<p>关于 NSInvocation 可以参见<a href="https://github.com/Mekor/MKExtension">MKExtension</a>中<code>NSObject+SEL</code>,里面有关于 NSInvocation 的应用.</p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14731740142157.html">RunLoop</a></h1>
 			<p class="meta"><time datetime="2016-09-06T23:00:14+08:00" 
 			pubdate data-updated="true">2016/9/6</time></p>
 		 </header>
 	  	<div class="entry-content">
 		  	
-		  	<h2><a id="1%E4%BB%80%E4%B9%88%E6%98%AF-runloop" class="anchor" aria-hidden="true" href="#1%E4%BB%80%E4%B9%88%E6%98%AF-runloop"><span class="octicon octicon-link"></span></a>1. 什么是runloop</h2>
+		  	<h2><a id="1%E4%BB%80%E4%B9%88%E6%98%AF-runloop" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>1. 什么是runloop</h2>
 <ul>
 <li>Run loops 是线程相关的的基础框架的一部分。一个 run loop 就是一个事件处理 的循环,用来不停的调度工作以及处理输入事件。使用 run loop 的目的是让你的线程在有工作的时候忙于工作,而没工作的时候处于休眠状态。</li>
 <li>runloop就是运行循环(内部do-while),它的基本作用就是让程序持续运行,处理App中的各种事件(触摸,定时器,Selector).</li>
 <li>main函数中UIApplicationMain内部就启动了一个runloop,这样UIApplicationMain就会一直没有返回值,保持了程序的持续运行.这个默认的runloop是跟主线程相关联的.</li>
 <li>runloop 只能选择一个模式(Mode)启动,如果想切换其他模式只能退出当前循环再切换其他模式.如果当前模式中没有任何Source,timer,observer就会退出runloop</li>
 </ul>
-<h2><a id="2-runloop%E4%B8%8E%E7%BA%BF%E7%A8%8B" class="anchor" aria-hidden="true" href="#2-runloop%E4%B8%8E%E7%BA%BF%E7%A8%8B"><span class="octicon octicon-link"></span></a>2. RunLoop与线程</h2>
+<h2><a id="2-runloop%E4%B8%8E%E7%BA%BF%E7%A8%8B" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>2. RunLoop与线程</h2>
 <p>每条线程都有唯一的一个与之对应的RunLoop对象,主线程的RunLoop启动的时候已经默认创建好了,其他线程的RunLoop需要主动创建(RunLoop在第一次获取的时候创建,在线程结束的时候销毁)</p>
-<h2><a id="3-runloop%E5%AF%B9%E8%B1%A1" class="anchor" aria-hidden="true" href="#3-runloop%E5%AF%B9%E8%B1%A1"><span class="octicon octicon-link"></span></a>3. RunLoop对象</h2>
+<h2><a id="3-runloop%E5%AF%B9%E8%B1%A1" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>3. RunLoop对象</h2>
 <p>####iOS中有2套API来访问和使用runloop</p>
 <ul>
 <li>Foundation -&gt; NSRunLoop</li>
@@ -115,7 +238,7 @@ CFRunLoopGetMain(): //获得主线程的RunLoop对象
 </code></pre>
 </li>
 </ul>
-<h2><a id="4-runloop%E7%9B%B8%E5%85%B3%E7%B1%BB" class="anchor" aria-hidden="true" href="#4-runloop%E7%9B%B8%E5%85%B3%E7%B1%BB"><span class="octicon octicon-link"></span></a>4. RunLoop相关类</h2>
+<h2><a id="4-runloop%E7%9B%B8%E5%85%B3%E7%B1%BB" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>4. RunLoop相关类</h2>
 <p>###Core Foundation中关于RunLoop的5个类</p>
 <ul>
 <li>CFRunLoopRef</li>
@@ -292,12 +415,12 @@ typedef CF_OPTIONS(CFOptionFlags, CFRunLoopActivity) {
 
     CFRelease(observer);
 </code></pre>
-<h2><a id="5-runloop%E5%A4%84%E7%90%86%E9%80%BB%E8%BE%91" class="anchor" aria-hidden="true" href="#5-runloop%E5%A4%84%E7%90%86%E9%80%BB%E8%BE%91"><span class="octicon octicon-link"></span></a>5. RunLoop处理逻辑</h2>
+<h2><a id="5-runloop%E5%A4%84%E7%90%86%E9%80%BB%E8%BE%91" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>5. RunLoop处理逻辑</h2>
 <p><img src="media/14731740142157/14732109138343.jpg" alt="" /><br />
 <img src="media/14731740142157/14732110397325.jpg" alt="" /></p>
 <p>网友整理如下:<br />
 <img src="media/14731740142157/14732111027007.jpg" alt="" /></p>
-<h2><a id="6-runloop%E5%BA%94%E7%94%A8" class="anchor" aria-hidden="true" href="#6-runloop%E5%BA%94%E7%94%A8"><span class="octicon octicon-link"></span></a>6.RunLoop应用</h2>
+<h2><a id="6-runloop%E5%BA%94%E7%94%A8" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>6.RunLoop应用</h2>
 <ul>
 <li>NSTimer</li>
 <li>ImageView显示  控制方法在特定的模式下可用</li>
@@ -311,7 +434,7 @@ typedef CF_OPTIONS(CFOptionFlags, CFRunLoopActivity) {
 </ul>
 </li>
 </ul>
-<h3><a id="%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98" class="anchor" aria-hidden="true" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="octicon octicon-link"></span></a>常见问题</h3>
+<h3><a id="%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>常见问题</h3>
 <blockquote>
 <p>自动释放池什么时候释放?</p>
 </blockquote>
@@ -330,7 +453,7 @@ typedef CF_OPTIONS(CFOptionFlags, CFRunLoopActivity) {
 <hr />
 <p>官方文档 <a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/Multithreading/RunLoopManagement/RunLoopManagement.html">Threading Programming Guide</a><br />
 CFRunLoopRef<a href="http://opensource.apple.com/source/CF/CF-1151.16/">源代码</a></p>
-<h3><a id="%E6%9C%80%E5%90%8E%E7%BB%99%E5%87%BA%E5%87%A0%E4%B8%AA%E5%AD%A6%E4%B9%A0%E9%93%BE%E6%8E%A5" class="anchor" aria-hidden="true" href="#%E6%9C%80%E5%90%8E%E7%BB%99%E5%87%BA%E5%87%A0%E4%B8%AA%E5%AD%A6%E4%B9%A0%E9%93%BE%E6%8E%A5"><span class="octicon octicon-link"></span></a>最后给出几个学习链接</h3>
+<h3><a id="%E6%9C%80%E5%90%8E%E7%BB%99%E5%87%BA%E5%87%A0%E4%B8%AA%E5%AD%A6%E4%B9%A0%E9%93%BE%E6%8E%A5" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>最后给出几个学习链接</h3>
 <p><a href="http://www.jianshu.com/p/20d3bb3e8df5">RunLoop深度探究（一）</a></p>
 <p><a href="http://www.jianshu.com/p/6582c47a13c8">RunLoop深度探究（二）</a></p>
 <p><a href="http://www.jianshu.com/p/240683510692">RunLoop深度探究（三）</a></p>
@@ -371,7 +494,7 @@ CFRunLoopRef<a href="http://opensource.apple.com/source/CF/CF-1151.16/">源代�
 <ul>
 <li>静态资源包离线下载,不能保证100%</li>
 </ul>
-<h2><a id="%E4%BC%A0%E7%BB%9Fh5%E5%8A%A0%E8%BD%BD%E6%B5%81%E7%A8%8B" class="anchor" aria-hidden="true" href="#%E4%BC%A0%E7%BB%9Fh5%E5%8A%A0%E8%BD%BD%E6%B5%81%E7%A8%8B"><span class="octicon octicon-link"></span></a>传统H5加载流程</h2>
+<h2><a id="%E4%BC%A0%E7%BB%9Fh5%E5%8A%A0%E8%BD%BD%E6%B5%81%E7%A8%8B" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>传统H5加载流程</h2>
 <p><img src="media/14731574655770/14737415611533.jpg" alt="" /></p>
 <p>###<strong>这里有两个问题：</strong></p>
 <p>WebView的耗时<br />
@@ -387,13 +510,13 @@ HTTP有DNS或者建立链接的耗时，HTTPS有建立SSL链接的耗时。</p>
 <p>其实我们可以不拘泥于数据传输的方式，所以这里我们把一个HTML的加载从HTTP/HTTPS改造成了一个Socket通道，这是一个App里面长连接的管道，如果手机内部有即时通讯模块的话，我们是用这个长连接的通道来做HTML的传输的，它的作用在于只要你的手机QQ能够收发消息，你的HTML页面就能够加载进来，这样就达到体验上的一致性，同时网络也有比较稳定的提升。<br />
 <img src="media/14731574655770/14737423231640.jpg" alt="" /></p>
 <p>我们基本上做了两个事情就达到首次进入加速的目的，但后面才是一个关键：首次进入我们已经做过优化了，但二次进入怎么去做优化去提高它的显示速度呢？</p>
-<h2><a id="%E6%9C%AC%E5%9C%B0%E7%BC%93%E5%AD%98" class="anchor" aria-hidden="true" href="#%E6%9C%AC%E5%9C%B0%E7%BC%93%E5%AD%98"><span class="octicon octicon-link"></span></a>本地缓存</h2>
+<h2><a id="%E6%9C%AC%E5%9C%B0%E7%BC%93%E5%AD%98" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>本地缓存</h2>
 <p><img src="media/14731574655770/14737426997041.jpg" alt="" /></p>
 <p>##Demo简单介绍</p>
 <blockquote>
 <p>关于加载优化Demo,地址:<a href="https://github.com/Mekor/Optimization-of-webView">https://github.com/Mekor/Optimization-of-webView</a></p>
 </blockquote>
-<h4><a id="webview%E5%8A%A0%E8%BD%BD%E8%80%97%E6%97%B6%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E7%AE%80%E4%BB%8B" class="anchor" aria-hidden="true" href="#webview%E5%8A%A0%E8%BD%BD%E8%80%97%E6%97%B6%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E7%AE%80%E4%BB%8B"><span class="octicon octicon-link"></span></a>webView加载耗时问题解决方案简介:</h4>
+<h4><a id="webview%E5%8A%A0%E8%BD%BD%E8%80%97%E6%97%B6%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E7%AE%80%E4%BB%8B" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>webView加载耗时问题解决方案简介:</h4>
 <ol>
 <li>如果有界面变动不大,可以吧HTML直接在本地存放一份,然后从网上请求数据,拼接成HTML,这样加载速度会很快.这种可以参考用户版商品的图片简介.</li>
 <li>如果内部动态变化的,但是样式和交互式规定好的,可以在本地存放一份,当然也可以每次启动app的时候更新本地存放的静态资源.这样的好处就是每次只替换更新的内容.</li>
@@ -584,7 +707,7 @@ HTTP有DNS或者建立链接的耗时，HTTPS有建立SSL链接的耗时。</p>
     //告诉服务器客户端是mac
     &quot;User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.115 Safari/537.36\n\n&quot;;
 </code></pre>
-<h2><a id="%E5%85%B6%E4%BB%96%E4%BC%98%E5%8C%96%E6%96%B9%E6%A1%88" class="anchor" aria-hidden="true" href="#%E5%85%B6%E4%BB%96%E4%BC%98%E5%8C%96%E6%96%B9%E6%A1%88"><span class="octicon octicon-link"></span></a>其他优化方案</h2>
+<h2><a id="%E5%85%B6%E4%BB%96%E4%BC%98%E5%8C%96%E6%96%B9%E6%A1%88" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>其他优化方案</h2>
 <p>可以设置url缓存,直接在Appdelegate中默认设置就好了..</p>
 <pre><code>//网络缓存优化 -- 设置 4 MB 的内存缓存， 50MB 的磁盘缓存
     NSURLCache *URLCache = [[NSURLCache alloc] initWithMemoryCapacity:4 * 1024 * 1024 diskCapacity:50 * 1024 * 1024 diskPath:nil];
@@ -686,7 +809,7 @@ Student中写个text方法,然后打印下这两个隐藏参数.<br />
 <img src="media/14727863232294/14729983827897.jpg" alt="" /><br />
 上面是动态添加对象方法的例子,动态添加类方法也是一样的<code>+(BOOL)resolveClassMethod:(SEL)sel</code><br />
 **注意:**上面函数类型,有人可能好奇这块为什么写成&quot;v@:&quot;  ?参见:函数类型, 更多关于转发机制参见:<a href="http://www.citynight.cn/Blog/14733118707964.html">转发机制</a></p>
-<h3><a id="%E5%85%B3%E4%BA%8E%E5%87%BD%E6%95%B0%E7%B1%BB%E5%9E%8B" class="anchor" aria-hidden="true" href="#%E5%85%B3%E4%BA%8E%E5%87%BD%E6%95%B0%E7%B1%BB%E5%9E%8B"><span class="octicon octicon-link"></span></a>关于函数类型</h3>
+<h3><a id="%E5%85%B3%E4%BA%8E%E5%87%BD%E6%95%B0%E7%B1%BB%E5%9E%8B" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>关于函数类型</h3>
 <p>先看文档:<br />
 <img src="media/14727863232294/14730056768742.jpg" alt="" /><br />
 查看<code>Objective-C type encodings</code> <img src="media/14727863232294/14730058881001.jpg" alt="" /><br />
@@ -701,7 +824,7 @@ typedef id (*IMP)(id, SEL, ...);
 #endif
 </code></pre>
 <p>当前版本Xcode如果使用IMP的话,默认是选择第一个也就是无参无返回值.如果需要参数有返回值的话,需要修改配置文件.如下:</p>
-<h2><a id="%E6%96%B9%E6%B3%95%E4%BA%A4%E6%8D%A2method-swizzling%E4%BC%A0%E8%AF%B4%E4%B8%AD%E7%9A%84%E9%BB%91%E9%AD%94%E6%B3%95" class="anchor" aria-hidden="true" href="#%E6%96%B9%E6%B3%95%E4%BA%A4%E6%8D%A2method-swizzling%E4%BC%A0%E8%AF%B4%E4%B8%AD%E7%9A%84%E9%BB%91%E9%AD%94%E6%B3%95"><span class="octicon octicon-link"></span></a>方法交换(Method Swizzling:传说中的黑魔法)</h2>
+<h2><a id="%E6%96%B9%E6%B3%95%E4%BA%A4%E6%8D%A2method-swizzling%E4%BC%A0%E8%AF%B4%E4%B8%AD%E7%9A%84%E9%BB%91%E9%AD%94%E6%B3%95" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>方法交换(Method Swizzling:传说中的黑魔法)</h2>
 <p>一般使用方法交换都是想给系统提供的方法添加一些其他的功能的时候使用.new中使用方法交换的例子:</p>
 <pre><code class="language-objc">#import &quot;UIActionSheet+Front.h&quot;
 
@@ -972,39 +1095,6 @@ static const void* tagValue = &amp;tagValue;
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14726525723684.html">KVO内部实现原理</a></h1>
-			<p class="meta"><time datetime="2016-08-31T22:09:32+08:00" 
-			pubdate data-updated="true">2016/8/31</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<ol>
-<li>KVO是基于runtime机制实现的</li>
-<li>当某个类的对象第一次被观察时,系统就会在运行期动态地创建该类的一个派生类,在这个派生类中重写基类中任何被观察属性的setter方法.派生类在被重写的setter方法实现真正的通知机制.</li>
-</ol>
-<p>添加监听前:<br />
-<img src="media/14726525723684/14726530320712.jpg" alt="" /></p>
-<p>添加监听后:(派生出:NSKVONotifying_Person)<br />
-<img src="media/14726525723684/14726532061641.jpg" alt="" /></p>
-<p>把前后两份代码全部转换成cpp文件,这时我们查找两个文件不同的地方.</p>
-<p><img src="media/14726525723684/14726564797185.jpg" alt="" /></p>
-<p>经过简单整理的两份代码:<br />
-<img src="media/14726525723684/14726568603743.jpg" alt="" /></p>
-<p>可以看出mi_0 &amp; mi_1之间就是Person &amp; NSKVONotifying_Person之间的关系.</p>
-<p>-------------------2018.1.20更新(读&lt;编写高质量代码&gt;)--------------------<br />
-KVC 通过实现名为NSKeyValueCoding的非正式协议,使开发者可以通过键直接设置和获取对象属性,而不需要调用对象的存取方法(Cocoa为该协议提供了默认的实现).键通常和被访问对象中的实例变量或存取方法的名称相对应.</p>
-<p>KVC主要利用一种使用字符串标识符,简介访问属性的机制,他是很多技术的基础.主要有<code>setValue: forKey</code>,<code>valueForKey</code>和<code>setValue: forKeyPath</code>,<code>valueForKeyPath</code></p>
-<p>key 与keyPath 基本一样,只是keyPath的值是一个路径,路径之间用<code>.</code>分割,比如数据成员就是对象自己,寻值过程就会向下深入下去.<img src="media/14726525723684/WechatIMG26.png" alt="WechatIMG26" /></p>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_26.html">&larr; Older</a> 
@@ -1097,7 +1187,7 @@ KVC 通过实现名为NSKeyValueCoding的非正式协议,使开发者可以通�
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Flutter.html"><strong>Flutter&nbsp;(1)</strong></a>
+	        <a href="Flutter.html"><strong>Flutter&nbsp;(2)</strong></a>
 	        
 	        
 	        
@@ -1108,6 +1198,12 @@ KVC 通过实现名为NSKeyValueCoding的非正式协议,使开发者可以通�
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16292522945585.html">避免和WillPopScope与iOS手势冲突</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -1130,12 +1226,6 @@ KVC 通过实现名为NSKeyValueCoding的非正式协议,使开发者可以通�
 	      
 		      <li class="post">
 		        <a href="16261554677251.html">Flutter中Row中的子控件左右两端对齐</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16246203092572.html">flutter 多环境设置</a>
 		      </li>
 	     
 	  

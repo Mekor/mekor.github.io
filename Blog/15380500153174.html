@@ -81,17 +81,17 @@ $(document).ready(function(event) {
 				<p class="meta"><time datetime="2018-09-27T20:06:55+08:00" pubdate data-updated="true">2018/9/27</time></p>
 			 </header>
 		  	<div class="entry-content">
-			  	<h2><a id="git%E5%88%86%E6%94%AF%E5%BB%BA%E8%AE%AE" class="anchor" aria-hidden="true" href="#git%E5%88%86%E6%94%AF%E5%BB%BA%E8%AE%AE"><span class="octicon octicon-link"></span></a>Git分支建议</h2>
+			  	<h2><a id="git%E5%88%86%E6%94%AF%E5%BB%BA%E8%AE%AE" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Git分支建议</h2>
 <blockquote>
 <p>开发必读<a href="http://www.ruanyifeng.com/blog/2012/07/git.html">http://www.ruanyifeng.com/blog/2012/07/git.html</a></p>
 <p>多提交，少推送。</p>
-<h5><a id="%E4%B8%A5%E6%A0%BC%E9%81%B5%E5%AE%88%EF%BC%9A" class="anchor" aria-hidden="true" href="#%E4%B8%A5%E6%A0%BC%E9%81%B5%E5%AE%88%EF%BC%9A"><span class="octicon octicon-link"></span></a>严格遵守：</h5>
+<h5><a id="%E4%B8%A5%E6%A0%BC%E9%81%B5%E5%AE%88%EF%BC%9A" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>严格遵守：</h5>
 <p>填写本次修改内容</p>
 <p>代码合并必须命令行合并，并且加上--no-ff参数。（文章中有详细介绍）</p>
 <p>将 <strong>feature/develop_wangchao_打印bug</strong> 分支合并到当前分支命令如下：</p>
 <p>git merge --no-ff feature/develop_wangchao_打印bug</p>
 </blockquote>
-<h5><a id="%E4%B8%8E%E6%96%87%E7%AB%A0%E4%B8%AD%E7%9A%84%E5%B7%AE%E5%BC%82%EF%BC%9A" class="anchor" aria-hidden="true" href="#%E4%B8%8E%E6%96%87%E7%AB%A0%E4%B8%AD%E7%9A%84%E5%B7%AE%E5%BC%82%EF%BC%9A"><span class="octicon octicon-link"></span></a>与文章中的差异：</h5>
+<h5><a id="%E4%B8%8E%E6%96%87%E7%AB%A0%E4%B8%AD%E7%9A%84%E5%B7%AE%E5%BC%82%EF%BC%9A" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>与文章中的差异：</h5>
 <blockquote>
 <p>所有问题由组长来定属于紧急问题，还是特性问题。</p>
 <blockquote>
@@ -106,7 +106,7 @@ $(document).ready(function(event) {
 <p>推荐git图形界面mac用sourcetree，windows用git tortoise，可以清晰看到提交记录图和提交人。</p>
 <p>注意：生产分支、预发布分支分别2人有修改权限，负责代码合并，预发布分支合并到生产分支时，需要看git提交记录图，所有修改人员必须签字，说明修改部分关联的项目，分支权限定期抽查。</p>
 </blockquote>
-<h5><a id="%E5%BB%BA%E8%AE%AE%E5%88%86%E6%94%AF%E5%91%BD%E5%90%8D%EF%BC%9A" class="anchor" aria-hidden="true" href="#%E5%BB%BA%E8%AE%AE%E5%88%86%E6%94%AF%E5%91%BD%E5%90%8D%EF%BC%9A"><span class="octicon octicon-link"></span></a>建议分支命名：</h5>
+<h5><a id="%E5%BB%BA%E8%AE%AE%E5%88%86%E6%94%AF%E5%91%BD%E5%90%8D%EF%BC%9A" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>建议分支命名：</h5>
 <blockquote>
 <p>云端：</p>
 <blockquote>
@@ -150,14 +150,14 @@ $(document).ready(function(event) {
 <p>注意：脚本分预制脚本（insert）、建库脚本（create、alter）</p>
 </blockquote>
 </blockquote>
-<h2><a id="db%E5%BB%BA%E8%AE%AE" class="anchor" aria-hidden="true" href="#db%E5%BB%BA%E8%AE%AE"><span class="octicon octicon-link"></span></a>DB建议</h2>
+<h2><a id="db%E5%BB%BA%E8%AE%AE" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>DB建议</h2>
 <blockquote>
 <p>测试环境开放读写权限，公司白名单。</p>
 <p>生产环境云端、门店数据库，白名单访问。</p>
 <p>预发布环境只开放读权限，脚本需交给组长备份，组长交给运维执行。建议备份文件名和 <strong>预发布分支</strong> 名保持一致，<strong>预发布分支</strong> 合并到 <strong>生产分支</strong> 时添加到 <strong>预发布分支</strong> 的SQL文件夹下，并执行相同名称的sql文件。</p>
 <p>缺：平台出工具根据时间段抽取云端指定商户、门店的数据，并做脱敏处理。</p>
 </blockquote>
-<h2><a id="config%E5%BB%BA%E8%AE%AE" class="anchor" aria-hidden="true" href="#config%E5%BB%BA%E8%AE%AE"><span class="octicon octicon-link"></span></a>Config建议</h2>
+<h2><a id="config%E5%BB%BA%E8%AE%AE" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Config建议</h2>
 <blockquote>
 <p>项目只留address.conf，local.conf两个配置文件，local.conf引用address.conf。所有存在环境差异的配置，都放到address.conf里，不要单独创建redis.conf。</p>
 <p>1、address.conf中包含所有项目的ip、端口。</p>
@@ -221,7 +221,7 @@ address {
     user.payway.getall=${loginService}&quot;/position/businesspower/getEmpPowerList&quot;
 </code></pre>
 </blockquote>
-<h2><a id="%E5%90%8E%E7%AB%AF%E6%8F%92%E4%BB%B6%E5%BB%BA%E8%AE%AE" class="anchor" aria-hidden="true" href="#%E5%90%8E%E7%AB%AF%E6%8F%92%E4%BB%B6%E5%BB%BA%E8%AE%AE"><span class="octicon octicon-link"></span></a>后端插件建议</h2>
+<h2><a id="%E5%90%8E%E7%AB%AF%E6%8F%92%E4%BB%B6%E5%BB%BA%E8%AE%AE" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>后端插件建议</h2>
 <blockquote>
 <p>插件名：Alibaba Java Coding Guidelines</p>
 <p>github地址：<a href="https://github.com/alibaba/p3c/">https://github.com/alibaba/p3c/</a></p>
@@ -232,7 +232,7 @@ address {
 <p>有问题的代码会以红色/黑色波浪线标记出来，需要按照提示修改代码。</p>
 </blockquote>
 </blockquote>
-<h2><a id="%E4%BB%A3%E7%A0%81%E5%BB%BA%E8%AE%AE" class="anchor" aria-hidden="true" href="#%E4%BB%A3%E7%A0%81%E5%BB%BA%E8%AE%AE"><span class="octicon octicon-link"></span></a>代码建议</h2>
+<h2><a id="%E4%BB%A3%E7%A0%81%E5%BB%BA%E8%AE%AE" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>代码建议</h2>
 <blockquote>
 <p>1、 接口入参避免使用类型强转</p>
 <p>2、小数禁止直接参与运算，用BigDecimal</p>
@@ -291,12 +291,12 @@ public void doRight(JSONObject userInfo){
 <blockquote>
 <p>5、更多建议参考<a href="http://www.ruanyifeng.com/blog/2012/07/git.html">http://www.ruanyifeng.com/blog/2012/07/git.html</a>里面的《阿里巴巴Java开发手册（详尽版）.pdf》</p>
 </blockquote>
-<h2><a id="%E6%8E%A5%E5%8F%A3%E5%BB%BA%E8%AE%AE" class="anchor" aria-hidden="true" href="#%E6%8E%A5%E5%8F%A3%E5%BB%BA%E8%AE%AE"><span class="octicon octicon-link"></span></a>接口建议</h2>
+<h2><a id="%E6%8E%A5%E5%8F%A3%E5%BB%BA%E8%AE%AE" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>接口建议</h2>
 <blockquote>
 <p>rap上的参数必须和实际接口中的参数一致，前后端并行开发时，先约定好mock数据。</p>
 <p>严格按照restful规范，外部接口走token，服务之间能走token走token，走不了token走签名，不允许免认证（特殊接口除外）。</p>
 </blockquote>
-<h2><a id="%E6%89%93%E7%89%88%E5%BB%BA%E8%AE%AE" class="anchor" aria-hidden="true" href="#%E6%89%93%E7%89%88%E5%BB%BA%E8%AE%AE"><span class="octicon octicon-link"></span></a>打版建议</h2>
+<h2><a id="%E6%89%93%E7%89%88%E5%BB%BA%E8%AE%AE" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>打版建议</h2>
 <blockquote>
 <p>预发布、正式环境打版需填申请单</p>
 <blockquote>
@@ -307,7 +307,7 @@ public void doRight(JSONObject userInfo){
 <p>5、实施验证问题，填写或邮件确认验证情况。</p>
 <p>6、申请单完成，交给产品存档。</p>
 </blockquote>
-<h2><a id="%E6%97%A5%E5%BF%97%E5%BB%BA%E8%AE%AE" class="anchor" aria-hidden="true" href="#%E6%97%A5%E5%BF%97%E5%BB%BA%E8%AE%AE"><span class="octicon octicon-link"></span></a>日志建议</h2>
+<h2><a id="%E6%97%A5%E5%BF%97%E5%BB%BA%E8%AE%AE" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>日志建议</h2>
 <p>先按照各组需求输出，规范待整理</p>
 </blockquote>
 
@@ -434,7 +434,7 @@ public void doRight(JSONObject userInfo){
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Flutter.html"><strong>Flutter&nbsp;(1)</strong></a>
+	        <a href="Flutter.html"><strong>Flutter&nbsp;(2)</strong></a>
 	        
 	        
 	        
@@ -445,6 +445,12 @@ public void doRight(JSONObject userInfo){
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16292522945585.html">避免和WillPopScope与iOS手势冲突</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -467,12 +473,6 @@ public void doRight(JSONObject userInfo){
 	      
 		      <li class="post">
 		        <a href="16261554677251.html">Flutter中Row中的子控件左右两端对齐</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16246203092572.html">flutter 多环境设置</a>
 		      </li>
 	     
 	  

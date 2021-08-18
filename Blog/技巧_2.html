@@ -85,7 +85,7 @@ $(document).ready(function(event) {
 	  	<div class="entry-content">
 		  	
 		  	<p>实施反馈项目在<code>iPad 2</code>上比较卡顿,所以要对项目进行优化.</p>
-<h2><a id="%E4%BC%98%E5%8C%96%E9%9B%86%E4%B8%AD%E7%82%B9%E4%B8%BAcollectionview" class="anchor" aria-hidden="true" href="#%E4%BC%98%E5%8C%96%E9%9B%86%E4%B8%AD%E7%82%B9%E4%B8%BAcollectionview"><span class="octicon octicon-link"></span></a>优化集中点为collectionView</h2>
+<h2><a id="%E4%BC%98%E5%8C%96%E9%9B%86%E4%B8%AD%E7%82%B9%E4%B8%BAcollectionview" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>优化集中点为collectionView</h2>
 <p>项目有两种显示效果,一种是图片模式,一种是纯文字模式. 纯文字模式滑动起来还不错,图片模式就比较卡了.经分析,项目做了部分修改,使滑动效果比较顺畅.</p>
 <ul>
 <li>栅格化: 目的是离屏渲染,不过还是卡顿</li>
@@ -123,7 +123,7 @@ $(document).ready(function(event) {
 <li>上面优化后效果不是很明显,最后采取了<strong>以空间换时间</strong>的方式优化图片列表页<br />
 提前用<code>Kingfisher</code>下载图片(这个过程原先就有)下载过图片也做了不再下载的处理,由于图片过多导致不会有太多列表页的图片缓存中内存中. 针对这个问题,我采用了每次进入app就把列表页的图片使用<code>NSCache&lt;NSString, UIImage&gt;</code>缓存起来,效果很明显.</li>
 </ul>
-<h2><a id="%E7%9B%AE%E5%89%8D%E8%BF%98%E5%AD%98%E5%9C%A8%E9%97%AE%E9%A2%98" class="anchor" aria-hidden="true" href="#%E7%9B%AE%E5%89%8D%E8%BF%98%E5%AD%98%E5%9C%A8%E9%97%AE%E9%A2%98"><span class="octicon octicon-link"></span></a>目前还存在问题</h2>
+<h2><a id="%E7%9B%AE%E5%89%8D%E8%BF%98%E5%AD%98%E5%9C%A8%E9%97%AE%E9%A2%98" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>目前还存在问题</h2>
 <p>下载图片失败率还是很高的,我设置的超时时间为60s <code>downloader.downloadTimeout = 60</code> 但是还是有很多图片下载超时,导致首次加载的时候需要下载图片滑动卡顿.<br />
 由于<code>NSCache</code>的特殊性,不能保证图片一直在内存中,正在考虑是否替换成Dictionary,然后自己处理内存警告.这个稍后验证下.</p>
 
@@ -142,15 +142,15 @@ $(document).ready(function(event) {
 		 </header>
 	  	<div class="entry-content">
 		  	
-		  	<h2><a id="1%E6%B7%BB%E5%8A%A0" class="anchor" aria-hidden="true" href="#1%E6%B7%BB%E5%8A%A0"><span class="octicon octicon-link"></span></a>1/添加</h2>
+		  	<h2><a id="1%E6%B7%BB%E5%8A%A0" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>1/添加</h2>
 <p><code>vim .zshrc</code></p>
 <p>添加<br />
 <code>alias subl=&quot;open -a Sublime\ Text&quot;</code>（如果你是Sublime Text ）<br />
 或者<br />
 <code>alias subl=&quot;open -a Sublime\ Text\ 2&quot;</code> （如果你是Sublime Text 2）</p>
-<h2><a id="2%E7%94%9F%E6%95%88" class="anchor" aria-hidden="true" href="#2%E7%94%9F%E6%95%88"><span class="octicon octicon-link"></span></a>2/生效</h2>
+<h2><a id="2%E7%94%9F%E6%95%88" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>2/生效</h2>
 <p><code>source ~/.zshrc</code></p>
-<h2><a id="3%E6%B5%8B%E8%AF%95" class="anchor" aria-hidden="true" href="#3%E6%B5%8B%E8%AF%95"><span class="octicon octicon-link"></span></a>3/测试</h2>
+<h2><a id="3%E6%B5%8B%E8%AF%95" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>3/测试</h2>
 <p>在命令行输入：<br />
 <code>subl</code>     就可以打开sublime</p>
 <p>输入：<br />
@@ -388,7 +388,7 @@ extension BaseNavigationController:UIGestureRecognizerDelegate {
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Flutter.html"><strong>Flutter&nbsp;(1)</strong></a>
+	        <a href="Flutter.html"><strong>Flutter&nbsp;(2)</strong></a>
 	        
 	        
 	        
@@ -399,6 +399,12 @@ extension BaseNavigationController:UIGestureRecognizerDelegate {
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16292522945585.html">避免和WillPopScope与iOS手势冲突</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -421,12 +427,6 @@ extension BaseNavigationController:UIGestureRecognizerDelegate {
 	      
 		      <li class="post">
 		        <a href="16261554677251.html">Flutter中Row中的子控件左右两端对齐</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16246203092572.html">flutter 多环境设置</a>
 		      </li>
 	     
 	  

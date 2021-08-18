@@ -81,8 +81,8 @@ $(document).ready(function(event) {
 				<p class="meta"><time datetime="2018-01-23T09:50:53+08:00" pubdate data-updated="true">2018/1/23</time></p>
 			 </header>
 		  	<div class="entry-content">
-			  	<h3><a id="oc%E4%B8%AD%E6%98%BE%E7%A4%BA" class="anchor" aria-hidden="true" href="#oc%E4%B8%AD%E6%98%BE%E7%A4%BA"><span class="octicon octicon-link"></span></a>OC中显示</h3>
-<h5><a id="%E6%B7%BB%E5%8A%A0%E4%B8%AD%E5%88%92%E7%BA%BF" class="anchor" aria-hidden="true" href="#%E6%B7%BB%E5%8A%A0%E4%B8%AD%E5%88%92%E7%BA%BF"><span class="octicon octicon-link"></span></a>添加中划线:</h5>
+			  	<h3><a id="oc%E4%B8%AD%E6%98%BE%E7%A4%BA" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>OC中显示</h3>
+<h5><a id="%E6%B7%BB%E5%8A%A0%E4%B8%AD%E5%88%92%E7%BA%BF" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>添加中划线:</h5>
 <pre><code>  UILabel * strikeLabel = [[UILabel alloc] initWithFrame:(CGRectMake(10, 10, 50, 30))];
   NSString *textStr = [NSString stringWithFormat:@&quot;%@元&quot;, primeCost];
 
@@ -95,7 +95,7 @@ $(document).ready(function(event) {
 
   [self.view addSubview:strikeLabel];
 </code></pre>
-<h5><a id="%E6%B7%BB%E5%8A%A0%E4%B8%8B%E5%88%92%E7%BA%BF" class="anchor" aria-hidden="true" href="#%E6%B7%BB%E5%8A%A0%E4%B8%8B%E5%88%92%E7%BA%BF"><span class="octicon octicon-link"></span></a>添加下划线:</h5>
+<h5><a id="%E6%B7%BB%E5%8A%A0%E4%B8%8B%E5%88%92%E7%BA%BF" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>添加下划线:</h5>
 <pre><code>  UILabel *underlineLabel = [[UILabel alloc] initWithFrame:(CGRectMake(10, 10, 50, 30))];
   NSString *textStr = [NSString stringWithFormat:@&quot;%@元&quot;, primeCost];
 
@@ -108,7 +108,7 @@ $(document).ready(function(event) {
 
   [self.view addSubview:underlineLabel];
 </code></pre>
-<h3><a id="swift%E4%B8%AD%E6%98%BE%E7%A4%BA" class="anchor" aria-hidden="true" href="#swift%E4%B8%AD%E6%98%BE%E7%A4%BA"><span class="octicon octicon-link"></span></a>Swift中显示</h3>
+<h3><a id="swift%E4%B8%AD%E6%98%BE%E7%A4%BA" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Swift中显示</h3>
 <pre><code>let myAttributes: [NSAttributedStringKey : Any] = [NSAttributedStringKey.strikethroughStyle: NSUnderlineStyle.styleSingle.rawValue]
             
 let attributedText = NSAttributedString(string: &quot;被划线文字&quot;, attributes: myAttributes)
@@ -237,7 +237,7 @@ let attributedText = NSAttributedString(string: &quot;被划线文字&quot;, att
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Flutter.html"><strong>Flutter&nbsp;(1)</strong></a>
+	        <a href="Flutter.html"><strong>Flutter&nbsp;(2)</strong></a>
 	        
 	        
 	        
@@ -248,6 +248,12 @@ let attributedText = NSAttributedString(string: &quot;被划线文字&quot;, att
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16292522945585.html">避免和WillPopScope与iOS手势冲突</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -270,12 +276,6 @@ let attributedText = NSAttributedString(string: &quot;被划线文字&quot;, att
 	      
 		      <li class="post">
 		        <a href="16261554677251.html">Flutter中Row中的子控件左右两端对齐</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16246203092572.html">flutter 多环境设置</a>
 		      </li>
 	     
 	  

@@ -78,6 +78,126 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="15978901087507.html">529. Minesweeper（529. 扫雷游戏）</a></h1>
+			<p class="meta"><time datetime="2020-08-20T10:21:48+08:00" 
+			pubdate data-updated="true">2020/8/20</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>题目地址:<a href="https://leetcode-cn.com/problems/minesweeper/">529. 扫雷游戏</a></p>
+<p>Let's play the minesweeper game (<a href="https://en.wikipedia.org/wiki/Minesweeper_(video_game)">Wikipedia</a>, <a href="http://minesweeperonline.com/">online game</a>)!</p>
+<p>You are given a 2D char matrix representing the game board. <strong>'M'</strong> represents an <strong>unrevealed</strong> mine, <strong>'E'</strong> represents an <strong>unrevealed</strong> empty square, <strong>'B'</strong> represents a ** revealed** blank square that has no adjacent (above, below, left, right, and all 4 diagonals) mines, digit ('1' to '8') represents how many mines are adjacent to this ** revealed** square, and finally <strong>'X'</strong> represents a ** revealed** mine.</p>
+<p>Now given the next click position (row and column indices) among all the <strong>unrevealed</strong> squares (<strong>'M'</strong> or <strong>'E'</strong>), return the board after revealing this position according to the following rules:</p>
+<ol>
+<li>If a mine (<strong>'M'</strong>) is ** revealed**, then the game is over - change it to <strong>'X'</strong>.</li>
+<li>If an empty square (<strong>'E'</strong>) with <strong>no adjacent mines</strong> is revealed, then change it to revealed blank (<strong>'B'</strong>) and all of its adjacent <strong>unrevealed</strong> squares should be revealed recursively.</li>
+<li>If an empty square (<strong>'E'</strong>) with <strong>at least one adjacent mine</strong> is revealed, then change it to a digit ('1' to '8') representing the number of adjacent mines.</li>
+<li>Return the board when no more squares will be ** revealed**.</li>
+</ol>
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong></p>
+<pre><code>[['E', 'E', 'E', 'E', 'E'],
+ ['E', 'E', 'M', 'E', 'E'],
+ ['E', 'E', 'E', 'E', 'E'],
+ ['E', 'E', 'E', 'E', 'E']]
+
+Click : [3,0]
+</code></pre>
+<p><strong>Output:</strong></p>
+<pre><code>[['B', '1', 'E', '1', 'B'],
+ ['B', '1', 'M', '1', 'B'],
+ ['B', '1', '1', '1', 'B'],
+ ['B', 'B', 'B', 'B', 'B']]
+
+</code></pre>
+<p><strong>Explanation:</strong><br />
+<img src="media/15978901087507/15978907322780.png" alt="" style="width:532px;" /></p>
+<ul>
+<li><strong>Example 2:</strong></li>
+</ul>
+<p><strong>Input:</strong></p>
+<pre><code>[['B', '1', 'E', '1', 'B'],
+ ['B', '1', 'M', '1', 'B'],
+ ['B', '1', '1', '1', 'B'],
+ ['B', 'B', 'B', 'B', 'B']]
+
+Click : [1,2]
+</code></pre>
+<p><strong>Output:</strong></p>
+<pre><code>[['B', '1', 'E', '1', 'B'],
+ ['B', '1', 'X', '1', 'B'],
+ ['B', '1', '1', '1', 'B'],
+ ['B', 'B', 'B', 'B', 'B']]
+
+</code></pre>
+<p><strong>Explanation:</strong><br />
+<img src="media/15978901087507/15978909318647.png" alt="" style="width:511px;" /></p>
+<p><strong>Note:</strong></p>
+<ol>
+<li>The range of the input matrix's height and width is [1,50].</li>
+<li>The click position will only be an unrevealed square ('M' or 'E'), which also means the input board contains at least one clickable square.</li>
+<li>The input board won't be a stage when game is over (some mines have been revealed).</li>
+<li>For simplicity, not mentioned rules should be ignored in this problem. For example, you don't need to reveal all the unrevealed mines when the game is over, consider any cases that you will win the game or flag any squares.</li>
+</ol>
+<p>思路：<br />
+深度优先</p>
+<pre><code class="language-Java">public class Solution {
+    // 坐标相邻的8个方向 上，下，左，右，左上，左下，右上，右下
+    private int[][] dirs = {{0,1},{0,-1},{-1,0},{1,0},{-1,1},{-1,-1},{1,1},{1,-1}};
+    public char[][] updateBoard(char[][] board, int[] click) {
+        // 获取当前坐标
+        int row = click[0], col = click[1];
+        // 边界条件
+        int m = board.length, n = board[0].length;
+
+        // 如果找到M（未挖出的雷）或者X（已挖出的雷）游戏结束
+        if (board[row][col] == 'M' || board[row][col] == 'X') {
+            board[row][col] = 'X';
+            return board;
+        }
+
+        // 找周边有几个雷
+        int num = 0;
+        for (int[] dir : dirs) {
+            int newRow = dir[0] + row;
+            int newCol = dir[1] + col;
+            // 如果周围是未被揭开的雷，周围雷的数量递增
+            if (newRow &gt;= 0 &amp;&amp; newCol &gt;= 0 &amp;&amp; newRow &lt; m &amp;&amp; newCol &lt; n &amp;&amp; board[newRow][newCol] == 'M') {
+                num++;
+            }
+        }
+
+        // 如果周围有雷
+        if (num &gt; 0) {
+            board[row][col] = (char) (num + '0');
+            return board;
+        }
+
+        // 如果一个没有相邻地雷的空方块（'E'）被挖出，修改它为（'B'）
+        board[row][col] = 'B';
+        for (int[] dir : dirs) {
+            int newRow = dir[0] + row;
+            int newCol = dir[1] + col;
+            // 所有和其相邻的未挖出方块都应该被递归地揭露。
+            if (newRow &gt;= 0 &amp;&amp; newCol &gt;= 0 &amp;&amp; newRow &lt; m &amp;&amp; newCol &lt; n &amp;&amp; board[newRow][newCol] == 'E') {
+                updateBoard(board,new int[]{newRow,newCol});
+            }
+        }
+
+        return board;
+    }
+}
+</code></pre>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="15978472756793.html">647. Palindromic Substrings</a></h1>
 			<p class="meta"><time datetime="2020-08-19T22:27:55+08:00" 
 			pubdate data-updated="true">2020/8/19</time></p>
@@ -295,125 +415,6 @@ Setting-&gt;Build-&gt;Compiler<br />
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="15962945237035.html">632. Smallest Range Covering Elements from K Lists</a></h1>
-			<p class="meta"><time datetime="2020-08-01T23:08:43+08:00" 
-			pubdate data-updated="true">2020/8/1</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>题目地址:<a href="https://leetcode-cn.com/problems/smallest-range-covering-elements-from-k-lists/">632. 最小区间</a><br />
-You have <code>k</code> lists of sorted integers in ascending order. Find the smallest range that includes at least one number from each of the <code>k</code> lists.</p>
-<p>We define the range <code>[a,b]</code> is smaller than range <code>[c,d]</code> if <code>b-a &lt; d-c</code> or <code>a &lt; c</code> if <code>b-a == d-c</code>.</p>
-<ul>
-<li><strong>Example 1:</strong></li>
-</ul>
-<pre><code>Input: [[4,10,15,24,26], [0,9,12,20], [5,18,22,30]]
-Output: [20,24]
-Explanation: 
-List 1: [4, 10, 15, 24,26], 24 is in range [20,24].
-List 2: [0, 9, 12, 20], 20 is in range [20,24].
-List 3: [5, 18, 22, 30], 22 is in range [20,24].
-</code></pre>
-<p>Note:</p>
-<ol>
-<li>The given list may contain duplicates, so ascending order means &gt;= here.</li>
-<li>1 &lt;= k &lt;= 3500</li>
-<li>-10^5 &lt;= value of elements &lt;= 10^5.</li>
-</ol>
-<p>解题思路：<br />
-先看🌰</p>
-<pre><code>4,10,15,24,26
-0, 9,12,20
-5,18,22,30
-</code></pre>
-<p>因为每个数组中必须有一个数字包含在其中，一开始我们取每个数组中的第一个数字</p>
-<pre><code>*4*,10,15,24,26
-*0*, 9,12,20
-*5*,18,22,30
-</code></pre>
-<p><code>4,0,5</code>最小的是<code>0</code>,最大值是<code>5</code>区间是<code>5-0=5</code><br />
-把第一个最小区间5的坐标记录下来就是<code>[0,5]</code><br />
-去掉最小的值,然后最小值所在的数组向后取一位即</p>
-<pre><code>*4*,10,15,24,26
-0, *9*,12,20
-*5*,18,22,30
-</code></pre>
-<p><code>4,9,5</code>最小的是<code>4</code>,最大值是<code>9</code>区间是<code>9-4=5</code>最小区间不变还是5,所以去掉最小的值,然后最小值所在的数组向后取一位即</p>
-<pre><code>4,*10*,15,24,26
-0, *9*,12,20
-*5*,18,22,30
-</code></pre>
-<p><code>10,9,5</code>最小的是<code>5</code>,最大值是<code>10</code>区间是<code>10-5=5</code>最小区间不变还是5,所以去掉最小的值,然后最小值所在的数组向后取一位即</p>
-<pre><code>4,*10*,15,24,26
-0, *9*,12,20
-5,*18*,22,30
-</code></pre>
-<p><code>10,9,18</code>最小的是<code>9</code>,最大值是<code>18</code>区间是<code>18-9=9</code>,因为<code>9&gt;5</code>不符合规则,最小区间不变还是5,所以去掉最小的值,然后最小值所在的数组向后取一位即</p>
-<pre><code>4,*10*,15,24,26
-0, 9,*12*,20
-5,*18*,22,30
-</code></pre>
-<p><code>10,12,18</code>最小的是<code>10</code>,最大值是<code>18</code>区间是<code>18-10=8</code>,因为<code>8&gt;5</code>不符合规则,最小区间不变还是5,所以去掉最小的值,然后最小值所在的数组向后取一位即</p>
-<pre><code>4,10,*15*,24,26
-0, 9,*12*,20
-5,*18*,22,30
-</code></pre>
-<p><code>15,12,18</code>最小的是<code>12</code>,最大值是<code>18</code>区间是<code>18-12=6</code>,因为<code>6&gt;5</code>不符合规则,最小区间不变还是5,所以去掉最小的值,然后最小值所在的数组向后取一位即</p>
-<pre><code>4,10,*15*,24,26
-0, 9,12,*20*
-5,*18*,22,30
-</code></pre>
-<p><code>15,20,18</code>最小的是<code>15</code>,最大值是<code>20</code>区间是<code>20-15=5</code>,最小区间不变还是5,所以去掉最小的值,然后最小值所在的数组向后取一位即</p>
-<pre><code>4,10,15,*24*,26
-0, 9,12,*20*
-5,*18*,22,30
-</code></pre>
-<p><code>24,20,18</code>最小的是<code>18</code>,最大值是<code>24</code>区间是<code>24-18=6</code>,因为<code>6&gt;5</code>不符合规则,最小区间不变还是5,所以去掉最小的值,然后最小值所在的数组向后取一位即</p>
-<pre><code>4,10,15,*24*,26
-0, 9,12,*20*
-5,18,*22*,30
-</code></pre>
-<p><code>24,20,22</code>最小的是<code>20</code>,最大值是<code>24</code>区间是<code>24-20=4</code>,因为<code>4&lt;5</code>符合规则,最小区间变更为4,把最小区间4的坐标记录下来就是<code>[20,24]</code>,这时继续向后走,由于最小值是<code>20</code>而<code>20</code>所在的数组已经走到了结尾,不能继续走,再走就不能满足每个数组中必须有一个数包含在其中.<br />
-所以返回最小区间<code>[20,24</code></p>
-<p>参考代码:</p>
-<pre><code class="language-Java">class Solution {
-    public int[] smallestRange(List&lt;List&lt;Integer&gt;&gt; nums) {
-        // 里面存储的是行列数据位置，优先级是列中数据大小
-        PriorityQueue&lt;int[]&gt; q = new PriorityQueue&lt;&gt;(Comparator.comparingInt(o -&gt; nums.get(o[0]).get(o[1])));
-        int max = Integer.MIN_VALUE, start = 0, end = Integer.MAX_VALUE;
-        // 先让每个数组中的第一个数进入 q
-        for (int i = 0; i &lt; nums.size(); i++) {
-            q.offer(new int[]{i, 0});
-            max = Math.max(max, nums.get(i).get(0));
-        }
-        while (q.size() == nums.size()) {
-            // 取出最小的元素获得到行列信息
-            int e[] = q.poll(), row = e[0], col = e[1];
-            // 比较，如果符合条件就更新最小区间信息
-            if (end - start &gt; max - nums.get(row).get(col)) {
-                start = nums.get(row).get(col);
-                end = max;
-            }
-            // 防止越界
-            if (col + 1 &lt; nums.get(row).size()) {
-                q.offer(new int[]{row, col + 1});
-                max = Math.max(max, nums.get(row).get(col + 1));
-            }
-        }
-        return new int[]{start, end};
-    }
-}
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_4.html">&larr; Older</a> 
@@ -506,7 +507,7 @@ List 3: [5, 18, 22, 30], 22 is in range [20,24].
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Flutter.html"><strong>Flutter&nbsp;(1)</strong></a>
+	        <a href="Flutter.html"><strong>Flutter&nbsp;(2)</strong></a>
 	        
 	        
 	        
@@ -517,6 +518,12 @@ List 3: [5, 18, 22, 30], 22 is in range [20,24].
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16292522945585.html">避免和WillPopScope与iOS手势冲突</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -539,12 +546,6 @@ List 3: [5, 18, 22, 30], 22 is in range [20,24].
 	      
 		      <li class="post">
 		        <a href="16261554677251.html">Flutter中Row中的子控件左右两端对齐</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16246203092572.html">flutter 多环境设置</a>
 		      </li>
 	     
 	  

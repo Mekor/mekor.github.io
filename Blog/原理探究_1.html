@@ -164,7 +164,7 @@ Student中写个text方法,然后打印下这两个隐藏参数.<br />
 <img src="media/14727863232294/14729983827897.jpg" alt="" /><br />
 上面是动态添加对象方法的例子,动态添加类方法也是一样的<code>+(BOOL)resolveClassMethod:(SEL)sel</code><br />
 **注意:**上面函数类型,有人可能好奇这块为什么写成&quot;v@:&quot;  ?参见:函数类型, 更多关于转发机制参见:<a href="http://www.citynight.cn/Blog/14733118707964.html">转发机制</a></p>
-<h3><a id="%E5%85%B3%E4%BA%8E%E5%87%BD%E6%95%B0%E7%B1%BB%E5%9E%8B" class="anchor" aria-hidden="true" href="#%E5%85%B3%E4%BA%8E%E5%87%BD%E6%95%B0%E7%B1%BB%E5%9E%8B"><span class="octicon octicon-link"></span></a>关于函数类型</h3>
+<h3><a id="%E5%85%B3%E4%BA%8E%E5%87%BD%E6%95%B0%E7%B1%BB%E5%9E%8B" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>关于函数类型</h3>
 <p>先看文档:<br />
 <img src="media/14727863232294/14730056768742.jpg" alt="" /><br />
 查看<code>Objective-C type encodings</code> <img src="media/14727863232294/14730058881001.jpg" alt="" /><br />
@@ -179,7 +179,7 @@ typedef id (*IMP)(id, SEL, ...);
 #endif
 </code></pre>
 <p>当前版本Xcode如果使用IMP的话,默认是选择第一个也就是无参无返回值.如果需要参数有返回值的话,需要修改配置文件.如下:</p>
-<h2><a id="%E6%96%B9%E6%B3%95%E4%BA%A4%E6%8D%A2method-swizzling%E4%BC%A0%E8%AF%B4%E4%B8%AD%E7%9A%84%E9%BB%91%E9%AD%94%E6%B3%95" class="anchor" aria-hidden="true" href="#%E6%96%B9%E6%B3%95%E4%BA%A4%E6%8D%A2method-swizzling%E4%BC%A0%E8%AF%B4%E4%B8%AD%E7%9A%84%E9%BB%91%E9%AD%94%E6%B3%95"><span class="octicon octicon-link"></span></a>方法交换(Method Swizzling:传说中的黑魔法)</h2>
+<h2><a id="%E6%96%B9%E6%B3%95%E4%BA%A4%E6%8D%A2method-swizzling%E4%BC%A0%E8%AF%B4%E4%B8%AD%E7%9A%84%E9%BB%91%E9%AD%94%E6%B3%95" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>方法交换(Method Swizzling:传说中的黑魔法)</h2>
 <p>一般使用方法交换都是想给系统提供的方法添加一些其他的功能的时候使用.new中使用方法交换的例子:</p>
 <pre><code class="language-objc">#import &quot;UIActionSheet+Front.h&quot;
 
@@ -453,7 +453,7 @@ KVC 通过实现名为NSKeyValueCoding的非正式协议,使开发者可以通�
 		 </header>
 	  	<div class="entry-content">
 		  	
-		  	<h3><a id="%E4%B8%80%E3%80%81runtime%E7%AE%80%E4%BB%8B" class="anchor" aria-hidden="true" href="#%E4%B8%80%E3%80%81runtime%E7%AE%80%E4%BB%8B"><span class="octicon octicon-link"></span></a>一、runtime简介</h3>
+		  	<h3><a id="%E4%B8%80%E3%80%81runtime%E7%AE%80%E4%BB%8B" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>一、runtime简介</h3>
 <ul>
 <li>runTime简称运行时。OC就是<code>运行时机制</code>，也就是在运行时候的一些机制，其中最主要的是消息机制。</li>
 <li>对于C语言，<code>函数的调用在编译的时候会决定调用哪个函数</code>。</li>
@@ -465,8 +465,8 @@ KVC 通过实现名为NSKeyValueCoding的非正式协议,使开发者可以通�
 </ul>
 </li>
 </ul>
-<h3><a id="%E4%BA%8C%E3%80%81runtime%E4%BD%9C%E7%94%A8" class="anchor" aria-hidden="true" href="#%E4%BA%8C%E3%80%81runtime%E4%BD%9C%E7%94%A8"><span class="octicon octicon-link"></span></a>二、runtime作用</h3>
-<h4><a id="1%E5%8F%91%E9%80%81%E6%B6%88%E6%81%AF" class="anchor" aria-hidden="true" href="#1%E5%8F%91%E9%80%81%E6%B6%88%E6%81%AF"><span class="octicon octicon-link"></span></a>1.发送消息</h4>
+<h3><a id="%E4%BA%8C%E3%80%81runtime%E4%BD%9C%E7%94%A8" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>二、runtime作用</h3>
+<h4><a id="1%E5%8F%91%E9%80%81%E6%B6%88%E6%81%AF" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>1.发送消息</h4>
 <ul>
 <li>方法调用的本质，就是让对象发送消息。</li>
 <li>objc_msgSend,只有对象才能发送消息，因此以objc开头.</li>
@@ -498,7 +498,7 @@ KVC 通过实现名为NSKeyValueCoding的非正式协议,使开发者可以通�
 <li>消息机制原理:对象根据方法编号SEL去映射表查找对应的方法实现<br />
 <img src="media/14717809514175/14717888515211.jpg" alt="" /></li>
 </ul>
-<h4><a id="2%E4%BA%A4%E6%8D%A2%E6%96%B9%E6%B3%95" class="anchor" aria-hidden="true" href="#2%E4%BA%A4%E6%8D%A2%E6%96%B9%E6%B3%95"><span class="octicon octicon-link"></span></a>2.交换方法</h4>
+<h4><a id="2%E4%BA%A4%E6%8D%A2%E6%96%B9%E6%B3%95" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>2.交换方法</h4>
 <ul>
 <li>开发使用场景:系统自带的方法功能不够，给系统自带的方法扩展一些功能，并且保持原有的功能。</li>
 <li>方式一:继承系统的类，重写方法.</li>
@@ -568,7 +568,7 @@ KVC 通过实现名为NSKeyValueCoding的非正式协议,使开发者可以通�
 </ul>
 </li>
 </ul>
-<h4><a id="3%E5%8A%A8%E6%80%81%E6%B7%BB%E5%8A%A0%E6%96%B9%E6%B3%95" class="anchor" aria-hidden="true" href="#3%E5%8A%A8%E6%80%81%E6%B7%BB%E5%8A%A0%E6%96%B9%E6%B3%95"><span class="octicon octicon-link"></span></a>3.动态添加方法</h4>
+<h4><a id="3%E5%8A%A8%E6%80%81%E6%B7%BB%E5%8A%A0%E6%96%B9%E6%B3%95" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>3.动态添加方法</h4>
 <ul>
 <li>开发使用场景：如果一个类方法非常多，加载类到内存的时候也比较耗费资源，需要给每个方法生成映射表，可以使用动态给某个类，添加方法解决。</li>
 <li>经典面试题：有没有使用performSelector，其实主要想问你有没有动态添加过方法。</li>
@@ -619,7 +619,7 @@ void eat(id self,SEL sel)
 @end
 
 </code></pre>
-<h4><a id="4%E7%BB%99%E5%88%86%E7%B1%BB%E6%B7%BB%E5%8A%A0%E5%B1%9E%E6%80%A7" class="anchor" aria-hidden="true" href="#4%E7%BB%99%E5%88%86%E7%B1%BB%E6%B7%BB%E5%8A%A0%E5%B1%9E%E6%80%A7"><span class="octicon octicon-link"></span></a>4.给分类添加属性</h4>
+<h4><a id="4%E7%BB%99%E5%88%86%E7%B1%BB%E6%B7%BB%E5%8A%A0%E5%B1%9E%E6%80%A7" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>4.给分类添加属性</h4>
 <ul>
 <li>原理：给一个类声明属性，其实本质就是给这个类添加关联，并不是直接把这个值的内存空间添加到类存空间。</li>
 </ul>
@@ -663,7 +663,7 @@ static const char *key = &quot;name&quot;;
 @end
 
 </code></pre>
-<h4><a id="5%E5%AD%97%E5%85%B8%E8%BD%AC%E6%A8%A1%E5%9E%8B" class="anchor" aria-hidden="true" href="#5%E5%AD%97%E5%85%B8%E8%BD%AC%E6%A8%A1%E5%9E%8B"><span class="octicon octicon-link"></span></a>5.字典转模型</h4>
+<h4><a id="5%E5%AD%97%E5%85%B8%E8%BD%AC%E6%A8%A1%E5%9E%8B" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>5.字典转模型</h4>
 <ul>
 <li>设计模型：字典转模型的第一步
 <ul>
@@ -1009,7 +1009,7 @@ static const char *key = &quot;name&quot;;
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Flutter.html"><strong>Flutter&nbsp;(1)</strong></a>
+	        <a href="Flutter.html"><strong>Flutter&nbsp;(2)</strong></a>
 	        
 	        
 	        
@@ -1020,6 +1020,12 @@ static const char *key = &quot;name&quot;;
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16292522945585.html">避免和WillPopScope与iOS手势冲突</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -1042,12 +1048,6 @@ static const char *key = &quot;name&quot;;
 	      
 		      <li class="post">
 		        <a href="16261554677251.html">Flutter中Row中的子控件左右两端对齐</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16246203092572.html">flutter 多环境设置</a>
 		      </li>
 	     
 	  
