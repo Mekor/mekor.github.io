@@ -168,7 +168,11 @@ return Scaffold(
   centerTitle: true,
 ),
 </code></pre>
-<p>这种方式对iOS侧滑返回和Android实体键返回没有效果。</p>
+<p>这种方式对iOS侧滑返回和Android实体键返回没有效果。<br />
+如果将上述返回修改为</p>
+<pre><code>Navigator.of(context).maybePop();
+</code></pre>
+<p>这样就会调用包裹body的<code>WillPopScope</code>.</p>
 
 
 		</div>
