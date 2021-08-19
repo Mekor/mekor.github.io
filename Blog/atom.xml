@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/blog/"/>
-  <updated>2021-08-18T13:43:21+08:00</updated>
+  <updated>2021-08-18T13:48:38+08:00</updated>
   <id>http://www.citynight.cn/blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -12,6 +12,141 @@
   </author>
   <generator uri="http://www.coderforart.com/">CoderForArt</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Scrollable]]></title>
+    <link href="http://www.citynight.cn/blog/16293384343104.html"/>
+    <updated>2021-08-19T10:00:34+08:00</updated>
+    <id>http://www.citynight.cn/blog/16293384343104.html</id>
+    <content type="html"><![CDATA[
+<h2><a id="%E6%BB%9A%E5%8A%A8%E5%88%97%E8%A1%A8%E4%B8%8E%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>滚动列表与动态加载</h2>
+<h3><a id="listview%E6%89%80%E6%9C%89%E5%AD%90%E6%8E%A7%E4%BB%B6%E4%B8%80%E6%AC%A1%E7%9B%B4%E6%8E%A5%E6%B8%B2%E6%9F%93" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>ListView 所有子控件一次直接渲染</h3>
+<p>开发中常见的就是超出屏幕后提示Overflowing 像素超出屏幕了。这时最简单的办法就是外层控件换成ListView，这样就能上下滚动了。</p>
+<h3><a id="listview-builder%E6%8C%89%E9%9C%80%E5%8A%A0%E8%BD%BD" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>ListView.builder 按需加载</h3>
+<p>如果控件比较多肯定不可能一次直接加载所有元素。这时就用到了ListView.builder,可以实现类似UITableView按需加载的效果。</p>
+<p>如果itemCount 不设置即为null的时候，是无限加载，如果itemCount 设置了大小就是加载到固定项数。</p>
+<pre><code class="language-dart">...
+ListView.builder(
+	itemCount: 88,// 不设置就是无限加载，设置就加载该值的数量。
+	itemBuilder:(content,index){
+		print(&quot;building $index&quot;); // 打印当前在画的视图
+		return Container(
+			color: Colors.blue[(index%5)*100],
+			height:100,
+			alignment: Alignment.center,
+			child: Text(&quot;$index&quot;),
+		);
+	}
+);
+</code></pre>
+<p>如上图，就会打印出当前正在渲染第几个。<br />
+<img src="media/16293384343104/3A2D24C6-1778-407B-99B0-65E6E53EB136.jpeg" alt="3A2D24C6-1778-407B-99B0-65E6E53EB136" /></p>
+<p>如果想要改变缓冲区大小可以设置cacheExtent参数</p>
+<pre><code class="language-dart">...
+ListView.builder(
+	itemCount: 100,// 不设置就是无限加载，设置就加载该值的数量。
+	cacheExtent: 2000, // 缓冲区大小，逻辑像素为单位，如果设置为0即不想要缓冲，只加载渲染屏幕正在显示的组件
+	itemBuilder:(content,index){
+		print(&quot;building $index&quot;); // 打印当前在画的视图
+		return Container(
+			color: Colors.blue[(index%5)*100],
+			height:100,
+			alignment: Alignment.center,
+			child: Text(&quot;$index&quot;),
+		);
+	}
+);
+</code></pre>
+<h3><a id="listview-separated%E5%88%86%E5%89%B2%E7%BA%BF" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>ListView.separated 分割线</h3>
+<p>基本用法和ListView.builder一样，只不过添加了separatorBuilder</p>
+<pre><code class="language-dart">ListView.separated(
+	itemCount:6,
+	separatorBuilder: (content,index){
+		return Divider(thickness: 2); //thickness 设置分割线粗细
+	},
+);
+</code></pre>
+<h2><a id="listview%E6%80%A7%E8%83%BD%E9%97%AE%E9%A2%98" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>ListView 性能问题</h2>
+<h3><a id="%E8%AE%BE%E7%BD%AEitemextent" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>设置itemExtent</h3>
+<p>如果每个item大小不一，这样在滑动ScrollBar的时候就会把所有中间位置的item都加载，加载速度会变慢，很耗性能。</p>
+<p>ListView中有一个参数itemExtent，这个参数设置每一个item的固定大小，即使item Builder中的item有大小也会强制设置为itemExtent的值（主轴方向）。</p>
+<p><img src="media/16293384343104/57658C3A-957B-4324-937E-E9CAF86A3EB8.jpeg" alt="57658C3A-957B-4324-937E-E9CAF86A3EB8" /></p>
+<p>由上图也能看出，设置itemExtent后，主轴方向的大小就是itemExtent设置的值，不设置就是视图自己的值。交叉轴方向是要占满ListView的宽度/高度。</p>
+<h3><a id="%E8%AE%BE%E7%BD%AEpadding" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>设置padding</h3>
+<p>给ListView设置padding有三种方式</p>
+<ol>
+<li>
+<p>给ListView外面加padding</p>
+<pre><code class="language-dart">...
+Padding(
+	padding: const EdgeInsets.all(40),
+	child: ListView.builder(
+		...
+	),
+),
+...
+</code></pre>
+<p>这种方式也就固定了ListView的视图padding</p>
+</li>
+<li>
+<p>给item添加padding</p>
+<pre><code class="language-dart">...
+ListView.builder(
+	itemBuilder:(content,index){
+		return Padding(
+			padding: EdgeInsets.symmetric(horizontal: 80),// 水平左右80
+			child: Container(
+				height:80,
+				width: 80,
+				color: Colors.blue,
+			),
+		);
+	},
+),
+</code></pre>
+<p>这种方式是给每一个item添加padding</p>
+</li>
+<li>
+<p>设置padding属性。</p>
+<pre><code class="language-dart">...
+ListView.builder(
+	padding: const EdgeInsets.all(33.0),
+	itemBuilder: ...
+),
+...
+</code></pre>
+<p>这种方式能看到左右的交叉轴方向立即显示padding对应的大小，而主轴方向则显示类似为iOS 中Scroll View中的scrollOfSet</p>
+</li>
+</ol>
+<h3><a id="%E8%AE%BE%E7%BD%AEcontroller" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>设置controller</h3>
+<p>ListView中有一个属性是controller，我们可以给ListView设置controller，从而设置List View滚动相关的控制.</p>
+<pre><code class="language-dart">...
+final _controller = ScrollController();
+
+...
+return Scaffold(
+	appBar: AppBar(
+		title: GestureDetector(
+			onTap:() {
+				//_controller.jumpTo(0.0);// 跳转到第一
+				_controller.animateTo(-20,duration:Duration(seconds:1),curve:Curves.linear,);// 动画跳转，设置为负像素能超出范围然后反弹，持续时间1s，线性动画
+			},
+			child: Text(&quot;ListView Demo&quot;),
+		),
+	),
+);
+</code></pre>
+<p>我们也可以通过_controller.offSet知道目前的位置（逻辑像素）</p>
+<h3><a id="%E8%AE%BE%E7%BD%AEphysics" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>设置physics</h3>
+<p>像安卓一样的效果，可以设置为</p>
+<p>ClampingScrollPhysics</p>
+<p>像iOS一样的效果，可以设置为</p>
+<p>BouncingScrollPhysics</p>
+<p>不能滚动</p>
+<p>NeverScrollableScrollPhysics</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[避免和WillPopScope与iOS手势冲突]]></title>
@@ -1109,33 +1244,6 @@ Setting-&gt;Build-&gt;Compiler<br />
 修改为选中<br />
 <img src="media/15965236438323/15965245587023.jpg" alt="" style="width:950px;" /><br />
 第五步: 重启IDEA</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[@Slf4j注解实现日志输出]]></title>
-    <link href="http://www.citynight.cn/blog/15965198984201.html"/>
-    <updated>2020-08-04T13:44:58+08:00</updated>
-    <id>http://www.citynight.cn/blog/15965198984201.html</id>
-    <content type="html"><![CDATA[
-<p>最近看到B站上有人写代码没有定义log(<code>private final Logger log = LoggerFactory.getLogger(XXX.class);</code>)就能直接用<code>log</code></p>
-<p>查了下可能的方案:</p>
-<ol>
-<li>pom引入 <code>lombok</code></li>
-</ol>
-<pre><code>            &lt;dependency&gt;
-                &lt;groupId&gt;org.projectlombok&lt;/groupId&gt;
-                &lt;artifactId&gt;lombok&lt;/artifactId&gt;
-                &lt;version&gt;${lombok.version}&lt;/version&gt;
-                &lt;optional&gt;true&lt;/optional&gt;
-            &lt;/dependency&gt;
-</code></pre>
-<ol>
-<li>在目标类上添加<code>@Slf4j</code>注解</li>
-<li>然后直接在方法中使用<code>log.info(&quot;*****插入结果：&quot;+result);</code></li>
-<li>如果使用的时候没有找到变量<code>log</code>,IDEA需要安装lombok插件</li>
-</ol>
 
 ]]></content>
   </entry>

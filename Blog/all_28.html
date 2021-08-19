@@ -78,6 +78,46 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14693652209160.html">Android Studio 中如何查看帮助文档</a></h1>
+			<p class="meta"><time datetime="2016-07-24T21:00:20+08:00" 
+			pubdate data-updated="true">2016/7/24</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<ol>
+<li>
+<p>首先下载帮助文档<br />
+<img src="media/14693652209160/14693653611930.jpg" alt="" /></p>
+</li>
+<li>
+<p>跳转到文件夹<br />
+<img src="media/14693652209160/14693654229419.jpg" alt="" /></p>
+</li>
+<li>
+<p>打开帮助文档 index.html<br />
+<img src="media/14693652209160/14693655187234.jpg" alt="" /></p>
+</li>
+<li>
+<p>例如查找Activity 生命周期可以这样走<br />
+<img src="media/14693652209160/14693656858016.jpg" alt="" /><br />
+然后command + f 搜索Activity选中一个高亮的选项例如:<br />
+<img src="media/14693652209160/14693658027297.jpg" alt="" /><br />
+由于它是继承自Activity的所以可以这样<br />
+<img src="media/14693652209160/14693659242489.jpg" alt="" /><br />
+然后往下翻一翻就能看到了<br />
+<img src="media/14693652209160/14693659705775.jpg" alt="" /></p>
+</li>
+</ol>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14689910761027.html">关于签名(Certificate),Identifiers,Device和Provisioning Profile</a></h1>
 			<p class="meta"><time datetime="2016-07-20T13:04:36+08:00" 
 			pubdate data-updated="true">2016/7/20</time></p>
@@ -249,224 +289,6 @@ label.text = @&quot;这是label,点击这里...&quot;;
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14678597180657.html">关于tableViewCell加载图片优化</a></h1>
-			<p class="meta"><time datetime="2016-07-07T10:48:38+08:00" 
-			pubdate data-updated="true">2016/7/7</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>cell的创建</p>
-<pre><code>- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-</code></pre>
-<p>数据处理建议在这里进行:</p>
-<pre><code>-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-</code></pre>
-<p>cell将要显示的时候我们进行一些处理(来自苹果Demo)</p>
-<pre><code>// Only load cached images; defer new downloads until scrolling ends
-if (!appRecord.appIcon)
-{
-    if (self.tableView.dragging == NO &amp;&amp; self.tableView.decelerating == NO)
-    {
-        [self startIconDownload:appRecord forIndexPath:indexPath];
-    }
-    // if a download is deferred or in progress, return a placeholder image
-    cell.imageView.image = [UIImage imageNamed:@&quot;Placeholder.png&quot;];
-}
-else
-{
-    cell.imageView.image = appRecord.appIcon;
-}
-</code></pre>
-<p>这里可以看出,拖拽和滚动的时候不进行图片下载,只有停止的时候才进行.当然我们还需要在scrollView停止滚动和拖拽的时候进行下载</p>
-<pre><code>#pragma mark - UIScrollViewDelegate
-
-// -------------------------------------------------------------------------------
-//	scrollViewDidEndDragging:willDecelerate:
-//  Load images for all onscreen rows when scrolling is finished.
-// -------------------------------------------------------------------------------
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-{
-    if (!decelerate)
-	{
-        [self loadImagesForOnscreenRows];
-    }
-}
-
-// -------------------------------------------------------------------------------
-//	scrollViewDidEndDecelerating:scrollView
-//  When scrolling stops, proceed to load the app icons that are on screen.
-// -------------------------------------------------------------------------------
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-    [self loadImagesForOnscreenRows];
-}
-
-</code></pre>
-<p>下载显示cell的图片</p>
-<pre><code>// -------------------------------------------------------------------------------
-//	loadImagesForOnscreenRows
-//  This method is used in case the user scrolled into a set of cells that don't
-//  have their app icons yet.
-// -------------------------------------------------------------------------------
-- (void)loadImagesForOnscreenRows
-{
-    if (self.entries.count &gt; 0)
-    {
-        NSArray *visiblePaths = [self.tableView indexPathsForVisibleRows];
-        for (NSIndexPath *indexPath in visiblePaths)
-        {
-            AppRecord *appRecord = (self.entries)[indexPath.row];
-            
-            if (!appRecord.appIcon)
-            // Avoid the app icon download if the app already has an icon
-            {
-                [self startIconDownload:appRecord forIndexPath:indexPath];
-            }
-        }
-    }
-}
-</code></pre>
-<p>具体下载:</p>
-<pre><code>#pragma mark - Table cell image support
-
-// -------------------------------------------------------------------------------
-//	startIconDownload:forIndexPath:
-// -------------------------------------------------------------------------------
-- (void)startIconDownload:(AppRecord *)appRecord forIndexPath:(NSIndexPath *)indexPath
-{
-    NSLog(@&quot;下载图片&quot;);
-    IconDownloader *iconDownloader = (self.imageDownloadsInProgress)[indexPath];
-    if (iconDownloader == nil) 
-    {
-        iconDownloader = [[IconDownloader alloc] init];
-        iconDownloader.appRecord = appRecord;
-        [iconDownloader setCompletionHandler:^{
-            
-            UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-            
-            // Display the newly loaded image
-            cell.imageView.image = appRecord.appIcon;
-            
-            // Remove the IconDownloader from the in progress list.
-            // This will result in it being deallocated.
-            [self.imageDownloadsInProgress removeObjectForKey:indexPath];
-            
-        }];
-        (self.imageDownloadsInProgress)[indexPath] = iconDownloader;
-        [iconDownloader startDownload];  
-    }
-}
-</code></pre>
-<p>IconDownloader文件</p>
-<pre><code>//.h文件
-@class AppRecord;
-
-@interface IconDownloader : NSObject
-
-@property (nonatomic, strong) AppRecord *appRecord;
-@property (nonatomic, copy) void (^completionHandler)(void);
-
-- (void)startDownload;
-- (void)cancelDownload;
-
-@end
-
-
-//.m文件
-#import &quot;IconDownloader.h&quot;
-#import &quot;AppRecord.h&quot;
-
-#define kAppIconSize 48
-
-
-@interface IconDownloader ()
-
-@property (nonatomic, strong) NSURLSessionDataTask *sessionTask;
-
-@end
-
-
-#pragma mark -
-
-@implementation IconDownloader
-
-// -------------------------------------------------------------------------------
-//	startDownload
-// -------------------------------------------------------------------------------
-- (void)startDownload
-{
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.appRecord.imageURLString]];
-
-    // create an session data task to obtain and download the app icon
-    _sessionTask = [[NSURLSession sharedSession] dataTaskWithRequest:request
-                                                   completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        
-        // in case we want to know the response status code
-        //NSInteger HTTPStatusCode = [(NSHTTPURLResponse *)response statusCode];
-
-        if (error != nil)
-        {
-            if ([error code] == NSURLErrorAppTransportSecurityRequiresSecureConnection)
-            {
-                // if you get error NSURLErrorAppTransportSecurityRequiresSecureConnection (-1022),
-                // then your Info.plist has not been properly configured to match the target server.
-                //
-                abort();
-            }
-        }
-                                                       
-        [[NSOperationQueue mainQueue] addOperationWithBlock: ^{
-            
-            // Set appIcon and clear temporary data/image
-            UIImage *image = [[UIImage alloc] initWithData:data];
-            
-            if (image.size.width != kAppIconSize || image.size.height != kAppIconSize)
-            {
-                CGSize itemSize = CGSizeMake(kAppIconSize, kAppIconSize);
-                UIGraphicsBeginImageContextWithOptions(itemSize, NO, 0.0f);
-                CGRect imageRect = CGRectMake(0.0, 0.0, itemSize.width, itemSize.height);
-                [image drawInRect:imageRect];
-                self.appRecord.appIcon = UIGraphicsGetImageFromCurrentImageContext();
-                UIGraphicsEndImageContext();
-            }
-            else
-            {
-                self.appRecord.appIcon = image;
-            }
-            
-            // call our completion handler to tell our client that our icon is ready for display
-            if (self.completionHandler != nil)
-            {
-                self.completionHandler();
-            }
-        }];
-    }];
-    
-    [self.sessionTask resume];
-}
-
-// -------------------------------------------------------------------------------
-//	cancelDownload
-// -------------------------------------------------------------------------------
-- (void)cancelDownload
-{
-    [self.sessionTask cancel];
-    _sessionTask = nil;
-}
-</code></pre>
-<blockquote>
-<p><a href="https://developer.apple.com/library/ios/samplecode/LazyTableImages/Introduction/Intro.html">Apple Demo</a></p>
-</blockquote>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_29.html">&larr; Older</a> 
@@ -559,7 +381,7 @@ else
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Flutter.html"><strong>Flutter&nbsp;(2)</strong></a>
+	        <a href="Flutter.html"><strong>Flutter&nbsp;(3)</strong></a>
 	        
 	        
 	        
@@ -570,6 +392,12 @@ else
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16293384343104.html">Scrollable</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -592,12 +420,6 @@ else
 	      
 		      <li class="post">
 		        <a href="16267690953146.html">Flutter 中 listView 嵌套 listView</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16261554677251.html">Flutter中Row中的子控件左右两端对齐</a>
 		      </li>
 	     
 	  

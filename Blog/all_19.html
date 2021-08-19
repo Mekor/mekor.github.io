@@ -78,6 +78,39 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14793055516073.html">Swift - 自定义tableViewCell</a></h1>
+			<p class="meta"><time datetime="2016-11-16T22:12:31+08:00" 
+			pubdate data-updated="true">2016/11/16</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>习惯 OC 刚刚接触 Swift 还是有很多地方不适应,创建自定义cell的时候出现如下情况</p>
+<pre><code>    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    }
+</code></pre>
+<p>OC 中,我们会用 self 来接 super 初始化来判断是否创建成功,但是 Swift 中怎样做呢?调用 <code>super.init</code>是没有返回值的,那么我们怎样判断呢?</p>
+<p>从网上看<a href="http://stackoverflow.com/questions/37098742/super-init-in-swift">Super init in Swift</a>没有必要在进行<code>if(self)</code>判断了...不过,我还是找到了一种更容易理解的方法:</p>
+<pre><code>    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        if !self.isEqual(nil) {
+            setupInterface()
+        }
+    }
+
+</code></pre>
+<p>虽然感觉有点画蛇添足,不过很符合刚刚从OC 转 Swift 的理解方式</p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14793034700265.html">隐藏tabBar的小技巧</a></h1>
 			<p class="meta"><time datetime="2016-11-16T21:37:50+08:00" 
 			pubdate data-updated="true">2016/11/16</time></p>
@@ -310,109 +343,6 @@ extension UITextField {
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14790381443417.html">Swift - KVC 和 运行时获取属性列表</a></h1>
-			<p class="meta"><time datetime="2016-11-13T19:55:44+08:00" 
-			pubdate data-updated="true">2016/11/13</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>##Swift中如何使用KVC</p>
-<pre><code>import UIKit
-
-class Person: NSObject {
-    var name:String?
-    var age: Int = 0
-    var title:String?
-    
-    init(dict:[String:Any]) {
-        super.init()
-        setValuesForKeys(dict)
-    }
-    
-    
-    override func setValue(_ value: Any?, forUndefinedKey key: String) {
-        
-    }
-}
-</code></pre>
-<p>注意:基本数据类型一开始要设置默认值.</p>
-<p>##Swift中运行时获取属性列表</p>
-<pre><code>class Person: NSObject {
-    var name:String?
-    var age: Int = 0
-    var title:String?
-    
-    init(dict:[String:Any]) {
-        super.init()
-        setValuesForKeys(dict)
-    }
-    
-    
-    override func setValue(_ value: Any?, forUndefinedKey key: String) {
-        
-    }
-    
-    class func propertyList() -&gt; [String] {
-        var count:UInt32 = 0
-        
-        let list = class_copyPropertyList(self,&amp;count)
-        
-        var array:[String] = [];
-        
-        for i in 0..&lt;Int(count) {
-            
-            // 获取属性
-            let pty = list?[i]
-            
-            // 获取属性名称
-            let cName = property_getName(pty)
-            let name = String(utf8String: cName!)
-            array.append(name!)
-        }
-        free(list)
-        return array
-    }
-}
-
-</code></pre>
-<p>上面是OC写法,可以改进的更Swift一点:</p>
-<pre><code>    class func propertyList() -&gt; [String] {
-        var count:UInt32 = 0
-        
-        let list = class_copyPropertyList(self,&amp;count)
-        
-        var array:[String] = [];
-        
-        for i in 0..&lt;Int(count) {
-            
-            guard let pty = list?[i],
-                let cName = property_getName(pty),
-                let name = String(utf8String: cName)
-                else {
-                    // 继续遍历下一个
-                    continue
-            }
-            array.append(name)
-        }
-        free(list)
-        return array
-    }
-</code></pre>
-<p>通过运行时可以发现:</p>
-<ol>
-<li>基本数据类型如果设置成可选类型则运行时获取不到(在OC中没有可选)....  这就说明了上面的注意点,否则使用<code>KVC</code>会崩溃</li>
-<li>如果属性为<code>private</code>同样获取不到属性(可以获取到ivar),同样会让<code>KVC</code>崩溃</li>
-</ol>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_20.html">&larr; Older</a> 
@@ -505,7 +435,7 @@ class Person: NSObject {
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Flutter.html"><strong>Flutter&nbsp;(2)</strong></a>
+	        <a href="Flutter.html"><strong>Flutter&nbsp;(3)</strong></a>
 	        
 	        
 	        
@@ -516,6 +446,12 @@ class Person: NSObject {
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16293384343104.html">Scrollable</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -538,12 +474,6 @@ class Person: NSObject {
 	      
 		      <li class="post">
 		        <a href="16267690953146.html">Flutter 中 listView 嵌套 listView</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16261554677251.html">Flutter中Row中的子控件左右两端对齐</a>
 		      </li>
 	     
 	  

@@ -78,6 +78,42 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14866089688413.html">C++Primer笔记 - 如何获取 `main`的返回值</a></h1>
+			<p class="meta"><time datetime="2017-02-09T10:56:08+08:00" 
+			pubdate data-updated="true">2017/2/9</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>访问<code>main</code>的返回值的方法依赖于系统.在UNIX和Windows系统中,执行完一个程序后,都可以通过echo命令获得其返回值.<br />
+在UNIX中通过<code>echo $?</code><br />
+在Windows中通过<code>echo %ERRORLEVEL%</code></p>
+<p>使用方式:<br />
+在terminal中, <code>vim prog1.cc</code> ,然后在vim下输入(<code>i</code>是插入键)</p>
+<pre><code> int main()
+ {
+     return 0;
+ }
+</code></pre>
+<p>退出编辑器(先按<code>esc</code>,然后<code>:wq</code>)<br />
+在terminal中运行</p>
+<pre><code>cc prog1.cc
+./a.out
+echo $?
+</code></pre>
+<p>最终会得到我们的返回值<code>0</code></p>
+<p><strong>1.1节练习</strong><br />
+1.2: main中返回-1.返回值-1通常被当做程序错误的标识.重新编译运行我再次获取错误值为255<br />
+<img src="media/14866089688413/14866102127236.jpg" alt="" /></p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14861891967085.html">Swift - 春节前问题总结</a></h1>
 			<p class="meta"><time datetime="2017-02-04T14:19:56+08:00" 
 			pubdate data-updated="true">2017/2/4</time></p>
@@ -364,97 +400,6 @@ int main(int argc, char *argv[])
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14830040423390.html">Swift - 上周总结(12.30)</a></h1>
-			<p class="meta"><time datetime="2016-12-29T17:34:02+08:00" 
-			pubdate data-updated="true">2016/12/29</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>##规范问题<br />
-关于视图该不该把控件暴露出去?<br />
-通常情况下不能,原因:为了<del>部落</del>封闭性.</p>
-<p>我的理解,每个视图都是一个盒子,如果有需要我可以给外面提供一个update接口来更改数据.视图中的点击事件可以通过<code>Target-Action</code>实现,当然闭包&amp;代理同样可以.非常符合<code>Cocoa</code>提倡的<code>MVC</code>模式</p>
-<p><img src="media/14830040423390/14834530948549.jpg" alt="" /></p>
-<p>关于视图中空间是否暴露出去,默认都是<code>private</code>,我认为苹果<code>Cocoa Touch</code>中<code>UIKit</code>部分控件设计的不是很好,举个🌰:<br />
-<code>UIButton</code>如果设置字体的大小,需要通过<code>titleLabel?.font</code>来设置.我认为这样是不好的,通过一个方法来设置font感觉更合适.</p>
-<p>##更Swift<br />
-毕竟大部分同学都是刚接触Swift,整个项目感觉有点像翻译,还是<code>OC</code>的味道,关于这个问题讨论了两点,一个是面向协议编程,一个是函数式编程<br />
-###面向协议编程<br />
-问题:某一个视图是其他视图所需要的一部分,现在的做法是将共有的视图抽取出来,成为一个视图,然后其他视图包含这个视图.<br />
-面向协议:公共的子视图设置为一个协议,然后给一个默认的实现.像搭积木一样做视图的拼接.</p>
-<p>参考资料:<a href="https://github.com/atConf/atswift-2016-resources">atswift-2016大会</a>中<code>李洁信_Pop in Swift</code>这个section可以参考.<br />
-###函数式编程<br />
-周欣对自己代码优化的时候发现的问题:<br />
-一开始的逻辑:</p>
-<pre><code>class func fetchAllDish() -&gt; [Any] {
-        var mutableBigCategorys = [Any]()
-        let bigCategorys = DatabaseManager.shared.fetchAllDishCategory()
-        for bigCategory in bigCategorys {
-            var bigCategory = bigCategory
-            var mutableSubCategorys = [Any]()
-            let subCategorys = DatabaseManager.shared.fetchSubCategorys(byCategroyID: bigCategory[&quot;CATEGORYID&quot;] as! String)
-            for subCategory in subCategorys {
-                var subCategory = subCategory
-                let dishes = DatabaseManager.shared.fetchDishes(bySubCategoryID: subCategory[&quot;CLASSID&quot;] as! String)
-                if dishes.count &gt; 0 {
-                    subCategory[&quot;dishes&quot;] = dishes
-                    mutableSubCategorys.append(subCategory)
-                }
-            }
-            if mutableSubCategorys.count &gt; 0 {
-                bigCategory[&quot;subCategorys&quot;] = mutableSubCategorys
-                mutableBigCategorys.append(bigCategory)
-            }
-        }
-        return mutableBigCategorys
-    }
-</code></pre>
-<p>优化后的:</p>
-<pre><code>class func fetchAllDish() -&gt; [Any] {
-        let bigCategorys = DatabaseManager.shared.fetchAllDishCategory()
-        let results = bigCategorys.map { (bigCategory) -&gt; [String: Any] in
-            var bigCategory = bigCategory
-            let subCategory = DatabaseManager.shared.fetchSubCategorys(byCategroyID: bigCategory[&quot;CATEGORYID&quot;] as! String)
-            let subResults = subCategory.map({ (subCategory) -&gt; [String: Any] in
-                var subCategory = subCategory
-                let dishes = DatabaseManager.shared.fetchDishes(bySubCategoryID: subCategory[&quot;CLASSID&quot;] as! String)
-                subCategory[&quot;dishes&quot;] = dishes
-                return subCategory
-            }).filter({ $0.count &gt; 0 })
-            bigCategory[&quot;subCategorys&quot;] = subResults
-            return bigCategory
-        }.filter({ $0.count &gt; 0 })
-        return results
-    }
-</code></pre>
-<p>通过<code>map</code>与<code>filter</code>的灵活使用,使代码逻辑更清晰,同时也减少了不必要的临时变量.</p>
-<p>###元组<br />
-这个甲冠用的比较6..代码参见<code>NeoSubDishDetailView.swift</code>简单🌰:</p>
-<pre><code>    func refreshInfo(data : (UIButton,DishTypeModel)){
-        dishNameLabel.text = data.1.name
-        moneyLabel.text = data.1.price
-        numLabel.text = String(data.1.num)
-        if data.1.num &lt;= 0{
-            self.cutButton.isHidden = true
-            self.numLabel.isHidden = true
-        }else{
-            self.cutButton.isHidden = false
-            self.numLabel.isHidden = false
-        }
-    }
-
-</code></pre>
-<p>还有好多地方使用,这个文件可以好好观摩一下,很Swift...</p>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_16.html">&larr; Older</a> 
@@ -547,7 +492,7 @@ int main(int argc, char *argv[])
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Flutter.html"><strong>Flutter&nbsp;(2)</strong></a>
+	        <a href="Flutter.html"><strong>Flutter&nbsp;(3)</strong></a>
 	        
 	        
 	        
@@ -558,6 +503,12 @@ int main(int argc, char *argv[])
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16293384343104.html">Scrollable</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -580,12 +531,6 @@ int main(int argc, char *argv[])
 	      
 		      <li class="post">
 		        <a href="16267690953146.html">Flutter 中 listView 嵌套 listView</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16261554677251.html">Flutter中Row中的子控件左右两端对齐</a>
 		      </li>
 	     
 	  

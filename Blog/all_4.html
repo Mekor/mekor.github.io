@@ -78,6 +78,39 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="15965198984201.html">@Slf4j注解实现日志输出</a></h1>
+			<p class="meta"><time datetime="2020-08-04T13:44:58+08:00" 
+			pubdate data-updated="true">2020/8/4</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>最近看到B站上有人写代码没有定义log(<code>private final Logger log = LoggerFactory.getLogger(XXX.class);</code>)就能直接用<code>log</code></p>
+<p>查了下可能的方案:</p>
+<ol>
+<li>pom引入 <code>lombok</code></li>
+</ol>
+<pre><code>            &lt;dependency&gt;
+                &lt;groupId&gt;org.projectlombok&lt;/groupId&gt;
+                &lt;artifactId&gt;lombok&lt;/artifactId&gt;
+                &lt;version&gt;${lombok.version}&lt;/version&gt;
+                &lt;optional&gt;true&lt;/optional&gt;
+            &lt;/dependency&gt;
+</code></pre>
+<ol>
+<li>在目标类上添加<code>@Slf4j</code>注解</li>
+<li>然后直接在方法中使用<code>log.info(&quot;*****插入结果：&quot;+result);</code></li>
+<li>如果使用的时候没有找到变量<code>log</code>,IDEA需要安装lombok插件</li>
+</ol>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="15962945237035.html">632. Smallest Range Covering Elements from K Lists</a></h1>
 			<p class="meta"><time datetime="2020-08-01T23:08:43+08:00" 
 			pubdate data-updated="true">2020/8/1</time></p>
@@ -1024,36 +1057,6 @@ F_singleTapGesture
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="15653325472073.html">海底捞点餐Pad 优化</a></h1>
-			<p class="meta"><time datetime="2019-08-09T14:35:47+08:00" 
-			pubdate data-updated="true">2019/8/9</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<h2><a id="1-cell%E6%98%BE%E7%A4%BA%E4%BC%98%E5%8C%96" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>1. cell 显示优化</h2>
-<p>海底捞的每个菜品都有很多标签，比如清真，推荐，麻辣等等<br />
-这些标签是有规律的，最多显示6个。没有优化前采用的是存在就创建，这样在iPad Air上面滑动感觉不出卡顿但是在一些老pad 比如 iPad mini 上就会出现卡顿现象。<br />
-解决方案：<br />
-提前创建好6个标签，然后根据数据设置显示内容并控制显隐</p>
-<p>这样做能有效的提高老pad的显示效果。</p>
-<h2><a id="2%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E4%BC%98%E5%8C%96" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>2. 数据处理优化</h2>
-<p>数据源同步问题，问题描述： pad可以更新数据，定时器拉取数据，推送过来的数据</p>
-<p><img src="media/15653325472073/15653335091232.jpg" alt="" style="width:500px;" /></p>
-<p>解决方案一： 并发访问数据拷贝<br />
-主线程和子线程都操作数据源的时候，可以把数据源给子线程拷贝一份让子线程操作，当子线程操作完返回给主线程的时候把主线程操作的过程在数据源中再次执行一次然后更新数据显示。<br />
-主要的技术点是记录主线程操作步骤</p>
-<p>解决方案二： 串行访问<br />
-操作访问的都是同一数据源，能够保证操作数据不出错。但是有一个问题就是如果子线程正在操作数据这个时候主线程有一个修改操作会导致主线程等待，用户会有卡的感觉。</p>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_5.html">&larr; Older</a> 
@@ -1146,7 +1149,7 @@ F_singleTapGesture
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Flutter.html"><strong>Flutter&nbsp;(2)</strong></a>
+	        <a href="Flutter.html"><strong>Flutter&nbsp;(3)</strong></a>
 	        
 	        
 	        
@@ -1157,6 +1160,12 @@ F_singleTapGesture
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16293384343104.html">Scrollable</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -1179,12 +1188,6 @@ F_singleTapGesture
 	      
 		      <li class="post">
 		        <a href="16267690953146.html">Flutter 中 listView 嵌套 listView</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16261554677251.html">Flutter中Row中的子控件左右两端对齐</a>
 		      </li>
 	     
 	  

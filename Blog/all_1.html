@@ -78,6 +78,31 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="16261554677251.html">Flutter中Row中的子控件左右两端对齐</a></h1>
+			<p class="meta"><time datetime="2021-07-13T13:51:07+08:00" 
+			pubdate data-updated="true">2021/7/13</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>假如我们要实现这样一个效果：两个子控件（例如2个文本）在一行显示，但我们想让它们分别左右两侧对齐，也就是左右一边一个。如何实现呢？<br />
+方法一：<br />
+设置 spaceBetween 对齐方式 设置 Row 控件的属性 mainAxisAlignment： mainAxisAlignment: MainAxisAlignment.spaceBetween,<br />
+方法二：Expanded 填充 使用 Expanded 中间填充布局空间：<br />
+new Row( children: [ new Text(&quot;开始日期：&quot;), Expanded(child: SizedBox()), new Text(“2020-12-29&quot;), ],),<br />
+方法三：使用 Spacer() 填充<br />
+new Row( children: [ new Text(&quot;开始日期：&quot;), Spacer(), new Text(“2020-12-29&quot;), ],),<br />
+方法四：使用 Flexible<br />
+new Row( children: [ new Text(&quot;开始日期：&quot;), Flexible(fit: FlexFit.tight, child: SizedBox()), new Text(“2020-12-29&quot;), ],),</p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="16246203092572.html">flutter 多环境设置</a></h1>
 			<p class="meta"><time datetime="2021-06-25T19:25:09+08:00" 
 			pubdate data-updated="true">2021/6/25</time></p>
@@ -380,40 +405,6 @@ private extension Date {
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="16154734553187.html">Flutter 环境变量设置</a></h1>
-			<p class="meta"><time datetime="2021-03-11T22:37:35+08:00" 
-			pubdate data-updated="true">2021/3/11</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>我把flutter文件夹拖到资源库中<br />
-<img src="media/16154734553187/16154735272429.jpg" alt="" style="width:920px;" /></p>
-<p>然后更改环境变量</p>
-<pre><code>code ~/.bash_profile
-</code></pre>
-<p>在环境变量后面添加flutter的环境变量</p>
-<pre><code>export PATH=/Users/logan/Library/flutter/bin:$PATH
-</code></pre>
-<p>然后看下版本号</p>
-<pre><code>flutter --version
-</code></pre>
-<p>然后看到输出类似</p>
-<pre><code>Flutter 2.0.1 • channel stable • https://github.com/flutter/flutter.git
-Framework • revision c5a4b4029c (7 days ago) • 2021-03-04 09:47:48 -0800
-Engine • revision 40441def69
-Tools • Dart 2.12.0
-</code></pre>
-<p>这样就没有问题了</p>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_2.html">&larr; Older</a> 
@@ -506,7 +497,7 @@ Tools • Dart 2.12.0
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Flutter.html"><strong>Flutter&nbsp;(2)</strong></a>
+	        <a href="Flutter.html"><strong>Flutter&nbsp;(3)</strong></a>
 	        
 	        
 	        
@@ -517,6 +508,12 @@ Tools • Dart 2.12.0
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16293384343104.html">Scrollable</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -539,12 +536,6 @@ Tools • Dart 2.12.0
 	      
 		      <li class="post">
 		        <a href="16267690953146.html">Flutter 中 listView 嵌套 listView</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16261554677251.html">Flutter中Row中的子控件左右两端对齐</a>
 		      </li>
 	     
 	  

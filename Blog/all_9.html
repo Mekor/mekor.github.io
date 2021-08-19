@@ -78,6 +78,33 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="15257016195473.html">Carthage 不能正常更新</a></h1>
+			<p class="meta"><time datetime="2018-05-07T22:00:19+08:00" 
+			pubdate data-updated="true">2018/5/7</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>报错</p>
+<pre><code>➜  PersonalMusic git:(master) carthage update
+*** Cloning GCDWebServer
+A shell task (/usr/bin/env git clone --bare --quiet https://github.com/swisspol/GCDWebServer.git /Users/lixzzzzzz/Library/Caches/org.carthage.CarthageKit/dependencies/GCDWebServer) failed with exit code 128:
+fatal: unable to access 'https://github.com/swisspol/GCDWebServer.git/': LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to github.com:443
+
+</code></pre>
+<p>解决办法：</p>
+<p>清缓存</p>
+<pre><code>rm -rf ~/Library/Caches/org.carthage.CarthageKit
+</code></pre>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="15257015417604.html">设置placeholder颜色</a></h1>
 			<p class="meta"><time datetime="2018-05-07T21:59:01+08:00" 
 			pubdate data-updated="true">2018/5/7</time></p>
@@ -336,54 +363,6 @@ extension NSTimer {
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="15166722537296.html">显示中划线,下划线</a></h1>
-			<p class="meta"><time datetime="2018-01-23T09:50:53+08:00" 
-			pubdate data-updated="true">2018/1/23</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<h3><a id="oc%E4%B8%AD%E6%98%BE%E7%A4%BA" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>OC中显示</h3>
-<h5><a id="%E6%B7%BB%E5%8A%A0%E4%B8%AD%E5%88%92%E7%BA%BF" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>添加中划线:</h5>
-<pre><code>  UILabel * strikeLabel = [[UILabel alloc] initWithFrame:(CGRectMake(10, 10, 50, 30))];
-  NSString *textStr = [NSString stringWithFormat:@&quot;%@元&quot;, primeCost];
-
-  //中划线
-  NSDictionary *attribtDic = @{NSStrikethroughStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
-  NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:textStr attributes:attribtDic];
-
-  // 赋值
-  strikeLabel.attributedText = attribtStr;
-
-  [self.view addSubview:strikeLabel];
-</code></pre>
-<h5><a id="%E6%B7%BB%E5%8A%A0%E4%B8%8B%E5%88%92%E7%BA%BF" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>添加下划线:</h5>
-<pre><code>  UILabel *underlineLabel = [[UILabel alloc] initWithFrame:(CGRectMake(10, 10, 50, 30))];
-  NSString *textStr = [NSString stringWithFormat:@&quot;%@元&quot;, primeCost];
-
-  // 下划线
-  NSDictionary *attribtDic = @{NSUnderlineStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
-  NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:textStr attributes:attribtDic];
-
-  //赋值
-  underlineLabel.attributedText = attribtStr;
-
-  [self.view addSubview:underlineLabel];
-</code></pre>
-<h3><a id="swift%E4%B8%AD%E6%98%BE%E7%A4%BA" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Swift中显示</h3>
-<pre><code>let myAttributes: [NSAttributedStringKey : Any] = [NSAttributedStringKey.strikethroughStyle: NSUnderlineStyle.styleSingle.rawValue]
-            
-let attributedText = NSAttributedString(string: &quot;被划线文字&quot;, attributes: myAttributes)
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_10.html">&larr; Older</a> 
@@ -476,7 +455,7 @@ let attributedText = NSAttributedString(string: &quot;被划线文字&quot;, att
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Flutter.html"><strong>Flutter&nbsp;(2)</strong></a>
+	        <a href="Flutter.html"><strong>Flutter&nbsp;(3)</strong></a>
 	        
 	        
 	        
@@ -487,6 +466,12 @@ let attributedText = NSAttributedString(string: &quot;被划线文字&quot;, att
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16293384343104.html">Scrollable</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -509,12 +494,6 @@ let attributedText = NSAttributedString(string: &quot;被划线文字&quot;, att
 	      
 		      <li class="post">
 		        <a href="16267690953146.html">Flutter 中 listView 嵌套 listView</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16261554677251.html">Flutter中Row中的子控件左右两端对齐</a>
 		      </li>
 	     
 	  
