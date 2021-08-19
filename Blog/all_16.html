@@ -78,6 +78,91 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14834570124499.html">C/C++ - 回调函数中比较大小为啥0不行?</a></h1>
+			<p class="meta"><time datetime="2017-01-03T23:23:32+08:00" 
+			pubdate data-updated="true">2017/1/3</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>在C语言中我们判断真假经常使用非0为真,0为假.但是在回调函数中我设置返回非0与0代表真假的时候出现了问题:</p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int callBackCompare(void * pa, void * pb)
+{
+    return *(int *)pa &lt; *(int *)pb ? 1 : -1;
+}
+
+void selectSort(int *p, int n, int (*pf)(int a, int b))
+{
+    for(int i = 0; i &lt; n-1; i++)
+    {
+        for(int j = i+1; j&lt;n; j++)
+        {
+            if(pf(p[i],p[j]))
+            {
+                p[i] = p[i]^p[j];
+                p[j] = p[i]^p[j];
+                p[i] = p[i]^p[j];
+            }
+        }
+    }
+}
+
+int main(int argc, char *argv[])
+{
+    int arr[10] = {1,2,3,4,5,9,8,7,6,0};
+
+    qsort(arr,sizeof(arr)/sizeof(int),sizeof(int),callBackCompare);
+
+    for(int i = 0; i&lt;10; i++)
+    {
+        printf(&quot;%d\n&quot;,arr[i]);
+    }
+    return 0;
+}
+
+</code></pre>
+<p>callBack中这样写能够得到结果</p>
+<pre><code>9
+8
+7
+6
+5
+4
+3
+2
+1
+0
+</code></pre>
+<p>但是如果我把callback函数中的-1换成0则返回错误结果</p>
+<pre><code>0
+2
+3
+4
+5
+9
+8
+7
+6
+1
+</code></pre>
+<p>这是为什么呢?</p>
+<p>---17.1.3----<br />
+搞懂了,0不能代表升降...</p>
+<blockquote>
+<p>假设是对 int 排序的话，如果是升序， 那么就是如果 a 比 b 大返回一个正值，小则负值，相等返回 0; 假设是对 int 排序的话，如果是降序， 那么就是如果 a 比 b 大返回一个负值，小则正值，相等返回 0;</p>
+</blockquote>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14830040423390.html">Swift - 上周总结(12.30)</a></h1>
 			<p class="meta"><time datetime="2016-12-29T17:34:02+08:00" 
 			pubdate data-updated="true">2016/12/29</time></p>
@@ -375,37 +460,6 @@ SELECT * FROM t_student LIMIT 5
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14816416025061.html">获取崩溃信息</a></h1>
-			<p class="meta"><time datetime="2016-12-13T23:06:42+08:00" 
-			pubdate data-updated="true">2016/12/13</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>日志详细信息:</p>
-<pre><code>static void exceptionHandler( NSException * exception )
-{
-    NSString *date = [NSString stringWithFormat:@&quot;崩溃日志-%@&quot;, [[NSDate date] description]];
-
-    NSLog(DEBUG_CRASH, @&quot;%@ app crashed %@&quot;,date,exception.description);
-	 abort();
-}
-</code></pre>
-<p>Appdelegate中调用:</p>
-<pre><code>NSSetUncaughtExceptionHandler( &amp;exceptionHandler );
-</code></pre>
-<p>当然也可以在日志信息中记录堆栈信息:</p>
-<pre><code>[exception callStackSymbols]
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_17.html">&larr; Older</a> 
@@ -498,7 +552,7 @@ SELECT * FROM t_student LIMIT 5
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Flutter.html"><strong>Flutter&nbsp;(3)</strong></a>
+	        <a href="Flutter.html"><strong>Flutter&nbsp;(4)</strong></a>
 	        
 	        
 	        
@@ -509,6 +563,12 @@ SELECT * FROM t_student LIMIT 5
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16293704418629.html">AbsorbPointer和IgnorePointer</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -531,12 +591,6 @@ SELECT * FROM t_student LIMIT 5
 	      
 		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16267690953146.html">Flutter 中 listView 嵌套 listView</a>
 		      </li>
 	     
 	  

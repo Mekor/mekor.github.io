@@ -78,6 +78,41 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14778318573153.html">计算老虎机中奖等级-NSCountedSet</a></h1>
+			<p class="meta"><time datetime="2016-10-30T20:50:57+08:00" 
+			pubdate data-updated="true">2016/10/30</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<blockquote>
+<p>NSCountedSet这个一直没有用过,看到其他人使用在此记录下.</p>
+</blockquote>
+<p>计算老虎机中奖等级的问题：老虎机有四列，每列四个图案，如果四个相同就是等级1，三个相同就是等级2，以此类推。说是用<code>if else</code>太麻烦，有没有什么比较快捷的方法，首先想到的是用KVC中剔除重复数据的办法。比如：</p>
+<pre><code>NSArray *array = @[@2, @2, @2, @1];
+NSLog(@&quot;%@&quot;, [array valueForKeyPath:@&quot;@distinctUnionOfObjects.self&quot;]);
+</code></pre>
+<p>然后得到数组的个数为2，看起来很合理，如果数组是<code>NSArray *array = @[@2, @1, @2, @1];</code>这时候计算出来的数组个数是也是2，但是正确结果应该是等级3，后来突然想起一个类:NSCountedSet</p>
+<pre><code>    NSArray *array = @[@1, @2, @2, @1];
+    NSCountedSet *set = [[NSCountedSet alloc]initWithArray:array];
+
+    [set enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
+        NSLog(@&quot;%@ =&gt; %d&quot;, obj, [set countForObject:obj]);
+    }];
+
+</code></pre>
+<pre><code>1 =&gt; 2
+2 =&gt; 2
+</code></pre>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14771170894039.html">使用Qt创建桌面应用程序</a></h1>
 			<p class="meta"><time datetime="2016-10-22T14:18:09+08:00" 
 			pubdate data-updated="true">2016/10/22</time></p>
@@ -297,24 +332,6 @@ for (NSURL *url in urls) {
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14765420394973.html">iOS 模拟器 添加图片到相册的小技巧</a></h1>
-			<p class="meta"><time datetime="2016-10-15T22:33:59+08:00" 
-			pubdate data-updated="true">2016/10/15</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>把图片拖到模拟器主屏幕,或者Safari中,保存图片7<br />
-<img src="media/14765420394973/tips.gif" alt="tips" /></p>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_23.html">&larr; Older</a> 
@@ -407,7 +424,7 @@ for (NSURL *url in urls) {
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Flutter.html"><strong>Flutter&nbsp;(3)</strong></a>
+	        <a href="Flutter.html"><strong>Flutter&nbsp;(4)</strong></a>
 	        
 	        
 	        
@@ -418,6 +435,12 @@ for (NSURL *url in urls) {
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16293704418629.html">AbsorbPointer和IgnorePointer</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -440,12 +463,6 @@ for (NSURL *url in urls) {
 	      
 		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16267690953146.html">Flutter 中 listView 嵌套 listView</a>
 		      </li>
 	     
 	  

@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/blog/"/>
-  <updated>2021-08-19T10:05:57+08:00</updated>
+  <updated>2021-08-19T10:18:56+08:00</updated>
   <id>http://www.citynight.cn/blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -12,6 +12,139 @@
   </author>
   <generator uri="http://www.coderforart.com/">CoderForArt</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[AbsorbPointer和IgnorePointer]]></title>
+    <link href="http://www.citynight.cn/blog/16293704418629.html"/>
+    <updated>2021-08-19T18:54:01+08:00</updated>
+    <id>http://www.citynight.cn/blog/16293704418629.html</id>
+    <content type="html"><![CDATA[
+<p>iOS平台控件本身提供isUserInterfaceEnable 用来控制是否与用户交互，flutter中则需要AbsorbPointer和IgnorePointer来进行组件包装实现。</p>
+<ul>
+<li>参见 <a href="https://blog.csdn.net/mengks1987/article/details/105440465">Flutter AbsorbPointer 与 IgnorePointer的区别</a></li>
+</ul>
+<h2><a id="absorbpointer" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>AbsorbPointer</h2>
+<p>AbsorbPointer是一种禁止用户输入的控件，比如按钮的点击、输入框的输入、ListView的滚动等，你可能说将按钮的onPressed设置为null，一样也可以实现，是的，但AbsorbPointer可以提供多组件的统一控制，而不需要你单独为每一个组件设置。</p>
+<p>用法如下：</p>
+<pre><code class="language-dart">AbsorbPointer(
+  child: Row(
+    children: &lt;Widget&gt;[
+      RaisedButton(onPressed: (){},),
+      RaisedButton(onPressed: (){},),
+      RaisedButton(onPressed: (){},),
+      RaisedButton(onPressed: (){},),
+
+    ],
+  ),
+)
+</code></pre>
+<p>默认情况下，这些按钮是否响应点击事件的，如果想要响应点击事件只需设置absorbing为false即可：</p>
+<pre><code class="language-dart">AbsorbPointer(
+  absorbing: false,
+  ...
+)
+</code></pre>
+<h2><a id="ignorepointer" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>IgnorePointer</h2>
+<p>IgnorePointer的用法和AbsorbPointer一样，而且达到的效果一样，用法如下：</p>
+<pre><code class="language-dart">IgnorePointer(
+  child: Row(
+    children: &lt;Widget&gt;[
+      RaisedButton(onPressed: (){},),
+      RaisedButton(onPressed: (){},),
+      RaisedButton(onPressed: (){},),
+      RaisedButton(onPressed: (){},),
+    ],
+  ),
+)
+</code></pre>
+<h2><a id="%E5%8C%BA%E5%88%AB" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>区别</h2>
+<p>AbsorbPointer本身可以接收点击事件，消耗掉事件，而IgnorePointer无法接收点击事件，其下的控件可以接收到点击事件（不是子控件）。</p>
+<p>如果有2个盒子，一个200x200的红色盒子，一个100x100的蓝色盒子，蓝色盒子位于红色盒子之上居中显示，给2个盒子添加点击事件，如下:</p>
+<pre><code class="language-dart">return Container(
+      height: 200,
+      width: 200,
+      child: Stack(
+        alignment: Alignment.center,
+        children: &lt;Widget&gt;[
+          Listener(
+            onPointerDown: (v) {
+              print('click red');
+            },
+            child: Container(
+              color: Colors.red,
+            ),
+          ),
+          Listener(
+            onPointerDown: (v) {
+              print('click red');
+            },
+            child: Container(
+              color: Colors.blue,
+              width: 100,
+              height: 100,
+            ),
+          ),
+        ],
+      ),
+    );
+</code></pre>
+<p>点击蓝色盒子时，打印结果：</p>
+<pre><code class="language-dart">flutter: click blue
+</code></pre>
+<p>点击蓝色盒子区域以外的红色盒子，打印结果：</p>
+<pre><code class="language-dart">flutter: click red
+</code></pre>
+<p>此时用AbsorbPointer包裹蓝色盒子</p>
+<pre><code class="language-dart">return Container(
+  height: 200,
+  width: 200,
+  child: Stack(
+    alignment: Alignment.center,
+    children: &lt;Widget&gt;[
+      Listener(
+        onPointerDown: (v) {
+          print('click red');
+        },
+        child: Container(
+          color: Colors.red,
+        ),
+      ),
+      Listener(
+        onPointerDown: (v) {
+          print('click blue self');
+        },
+        child: AbsorbPointer(
+          child: Listener(
+            onPointerDown: (v) {
+              print('click blue child');
+            },
+            child: Container(
+              color: Colors.blue,
+              width: 100,
+              height: 100,
+            ),
+          ),
+        ),
+      ),
+    ],
+  ),
+);
+</code></pre>
+<p>点击蓝色盒子，打印如下：</p>
+<pre><code class="language-dart">flutter: click blue self
+</code></pre>
+<p>说明AbsorbPointer本身接收到了点击事件，将AbsorbPointer改为IgnorePointer,打印如下：</p>
+<pre><code class="language-dart">flutter: click red
+</code></pre>
+<p>点击事件穿透蓝色盒子到红色盒子，红色盒子接收到了点击事件。</p>
+<h2><a id="%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>使用场景</h2>
+<ol>
+<li>根据业务需求禁用/启用多个组件。</li>
+<li>根据业务需求禁用/启用整个App。</li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[了解Scrollable]]></title>
@@ -1203,47 +1336,6 @@ public class CloudNacosApplication {
 }
 
 </code></pre>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[devtools 热启动]]></title>
-    <link href="http://www.citynight.cn/blog/15965236438323.html"/>
-    <updated>2020-08-04T14:47:23+08:00</updated>
-    <id>http://www.citynight.cn/blog/15965236438323.html</id>
-    <content type="html"><![CDATA[
-<p>第一步:添加pom</p>
-<pre><code>        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-boot-devtools&lt;/artifactId&gt;
-            &lt;scope&gt;runtime&lt;/scope&gt;
-            &lt;optional&gt;true&lt;/optional&gt;
-        &lt;/dependency&gt;
-</code></pre>
-<p>第二步 添加插件到父pom中</p>
-<pre><code>  &lt;build&gt;
-    &lt;plugins&gt;
-      &lt;plugin&gt;
-        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-        &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
-        &lt;configuration&gt;
-          &lt;fork&gt;true&lt;/fork&gt;
-          &lt;addResources&gt;true&lt;/addResources&gt;
-        &lt;/configuration&gt;
-      &lt;/plugin&gt;
-    &lt;/plugins&gt;
-  &lt;/build&gt;
-</code></pre>
-<p>第三步 开启自动编译选项<br />
-Setting-&gt;Build-&gt;Compiler<br />
-<img src="media/15965236438323/15965240806182.jpg" alt="" style="width:475px;" /></p>
-<p>第四步: 修改Registry</p>
-<p>双击 Shift 选中Action 输入 Registry 打开<br />
-<img src="media/15965236438323/15965244242502.jpg" alt="" style="width:655px;" /><br />
-修改为选中<br />
-<img src="media/15965236438323/15965245587023.jpg" alt="" style="width:950px;" /><br />
-第五步: 重启IDEA</p>
 
 ]]></content>
   </entry>

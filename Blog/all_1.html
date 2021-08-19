@@ -78,6 +78,30 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="16267690953146.html">Flutter 中 listView 嵌套 listView</a></h1>
+			<p class="meta"><time datetime="2021-07-20T16:18:15+08:00" 
+			pubdate data-updated="true">2021/7/20</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p><img src="media/16267690953146/Simulator%20Screen%20Shot%20-%20iPhone%2012%20-%202021-07-20%20at%2016.18.53.png" alt="Simulator Screen Shot - iPhone 12 - 2021-07-20 at 16.18.53" /></p>
+<p>实现上述嵌套效果只需要在里面的listView中使用</p>
+<pre><code>      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+</code></pre>
+<p><img src="media/16267690953146/16267694115272.jpg" alt="" style="width:498px;" /><br />
+被嵌套的listView<br />
+<img src="media/16267690953146/16267694690429.jpg" alt="" style="width:637px;" /></p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="16261554677251.html">Flutter中Row中的子控件左右两端对齐</a></h1>
 			<p class="meta"><time datetime="2021-07-13T13:51:07+08:00" 
 			pubdate data-updated="true">2021/7/13</time></p>
@@ -282,129 +306,6 @@ bundle exec pod install
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="16158207797865.html">节流防抖</a></h1>
-			<p class="meta"><time datetime="2021-03-15T23:06:19+08:00" 
-			pubdate data-updated="true">2021/3/15</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>节流和防抖演示网站： <a href="http://demo.nimius.net/debounce_throttle/">http://demo.nimius.net/debounce_throttle/</a></p>
-<p><strong>防抖 Debounce</strong></p>
-<p>防抖的情况，有点像一个极度珍惜 执行机会的人，只要时间段内，有任务来，就再等一会。<br />
-等到最后一次，超过一定时间，确定没有新任务了，才去做执行。<br />
-1. 列表刷新，为避免短时间内反复 reload，可以多次合并为一次<br />
-2. TCP 流量控制</p>
-<p><strong>节流 Throttle</strong></p>
-<p>节流比较好理解，在一定时间段内，丢弃掉其它触发，就做一次执行<br />
-1. 防止多次点击<br />
-2. 重复发多个网络请求</p>
-<pre><code>import Foundation
-
-/// 防抖
-public class Debouncer {
-    public let label: String
-    public let interval: DispatchTimeInterval
-    private let queue: DispatchQueue
-    private let semaphore: DispatchSemaphoreWrapper
-    private var workItem: DispatchWorkItem?
-    
-    
-    public init(label: String, interval: Float, qos: DispatchQoS = .userInteractive) {
-        self.interval         = .milliseconds(Int(interval * 1000))
-        self.label         = label
-        self.queue = DispatchQueue(label: &quot;cn.citynight.debouncer.internalqueue.\(label)&quot;, qos: qos)
-        self.semaphore = DispatchSemaphoreWrapper(withValue: 1)
-    }
-    
-    
-    public func call(_ callback: @escaping (() -&gt; ())) {
-        
-        self.semaphore.sync  { () -&gt; () in
-            
-            
-            self.workItem?.cancel()
-            
-            self.workItem = DispatchWorkItem {
-                callback()
-            }
-            
-            if let workItem = self.workItem {
-                
-                self.queue.asyncAfter(deadline: .now() + self.interval, execute: workItem)
-            }
-        }
-    }
-    
-}
- 
-
-/// 节流
-public class Throttler {
-    
-    private let queue: DispatchQueue = DispatchQueue.global(qos: .background)
-    
-    private var job: DispatchWorkItem = DispatchWorkItem(block: {})
-    private var previousRun: Date = Date.distantPast
-    private var maxInterval: Int
-    private let semaphore: DispatchSemaphoreWrapper
-    
-    init(seconds: Int) {
-        self.maxInterval = seconds
-        self.semaphore = DispatchSemaphoreWrapper(withValue: 1)
-    }
-    
-    
-    func throttle(block: @escaping () -&gt; ()) {
-        
-        self.semaphore.sync  { () -&gt; () in
-            job.cancel()
-            job = DispatchWorkItem(){ [weak self] in
-                self?.previousRun = Date()
-                block()
-            }
-            let delay = Date.second(from: previousRun) &gt; maxInterval ? 0 : maxInterval
-            queue.asyncAfter(deadline: .now() + Double(delay), execute: job)
-        }
-        
-    }
-}
- 
-
-/// DispatchSemaphore保证线程安全
-public struct DispatchSemaphoreWrapper {
-    
-    private let semaphore: DispatchSemaphore
-    
-    public init(withValue value: Int) {
-        
-        self.semaphore = DispatchSemaphore(value: value)
-    }
-    
-    public func sync&lt;R&gt;(execute: () throws -&gt; R) rethrows -&gt; R {
-        
-        _ = semaphore.wait(timeout: DispatchTime.distantFuture)
-        defer { semaphore.signal() }
-        return try execute()
-    }
-}
-
-private extension Date {
-    static func second(from referenceDate: Date) -&gt; Int {
-        return Int(Date().timeIntervalSince(referenceDate).rounded())
-    }
-}
-
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_2.html">&larr; Older</a> 
@@ -497,7 +398,7 @@ private extension Date {
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Flutter.html"><strong>Flutter&nbsp;(3)</strong></a>
+	        <a href="Flutter.html"><strong>Flutter&nbsp;(4)</strong></a>
 	        
 	        
 	        
@@ -508,6 +409,12 @@ private extension Date {
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16293704418629.html">AbsorbPointer和IgnorePointer</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -530,12 +437,6 @@ private extension Date {
 	      
 		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16267690953146.html">Flutter 中 listView 嵌套 listView</a>
 		      </li>
 	     
 	  

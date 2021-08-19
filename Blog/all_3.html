@@ -78,6 +78,29 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="15990466411900.html">JDBC Class.forName vs DriverManager.registerDriver</a></h1>
+			<p class="meta"><time datetime="2020-09-02T19:37:21+08:00" 
+			pubdate data-updated="true">2020/9/2</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>要使用JDBC与数据库连接，需要选择获取相应数据库的驱动程序并注册该驱动程序,有两种方式可以注册</p>
+<pre><code>DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+</code></pre>
+<pre><code>Class.forName(&quot;com.mysql.jdbc.Driver&quot;);
+</code></pre>
+<p>当然现在也可以不用执行上面的操作也能正常执行,原因就是<code>SPI机制</code><br />
+<a href="https://juejin.im/post/6844903605695152142">Java SPI机制详解</a></p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="15989690336270.html">Java开发环境搭建的准备工作</a></h1>
 			<p class="meta"><time datetime="2020-09-01T22:03:53+08:00" 
 			pubdate data-updated="true">2020/9/1</time></p>
@@ -402,53 +425,6 @@ public class CloudNacosApplication {
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="15965236438323.html">devtools 热启动</a></h1>
-			<p class="meta"><time datetime="2020-08-04T14:47:23+08:00" 
-			pubdate data-updated="true">2020/8/4</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>第一步:添加pom</p>
-<pre><code>        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-boot-devtools&lt;/artifactId&gt;
-            &lt;scope&gt;runtime&lt;/scope&gt;
-            &lt;optional&gt;true&lt;/optional&gt;
-        &lt;/dependency&gt;
-</code></pre>
-<p>第二步 添加插件到父pom中</p>
-<pre><code>  &lt;build&gt;
-    &lt;plugins&gt;
-      &lt;plugin&gt;
-        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-        &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
-        &lt;configuration&gt;
-          &lt;fork&gt;true&lt;/fork&gt;
-          &lt;addResources&gt;true&lt;/addResources&gt;
-        &lt;/configuration&gt;
-      &lt;/plugin&gt;
-    &lt;/plugins&gt;
-  &lt;/build&gt;
-</code></pre>
-<p>第三步 开启自动编译选项<br />
-Setting-&gt;Build-&gt;Compiler<br />
-<img src="media/15965236438323/15965240806182.jpg" alt="" style="width:475px;" /></p>
-<p>第四步: 修改Registry</p>
-<p>双击 Shift 选中Action 输入 Registry 打开<br />
-<img src="media/15965236438323/15965244242502.jpg" alt="" style="width:655px;" /><br />
-修改为选中<br />
-<img src="media/15965236438323/15965245587023.jpg" alt="" style="width:950px;" /><br />
-第五步: 重启IDEA</p>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_4.html">&larr; Older</a> 
@@ -541,7 +517,7 @@ Setting-&gt;Build-&gt;Compiler<br />
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Flutter.html"><strong>Flutter&nbsp;(3)</strong></a>
+	        <a href="Flutter.html"><strong>Flutter&nbsp;(4)</strong></a>
 	        
 	        
 	        
@@ -552,6 +528,12 @@ Setting-&gt;Build-&gt;Compiler<br />
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16293704418629.html">AbsorbPointer和IgnorePointer</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -574,12 +556,6 @@ Setting-&gt;Build-&gt;Compiler<br />
 	      
 		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16267690953146.html">Flutter 中 listView 嵌套 listView</a>
 		      </li>
 	     
 	  

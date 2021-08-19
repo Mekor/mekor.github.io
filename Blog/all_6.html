@@ -78,6 +78,32 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="15460677821989.html">数据刷新崩溃</a></h1>
+			<p class="meta"><time datetime="2018-12-29T15:16:22+08:00" 
+			pubdate data-updated="true">2018/12/29</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p><img src="media/15460677821989/15460678427638.jpg" alt="" style="width:531px;" /><br />
+<img src="media/15460677821989/15460678670280.jpg" alt="" style="width:1054px;" /></p>
+<p>发生崩溃的原因是<code>tableView</code> <code>reloadData</code> 的时候直接设置<code>tableView</code> 的 <code>scrollRectToVisible</code> 解决方案</p>
+<pre><code>        UIView.animate(withDuration: 0, animations: {
+            self.tableView.reloadData()
+        }) { (finish) in
+            let rect = self.tableView.rect(forSection: section)
+            self.tableView.scrollRectToVisible(rect, animated: true)
+        }
+</code></pre>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="15398626891772.html">使用Swift获取应用程序的CPU使用率和内存使用量</a></h1>
 			<p class="meta"><time datetime="2018-10-18T19:38:09+08:00" 
 			pubdate data-updated="true">2018/10/18</time></p>
@@ -691,29 +717,6 @@ public void doRight(JSONObject userInfo){
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="15374224515215.html">CocaPods 添加头文件的报错  的解决办法</a></h1>
-			<p class="meta"><time datetime="2018-09-20T13:47:31+08:00" 
-			pubdate data-updated="true">2018/9/20</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>在buildsetting中的以下两个路径中添加对应的设置，重现编译即可解决，stackoverflow地址：<a href="https://stackoverflow.com/questions/45779591/failed-to-emit-precompiled-header-for-bridging-header?answertab=votes#tab-top">Failed to emit precompiled header for bridging header</a></p>
-<pre><code>Solution:
-1 I added $(inherited) non-recursive to Search Path -&gt; Header Search Paths
-2 Then added ${PODS_ROOT} recursive to Search Path -&gt; User Header Search Paths
-Both the above in my projects' target build settings.
-</code></pre>
-<p><img src="media/15374224515215/15374225919741.jpg" alt="" style="width:794px;" /></p>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_7.html">&larr; Older</a> 
@@ -806,7 +809,7 @@ Both the above in my projects' target build settings.
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Flutter.html"><strong>Flutter&nbsp;(3)</strong></a>
+	        <a href="Flutter.html"><strong>Flutter&nbsp;(4)</strong></a>
 	        
 	        
 	        
@@ -817,6 +820,12 @@ Both the above in my projects' target build settings.
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16293704418629.html">AbsorbPointer和IgnorePointer</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -839,12 +848,6 @@ Both the above in my projects' target build settings.
 	      
 		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16267690953146.html">Flutter 中 listView 嵌套 listView</a>
 		      </li>
 	     
 	  

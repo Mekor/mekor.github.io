@@ -78,6 +78,55 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14700440944204.html">iOS Tips</a></h1>
+			<p class="meta"><time datetime="2016-08-01T17:34:54+08:00" 
+			pubdate data-updated="true">2016/8/1</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p><strong>对象销毁</strong><br />
+对象的销毁虽然消耗资源不多，但累积起来也是不容忽视的。通常当容器类持有大量对象时，其销毁时的资源消耗就非常明显。同样的，如果对象可以放到后台线程去释放，那就挪到后台线程去。这里有个小 Tip：把对象捕获到 block 中，然后扔到后台队列去随便发送个消息以避免编译器警告，就可以让对象在后台线程销毁了。</p>
+<pre><code>NSArray *tmp = self.array;
+self.array = nil;
+dispatch_async(queue, ^{
+    [tmp class];
+});
+</code></pre>
+<blockquote>
+<p>来自:<a href="http://blog.ibireme.com/2015/11/12/smooth_user_interfaces_for_ios/">iOS 保持界面流畅的技巧</a></p>
+</blockquote>
+<p><strong>拖拽收起键盘</strong><br />
+UIScrollView有个keyboardDismissMode属性，设置成UIScrollViewKeyboardDismissModeOnDrag就可以在拖拽ScrollView的时候自动缩起键盘</p>
+<pre><code>@property(nonatomic) UIScrollViewKeyboardDismissMode keyboardDismissMode NS_AVAILABLE_IOS(7_0); // default is UIScrollViewKeyboardDismissModeNone
+</code></pre>
+<p><strong>让view的一部分响应手势点击</strong><br />
+让view的一部分响应手势点击，其余部分实现手势透传给下方的view的方法</p>
+<p>在View中重写:</p>
+<pre><code>-(UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    NSLog(@&quot;%@-------------&gt;&gt;&gt;&gt;&gt;&gt;&gt;point = %@&quot;,NSStringFromSelector(_cmd),NSStringFromCGPoint(point));
+    
+    // 设置能够点击的区域
+    CGRect rect = CGRectMake(100, 100, 200, 200);
+    if (CGRectContainsPoint(rect, point)) {
+        // 如果点击在该区域,则让View 成为响应链中的一个view,接受手势事件
+        // 此时可通过touchBegan:方法监听到手势
+        return self;
+    }
+    return nil;
+}
+
+</code></pre>
+<p>控制按钮的点击范围可以参见:<a href="https://github.com/Mekor/MKExtension">MKExtension</a>中的<code>UIButton+TapScope</code></p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14693652209160.html">Android Studio 中如何查看帮助文档</a></h1>
 			<p class="meta"><time datetime="2016-07-24T21:00:20+08:00" 
 			pubdate data-updated="true">2016/7/24</time></p>
@@ -208,87 +257,6 @@ else:
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14682407498601.html">如何给View添加点击事件</a></h1>
-			<p class="meta"><time datetime="2016-07-11T20:39:09+08:00" 
-			pubdate data-updated="true">2016/7/11</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>项目中有很多地方需要添加点击事件,重复代码很多,所以做了一个UIView的分类,专门做点击事件使用.<br />
-项目地址:<a href="https://github.com/Mekor/UIView-Tap">UIView-Tap</a></p>
-<p>代码很简单,主要有一点就是注意分类不能直接添加属性,需要用到运行时相关内容.</p>
-<p>代码如下:</p>
-<pre><code>\\UIView+Tap.h文件
-@interface UIView (Tap)
-- (void)addTapBlock:(void(^)(id obj))tapAction;
-@end
-
-\\UIView+Tap.m文件
-#import &lt;objc/runtime.h&gt;
-
-static const void* tagValue = &amp;tagValue;
-
-@interface UIView ()
-@property (nonatomic, copy) void(^tapAction)(id);
-@end
-
-@implementation UIView (Tap)
-- (void)tap{
-    if (self.tapAction) {
-        self.tapAction(self);
-    }
-}
-- (void)addTapBlock:(void(^)(id obj))tapAction{
-    self.tapAction = tapAction;
-    if (![self gestureRecognizers]) {
-        self.userInteractionEnabled = YES;
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap)];
-        [self addGestureRecognizer:tap];
-    }
-}
-
--(void)setTapAction:(void (^)(id))tapAction {
-    objc_setAssociatedObject(self, tagValue, tapAction, OBJC_ASSOCIATION_COPY_NONATOMIC);
-}
--(void (^)(id))tapAction {
-    return objc_getAssociatedObject(self, tagValue);
-}
-@end
-</code></pre>
-<p>正如大家所见,如果要接收点击事件,必须userInteractionEnabled设置为YES,所以不管怎么只要确认要给视图添加点击事件,都会被设置为<code>userInteractionEnabled = YES</code></p>
-<p>简单实用:</p>
-<pre><code>UIView *redView = [[UIView alloc]initWithFrame:CGRectMake(100, 100, 100, 100)];
-redView.backgroundColor = [UIColor redColor];
-[redView addTapBlock:^(UIView* obj) {
-    NSLog(@&quot;redView%@&quot;,obj.backgroundColor);
-}];
-[self.view addSubview:redView];
-
-UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(50, 250, 100, 100)];
-imageView.image = [UIImage imageNamed:@&quot;icon&quot;];
-[imageView addTapBlock:^(UIImageView* obj) {
-    NSLog(@&quot;imageView:\n%@&quot;,obj.image);
-}];
-[self.view addSubview:imageView];
-
-UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(150, 400, 100, 100)];
-label.text = @&quot;这是label,点击这里...&quot;;
-[label addTapBlock:^(UILabel* obj) {
-    NSLog(@&quot;label:\n%@&quot;,obj.text);
-}];
-[self.view addSubview:label];
-
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_29.html">&larr; Older</a> 
@@ -381,7 +349,7 @@ label.text = @&quot;这是label,点击这里...&quot;;
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Flutter.html"><strong>Flutter&nbsp;(3)</strong></a>
+	        <a href="Flutter.html"><strong>Flutter&nbsp;(4)</strong></a>
 	        
 	        
 	        
@@ -392,6 +360,12 @@ label.text = @&quot;这是label,点击这里...&quot;;
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16293704418629.html">AbsorbPointer和IgnorePointer</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -414,12 +388,6 @@ label.text = @&quot;这是label,点击这里...&quot;;
 	      
 		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16267690953146.html">Flutter 中 listView 嵌套 listView</a>
 		      </li>
 	     
 	  

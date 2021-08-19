@@ -78,6 +78,342 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14727863232294.html">runtime(内部分享草稿)</a></h1>
+			<p class="meta"><time datetime="2016-09-02T11:18:43+08:00" 
+			pubdate data-updated="true">2016/9/2</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<blockquote>
+<p>本文涉及到的Demo地址 <a href="https://github.com/Mekor/runtimeDemo">https://github.com/Mekor/runtimeDemo</a></p>
+</blockquote>
+<p>##理解self,super,class,superclass</p>
+<p>创建一个Person里面有一个类方法:</p>
+<pre><code class="language-objc">#import &quot;Person.h&quot;
+
+@implementation Person
++(void)study {
+    NSLog(@&quot;%@ %@ %@ %@&quot;,[self class],[self superclass],[super class],[super superclass]);
+}
+@end
+</code></pre>
+<p>Student继承自Person,重写父类方法</p>
+<pre><code class="language-objc">#import &quot;Student.h&quot;
+
+@implementation Student
++(void)study {
+    NSLog(@&quot;%@ %@ %@ %@&quot;,[self class],[self superclass],[super class],[super superclass]);
+}
+@end
+</code></pre>
+<!--more-->
+<p>这两个输出的都是什么?<br />
+<img src="media/14727863232294/14729913552743.jpg" alt="" /></p>
+<p>这时,我们在Student中用这样写:</p>
+<pre><code class="language-objc">#import &quot;Student.h&quot;
+
+@implementation Student
++(void)study {
+//    NSLog(@&quot;%@ %@ %@ %@&quot;,[self class],[self superclass],[super class],[super superclass]);
+    
+    [super study];
+}
+@end
+</code></pre>
+<p>打断点我们可以看到:<br />
+<img src="media/14727863232294/14729934417192.jpg" alt="" /></p>
+<p>可以看出:</p>
+<pre><code class="language-objc">super：是编译器指示符，仅仅是一个标志,并不是指针，仅仅是标志的当前对象去调用父类的方法，本质还是当前对象调用
+super:并不是让父类对象调用方法，调用者还是本身
+class：获取方法调用者的类
+superclass:获取方法调用者的父类
+</code></pre>
+<p>消息机制:(来自:<a href="https://developer.apple.com/library/prerelease/content/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtHowMessagingWorks.html">官方文档</a>)<br />
+<img src="media/14727863232294/messaging1.gif" alt="消息框架" /></p>
+<p>当对象收到消息时,消息函数首先根据该对象的 isa 指针找到该对象所对应的类的方法表,并从表中寻找 该消息对应的方法选标。如果找不到,objc_msgSend 将继续从父类中寻找,直到 NSObject 类。一旦找到了方法选标, objc_msgSend 则以消息接收者对象为参数调用,调用该选标对应的方法实现。</p>
+<p>##self是从哪里来的?</p>
+<blockquote>
+<p>官方解释:<a href="https://developer.apple.com/library/prerelease/content/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtHowMessagingWorks.html">Objective-C Runtime Programming Guide</a><img src="media/14727863232294/14729941396965.jpg" alt="" /></p>
+</blockquote>
+<p>简单说每个方法都存在并且隐藏的两个参数(self,_cmd),随便写个方法看下:<br />
+Student中写个text方法,然后打印下这两个隐藏参数.<br />
+<img src="media/14727863232294/14729960900273.jpg" alt="" /><br />
+<img src="media/14727863232294/14729961142923.jpg" alt="" /></p>
+<p>##动态添加方法<br />
+上面说了一些貌似和runtime没有什么关系,runtime基础知识类似类的构成,对象的构成这里不再介绍,可以自己去看定义.当然也可以去<a href="http://opensource.apple.com/source/objc4/objc4-680/runtime/">苹果的开源网站</a>查看,如果网站不方便可以去苹果的<a href="https://github.com/opensource-apple/objc4">github</a>下载开源代码研究...  ...继续...那么根据上面所说的方法说下动态添加方法.</p>
+<blockquote>
+<p>思考一下,咱们new项目中将采用路由模式进行页面跳转,从网页跳转进入app调用一个方法,一般情况下都是移动端和后台协议好的内容,这样跳转不会出现问题.但是如果后台写错了或者传输中出现问题导致url中包含的方法名不是规定的方法名.这时怎么办?</p>
+</blockquote>
+<pre><code class="language-objc">    Student *s = [Student new];
+    
+    // 1. 比如我们要调用 Student中的eat方法, 默认这样写[s eat]; 但是不行,因为我们没有定义.
+//    [s eat];
+    // 2. 也可以这样调用[s performSelector:@selector(eat)];这样没有问题,@selector中参数是字符串,这个参考swift
+//    [s performSelector:@selector(eat)];
+    // 3. 使用string创建SEL
+    
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored&quot;-Warc-performSelector-leaks&quot;
+    [s performSelector:NSSelectorFromString(@&quot;eat&quot;)];
+#pragma clang diagnostic pop
+    
+    // 上面这样调用会报错,我们在对象调用未实现方法的时候动态的创建一个方法,避免抛出异常.
+</code></pre>
+<p>怎么忽略编译器警告已经分享过,可以参考:<a href="http://www.citynight.cn/Blog/14676105703423.html">http://www.citynight.cn/Blog/14676105703423.html</a></p>
+<p>###怎么动态添加方法呢?<br />
+<img src="media/14727863232294/14729983827897.jpg" alt="" /><br />
+上面是动态添加对象方法的例子,动态添加类方法也是一样的<code>+(BOOL)resolveClassMethod:(SEL)sel</code><br />
+**注意:**上面函数类型,有人可能好奇这块为什么写成&quot;v@:&quot;  ?参见:函数类型, 更多关于转发机制参见:<a href="http://www.citynight.cn/Blog/14733118707964.html">转发机制</a></p>
+<h3><a id="%E5%85%B3%E4%BA%8E%E5%87%BD%E6%95%B0%E7%B1%BB%E5%9E%8B" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>关于函数类型</h3>
+<p>先看文档:<br />
+<img src="media/14727863232294/14730056768742.jpg" alt="" /><br />
+查看<code>Objective-C type encodings</code> <img src="media/14727863232294/14730058881001.jpg" alt="" /><br />
+所以上面void eat(...)应该表述成 <code>&quot;v@:&quot;</code></p>
+<p><strong>补充:</strong> 动态调用方法系统默认提供一到两个参数的方法调用, <del>这里封装了一个无限参数的方法调用.<a href="https://github.com/Mekor/NSObject-SEL">NSObject-SEL****</a></del>  我把一些扩展进行了总结,还不完善,地址<a href="https://github.com/Mekor/MKExtension">MKExtension</a></p>
+<p>###关于IMP(函数指针)</p>
+<pre><code class="language-objc">/// A pointer to the function of a method implementation. 
+#if !OBJC_OLD_DISPATCH_PROTOTYPES
+typedef void (*IMP)(void /* id, SEL, ... */ ); 
+#else
+typedef id (*IMP)(id, SEL, ...); 
+#endif
+</code></pre>
+<p>当前版本Xcode如果使用IMP的话,默认是选择第一个也就是无参无返回值.如果需要参数有返回值的话,需要修改配置文件.如下:</p>
+<h2><a id="%E6%96%B9%E6%B3%95%E4%BA%A4%E6%8D%A2method-swizzling%E4%BC%A0%E8%AF%B4%E4%B8%AD%E7%9A%84%E9%BB%91%E9%AD%94%E6%B3%95" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>方法交换(Method Swizzling:传说中的黑魔法)</h2>
+<p>一般使用方法交换都是想给系统提供的方法添加一些其他的功能的时候使用.new中使用方法交换的例子:</p>
+<pre><code class="language-objc">#import &quot;UIActionSheet+Front.h&quot;
+
+#import &lt;objc/runtime.h&gt;
+
+@implementation UIActionSheet (Front)
+- (void)customShowInView:(UIView *)view{
+    for(UIWindow * tmpWin in [[UIApplication sharedApplication] windows]){
+        [tmpWin endEditing:NO];
+    }
+    [self customShowInView:view];
+}
++ (void)load{
+    swizzleAllActionSheet();
+}
+@end
+
+void swizzleAllActionSheet(){
+    Class c = [UIActionSheet class];
+    SEL origSEL = @selector(showInView:);
+    SEL newSEL = @selector(customShowInView:);
+    Method origMethod = class_getInstanceMethod(c, origSEL);
+    Method newMethod = class_getInstanceMethod(c, newSEL);
+    method_exchangeImplementations(origMethod, newMethod);
+}
+</code></pre>
+<p>关于方法交换,在new项目中已经封装好了,代码如下:</p>
+<pre><code class="language-objc">// ObjcRuntime.h文件
+void Swizzle(Class c, SEL origSEL, SEL newSEL);
+
+//ObjcRuntime.m文件
+//静态就交换静态，实例方法就交换实例方法
+void Swizzle(Class c, SEL origSEL, SEL newSEL)
+{
+    Method origMethod = class_getInstanceMethod(c, origSEL);
+    Method newMethod = nil;
+    if (!origMethod) {
+        origMethod = class_getClassMethod(c, origSEL);
+        if (!origMethod) {
+            return;
+        }
+        newMethod = class_getClassMethod(c, newSEL);
+        if (!newMethod) {
+            return;
+        }
+    }else{
+        newMethod = class_getInstanceMethod(c, newSEL);
+        if (!newMethod) {
+            return;
+        }
+    }
+    
+    //自身已经有了就添加不成功，直接交换即可
+    if(class_addMethod(c, origSEL, method_getImplementation(newMethod), method_getTypeEncoding(newMethod))){
+        class_replaceMethod(c, newSEL, method_getImplementation(origMethod), method_getTypeEncoding(origMethod));
+    }else{
+        method_exchangeImplementations(origMethod, newMethod);
+    }
+}
+</code></pre>
+<p>用法(还是以Student为例):<br />
+Student中添加两个对象方法,一个run,一个sleep.我们的目的是交换两个方法的实现</p>
+<pre><code class="language-objc">-(void)run {
+    NSLog(@&quot;跑🏃&quot;);
+}
+-(void)sleep {
+    NSLog(@&quot;睡觉😴&quot;);
+}
++(void)load {
+    Swizzle(self, @selector(run), @selector(sleep));
+}
+</code></pre>
+<p>控制器调用的结果:<br />
+<img src="media/14727863232294/14730042652865.jpg" alt="" /></p>
+<p>##添加属性<br />
+动态添加属性用的最多的地方应该是给分类添加属性.  <del>我在项目中添加过一个分类<code> UIView+Tap</code>这个也可以在这里查看<a href="https://github.com/Mekor/UIView-Tap">UIView-Tap</a></del>  我把一些扩展进行了总结,还不完善,地址<a href="https://github.com/Mekor/MKExtension">MKExtension</a></p>
+<pre><code class="language-objc">#import &quot;UIView+Tap.h&quot;
+#import &lt;objc/runtime.h&gt;
+
+static const void* tagValue = &amp;tagValue;
+
+@interface UIView ()
+@property (nonatomic, copy) void(^tapAction)(id);
+@end
+
+@implementation UIView (Tap)
+- (void)tap{
+    if (self.tapAction) {
+        self.tapAction(self);
+    }
+}
+- (void)addTapBlock:(void(^)(id obj))tapAction{
+    self.tapAction = tapAction;
+    if (![self gestureRecognizers]) {
+        self.userInteractionEnabled = YES;
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap)];
+        [self addGestureRecognizer:tap];
+    }
+}
+
+-(void)setTapAction:(void (^)(id))tapAction {
+    objc_setAssociatedObject(self, tagValue, tapAction, OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+-(void (^)(id))tapAction {
+    return objc_getAssociatedObject(self, tagValue);
+}
+@end
+</code></pre>
+<p>主要是set&amp;get方法,这点注意了也就没啥了..</p>
+<p>##其他</p>
+<ol>
+<li>系统中常见的使用到runtime的地方:<br />
+<a href="http://www.citynight.cn/Blog/14726525723684.html">KVO内部实现原理</a></li>
+<li>日常开发中使用到runtime的地方:</li>
+</ol>
+<ul>
+<li>字典转模型: 可以参看<code>MJExtension</code> 它的核心代码在:<code>NSObject+MJProperty.m</code>第150行开始</li>
+</ul>
+<pre><code class="language-objc">#pragma mark - 公共方法
++ (NSMutableArray *)properties
+{
+    NSMutableArray *cachedProperties = [self dictForKey:&amp;MJCachedPropertiesKey][NSStringFromClass(self)];
+    
+    if (cachedProperties == nil) {
+        cachedProperties = [NSMutableArray array];
+        
+        [self mj_enumerateClasses:^(__unsafe_unretained Class c, BOOL *stop) {
+            // 1.获得所有的成员变量
+            unsigned int outCount = 0;
+            objc_property_t *properties = class_copyPropertyList(c, &amp;outCount);
+            
+            // 2.遍历每一个成员变量
+            for (unsigned int i = 0; i&lt;outCount; i++) {
+                MJProperty *property = [MJProperty cachedPropertyWithProperty:properties[i]];
+                // 过滤掉Foundation框架类里面的属性
+                if ([MJFoundation isClassFromFoundation:property.srcClass]) continue;
+                property.srcClass = c;
+                [property setOriginKey:[self propertyKey:property.name] forClass:self];
+                [property setObjectClassInArray:[self propertyObjectClassInArray:property.name] forClass:self];
+                [cachedProperties addObject:property];
+            }
+            
+            // 3.释放内存
+            free(properties);
+        }];
+        
+        [self dictForKey:&amp;MJCachedPropertiesKey][NSStringFromClass(self)] = cachedProperties;
+    }
+    
+    return cachedProperties;
+}
+</code></pre>
+<p>自定义字典转模型中log的输出可以参见Xcode插件<code>ESJsonFormat</code>中<code>ESJsonFormatManager.m</code>第47行:</p>
+<pre><code class="language-objc">/**
+ *  格式化OC属性字符串
+ *
+ *  @param key       JSON里面key字段
+ *  @param value     JSON里面key对应的NSDiction或者NSArray
+ *  @param classInfo 类信息
+ *
+ *  @return
+ */
++ (NSString *)formatObjcWithKey:(NSString *)key value:(NSObject *)value classInfo:(ESClassInfo *)classInfo{
+    NSString *qualifierStr = @&quot;copy&quot;;
+    NSString *typeStr = @&quot;NSString&quot;;
+    //判断大小写
+    if ([ESUppercaseKeyWords containsObject:key] &amp;&amp; [ESJsonFormatSetting defaultSetting].uppercaseKeyWordForId) {
+        key = [key uppercaseString];
+    }
+    if ([value isKindOfClass:[NSString class]]) {
+        return [NSString stringWithFormat:@&quot;@property (nonatomic, %@) %@ *%@;&quot;,qualifierStr,typeStr,key];
+    }else if([value isKindOfClass:[@(YES) class]]){
+        //the 'NSCFBoolean' is private subclass of 'NSNumber'
+        qualifierStr = @&quot;assign&quot;;
+        typeStr = @&quot;BOOL&quot;;
+        return [NSString stringWithFormat:@&quot;@property (nonatomic, %@) %@ %@;&quot;,qualifierStr,typeStr,key];
+    }else if([value isKindOfClass:[NSNumber class]]){
+        qualifierStr = @&quot;assign&quot;;
+        NSString *valueStr = [NSString stringWithFormat:@&quot;%@&quot;,value];
+        if ([valueStr rangeOfString:@&quot;.&quot;].location!=NSNotFound){
+            typeStr = @&quot;CGFloat&quot;;
+        }else{
+            NSNumber *valueNumber = (NSNumber *)value;
+            if ([valueNumber longValue]&lt;2147483648) {
+                typeStr = @&quot;NSInteger&quot;;
+            }else{
+                typeStr = @&quot;long long&quot;;
+            }
+        }
+        return [NSString stringWithFormat:@&quot;@property (nonatomic, %@) %@ %@;&quot;,qualifierStr,typeStr,key];
+    }else if([value isKindOfClass:[NSArray class]]){
+        NSArray *array = (NSArray *)value;
+        
+        //May be 'NSString'，will crash
+        NSString *genericTypeStr = @&quot;&quot;;
+        NSObject *firstObj = [array firstObject];
+        if ([firstObj isKindOfClass:[NSDictionary class]]) {
+            ESClassInfo *childInfo = classInfo.propertyArrayDic[key];
+            genericTypeStr = [NSString stringWithFormat:@&quot;&lt;%@ *&gt;&quot;,childInfo.className];
+        }else if ([firstObj isKindOfClass:[NSString class]]){
+            genericTypeStr = @&quot;&lt;NSString *&gt;&quot;;
+        }else if ([firstObj isKindOfClass:[NSNumber class]]){
+            genericTypeStr = @&quot;&lt;NSNumber *&gt;&quot;;
+        }
+        
+        qualifierStr = @&quot;strong&quot;;
+        typeStr = @&quot;NSArray&quot;;
+        if ([ESJsonFormatSetting defaultSetting].useGeneric &amp;&amp; [ESUtils isXcode7AndLater]) {
+            return [NSString stringWithFormat:@&quot;@property (nonatomic, %@) %@%@ *%@;&quot;,qualifierStr,typeStr,genericTypeStr,key];
+        }
+        return [NSString stringWithFormat:@&quot;@property (nonatomic, %@) %@ *%@;&quot;,qualifierStr,typeStr,key];
+    }else if ([value isKindOfClass:[NSDictionary class]]){
+        qualifierStr = @&quot;strong&quot;;
+        ESClassInfo *childInfo = classInfo.propertyClassDic[key];
+        typeStr = childInfo.className;
+        if (!typeStr) {
+            typeStr = [key capitalizedString];
+        }
+        return [NSString stringWithFormat:@&quot;@property (nonatomic, %@) %@ *%@;&quot;,qualifierStr,typeStr,key];
+    }
+    return [NSString stringWithFormat:@&quot;@property (nonatomic, %@) %@ *%@;&quot;,qualifierStr,typeStr,key];
+}
+
+</code></pre>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14727432716172.html">基础拾遗</a></h1>
 			<p class="meta"><time datetime="2016-09-01T23:21:11+08:00" 
 			pubdate data-updated="true">2016/9/1</time></p>
@@ -724,269 +1060,6 @@ MKBaseRequest 的基本的思想是把每一个网络请求封装成对象。所
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14718293013293.html">const,static,extern简介</a></h1>
-			<p class="meta"><time datetime="2016-08-22T09:28:21+08:00" 
-			pubdate data-updated="true">2016/8/22</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<h3><a id="%E4%B8%80%E3%80%81const%E4%B8%8E%E5%AE%8F%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%88%E9%9D%A2%E8%AF%95%E9%A2%98%EF%BC%89" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>一、const与宏的区别（面试题）:</h3>
-<ul>
-<li>
-<p><code>const简介</code>:之前常用的字符串常量，一般是抽成宏，但是苹果不推荐我们抽成宏，推荐我们使用const常量。</p>
-<ul>
-<li><code>编译时刻</code>:宏是预编译（编译之前处理），const是编译阶段。</li>
-<li><code>编译检查</code>:宏不做检查，不会报编译错误，只是替换，const会编译检查，会报编译错误。</li>
-<li><code>宏的好处</code>:宏能定义一些函数，方法。 const不能。</li>
-<li><code>宏的坏处</code>:使用大量宏，容易造成编译时间久，每次都需要重新替换。</li>
-</ul>
-<p>注意:很多Blog都说使用宏，会消耗很多内存. define宏仅仅是展开，有多少地方使用，就展开多少次，不会分配内存。（宏定义不分配内存，<strong>变量定义</strong>分配内存。）<br />
-<img src="media/14718293013293/14719323806994.jpg" alt="" /></p>
-<p><img src="media/14718293013293/14719331536266.jpg" alt="" /></p>
-</li>
-</ul>
-<p>产生上述问题的原因:可以查看<a href="https://www.zhihu.com/question/29662431">知乎</a>上面的回答,可以简单理解为编译器优化.</p>
-<pre><code>// 常见的常量：抽成宏
-#define MKAccount @&quot;account&quot;
-
-#define MKUserDefault [NSUserDefaults standardUserDefaults]
-
-// 字符串常量
-static NSString * const account = @&quot;account&quot;;
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-
-    // 偏好设置存储
-    // 使用宏
-    [MKUserDefault setValue:@&quot;123&quot; forKey:MKAccount];
-
-    // 使用const常量
-    [[NSUserDefaults standardUserDefaults] setValue:@&quot;123&quot; forKey:account];
-
-}
-
-</code></pre>
-<h3><a id="%E4%BA%8C%E3%80%81const%E4%BD%9C%E7%94%A8%EF%BC%9A%E9%99%90%E5%88%B6%E7%B1%BB%E5%9E%8B" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>二、const作用：限制类型</h3>
-<ul>
-<li>
-<p>1.const仅仅用来修饰右边的变量（基本数据变量p，指针变量*p）</p>
-</li>
-<li>
-<p>2.被const修饰的变量是只读的。</p>
-</li>
-<li>
-<p><code>const基本使用</code></p>
-</li>
-</ul>
-<pre><code>- (void)viewDidLoad {
-    [super viewDidLoad];
-
-    // 定义变量
-    int a = 1;
-
-    // 允许修改值
-    a = 20;
-
-    // const两种用法
-    // const:修饰基本变量p
-    // 这两种写法是一样的，const只修饰右边的基本变量b
-    const int b = 20; // b:只读变量
-    int const b = 20; // b:只读变量
-
-    // 不允许修改值
-    b = 1;
-
-    // const:修饰指针变量*p，带*的变量，就是指针变量.
-    // 定义一个指向int类型的指针变量，指向a的地址
-    int *p = &amp;a;
-
-    int c = 10;
-
-    p = &amp;c;
-
-    // 允许修改p指向的地址，
-    // 允许修改p访问内存空间的值
-    *p = 20;
-
-    // const修饰指针变量访问的内存空间，修饰的是右边*p1，
-    // 两种方式一样
-    const int *p1; // *p1：常量 p1:变量
-    int const *p1; // *p1：常量 p1:变量
-
-    // const修饰指针变量p1
-    int * const p1; // *p1:变量 p1:常量
-
-    // 第一个const修饰*p1 第二个const修饰 p1
-    // 两种方式一样
-    const int * const p1; // *p1：常量 p1：常量
-
-    int const * const p1;  // *p1：常量 p1：常量
-
-}
-
-</code></pre>
-<h3><a id="%E4%B8%89%E3%80%81const%E5%BC%80%E5%8F%91%E4%B8%AD%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>三、const开发中使用场景:</h3>
-<ul>
-<li>1.当一个方法参数只读</li>
-<li>2.定义只读全局变量</li>
-</ul>
-<pre><code>@implementation ViewController
-
-// 定义只读全局常量
-NSString * const str  = @&quot;123&quot;;
-
-// 当一个方法的参数，只读.
-- (void)test:(NSString * const)name
-{
-
-}
-
-// 指针只读,不能通过指针修改值
-- (void)test1:(int const *)a{
-
-//    *a = 10;
-}
-
-// 基本数据类型只读
-- (void)test2:(int const)a{
-
-}
-
-@end
-
-</code></pre>
-<h3><a id="%E5%9B%9B%E3%80%81static%E5%92%8Cextern%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8%E8%A6%81%E4%BD%BF%E7%94%A8%E4%B8%80%E4%B8%AA%E4%B8%9C%E8%A5%BF%EF%BC%8C%E5%85%88%E4%BA%86%E8%A7%A3%E5%85%B6%E4%BD%9C%E7%94%A8" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>四、static和extern简单使用(要使用一个东西，先了解其作用)</h3>
-<ul>
-<li>
-<p><code>static作用</code>:</p>
-<ul>
-<li>
-<p>修饰局部变量：</p>
-<p>1.延长局部变量的生命周期,程序结束才会销毁。</p>
-<p>2.局部变量只会生成一份内存,只会初始化一次。</p>
-</li>
-<li>
-<p>修饰全局变量</p>
-<p>1.只能在本文件中访问,修改全局变量的作用域,生命周期不会改</p>
-</li>
-</ul>
-</li>
-<li>
-<p><code>extern作用</code>:</p>
-<ul>
-<li>只是用来获取全局变量(包括全局静态变量)的值，不能用于定义变量</li>
-</ul>
-</li>
-<li>
-<p><code>extern工作原理</code>:</p>
-<ul>
-<li>先在当前文件查找有没有全局变量，没有找到，才会去其他文件查找。</li>
-</ul>
-</li>
-</ul>
-<pre><code>// 全局变量：只有一份内存，所有文件共享，与extern联合使用。
-int a = 20;
-
-// static修饰全局变量
-static int age = 20;
-
-- (void)test
-{
-    // static修饰局部变量
-    static int age = 0;
-    age++;
-    NSLog(@&quot;%d&quot;,age);
-}
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
-
-    [self test];
-    [self test];
-
-    extern int age;
-    NSLog(@&quot;%d&quot;,age);
-}
-I
-
-</code></pre>
-<h3><a id="%E4%BA%94%E3%80%81static%E4%B8%8Econst%E8%81%94%E5%90%88%E4%BD%BF%E7%94%A8" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>五、static与const联合使用</h3>
-<ul>
-<li>static与const作用:声明一个只读的静态变量</li>
-<li>开发使用场景:在<code>一个文件中</code>经常使用的字符串常量，可以使用static与const组合</li>
-</ul>
-<pre><code>// 开发中常用static修饰全局变量,只改变作用域
-
-// 为什么要改变全局变量作用域，防止重复声明全局变量。
-
-// 开发中声明的全局变量，有些不希望外界改动，只允许读取。
-
-// 比如一个基本数据类型不希望别人改动
-
-// 声明一个静态的全局只读常量
-static const int a = 20;
-
-// staic和const联合的作用:声明一个静态的全局只读常量
-
-// iOS中staic和const常用使用场景，是用来代替宏，把一个经常使用的字符串常量，定义成静态全局只读变量.
-
-// 开发中经常拿到key修改值，因此用const修饰key,表示key只读，不允许修改。
-static  NSString * const key = @&quot;name&quot;;
-
-// 如果 const修饰 *key1,表示*key1只读，key1还是能改变。
-
-static  NSString const *key1 = @&quot;name&quot;;
-
-</code></pre>
-<h3><a id="%E5%85%AD%E3%80%81extern%E4%B8%8Econst%E8%81%94%E5%90%88%E4%BD%BF%E7%94%A8" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>六、extern与const联合使用</h3>
-<ul>
-<li>
-<p>开发中使用场景:在<code>多个文件中</code>经常使用的同一个字符串常量，可以使用extern与const组合。</p>
-</li>
-<li>
-<p>原因:</p>
-<ul>
-<li>static与const组合：在每个文件都需要定义一份静态全局变量。</li>
-<li>extern与const组合:只需要定义一份全局变量，多个文件共享。</li>
-</ul>
-</li>
-<li>
-<p>全局常量正规写法:开发中便于管理所有的全局变量，通常搞一个GlobeConst文件，里面专门定义全局变量，统一管理，要不然项目文件多不好找。</p>
-</li>
-<li>
-<p>GlobeConst.h</p>
-</li>
-</ul>
-<pre><code>/*******************************首页****************************/
-
-extern NSString * const nameKey = @&quot;name&quot;;
-
-/*******************************首页****************************/
-
-</code></pre>
-<ul>
-<li>GlobeConst.m</li>
-</ul>
-<pre><code>#import 
-
-/*******************************首页****************************/
-
-NSString * const nameKey = @&quot;name&quot;;
-
-/*******************************首页****************************/
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_27.html">&larr; Older</a> 
@@ -1079,7 +1152,7 @@ NSString * const nameKey = @&quot;name&quot;;
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Flutter.html"><strong>Flutter&nbsp;(3)</strong></a>
+	        <a href="Flutter.html"><strong>Flutter&nbsp;(4)</strong></a>
 	        
 	        
 	        
@@ -1090,6 +1163,12 @@ NSString * const nameKey = @&quot;name&quot;;
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16293704418629.html">AbsorbPointer和IgnorePointer</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -1112,12 +1191,6 @@ NSString * const nameKey = @&quot;name&quot;;
 	      
 		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16267690953146.html">Flutter 中 listView 嵌套 listView</a>
 		      </li>
 	     
 	  

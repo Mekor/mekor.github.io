@@ -78,6 +78,27 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="15653376209289.html">事件传递</a></h1>
+			<p class="meta"><time datetime="2019-08-09T16:00:20+08:00" 
+			pubdate data-updated="true">2019/8/9</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>整体的事件传递流程<br />
+<img src="media/15653376209289/15653376299374.jpg" alt="" style="width:687px;" /></p>
+<p>详细的<code>hitTset:withEvent:</code>系统实现<br />
+<img src="media/15653376209289/15653413218867.jpg" alt="" /></p>
+<p>注：先判断视图是否隐藏可交互，不满足条件返回nil, 如果不在点击范围内就返回nil,在点击范围内就遍历子视图。遍历子视图的时候如果都没有子视图响应事件，那么就把视图本身<code>v</code>返回，如果有子视图响应就返回当前子视图。</p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="15653325472073.html">海底捞点餐Pad 优化</a></h1>
 			<p class="meta"><time datetime="2019-08-09T14:35:47+08:00" 
 			pubdate data-updated="true">2019/8/9</time></p>
@@ -185,32 +206,6 @@ $(document).ready(function(event) {
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="15460677821989.html">数据刷新崩溃</a></h1>
-			<p class="meta"><time datetime="2018-12-29T15:16:22+08:00" 
-			pubdate data-updated="true">2018/12/29</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p><img src="media/15460677821989/15460678427638.jpg" alt="" style="width:531px;" /><br />
-<img src="media/15460677821989/15460678670280.jpg" alt="" style="width:1054px;" /></p>
-<p>发生崩溃的原因是<code>tableView</code> <code>reloadData</code> 的时候直接设置<code>tableView</code> 的 <code>scrollRectToVisible</code> 解决方案</p>
-<pre><code>        UIView.animate(withDuration: 0, animations: {
-            self.tableView.reloadData()
-        }) { (finish) in
-            let rect = self.tableView.rect(forSection: section)
-            self.tableView.scrollRectToVisible(rect, animated: true)
-        }
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_6.html">&larr; Older</a> 
@@ -303,7 +298,7 @@ $(document).ready(function(event) {
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Flutter.html"><strong>Flutter&nbsp;(3)</strong></a>
+	        <a href="Flutter.html"><strong>Flutter&nbsp;(4)</strong></a>
 	        
 	        
 	        
@@ -314,6 +309,12 @@ $(document).ready(function(event) {
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16293704418629.html">AbsorbPointer和IgnorePointer</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -336,12 +337,6 @@ $(document).ready(function(event) {
 	      
 		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16267690953146.html">Flutter 中 listView 嵌套 listView</a>
 		      </li>
 	     
 	  

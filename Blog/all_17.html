@@ -78,6 +78,37 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14816416025061.html">获取崩溃信息</a></h1>
+			<p class="meta"><time datetime="2016-12-13T23:06:42+08:00" 
+			pubdate data-updated="true">2016/12/13</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>日志详细信息:</p>
+<pre><code>static void exceptionHandler( NSException * exception )
+{
+    NSString *date = [NSString stringWithFormat:@&quot;崩溃日志-%@&quot;, [[NSDate date] description]];
+
+    NSLog(DEBUG_CRASH, @&quot;%@ app crashed %@&quot;,date,exception.description);
+	 abort();
+}
+</code></pre>
+<p>Appdelegate中调用:</p>
+<pre><code>NSSetUncaughtExceptionHandler( &amp;exceptionHandler );
+</code></pre>
+<p>当然也可以在日志信息中记录堆栈信息:</p>
+<pre><code>[exception callStackSymbols]
+</code></pre>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14815534553600.html">Swift - 上周问题总结</a></h1>
 			<p class="meta"><time datetime="2016-12-12T22:37:35+08:00" 
 			pubdate data-updated="true">2016/12/12</time></p>
@@ -293,28 +324,6 @@ self.collectionView.setContentOffset(CGPointMake(0, attributes!.frame.origin.y -
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14802973825600.html">xib报错</a></h1>
-			<p class="meta"><time datetime="2016-11-28T09:43:02+08:00" 
-			pubdate data-updated="true">2016/11/28</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<blockquote>
-<p>错误信息: Unknown class XXXX in Interface Builder file. (lldb)</p>
-</blockquote>
-<p>原因,Xib是在其他项目中创建的,拖进来的时候没有注意,只要修改<br />
-<img src="media/14802973825600/14802974822042.jpg" alt="" /></p>
-<p>修改module为项目的就好了</p>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_18.html">&larr; Older</a> 
@@ -407,7 +416,7 @@ self.collectionView.setContentOffset(CGPointMake(0, attributes!.frame.origin.y -
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Flutter.html"><strong>Flutter&nbsp;(3)</strong></a>
+	        <a href="Flutter.html"><strong>Flutter&nbsp;(4)</strong></a>
 	        
 	        
 	        
@@ -418,6 +427,12 @@ self.collectionView.setContentOffset(CGPointMake(0, attributes!.frame.origin.y -
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16293704418629.html">AbsorbPointer和IgnorePointer</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -440,12 +455,6 @@ self.collectionView.setContentOffset(CGPointMake(0, attributes!.frame.origin.y -
 	      
 		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16267690953146.html">Flutter 中 listView 嵌套 listView</a>
 		      </li>
 	     
 	  

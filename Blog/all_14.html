@@ -78,6 +78,37 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14907835920803.html">设计模式 读书笔记</a></h1>
+			<p class="meta"><time datetime="2017-03-29T18:33:12+08:00" 
+			pubdate data-updated="true">2017/3/29</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>##单一职责原则(Single Responsibility Principe 简称SRP)</p>
+<blockquote>
+<p>定义: 应该有且仅有一个原因引起类的变更..</p>
+</blockquote>
+<p>###对职责的定义,什么是类的职责,以及怎么划分类的职责.<br />
+图书中 &lt;图1-1用户信息IUserInfo位图类图&gt; 中设计的有问题:<br />
+用户的属性和用户的行为没有分开,这是一个严重的错误.. 应该把用户的信息抽取成一个BO(Bussiness Object,业务对象),把行为抽取成一个Biz(Bussiness Logic,业务逻辑)</p>
+<p>重新拆封成两个接口. IUserBO 负责用户的属性,简单的说就是收集和反馈用户的属性信息.IUserBiz负责用户的行为,完成用户信息的维护和变更.<br />
+###好处</p>
+<ol>
+<li>类的复杂性降低.实现什么职责都有清晰明确的定义了;</li>
+<li>可读性提高.复杂性降低,当然可读性提高了;</li>
+<li>可维护性提高.可读性提高,那当然更容易维护了;</li>
+<li>变更引起的风险降低,变更时必不可少的.如果接口的单一职责做的好,一个接口的修改只对相应的实现类有影响,对其他的接口无影响,这对系统的扩展性和维护性都有非常大的帮助.</li>
+</ol>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14907559721950.html">Mac zsh 使用命令打开sublime</a></h1>
 			<p class="meta"><time datetime="2017-03-29T10:52:52+08:00" 
 			pubdate data-updated="true">2017/3/29</time></p>
@@ -185,41 +216,6 @@ $(document).ready(function(event) {
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14866104685305.html">C++Primer笔记 - 初识输入输出</a></h1>
-			<p class="meta"><time datetime="2017-02-09T11:21:08+08:00" 
-			pubdate data-updated="true">2017/2/9</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<blockquote>
-<p>使用<code>iostream</code>库.<code>iostream</code>中包含两个基础类型<code>istream</code>和<code>ostream</code>,分别表示输入流和输出流<br />
-##标准输入输出对象<br />
-标准库中定义了4个IO对象.为了处理输入,我们使用了一个名为<code>cin</code>的<code>istream</code>类型的对象.这个对象也被称为<strong>标准输入</strong>.对于输出,我们使用一个名为<code>cout</code>的<code>ostream</code>类型的对象.此对象也被称为<strong>标准输出</strong>.标准库中还定义了其他两个<code>ostream</code>对象,名为<code>cerr</code>和<code>clog</code>.我们通常用<code>cerr</code>来输出警告和错误信心,因此它也被称为<strong>标准错误</strong>,而<code>clog</code>用来输出程序运行时的一般性信息.</p>
-</blockquote>
-<p>系统通常将程序所运行的窗口与这些对象关联起来.因此,当我们读取cin,数据将从程序正在运行的窗口读入,当我们像cout,cerr,clog写入数据的时候,将会写到同一个窗口.</p>
-<p>##Demo</p>
-<pre><code>#include &lt;iostream&gt;
-using namespace std;
-
-int main(int argc, char *argv[])
-{
-    std::cout &lt;&lt; &quot;Enter two numbers:&quot; &lt;&lt; std::endl;
-    int v1 = 0, v2 = 0;
-    std::cin &gt;&gt; v1 &gt;&gt; v2;
-    std::cout &lt;&lt; &quot;The sun of &quot; &lt;&lt; v1 &lt;&lt; &quot;and&quot; &lt;&lt; v2 &lt;&lt; &quot;is&quot; &lt;&lt; v1 + v2 &lt;&lt; std::endl;
-    return 0;
-}
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_15.html">&larr; Older</a> 
@@ -312,7 +308,7 @@ int main(int argc, char *argv[])
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Flutter.html"><strong>Flutter&nbsp;(3)</strong></a>
+	        <a href="Flutter.html"><strong>Flutter&nbsp;(4)</strong></a>
 	        
 	        
 	        
@@ -323,6 +319,12 @@ int main(int argc, char *argv[])
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16293704418629.html">AbsorbPointer和IgnorePointer</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -345,12 +347,6 @@ int main(int argc, char *argv[])
 	      
 		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16267690953146.html">Flutter 中 listView 嵌套 listView</a>
 		      </li>
 	     
 	  

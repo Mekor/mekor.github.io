@@ -78,6 +78,29 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="15374224515215.html">CocaPods 添加头文件的报错  的解决办法</a></h1>
+			<p class="meta"><time datetime="2018-09-20T13:47:31+08:00" 
+			pubdate data-updated="true">2018/9/20</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>在buildsetting中的以下两个路径中添加对应的设置，重现编译即可解决，stackoverflow地址：<a href="https://stackoverflow.com/questions/45779591/failed-to-emit-precompiled-header-for-bridging-header?answertab=votes#tab-top">Failed to emit precompiled header for bridging header</a></p>
+<pre><code>Solution:
+1 I added $(inherited) non-recursive to Search Path -&gt; Header Search Paths
+2 Then added ${PODS_ROOT} recursive to Search Path -&gt; User Header Search Paths
+Both the above in my projects' target build settings.
+</code></pre>
+<p><img src="media/15374224515215/15374225919741.jpg" alt="" style="width:794px;" /></p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="15366461063408.html"><禅与摩托车维修艺术></a></h1>
 			<p class="meta"><time datetime="2018-09-11T14:08:26+08:00" 
 			pubdate data-updated="true">2018/9/11</time></p>
@@ -215,102 +238,6 @@ webView.isOpaque = false
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="15323249439841.html">算法总结</a></h1>
-			<p class="meta"><time datetime="2018-07-23T13:49:03+08:00" 
-			pubdate data-updated="true">2018/7/23</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<h2><a id="fibonacci%EF%BC%88%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0%E5%88%97%E5%AE%9E%E7%8E%B0%EF%BC%89" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Fibonacci （斐波那契数列实现）</h2>
-<pre><code>///Fibonacci （斐波那契数列实现）
-func fibonacci(_ n: Int) -&gt; Int{
-    let result = [0,1]
-    if n &lt; 2 {
-        return result[n]
-    }
-    
-    var fibNMinusOne = 1
-    var fibNMinusTwo = 0
-    var fibN = 0
-    
-    for _ in 2...n {
-        fibN = fibNMinusOne + fibNMinusTwo
-        fibNMinusTwo = fibNMinusOne
-        fibNMinusOne = fibN
-    }
-    return fibN
-}
-</code></pre>
-<h2><a id="binarysearch%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>BinarySearch (二分查找)</h2>
-<h3><a id="%E9%9D%9E%E9%80%92%E5%BD%92" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>非递归</h3>
-<pre><code>func binarySearch&lt;T: Comparable&gt;(_ a:[T], key: T) -&gt; Int {
-    print(key)
-    var lowerBound = 0
-    var upperBound = a.count
-    while lowerBound &lt; upperBound {
-
-        let midIndex = lowerBound + (upperBound - lowerBound)/2
-
-        if a[midIndex] == key {
-            return midIndex
-        }else if a[midIndex] &lt; key {
-            lowerBound = midIndex + 1
-        }else {
-            upperBound = midIndex
-        }
-    }
-    return -1
-}
-</code></pre>
-<p>###递归</p>
-<pre><code>func binarySearch&lt;T : Comparable&gt;(startIndex: Int, endIndex: Int , arr:[T], key: T) -&gt; Int{
-    let mind = startIndex + (endIndex - startIndex) / 2
-    let mindValue = arr[mind]
-    if mindValue == key {
-        return mind
-    }
-    if mindValue &lt; key {
-        return binarySearch(startIndex: mind + 1, endIndex: endIndex, arr: arr, key: key)
-    } else if mindValue &gt; key {
-        return binarySearch(startIndex: 0, endIndex: mind, arr: arr, key: key)
-    }
-    return -1
-}
-</code></pre>
-<p>##快速排序</p>
-<pre><code>func quicksort&lt;T: Comparable&gt;(_ unsort:[T]) -&gt; [T] {
-    guard unsort.count &gt; 1 else {
-        return unsort
-    }
-    
-    let pivot = unsort[unsort.count / 2]
-    let less = unsort.filter { $0 &lt; pivot }
-    let equal = unsort.filter { $0 == pivot }
-    let greater = unsort.filter { $0 &gt; pivot }
-    
-    return quicksort(less) + equal + quicksort(greater)
-}
-</code></pre>
-<p>测试结果</p>
-<pre><code>let list = [ 10, 0, 3, 9, 2, 14, 8, 27, 1, 5, 8, -1, 26 ]
-
-print(list)
-print(quicksort(list))
---------------------
-[10, 0, 3, 9, 2, 14, 8, 27, 1, 5, 8, -1, 26]
-[-1, 0, 1, 2, 3, 5, 8, 8, 9, 10, 14, 26, 27]
-
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_8.html">&larr; Older</a> 
@@ -403,7 +330,7 @@ print(quicksort(list))
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Flutter.html"><strong>Flutter&nbsp;(3)</strong></a>
+	        <a href="Flutter.html"><strong>Flutter&nbsp;(4)</strong></a>
 	        
 	        
 	        
@@ -414,6 +341,12 @@ print(quicksort(list))
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16293704418629.html">AbsorbPointer和IgnorePointer</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -436,12 +369,6 @@ print(quicksort(list))
 	      
 		      <li class="post">
 		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16267690953146.html">Flutter 中 listView 嵌套 listView</a>
 		      </li>
 	     
 	  

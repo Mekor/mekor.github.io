@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <title>
     
-  Swift - 函数式编程 - 李小争
+  AbsorbPointer和IgnorePointer - 李小争
   
 
   </title>
@@ -77,97 +77,133 @@ $(document).ready(function(event) {
 <div>
 	<article class="hentry" role="article">
 	<header>
-			  	<h1 class="entry-title">Swift - 函数式编程</h1>
-				<p class="meta"><time datetime="2016-11-23T22:51:09+08:00" pubdate data-updated="true">2016/11/23</time></p>
+			  	<h1 class="entry-title">AbsorbPointer和IgnorePointer</h1>
+				<p class="meta"><time datetime="2021-08-19T18:54:01+08:00" pubdate data-updated="true">2021/8/19</time></p>
 			 </header>
 		  	<div class="entry-content">
-			  	<p>一般情况:</p>
-<pre><code>struct User {
-    func login(password: String){
-        print(password)
-    }
-}
+			  	<p>iOS平台控件本身提供isUserInterfaceEnable 用来控制是否与用户交互，flutter中则需要AbsorbPointer和IgnorePointer来进行组件包装实现。</p>
+<ul>
+<li>参见 <a href="https://blog.csdn.net/mengks1987/article/details/105440465">Flutter AbsorbPointer 与 IgnorePointer的区别</a></li>
+</ul>
+<h2><a id="absorbpointer" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>AbsorbPointer</h2>
+<p>AbsorbPointer是一种禁止用户输入的控件，比如按钮的点击、输入框的输入、ListView的滚动等，你可能说将按钮的onPressed设置为null，一样也可以实现，是的，但AbsorbPointer可以提供多组件的统一控制，而不需要你单独为每一个组件设置。</p>
+<p>用法如下：</p>
+<pre><code class="language-dart">AbsorbPointer(
+  child: Row(
+    children: &lt;Widget&gt;[
+      RaisedButton(onPressed: (){},),
+      RaisedButton(onPressed: (){},),
+      RaisedButton(onPressed: (){},),
+      RaisedButton(onPressed: (){},),
 
-let passwd = &quot;123123123&quot;
-let usr = User()
-
-usr.login(password: passwd)
+    ],
+  ),
+)
 </code></pre>
-<p>函数式编程</p>
-<pre><code>struct User {
-    func login(password: String){
-        print(password)
-    }
-}
-
-let passwd = &quot;123123123&quot;
-let usr = User()
-
-User.login(usr)(password: passwd)
+<p>默认情况下，这些按钮是否响应点击事件的，如果想要响应点击事件只需设置absorbing为false即可：</p>
+<pre><code class="language-dart">AbsorbPointer(
+  absorbing: false,
+  ...
+)
 </code></pre>
-<p>由此可见: <code>usr.login(password: passwd)</code> == <code>User.login(usr)(password: passwd)</code></p>
-<p>如果忽略外部参数</p>
-<pre><code>struct User {
-    func login(_ password: String){
-        print(password)
-    }
-}
-
-let passwd = &quot;123123123&quot;
-let usr = User()
-usr.login(passwd)
-User.login(usr)(passwd)
+<h2><a id="ignorepointer" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>IgnorePointer</h2>
+<p>IgnorePointer的用法和AbsorbPointer一样，而且达到的效果一样，用法如下：</p>
+<pre><code class="language-dart">IgnorePointer(
+  child: Row(
+    children: &lt;Widget&gt;[
+      RaisedButton(onPressed: (){},),
+      RaisedButton(onPressed: (){},),
+      RaisedButton(onPressed: (){},),
+      RaisedButton(onPressed: (){},),
+    ],
+  ),
+)
 </code></pre>
-<p>这样就更简洁了</p>
-<hr />
-<p>--- 11.24更 --<br />
-##柯里化(Currying)</p>
-<pre><code>// 柯里化(Currying)
-
-func addOne(num:Int) -&gt;Int {
-    return num + 1
-}
-
-print(addOne(num: 10))
-
-func addTo(_ adder:Int) -&gt;(_ num:Int) -&gt; Int {
-    return {
-        num in
-        return num + adder
-    }
-}
-
-let addTwo = addTo(2)
-
-print(addTwo(6))
-
-// 更简单的调用方式
-print(addTo(9)(1))
-
+<h2><a id="%E5%8C%BA%E5%88%AB" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>区别</h2>
+<p>AbsorbPointer本身可以接收点击事件，消耗掉事件，而IgnorePointer无法接收点击事件，其下的控件可以接收到点击事件（不是子控件）。</p>
+<p>如果有2个盒子，一个200x200的红色盒子，一个100x100的蓝色盒子，蓝色盒子位于红色盒子之上居中显示，给2个盒子添加点击事件，如下:</p>
+<pre><code class="language-dart">return Container(
+      height: 200,
+      width: 200,
+      child: Stack(
+        alignment: Alignment.center,
+        children: &lt;Widget&gt;[
+          Listener(
+            onPointerDown: (v) {
+              print('click red');
+            },
+            child: Container(
+              color: Colors.red,
+            ),
+          ),
+          Listener(
+            onPointerDown: (v) {
+              print('click red');
+            },
+            child: Container(
+              color: Colors.blue,
+              width: 100,
+              height: 100,
+            ),
+          ),
+        ],
+      ),
+    );
 </code></pre>
-<p>----12.8----<br />
-说到函数式编程,我突然想起了今天实现一个功能所用到的技术,这里只做简单记录.</p>
-<p>项目中遇到一个问题:根据参数创建相应个数的视图,视图中按钮的点击事件还要回调..我一开始想用代理来做,发现如果层级结构比较深的话代理不是很好用.既然否定了代理那么怎样还能实现该效果呢?我尝试用函数(闭包).</p>
-<p>需要传递的数据</p>
-<pre><code>let dict = [
-    [&quot;title&quot;:GLOBAL_LANGUAGE(&quot;历史锅底&quot;) ,
-     &quot;subtitle&quot;:GLOBAL_LANGUAGE(&quot;上次的定制锅底,再来一单&quot;),
-     &quot;imagename&quot;:&quot;OrderDishOrPot1&quot;,
-     &quot;callback&quot;:historyPotsList!]  // callback 中存放的就是函数名或者闭包名
-]
+<p>点击蓝色盒子时，打印结果：</p>
+<pre><code class="language-dart">flutter: click blue
 </code></pre>
-<pre><code>let showTitle =  data[i][&quot;title&quot;] as! String
-let showSubTitle = data[i][&quot;subtitle&quot;] as! String
-let imageName = data[i][&quot;imagename&quot;] as! String
-let callBack = data[i][&quot;callback&quot;] as! (()-&gt;()) // 这里就是我需要的闭包
-
-//=======
-
-callBack() // 闭包调用
-
+<p>点击蓝色盒子区域以外的红色盒子，打印结果：</p>
+<pre><code class="language-dart">flutter: click red
 </code></pre>
-<p>只需要这样我就能实现需求了...函数的传递虽然不像👆所说的那样函数式编程,但是还是有必要记录下,swift跟OC比还是灵活了很多.</p>
-<p>----未完待续---</p>
+<p>此时用AbsorbPointer包裹蓝色盒子</p>
+<pre><code class="language-dart">return Container(
+  height: 200,
+  width: 200,
+  child: Stack(
+    alignment: Alignment.center,
+    children: &lt;Widget&gt;[
+      Listener(
+        onPointerDown: (v) {
+          print('click red');
+        },
+        child: Container(
+          color: Colors.red,
+        ),
+      ),
+      Listener(
+        onPointerDown: (v) {
+          print('click blue self');
+        },
+        child: AbsorbPointer(
+          child: Listener(
+            onPointerDown: (v) {
+              print('click blue child');
+            },
+            child: Container(
+              color: Colors.blue,
+              width: 100,
+              height: 100,
+            ),
+          ),
+        ),
+      ),
+    ],
+  ),
+);
+</code></pre>
+<p>点击蓝色盒子，打印如下：</p>
+<pre><code class="language-dart">flutter: click blue self
+</code></pre>
+<p>说明AbsorbPointer本身接收到了点击事件，将AbsorbPointer改为IgnorePointer,打印如下：</p>
+<pre><code class="language-dart">flutter: click red
+</code></pre>
+<p>点击事件穿透蓝色盒子到红色盒子，红色盒子接收到了点击事件。</p>
+<h2><a id="%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>使用场景</h2>
+<ol>
+<li>根据业务需求禁用/启用多个组件。</li>
+<li>根据业务需求禁用/启用整个App。</li>
+</ol>
 
 			</div>
 
@@ -179,7 +215,7 @@ callBack() // 闭包调用
 			<strong>Categories:</strong>&nbsp; 
 			<span class="categories">
 			
-			    <a class='category' href='Swift.html'>Swift</a>&nbsp;
+			    <a class='category' href='Flutter.html'>Flutter</a>&nbsp;
 			 
 			</span>
 		    </p>
@@ -197,12 +233,9 @@ callBack() // 闭包调用
 
 	    <p class="meta">
 	    
-	        <a class="basic-alignment left" href="14799970254990.html" 
-	        title="Previous Post: Swift - 面向协议编程">&laquo; Swift - 面向协议编程</a>
 	    
-	    
-	        <a class="basic-alignment right" href="14796301513904.html" 
-	        title="Next Post: Swift - 使用代理和闭包传值">Swift - 使用代理和闭包传值 &raquo;</a>
+	        <a class="basic-alignment right" href="16293384343104.html" 
+	        title="Next Post: 了解Scrollable">了解Scrollable &raquo;</a>
 	    
 	    </p>
 	  </footer>
