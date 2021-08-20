@@ -78,6 +78,100 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="16189060168232.html">iOS 开发环境配置</a></h1>
+			<p class="meta"><time datetime="2021-04-20T16:06:56+08:00" 
+			pubdate data-updated="true">2021/4/20</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<ol>
+<li>
+<p>安装Xcode(Version 12.4)</p>
+<p>不要去App Store下载安装，因为App Store会自动更新，为了确保Xcode版本一致需要去开发者网站下载 <a href="https://developer.apple.com/download/more/">Apple Developer</a></p>
+</li>
+<li>
+<p>安装brew</p>
+<ol>
+<li>
+<p>由于访问外网太慢，建议从gitee安装</p>
+<pre><code class="language-shell">/bin/zsh -c &quot;$(curl -fsSL https://gitee.com/cunkai/HomebrewCN/raw/master/Homebrew.sh)&quot;
+</code></pre>
+</li>
+<li>
+<p>可以选择科大的源也可以选择清华的源，我一般用清华的源</p>
+</li>
+</ol>
+</li>
+<li>
+<p>安装rbenv</p>
+<ol>
+<li>
+<p>rbenv是 Ruby 环境管理工具 <code>brew install rbenv</code></p>
+</li>
+<li>
+<p>更新配置文件</p>
+<pre><code class="language-sh">export PATH=&quot;$HOME/.rbenv/bin:$PATH&quot; 
+eval &quot;$(rbenv init -)&quot;
+</code></pre>
+</li>
+<li>
+<p>我现在用的Ruby环境是2.7.1</p>
+<pre><code class="language-shell">$ cd $(PROJECT_DIR)
+$ rbenv install 2.7.1
+$ rbenv local 2.7.1
+</code></pre>
+</li>
+</ol>
+</li>
+<li>
+<p>安装Bundler</p>
+<ol>
+<li>
+<p>执行<code>gem install bundler</code>命令进行，之后，再执行<code>bundle init</code>就可以生成一个 Gemfile 文件</p>
+</li>
+<li>
+<p>添加CocoaPods 和 fastlane 等依赖包</p>
+<pre><code class="language-shell">source &quot;https://rubygems.org&quot;
+
+gem &quot;cocoapods&quot;, &quot;1.10.1&quot;
+gem &quot;fastlane&quot;,&quot;2.180.1&quot;
+</code></pre>
+</li>
+</ol>
+</li>
+<li>
+<p>使用脚本确认环境</p>
+<pre><code class="language-shell"># Install ruby using rbenv
+
+ruby_version=`cat .ruby-version`
+if [[ ! -d &quot;$HOME/.rbenv/versions/$ruby_version&quot; ]]; then
+  rbenv install $ruby_version;
+fi
+# Install bunlder
+gem install bundler
+# Install all gems
+bundle install
+# Install all pods
+bundle exec pod install
+
+</code></pre>
+<p>​	脚本主要做了四件事情，第一步是在 rbenv 下安装特定版本的 Ruby 开发环境，然后通过 RubyGems 安装 Bunlder，接着使用 Bundler 安装 CocoaPods 和 fastlane 等依赖包，最后安装各个 Pod。这样，一个统一的项目环境就搭建完成了，接下来开发者就可以打开 <strong>项目名.xcworkspace</strong>进行开发了.</p>
+</li>
+<li>
+<p>项目添加gitignore</p>
+<p>可以去gitignore.io 输入Xcode，Swift等关键字生成.gitignore文件</p>
+</li>
+</ol>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="16158207840706.html">AR 模型格式转换和导入</a></h1>
 			<p class="meta"><time datetime="2021-03-15T23:06:24+08:00" 
 			pubdate data-updated="true">2021/3/15</time></p>
@@ -295,61 +389,6 @@ Tools • Dart 2.12.0
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="16152544377232.html">Flutter 相关网站</a></h1>
-			<p class="meta"><time datetime="2021-03-09T09:47:17+08:00" 
-			pubdate data-updated="true">2021/3/9</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p><a href="https://github.com/flutter/flutter/issues">github地址</a></p>
-<p><a href="https://flutterchina.club/">Flutter中文网</a></p>
-<p>三方库网站  <a href="https://pub.dev">https://pub.dev</a></p>
-<h1><a id="%E4%BD%BF%E7%94%A8flutter%E6%8A%80%E6%9C%AF%E7%9A%84-app" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>使用Flutter 技术的App</h1>
-<ul>
-<li>MOO 腾讯音乐App <a href="https://mp.weixin.qq.com/s/ChbXxcd_k6_CSvI6VxwTyg">https://mp.weixin.qq.com/s/ChbXxcd_k6_CSvI6VxwTyg</a></li>
-<li>闲鱼App  闲鱼Flutter技术文章专栏：<a href="https://www.zhihu.com/column/xytech">https://www.zhihu.com/column/xytech</a>  被吐槽 <a href="https://maimai.cn/web/feed_detail?fid=1573956025&amp;efid=H20EJR0aOjBt9e_HmpcW5g&amp;use_rn=1">https://maimai.cn/web/feed_detail?fid=1573956025&amp;efid=H20EJR0aOjBt9e_HmpcW5g&amp;use_rn=1</a></li>
-<li>飞猪App <a href="https://juejin.cn/post/6937254156776243231">https://juejin.cn/post/6937254156776243231</a></li>
-<li>美团（美团外卖App上有应用，美团主要用原生+RN） <a href="https://tech.meituan.com/tags/flutter.html">https://tech.meituan.com/tags/flutter.html</a></li>
-</ul>
-<h1><a id="flutter%E8%B6%8B%E5%8A%BF" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Flutter趋势</h1>
-<p>flutter热词搜索情况 <a href="https://trends.google.com/trends/explore?date=today%205-y&amp;geo=US&amp;q=flutter">https://trends.google.com/trends/explore?date=today%205-y&amp;geo=US&amp;q=flutter</a></p>
-<p><img src="media/16152544377232/16152544977518.jpg" alt="" style="width:1675px;" /><br />
-<img src="media/16152544377232/16152545180865.jpg" alt="" style="width:1679px;" /></p>
-<p>百度指数</p>
-<p><img src="media/16152544377232/16152545369692.jpg" alt="" style="width:1317px;" /></p>
-<h1><a id="%E8%AE%BE%E5%A4%87%E3%80%81%E7%B3%BB%E7%BB%9F%E4%BD%BF%E7%94%A8%E6%83%85%E5%86%B5" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>设备、系统使用情况</h1>
-<p>百度统计情况：<a href="https://tongji.baidu.com/research/app">https://tongji.baidu.com/research/app</a></p>
-<p>苹果手机</p>
-<p><img src="media/16152544377232/16152545486874.jpg" alt="" style="width:508px;" /></p>
-<p><img src="media/16152544377232/16152545614616.jpg" alt="" style="width:473px;" /></p>
-<p>安卓手机：</p>
-<p><img src="media/16152544377232/16152545701527.jpg" alt="" style="width:490px;" /><br />
-<img src="media/16152544377232/16152545805059.jpg" alt="" style="width:473px;" /></p>
-<h1><a id="%E7%B3%BB%E7%BB%9F%E4%BD%BF%E7%94%A8%E6%83%85%E5%86%B5" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>系统使用情况</h1>
-<p><img src="media/16152544377232/16152545904534.jpg" alt="" style="width:527px;" /><br />
-<img src="media/16152544377232/16152546057902.jpg" alt="" style="width:479px;" /><br />
-<img src="media/16152544377232/image-20210308223439673.png" alt="image-20210308223439673" /><br />
-<img src="media/16152544377232/16152548733751.jpg" alt="" style="width:478px;" /></p>
-<h1><a id="%E7%BB%93%E8%AE%BA" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>结论</h1>
-<p>阿里巴巴淘系技术的回答 - 知乎 <a href="https://www.zhihu.com/question/374113031/answer/1252582543">https://www.zhihu.com/question/374113031/answer/1252582543</a></p>
-<p>TechLead Show 的观点 <a href="https://www.youtube.com/watch?v=AvXSFUi022s">https://www.youtube.com/watch?v=AvXSFUi022s</a></p>
-<p>目前存在问题：</p>
-<ol>
-<li><a href="https://github.com/flutter/flutter/issues">https://github.com/flutter/flutter/issues</a>  ，好多问题没有解决，同时也说明反馈的人多热度不错。</li>
-<li>同时也能发现大厂的主要应用暂时没有使用Flutter，在新业务场景中开始尝试使用Flutter。</li>
-<li>需要学习Dart语言，适应新的UI开发（大约需要一周多适应）</li>
-</ol>
-<p>目前公司产品中，我认为供应链项目，食堂App（客户端和商家端）完全可以使用Flutter进行开发，iPad点菜系统我认为不太合适。Flutter在动画和手势方面比原生还是有差距，而且在老旧设备的兼容性上面Flutter还不太行。</p>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_3.html">&larr; Older</a> 
@@ -442,7 +481,7 @@ Tools • Dart 2.12.0
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Flutter.html"><strong>Flutter&nbsp;(5)</strong></a>
+	        <a href="Flutter.html"><strong>Flutter&nbsp;(6)</strong></a>
 	        
 	        
 	        
@@ -453,6 +492,12 @@ Tools • Dart 2.12.0
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16294555152827.html">ListView滑动删除Dismissible</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -468,19 +513,13 @@ Tools • Dart 2.12.0
 	  
 	      
 		      <li class="post">
-		        <a href="16293384343104.html">了解Scrollable</a>
+		        <a href="16293384343104.html">ListView了解Scrollable</a>
 		      </li>
 	     
 	  
 	      
 		      <li class="post">
 		        <a href="16292522945585.html">避免和WillPopScope与iOS手势冲突</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16291783311992.html">方便实用的小组件</a>
 		      </li>
 	     
 	  

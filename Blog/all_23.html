@@ -78,6 +78,76 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14766308131126.html">UITableView优化方案(收集)</a></h1>
+			<p class="meta"><time datetime="2016-10-16T23:13:33+08:00" 
+			pubdate data-updated="true">2016/10/16</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>##相关文章/博客<br />
+<a href="http://www.cocoachina.com/ios/20150906/13212.html">一次 TableView 性能优化经历</a><br />
+<a href="http://blog.jobbole.com/37984/">iOS应用性能调优的25个建议和技巧</a><br />
+<a href="http://longxdragon.github.io/2015/05/26/UITableView%E4%BC%98%E5%8C%96%E6%8A%80%E5%B7%A7/">UITableView优化技巧</a><br />
+<a href="http://blog.csdn.net/shang_ri_la/article/details/25954383">UITableView 滚动流畅性优化</a> (备注:这个原始网站挂了,幸好有朋友转载过.)</p>
+<p>##注意点:</p>
+<p>####1. 列表卡顿问题最好真机测试，有条件的尽量选择低版本硬件和系统进行测试；</p>
+<p>####2. 使用 Instruments 的 Time Profiler 工具定位造成卡顿时间消耗的位置；</p>
+<p>####3. 避免 UITableView 的多次刷新( reloadData )，尤其 Xib 加载 UITableView 时避免首次自动加载；</p>
+<p>####4. 为 Cell 专门定义显示 Model；</p>
+<p>####5. Model 需要包含已提前计算出的 Cell 高度；</p>
+<p>####6. 对于显示的 NSString，提前在 Model 中组装完成，避免在 Cell 中组装转换；</p>
+<p>####7. 对于需要加载的网络图片链接，提前在 Model 中组装完成 NSURL,避免在 Cell 中组装转换；</p>
+<p>####8. 尽量减少 Cell 中的逻辑判断和运算并使用正确的数据格式;</p>
+<p>####9. 避免在 Cell 中反复创建 View,最好在初始化时一并创建，通过设置 Hidden 属性控制显示和隐藏;</p>
+<p>####10. 对于 UIImageView ,注意加载的图片大小是否与控件大小一致，尽量保持一致；</p>
+<p>####11. 正确使用 reuseIdentifier</p>
+<pre><code>static NSString *CellIdentifier = @&quot;MyFancyCell&quot;;
+UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+
+</code></pre>
+<p>####12. 尽量把所有的 UIView 以及其子类控件设置为不透明（Opaque = YES）,你可以在模拟器中用Debug\Color Blended Layers选项来发现哪些view没有被设置为opaque。目标就是，能设为opaque的就全设为opaque!</p>
+<p>####13. 尽量避免图片压缩，模拟器条件下使用 Debug\Color Misaligned Images 选项检查像素是否对其:如果图片边界没有与目标像素完美对齐，该功能可为图片叠加上一层品红色。如果图片使用确定的比例大小绘制，那么该功能会为图片添加一层黄色叠加。真机条件下使用 Instrument 中的 Core Animation 工具检查；<br />
+####14. 使用 shadowPath 来画阴影;</p>
+<pre><code>#import &lt;QuartzCore/QuartzCore.h&gt;
+
+// Somewhere later ...
+UIView *view = [[UIView alloc] init];
+
+// Setup the shadow ...
+view.layer.shadowOffset = CGSizeMake(-1.0f, 1.0f);
+view.layer.shadowRadius = 5.0f;
+view.layer.shadowOpacity = 0.6;
+</code></pre>
+<p>####15. 减少 subviews 的数量;</p>
+<p>####16. 尽量不使用 cellForRowAtIndexPath: ，如果你需要用到它，只用一次然后缓存结果；<br />
+####17. 使用 Autorelease Pool；</p>
+<pre><code>NSArray *urls = &lt;# An array of file URLs #&gt;;
+for (NSURL *url in urls) {
+    @autoreleasepool {
+        NSError *error;
+        NSString *fileContents = [NSString stringWithContentsOfURL:url
+                                         encoding:NSUTF8StringEncoding error:&amp;error];
+    }
+}
+</code></pre>
+<p>####18. 选择是否需要缓存；</p>
+<pre><code>UIImage *img = [UIImage imageNamed:@&quot;myImage&quot;]; // caching
+
+// or
+ UIImage *img = [UIImage imageWithContentsOfFile:@&quot;myImage&quot;]; // no caching
+</code></pre>
+<p>如果你要加载一个大图片而且是一次性使用，那么就没必要缓存这个图片，用 imageWithContentsOfFile 足矣，这样不会浪费内存来缓存它。然而，在图片反复重用的情况下 imageNamed 是一个好得多的选择。</p>
+<p>####19. 避免日期格式转换；相关日期显示应该在 Model 中定义完成。</p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14766298858600.html">UILabel边缘出现黑线</a></h1>
 			<p class="meta"><time datetime="2016-10-16T22:58:05+08:00" 
 			pubdate data-updated="true">2016/10/16</time></p>
@@ -522,40 +592,6 @@ set nobackup //不备份
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14762437833792.html">在包含UITableView视图中添加单击手势</a></h1>
-			<p class="meta"><time datetime="2016-10-12T11:43:03+08:00" 
-			pubdate data-updated="true">2016/10/12</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>如果在包含UITableView视图中添加单击手势，这个单击手势会屏蔽掉UITableView的</p>
-<pre><code>- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath;
-</code></pre>
-<p>可以利用<code>UIGestureRecognizer</code>的<code>Delegate</code>中的</p>
-<pre><code>- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer;
-</code></pre>
-<p>在单击点位于UITableView内的时候取消响应</p>
-<pre><code>- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer{
-    CGPoint point = [gestureRecognizer locationInView:self];
-    if(CGRectContainsPoint(menuTableView.frame, point)){
-        return NO;
-    }
-    return YES;
-}
-</code></pre>
-<p>或者将单击手势的cancelsTouchesInView设置为NO</p>
-<pre><code>singleTap.cancelsTouchesInView = NO;
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_24.html">&larr; Older</a> 
@@ -648,7 +684,7 @@ set nobackup //不备份
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Flutter.html"><strong>Flutter&nbsp;(5)</strong></a>
+	        <a href="Flutter.html"><strong>Flutter&nbsp;(6)</strong></a>
 	        
 	        
 	        
@@ -659,6 +695,12 @@ set nobackup //不备份
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16294555152827.html">ListView滑动删除Dismissible</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -674,19 +716,13 @@ set nobackup //不备份
 	  
 	      
 		      <li class="post">
-		        <a href="16293384343104.html">了解Scrollable</a>
+		        <a href="16293384343104.html">ListView了解Scrollable</a>
 		      </li>
 	     
 	  
 	      
 		      <li class="post">
 		        <a href="16292522945585.html">避免和WillPopScope与iOS手势冲突</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16291783311992.html">方便实用的小组件</a>
 		      </li>
 	     
 	  

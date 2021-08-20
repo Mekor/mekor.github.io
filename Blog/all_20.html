@@ -78,6 +78,71 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14791335483032.html">iOS依赖库管理工具：Carthage</a></h1>
+			<p class="meta"><time datetime="2016-11-14T22:25:48+08:00" 
+			pubdate data-updated="true">2016/11/14</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>新项目需要使用一种新的依赖库管理工具:<code>Carthage</code></p>
+<blockquote>
+<p>参见:<a href="http://www.jianshu.com/p/9a37b81a59d6">iOS依赖库管理工具：Carthage</a></p>
+</blockquote>
+<h2><a id="%E5%AE%89%E8%A3%85carthage" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>安装Carthage</h2>
+<ul>
+<li>使用终端安装</li>
+</ul>
+<pre><code>$brew update
+$brew install carthage
+</code></pre>
+<ul>
+<li>在<a href="https://github.com/Carthage/Carthage/releases">https://github.com/Carthage/Carthage/releases</a> 下载最新版的Carthage.pkg</li>
+</ul>
+<p>安装好Carthage后，查看Carthage当前版本</p>
+<pre><code>$brew carthage version
+</code></pre>
+<h2><a id="%E4%BD%BF%E7%94%A8carthage" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>使用Carthage</h2>
+<ul>
+<li>在项目所在文件夹中创建一个空的Carthage文件</li>
+</ul>
+<pre><code>$touch Cartfile  
+$vi Cartfile
+</code></pre>
+<p><strong>$touch Cartfile</strong>：新建一个名为Cartfile的文件</p>
+<p><strong>$vi Cartfile</strong>：打开名为Cartfile文件，如若该文件不存在会新建</p>
+<ul>
+<li>在Cartfile中加入一下内容，以Alamofire为例：</li>
+</ul>
+<pre><code>github &quot;Alamofire/Alamofire&quot; ~&gt; 3.0
+</code></pre>
+<p>版本含义：<br />
+<code>~&gt; 3.0：表示使用版本高于3.0低于4.0的最新版本</code><br />
+<code>== 3.0：使用3.0版本</code><br />
+<code>&gt;= 3.0：使用3.0版本或者更高版本</code><br />
+如果没有指明版本号，默认使用最新版本</p>
+<ul>
+<li>保存并关闭Cartfile文件，在终端执行如下命令，carthage开始下载和编译所需要的第三方库，当命令执行完毕，项目文件夹中会创建一个名为Carthage的文件夹，并且在~/Carthage/Build/iOS中出现Alamofire.framework文件</li>
+</ul>
+<pre><code>$carthage update
+</code></pre>
+<ul>
+<li>
+<p>打开项目，点击project-&gt;target-&gt;General，在Embedded Binaries添加Alamofire.framework</p>
+</li>
+<li>
+<p>此时已经可以使用导入的第三方库了，在需要的文件中导入头文件</p>
+</li>
+</ul>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14791319119586.html">Swift - 懒加载 lazy</a></h1>
 			<p class="meta"><time datetime="2016-11-14T21:58:31+08:00" 
 			pubdate data-updated="true">2016/11/14</time></p>
@@ -408,57 +473,6 @@ foo(10)
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14789481799893.html">Swift - 字典中的增删改,遍历与合并</a></h1>
-			<p class="meta"><time datetime="2016-11-12T18:56:19+08:00" 
-			pubdate data-updated="true">2016/11/12</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>增删改</p>
-<pre><code>var dict:[String:Any] = [&quot;name&quot; : &quot;小明&quot;, &quot;age&quot; : 18, &quot;sex&quot;:&quot;man&quot;]
-
-// 新增
-dict[&quot;title&quot;] = &quot;老大&quot;
-print(dict)
-
-// 修改
-dict[&quot;name&quot;] = &quot;赵四&quot;
-print(dict)
-
-// 删除
-dict.removeValue(forKey: &quot;age&quot;)
-print(dict)
-
-</code></pre>
-<p>遍历,合并</p>
-<pre><code>// 遍历
-for e in dict {
-    print(e)
-}
-
-for (k,v) in dict {
-    print(&quot;key:\(k)  value:\(v)&quot;)
-}
-// 合并
-var dict1:[String:Any] = [&quot;name&quot; : &quot;李明&quot;, &quot;age&quot; : 18, &quot;sex&quot;:&quot;m&quot;]
-var dict2:[String:Any] = [&quot;name&quot; : &quot;韩梅梅&quot;, &quot;age&quot; : 16, &quot;sex&quot;:&quot;w&quot;]
-// 如果把 dict2 合并到 dict1
-for e in dict2 {
-    dict1[e.key] = e.value   //dict2[e.key]
-}
-print(&quot;----------\n\(dict1)&quot;)
-
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_21.html">&larr; Older</a> 
@@ -551,7 +565,7 @@ print(&quot;----------\n\(dict1)&quot;)
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Flutter.html"><strong>Flutter&nbsp;(5)</strong></a>
+	        <a href="Flutter.html"><strong>Flutter&nbsp;(6)</strong></a>
 	        
 	        
 	        
@@ -562,6 +576,12 @@ print(&quot;----------\n\(dict1)&quot;)
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16294555152827.html">ListView滑动删除Dismissible</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -577,19 +597,13 @@ print(&quot;----------\n\(dict1)&quot;)
 	  
 	      
 		      <li class="post">
-		        <a href="16293384343104.html">了解Scrollable</a>
+		        <a href="16293384343104.html">ListView了解Scrollable</a>
 		      </li>
 	     
 	  
 	      
 		      <li class="post">
 		        <a href="16292522945585.html">避免和WillPopScope与iOS手势冲突</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16291783311992.html">方便实用的小组件</a>
 		      </li>
 	     
 	  

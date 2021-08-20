@@ -78,6 +78,73 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="16294555152827.html">ListView滑动删除Dismissible</a></h1>
+			<p class="meta"><time datetime="2021-08-20T18:31:55+08:00" 
+			pubdate data-updated="true">2021/8/20</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>我们可以在item外层包上Dismissible，这样就实现了滑动删除功能。</p>
+<pre><code class="language-dart">	ListView.separated(
+        itemBuilder: (context, index) {
+          return Dismissible(
+            key: UniqueKey(),
+            background: Container(
+              color: Colors.black,
+            ), // 从开始滑动到结束的背景颜色
+            secondaryBackground: Container(
+              color: Colors.green,
+            ), // 从结束滑动到开始的背景颜色
+            onResize: () {
+              print(&quot;-----&quot;);
+            },
+            resizeDuration: null,
+            onDismissed: (direction) {
+              print(direction);
+              // 这里根据滑动方向进行判断
+              if (direction == DismissDirection.startToEnd) {
+                // 从开始滑动到结束
+              } else if (direction == DismissDirection.endToStart) {
+                // 从结束滑动到开始
+              }
+            },
+            direction: DismissDirection
+                .horizontal, // 滑动删除方向，默认是水平。list垂直的时候如果Dismissible也是垂直list就不会滚动了,未被Dismissible包裹的组件还是可以滑动的
+            child: Container(
+              height: 50,
+              color: Colors.blue[index % 9 * 100],
+            ),
+          );
+        },
+        separatorBuilder: (context, index) {
+          return Divider();
+        },
+        itemCount: 100);
+</code></pre>
+<p>注意：</p>
+<ol>
+<li>必须有key，这样才知道操作的是哪一个</li>
+<li>必须实现onDismissed方法，这里操作数据源，否则数据不会消失，再次滚动道该位置数据还会出现。direction是滑动的方向。</li>
+<li>如果按需求确认是否删除可以实现confirmDismiss</li>
+</ol>
+<p>其他参数：</p>
+<ol>
+<li>onResize 组件大小改变直到消失的时候会不停的调用</li>
+<li>resizeDuration  在[onDismissed]被调用之前，该小组件将花多少时间收缩。如果为null，该小组件将不会收缩，[onDismissed]将被调用 在小组件dismiss后立即被调用。</li>
+<li>movementDuration dismiss后回到初始或者完成的动画时间。</li>
+<li>dismissThresholds 滑动到多少判断完成，默认是0.4也就是滑动到40%的时候就完成了。值的格式是map 即以Dismiss Direction.startToEnd: 0.4 来判断从开始到结束滑动到40%的时候就完成了。DismissDirection.endToStart: 0.7 来判断从结束滑动到开始的70%位置就完成了。</li>
+<li>dismissible的滑动方向也是能修改的，默认是左右滑动，可以设置direction: DismissDirection.vertical  设置垂直方向滑动。但是这样就不能滑动列表了。</li>
+</ol>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="16294522959473.html">ListView滚动条&下拉刷新&通知</a></h1>
 			<p class="meta"><time datetime="2021-08-20T17:38:15+08:00" 
 			pubdate data-updated="true">2021/8/20</time></p>
@@ -313,7 +380,7 @@ $(document).ready(function(event) {
  
 	<article>
 		 <header>
-		  	<h1 class="entry-title"><a href="16293384343104.html">了解Scrollable</a></h1>
+		  	<h1 class="entry-title"><a href="16293384343104.html">ListView了解Scrollable</a></h1>
 			<p class="meta"><time datetime="2021-08-19T10:00:34+08:00" 
 			pubdate data-updated="true">2021/8/19</time></p>
 		 </header>
@@ -556,124 +623,9 @@ return Scaffold(
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="16291783311992.html">方便实用的小组件</a></h1>
-			<p class="meta"><time datetime="2021-08-17T13:32:11+08:00" 
-			pubdate data-updated="true">2021/8/17</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<h2><a id="1-fittedbox" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>1. FittedBox</h2>
-<pre><code>这个组件可以缩放子组件，组件的大小不够的时候可以缩放子组件。比如：
-
-```dart
-Container(
-	color: Colors.red,
-	width:double.infinity,
-	child:FittedBox(
-		fit: BoxFit.sacleDown, // 小于等于当前的控件大小. 也就是字体小于等于20
-		child:Text(&quot;You have pushed the button this many times&quot;, style: TextStyle(fontSize:20),),	
-	),	
-),
-```
-
-当Container组件所在的宽度不够文本宽度的时候，就会缩小文本的字体大小。
-</code></pre>
-<h2><a id="2-safearea" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>2. SafeArea</h2>
-<pre><code>和iOS中的SafeArea一样，为了异形屏显示而做的适配工作。
-
-```dart
-// 除了 top/bottom/left/right 等参数可以设置外，还有一个好用的参数 minimum。这个参数可以设置最小padding，也就是满足安全区域的时候使用安全区域，没有安全区域的时候使用minimum。
-```
-
-注意： 使用的时候不要把Safe Area 放在顶层，哪里需要放在哪里就好了，有些组件就是需要延伸到安全区域才美观的。
-</code></pre>
-<h2><a id="3-layoutbuilder" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>3. LayoutBuilder</h2>
-<pre><code>约束组件，会把constraint传递给子组件。
-
-```dart
-...
-LayoutBuilder(
-	builder: (BuildContext context, BoxConstraints constranits) {
-		print(constraints);
-		return SizedBox(
-			height: constraints.maxHeight / 2,
-			child: Text(&quot;xxxxxxxx&quot; * 500),
-		);
-	}
-),
-```
-
-上述代码实现了文本组件是父组件一半的高度。当然也可以使用Culum之类的组件通过Expend做到类似的效果。
-
-首页中可以使用LayoutBuilder计算剩余的空间，而不用使用MediaQuery.of(content).size 来自己就散各个组件的高度。
-</code></pre>
-<h2><a id="4-defaulttextstyle" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>4. DefaultTextStyle</h2>
-<pre><code>默认的文本样式，这样子组件就能使用外层的默认样式了。
-
-```dart
-...
-DefaultTextStyle(
-	style: TextStyle(color: Colors.red),// 子组件如果没有设置颜色的话就会使用改处设置的颜色。
-	child: Center(
-		child: Column(
-			mainAxisAlignment: MainAxisAlignment.center,
-			children:&lt;Widget&gt;[Text(&quot;hhhh&quot;),Text(&quot;字体大小更改&quot;,style: TextStyle(fontSize:48)),Text(&quot;颜色使用自己的&quot;,style: TextStyle(color: Colors.black))],
-		),	
-	),
-),
-```
-
-当然我们使用的过程中如果需要使用上层组件的样式可以这样。DefaultTextStyle.merge 这样默认样式就会和上层的样式merge。比如Scaffold中也会有默认样式（Material中会有默认样式），我们只是想要更改颜色就可以这样写：
-
-```dart
-return Scaffold(
-	...
-	body: DefaultTextStyle.merge(
-		style: TextStyle(color: Colors.red),// 这样就会设置默认的颜色为红色，其他的样式使用上层的样式。
-	),
-);
-```
-
-隐式动画
-
-AnimatedDefaultTextStyle
-</code></pre>
-<h2><a id="5-interactiveviewer" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>5. InteractiveViewer</h2>
-<pre><code>如果子组件超出屏幕范围可以任意方向滚动
-
-```dart
-...
-InteractiveViewer(
-	constrained: false,// 表示不去约束子组件
-	child: SizeBox(
-		width: 800, // 超出屏幕宽度，这样能狗左右滑动
-		maxScale:5, // 最大缩放5倍
-		minScale:0.2,// 最小缩放0.2倍
-
-		child: Column(
-			mainAxisAlignment: MainAxisAlignment.center,
-			children:&lt;Widget&gt;[Text(&quot;hello world&quot; * 200),],
-		),
-	),
-
-),
-```
-
-SingleChildScrollView 是一个维度的滚动，InteractiveViewer是二维滚动。
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
-	
+	 <a class="prev" href="Flutter_1.html">&larr; Older</a> 
 <a href="archives.html">Blog Archives</a>
 	 
 	    
@@ -763,7 +715,7 @@ SingleChildScrollView 是一个维度的滚动，InteractiveViewer是二维滚�
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Flutter.html"><strong>Flutter&nbsp;(5)</strong></a>
+	        <a href="Flutter.html"><strong>Flutter&nbsp;(6)</strong></a>
 	        
 	        
 	        
@@ -774,6 +726,12 @@ SingleChildScrollView 是一个维度的滚动，InteractiveViewer是二维滚�
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16294555152827.html">ListView滑动删除Dismissible</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -789,19 +747,13 @@ SingleChildScrollView 是一个维度的滚动，InteractiveViewer是二维滚�
 	  
 	      
 		      <li class="post">
-		        <a href="16293384343104.html">了解Scrollable</a>
+		        <a href="16293384343104.html">ListView了解Scrollable</a>
 		      </li>
 	     
 	  
 	      
 		      <li class="post">
 		        <a href="16292522945585.html">避免和WillPopScope与iOS手势冲突</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16291783311992.html">方便实用的小组件</a>
 		      </li>
 	     
 	  

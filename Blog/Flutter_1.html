@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <title>
     
-  C++Primer笔记 - 初识输入输出 - 李小争
+  Flutter - 李小争
   
 
   </title>
@@ -74,71 +74,129 @@ $(document).ready(function(event) {
 </nav>
   <div id="main">
     <div id="content"> 
-<div>
-	<article class="hentry" role="article">
-	<header>
-			  	<h1 class="entry-title">C++Primer笔记 - 初识输入输出</h1>
-				<p class="meta"><time datetime="2017-02-09T11:21:08+08:00" pubdate data-updated="true">2017/2/9</time></p>
-			 </header>
-		  	<div class="entry-content">
-			  	<blockquote>
-<p>使用<code>iostream</code>库.<code>iostream</code>中包含两个基础类型<code>istream</code>和<code>ostream</code>,分别表示输入流和输出流<br />
-##标准输入输出对象<br />
-标准库中定义了4个IO对象.为了处理输入,我们使用了一个名为<code>cin</code>的<code>istream</code>类型的对象.这个对象也被称为<strong>标准输入</strong>.对于输出,我们使用一个名为<code>cout</code>的<code>ostream</code>类型的对象.此对象也被称为<strong>标准输出</strong>.标准库中还定义了其他两个<code>ostream</code>对象,名为<code>cerr</code>和<code>clog</code>.我们通常用<code>cerr</code>来输出警告和错误信心,因此它也被称为<strong>标准错误</strong>,而<code>clog</code>用来输出程序运行时的一般性信息.</p>
-</blockquote>
-<p>系统通常将程序所运行的窗口与这些对象关联起来.因此,当我们读取cin,数据将从程序正在运行的窗口读入,当我们像cout,cerr,clog写入数据的时候,将会写到同一个窗口.</p>
-<p>##Demo</p>
-<pre><code>#include &lt;iostream&gt;
-using namespace std;
+<div class="blog-index">
 
-int main(int argc, char *argv[])
-{
-    std::cout &lt;&lt; &quot;Enter two numbers:&quot; &lt;&lt; std::endl;
-    int v1 = 0, v2 = 0;
-    std::cin &gt;&gt; v1 &gt;&gt; v2;
-    std::cout &lt;&lt; &quot;The sun of &quot; &lt;&lt; v1 &lt;&lt; &quot;and&quot; &lt;&lt; v2 &lt;&lt; &quot;is&quot; &lt;&lt; v1 + v2 &lt;&lt; std::endl;
-    return 0;
-}
+	<article>
+		 <header>
+		  	<h1 class="entry-title"><a href="16291783311992.html">方便实用的小组件</a></h1>
+			<p class="meta"><time datetime="2021-08-17T13:32:11+08:00" 
+			pubdate data-updated="true">2021/8/17</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<h2><a id="1-fittedbox" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>1. FittedBox</h2>
+<pre><code>这个组件可以缩放子组件，组件的大小不够的时候可以缩放子组件。比如：
+
+```dart
+Container(
+	color: Colors.red,
+	width:double.infinity,
+	child:FittedBox(
+		fit: BoxFit.sacleDown, // 小于等于当前的控件大小. 也就是字体小于等于20
+		child:Text(&quot;You have pushed the button this many times&quot;, style: TextStyle(fontSize:20),),	
+	),	
+),
+```
+
+当Container组件所在的宽度不够文本宽度的时候，就会缩小文本的字体大小。
+</code></pre>
+<h2><a id="2-safearea" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>2. SafeArea</h2>
+<pre><code>和iOS中的SafeArea一样，为了异形屏显示而做的适配工作。
+
+```dart
+// 除了 top/bottom/left/right 等参数可以设置外，还有一个好用的参数 minimum。这个参数可以设置最小padding，也就是满足安全区域的时候使用安全区域，没有安全区域的时候使用minimum。
+```
+
+注意： 使用的时候不要把Safe Area 放在顶层，哪里需要放在哪里就好了，有些组件就是需要延伸到安全区域才美观的。
+</code></pre>
+<h2><a id="3-layoutbuilder" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>3. LayoutBuilder</h2>
+<pre><code>约束组件，会把constraint传递给子组件。
+
+```dart
+...
+LayoutBuilder(
+	builder: (BuildContext context, BoxConstraints constranits) {
+		print(constraints);
+		return SizedBox(
+			height: constraints.maxHeight / 2,
+			child: Text(&quot;xxxxxxxx&quot; * 500),
+		);
+	}
+),
+```
+
+上述代码实现了文本组件是父组件一半的高度。当然也可以使用Culum之类的组件通过Expend做到类似的效果。
+
+首页中可以使用LayoutBuilder计算剩余的空间，而不用使用MediaQuery.of(content).size 来自己就散各个组件的高度。
+</code></pre>
+<h2><a id="4-defaulttextstyle" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>4. DefaultTextStyle</h2>
+<pre><code>默认的文本样式，这样子组件就能使用外层的默认样式了。
+
+```dart
+...
+DefaultTextStyle(
+	style: TextStyle(color: Colors.red),// 子组件如果没有设置颜色的话就会使用改处设置的颜色。
+	child: Center(
+		child: Column(
+			mainAxisAlignment: MainAxisAlignment.center,
+			children:&lt;Widget&gt;[Text(&quot;hhhh&quot;),Text(&quot;字体大小更改&quot;,style: TextStyle(fontSize:48)),Text(&quot;颜色使用自己的&quot;,style: TextStyle(color: Colors.black))],
+		),	
+	),
+),
+```
+
+当然我们使用的过程中如果需要使用上层组件的样式可以这样。DefaultTextStyle.merge 这样默认样式就会和上层的样式merge。比如Scaffold中也会有默认样式（Material中会有默认样式），我们只是想要更改颜色就可以这样写：
+
+```dart
+return Scaffold(
+	...
+	body: DefaultTextStyle.merge(
+		style: TextStyle(color: Colors.red),// 这样就会设置默认的颜色为红色，其他的样式使用上层的样式。
+	),
+);
+```
+
+隐式动画
+
+AnimatedDefaultTextStyle
+</code></pre>
+<h2><a id="5-interactiveviewer" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>5. InteractiveViewer</h2>
+<pre><code>如果子组件超出屏幕范围可以任意方向滚动
+
+```dart
+...
+InteractiveViewer(
+	constrained: false,// 表示不去约束子组件
+	child: SizeBox(
+		width: 800, // 超出屏幕宽度，这样能狗左右滑动
+		maxScale:5, // 最大缩放5倍
+		minScale:0.2,// 最小缩放0.2倍
+
+		child: Column(
+			mainAxisAlignment: MainAxisAlignment.center,
+			children:&lt;Widget&gt;[Text(&quot;hello world&quot; * 200),],
+		),
+	),
+
+),
+```
+
+SingleChildScrollView 是一个维度的滚动，InteractiveViewer是二维滚动。
 </code></pre>
 
-			</div>
-
-		
-	  
-		<footer>
-		 <p class="meta">
-
-			<strong>Categories:</strong>&nbsp; 
-			<span class="categories">
-			
-			    <a class='category' href='C/C++.html'>C/C++</a>&nbsp;
-			 
-			</span>
-		    </p>
-		    <p class="meta">
-		      
-		 </p>
-	    
-		<div class="sharing">
-		  
-          
-
-          
 
 		</div>
 
-	    <p class="meta">
-	    
-	        <a class="basic-alignment left" href="14877545165696.html" 
-	        title="Previous Post: synchronized(object)">&laquo; synchronized(object)</a>
-	    
-	    
-	        <a class="basic-alignment right" href="14866089688413.html" 
-	        title="Next Post: C++Primer笔记 - 如何获取 `main`的返回值">C++Primer笔记 - 如何获取 `main`的返回值 &raquo;</a>
-	    
-	    </p>
-	  </footer>
+		
+
 	</article>
+  
+	<div class="pagination">
+	
+<a href="archives.html">Blog Archives</a>
+	 <a class="next" href="Flutter.html">Newer &rarr;</a>  
+	    
+	</div>
 </div>
  <aside class="sidebar"> 
 
@@ -322,8 +380,6 @@ int main(int argc, char *argv[])
 
 
 
-
-<script src="asset/prism.js"></script>
 
 
 <style type="text/css">

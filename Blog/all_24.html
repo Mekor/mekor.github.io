@@ -78,6 +78,40 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14762437833792.html">在包含UITableView视图中添加单击手势</a></h1>
+			<p class="meta"><time datetime="2016-10-12T11:43:03+08:00" 
+			pubdate data-updated="true">2016/10/12</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>如果在包含UITableView视图中添加单击手势，这个单击手势会屏蔽掉UITableView的</p>
+<pre><code>- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath;
+</code></pre>
+<p>可以利用<code>UIGestureRecognizer</code>的<code>Delegate</code>中的</p>
+<pre><code>- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer;
+</code></pre>
+<p>在单击点位于UITableView内的时候取消响应</p>
+<pre><code>- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer{
+    CGPoint point = [gestureRecognizer locationInView:self];
+    if(CGRectContainsPoint(menuTableView.frame, point)){
+        return NO;
+    }
+    return YES;
+}
+</code></pre>
+<p>或者将单击手势的cancelsTouchesInView设置为NO</p>
+<pre><code>singleTap.cancelsTouchesInView = NO;
+</code></pre>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14761943627170.html">升级到Xcode8后Qt无法正常使用</a></h1>
 			<p class="meta"><time datetime="2016-10-11T21:59:22+08:00" 
 			pubdate data-updated="true">2016/10/11</time></p>
@@ -245,65 +279,6 @@ pod 'SDWebImage','~&gt;2.6' 设置框架的名称和版本号
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14747868502733.html">GCD(Grand Central Dispatch)使用</a></h1>
-			<p class="meta"><time datetime="2016-09-25T15:00:50+08:00" 
-			pubdate data-updated="true">2016/9/25</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>可以让程序长时间压后台</p>
-<pre><code>//  后台执行：
-dispatch_async(dispatch_get_global_queue(0, 0), ^{
-  // something
-});
-
-// 主线程执行：
-dispatch_async(dispatch_get_main_queue(), ^{
-  // something
-});
-
-// 一次性执行：
-static dispatch_once_t onceToken;
-dispatch_once(&amp;onceToken, ^{
-  // code to be executed once
-});
-
-// 延迟2秒执行：
-double delayInSeconds = 2.0;
-dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-   // code to be executed on the main queue after delay
-});
-
-// 自定义dispatch_queue_t
-dispatch_queue_t urls_queue = dispatch_queue_create(&quot;blog.devtang.com&quot;, NULL);
-dispatch_async(urls_queue, ^{
-  // your code
-});
-dispatch_release(urls_queue);
-
-// 合并汇总结果
-dispatch_group_t group = dispatch_group_create();
-dispatch_group_async(group, dispatch_get_global_queue(0,0), ^{
-  // 并行执行的线程一
-});
-dispatch_group_async(group, dispatch_get_global_queue(0,0), ^{
-  // 并行执行的线程二
-});
-dispatch_group_notify(group, dispatch_get_global_queue(0,0), ^{
-  // 汇总结果
-});
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_25.html">&larr; Older</a> 
@@ -396,7 +371,7 @@ dispatch_group_notify(group, dispatch_get_global_queue(0,0), ^{
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Flutter.html"><strong>Flutter&nbsp;(5)</strong></a>
+	        <a href="Flutter.html"><strong>Flutter&nbsp;(6)</strong></a>
 	        
 	        
 	        
@@ -407,6 +382,12 @@ dispatch_group_notify(group, dispatch_get_global_queue(0,0), ^{
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16294555152827.html">ListView滑动删除Dismissible</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -422,19 +403,13 @@ dispatch_group_notify(group, dispatch_get_global_queue(0,0), ^{
 	  
 	      
 		      <li class="post">
-		        <a href="16293384343104.html">了解Scrollable</a>
+		        <a href="16293384343104.html">ListView了解Scrollable</a>
 		      </li>
 	     
 	  
 	      
 		      <li class="post">
 		        <a href="16292522945585.html">避免和WillPopScope与iOS手势冲突</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16291783311992.html">方便实用的小组件</a>
 		      </li>
 	     
 	  

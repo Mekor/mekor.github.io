@@ -78,6 +78,38 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14714022507551.html">copy strong weak assign</a></h1>
+			<p class="meta"><time datetime="2016-08-17T10:50:50+08:00" 
+			pubdate data-updated="true">2016/8/17</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>##weak &amp; strong<br />
+<strong>weak</strong><br />
+你买了个iPhone7，你朋友觉得不错，由于手头紧，没买，于是你们公用一台iPhone7，你新装了QQ音乐，你朋友用的时候也会有QQ音乐<br />
+然后你的手机丢了 你朋友也没有 不能用了</p>
+<p><strong>stong</strong><br />
+你买了个iPhone7 你朋友也买了个iPhone7  他觉得你的app stroe账号里有好多软件 然后他就用你的app stroe账号 == 他stong了你的账号，你俩就公用了一个账号。<br />
+你下载软件 他也有了 然后你手机账号没了丢了 但他的手机还在账号还能用。</p>
+<p>##strong &amp; copy (深拷贝&amp;浅拷贝)<br />
+copy是用来保护数据的,copy一个数据之后,更改源数据不会导致copy的数据更改<br />
+strong是对一个数据的引用,更改源数据会导致strong的数据更改</p>
+<p>##assign<br />
+基本数据类型</p>
+<blockquote>
+<p><a href="https://developer.apple.com/library/mac/documentation/CoreFoundation/Conceptual/CFMemoryMgmt/Concepts/CopyFunctions.html">苹果文档中关于浅拷贝&amp;深拷贝</a></p>
+</blockquote>
+<p><img src="media/14714022507551/Snip20160817_3.png" alt="Snip20160817_3" /></p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14701034373615.html">网络切面化处理</a></h1>
 			<p class="meta"><time datetime="2016-08-02T10:03:57+08:00" 
 			pubdate data-updated="true">2016/8/2</time></p>
@@ -450,54 +482,6 @@ UIScrollView有个keyboardDismissMode属性，设置成UIScrollViewKeyboardDismi
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14689829459214.html">Python爬网站上的图片</a></h1>
-			<p class="meta"><time datetime="2016-07-20T10:49:05+08:00" 
-			pubdate data-updated="true">2016/7/20</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>以<a href="http://ppt.geekbang.org">极客邦PPT大全</a>为例,比如我想下载<a href="http://ppt.geekbang.org/slide/show/204">美团iOS客户端的构建思考与实践</a></p>
-<ol>
-<li>查看图片url<br />
-<img src="media/14689829459214/14689832970971.jpg" alt="" /></li>
-<li>图片url的格式<a href="http://7xiox7.com2.z0.glb.qiniucdn.com/576e52fb28bf9-01.jpg">http://7xiox7.com2.z0.glb.qiniucdn.com/576e52fb28bf9-01.jpg</a>  总共101张图片</li>
-<li>根据这些编写Python文件</li>
-</ol>
-<pre><code>#!/usr/bin/python
-#coding:utf-8
-
-import urllib
-import urllib2
-import os
-
-basepicurl=&quot;http://7xiox7.com2.z0.glb.qiniucdn.com/576e52fb28bf9-&quot;
-save_path=&quot;/Users/mekor/Desktop/images/&quot;
-for i in range(1,102,1):
-	s = &quot;%02d&quot; % i
-	picurl = basepicurl + s + &quot;.jpg&quot;
-	imgData = urllib2.urlopen(picurl).read()
-	# 给定图片存放名称
-	fileName = save_path + s + &quot;.jpg&quot;
-	# 文件名是否存在
-	#if os.path.exists(fileName):
-	output = open(fileName,'wb+')
-	output.write(imgData)
-	output.close()
-	print &quot;Finished download&quot;+ s
-
-print &quot;运行完成&quot;
-</code></pre>
-<p>这样就能够把所有的图片爬到本地了.</p>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_29.html">&larr; Older</a> 
@@ -590,7 +574,7 @@ print &quot;运行完成&quot;
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Flutter.html"><strong>Flutter&nbsp;(5)</strong></a>
+	        <a href="Flutter.html"><strong>Flutter&nbsp;(6)</strong></a>
 	        
 	        
 	        
@@ -601,6 +585,12 @@ print &quot;运行完成&quot;
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16294555152827.html">ListView滑动删除Dismissible</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -616,19 +606,13 @@ print &quot;运行完成&quot;
 	  
 	      
 		      <li class="post">
-		        <a href="16293384343104.html">了解Scrollable</a>
+		        <a href="16293384343104.html">ListView了解Scrollable</a>
 		      </li>
 	     
 	  
 	      
 		      <li class="post">
 		        <a href="16292522945585.html">避免和WillPopScope与iOS手势冲突</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16291783311992.html">方便实用的小组件</a>
 		      </li>
 	     
 	  

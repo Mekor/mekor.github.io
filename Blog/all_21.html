@@ -78,6 +78,57 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14789481799893.html">Swift - 字典中的增删改,遍历与合并</a></h1>
+			<p class="meta"><time datetime="2016-11-12T18:56:19+08:00" 
+			pubdate data-updated="true">2016/11/12</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>增删改</p>
+<pre><code>var dict:[String:Any] = [&quot;name&quot; : &quot;小明&quot;, &quot;age&quot; : 18, &quot;sex&quot;:&quot;man&quot;]
+
+// 新增
+dict[&quot;title&quot;] = &quot;老大&quot;
+print(dict)
+
+// 修改
+dict[&quot;name&quot;] = &quot;赵四&quot;
+print(dict)
+
+// 删除
+dict.removeValue(forKey: &quot;age&quot;)
+print(dict)
+
+</code></pre>
+<p>遍历,合并</p>
+<pre><code>// 遍历
+for e in dict {
+    print(e)
+}
+
+for (k,v) in dict {
+    print(&quot;key:\(k)  value:\(v)&quot;)
+}
+// 合并
+var dict1:[String:Any] = [&quot;name&quot; : &quot;李明&quot;, &quot;age&quot; : 18, &quot;sex&quot;:&quot;m&quot;]
+var dict2:[String:Any] = [&quot;name&quot; : &quot;韩梅梅&quot;, &quot;age&quot; : 16, &quot;sex&quot;:&quot;w&quot;]
+// 如果把 dict2 合并到 dict1
+for e in dict2 {
+    dict1[e.key] = e.value   //dict2[e.key]
+}
+print(&quot;----------\n\(dict1)&quot;)
+
+</code></pre>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14789459811464.html">Swift - 数组中的增删改与合并</a></h1>
 			<p class="meta"><time datetime="2016-11-12T18:19:41+08:00" 
 			pubdate data-updated="true">2016/11/12</time></p>
@@ -436,74 +487,6 @@ for (n,s) in array.enumerated().reversed() {
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14781433227076.html">获取当前显示的UIViewController</a></h1>
-			<p class="meta"><time datetime="2016-11-03T11:22:02+08:00" 
-			pubdate data-updated="true">2016/11/3</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<pre><code>+ (UIViewController *)getCurrentRootViewController {
-
-    CommonTool *tool = [[CommonTool alloc]init];
-
-    UIViewController *result;
-    UIWindow *topWindow = [[UIApplication sharedApplication] keyWindow];
-
-    if (topWindow.windowLevel != UIWindowLevelNormal){
-        NSArray *windows = [[UIApplication sharedApplication] windows];
-        for(topWindow in windows){
-            if (topWindow.windowLevel == UIWindowLevelNormal)
-                break;
-        }
-    }
-
-    UIView *rootView = [topWindow subviews].firstObject;
-    id nextResponder = [rootView nextResponder];
-
-    if ([nextResponder isMemberOfClass:[UIViewController class]]){
-        result = nextResponder;
-    }
-    else if ([nextResponder isMemberOfClass:[UITabBarController class]] | [nextResponder isMemberOfClass:[UINavigationController class]]){
-        result = [tool findViewController:nextResponder];
-    }
-    else if ([topWindow respondsToSelector:@selector(rootViewController)] &amp;&amp; topWindow.rootViewController != nil){
-        result = topWindow.rootViewController;
-    }
-
-    else{
-        NSAssert(NO, @&quot;找不到顶端VC&quot;);
-    }
-    return result;
-}
-
-</code></pre>
-<pre><code>- (UIViewController *)findViewController:(id)controller{
-    if ([controller isMemberOfClass:[UINavigationController class]]) {
-        return [self findViewController:[(UINavigationController *)controller visibleViewController]];
-    }
-    else if ([controller isMemberOfClass:[UITabBarController class]]){
-        return [self findViewController:[(UITabBarController *)controller selectedViewController]];
-    }
-    else if ([controller isKindOfClass:[UIViewController class]]){
-        return controller;
-    }
-    else{
-        NSAssert(NO, @&quot;找不到顶端VC&quot;);
-        return nil;
-    }
-}
-
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_22.html">&larr; Older</a> 
@@ -596,7 +579,7 @@ for (n,s) in array.enumerated().reversed() {
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Flutter.html"><strong>Flutter&nbsp;(5)</strong></a>
+	        <a href="Flutter.html"><strong>Flutter&nbsp;(6)</strong></a>
 	        
 	        
 	        
@@ -607,6 +590,12 @@ for (n,s) in array.enumerated().reversed() {
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16294555152827.html">ListView滑动删除Dismissible</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -622,19 +611,13 @@ for (n,s) in array.enumerated().reversed() {
 	  
 	      
 		      <li class="post">
-		        <a href="16293384343104.html">了解Scrollable</a>
+		        <a href="16293384343104.html">ListView了解Scrollable</a>
 		      </li>
 	     
 	  
 	      
 		      <li class="post">
 		        <a href="16292522945585.html">避免和WillPopScope与iOS手势冲突</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16291783311992.html">方便实用的小组件</a>
 		      </li>
 	     
 	  

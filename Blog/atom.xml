@@ -4,7 +4,7 @@
   <title><![CDATA[李小争]]></title>
   <link href="http://www.citynight.cn/blog/atom.xml" rel="self"/>
   <link href="http://www.citynight.cn/blog/"/>
-  <updated>2021-08-19T18:58:26+08:00</updated>
+  <updated>2021-08-20T17:39:47+08:00</updated>
   <id>http://www.citynight.cn/blog/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -12,6 +12,67 @@
   </author>
   <generator uri="http://www.coderforart.com/">CoderForArt</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ListView滑动删除Dismissible]]></title>
+    <link href="http://www.citynight.cn/blog/16294555152827.html"/>
+    <updated>2021-08-20T18:31:55+08:00</updated>
+    <id>http://www.citynight.cn/blog/16294555152827.html</id>
+    <content type="html"><![CDATA[
+<p>我们可以在item外层包上Dismissible，这样就实现了滑动删除功能。</p>
+<pre><code class="language-dart">	ListView.separated(
+        itemBuilder: (context, index) {
+          return Dismissible(
+            key: UniqueKey(),
+            background: Container(
+              color: Colors.black,
+            ), // 从开始滑动到结束的背景颜色
+            secondaryBackground: Container(
+              color: Colors.green,
+            ), // 从结束滑动到开始的背景颜色
+            onResize: () {
+              print(&quot;-----&quot;);
+            },
+            resizeDuration: null,
+            onDismissed: (direction) {
+              print(direction);
+              // 这里根据滑动方向进行判断
+              if (direction == DismissDirection.startToEnd) {
+                // 从开始滑动到结束
+              } else if (direction == DismissDirection.endToStart) {
+                // 从结束滑动到开始
+              }
+            },
+            direction: DismissDirection
+                .horizontal, // 滑动删除方向，默认是水平。list垂直的时候如果Dismissible也是垂直list就不会滚动了,未被Dismissible包裹的组件还是可以滑动的
+            child: Container(
+              height: 50,
+              color: Colors.blue[index % 9 * 100],
+            ),
+          );
+        },
+        separatorBuilder: (context, index) {
+          return Divider();
+        },
+        itemCount: 100);
+</code></pre>
+<p>注意：</p>
+<ol>
+<li>必须有key，这样才知道操作的是哪一个</li>
+<li>必须实现onDismissed方法，这里操作数据源，否则数据不会消失，再次滚动道该位置数据还会出现。direction是滑动的方向。</li>
+<li>如果按需求确认是否删除可以实现confirmDismiss</li>
+</ol>
+<p>其他参数：</p>
+<ol>
+<li>onResize 组件大小改变直到消失的时候会不停的调用</li>
+<li>resizeDuration  在[onDismissed]被调用之前，该小组件将花多少时间收缩。如果为null，该小组件将不会收缩，[onDismissed]将被调用 在小组件dismiss后立即被调用。</li>
+<li>movementDuration dismiss后回到初始或者完成的动画时间。</li>
+<li>dismissThresholds 滑动到多少判断完成，默认是0.4也就是滑动到40%的时候就完成了。值的格式是map 即以Dismiss Direction.startToEnd: 0.4 来判断从开始到结束滑动到40%的时候就完成了。DismissDirection.endToStart: 0.7 来判断从结束滑动到开始的70%位置就完成了。</li>
+<li>dismissible的滑动方向也是能修改的，默认是左右滑动，可以设置direction: DismissDirection.vertical  设置垂直方向滑动。但是这样就不能滑动列表了。</li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[ListView滚动条&下拉刷新&通知]]></title>
@@ -237,7 +298,7 @@
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[了解Scrollable]]></title>
+    <title type="html"><![CDATA[ListView了解Scrollable]]></title>
     <link href="http://www.citynight.cn/blog/16293384343104.html"/>
     <updated>2021-08-19T10:00:34+08:00</updated>
     <id>http://www.citynight.cn/blog/16293384343104.html</id>
@@ -1295,74 +1356,6 @@ Click : [1,2]
         }
 
         return board;
-    }
-}
-</code></pre>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[647. Palindromic Substrings]]></title>
-    <link href="http://www.citynight.cn/blog/15978472756793.html"/>
-    <updated>2020-08-19T22:27:55+08:00</updated>
-    <id>http://www.citynight.cn/blog/15978472756793.html</id>
-    <content type="html"><![CDATA[
-<p>题目地址:<a href="https://leetcode-cn.com/problems/palindromic-substrings/">647. 回文子串</a><br />
-Given a string, your task is to count how many palindromic substrings in this string.</p>
-<p>The substrings with different start indexes or end indexes are counted as different substrings even they consist of same characters.</p>
-<ul>
-<li><strong>Example 1:</strong></li>
-</ul>
-<pre><code>Input: &quot;abc&quot;
-Output: 3
-Explanation: Three palindromic strings: &quot;a&quot;, &quot;b&quot;, &quot;c&quot;.
-</code></pre>
-<ul>
-<li><strong>Example 2:</strong></li>
-</ul>
-<pre><code>Input: &quot;aaa&quot;
-Output: 6
-Explanation: Six palindromic strings: &quot;a&quot;, &quot;a&quot;, &quot;a&quot;, &quot;aa&quot;, &quot;aa&quot;, &quot;aaa&quot;.
-</code></pre>
-<p><strong>Note:</strong><br />
-The input string length won't exceed 1000.</p>
-<p>解题思路：</p>
-<p>使用中心扩展方法,每个字符都是一个中心，或者两个相邻一样的字符是一个中心，然后向左右分别递进判断能否形成回文</p>
-<p>举个🌰</p>
-<pre><code>  比如字符串是   a   b   a
-  遍历字符串   &lt;-⬆-&gt;             回文子串 a  左边没有数据所以只有这一个
-                 &lt;-⬆-&gt;          回文子串 b  一个指针向左走一个指针向右走 判断是否还有对应的子串（aba）， 左边 a 右边 a 能形成字串，再走没有数据
-                     &lt;-⬆-&gt;     回文字串 a 右边没有数据所以结束
-  根据上面的流程 最终的字串为  a，b, aba, a 共4个
- 
-  当然还有两个字符一样的情况
-  比如字符串是   a   b   b   a
-  这样就需要      &lt;-⬆  ⬆-&gt;      从中间两个向外判断是否能形成回文子串  
-</code></pre>
-<p>参考代码：</p>
-<pre><code class="language-Java">class Solution {
-    // 回文字串数量
-    int count = 0;
-    public int countSubstrings(String s) {
-        if (s == null || s.length() == 0) {
-            return 0;
-        }
-        for (int i = 0; i &lt; s.length(); i++) {
-            // aba -&gt; i 为 b位置
-            helper(s,i,i);
-            // abba -&gt; i 为第一个b位置
-            helper(s,i,i+1);
-        }
-        return count;
-    }
-
-    private void helper(String s, int left, int right) {
-        while (left &gt;= 0 &amp;&amp; right &lt;= s.length() - 1 &amp;&amp; s.charAt(left) == s.charAt(right)) {
-            count++;
-            left--;
-            right++;
-        }
     }
 }
 </code></pre>

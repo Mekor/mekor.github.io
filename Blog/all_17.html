@@ -78,6 +78,79 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14823239811290.html">全屏返回手势小技巧</a></h1>
+			<p class="meta"><time datetime="2016-12-21T20:39:41+08:00" 
+			pubdate data-updated="true">2016/12/21</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<blockquote>
+<p>这片文章可以和<a href="http://www.citynight.cn/Blog/14790381443417.html">Swift - KVC 和 运行时获取属性列表</a> 一起看,当然配上<a href="http://www.citynight.cn/Blog/14793034700265.html">隐藏tabBar的小技巧</a>就更好了😀</p>
+</blockquote>
+<p>##第一种: 通过<code>runtime</code>与<code>KVC</code>配合完成</p>
+<p>在<code>UINavigationController</code>的<code>viewDidLoad</code>方法中:</p>
+<pre><code>// 获取系统的手势
+let gest = self.interactivePopGestureRecognizer!
+// 禁用系统的手势
+interactivePopGestureRecognizer?.isEnabled = false
+
+// 通过KVC获取target 属性是通过runtime获取的,具体方法参见`Swift - KVC 和 运行时获取属性列表`
+guard let targets = gest.value(forKey: &quot;_targets&quot;) as? [AnyObject] else {
+    return
+}
+let target = targets[0].value(forKey: &quot;_target&quot;)
+
+// 给视图添加点击事件
+let pan = UIPanGestureRecognizer(target: target, action: NSSelectorFromString(&quot;handleNavigationTransition:&quot;))
+view.addGestureRecognizer(pan)
+</code></pre>
+<p>##第二种: 通过原有的代理完成<br />
+直接上代码:</p>
+<pre><code>class BaseNavigationController: UINavigationController {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        // 获取系统的手势的代理
+        guard let target = interactivePopGestureRecognizer?.delegate else {
+            return
+        }
+        
+        // 禁用系统的手势
+        interactivePopGestureRecognizer?.isEnabled = false
+        
+        // 给视图添加点击事件
+        let pan = UIPanGestureRecognizer(target: target, action: NSSelectorFromString(&quot;handleNavigationTransition:&quot;))
+        pan.delegate = self
+        view.addGestureRecognizer(pan)
+    }
+}
+
+extension BaseNavigationController:UIGestureRecognizerDelegate {
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -&gt; Bool {
+        // 当是跟控制器的时候不让返回,非跟控制器可以返回
+        return viewControllers.count &gt; 1
+    }
+}
+
+</code></pre>
+<p>第一种也应该设置代理,不设置代理的话跟控制出现手势就会有bug</p>
+<p>简单比较一下,第二种更简洁.不过应用了一个小技巧,看代码:</p>
+<pre><code>    let pan = UIPanGestureRecognizer(target: self, action: NSSelectorFromString(&quot;handleNavigationTransition:&quot;))
+    pan.delegate = self
+    view.addGestureRecognizer(pan)
+</code></pre>
+<p>可见<code>target</code>&amp;<code>delegate</code>通常都是同一个对象,当让也可以是不同的,这里应用这个小技巧让代码变得更简洁.</p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14817245458052.html">数据库复习</a></h1>
 			<p class="meta"><time datetime="2016-12-14T22:09:05+08:00" 
 			pubdate data-updated="true">2016/12/14</time></p>
@@ -292,29 +365,6 @@ SELECT * FROM t_student LIMIT 5
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14810139766101.html">Scroll UICollectionView to section header view</a></h1>
-			<p class="meta"><time datetime="2016-12-06T16:46:16+08:00" 
-			pubdate data-updated="true">2016/12/6</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>新界面左右联动的时候遇到了一个问题,怎么在左侧tableView点击某一cell的时候右侧collectionView跳转到对应的section</p>
-<p>如果没有section header View 的时候直接跳转到这个section的第一个Item就ok了,但是如果有section header View 的时候就需要注意了,不能这样进行跳转了,下面👇是经过测试的方法能够完美跳转到相应的section:</p>
-<pre><code>let attributes = self.collectionView.collectionViewLayout.layoutAttributesForSupplementaryViewOfKind(UICollectionElementKindSectionHeader, atIndexPath: NSIndexPath(forItem: 0, inSection: index))
-
-self.collectionView.setContentOffset(CGPointMake(0, attributes!.frame.origin.y - self.collectionView.contentInset.top), animated: true)
-</code></pre>
-<p>参见:<a href="http://stackoverflow.com/questions/22100227/scroll-uicollectionview-to-section-header-view">Scroll UICollectionView to section header view</a></p>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_18.html">&larr; Older</a> 
@@ -407,7 +457,7 @@ self.collectionView.setContentOffset(CGPointMake(0, attributes!.frame.origin.y -
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Flutter.html"><strong>Flutter&nbsp;(5)</strong></a>
+	        <a href="Flutter.html"><strong>Flutter&nbsp;(6)</strong></a>
 	        
 	        
 	        
@@ -418,6 +468,12 @@ self.collectionView.setContentOffset(CGPointMake(0, attributes!.frame.origin.y -
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16294555152827.html">ListView滑动删除Dismissible</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -433,19 +489,13 @@ self.collectionView.setContentOffset(CGPointMake(0, attributes!.frame.origin.y -
 	  
 	      
 		      <li class="post">
-		        <a href="16293384343104.html">了解Scrollable</a>
+		        <a href="16293384343104.html">ListView了解Scrollable</a>
 		      </li>
 	     
 	  
 	      
 		      <li class="post">
 		        <a href="16292522945585.html">避免和WillPopScope与iOS手势冲突</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16291783311992.html">方便实用的小组件</a>
 		      </li>
 	     
 	  

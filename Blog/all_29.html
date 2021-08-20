@@ -78,6 +78,54 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14689829459214.html">Python爬网站上的图片</a></h1>
+			<p class="meta"><time datetime="2016-07-20T10:49:05+08:00" 
+			pubdate data-updated="true">2016/7/20</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>以<a href="http://ppt.geekbang.org">极客邦PPT大全</a>为例,比如我想下载<a href="http://ppt.geekbang.org/slide/show/204">美团iOS客户端的构建思考与实践</a></p>
+<ol>
+<li>查看图片url<br />
+<img src="media/14689829459214/14689832970971.jpg" alt="" /></li>
+<li>图片url的格式<a href="http://7xiox7.com2.z0.glb.qiniucdn.com/576e52fb28bf9-01.jpg">http://7xiox7.com2.z0.glb.qiniucdn.com/576e52fb28bf9-01.jpg</a>  总共101张图片</li>
+<li>根据这些编写Python文件</li>
+</ol>
+<pre><code>#!/usr/bin/python
+#coding:utf-8
+
+import urllib
+import urllib2
+import os
+
+basepicurl=&quot;http://7xiox7.com2.z0.glb.qiniucdn.com/576e52fb28bf9-&quot;
+save_path=&quot;/Users/mekor/Desktop/images/&quot;
+for i in range(1,102,1):
+	s = &quot;%02d&quot; % i
+	picurl = basepicurl + s + &quot;.jpg&quot;
+	imgData = urllib2.urlopen(picurl).read()
+	# 给定图片存放名称
+	fileName = save_path + s + &quot;.jpg&quot;
+	# 文件名是否存在
+	#if os.path.exists(fileName):
+	output = open(fileName,'wb+')
+	output.write(imgData)
+	output.close()
+	print &quot;Finished download&quot;+ s
+
+print &quot;运行完成&quot;
+</code></pre>
+<p>这样就能够把所有的图片爬到本地了.</p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14685034880390.html">Mac 下面Python 自动补全</a></h1>
 			<p class="meta"><time datetime="2016-07-14T21:38:08+08:00" 
 			pubdate data-updated="true">2016/7/14</time></p>
@@ -432,93 +480,6 @@ else
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14676996936809.html">为项目添加podspec</a></h1>
-			<p class="meta"><time datetime="2016-07-05T14:21:33+08:00" 
-			pubdate data-updated="true">2016/7/5</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<blockquote>
-<p>全文来自:<a href="http://www.jianshu.com/p/d7d1942dd3f1">iOS开发-- 创建podspec文件，为自己的项目添加pod支持</a> 只是在文章中添加了原文没有说明的东西&amp;步骤</p>
-</blockquote>
-<p>##1.clone项目源码<br />
-项目如果没有在github仓库中,先上传到github仓库,然后clone到本地,已经存在就直接clone到本地</p>
-<pre><code>// cd 到 想要存放项目的文件夹中执行
-git clone https://github.com/Mekor/MKScanner.git
-</code></pre>
-<p><code>https://github.com/Mekor/MKScanner.git</code>这个是我自己的仓库,这个仓库地址可以在这里找到<br />
-<img src="media/14676996936809/Snip20160705_4.png" alt="Snip20160705_4" /><br />
-##2. 创建项目的podspec文件</p>
-<p>•	用终端命令cd到本地项目目录并执行如下命令:</p>
-<pre><code>$ pod spec create MKScanner
-</code></pre>
-<p>MKScanner替换为自己的项目名称,这时在本地就会生成一个MKScanner.podspec</p>
-<p>•	用编辑器打开.podspec文件 (我自己用Sublime Text)<br />
-删除不必要的注释(这里只简单介绍基本用法，所以只用到一部分必须得字段 更多字段请移步<a href="http://guides.cocoapods.org/syntax/podspec.html">http://guides.cocoapods.org/syntax/podspec.html</a></p>
-<pre><code>Pod::Spec.new do |s|
-
-  s.name                 = &quot;MKScanner&quot;
-  s.version              = &quot;0.0.1&quot;
-  s.summary              = &quot;QRCode Scanner&quot;
-  s.homepage             = &quot;https://github.com/Mekor/MKScanner&quot;
-  s.license              = { :type =&gt; &quot;MIT&quot;, :file =&gt; &quot;LICENSE&quot; }
-  s.author             = { &quot;Mekor&quot; =&gt; &quot;mekor@live.cn&quot; }
-  s.social_media_url   = &quot;http://weibo.com/gliii&quot;
-  s.platform             = :ios, &quot;7.0&quot;
-  s.source               = { :git =&gt; &quot;https://github.com/Mekor/MKScanner.git&quot;, :tag =&gt; s.version }
-  s.source_files          = &quot;MKScanner/**/*.{h,m}&quot;
-  #s.resources          = &quot;MKScanner/**/*.png&quot;
-  s.requires_arc         = true
-
-end
-</code></pre>
-<p>•	验证podspec文件</p>
-<p>编辑完podspec文件后需要验证一下这个文件是否可用podspec文件不允许有任何的Warning或者Error<br />
-执行命令</p>
-<pre><code>$ pod lib lint
-</code></pre>
-<p>如果出现</p>
-<pre><code>-&gt; MKScanner (0.0.1)
-MKScanner passed validation.
-</code></pre>
-<p>则说明验证通过， 否则， 根据提示修改podspec文件再次验证直到验证通过<br />
-附带说一下，Xcode允许警告存在，所以可以通过命令屏蔽警告</p>
-<pre><code>$ pod lib lint --allow-warnings
-</code></pre>
-<p>如果出现Error但是提示信息不足，可以添加--verbose 以获取更多错误信息</p>
-<pre><code>$ pod lib lint --verbose
-</code></pre>
-<p>##3. 打tag 上传podspec</p>
-<p>podspec文件中需要指定的tag， 完成上述操作后给项目打tag</p>
-<pre><code>$ git tag -m&quot;first release MKScanner with podspec&quot; &quot;0.0.1&quot;
-$ git push --tags
-
-</code></pre>
-<p>最后使用pod trunk命令，把podspec文件推送到CocoaPod官方库<br />
-pod trunk 需要注册,参见:<a href="https://guides.cocoapods.org/making/getting-setup-with-trunk.html">https://guides.cocoapods.org/making/getting-setup-with-trunk.html</a><br />
-其实很简单:</p>
-<pre><code>pod trunk register Mekor@live.cn &quot;Mekor&quot;
-</code></pre>
-<p>指明你的邮箱地址（spec文件中的）和名称<br />
-CocoaPods 会给你填写的邮箱发送验证邮件，点击邮件中的链接就可通过验证。<br />
-pod trunk 设置完毕后执行命令</p>
-<pre><code>$ pod trunk push MKScanner.podspec
-</code></pre>
-<p>这个过程可能会比较耗时，原因你懂的<br />
-##4. 最后<br />
-如果一切顺利</p>
-<pre><code>pod search MKScanner
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_30.html">&larr; Older</a> 
@@ -611,7 +572,7 @@ pod trunk 设置完毕后执行命令</p>
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Flutter.html"><strong>Flutter&nbsp;(5)</strong></a>
+	        <a href="Flutter.html"><strong>Flutter&nbsp;(6)</strong></a>
 	        
 	        
 	        
@@ -622,6 +583,12 @@ pod trunk 设置完毕后执行命令</p>
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16294555152827.html">ListView滑动删除Dismissible</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -637,19 +604,13 @@ pod trunk 设置完毕后执行命令</p>
 	  
 	      
 		      <li class="post">
-		        <a href="16293384343104.html">了解Scrollable</a>
+		        <a href="16293384343104.html">ListView了解Scrollable</a>
 		      </li>
 	     
 	  
 	      
 		      <li class="post">
 		        <a href="16292522945585.html">避免和WillPopScope与iOS手势冲突</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16291783311992.html">方便实用的小组件</a>
 		      </li>
 	     
 	  

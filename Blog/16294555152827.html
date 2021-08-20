@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <title>
     
-  C++Primer笔记 - 初识输入输出 - 李小争
+  ListView滑动删除Dismissible - 李小争
   
 
   </title>
@@ -77,29 +77,61 @@ $(document).ready(function(event) {
 <div>
 	<article class="hentry" role="article">
 	<header>
-			  	<h1 class="entry-title">C++Primer笔记 - 初识输入输出</h1>
-				<p class="meta"><time datetime="2017-02-09T11:21:08+08:00" pubdate data-updated="true">2017/2/9</time></p>
+			  	<h1 class="entry-title">ListView滑动删除Dismissible</h1>
+				<p class="meta"><time datetime="2021-08-20T18:31:55+08:00" pubdate data-updated="true">2021/8/20</time></p>
 			 </header>
 		  	<div class="entry-content">
-			  	<blockquote>
-<p>使用<code>iostream</code>库.<code>iostream</code>中包含两个基础类型<code>istream</code>和<code>ostream</code>,分别表示输入流和输出流<br />
-##标准输入输出对象<br />
-标准库中定义了4个IO对象.为了处理输入,我们使用了一个名为<code>cin</code>的<code>istream</code>类型的对象.这个对象也被称为<strong>标准输入</strong>.对于输出,我们使用一个名为<code>cout</code>的<code>ostream</code>类型的对象.此对象也被称为<strong>标准输出</strong>.标准库中还定义了其他两个<code>ostream</code>对象,名为<code>cerr</code>和<code>clog</code>.我们通常用<code>cerr</code>来输出警告和错误信心,因此它也被称为<strong>标准错误</strong>,而<code>clog</code>用来输出程序运行时的一般性信息.</p>
-</blockquote>
-<p>系统通常将程序所运行的窗口与这些对象关联起来.因此,当我们读取cin,数据将从程序正在运行的窗口读入,当我们像cout,cerr,clog写入数据的时候,将会写到同一个窗口.</p>
-<p>##Demo</p>
-<pre><code>#include &lt;iostream&gt;
-using namespace std;
-
-int main(int argc, char *argv[])
-{
-    std::cout &lt;&lt; &quot;Enter two numbers:&quot; &lt;&lt; std::endl;
-    int v1 = 0, v2 = 0;
-    std::cin &gt;&gt; v1 &gt;&gt; v2;
-    std::cout &lt;&lt; &quot;The sun of &quot; &lt;&lt; v1 &lt;&lt; &quot;and&quot; &lt;&lt; v2 &lt;&lt; &quot;is&quot; &lt;&lt; v1 + v2 &lt;&lt; std::endl;
-    return 0;
-}
+			  	<p>我们可以在item外层包上Dismissible，这样就实现了滑动删除功能。</p>
+<pre><code class="language-dart">	ListView.separated(
+        itemBuilder: (context, index) {
+          return Dismissible(
+            key: UniqueKey(),
+            background: Container(
+              color: Colors.black,
+            ), // 从开始滑动到结束的背景颜色
+            secondaryBackground: Container(
+              color: Colors.green,
+            ), // 从结束滑动到开始的背景颜色
+            onResize: () {
+              print(&quot;-----&quot;);
+            },
+            resizeDuration: null,
+            onDismissed: (direction) {
+              print(direction);
+              // 这里根据滑动方向进行判断
+              if (direction == DismissDirection.startToEnd) {
+                // 从开始滑动到结束
+              } else if (direction == DismissDirection.endToStart) {
+                // 从结束滑动到开始
+              }
+            },
+            direction: DismissDirection
+                .horizontal, // 滑动删除方向，默认是水平。list垂直的时候如果Dismissible也是垂直list就不会滚动了,未被Dismissible包裹的组件还是可以滑动的
+            child: Container(
+              height: 50,
+              color: Colors.blue[index % 9 * 100],
+            ),
+          );
+        },
+        separatorBuilder: (context, index) {
+          return Divider();
+        },
+        itemCount: 100);
 </code></pre>
+<p>注意：</p>
+<ol>
+<li>必须有key，这样才知道操作的是哪一个</li>
+<li>必须实现onDismissed方法，这里操作数据源，否则数据不会消失，再次滚动道该位置数据还会出现。direction是滑动的方向。</li>
+<li>如果按需求确认是否删除可以实现confirmDismiss</li>
+</ol>
+<p>其他参数：</p>
+<ol>
+<li>onResize 组件大小改变直到消失的时候会不停的调用</li>
+<li>resizeDuration  在[onDismissed]被调用之前，该小组件将花多少时间收缩。如果为null，该小组件将不会收缩，[onDismissed]将被调用 在小组件dismiss后立即被调用。</li>
+<li>movementDuration dismiss后回到初始或者完成的动画时间。</li>
+<li>dismissThresholds 滑动到多少判断完成，默认是0.4也就是滑动到40%的时候就完成了。值的格式是map 即以Dismiss Direction.startToEnd: 0.4 来判断从开始到结束滑动到40%的时候就完成了。DismissDirection.endToStart: 0.7 来判断从结束滑动到开始的70%位置就完成了。</li>
+<li>dismissible的滑动方向也是能修改的，默认是左右滑动，可以设置direction: DismissDirection.vertical  设置垂直方向滑动。但是这样就不能滑动列表了。</li>
+</ol>
 
 			</div>
 
@@ -111,7 +143,7 @@ int main(int argc, char *argv[])
 			<strong>Categories:</strong>&nbsp; 
 			<span class="categories">
 			
-			    <a class='category' href='C/C++.html'>C/C++</a>&nbsp;
+			    <a class='category' href='Flutter.html'>Flutter</a>&nbsp;
 			 
 			</span>
 		    </p>
@@ -129,12 +161,9 @@ int main(int argc, char *argv[])
 
 	    <p class="meta">
 	    
-	        <a class="basic-alignment left" href="14877545165696.html" 
-	        title="Previous Post: synchronized(object)">&laquo; synchronized(object)</a>
 	    
-	    
-	        <a class="basic-alignment right" href="14866089688413.html" 
-	        title="Next Post: C++Primer笔记 - 如何获取 `main`的返回值">C++Primer笔记 - 如何获取 `main`的返回值 &raquo;</a>
+	        <a class="basic-alignment right" href="16294522959473.html" 
+	        title="Next Post: ListView滚动条&下拉刷新&通知">ListView滚动条&下拉刷新&通知 &raquo;</a>
 	    
 	    </p>
 	  </footer>
