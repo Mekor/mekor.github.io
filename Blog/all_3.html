@@ -78,6 +78,35 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="16026633643718.html">使用iOS模拟器测试“磁盘空间不足”情况的实用方法是什么？</a></h1>
+			<p class="meta"><time datetime="2020-10-14T16:16:04+08:00" 
+			pubdate data-updated="true">2020/10/14</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p>创建一个小磁盘映像:</p>
+<pre><code>hdiutil create -size 2m -fs HFS+ /tmp/2meg.dmg
+</code></pre>
+<p>将其挂载到模拟器应用程序中的相关目录，例如:</p>
+<pre><code>hdiutil attach /tmp/2meg.dmg -mountpoint /Users/.../Library/Developer/CoreSimulator/Devices/.../data/Applications/.../Library/Caches
+</code></pre>
+<p>运行应用程序并执行测试。也可以在应用运行时完成此操作。在这种情况下，您可能不想直接将其安装为<code>Caches</code>或<code>Documents</code>目录，因为这会将当前文件隐藏在那些文件夹中。改为挂载到子目录。如果在不更改应用程序路径的情况下很难做到这一点，请在将映像挂载到非空目录之上之前，将映像挂载到其他位置并复制数据。</p>
+<p>卸载:</p>
+<pre><code>hdiutil detach /Users/.../Library/Developer/CoreSimulator/Devi...
+</code></pre>
+<p>但是，请注意，如果移动安装点，则分离操作将失败。这总是发生，因为每次运行应用程序时，Apple都会在iOS 8上重命名模拟器目录。在这种情况下，请使用<code>mount</code>命令查找已安装的设备，例如<code>/dev/disk3s1 /Users/.../Library/...</code>，然后使用设备名称而不是安装点来卸载磁盘映像:</p>
+<pre><code>hdiutil detach disk3s1
+</code></pre>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="15990466411900.html">JDBC Class.forName vs DriverManager.registerDriver</a></h1>
 			<p class="meta"><time datetime="2020-09-02T19:37:21+08:00" 
 			pubdate data-updated="true">2020/9/2</time></p>
@@ -359,72 +388,6 @@ The input string length won't exceed 1000.</p>
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="15966161528946.html">setProperty 应用</a></h1>
-			<p class="meta"><time datetime="2020-08-05T16:29:12+08:00" 
-			pubdate data-updated="true">2020/8/5</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>项目中使用<code>Nacos</code>,想覆盖nacos的默认配置,配置信息如下:</p>
-<pre><code>/**
- * @author cloud
- * @date 2019-10-31
- * &lt;p&gt;
- * 覆盖nacos 默认配置
- */
-public interface ConfigConstants {
-    /**
-     * The System property name of  Standalone mode
-     */
-    String STANDALONE_MODE = &quot;nacos.standalone&quot;;
-
-    /**
-     * tomcat 目录
-     */
-    String TOMCAT_DIR = &quot;server.tomcat.basedir&quot;;
-
-    /**
-     * tomcat 日志配置
-     */
-    String TOMCAT_ACCESS_LOG = &quot;server.tomcat.accesslog.enabled&quot;;
-
-    /**
-     * 是否开启认证
-     */
-    String AUTH_ENABLED = &quot;nacos.core.auth.enabled&quot;;
-}
-</code></pre>
-<p>在启动类中设置想要覆盖配置的值</p>
-<pre><code>/**
- * @author nacos
- * &lt;p&gt;
- * nacos console 源码运行，方便开发
- * 生产建议从官网下载最新版配置运行
- */
-@EnableScheduling
-@SpringBootApplication
-public class CloudNacosApplication {
-
-	public static void main(String[] args) {
-		System.setProperty(ConfigConstants.TOMCAT_DIR, &quot;logs&quot;);
-		System.setProperty(ConfigConstants.TOMCAT_ACCESS_LOG, &quot;false&quot;);
-        System.setProperty(ConfigConstants.STANDALONE_MODE, &quot;true&quot;);
-        System.setProperty(ConfigConstants.AUTH_ENABLED, &quot;false&quot;);
-		SpringApplication.run(CloudNacosApplication.class, args);
-	}
-}
-
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_4.html">&larr; Older</a> 
@@ -517,7 +480,7 @@ public class CloudNacosApplication {
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Flutter.html"><strong>Flutter&nbsp;(4)</strong></a>
+	        <a href="Flutter.html"><strong>Flutter&nbsp;(5)</strong></a>
 	        
 	        
 	        
@@ -528,6 +491,12 @@ public class CloudNacosApplication {
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16294522959473.html">ListView滚动条&下拉刷新&通知</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -550,12 +519,6 @@ public class CloudNacosApplication {
 	      
 		      <li class="post">
 		        <a href="16291783311992.html">方便实用的小组件</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
 	  

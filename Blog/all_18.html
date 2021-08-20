@@ -78,6 +78,115 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="14807724917867.html">左右联动效果再实现</a></h1>
+			<p class="meta"><time datetime="2016-12-03T21:41:31+08:00" 
+			pubdate data-updated="true">2016/12/3</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<blockquote>
+<p>在微指的时候,商户详情界面中就存在左右联动,具体实现可见<a href="https://github.com/Mekor/MKShowDetail">MKShowDetail</a> .当然这次和微指的时候有所不同,层级结构更深,所属视图跨控制器.下面是正文👇</p>
+</blockquote>
+<p>##数据结构<br />
+在海底捞Pad版本项目中,点菜和点锅是两种完全不同的东西,但是又都属于点菜类中,所以数据结构比较复杂:</p>
+<pre><code>点锅: 大分类 --&gt; 具体的锅底
+点菜: 大分类 --&gt; 小分类 --&gt; 具体菜品
+</code></pre>
+<p><strong>需求:</strong> <em>大分类下如果有小分类并且小分类个数大于1个的时候显示小分类,如果小于一个则不显示.</em></p>
+<p>这样两种数据结构完全不同的数据需要整合成相同的显示样式,跟同事讨论后决定粗暴的也是最简单的方法修改点锅数据,给大分类后面强行包裹一层小分类.</p>
+<p>##视图设计<br />
+数据层搞定了,又到了显示问题了:<br />
+分类显示马上想到了<code>tableView</code>,但是<code>点锅</code>和<code>点菜</code>互不干扰,我想到的就是分成两个<code>section</code>,这时又有一个问题,需求又要求大分类和小分类的样式是不一样的,不一样的,不一样的...怎么办? 使用<code>tableViewSectionHeader</code>.按大类进行划分,<code>点锅</code>和<code>点菜</code>之间的区分用数据.小分类则用cell表示.</p>
+<p>###tableViewSectionHeader 设计<br />
+既然已经决定了用<code>headerView</code>那么怎么设计呢?</p>
+<ol>
+<li>点击事件</li>
+<li>确定具体点击的是哪个</li>
+</ol>
+<p>所以我在设计<code>headerView</code>的时候让它在显示数据的时候也要传入当前的<code>index</code>:</p>
+<pre><code>    func setName(_ name: String, index: Int) {
+        nameLabel.text = name
+        self.index = index
+    }
+</code></pre>
+<p>(ps: 不要吐槽,刚开始用Swift写项目😂)</p>
+<p>这样我自己记录下传入的<code>index</code>当点击事件的时候再告诉外界具体点击的是哪一个:</p>
+<pre><code>    @objc private func labelClick() {
+        delegate?.didSelectedHeader(section : self.index)
+    }
+</code></pre>
+<p>很明显的知道我是使用代理进行数据传递的..说下为啥不使用属性记录<code>index</code>?? 任性😁</p>
+<p>到这里<code>headerView</code>基本完成了,控制器实现代理方法就好了,然后根据<code>index</code>让右侧具体的菜品滚动到相应的位置就好了...</p>
+<p>###点锅点菜区分&amp;跳转<br />
+接上,左侧显示的大分类与小分类都是统一的了,但是右侧的点菜与点锅是分开的<strong>锅是锅,菜是菜</strong>.怎样区分呢?使用两套数据源,然后随时切换&gt;?? 不行🚫...要求要像淘宝或者京东详情页那样,可以滚动到下一页还可以滚回到上一页...怎么办? 使用两个collection控制器,一个显示点锅数据,一个显示点菜数据.这样做能够尽量减少某一个单独的控制器中存在过多的逻辑代码.那么谁来承载这两个控制器呢?再创建一个控制器然后把这两个放进去? 这样也能实现,就是控制器太多了...我想用的是一个<code>scrollow</code>来包裹这两个控制器,好处是能够控制显示那个控制器,逻辑也比较简单..比如说滚到第一个视图:</p>
+<pre><code>        UIView.animate(withDuration: 0.25, delay: 0, options: .layoutSubviews, animations: ({
+            self.contentView.contentOffset = CGPoint(x: 0, y: 0)
+        }), completion: nil)
+</code></pre>
+<p>直接设置<code>scrollow</code>的<code>contentOffset</code>就可以了</p>
+<p><strong>怎么做到电商网站中详情页与图文详情页滚动呢?</strong> 以当前项目为例(点锅在首屏),最简单的一种实现方式:</p>
+<p>使用下拉刷新&amp;上拉加载更多实现</p>
+<ol>
+<li>点锅页面上拉加载更多跳转到点菜页面(通过上面代码设置<code>scrollow</code>的<code>contentOffset</code>实现)</li>
+<li>点菜页面下拉刷新跳转到点锅页面,实现方式同上..</li>
+</ol>
+<p>这样很容易实现两个页面之间的跳转.</p>
+<p>###右侧具体菜品数据处理<br />
+终于到数据处理了...这里的主要矛盾点在与collectionView是一个二级结构数据即可分成<code>section</code>与具体的<code>Item</code>,<code>点锅</code>数据还好,可以强制抹除大分类和具体内容之间强加的子分类封装,那么点菜数据怎么处理呢?毕竟右侧数据滚动后还要通知左侧视图跳转到相应的分类...<br />
+我想到的一种处理方式,可能不是最好的,但是这是我在短时间内想到比较行之有效的方法:</p>
+<p>把点菜数据也通过一层操作转成两层数据:  <code>三层数据 --&gt; 遍历 --&gt; 数组 + 字典 </code><br />
+具体点就是遍历三层数据,然后使用IndexPath当做 key ,具体的<code>Item</code>数组当做 value 这样就转换成立一个二级结构数据.具体<code>IndexPath</code>中<code>section</code>存放原有的大分类信息,<code>row</code>存放子分类数据信息..这样我们就可以通过 key 找到原有的数据结构信息,然后通过 key 把原有的信息传递到tableView,实现联动.</p>
+<p>###具体联动效果实现</p>
+<p>左侧点击后使用 <code>collectionView?.scrollToItem(at: IndexPath(item: 0, section: section), at: .top, animated: true)</code> 让右侧数据滚动到相应位置,关键是右侧滚动怎么判断左侧滚动到相应位置</p>
+<p>在<code>scrollViewDidScroll</code>方法中获得当前显示的<code>Item</code>,具体计算方法如下:</p>
+<pre><code>    private func minCurrentSection(collectionView:UICollectionView) -&gt; Int {
+        // 根据屏幕的某一坐标,获取当前的index
+        // 将collectionView在控制器屏幕的点转化成collectionView上的坐标
+        let topPoint = CGPoint(x: UIScreen.main.bounds.size.width*0.5, y: 64)
+        let pInView = view.convert(topPoint, to: collectionView)
+        
+        // 获取这一点的indexPath
+        let  indexPathNow = collectionView.indexPathForItem(at: pInView)
+
+        // 赋值给记录当前坐标的变量
+        return indexPathNow?.section ?? 0
+    }
+
+</code></pre>
+<p>这样就能够得到当前<code>Item</code>的<code>section</code>,<code>点锅</code>数据就可以直接让row等于0 然后直接回调就OK了,点菜数据还有些差别:<br />
+点菜需要返回具体的<code>indexPathNow</code>而不是只返回所在<code>section</code>,因为我们需要返回来的<code>index</code>寻找所在的<code>Item</code></p>
+<pre><code>guard let cell = collectionView?.cellForItem(at: index) as? OrderDishOrPotCollectionCell else {
+            return
+        }
+        delegate?.orderDishCurrent(position: IndexPath(row:cell.index.row , section: cell.index.section))
+</code></pre>
+<p>如上,我在<code>cell</code>中存放一个使用元组的属性</p>
+<pre><code>    // 记录对应的大分类与小分类
+    var index:(section:Int,row:Int) = (section: 0,row: 0)
+</code></pre>
+<p>处理菜品数据的时候所说的,<code>点菜</code>比较特殊我用<code>IndexPath</code>来记录原先所在的大分类与小分类,那么这里的属性就是记录<code>Key</code>中<code>IndexPath</code>所对应的值.我们既然能够找到这个<code>Item</code>那么问题就都解决了,就像上面代码中的回调.</p>
+<p>###注意<br />
+因为这次需求是右侧数据滚动的过程中让左侧数据及时响应,而不是滚动结束的时候响应,所以需要判断是触摸滚动还是左侧数据点击后右侧数据滚动,毕竟两侧联动吗不做处理的话点击右侧数据左侧滚动,在左侧数据滚动的过程中又会及时回调让左侧数据滚动..</p>
+<p>###思考🤔</p>
+<p>第一种:<br />
+<img src="media/14807724917867/14809480143802.jpg" alt="" /><br />
+第二种:(目前采用)<br />
+<img src="media/14807724917867/14809473897512.jpg" alt="" /></p>
+<p>第一种是所要展现的内容控制器是底层控制器的自控制器<br />
+第二种是所要展现内容的控制器在collectionView中,collectionView将不仅仅是一个视图而是变成了一个中间层<br />
+这两种方式那种更好?</p>
+<p>--- 12.7 ----<br />
+需求有变动,不过改动起来看,还是第二种修改方便些😂,所有的逻辑跳转代码没有混合在最外层VC.</p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="14802973825600.html">xib报错</a></h1>
 			<p class="meta"><time datetime="2016-11-28T09:43:02+08:00" 
 			pubdate data-updated="true">2016/11/28</time></p>
@@ -292,48 +401,6 @@ callBack() // 闭包调用
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="14796201135474.html">Swift - 在swift中如何使用 hexcolor 值表示颜色</a></h1>
-			<p class="meta"><time datetime="2016-11-20T13:35:13+08:00" 
-			pubdate data-updated="true">2016/11/20</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<blockquote>
-<p>结果来自<a href="http://stackoverflow.com/questions/24263007/how-to-use-hex-colour-values-in-swift-ios">How to use hex colour values in Swift, iOS</a></p>
-</blockquote>
-<pre><code>extension UIColor {
-    convenience init(hexString: String) {
-        let hex = hexString.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
-        var int = UInt32()
-        Scanner(string: hex).scanHexInt32(&amp;int)
-        let a, r, g, b: UInt32
-        switch hex.characters.count {
-        case 3: // RGB (12-bit)
-            (a, r, g, b) = (255, (int &gt;&gt; 8) * 17, (int &gt;&gt; 4 &amp; 0xF) * 17, (int &amp; 0xF) * 17)
-        case 6: // RGB (24-bit)
-            (a, r, g, b) = (255, int &gt;&gt; 16, int &gt;&gt; 8 &amp; 0xFF, int &amp; 0xFF)
-        case 8: // ARGB (32-bit)
-            (a, r, g, b) = (int &gt;&gt; 24, int &gt;&gt; 16 &amp; 0xFF, int &gt;&gt; 8 &amp; 0xFF, int &amp; 0xFF)
-        default:
-            (a, r, g, b) = (255, 0, 0, 0)
-        }
-        self.init(red: CGFloat(r) / 255, green: CGFloat(g) / 255, blue: CGFloat(b) / 255, alpha: CGFloat(a) / 255)
-    }
-}
-</code></pre>
-<p>使用方法:</p>
-<pre><code>let darkGrey = UIColor(hexString: &quot;#757575&quot;)
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_19.html">&larr; Older</a> 
@@ -426,7 +493,7 @@ callBack() // 闭包调用
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Flutter.html"><strong>Flutter&nbsp;(4)</strong></a>
+	        <a href="Flutter.html"><strong>Flutter&nbsp;(5)</strong></a>
 	        
 	        
 	        
@@ -437,6 +504,12 @@ callBack() // 闭包调用
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16294522959473.html">ListView滚动条&下拉刷新&通知</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -459,12 +532,6 @@ callBack() // 闭包调用
 	      
 		      <li class="post">
 		        <a href="16291783311992.html">方便实用的小组件</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
 	  

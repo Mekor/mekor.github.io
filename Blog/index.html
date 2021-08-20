@@ -78,6 +78,102 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="16294522959473.html">ListView滚动条&下拉刷新&通知</a></h1>
+			<p class="meta"><time datetime="2021-08-20T17:38:15+08:00" 
+			pubdate data-updated="true">2021/8/20</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<h2><a id="list-view%E6%B7%BB%E5%8A%A0%E6%BB%9A%E5%8A%A8%E6%9D%A1" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>List View添加滚动条</h2>
+<ol>
+<li>
+<p>设置默认滚动条</p>
+<p>可以在ListView外层包一层Scrollbar，这样就会根据不同的系统展示不同样式的滚动条</p>
+</li>
+<li>
+<p>设置苹果风格的滚动条</p>
+<p>苹果风格的滚动条是Cupertino Scrollbar，这样安卓手机也能显示苹果风格的样式了，也就是滚动条也能拖动了。</p>
+<p>注意： 设置了滚动条后拖动，如果List View没有设置itemCount就会crash崩溃。</p>
+</li>
+<li>
+<p>滚动条一直显示</p>
+<p>默认情况是滚动后滚动条会隐藏起来，如果想要滚动条一直显示可以设置is Always Shown，同时要传入controller和List View的controller是同一个，保证对应。这样两个都操作后才会一直显示。</p>
+</li>
+</ol>
+<h2><a id="%E4%B8%8B%E6%8B%89%E5%88%B7%E6%96%B0" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>下拉刷新</h2>
+<p>使用RefreshIndicator 组件就能实现下拉刷新，在onRefresh方法中设置网络请求。</p>
+<pre><code class="language-dart">Widget build(BuildContext context) {
+    return RefreshIndicator(
+      onRefresh: () async {
+        print(&quot;刷新&quot;);
+        await Future.delayed(Duration(seconds: 1));
+      },
+      strokeWidth: 4.0, // 下拉刷新转动箭头的宽度
+      color: Colors.white, // 下拉刷新转动箭头的颜色
+      backgroundColor: Colors.black, // 下拉刷新的背景颜色
+      child: Scrollbar(
+        child: ListView.separated(
+            itemBuilder: (context, index) {
+              return Container(
+                child: Text(&quot;当前是$index&quot;),
+              );
+            },
+            separatorBuilder: (context, index) {
+              return Divider();
+            },
+            itemCount: 100),
+      ),
+    );
+  }
+}
+</code></pre>
+<p>下拉刷新功能和样式修改<br />
+<img src="media/16294522959473/Untitled.png" alt="Untitled" /></p>
+<h2><a id="%E4%BA%8B%E4%BB%B6%E9%80%9A%E7%9F%A5" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>事件通知</h2>
+<p>为什么List View滚动的时候Refresh Indicator和Scrollbar能够知道？</p>
+<p>list View在滚动的时候会不断的发送通知，我们可以在List View外层添加NotificationListener 来捕获。</p>
+<pre><code class="language-dart">Widget build(BuildContext context) {
+    return RefreshIndicator(
+      onRefresh: () async {
+        print(&quot;刷新&quot;);
+        await Future.delayed(Duration(seconds: 1));
+      },
+      strokeWidth: 4.0, // 下拉刷新转动箭头的宽度
+      color: Colors.white, // 下拉刷新转动箭头的颜色
+      backgroundColor: Colors.black, // 下拉刷新的背景颜色
+      child: Scrollbar(
+        child: NotificationListener(
+          onNotification: (ScrollNotification notification) {
+            print(notification);
+            return true;
+          },
+          child: ListView.separated(
+              itemBuilder: (context, index) {
+                return Container(
+                  child: Text(&quot;当前是$index&quot;),
+                );
+              },
+              separatorBuilder: (context, index) {
+                return Divider();
+              },
+              itemCount: 100),
+        ),
+      ),
+    );
+  }
+</code></pre>
+<p><img src="media/16294522959473/Untitled%201.png" alt="Untitled 1" /></p>
+<p>返回true的时候意味着捕获了，就不会继续往下传递了，也就是Scrollbar和RefrIndicator 不能获取道ListView发送的通知，对应的功能也就会失效。</p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="16293704418629.html">AbsorbPointer和IgnorePointer</a></h1>
 			<p class="meta"><time datetime="2021-08-19T18:54:01+08:00" 
 			pubdate data-updated="true">2021/8/19</time></p>
@@ -575,93 +671,6 @@ SingleChildScrollView 是一个维度的滚动，InteractiveViewer是二维滚�
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a></h1>
-			<p class="meta"><time datetime="2021-07-20T20:09:07+08:00" 
-			pubdate data-updated="true">2021/7/20</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<h2><a id="%E8%B0%83%E7%94%A8%E5%A4%9A%E6%AC%A1%E5%8E%9F%E5%9B%A0" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>调用多次原因</h2>
-<p>在Flutter源码中 <code>src/material/tab_controller.dart</code> 中 <code>void _changeIndex(int value, { Duration? duration, Curve? curve })</code> 方法里面动画调用会通知两次</p>
-<pre><code class="language-Swift">
-  void _changeIndex(int value, { Duration? duration, Curve? curve }) {
-    assert(value != null);
-    assert(value &gt;= 0 &amp;&amp; (value &lt; length || length == 0));
-    assert(duration != null || curve == null);
-    assert(_indexIsChangingCount &gt;= 0);
-    if (value == _index || length &lt; 2)
-      return;
-    _previousIndex = index;
-    _index = value;
-    if (duration != null) { // 有动画执行
-      _indexIsChangingCount += 1;
-      // 通知1: 这里通知监听者 indexIsChanging
-      notifyListeners(); // Because the value of indexIsChanging may have changed.
-      _animationController!
-        .animateTo(_index.toDouble(), duration: duration, curve: curve!)
-        .whenCompleteOrCancel(() {
-          if (_animationController != null) { // don't notify if we've been disposed  已经释放就不在通知
-            _indexIsChangingCount -= 1;
-            // 通知2：这里通知监听者 动画完成
-            notifyListeners();
-          }
-        });
-    } else {
-      _indexIsChangingCount += 1;
-      _animationController!.value = _index.toDouble();
-      _indexIsChangingCount -= 1;
-      // 不执行动画 只通知一次
-      notifyListeners();
-    }
-  }
-</code></pre>
-<h2><a id="%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3%E5%91%A2" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>怎么解决呢</h2>
-<p>在该文件第222行中</p>
-<pre><code>  _animationController!
-        .animateTo(_index.toDouble(), duration: duration, curve: curve!)
-</code></pre>
-<p>这里是动画执行的时候把目标<code>target</code>传递给 <code>_animationController</code>, 而<code>animation_controller.dart</code> 中会做判断</p>
-<ol>
-<li>
-<p>在第593行</p>
-<pre><code>if (target == value) {
-  // Already at target, don't animate.
-  simulationDuration = Duration.zero;
-}
-</code></pre>
-</li>
-<li>
-<p>在第600行</p>
-<pre><code>_value = target.clamp(lowerBound, upperBound);
-</code></pre>
-</li>
-</ol>
-<p>执行到最后的时候 <code>_value</code> 就是传入的<code>target</code>。 如果不执行动画会直接进行赋值操作<code>_animationController!.value = _index.toDouble();</code> 。所以我们可以在通知中判断动画的值是否和target一致，一致就是动画完成了。这时再做处理就不会执行多次了。</p>
-<p>所以我们可以做如下判断：</p>
-<pre><code>_tabController.addListener(() {
-    if(_tabController.index.toDouble() == _tabController.animation!.value){
-      // 这里是我们要执行的。。。
-    }
-});
-</code></pre>
-<h2><a id="%E8%BF%99%E9%87%8C%E5%A6%82%E6%9E%9C%E6%98%AF%E6%88%91%E8%A6%81%E6%80%8E%E4%B9%88%E8%AE%BE%E8%AE%A1" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>这里如果是我要怎么设计</h2>
-<p><code>tab_controller.dart</code> 是经常和动画打交道的，所以可以选择添加</p>
-<pre><code>void addStatusListener(AnimationStatusListener listener) {
-  didRegisterListener();
-  _statusListeners.add(listener);
-}
-</code></pre>
-<p>根据状态来进行选择执行操作,这样也符合苹果设计的通知，notification中可以添加info根据info做判断。</p>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_1.html">&larr; Older</a> 
@@ -754,7 +763,7 @@ SingleChildScrollView 是一个维度的滚动，InteractiveViewer是二维滚�
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Flutter.html"><strong>Flutter&nbsp;(4)</strong></a>
+	        <a href="Flutter.html"><strong>Flutter&nbsp;(5)</strong></a>
 	        
 	        
 	        
@@ -765,6 +774,12 @@ SingleChildScrollView 是一个维度的滚动，InteractiveViewer是二维滚�
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16294522959473.html">ListView滚动条&下拉刷新&通知</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -787,12 +802,6 @@ SingleChildScrollView 是一个维度的滚动，InteractiveViewer是二维滚�
 	      
 		      <li class="post">
 		        <a href="16291783311992.html">方便实用的小组件</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
 	  

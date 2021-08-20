@@ -78,6 +78,30 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="15653483390225.html">图像显示原理</a></h1>
+			<p class="meta"><time datetime="2019-08-09T18:58:59+08:00" 
+			pubdate data-updated="true">2019/8/9</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<p><img src="media/15653483390225/WX20190809-201518@2x.png" alt="WX20190809-201518@2x" /></p>
+<p><img src="media/15653483390225/15656069984426.jpg" alt="" style="width:979px;" /><br />
+<img src="media/15653483390225/15656070181148.jpg" alt="" style="width:677px;" /></p>
+<p><img src="media/15653483390225/15666279613682.jpg" alt="" style="width:755px;" /></p>
+<p>系统绘制流程<br />
+<img src="media/15653483390225/%E6%9C%AA%E5%91%BD%E5%90%8D%E6%96%87%E4%BB%B6%20-4-.jpg" alt="未命名文件 -4-" /></p>
+<p>异步绘制流程(时序图)<br />
+<img src="media/15653483390225/Jietu20190824-150035.jpg" alt="Jietu20190824-150035" /></p>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="15653376209289.html">事件传递</a></h1>
 			<p class="meta"><time datetime="2019-08-09T16:00:20+08:00" 
 			pubdate data-updated="true">2019/8/9</time></p>
@@ -164,41 +188,6 @@ $(document).ready(function(event) {
 <blockquote>
 <p>注意: 在Swift中，静态方法不能通过 <code>对象名.方法名</code> 的方式调用。</p>
 </blockquote>
-
-
-		</div>
-
-		
-
-	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="15465714658370.html">如何判等equals</a></h1>
-			<p class="meta"><time datetime="2019-01-04T11:11:05+08:00" 
-			pubdate data-updated="true">2019/1/4</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<blockquote>
-<p><a href="https://stackoverflow.com/questions/9506303/public-boolean-equalsobject-other">Stackoverflow</a> 中有其他人提的写法，我感觉公司项目中的写法不错记录下</p>
-</blockquote>
-<pre><code>    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof CreateOrderDTO)) return false;
-        CreateOrderDTO that = (CreateOrderDTO) o;
-        return Objects.equal(getBusiId(), that.getBusiId()) &amp;&amp;
-                Objects.equal(getBusiType(), that.getBusiType()) &amp;&amp;
-                Objects.equal(getOrderAmount(), that.getOrderAmount());
-    }
-</code></pre>
-<p>重写<a href="https://kapeli.com/dash_share?docset_file=Java&amp;docset_name=Java%20SE10&amp;path=java/lang/Object.html%23equals(java.lang.Object)&amp;platform=java&amp;repo=Main&amp;version=SE10">equals</a>需要满足 自反性，对称性，传递性，一致性，非空</p>
-<p><img src="media/15465714658370/15465935663846.jpg" alt="" style="width:588px;" /></p>
-<h2><a id="%E4%B8%8Eequals" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>== 与 equals</h2>
-<p><em><strong>==</strong></em> : 它的作用是判断两个对象的地址是不是相等。即，判断两个对象是不是同一个对象。(基本数据类型 == 比较的是值，引用数据类型 == 比较的是内存地址)</p>
-<p><em><strong>equals()</strong></em> : 它的作用也是判断两个对象是否相等。但它一般有两种使用情况：</p>
-<p>情况1：类没有覆盖 equals() 方法。则通过 equals() 比较该类的两个对象时，等价于通过“==”比较这两个对象。<br />
-情况2：类覆盖了 equals() 方法。一般，我们都覆盖 equals() 方法来两个对象的内容相等；若它们的内容相等，则返回 true (即，认为这两个对象相等)。</p>
 
 
 		</div>
@@ -298,7 +287,7 @@ $(document).ready(function(event) {
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Flutter.html"><strong>Flutter&nbsp;(4)</strong></a>
+	        <a href="Flutter.html"><strong>Flutter&nbsp;(5)</strong></a>
 	        
 	        
 	        
@@ -309,6 +298,12 @@ $(document).ready(function(event) {
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16294522959473.html">ListView滚动条&下拉刷新&通知</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -331,12 +326,6 @@ $(document).ready(function(event) {
 	      
 		      <li class="post">
 		        <a href="16291783311992.html">方便实用的小组件</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
 	  

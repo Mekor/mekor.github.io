@@ -78,6 +78,46 @@ $(document).ready(function(event) {
 
 	<article>
 		 <header>
+		  	<h1 class="entry-title"><a href="15375346728525.html">各种队列的执行效果</a></h1>
+			<p class="meta"><time datetime="2018-09-21T20:57:52+08:00" 
+			pubdate data-updated="true">2018/9/21</time></p>
+		 </header>
+	  	<div class="entry-content">
+		  	
+		  	<table>
+<thead>
+<tr>
+<th style="text-align: left"></th>
+<th style="text-align: left">并发队列</th>
+<th style="text-align: left">手动创建的串行队列</th>
+<th style="text-align: left">主队列</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left">同步（sync）</td>
+<td style="text-align: left">*没有开启新线程 *串行执行任务</td>
+<td style="text-align: left">*没有开启新线程 *串行执行任务</td>
+<td style="text-align: left">*没有开启新线程 *串行执行任务</td>
+</tr>
+<tr>
+<td style="text-align: left">异步（async）</td>
+<td style="text-align: left">*有开启新线程 *并发执行任务</td>
+<td style="text-align: left">*有开启新线程 *串行执行任务</td>
+<td style="text-align: left">*没有开启新线程 *串行执行任务</td>
+</tr>
+</tbody>
+</table>
+
+
+		</div>
+
+		
+
+	</article>
+ 
+	<article>
+		 <header>
 		  	<h1 class="entry-title"><a href="15374224515215.html">CocaPods 添加头文件的报错  的解决办法</a></h1>
 			<p class="meta"><time datetime="2018-09-20T13:47:31+08:00" 
 			pubdate data-updated="true">2018/9/20</time></p>
@@ -211,33 +251,6 @@ fi
 		
 
 	</article>
- 
-	<article>
-		 <header>
-		  	<h1 class="entry-title"><a href="15323970557540.html">控制器透明，WebView透明</a></h1>
-			<p class="meta"><time datetime="2018-07-24T09:50:55+08:00" 
-			pubdate data-updated="true">2018/7/24</time></p>
-		 </header>
-	  	<div class="entry-content">
-		  	
-		  	<p>设置控制器透明</p>
-<pre><code>let vc = AfterOrderPotADViewController()
-self.definesPresentationContext = true
-vc.modalPresentationStyle = .overCurrentContext
-vc.view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3)
-self.present(vc, animated: false, completion: nil)
-</code></pre>
-<p>webView 设置透明</p>
-<pre><code>webView.backgroundColor = UIColor.clear
-webView.isOpaque = false
-</code></pre>
-
-
-		</div>
-
-		
-
-	</article>
   
 	<div class="pagination">
 	 <a class="prev" href="all_8.html">&larr; Older</a> 
@@ -330,7 +343,7 @@ webView.isOpaque = false
 	      </li>
 	  
 	      <li class="post">
-	        <a href="Flutter.html"><strong>Flutter&nbsp;(4)</strong></a>
+	        <a href="Flutter.html"><strong>Flutter&nbsp;(5)</strong></a>
 	        
 	        
 	        
@@ -341,6 +354,12 @@ webView.isOpaque = false
 	<section>
 	  <h1>Recent Posts</h1>
 	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16294522959473.html">ListView滚动条&下拉刷新&通知</a>
+		      </li>
+	     
 	  
 	      
 		      <li class="post">
@@ -363,12 +382,6 @@ webView.isOpaque = false
 	      
 		      <li class="post">
 		        <a href="16291783311992.html">方便实用的小组件</a>
-		      </li>
-	     
-	  
-	      
-		      <li class="post">
-		        <a href="16267829476143.html">Flutter 中 TabBarView 点击切换，监听会调用多出</a>
 		      </li>
 	     
 	  
