@@ -1,0 +1,631 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>
+    
+  CAGradientLayer - 李小争
+  
+
+  </title>
+  <meta name="author" content="">
+  <meta name="description" content="">
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link href="asset/css/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="atom.xml" rel="alternate" title="李小争" type="application/atom+xml">
+  <script src="asset/js/modernizr-2.0.js"></script>
+  <script src="asset/js/jquery.min.js"></script>
+  <style type="text/css">
+  .cat-children-p{ padding: 6px 0px;}
+  .hljs{background: none;}
+  </style>
+  <script type="text/javascript">
+  var isAddSildbar = true;
+  </script>
+  <script src="asset/js/octopress.js" type="text/javascript"></script>
+</head>
+<script type="text/javascript">
+//链接新开窗口
+function addBlankTargetForLinks () {
+  $('a[href^="http"]').each(function(){
+      $(this).attr('target', '_blank');
+  });
+}
+$(document).ready(function(event) {
+  addBlankTargetForLinks();
+});
+</script>
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="index.html">李小争</a></h1>
+  
+    <h2></h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+
+  <li id=""><a target="_self" href="index.html">Home</a></li>
+
+  <li id=""><a target="_self" href="archives.html">Archives</a></li>
+
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content"> 
+<div>
+	<article class="hentry" role="article">
+	<header>
+			  	<h1 class="entry-title">CAGradientLayer</h1>
+				<p class="meta"><time datetime="2022-07-25T17:11:36+08:00" pubdate data-updated="true">2022/07/25</time></p>
+			 </header>
+		  	<div class="entry-content">
+			  	<h2><a id="creating-a-cagradientlayer-https-stackoverflow-comdocumentationios1190cagradientlayer3856creating-a-cagradientlayer" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://stackoverflow.com/documentation/ios/1190/cagradientlayer/3856/creating-a-cagradientlayer">Creating a CAGradientLayer</a></h2>
+<pre><code class="language-plain_text">// View to hold the CAGradientLayer.
+let view: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 320))
+
+// Initialize gradient layer.
+let gradientLayer: CAGradientLayer = CAGradientLayer()
+
+// Set frame of gradient layer.
+gradientLayer.frame = view.bounds
+
+// Color at the top of the gradient.
+let topColor: CGColor = UIColor.red.cgColor
+
+// Color at the bottom of the gradient.
+let bottomColor: CGColor = UIColor.yellow.cgColor
+
+// Set colors.
+gradientLayer.colors = [topColor, bottomColor]
+
+// Set locations of the colors.
+gradientLayer.locations = [0.0, 1.0]
+
+// Insert gradient layer into view's layer heirarchy.
+view.layer.insertSublayer(gradientLayer, at: 0)
+</code></pre>
+<p>Result :</p>
+<p><img src="media/16587402970428/q26bv.png" alt="Simple CAGradientLayer." /></p>
+<p>##<a href="https://stackoverflow.com/documentation/ios/1190/cagradientlayer/12652/animating-a-color-change-in-cagradientlayer">Animating a color change in CAGradientLayer.</a></p>
+<pre><code class="language-plain_text">// Get the current colors of the gradient.
+let oldColors = self.gradientLayer.colors
+
+// Define the new colors for the gradient.
+let newColors = [UIColor.red.cgColor, UIColor.yellow.cgColor]
+
+// Set the new colors of the gradient.
+self.gradientLayer.colors = newColors
+
+// Initialize new animation for changing the colors of the gradient.
+let animation: CABasicAnimation = CABasicAnimation(keyPath: &quot;colors&quot;)
+
+// Set current color value.
+animation.fromValue = oldColors
+
+// Set new color value.
+animation.toValue = newColors
+
+// Set duration of animation.
+animation.duration = 0.3
+
+// Set animation to remove once its completed.
+animation.isRemovedOnCompletion = true
+
+// Set receiver to remain visible in its final state when the animation is completed.
+animation.fillMode = kCAFillModeForwards
+
+// Set linear pacing, which causes an animation to occur evenly over its duration.
+animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+
+// Set delegate of animation.
+animation.delegate = self
+
+// Add the animation.
+self.gradientLayer.addAnimation(animation, forKey: &quot;animateGradientColorChange&quot;)
+</code></pre>
+<p>Result :</p>
+<p><img src="media/16587402970428/AquKd.gif" alt="Basic CAGradientLayer color change animation." /></p>
+<p>##<a href="https://stackoverflow.com/documentation/ios/1190/cagradientlayer/4229/creating-a-horizontal-cagradientlayer-with-multiple-colors">Creating a horizontal CAGradientLayer with multiple colors.</a></p>
+<pre><code class="language-plain_text">// View to hold the CAGradientLayer.
+let view: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 320))
+
+// Initialize gradient layer.
+let gradientLayer: CAGradientLayer = CAGradientLayer()
+
+// Set frame of gradient layer.
+gradientLayer.frame = view.bounds
+
+// Color at the top of the gradient.
+let topColor: CGColor = UIColor.greenColor().CGColor
+
+// Color at the middle of the gradient.
+let middleColor: CGColor = UIColor.blueColor().CGColor
+
+// Color at the bottom of the gradient.
+let bottomColor: CGColor = UIColor.blackColor().CGColor
+
+// Set colors.
+gradientLayer.colors = [topColor, middleColor, bottomColor]
+
+// Set start point.
+gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
+
+// Set end point.
+gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
+
+// Insert gradient layer into view's layer heirarchy.
+view.layer.insertSublayer(gradientLayer, atIndex: 0)
+</code></pre>
+<p>Result :</p>
+<p><img src="media/16587402970428/I4OGH.png" alt="enter image description here" /></p>
+<p>##<a href="https://stackoverflow.com/documentation/ios/1190/cagradientlayer/4228/creating-a-horizontal-cagradientlayer">Creating a horizontal CAGradientLayer.</a></p>
+<pre><code class="language-plain_text">// View to hold the CAGradientLayer.
+let view: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 320))
+
+// Initialize gradient layer.
+let gradientLayer: CAGradientLayer = CAGradientLayer()
+
+// Set frame of gradient layer.
+gradientLayer.frame = view.bounds
+
+// Color at the top of the gradient.
+let topColor: CGColor = UIColor.redColor().CGColor
+
+// Color at the bottom of the gradient.
+let bottomColor: CGColor = UIColor.yellowColor().CGColor
+
+// Set colors.
+gradientLayer.colors = [topColor, bottomColor]
+
+// Set start point.
+gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
+
+// Set end point.
+gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
+
+// Insert gradient layer into view's layer heirarchy.
+view.layer.insertSublayer(gradientLayer, atIndex: 0)
+</code></pre>
+<p>Result :</p>
+<p><img src="media/16587402970428/7VCnW.png" alt="Horizontal CAGradientLayer." /></p>
+<p>##<a href="https://stackoverflow.com/documentation/ios/1190/cagradientlayer/4227/creating-a-cggradientlayer-with-multiple-colors">Creating a CGGradientLayer with multiple colors.</a></p>
+<pre><code class="language-plain_text">// View to hold the CAGradientLayer.
+let view: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 320))
+
+// Initialize gradient layer.
+let gradientLayer: CAGradientLayer = CAGradientLayer()
+
+// Set frame of gradient layer.
+gradientLayer.frame = view.bounds
+
+// Color at the top of the gradient.
+let topColor: CGColor = UIColor.blue.cgColor
+
+// Color at the middle of the gradient.
+let middleColor: CGColor = UIColor.yellow.cgColor
+
+// Color at the bottom of the gradient.
+let bottomColor: CGColor = UIColor.green.cgColor
+
+// Set colors.
+gradientLayer.colors = [topColor, middleColor, bottomColor]
+
+// Set locations of the colors.
+gradientLayer.locations = [0.0, 0.5, 1.0]
+
+// Insert gradient layer into view's layer heirarchy.
+view.layer.insertSublayer(gradientLayer, at: 0)
+</code></pre>
+<p>Result :</p>
+<p><img src="media/16587402970428/tV4OL.png" alt="Complex CAGradientLayer." /></p>
+<hr />
+<h2><a id="syntax" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Syntax</h2>
+<pre><code class="language-plain_text">CAGradientLayer() // Returns an initialized CALayer object.
+-------------------
+CAGradientLayer(layer: layer) // Override to copy or initialize custom fields of the specified layer.
+</code></pre>
+<h2><a id="parameters" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parameters</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left">Parameter</th>
+<th style="text-align: left">Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left">color</td>
+<td style="text-align: left">An array of <code>CGColorRef</code> objects defining the color of each gradient stop. Animatable.</td>
+</tr>
+<tr>
+<td style="text-align: left">locations</td>
+<td style="text-align: left">An optional array of <code>NSNumber</code> objects defining the location of each gradient stop. Animatable.</td>
+</tr>
+<tr>
+<td style="text-align: left">endPoint</td>
+<td style="text-align: left">The end point of the gradient when drawn in the layer’s coordinate space. Animatable.</td>
+</tr>
+<tr>
+<td style="text-align: left">startPoint</td>
+<td style="text-align: left">The start point of the gradient when drawn in the layer’s coordinate space. Animatable.</td>
+</tr>
+<tr>
+<td style="text-align: left">type</td>
+<td style="text-align: left">Style of gradient drawn by the layer. Defaults to <code>kCAGradientLayerAxial</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2><a id="remarks" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Remarks</h2>
+<ul>
+<li>Use <code>startPoint</code> and <code>endPoint</code> to change the orientation of the <code>CAGradientLayer</code>.</li>
+<li>Use the <code>locations</code> to affect the spread/positions of the colors.</li>
+</ul>
+
+			</div>
+
+		
+	  
+		<footer>
+		 <p class="meta">
+
+			
+			<span class="categories">
+			 
+			</span>
+		    </p>
+		    <p class="meta">
+		      
+		 </p>
+	    
+		<div class="sharing">
+		  
+          
+
+          
+
+		</div>
+
+	    <p class="meta">
+	    
+	        <a class="basic-alignment left" href="16587402970215.html" 
+	        title="Previous Post: 如何给View添加点击事件">&laquo; 如何给View添加点击事件</a>
+	    
+	    
+	        <a class="basic-alignment right" href="16587402950437.html" 
+	        title="Next Post: 引用类型用法总结">引用类型用法总结 &raquo;</a>
+	    
+	    </p>
+	  </footer>
+	</article>
+</div>
+ <aside class="sidebar"> 
+
+	<section>
+	  <h1>Categories</h1>
+	  <ul id="recent_posts">
+	  
+	        
+	      </li>
+	   
+	  </ul>
+	</section>
+	<section>
+	  <h1>Recent Posts</h1>
+	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16623668836941.html">git 远程分支回滚</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16619340520854.html">CSS 排版</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16613374889545.html">前端开发环境配置</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16607216444595.html">网站SEO</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16587402963682.html">Vue3设计思想与理念</a>
+		      </li>
+	     
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	   
+	  </ul>
+	</section>
+	
+</aside> </div></div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 -  -
+  <span class="credit">Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a> &nbsp;&nbsp; Theme by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="asset/prism.js"></script>
+
+
+<style type="text/css">
+  
+/* PrismJS 1.14.0
+https://prismjs.com/download.html#themes=prism-solarizedlight&languages=markup+css+clike+javascript */
+/*
+ Solarized Color Schemes originally by Ethan Schoonover
+ http://ethanschoonover.com/solarized
+
+ Ported for PrismJS by Hector Matos
+ Website: https://krakendev.io
+ Twitter Handle: https://twitter.com/allonsykraken)
+*/
+
+/*
+SOLARIZED HEX
+--------- -------
+base03    #002b36
+base02    #073642
+base01    #586e75
+base00    #657b83
+base0     #839496
+base1     #93a1a1
+base2     #eee8d5
+base3     #fdf6e3
+yellow    #b58900
+orange    #cb4b16
+red       #dc322f
+magenta   #d33682
+violet    #6c71c4
+blue      #268bd2
+cyan      #2aa198
+green     #859900
+*/
+
+code[class*="language-"],
+pre[class*="language-"] {
+  color: #657b83; /* base00 */
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,
+code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection {
+  background: #073642; /* base02 */
+}
+
+pre[class*="language-"]::selection, pre[class*="language-"] ::selection,
+code[class*="language-"]::selection, code[class*="language-"] ::selection {
+  background: #073642; /* base02 */
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+  padding: 1em;
+  margin: .5em 0;
+  overflow: auto;
+  border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+  background-color: #fdf6e3; /* base3 */
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+  padding: .1em;
+  border-radius: .3em;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: #93a1a1; /* base1 */
+}
+
+.token.punctuation {
+  color: #586e75; /* base01 */
+}
+
+.namespace {
+  opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+  color: #268bd2; /* blue */
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.url,
+.token.inserted {
+  color: #2aa198; /* cyan */
+}
+
+.token.entity {
+  color: #657b83; /* base00 */
+  background: #eee8d5; /* base2 */
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+  color: #859900; /* green */
+}
+
+.token.function,
+.token.class-name {
+  color: #b58900; /* yellow */
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+  color: #cb4b16; /* orange */
+}
+
+.token.important,
+.token.bold {
+  font-weight: bold;
+}
+.token.italic {
+  font-style: italic;
+}
+
+.token.entity {
+  cursor: help;
+}
+
+
+pre[class*="language-"].line-numbers {
+    position: relative;
+    padding-left: 3.8em;
+    counter-reset: linenumber;
+}
+
+pre[class*="language-"].line-numbers > code {
+    position: relative;
+    white-space: inherit;
+}
+
+.line-numbers .line-numbers-rows {
+    position: absolute;
+    pointer-events: none;
+    top: 0;
+    font-size: 100%;
+    left: -3.8em;
+    width: 3em; /* works for line-numbers below 1000 lines */
+    letter-spacing: -1px;
+    border-right: 1px solid #999;
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+}
+
+    .line-numbers-rows > span {
+        pointer-events: none;
+        display: block;
+        counter-increment: linenumber;
+    }
+
+        .line-numbers-rows > span:before {
+            content: counter(linenumber);
+            color: #999;
+            display: block;
+            padding-right: 0.8em;
+            text-align: right;
+        }
+
+</style>
+  
+    
+
+
+</body>
+</html>

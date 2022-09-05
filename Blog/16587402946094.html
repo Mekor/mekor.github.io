@@ -1,0 +1,494 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>
+    
+  如何获取手机上安装的所有App - 李小争
+  
+
+  </title>
+  <meta name="author" content="">
+  <meta name="description" content="">
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link href="asset/css/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="atom.xml" rel="alternate" title="李小争" type="application/atom+xml">
+  <script src="asset/js/modernizr-2.0.js"></script>
+  <script src="asset/js/jquery.min.js"></script>
+  <style type="text/css">
+  .cat-children-p{ padding: 6px 0px;}
+  .hljs{background: none;}
+  </style>
+  <script type="text/javascript">
+  var isAddSildbar = true;
+  </script>
+  <script src="asset/js/octopress.js" type="text/javascript"></script>
+</head>
+<script type="text/javascript">
+//链接新开窗口
+function addBlankTargetForLinks () {
+  $('a[href^="http"]').each(function(){
+      $(this).attr('target', '_blank');
+  });
+}
+$(document).ready(function(event) {
+  addBlankTargetForLinks();
+});
+</script>
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="index.html">李小争</a></h1>
+  
+    <h2></h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+
+  <li id=""><a target="_self" href="index.html">Home</a></li>
+
+  <li id=""><a target="_self" href="archives.html">Archives</a></li>
+
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content"> 
+<div>
+	<article class="hentry" role="article">
+	<header>
+			  	<h1 class="entry-title">如何获取手机上安装的所有App</h1>
+				<p class="meta"><time datetime="2022-07-25T17:11:34+08:00" pubdate data-updated="true">2022/07/25</time></p>
+			 </header>
+		  	<div class="entry-content">
+			  	<pre><code class="language-plain_text">#include &lt;objc/runtime.h&gt; 
+
+Class LSApplicationWorkspace_class = objc_getClass(&quot;LSApplicationWorkspace&quot;);
+NSObject* workspace = [LSApplicationWorkspace_class performSelector:@selector(defaultWorkspace)];
+NSLog(@&quot;apps: %@&quot;, [workspace performSelector:@selector(allApplications)]);
+</code></pre>
+<p>模拟器打印结果:</p>
+<pre><code class="language-plain_text">apps: (
+    &quot;&lt;LSApplicationProxy: 0x7fbd34603da0&gt; com.apple.appleaccount.AACredentialRecoveryDialog file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/AACredentialRecoveryDialog.app &lt;com.apple.appleaccount.AACredentialRecoveryDialog &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd383073a0&gt; com.apple.AccountAuthenticationDialog file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/AccountAuthenticationDialog.app &lt;com.apple.AccountAuthenticationDialog &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd38308a00&gt; com.apple.AdSheetPhone file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/AdSheet.app &lt;com.apple.AdSheetPhone &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd38308df0&gt; com.apple.Bridge file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/Bridge.app &lt;com.apple.Bridge &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd38308fe0&gt; com.apple.camera file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/Camera.app &lt;com.apple.camera &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd34503d80&gt; com.apple.MobileAddressBook file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/Contacts.app &lt;com.apple.MobileAddressBook &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd34605980&gt; com.apple.CoreAuthUI file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/CoreAuthUI.app &lt;com.apple.CoreAuthUI &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd346062f0&gt; com.apple.DataActivation file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/DataActivation.app &lt;com.apple.DataActivation &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd34606730&gt; com.apple.datadetectors.DDActionsService file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/DDActionsService.app &lt;com.apple.datadetectors.DDActionsService &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd34606f60&gt; com.apple.FacebookAccountMigrationDialog file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/FacebookAccountMigrationDialog.app &lt;com.apple.FacebookAccountMigrationDialog &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd346074c0&gt; com.apple.gamecenter.GameCenterUIService file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/GameCenterUIService.app &lt;com.apple.gamecenter.GameCenterUIService &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd34607b10&gt; com.apple.siri.parsec.HashtagImagesApp file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/HashtagImages.app &lt;com.apple.siri.parsec.HashtagImagesApp &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd34608040&gt; com.apple.Health file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/Health.app &lt;com.apple.Health &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd346085d0&gt; com.apple.HealthPrivacyService file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/HealthPrivacyService.app &lt;com.apple.HealthPrivacyService &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd34608f70&gt; com.apple.Home.HomeUIService file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/HomeUIService.app &lt;com.apple.Home.HomeUIService &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd346093c0&gt; com.apple.iad.iAdOptOut file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/iAdOptOut.app &lt;com.apple.iad.iAdOptOut &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd346095b0&gt; com.apple.CloudKit.ShareBear file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/iCloud.app &lt;com.apple.CloudKit.ShareBear &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd3460a060&gt; com.apple.iCloudDriveApp file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/iCloudDriveApp.app &lt;com.apple.iCloudDriveApp &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd3460a4b0&gt; com.apple.LoginUI file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/LoginUI.app &lt;com.apple.LoginUI &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd3460a9f0&gt; com.apple.MailCompositionService file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/MailCompositionService.app &lt;com.apple.MailCompositionService &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd3460ae80&gt; com.apple.Maps file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/Maps.app &lt;com.apple.Maps &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd3460b3e0&gt; com.apple.mobilesms.compose file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/MessagesViewService.app &lt;com.apple.mobilesms.compose &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd3460bb00&gt; com.apple.mobilecal file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/MobileCal.app &lt;com.apple.mobilecal &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd3460bf50&gt; com.apple.mobilesafari file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/MobileSafari.app &lt;com.apple.mobilesafari &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd3460c4e0&gt; com.apple.mobileslideshow file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/MobileSlideShow.app &lt;com.apple.mobileslideshow &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd3460c8d0&gt; com.apple.MobileSMS file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/MobileSMS.app &lt;com.apple.MobileSMS &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd3460cac0&gt; com.apple.MusicUIService file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/MusicUIService.app &lt;com.apple.MusicUIService &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd3460d520&gt; com.apple.news file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/News.app &lt;com.apple.news &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd3460dc70&gt; com.apple.Passbook file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/Passbook.app &lt;com.apple.Passbook &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd3460e0c0&gt; com.apple.PassbookUIService file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/PassbookUIService.app &lt;com.apple.PassbookUIService &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd3460e510&gt; com.apple.PhotosViewService file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/PhotosViewService.app &lt;com.apple.PhotosViewService &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd3460eaf0&gt; com.apple.Preferences file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/Preferences.app &lt;com.apple.Preferences &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd3460ece0&gt; com.apple.PrintKit.Print-Center file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/Print%20Center.app &lt;com.apple.PrintKit.Print-Center &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd3460abe0&gt; com.apple.reminders file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/Reminders.app &lt;com.apple.reminders &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd3460f790&gt; com.apple.SafariViewService file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/SafariViewService.app &lt;com.apple.SafariViewService &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd3460ffc0&gt; com.apple.ServerDocuments file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/ServerDocuments.app &lt;com.apple.ServerDocuments &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd34610580&gt; com.apple.SharedWebCredentialViewService file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/SharedWebCredentialViewService.app &lt;com.apple.SharedWebCredentialViewService &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd34610ab0&gt; com.apple.SharingViewService file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/SharingViewService.app &lt;com.apple.SharingViewService &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd34610ca0&gt; com.apple.SiriViewService file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/SiriViewService.app &lt;com.apple.SiriViewService &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd34610e90&gt; com.apple.social.SLGoogleAuth file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/SLGoogleAuth.app &lt;com.apple.social.SLGoogleAuth &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd345016b0&gt; com.apple.social.SLYahooAuth file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/SLYahooAuth.app &lt;com.apple.social.SLYahooAuth &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd34501370&gt; com.apple.share file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/SocialUIService.app &lt;com.apple.share &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd34507a80&gt; com.apple.ios.StoreKitUIService file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/StoreKitUIService.app &lt;com.apple.ios.StoreKitUIService &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd34507c70&gt; com.apple.TencentWeiboAccountMigrationDialog file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/TencentWeiboAccountMigrationDialog.app &lt;com.apple.TencentWeiboAccountMigrationDialog &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd34507e60&gt; com.apple.TrustMe file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/TrustMe.app &lt;com.apple.TrustMe &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd346123f0&gt; com.apple.VSViewService file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/VideoSubscriberAccountViewService.app &lt;com.apple.VSViewService &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd34612c30&gt; com.apple.webapp file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/Web.app &lt;com.apple.webapp &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd346133b0&gt; com.apple.webapp1 file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/WebApp1.app &lt;com.apple.webapp1 &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd34613fa0&gt; com.apple.WebContentFilter.remoteUI.WebContentAnalysisUI file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/WebContentAnalysisUI.app &lt;com.apple.WebContentFilter.remoteUI.WebContentAnalysisUI &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd34614930&gt; com.apple.WebSheet file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/Applications/WebSheet.app &lt;com.apple.WebSheet &lt;installed &gt;&gt;&quot;,
+    &quot;&lt;LSApplicationProxy: 0x7fbd346151b0&gt; cn.citynight.----- file:///Users/mekor/Library/Developer/CoreSimulator/Devices/F9CC59DD-6467-40E5-B0AE-F7EDDD22C612/data/Containers/Bundle/Application/0F126D14-F359-4D63-AEE7-B569519AC04F/%E5%85%91%E6%8D%A2%E5%88%B8%E6%B5%8B%E8%AF%95.app &lt;cn.citynight.----- &lt;installed &gt;&gt;&quot;
+)
+
+</code></pre>
+<p>动态调用加上简单的混淆应该就可以了<br />
+上架要自己拼接字符串绕过审查</p>
+
+			</div>
+
+		
+	  
+		<footer>
+		 <p class="meta">
+
+			
+			<span class="categories">
+			 
+			</span>
+		    </p>
+		    <p class="meta">
+		      
+		 </p>
+	    
+		<div class="sharing">
+		  
+          
+
+          
+
+		</div>
+
+	    <p class="meta">
+	    
+	        <a class="basic-alignment left" href="16587402945965.html" 
+	        title="Previous Post: Swift - 春节前问题总结">&laquo; Swift - 春节前问题总结</a>
+	    
+	    
+	        <a class="basic-alignment right" href="16587402946228.html" 
+	        title="Next Post: Texture  中ASButtonNode设置图片崩溃">Texture  中ASButtonNode设置图片崩溃 &raquo;</a>
+	    
+	    </p>
+	  </footer>
+	</article>
+</div>
+ <aside class="sidebar"> 
+
+	<section>
+	  <h1>Categories</h1>
+	  <ul id="recent_posts">
+	  
+	        
+	      </li>
+	   
+	  </ul>
+	</section>
+	<section>
+	  <h1>Recent Posts</h1>
+	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16623668836941.html">git 远程分支回滚</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16619340520854.html">CSS 排版</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16613374889545.html">前端开发环境配置</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16607216444595.html">网站SEO</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16587402963682.html">Vue3设计思想与理念</a>
+		      </li>
+	     
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	   
+	  </ul>
+	</section>
+	
+</aside> </div></div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 -  -
+  <span class="credit">Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a> &nbsp;&nbsp; Theme by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="asset/prism.js"></script>
+
+
+<style type="text/css">
+  
+/* PrismJS 1.14.0
+https://prismjs.com/download.html#themes=prism-solarizedlight&languages=markup+css+clike+javascript */
+/*
+ Solarized Color Schemes originally by Ethan Schoonover
+ http://ethanschoonover.com/solarized
+
+ Ported for PrismJS by Hector Matos
+ Website: https://krakendev.io
+ Twitter Handle: https://twitter.com/allonsykraken)
+*/
+
+/*
+SOLARIZED HEX
+--------- -------
+base03    #002b36
+base02    #073642
+base01    #586e75
+base00    #657b83
+base0     #839496
+base1     #93a1a1
+base2     #eee8d5
+base3     #fdf6e3
+yellow    #b58900
+orange    #cb4b16
+red       #dc322f
+magenta   #d33682
+violet    #6c71c4
+blue      #268bd2
+cyan      #2aa198
+green     #859900
+*/
+
+code[class*="language-"],
+pre[class*="language-"] {
+  color: #657b83; /* base00 */
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,
+code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection {
+  background: #073642; /* base02 */
+}
+
+pre[class*="language-"]::selection, pre[class*="language-"] ::selection,
+code[class*="language-"]::selection, code[class*="language-"] ::selection {
+  background: #073642; /* base02 */
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+  padding: 1em;
+  margin: .5em 0;
+  overflow: auto;
+  border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+  background-color: #fdf6e3; /* base3 */
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+  padding: .1em;
+  border-radius: .3em;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: #93a1a1; /* base1 */
+}
+
+.token.punctuation {
+  color: #586e75; /* base01 */
+}
+
+.namespace {
+  opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+  color: #268bd2; /* blue */
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.url,
+.token.inserted {
+  color: #2aa198; /* cyan */
+}
+
+.token.entity {
+  color: #657b83; /* base00 */
+  background: #eee8d5; /* base2 */
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+  color: #859900; /* green */
+}
+
+.token.function,
+.token.class-name {
+  color: #b58900; /* yellow */
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+  color: #cb4b16; /* orange */
+}
+
+.token.important,
+.token.bold {
+  font-weight: bold;
+}
+.token.italic {
+  font-style: italic;
+}
+
+.token.entity {
+  cursor: help;
+}
+
+
+pre[class*="language-"].line-numbers {
+    position: relative;
+    padding-left: 3.8em;
+    counter-reset: linenumber;
+}
+
+pre[class*="language-"].line-numbers > code {
+    position: relative;
+    white-space: inherit;
+}
+
+.line-numbers .line-numbers-rows {
+    position: absolute;
+    pointer-events: none;
+    top: 0;
+    font-size: 100%;
+    left: -3.8em;
+    width: 3em; /* works for line-numbers below 1000 lines */
+    letter-spacing: -1px;
+    border-right: 1px solid #999;
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+}
+
+    .line-numbers-rows > span {
+        pointer-events: none;
+        display: block;
+        counter-increment: linenumber;
+    }
+
+        .line-numbers-rows > span:before {
+            content: counter(linenumber);
+            color: #999;
+            display: block;
+            padding-right: 0.8em;
+            text-align: right;
+        }
+
+</style>
+  
+    
+
+
+</body>
+</html>

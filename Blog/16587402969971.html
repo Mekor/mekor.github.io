@@ -1,0 +1,923 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>
+    
+  h5版本入口：https://aipos.honghuotai.com/huoguo-app-web/ - 李小争
+  
+
+  </title>
+  <meta name="author" content="">
+  <meta name="description" content="">
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link href="asset/css/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="atom.xml" rel="alternate" title="李小争" type="application/atom+xml">
+  <script src="asset/js/modernizr-2.0.js"></script>
+  <script src="asset/js/jquery.min.js"></script>
+  <style type="text/css">
+  .cat-children-p{ padding: 6px 0px;}
+  .hljs{background: none;}
+  </style>
+  <script type="text/javascript">
+  var isAddSildbar = true;
+  </script>
+  <script src="asset/js/octopress.js" type="text/javascript"></script>
+</head>
+<script type="text/javascript">
+//链接新开窗口
+function addBlankTargetForLinks () {
+  $('a[href^="http"]').each(function(){
+      $(this).attr('target', '_blank');
+  });
+}
+$(document).ready(function(event) {
+  addBlankTargetForLinks();
+});
+</script>
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="index.html">李小争</a></h1>
+  
+    <h2></h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+
+  <li id=""><a target="_self" href="index.html">Home</a></li>
+
+  <li id=""><a target="_self" href="archives.html">Archives</a></li>
+
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content"> 
+<div>
+	<article class="hentry" role="article">
+	<header>
+			  	<h1 class="entry-title">h5版本入口：https://aipos.honghuotai.com/huoguo-app-web/</h1>
+				<p class="meta"><time datetime="2022-07-25T17:11:36+08:00" pubdate data-updated="true">2022/07/25</time></p>
+			 </header>
+		  	<div class="entry-content">
+			  	<p>请求header中添加token<br />
+登录接口：<code>post</code>  多商户选择商户后添加companyCode 后请求会返回token</p>
+<pre><code class="language-plain_text">https://aipos.honghuotai.com:8919/login
+</code></pre>
+<p>参数：</p>
+<pre><code class="language-plain_text">{
+    &quot;userName&quot;:&quot;18801028497&quot;,
+    &quot;password&quot;:&quot;zTgx5W/rHWKrwQSfvMyyuw==&quot;,
+    &quot;osId&quot;:0,
+    &quot;isMsgLogin&quot;:&quot;N&quot;,
+    &quot;companyCode&quot;:&quot;&quot;
+}
+</code></pre>
+<p>返回结果：</p>
+<pre><code class="language-plain_text">{
+    &quot;message&quot;:&quot;存在多商户&quot;,
+    &quot;obj&quot;:[
+        {
+            &quot;area&quot;:&quot;&quot;,
+            &quot;companyCode&quot;:&quot;967896&quot;,
+            &quot;companyName&quot;:&quot;北京金盛通商贸有限公司&quot;,
+            &quot;companyType&quot;:1,
+            &quot;dr&quot;:&quot;N&quot;,
+            &quot;enable&quot;:&quot;Y&quot;,
+            &quot;id&quot;:&quot;3ACE1B0CA21A7BB9000163E0ADBA5000&quot;,
+            &quot;ts&quot;:1541585780315
+        },
+        {
+            &quot;brandName&quot;:&quot;甜暖我心咖啡店&quot;,
+            &quot;businessLicense&quot;:&quot;099900&quot;,
+            &quot;companyCode&quot;:&quot;hht003&quot;,
+            &quot;companyName&quot;:&quot;甜暖我心咖啡店&quot;,
+            &quot;companyType&quot;:1,
+            &quot;dr&quot;:&quot;N&quot;,
+            &quot;enable&quot;:&quot;Y&quot;,
+            &quot;id&quot;:&quot;ABB81ED8E6FA11E791450894EF382663&quot;,
+            &quot;isGroup&quot;:&quot;Y&quot;,
+            &quot;ts&quot;:1495504548018
+        },
+        {
+            &quot;area&quot;:&quot;&quot;,
+            &quot;companyCode&quot;:&quot;973099&quot;,
+            &quot;companyName&quot;:&quot;湖北燚火科技有限公司（演示）&quot;,
+            &quot;companyType&quot;:2,
+            &quot;dr&quot;:&quot;N&quot;,
+            &quot;enable&quot;:&quot;Y&quot;,
+            &quot;id&quot;:&quot;D6F13DFFD8000000D0000000001DE000&quot;,
+            &quot;isGroup&quot;:&quot;N&quot;,
+            &quot;ts&quot;:1519627953191
+        },
+        {
+            &quot;area&quot;:&quot;&quot;,
+            &quot;companyCode&quot;:&quot;687155&quot;,
+            &quot;companyName&quot;:&quot;草根老火锅&quot;,
+            &quot;companyType&quot;:1,
+            &quot;dr&quot;:&quot;N&quot;,
+            &quot;enable&quot;:&quot;Y&quot;,
+            &quot;id&quot;:&quot;D8A314EC40000000A8000000001DE000&quot;,
+            &quot;ts&quot;:1521449373858
+        },
+        {
+            &quot;area&quot;:&quot;&quot;,
+            &quot;companyCode&quot;:&quot;234686&quot;,
+            &quot;companyName&quot;:&quot;浙江竹林人家餐饮有限公司&quot;,
+            &quot;companyType&quot;:1,
+            &quot;dr&quot;:&quot;N&quot;,
+            &quot;enable&quot;:&quot;Y&quot;,
+            &quot;id&quot;:&quot;DBC18C6BD8000000B0000000001DE000&quot;,
+            &quot;ts&quot;:1524797013236
+        },
+        {
+            &quot;area&quot;:&quot;&quot;,
+            &quot;companyCode&quot;:&quot;726186&quot;,
+            &quot;companyName&quot;:&quot;上海蒂昶实业有限公司&quot;,
+            &quot;companyType&quot;:1,
+            &quot;dr&quot;:&quot;N&quot;,
+            &quot;enable&quot;:&quot;Y&quot;,
+            &quot;id&quot;:&quot;E1F7DCDC0C000000A8000000001DE000&quot;,
+            &quot;ts&quot;:1531468298479
+        },
+        {
+            &quot;area&quot;:&quot;BDB056AC58000000800000000016E002,BDB0891008000000800000000016E000&quot;,
+            &quot;companyCode&quot;:&quot;927555&quot;,
+            &quot;companyName&quot;:&quot;北京为之味餐饮有限公司&quot;,
+            &quot;companyType&quot;:1,
+            &quot;dr&quot;:&quot;N&quot;,
+            &quot;enable&quot;:&quot;Y&quot;,
+            &quot;id&quot;:&quot;E5558A2A00000000A8000000001DE000&quot;,
+            &quot;ts&quot;:1535085509596
+        },
+        {
+            &quot;area&quot;:&quot;&quot;,
+            &quot;companyCode&quot;:&quot;623741&quot;,
+            &quot;companyName&quot;:&quot;重庆吉之源餐饮有限公司&quot;,
+            &quot;companyType&quot;:1,
+            &quot;dr&quot;:&quot;N&quot;,
+            &quot;enable&quot;:&quot;Y&quot;,
+            &quot;id&quot;:&quot;EE953E8D00000000A0000000001DE000&quot;,
+            &quot;ts&quot;:1545011965051
+        }
+    ],
+    &quot;result&quot;:201
+}
+</code></pre>
+<hr />
+<p>获取所有商户：</p>
+<pre><code class="language-plain_text">https://aipos.honghuotai.com:8961/shop/getShops?companyId=DBC18C6BD8000000B0000000001DE000
+</code></pre>
+<p>参数：<code>GET</code></p>
+<pre><code class="language-plain_text">companyId=DBC18C6BD8000000B0000000001DE000
+</code></pre>
+<p>返回结果：</p>
+<pre><code class="language-plain_text">{
+    &quot;code&quot;:200,
+    &quot;data&quot;:[
+        {
+            &quot;id&quot;:&quot;36F08443ECFFE777000163E0ADBA5000&quot;,
+            &quot;shopName&quot;:&quot;阿拉大牌档-聚亿店&quot;,
+            &quot;shopNo&quot;:&quot;234284&quot;
+        },
+        {
+            &quot;id&quot;:&quot;37EE6D387C5738F7000163E0ADBA5000&quot;,
+            &quot;shopName&quot;:&quot;老宁波1381餐厅-余姚店&quot;,
+            &quot;shopNo&quot;:&quot;355601&quot;
+        },
+        {
+            &quot;id&quot;:&quot;38B6AB267B5738F7000163E0ADBA5000&quot;,
+            &quot;shopName&quot;:&quot;寻浙里-环球城店&quot;,
+            &quot;shopNo&quot;:&quot;174487&quot;
+        },
+        {
+            &quot;id&quot;:&quot;397ADD5589A704A8000163E0ADBA5000&quot;,
+            &quot;shopName&quot;:&quot;老宁波1381餐厅-海港城店&quot;,
+            &quot;shopNo&quot;:&quot;59167&quot;
+        },
+        {
+            &quot;id&quot;:&quot;397B416109A704A8000163E0ADBA5000&quot;,
+            &quot;shopName&quot;:&quot;老宁波1381餐厅-宏泰广场店&quot;,
+            &quot;shopNo&quot;:&quot;992076&quot;
+        },
+        {
+            &quot;id&quot;:&quot;397BA31A20A704A8000163E0ADBA5000&quot;,
+            &quot;shopName&quot;:&quot;老宁波1381餐厅-洪塘店&quot;,
+            &quot;shopNo&quot;:&quot;549449&quot;
+        },
+        {
+            &quot;id&quot;:&quot;397BAAEC83A704A8000163E0ADBA5000&quot;,
+            &quot;shopName&quot;:&quot;老宁波1381餐厅-宁海店&quot;,
+            &quot;shopNo&quot;:&quot;177851&quot;
+        },
+        {
+            &quot;id&quot;:&quot;397BABBEF1A704A8000163E0ADBA5000&quot;,
+            &quot;shopName&quot;:&quot;老宁波1381餐厅-天伦广场店&quot;,
+            &quot;shopNo&quot;:&quot;650812&quot;
+        },
+        {
+            &quot;id&quot;:&quot;397BADB60FA704A8000163E0ADBA5000&quot;,
+            &quot;shopName&quot;:&quot;老宁波1381餐厅-银亿都会店&quot;,
+            &quot;shopNo&quot;:&quot;957159&quot;
+        },
+        {
+            &quot;id&quot;:&quot;397BAF1782A704A8000163E0ADBA5000&quot;,
+            &quot;shopName&quot;:&quot;老宁波1381餐厅-银亿东岸里店&quot;,
+            &quot;shopNo&quot;:&quot;965022&quot;
+        },
+        {
+            &quot;id&quot;:&quot;397BB4C8BAA704A8000163E0ADBA5000&quot;,
+            &quot;shopName&quot;:&quot;老宁波1381餐厅-鄞州利时店&quot;,
+            &quot;shopNo&quot;:&quot;753473&quot;
+        },
+        {
+            &quot;id&quot;:&quot;397BB7E18BA704A8000163E0ADBA5000&quot;,
+            &quot;shopName&quot;:&quot;竹林人家-大剧院店&quot;,
+            &quot;shopNo&quot;:&quot;243456&quot;
+        }
+    ]
+}
+</code></pre>
+<hr />
+<p>要货管理接口：<code>post</code></p>
+<pre><code class="language-plain_text">https://aipos.honghuotai.com:8961/scmgoodsrequiredh/page
+</code></pre>
+<p>参数：sortSelect: 0-&gt;全部 1-&gt;待审核 2-&gt; 待上报 3-&gt;已上报 4-&gt;上报失败</p>
+<pre><code class="language-plain_text">{
+    &quot;pageNum&quot;:1,
+    &quot;pageSize&quot;:10,
+    &quot;sortSelect&quot;:1,
+    &quot;params&quot;:{
+        &quot;shopId&quot;:&quot;36F08443ECFFE777000163E0ADBA5000&quot;,
+        &quot;companyId&quot;:&quot;DBC18C6BD8000000B0000000001DE000&quot;,
+        &quot;billType&quot;:&quot;&quot;,
+        &quot;applyDateStart&quot;:&quot;&quot;,
+        &quot;applyDateEnd&quot;:&quot;&quot;,
+        &quot;expectArrvDateStart&quot;:&quot;&quot;,
+        &quot;expectArrvDateEnd&quot;:&quot;&quot;,
+        &quot;billNo&quot;:&quot;&quot;,
+        &quot;docMakerName&quot;:&quot;&quot;,
+        &quot;isStaffMealRequired&quot;:&quot;&quot;,
+        &quot;status&quot;:&quot;8&quot;,
+        &quot;erpBillNo&quot;:&quot;&quot;,
+        &quot;sort&quot;:&quot;descending&quot;,
+        &quot;sortName&quot;:&quot;documentsTime&quot;,
+        &quot;dishRequiredId&quot;:&quot;&quot;
+    }
+}
+</code></pre>
+<p>返回结果：</p>
+<pre><code class="language-plain_text">{
+    &quot;code&quot;:200,
+    &quot;data&quot;:{
+        &quot;content&quot;:[
+            {
+                &quot;applyDate&quot;:1570723200000,
+                &quot;applyDateStr&quot;:&quot;2019-10-11&quot;,
+                &quot;billNo&quot;:&quot;YH355601201910110001&quot;,
+                &quot;companyId&quot;:&quot;DBC18C6BD8000000B0000000001DE000&quot;,
+                &quot;dishRequiredId&quot;:&quot;&quot;,
+                &quot;dishRequiredName&quot;:&quot;&quot;,
+                &quot;dishRequiredNo&quot;:&quot;&quot;,
+                &quot;docMakerName&quot;:&quot;测试&quot;,
+                &quot;documentMakerId&quot;:&quot;370B542518FF5AA5000163E0ADBA5000&quot;,
+                &quot;documentsTime&quot;:1570787479100,
+                &quot;documentsTimeStr&quot;:&quot;2019-10-11 17:51:19&quot;,
+                &quot;erpBillNo&quot;:&quot;&quot;,
+                &quot;errorRemark&quot;:&quot;&quot;,
+                &quot;expectArrvDate&quot;:1570809600000,
+                &quot;goodsRequiredCategoryIds&quot;:&quot;&quot;,
+                &quot;goodsRequiredCategoryNames&quot;:&quot;&quot;,
+                &quot;id&quot;:&quot;41A5ADCA7CCB2ACF000163E0ADBA5000&quot;,
+                &quot;isGeneInstockBill&quot;:&quot;N&quot;,
+                &quot;isStaffMealRequired&quot;:&quot;N&quot;,
+                &quot;materialCategoryAmount&quot;:1,
+                &quot;materialCategoryAmountStr&quot;:&quot;1种&quot;,
+                &quot;remark&quot;:&quot;&quot;,
+                &quot;requiredModelName&quot;:&quot;&quot;,
+                &quot;requiredModelNo&quot;:&quot;&quot;,
+                &quot;requiredType&quot;:2,
+                &quot;requiredTypeStr&quot;:&quot;直配&quot;,
+                &quot;save&quot;:false,
+                &quot;shopCode&quot;:&quot;355601&quot;,
+                &quot;shopId&quot;:&quot;37EE6D387C5738F7000163E0ADBA5000&quot;,
+                &quot;shopName&quot;:&quot;老宁波1381餐厅-余姚店&quot;,
+                &quot;signTimeStr&quot;:&quot;&quot;,
+                &quot;status&quot;:&quot;待审核&quot;,
+                &quot;statusStr&quot;:&quot;待审核&quot;,
+                &quot;ts&quot;:1570787479100
+            }
+        ],
+        &quot;extraData&quot;:{
+
+        },
+        &quot;pageNum&quot;:1,
+        &quot;pageSize&quot;:10,
+        &quot;totalNum&quot;:1,
+        &quot;totalPage&quot;:1
+    }
+}
+</code></pre>
+<hr />
+<p>收货管理接口：<code>post</code></p>
+<pre><code class="language-plain_text">https://aipos.honghuotai.com:8961/goodsCollect/list
+</code></pre>
+<p>参数：status 为&quot;&quot;-&gt; 全部  &quot;0&quot;-&gt;待签收 &quot;1&quot;-&gt;已签收</p>
+<pre><code class="language-plain_text">{
+    &quot;companyId&quot;:&quot;DBC18C6BD8000000B0000000001DE000&quot;,
+    &quot;shopId&quot;:&quot;37EE6D387C5738F7000163E0ADBA5000&quot;,
+    &quot;storageStartDate&quot;:&quot;2019-11-24&quot;,
+    &quot;storageEndDate&quot;:&quot;2019-12-24&quot;,
+    &quot;applyDateStart&quot;:&quot;&quot;,
+    &quot;applyDateEnd&quot;:&quot;&quot;,
+    &quot;expectDateStart&quot;:&quot;&quot;,
+    &quot;expectDateEnd&quot;:&quot;&quot;,
+    &quot;sort&quot;:&quot;&quot;,
+    &quot;sortName&quot;:&quot;&quot;,
+    &quot;warehouseName&quot;:&quot;&quot;,
+    &quot;supplierName&quot;:&quot;&quot;,
+    &quot;status&quot;:&quot;&quot;,
+    &quot;reportState&quot;:&quot;&quot;,
+    &quot;pageSize&quot;:10,
+    &quot;pageNum&quot;:1,
+    &quot;userId&quot;:&quot;370B542518FF5AA5000163E0ADBA5000&quot;
+}
+</code></pre>
+<p>返回结果:</p>
+<pre><code class="language-plain_text">{
+    &quot;code&quot;:200,
+    &quot;data&quot;:{
+        &quot;content&quot;:[
+            {
+                &quot;supplierName&quot;:&quot;万三龙&quot;,
+                &quot;shopCode&quot;:&quot;355601&quot;,
+                &quot;instockBillType&quot;:&quot;直配&quot;,
+                &quot;shopName&quot;:&quot;老宁波1381餐厅-余姚店&quot;,
+                &quot;goodsRequiredCategoryAmount&quot;:2,
+                &quot;supplierCode&quot;:&quot;2020048&quot;,
+                &quot;warehouseName&quot;:&quot;余姚—烧烤铺分仓&quot;,
+                &quot;instockBillNo&quot;:&quot;RK355601201911240003&quot;,
+                &quot;instockBillDocName&quot;:&quot;董晓幸&quot;,
+                &quot;instockBillDocTime&quot;:1574564845000,
+                &quot;instockBillId&quot;:&quot;428B9270D10ADC04000163E0ADBA5000&quot;,
+                &quot;reportState&quot;:&quot;已上报&quot;,
+                &quot;sourceBillId&quot;:&quot;&quot;,
+                &quot;shopId&quot;:&quot;37EE6D387C5738F7000163E0ADBA5000&quot;,
+                &quot;status&quot;:&quot;已入库&quot;
+            },
+            {
+                &quot;supplierName&quot;:&quot;万三龙&quot;,
+                &quot;shopCode&quot;:&quot;355601&quot;,
+                &quot;instockBillType&quot;:&quot;直配&quot;,
+                &quot;shopName&quot;:&quot;老宁波1381餐厅-余姚店&quot;,
+                &quot;goodsRequiredCategoryAmount&quot;:3,
+                &quot;supplierCode&quot;:&quot;2020048&quot;,
+                &quot;warehouseName&quot;:&quot;余姚—时蔬铺分仓&quot;,
+                &quot;instockBillNo&quot;:&quot;RK355601201911240004&quot;,
+                &quot;instockBillDocName&quot;:&quot;董晓幸&quot;,
+                &quot;instockBillDocTime&quot;:1574564846000,
+                &quot;instockBillId&quot;:&quot;428B9411C10ADC04000163E0ADBA5000&quot;,
+                &quot;reportState&quot;:&quot;已上报&quot;,
+                &quot;sourceBillId&quot;:&quot;&quot;,
+                &quot;shopId&quot;:&quot;37EE6D387C5738F7000163E0ADBA5000&quot;,
+                &quot;status&quot;:&quot;已入库&quot;
+            },
+            {
+                &quot;supplierName&quot;:&quot;万三龙&quot;,
+                &quot;shopCode&quot;:&quot;355601&quot;,
+                &quot;instockBillType&quot;:&quot;直配&quot;,
+                &quot;shopName&quot;:&quot;老宁波1381餐厅-余姚店&quot;,
+                &quot;goodsRequiredCategoryAmount&quot;:24,
+                &quot;supplierCode&quot;:&quot;2020048&quot;,
+                &quot;warehouseName&quot;:&quot;余姚—热菜铺分仓&quot;,
+                &quot;instockBillNo&quot;:&quot;RK355601201911240002&quot;,
+                &quot;instockBillDocName&quot;:&quot;董晓幸&quot;,
+                &quot;instockBillDocTime&quot;:1574564843000,
+                &quot;instockBillId&quot;:&quot;428B9949BF0ADC04000163E0ADBA5000&quot;,
+                &quot;reportState&quot;:&quot;已上报&quot;,
+                &quot;sourceBillId&quot;:&quot;&quot;,
+                &quot;shopId&quot;:&quot;37EE6D387C5738F7000163E0ADBA5000&quot;,
+                &quot;status&quot;:&quot;已入库&quot;
+            },
+            {
+                &quot;supplierName&quot;:&quot;万三龙&quot;,
+                &quot;shopCode&quot;:&quot;355601&quot;,
+                &quot;instockBillType&quot;:&quot;直配&quot;,
+                &quot;shopName&quot;:&quot;老宁波1381餐厅-余姚店&quot;,
+                &quot;goodsRequiredCategoryAmount&quot;:3,
+                &quot;supplierCode&quot;:&quot;2020048&quot;,
+                &quot;warehouseName&quot;:&quot;余姚—冷菜铺分仓&quot;,
+                &quot;instockBillNo&quot;:&quot;RK355601201911240005&quot;,
+                &quot;instockBillDocName&quot;:&quot;董晓幸&quot;,
+                &quot;instockBillDocTime&quot;:1574564844000,
+                &quot;instockBillId&quot;:&quot;428B99F6360ADC04000163E0ADBA5000&quot;,
+                &quot;reportState&quot;:&quot;已上报&quot;,
+                &quot;sourceBillId&quot;:&quot;&quot;,
+                &quot;shopId&quot;:&quot;37EE6D387C5738F7000163E0ADBA5000&quot;,
+                &quot;status&quot;:&quot;已入库&quot;
+            },
+            {
+                &quot;supplierName&quot;:&quot;万三龙&quot;,
+                &quot;shopCode&quot;:&quot;355601&quot;,
+                &quot;instockBillType&quot;:&quot;直配&quot;,
+                &quot;shopName&quot;:&quot;老宁波1381餐厅-余姚店&quot;,
+                &quot;goodsRequiredCategoryAmount&quot;:9,
+                &quot;supplierCode&quot;:&quot;2020048&quot;,
+                &quot;warehouseName&quot;:&quot;余姚—员工餐分仓&quot;,
+                &quot;instockBillNo&quot;:&quot;RK355601201911240001&quot;,
+                &quot;instockBillDocName&quot;:&quot;董晓幸&quot;,
+                &quot;instockBillDocTime&quot;:1574564843000,
+                &quot;instockBillId&quot;:&quot;429363B9EC286ED5000163E0ADBA5000&quot;,
+                &quot;reportState&quot;:&quot;已上报&quot;,
+                &quot;sourceBillId&quot;:&quot;&quot;,
+                &quot;shopId&quot;:&quot;37EE6D387C5738F7000163E0ADBA5000&quot;,
+                &quot;status&quot;:&quot;已入库&quot;
+            },
+            {
+                &quot;supplierName&quot;:&quot;宁波市海曙心怡禽业专业合作社&quot;,
+                &quot;shopCode&quot;:&quot;355601&quot;,
+                &quot;instockBillType&quot;:&quot;直配&quot;,
+                &quot;shopName&quot;:&quot;老宁波1381餐厅-余姚店&quot;,
+                &quot;goodsRequiredCategoryAmount&quot;:1,
+                &quot;supplierCode&quot;:&quot;2020007&quot;,
+                &quot;warehouseName&quot;:&quot;余姚—员工餐分仓&quot;,
+                &quot;instockBillNo&quot;:&quot;RK355601201911280001&quot;,
+                &quot;instockBillDocName&quot;:&quot;董晓幸&quot;,
+                &quot;instockBillDocTime&quot;:1574895063000,
+                &quot;instockBillId&quot;:&quot;42A228E64347F0CC000163E0ADBA5000&quot;,
+                &quot;reportState&quot;:&quot;已上报&quot;,
+                &quot;sourceBillId&quot;:&quot;&quot;,
+                &quot;shopId&quot;:&quot;37EE6D387C5738F7000163E0ADBA5000&quot;,
+                &quot;status&quot;:&quot;已入库&quot;
+            },
+            {
+                &quot;supplierName&quot;:&quot;宁波市海曙心怡禽业专业合作社&quot;,
+                &quot;shopCode&quot;:&quot;355601&quot;,
+                &quot;instockBillType&quot;:&quot;直配&quot;,
+                &quot;shopName&quot;:&quot;老宁波1381餐厅-余姚店&quot;,
+                &quot;goodsRequiredCategoryAmount&quot;:1,
+                &quot;supplierCode&quot;:&quot;2020007&quot;,
+                &quot;warehouseName&quot;:&quot;余姚—热菜铺分仓&quot;,
+                &quot;instockBillNo&quot;:&quot;RK355601201911280002&quot;,
+                &quot;instockBillDocName&quot;:&quot;董晓幸&quot;,
+                &quot;instockBillDocTime&quot;:1574895063000,
+                &quot;instockBillId&quot;:&quot;42A228FDFD47F0CC000163E0ADBA5000&quot;,
+                &quot;reportState&quot;:&quot;已上报&quot;,
+                &quot;sourceBillId&quot;:&quot;&quot;,
+                &quot;shopId&quot;:&quot;37EE6D387C5738F7000163E0ADBA5000&quot;,
+                &quot;status&quot;:&quot;已入库&quot;
+            },
+            {
+                &quot;supplierName&quot;:&quot;宁波市海曙心怡禽业专业合作社&quot;,
+                &quot;shopCode&quot;:&quot;355601&quot;,
+                &quot;instockBillType&quot;:&quot;直配&quot;,
+                &quot;shopName&quot;:&quot;老宁波1381餐厅-余姚店&quot;,
+                &quot;goodsRequiredCategoryAmount&quot;:1,
+                &quot;supplierCode&quot;:&quot;2020007&quot;,
+                &quot;warehouseName&quot;:&quot;余姚—烤鸡铺分仓&quot;,
+                &quot;instockBillNo&quot;:&quot;RK355601201911280003&quot;,
+                &quot;instockBillDocName&quot;:&quot;董晓幸&quot;,
+                &quot;instockBillDocTime&quot;:1574895064000,
+                &quot;instockBillId&quot;:&quot;42A229132547F0CC000163E0ADBA5000&quot;,
+                &quot;reportState&quot;:&quot;已上报&quot;,
+                &quot;sourceBillId&quot;:&quot;&quot;,
+                &quot;shopId&quot;:&quot;37EE6D387C5738F7000163E0ADBA5000&quot;,
+                &quot;status&quot;:&quot;已入库&quot;
+            },
+            {
+                &quot;supplierName&quot;:&quot;冯国金&quot;,
+                &quot;shopCode&quot;:&quot;355601&quot;,
+                &quot;instockBillType&quot;:&quot;直配&quot;,
+                &quot;shopName&quot;:&quot;老宁波1381餐厅-余姚店&quot;,
+                &quot;goodsRequiredCategoryAmount&quot;:1,
+                &quot;supplierCode&quot;:&quot;2020014&quot;,
+                &quot;warehouseName&quot;:&quot;余姚—烧烤铺分仓&quot;,
+                &quot;instockBillNo&quot;:&quot;RK355601201911280004&quot;,
+                &quot;instockBillDocName&quot;:&quot;董晓幸&quot;,
+                &quot;instockBillDocTime&quot;:1574898719000,
+                &quot;instockBillId&quot;:&quot;42A229298747F0CC000163E0ADBA5000&quot;,
+                &quot;reportState&quot;:&quot;已上报&quot;,
+                &quot;sourceBillId&quot;:&quot;&quot;,
+                &quot;shopId&quot;:&quot;37EE6D387C5738F7000163E0ADBA5000&quot;,
+                &quot;status&quot;:&quot;已入库&quot;
+            },
+            {
+                &quot;supplierName&quot;:&quot;冯国金&quot;,
+                &quot;shopCode&quot;:&quot;355601&quot;,
+                &quot;instockBillType&quot;:&quot;直配&quot;,
+                &quot;shopName&quot;:&quot;老宁波1381餐厅-余姚店&quot;,
+                &quot;goodsRequiredCategoryAmount&quot;:1,
+                &quot;supplierCode&quot;:&quot;2020014&quot;,
+                &quot;warehouseName&quot;:&quot;余姚—热菜铺分仓&quot;,
+                &quot;instockBillNo&quot;:&quot;RK355601201911280005&quot;,
+                &quot;instockBillDocName&quot;:&quot;董晓幸&quot;,
+                &quot;instockBillDocTime&quot;:1574898720000,
+                &quot;instockBillId&quot;:&quot;42A229400947F0CC000163E0ADBA5000&quot;,
+                &quot;reportState&quot;:&quot;已上报&quot;,
+                &quot;sourceBillId&quot;:&quot;&quot;,
+                &quot;shopId&quot;:&quot;37EE6D387C5738F7000163E0ADBA5000&quot;,
+                &quot;status&quot;:&quot;已入库&quot;
+            }
+        ],
+        &quot;extraData&quot;:{
+
+        },
+        &quot;pageNum&quot;:1,
+        &quot;pageSize&quot;:10,
+        &quot;totalNum&quot;:1426,
+        &quot;totalPage&quot;:143
+    }
+}
+</code></pre>
+<hr />
+<p>盘点管理接口：<code>post</code></p>
+<pre><code class="language-plain_text">https://aipos.honghuotai.com:8961/scmcheck/page
+</code></pre>
+<p>参数：status &quot;&quot;-&gt;全部 &quot;1&quot;-&gt;待处理 &quot;2&quot;-&gt;处理中 &quot;3&quot;-&gt;已完成 &quot;5&quot;-&gt;已驳回</p>
+<pre><code class="language-plain_text">{
+    &quot;pageNum&quot;:1,
+    &quot;pageSize&quot;:10,
+    &quot;params&quot;:{
+        &quot;docMakerName&quot;:&quot;&quot;,
+        &quot;billno&quot;:&quot;&quot;,
+        &quot;checkDateBegin&quot;:&quot;2019-12-24&quot;,
+        &quot;checkDateEnd&quot;:&quot;2019-12-24&quot;,
+        &quot;checkType&quot;:&quot;&quot;,
+        &quot;companyId&quot;:&quot;DBC18C6BD8000000B0000000001DE000&quot;,
+        &quot;shopId&quot;:&quot;37EE6D387C5738F7000163E0ADBA5000&quot;,
+        &quot;warehouseId&quot;:&quot;&quot;,
+        &quot;sort&quot;:&quot;descending&quot;,
+        &quot;sortName&quot;:&quot;creatTime&quot;,
+        &quot;warehouseName&quot;:&quot;&quot;,
+        &quot;status&quot;:&quot;&quot;
+    }
+}
+</code></pre>
+
+			</div>
+
+		
+	  
+		<footer>
+		 <p class="meta">
+
+			
+			<span class="categories">
+			 
+			</span>
+		    </p>
+		    <p class="meta">
+		      
+		 </p>
+	    
+		<div class="sharing">
+		  
+          
+
+          
+
+		</div>
+
+	    <p class="meta">
+	    
+	        <a class="basic-alignment left" href="16587402969749.html" 
+	        title="Previous Post: 其他人很少关注的页面">&laquo; 其他人很少关注的页面</a>
+	    
+	    
+	        <a class="basic-alignment right" href="16587402970215.html" 
+	        title="Next Post: 如何给View添加点击事件">如何给View添加点击事件 &raquo;</a>
+	    
+	    </p>
+	  </footer>
+	</article>
+</div>
+ <aside class="sidebar"> 
+
+	<section>
+	  <h1>Categories</h1>
+	  <ul id="recent_posts">
+	  
+	        
+	      </li>
+	   
+	  </ul>
+	</section>
+	<section>
+	  <h1>Recent Posts</h1>
+	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16623668836941.html">git 远程分支回滚</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16619340520854.html">CSS 排版</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16613374889545.html">前端开发环境配置</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16607216444595.html">网站SEO</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16587402963682.html">Vue3设计思想与理念</a>
+		      </li>
+	     
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	   
+	  </ul>
+	</section>
+	
+</aside> </div></div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 -  -
+  <span class="credit">Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a> &nbsp;&nbsp; Theme by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="asset/prism.js"></script>
+
+
+<style type="text/css">
+  
+/* PrismJS 1.14.0
+https://prismjs.com/download.html#themes=prism-solarizedlight&languages=markup+css+clike+javascript */
+/*
+ Solarized Color Schemes originally by Ethan Schoonover
+ http://ethanschoonover.com/solarized
+
+ Ported for PrismJS by Hector Matos
+ Website: https://krakendev.io
+ Twitter Handle: https://twitter.com/allonsykraken)
+*/
+
+/*
+SOLARIZED HEX
+--------- -------
+base03    #002b36
+base02    #073642
+base01    #586e75
+base00    #657b83
+base0     #839496
+base1     #93a1a1
+base2     #eee8d5
+base3     #fdf6e3
+yellow    #b58900
+orange    #cb4b16
+red       #dc322f
+magenta   #d33682
+violet    #6c71c4
+blue      #268bd2
+cyan      #2aa198
+green     #859900
+*/
+
+code[class*="language-"],
+pre[class*="language-"] {
+  color: #657b83; /* base00 */
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,
+code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection {
+  background: #073642; /* base02 */
+}
+
+pre[class*="language-"]::selection, pre[class*="language-"] ::selection,
+code[class*="language-"]::selection, code[class*="language-"] ::selection {
+  background: #073642; /* base02 */
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+  padding: 1em;
+  margin: .5em 0;
+  overflow: auto;
+  border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+  background-color: #fdf6e3; /* base3 */
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+  padding: .1em;
+  border-radius: .3em;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: #93a1a1; /* base1 */
+}
+
+.token.punctuation {
+  color: #586e75; /* base01 */
+}
+
+.namespace {
+  opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+  color: #268bd2; /* blue */
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.url,
+.token.inserted {
+  color: #2aa198; /* cyan */
+}
+
+.token.entity {
+  color: #657b83; /* base00 */
+  background: #eee8d5; /* base2 */
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+  color: #859900; /* green */
+}
+
+.token.function,
+.token.class-name {
+  color: #b58900; /* yellow */
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+  color: #cb4b16; /* orange */
+}
+
+.token.important,
+.token.bold {
+  font-weight: bold;
+}
+.token.italic {
+  font-style: italic;
+}
+
+.token.entity {
+  cursor: help;
+}
+
+
+pre[class*="language-"].line-numbers {
+    position: relative;
+    padding-left: 3.8em;
+    counter-reset: linenumber;
+}
+
+pre[class*="language-"].line-numbers > code {
+    position: relative;
+    white-space: inherit;
+}
+
+.line-numbers .line-numbers-rows {
+    position: absolute;
+    pointer-events: none;
+    top: 0;
+    font-size: 100%;
+    left: -3.8em;
+    width: 3em; /* works for line-numbers below 1000 lines */
+    letter-spacing: -1px;
+    border-right: 1px solid #999;
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+}
+
+    .line-numbers-rows > span {
+        pointer-events: none;
+        display: block;
+        counter-increment: linenumber;
+    }
+
+        .line-numbers-rows > span:before {
+            content: counter(linenumber);
+            color: #999;
+            display: block;
+            padding-right: 0.8em;
+            text-align: right;
+        }
+
+</style>
+  
+    
+
+
+</body>
+</html>

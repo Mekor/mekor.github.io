@@ -1,0 +1,692 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>
+    
+  basedataconfig表中用到的与无用的数据 - 李小争
+  
+
+  </title>
+  <meta name="author" content="">
+  <meta name="description" content="">
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link href="asset/css/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="atom.xml" rel="alternate" title="李小争" type="application/atom+xml">
+  <script src="asset/js/modernizr-2.0.js"></script>
+  <script src="asset/js/jquery.min.js"></script>
+  <style type="text/css">
+  .cat-children-p{ padding: 6px 0px;}
+  .hljs{background: none;}
+  </style>
+  <script type="text/javascript">
+  var isAddSildbar = true;
+  </script>
+  <script src="asset/js/octopress.js" type="text/javascript"></script>
+</head>
+<script type="text/javascript">
+//链接新开窗口
+function addBlankTargetForLinks () {
+  $('a[href^="http"]').each(function(){
+      $(this).attr('target', '_blank');
+  });
+}
+$(document).ready(function(event) {
+  addBlankTargetForLinks();
+});
+</script>
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="index.html">李小争</a></h1>
+  
+    <h2></h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+
+  <li id=""><a target="_self" href="index.html">Home</a></li>
+
+  <li id=""><a target="_self" href="archives.html">Archives</a></li>
+
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content"> 
+<div>
+	<article class="hentry" role="article">
+	<header>
+			  	<h1 class="entry-title">basedataconfig表中用到的与无用的数据</h1>
+				<p class="meta"><time datetime="2022-07-25T17:11:33+08:00" pubdate data-updated="true">2022/07/25</time></p>
+			 </header>
+		  	<div class="entry-content">
+			  	<h2><a id="%E8%BF%98%E5%9C%A8%E4%BD%BF%E7%94%A8%E7%9A%84%E5%AD%97%E6%AE%B5" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>还在使用的字段</h2>
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>含义</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bill_ratio</td>
+<td>积分兑换占账单比例</td>
+<td>结账 和 H5页面用到了</td>
+</tr>
+<tr>
+<td>cardPaymentUrl</td>
+<td>PAD卡包接口地址</td>
+<td></td>
+</tr>
+<tr>
+<td>dishExchangeForPAD</td>
+<td>PAD积分商城地址</td>
+<td></td>
+</tr>
+<tr>
+<td>gelNailForPAD</td>
+<td>PAD新美甲地址</td>
+<td></td>
+</tr>
+<tr>
+<td>integral_num</td>
+<td>积分数量</td>
+<td></td>
+</tr>
+<tr>
+<td>integral_type</td>
+<td>会员积分兑换验证方式(0 密码和短信；1 只短信；2 只密码)</td>
+<td></td>
+</tr>
+<tr>
+<td>iosPadVersion</td>
+<td>pad版本号</td>
+<td></td>
+</tr>
+<tr>
+<td>iosUpdateDownloadURL</td>
+<td>pad包下载地址</td>
+<td></td>
+</tr>
+<tr>
+<td>isUpdate</td>
+<td>是否更新</td>
+<td></td>
+</tr>
+<tr>
+<td>isUseCards</td>
+<td>是否使用卡包功能（0 不使用；1 使用）</td>
+<td></td>
+</tr>
+<tr>
+<td>isUserNewMJ</td>
+<td>是否使用新美甲1: 是;0:否</td>
+<td></td>
+</tr>
+<tr>
+<td>money_num</td>
+<td>兑换钱数</td>
+<td></td>
+</tr>
+<tr>
+<td>pos_url</td>
+<td>红包地址</td>
+<td></td>
+</tr>
+<tr>
+<td>redenvelope_pop</td>
+<td>红包弹窗标识（0 不使用；1 使用）</td>
+<td></td>
+</tr>
+<tr>
+<td>sslCerDownloadURL</td>
+<td>证书下载地址</td>
+<td></td>
+</tr>
+<tr>
+<td>themeViewLevel</td>
+<td>设置主题推荐显示顺序</td>
+<td></td>
+</tr>
+<tr>
+<td>use_integral</td>
+<td>是否使用积分功能（0 不使用；1 使用）</td>
+<td></td>
+</tr>
+<tr>
+<td>validate_type</td>
+<td>会员积分验证方式(0 密码和短信；1 只短信；2 只密码)</td>
+<td></td>
+</tr>
+<tr>
+<td>waiterMessage</td>
+<td>服务员寄语</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2><a id="%E6%B2%A1%E6%9C%89%E7%94%A8%E5%88%B0%E7%9A%84%E5%AD%97%E6%AE%B5" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>没有用到的字段</h2>
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>含义</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bill_notarize</td>
+<td>打印账单是否确认账单(0 不确认 1确认)</td>
+<td></td>
+</tr>
+<tr>
+<td>cashier_email</td>
+<td>卡包管理员邮箱</td>
+<td></td>
+</tr>
+<tr>
+<td>cashier_mobile</td>
+<td>卡包管理员手机号</td>
+<td></td>
+</tr>
+<tr>
+<td>custom_flavor</td>
+<td>是否显示定制味碟(0 不显示 1显示)</td>
+<td></td>
+</tr>
+<tr>
+<td>discountVerification</td>
+<td>折扣信息是否设置登陆短信验证1是，0否</td>
+<td></td>
+</tr>
+<tr>
+<td>integral</td>
+<td>生成积分</td>
+<td></td>
+</tr>
+<tr>
+<td>integralToRemind</td>
+<td>积分提醒</td>
+<td></td>
+</tr>
+<tr>
+<td>integralToRemindHw</td>
+<td>积分提醒外文</td>
+<td></td>
+</tr>
+<tr>
+<td>isMyFriends</td>
+<td>是否显示我的好友</td>
+<td></td>
+</tr>
+<tr>
+<td>isRankingList</td>
+<td>是否显示排行榜</td>
+<td></td>
+</tr>
+<tr>
+<td>isSearchGd</td>
+<td>是否显示搜索锅底</td>
+<td></td>
+</tr>
+<tr>
+<td>isShowPotGuide</td>
+<td>是否显示锅底引导图片(0 不显示  1显示)</td>
+<td></td>
+</tr>
+<tr>
+<td>isStandardGd</td>
+<td>是否显示标准锅底</td>
+<td></td>
+</tr>
+<tr>
+<td>isStandardMyGd</td>
+<td>是否显示我的锅底</td>
+<td></td>
+</tr>
+<tr>
+<td>isStandardOther</td>
+<td>是否显示其他</td>
+<td></td>
+</tr>
+<tr>
+<td>isUseBankOfChina</td>
+<td>是否使用中国银行（0 不使用；1 使用）</td>
+<td></td>
+</tr>
+<tr>
+<td>isUseFreeCode</td>
+<td>是否使用白吃码（0 不使用；1 使用）</td>
+<td></td>
+</tr>
+<tr>
+<td>isUseIntegral</td>
+<td>是否使用积分功能（0 不使用；1 使用）</td>
+<td></td>
+</tr>
+<tr>
+<td>isUseTwo</td>
+<td>是否显示双语 (0 使用；1 不使用)</td>
+<td></td>
+</tr>
+<tr>
+<td>money</td>
+<td>钱数</td>
+<td></td>
+</tr>
+<tr>
+<td>myBestLove</td>
+<td>设置我的最爱显示顺序</td>
+<td></td>
+</tr>
+<tr>
+<td>newProductPoint</td>
+<td>设置新品必点显示顺序</td>
+<td></td>
+</tr>
+<tr>
+<td>pot_name</td>
+<td>锅底名字更改框(0 不显示  1显示)</td>
+<td></td>
+</tr>
+<tr>
+<td>potGuideImg</td>
+<td>锅底引导图片地址</td>
+<td></td>
+</tr>
+<tr>
+<td>potHelp</td>
+<td>锅底帮助开关(0关闭  1开启)</td>
+<td></td>
+</tr>
+<tr>
+<td>SMSVerificationForLever</td>
+<td>根据会员星级设置登陆短信验证1星2星3星4星5星</td>
+<td></td>
+</tr>
+<tr>
+<td>tasteType</td>
+<td>标准锅底口味选择：1.滑条 标识位：0    2.弹框 标识位：1</td>
+<td></td>
+</tr>
+<tr>
+<td>unify</td>
+<td>是否推送锅底口味数据（锅底口味配置修改后为1需要推送，否则为0）</td>
+<td></td>
+</tr>
+<tr>
+<td>unifyPostUrl</td>
+<td>锅底口味推想统一订餐推送地址</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+			</div>
+
+		
+	  
+		<footer>
+		 <p class="meta">
+
+			
+			<span class="categories">
+			 
+			</span>
+		    </p>
+		    <p class="meta">
+		      
+		 </p>
+	    
+		<div class="sharing">
+		  
+          
+
+          
+
+		</div>
+
+	    <p class="meta">
+	    
+	        <a class="basic-alignment left" href="16587402939539.html" 
+	        title="Previous Post: 公司规范">&laquo; 公司规范</a>
+	    
+	    
+	        <a class="basic-alignment right" href="16587402939800.html" 
+	        title="Next Post: 基础拾遗">基础拾遗 &raquo;</a>
+	    
+	    </p>
+	  </footer>
+	</article>
+</div>
+ <aside class="sidebar"> 
+
+	<section>
+	  <h1>Categories</h1>
+	  <ul id="recent_posts">
+	  
+	        
+	      </li>
+	   
+	  </ul>
+	</section>
+	<section>
+	  <h1>Recent Posts</h1>
+	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16623668836941.html">git 远程分支回滚</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16619340520854.html">CSS 排版</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16613374889545.html">前端开发环境配置</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16607216444595.html">网站SEO</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16587402963682.html">Vue3设计思想与理念</a>
+		      </li>
+	     
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	   
+	  </ul>
+	</section>
+	
+</aside> </div></div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 -  -
+  <span class="credit">Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a> &nbsp;&nbsp; Theme by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+  
+/* PrismJS 1.14.0
+https://prismjs.com/download.html#themes=prism-solarizedlight&languages=markup+css+clike+javascript */
+/*
+ Solarized Color Schemes originally by Ethan Schoonover
+ http://ethanschoonover.com/solarized
+
+ Ported for PrismJS by Hector Matos
+ Website: https://krakendev.io
+ Twitter Handle: https://twitter.com/allonsykraken)
+*/
+
+/*
+SOLARIZED HEX
+--------- -------
+base03    #002b36
+base02    #073642
+base01    #586e75
+base00    #657b83
+base0     #839496
+base1     #93a1a1
+base2     #eee8d5
+base3     #fdf6e3
+yellow    #b58900
+orange    #cb4b16
+red       #dc322f
+magenta   #d33682
+violet    #6c71c4
+blue      #268bd2
+cyan      #2aa198
+green     #859900
+*/
+
+code[class*="language-"],
+pre[class*="language-"] {
+  color: #657b83; /* base00 */
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,
+code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection {
+  background: #073642; /* base02 */
+}
+
+pre[class*="language-"]::selection, pre[class*="language-"] ::selection,
+code[class*="language-"]::selection, code[class*="language-"] ::selection {
+  background: #073642; /* base02 */
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+  padding: 1em;
+  margin: .5em 0;
+  overflow: auto;
+  border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+  background-color: #fdf6e3; /* base3 */
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+  padding: .1em;
+  border-radius: .3em;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: #93a1a1; /* base1 */
+}
+
+.token.punctuation {
+  color: #586e75; /* base01 */
+}
+
+.namespace {
+  opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+  color: #268bd2; /* blue */
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.url,
+.token.inserted {
+  color: #2aa198; /* cyan */
+}
+
+.token.entity {
+  color: #657b83; /* base00 */
+  background: #eee8d5; /* base2 */
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+  color: #859900; /* green */
+}
+
+.token.function,
+.token.class-name {
+  color: #b58900; /* yellow */
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+  color: #cb4b16; /* orange */
+}
+
+.token.important,
+.token.bold {
+  font-weight: bold;
+}
+.token.italic {
+  font-style: italic;
+}
+
+.token.entity {
+  cursor: help;
+}
+
+
+pre[class*="language-"].line-numbers {
+    position: relative;
+    padding-left: 3.8em;
+    counter-reset: linenumber;
+}
+
+pre[class*="language-"].line-numbers > code {
+    position: relative;
+    white-space: inherit;
+}
+
+.line-numbers .line-numbers-rows {
+    position: absolute;
+    pointer-events: none;
+    top: 0;
+    font-size: 100%;
+    left: -3.8em;
+    width: 3em; /* works for line-numbers below 1000 lines */
+    letter-spacing: -1px;
+    border-right: 1px solid #999;
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+}
+
+    .line-numbers-rows > span {
+        pointer-events: none;
+        display: block;
+        counter-increment: linenumber;
+    }
+
+        .line-numbers-rows > span:before {
+            content: counter(linenumber);
+            color: #999;
+            display: block;
+            padding-right: 0.8em;
+            text-align: right;
+        }
+
+</style>
+  
+    
+
+
+</body>
+</html>

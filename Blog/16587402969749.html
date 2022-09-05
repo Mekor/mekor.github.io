@@ -1,0 +1,495 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>
+    
+  其他人很少关注的页面 - 李小争
+  
+
+  </title>
+  <meta name="author" content="">
+  <meta name="description" content="">
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link href="asset/css/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="atom.xml" rel="alternate" title="李小争" type="application/atom+xml">
+  <script src="asset/js/modernizr-2.0.js"></script>
+  <script src="asset/js/jquery.min.js"></script>
+  <style type="text/css">
+  .cat-children-p{ padding: 6px 0px;}
+  .hljs{background: none;}
+  </style>
+  <script type="text/javascript">
+  var isAddSildbar = true;
+  </script>
+  <script src="asset/js/octopress.js" type="text/javascript"></script>
+</head>
+<script type="text/javascript">
+//链接新开窗口
+function addBlankTargetForLinks () {
+  $('a[href^="http"]').each(function(){
+      $(this).attr('target', '_blank');
+  });
+}
+$(document).ready(function(event) {
+  addBlankTargetForLinks();
+});
+</script>
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="index.html">李小争</a></h1>
+  
+    <h2></h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+
+  <li id=""><a target="_self" href="index.html">Home</a></li>
+
+  <li id=""><a target="_self" href="archives.html">Archives</a></li>
+
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content"> 
+<div>
+	<article class="hentry" role="article">
+	<header>
+			  	<h1 class="entry-title">其他人很少关注的页面</h1>
+				<p class="meta"><time datetime="2022-07-25T17:11:36+08:00" pubdate data-updated="true">2022/07/25</time></p>
+			 </header>
+		  	<div class="entry-content">
+			  	<p>这里总结下大部分人不熟悉的页面.</p>
+<p>##1. 秒杀</p>
+<p>这个活动已经结束,代码位置:SecKill(秒杀)  调用这个活动不需要传递任何参数,只需要调用<code>XZSecKillViewController</code>就可以了.</p>
+<p>链接在 <code>.m</code>文件的头部,是一个宏定义,方便修改.这个页面分为两个部分.一个是顶部的滚动条,能够显示相应的秒杀时刻,另一个是对应时间段的秒杀活动列表.这两个分别在两个控制器当中.</p>
+<p>他们之间通过<code>XZSecKillTimeProtocol</code>代理进行数据传递.代理方法:</p>
+<p><code>-(void)selectedProductId:(NSString *)productid;</code></p>
+<p>时间段页面通过<code>-(void)congfigDetailWithCurrentTime:(NSInteger)currentTime DetailTime:(XZSecKillTime *)detailTime NextTime:(NSInteger)nextTime EndTime:(NSInteger)endTime;</code>列表页面显示该时间段的秒杀商品列表.</p>
+<p>该活动在运营期间没有什么问题.如果再次开启秒杀活动出现问题最可能的地方就就是<strong>定时器</strong>出现了问题.需要检查的地方有</p>
+<ol>
+<li>
+<p>服务器返回的当前时间,结束时间</p>
+</li>
+<li>
+<p>代码中计算的当前时间,timer 运行是否正常.</p>
+</li>
+<li>
+<p>跳转到下一个秒杀时间处理是否有问题.</p>
+</li>
+</ol>
+<p>当前服务器配置的秒杀活动没有问题,如果下次再开启秒杀活动出现问题检测这几个地方就可以了.</p>
+<h2><a id="%E5%95%86%E6%88%B7%E8%AF%A6%E6%83%85%E7%95%8C%E9%9D%A2%E8%AF%B4%E6%98%8E" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>商户详情界面说明</h2>
+<p>最原始的商户详情界面架构:<a href="https://github.com/Mekor/MKShowDetail">https://github.com/Mekor/MKShowDetail</a><br />
+项目中对应的控制器<code>XZShopDetailController</code></p>
+<p>###需要传递的参数</p>
+<ol>
+<li>项目刚开始的时候由于复杂度不是很高,而且流程比较单一,控制器之间传递的大部分都是模型,现在商户详情界面已经修改为传递<code>shopid</code></li>
+<li>另一个需要传递的参数是进入页面的方式,普通的方式进入和扫描二维码方式进入.主要区别就是扫描二维码方式进入需要再调用添加关注</li>
+</ol>
+<p>###商户详情界面需要包含的自控制器</p>
+<ol>
+<li>WZShopDetailController</li>
+<li>XZShowCouponViewController</li>
+<li>XZProductListViewController</li>
+</ol>
+<p>最多包含这三个控制器,里面显示那个控制器可以随意控制,方法名:<code>- (void)addChildViewController</code><br />
+这三个页面都是继承自<code>XZCustomViewController</code>,在<code>XZCustomViewController</code>中控制商户详情页面有背景图的高度和没背景图的高度还有标题栏的高度.<br />
+<img src="media/16587402969749/14781382059544.jpg" alt="" /></p>
+<p>需要注意的是<code>@property (copy, nonatomic) void(^changeNavigationBar)(CGFloat alpha);</code>通过这个属性可以控制导航栏的透明度.注:为什么不在控制器内部控制?原因:统一管理,需要更改导航栏状态就不需要再在三个控制器中分别进行了.只需要在<code>XZShopDetailController</code>中进行就好了.</p>
+<p>###正在热卖页面<br />
+对应的控制器<code>XZProductListViewController</code>这个页面有两点需要注意: 1. 左侧的tableView滑动的时候不影响其他控件. 2. 左右数据之间对应关系.</p>
+<p>关于滚动的时候更改整体布局原因:</p>
+<pre><code class="language-plain_text">/**
+ *  给继承者使用的: tag:1024
+ */
+@property (nonatomic, strong) XZTableView *tableView;
+
+</code></pre>
+<p>这个tableView滚动时在<code>scrollViewDidScroll</code>中做了2个操作:</p>
+<ol>
+<li>调用<code>changeNavigationBar</code>这个block来给外面的控制器,让其更改导航栏的透明度等操作.</li>
+<li>设置头部的高度.<code>@property (nonatomic, weak)  NSLayoutConstraint *headHCons;</code></li>
+</ol>
+<p>由于更改了头部约束使整个页面也都会跟着变化.</p>
+<p>###原来的商户详情界面<br />
+由于业务调整,原来的商户详情界面整合到新的商户详情界面中来了--&gt;店铺详情<code>WZShopDetailController</code>.<br />
+这个界面主要不同点就是cell样式多变,所以这个界面我采用的是给cell传递一个 frame model,这样好处:</p>
+<ol>
+<li>只计算一次高度</li>
+<li>视图只负责显示,所有布局都在frame model中进行.</li>
+</ol>
+<p>这样做有好处也有缺点:好处是清晰明了逻辑比较清晰,但是这意味着需要添加更多的文件.使用这种方式的界面:<br />
+<img src="media/16587402969749/14781502496626.jpg" alt="测试店铺" /></p>
+<p>使用这种方式很容易写出点评页面:<br />
+<img src="media/16587402969749/14781505140226.jpg" alt="" /></p>
+<p>逻辑顺序: <code>model -&gt; frame model - &gt; view</code></p>
+
+			</div>
+
+		
+	  
+		<footer>
+		 <p class="meta">
+
+			
+			<span class="categories">
+			 
+			</span>
+		    </p>
+		    <p class="meta">
+		      
+		 </p>
+	    
+		<div class="sharing">
+		  
+          
+
+          
+
+		</div>
+
+	    <p class="meta">
+	    
+	        <a class="basic-alignment left" href="16587402969513.html" 
+	        title="Previous Post: Swift - 数组遍历">&laquo; Swift - 数组遍历</a>
+	    
+	    
+	        <a class="basic-alignment right" href="16587402969971.html" 
+	        title="Next Post: h5版本入口：https://aipos.honghuotai.com/huoguo-app-web/">h5版本入口：https://aipos.honghuotai.com/huoguo-app-web/ &raquo;</a>
+	    
+	    </p>
+	  </footer>
+	</article>
+</div>
+ <aside class="sidebar"> 
+
+	<section>
+	  <h1>Categories</h1>
+	  <ul id="recent_posts">
+	  
+	        
+	      </li>
+	   
+	  </ul>
+	</section>
+	<section>
+	  <h1>Recent Posts</h1>
+	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16623668836941.html">git 远程分支回滚</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16619340520854.html">CSS 排版</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16613374889545.html">前端开发环境配置</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16607216444595.html">网站SEO</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16587402963682.html">Vue3设计思想与理念</a>
+		      </li>
+	     
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	   
+	  </ul>
+	</section>
+	
+</aside> </div></div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 -  -
+  <span class="credit">Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a> &nbsp;&nbsp; Theme by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="asset/prism.js"></script>
+
+
+<style type="text/css">
+  
+/* PrismJS 1.14.0
+https://prismjs.com/download.html#themes=prism-solarizedlight&languages=markup+css+clike+javascript */
+/*
+ Solarized Color Schemes originally by Ethan Schoonover
+ http://ethanschoonover.com/solarized
+
+ Ported for PrismJS by Hector Matos
+ Website: https://krakendev.io
+ Twitter Handle: https://twitter.com/allonsykraken)
+*/
+
+/*
+SOLARIZED HEX
+--------- -------
+base03    #002b36
+base02    #073642
+base01    #586e75
+base00    #657b83
+base0     #839496
+base1     #93a1a1
+base2     #eee8d5
+base3     #fdf6e3
+yellow    #b58900
+orange    #cb4b16
+red       #dc322f
+magenta   #d33682
+violet    #6c71c4
+blue      #268bd2
+cyan      #2aa198
+green     #859900
+*/
+
+code[class*="language-"],
+pre[class*="language-"] {
+  color: #657b83; /* base00 */
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,
+code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection {
+  background: #073642; /* base02 */
+}
+
+pre[class*="language-"]::selection, pre[class*="language-"] ::selection,
+code[class*="language-"]::selection, code[class*="language-"] ::selection {
+  background: #073642; /* base02 */
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+  padding: 1em;
+  margin: .5em 0;
+  overflow: auto;
+  border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+  background-color: #fdf6e3; /* base3 */
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+  padding: .1em;
+  border-radius: .3em;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: #93a1a1; /* base1 */
+}
+
+.token.punctuation {
+  color: #586e75; /* base01 */
+}
+
+.namespace {
+  opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+  color: #268bd2; /* blue */
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.url,
+.token.inserted {
+  color: #2aa198; /* cyan */
+}
+
+.token.entity {
+  color: #657b83; /* base00 */
+  background: #eee8d5; /* base2 */
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+  color: #859900; /* green */
+}
+
+.token.function,
+.token.class-name {
+  color: #b58900; /* yellow */
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+  color: #cb4b16; /* orange */
+}
+
+.token.important,
+.token.bold {
+  font-weight: bold;
+}
+.token.italic {
+  font-style: italic;
+}
+
+.token.entity {
+  cursor: help;
+}
+
+
+pre[class*="language-"].line-numbers {
+    position: relative;
+    padding-left: 3.8em;
+    counter-reset: linenumber;
+}
+
+pre[class*="language-"].line-numbers > code {
+    position: relative;
+    white-space: inherit;
+}
+
+.line-numbers .line-numbers-rows {
+    position: absolute;
+    pointer-events: none;
+    top: 0;
+    font-size: 100%;
+    left: -3.8em;
+    width: 3em; /* works for line-numbers below 1000 lines */
+    letter-spacing: -1px;
+    border-right: 1px solid #999;
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+}
+
+    .line-numbers-rows > span {
+        pointer-events: none;
+        display: block;
+        counter-increment: linenumber;
+    }
+
+        .line-numbers-rows > span:before {
+            content: counter(linenumber);
+            color: #999;
+            display: block;
+            padding-right: 0.8em;
+            text-align: right;
+        }
+
+</style>
+  
+    
+
+
+</body>
+</html>

@@ -1,0 +1,514 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>
+    
+  CSS 排版 - 李小争
+  
+
+  </title>
+  <meta name="author" content="">
+  <meta name="description" content="">
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link href="asset/css/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="atom.xml" rel="alternate" title="李小争" type="application/atom+xml">
+  <script src="asset/js/modernizr-2.0.js"></script>
+  <script src="asset/js/jquery.min.js"></script>
+  <style type="text/css">
+  .cat-children-p{ padding: 6px 0px;}
+  .hljs{background: none;}
+  </style>
+  <script type="text/javascript">
+  var isAddSildbar = true;
+  </script>
+  <script src="asset/js/octopress.js" type="text/javascript"></script>
+</head>
+<script type="text/javascript">
+//链接新开窗口
+function addBlankTargetForLinks () {
+  $('a[href^="http"]').each(function(){
+      $(this).attr('target', '_blank');
+  });
+}
+$(document).ready(function(event) {
+  addBlankTargetForLinks();
+});
+</script>
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="index.html">李小争</a></h1>
+  
+    <h2></h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+
+  <li id=""><a target="_self" href="index.html">Home</a></li>
+
+  <li id=""><a target="_self" href="archives.html">Archives</a></li>
+
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content"> 
+<div>
+	<article class="hentry" role="article">
+	<header>
+			  	<h1 class="entry-title">CSS 排版</h1>
+				<p class="meta"><time datetime="2022-08-31T16:20:52+08:00" pubdate data-updated="true">2022/08/31</time></p>
+			 </header>
+		  	<div class="entry-content">
+			  	<p>文章来源 <a href="https://www.zhangxinxu.com/wordpress/2022/06/css-line-break-word-wrap-all/">CSS排版为何强？瞧瞧多牛这换行</a><br />
+CSS这门语言中有各种各样的CSS属性和值来专门处理与文字排版换行相关的需求。</p>
+<h3><a id="%E4%B8%80%E3%80%81%E9%BB%98%E8%AE%A4%E6%8D%A2%E8%A1%8C%E8%A1%8C%E4%B8%BA" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>一、默认换行行为</h3>
+<p>在 Web 文字排版中，默认的换行行为如下。</p>
+<h4><a id="1%E4%B8%AD%E6%96%87%EF%BC%88-cjk%E6%96%87%E5%AD%97%EF%BC%89" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>1. 中文（CJK文字）</h4>
+<p>所有中文的文字内容都是换行点，例如，当宽度很小的时候，文字一柱擎天显示了：</p>
+<p><img src="media/16619340520854/16619341173538.png" alt="一柱擎天" /></p>
+<p>但是如果有标点符号，则情况发生了变化。</p>
+<p>因为标点自带一些特别的换行特性。</p>
+<p>例如逗号，句号，问号，逗号，感叹号就属于避头标点，是不能在开头显示的，称为避头标点。</p>
+<p>例如上引号，上括号不能出现一行的尾部，称为避尾标点。</p>
+<p>由于这种不能出现在开头或结尾的特性，使得这些标点在匹配这种情况的时候是不能换行的。</p>
+<p><img src="media/16619340520854/16619341173570.png" alt="" /></p>
+<p>例如，下面的容器宽度很小的时候，也保持了两个汉字的宽度，原因在于最后的感叹号是避头标点，如果换行了，就会出现在一行的开头，这是不被允许的，因此，在“持”这个字后面显示了。</p>
+<p>在所有的中文标点中，有个标点符号值得专门一提，这个标点就是中文的破折号。</p>
+<p>当中文破折号连续书写的时候，虽然避首避尾规则各个浏览器下有所不同（见下图），但破折号内部不会换行是所有浏览器都保持一致的的。</p>
+<p><img src="media/16619340520854/16619341173578.png" alt="破折号处理" /></p>
+<h4><a id="2%E8%8B%B1%E6%96%87%E5%92%8C%E6%95%B0%E5%AD%97%EF%BC%88%E9%9D%9E-cjk%E6%96%87%E5%AD%97%EF%BC%89" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>2. 英文和数字（非CJK文字）</h4>
+<p>英文的单词由连续英文字母构成，因此默认是不会换行的，连续的数字也是如此，只有遇到空格（U+0020）或者短横线连接符（U+002d）才会换行。</p>
+<p>因此，如果一段文字内容中都是英文体系的字符，没有空格和短横线，则就可能出现连续字符超过容器宽度的情况，如下图所示：</p>
+<p><img src="media/16619340520854/16619341173586.png" alt=" 超出容器宽度" /></p>
+<p>下面看看上述这些默认的换行行为如何使用 CSS 进行改变。</p>
+<h3><a id="%E4%BA%8C%E3%80%81%E4%B8%AD%E6%96%87%E5%86%85%E5%AE%B9%E4%B8%8D%E5%8F%AF%E6%8D%A2%E8%A1%8C" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>二、中文内容不可换行</h3>
+<p>如果希望中文内容不能成为换行点，可以使用如下所示的 CSS 声明：</p>
+<p><code>word-break:keep-all;</code></p>
+<p>此设置不会影响英文内容，也就是英文句子该换行还是换行，只中文内容变得不会自动换行。</p>
+<p>在精确排版场景中，有时候希望中文一行显示，比方说下面的例子。</p>
+<p>在宽度自适应的表格下，如果表格宽度不是很富足，标题中文可能就会换行，实际上一行显示效果更好，此时就可以使用上面的 <code>word-break:keep-all</code>，效果如下图所示：</p>
+<p><img src="media/16619340520854/16619341173593.png" alt="keep-all中文不换行" /></p>
+<h3><a id="%E4%B8%89%E3%80%81%E4%B8%AD%E6%96%87%E6%A0%87%E7%82%B9%E5%8F%AF%E6%8D%A2%E8%A1%8C" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>三、中文标点可换行</h3>
+<p>如果希望中文标点没有避头和避尾特性，可以使用下面的 CSS 声明：</p>
+<p><code>line-break: anywhere;</code></p>
+<p>此时的效果如下图所示：</p>
+<p><img src="media/16619340520854/16619341173602.png" alt="line-break-anywhere示意" /></p>
+<p>可以看到上引号出现在了一行的尾部，句号也跑到了一行的开头。</p>
+<h3><a id="%E5%9B%9B%E3%80%81%E8%BF%9E%E7%BB%AD%E7%A0%B4%E6%8A%98%E5%8F%B7%E5%8F%AF%E6%8D%A2%E8%A1%8C" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>四、连续破折号可换行</h3>
+<p>在默认情况下，如果书写过于冗长的破折号，可能会出现破折号超出容器宽度的布局问题，例如：</p>
+<p><img src="media/16619340520854/16619341173611.png" alt="破折号超出容器" /></p>
+<p>这肯定不是我们希望看到的，此时，可以通过设置如下所示的 CSS 声明让连续破折号也换行。</p>
+<p><code>word-wrap: break-word;</code></p>
+<p>此时，破折号就会在容器的边缘自动换行，效果如下所示：</p>
+<p><img src="media/16619340520854/16619341173620.png" alt="破折号换行示意" /></p>
+<h3><a id="%E4%BA%94%E3%80%81%E8%8B%B1%E6%96%87%E6%95%B0%E5%AD%97%E6%88%90%E4%B8%BA%E6%8D%A2%E8%A1%8C%E7%82%B9" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>五、英文数字成为换行点</h3>
+<p>默认情况下，英文单词和连续的数字是无法换行的，此时我们可以使用如下所示的 CSS 声明使其强制换行。</p>
+<p><code>word-break:break\-all;</code></p>
+<p>例如，一开始出现的连续英文字符超出容器的渲染效果：</p>
+<p><img src="media/16619340520854/16619341173586.png" alt=" 超出容器宽度" /></p>
+<p>就会变成下图这样：</p>
+<p><img src="media/16619340520854/16619341173636.png" alt="换行处理" /></p>
+<h3><a id="%E5%85%AD%E3%80%81%E7%A9%BA%E6%A0%BC%E4%B8%8D%E6%98%AF%E6%8D%A2%E8%A1%8C%E7%82%B9" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>六、空格不是换行点</h3>
+<p>默认情况下，英文句子都是在空格位置处换行，如果希望这些空格不再是换行点，可以使用下面的 CSS 声明：</p>
+<p><code>white-space: nowrap;</code></p>
+<p>例如，这是一段默认排版的文字：</p>
+<p><img src="media/16619340520854/16619341173645.png" alt="空格换行" /></p>
+<p>应用了 <code>white-space:nowrap</code> 后就会一行显示：</p>
+<p><img src="media/16619340520854/16619341173655.png" alt="空格不会换行" /></p>
+<p>由于在 Web 中，换行符都会按照空格进行解析，因此，当一段文字设置为 white-space:nowrap，中文也会在一行显示，因为让中文换行的这个换行符解析成了 white-space。</p>
+<p>如果还是不理解，可以参考我之前这篇文章：“<a href="https://www.zhangxinxu.com/wordpress/2021/07/css-white-space-nowrap/">为什么white-space:nowrap可以让文字一行显示？</a>”</p>
+<h3><a id="%E4%B8%83%E3%80%81%E8%8B%B1%E6%96%87%E6%A0%87%E7%82%B9%E5%BC%BA%E5%88%B6%E6%8D%A2%E8%A1%8C" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>七、英文标点强制换行</h3>
+<p>某些英文表单具有不可换行特性，例如 i’m 这个单词，其中的单引号具有特殊含义，默认是不能换行的。</p>
+<p>此时，我们可以设置如下所示的 CSS 声明，让这个单引号单独一行显示。</p>
+<p><code>overflow-wrap: anywhere;</code></p>
+<p>我们可以对比下 <code>word-break:break-all</code> 这个声明，就可以知道 <code>overflow-wrap:anywhere</code> 的作用了。<br />
+如下一段 HTML 和 CSS 代码：</p>
+<pre><code class="language-plain_text">&lt;p class\=&quot;p1&quot;\&gt;i'm a developer&lt;/p\&gt;
+&lt;p class\=&quot;p2&quot;\&gt;i'm a developer&lt;/p\&gt;
+
+p {
+  width: min-content;
+  border: 2px solid deepskyblue;
+}
+.p1 {
+  overflow-wrap: anywhere;
+}
+.p2 {
+  word-break: break-all;
+}
+</code></pre>
+<p>此时的效果对比效果如下图所示：</p>
+<p><img src="media/16619340520854/16619341173665.png" alt="英文标点换行" /></p>
+<h3><a id="%E5%85%AB%E3%80%81%E7%BB%93%E8%AF%AD" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>八、结语</h3>
+<p>从上面的案例可以看出，凡是 Web 中的换行规则都可以改变，无论是中文的还是英文的，灵活到超出你的想象，非常强大。</p>
+<p>所以在文字内容排版这块，CSS 是计算机领域中无可争议的霸主气，什么 SVG 什么 canvas 根本就是望尘莫及。</p>
+<p>当然，关于 CSS 文字排版，还有很多其他属性，以及还有很多上面出现过的属性的其他值。</p>
+
+			</div>
+
+		
+	  
+		<footer>
+		 <p class="meta">
+
+			
+			<span class="categories">
+			 
+			</span>
+		    </p>
+		    <p class="meta">
+		      
+		 </p>
+	    
+		<div class="sharing">
+		  
+          
+
+          
+
+		</div>
+
+	    <p class="meta">
+	    
+	        <a class="basic-alignment left" href="16623668836941.html" 
+	        title="Previous Post: git 远程分支回滚">&laquo; git 远程分支回滚</a>
+	    
+	    
+	        <a class="basic-alignment right" href="16613374889545.html" 
+	        title="Next Post: 前端开发环境配置">前端开发环境配置 &raquo;</a>
+	    
+	    </p>
+	  </footer>
+	</article>
+</div>
+ <aside class="sidebar"> 
+
+	<section>
+	  <h1>Categories</h1>
+	  <ul id="recent_posts">
+	  
+	        
+	      </li>
+	   
+	  </ul>
+	</section>
+	<section>
+	  <h1>Recent Posts</h1>
+	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16623668836941.html">git 远程分支回滚</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16619340520854.html">CSS 排版</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16613374889545.html">前端开发环境配置</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16607216444595.html">网站SEO</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16587402963682.html">Vue3设计思想与理念</a>
+		      </li>
+	     
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	   
+	  </ul>
+	</section>
+	
+</aside> </div></div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 -  -
+  <span class="credit">Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a> &nbsp;&nbsp; Theme by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="asset/prism.js"></script>
+
+
+<style type="text/css">
+  
+/* PrismJS 1.14.0
+https://prismjs.com/download.html#themes=prism-solarizedlight&languages=markup+css+clike+javascript */
+/*
+ Solarized Color Schemes originally by Ethan Schoonover
+ http://ethanschoonover.com/solarized
+
+ Ported for PrismJS by Hector Matos
+ Website: https://krakendev.io
+ Twitter Handle: https://twitter.com/allonsykraken)
+*/
+
+/*
+SOLARIZED HEX
+--------- -------
+base03    #002b36
+base02    #073642
+base01    #586e75
+base00    #657b83
+base0     #839496
+base1     #93a1a1
+base2     #eee8d5
+base3     #fdf6e3
+yellow    #b58900
+orange    #cb4b16
+red       #dc322f
+magenta   #d33682
+violet    #6c71c4
+blue      #268bd2
+cyan      #2aa198
+green     #859900
+*/
+
+code[class*="language-"],
+pre[class*="language-"] {
+  color: #657b83; /* base00 */
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,
+code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection {
+  background: #073642; /* base02 */
+}
+
+pre[class*="language-"]::selection, pre[class*="language-"] ::selection,
+code[class*="language-"]::selection, code[class*="language-"] ::selection {
+  background: #073642; /* base02 */
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+  padding: 1em;
+  margin: .5em 0;
+  overflow: auto;
+  border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+  background-color: #fdf6e3; /* base3 */
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+  padding: .1em;
+  border-radius: .3em;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: #93a1a1; /* base1 */
+}
+
+.token.punctuation {
+  color: #586e75; /* base01 */
+}
+
+.namespace {
+  opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+  color: #268bd2; /* blue */
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.url,
+.token.inserted {
+  color: #2aa198; /* cyan */
+}
+
+.token.entity {
+  color: #657b83; /* base00 */
+  background: #eee8d5; /* base2 */
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+  color: #859900; /* green */
+}
+
+.token.function,
+.token.class-name {
+  color: #b58900; /* yellow */
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+  color: #cb4b16; /* orange */
+}
+
+.token.important,
+.token.bold {
+  font-weight: bold;
+}
+.token.italic {
+  font-style: italic;
+}
+
+.token.entity {
+  cursor: help;
+}
+
+
+pre[class*="language-"].line-numbers {
+    position: relative;
+    padding-left: 3.8em;
+    counter-reset: linenumber;
+}
+
+pre[class*="language-"].line-numbers > code {
+    position: relative;
+    white-space: inherit;
+}
+
+.line-numbers .line-numbers-rows {
+    position: absolute;
+    pointer-events: none;
+    top: 0;
+    font-size: 100%;
+    left: -3.8em;
+    width: 3em; /* works for line-numbers below 1000 lines */
+    letter-spacing: -1px;
+    border-right: 1px solid #999;
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+}
+
+    .line-numbers-rows > span {
+        pointer-events: none;
+        display: block;
+        counter-increment: linenumber;
+    }
+
+        .line-numbers-rows > span:before {
+            content: counter(linenumber);
+            color: #999;
+            display: block;
+            padding-right: 0.8em;
+            text-align: right;
+        }
+
+</style>
+  
+    
+
+
+</body>
+</html>

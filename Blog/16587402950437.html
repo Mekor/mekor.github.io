@@ -1,0 +1,616 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>
+    
+  引用类型用法总结 - 李小争
+  
+
+  </title>
+  <meta name="author" content="">
+  <meta name="description" content="">
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link href="asset/css/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="atom.xml" rel="alternate" title="李小争" type="application/atom+xml">
+  <script src="asset/js/modernizr-2.0.js"></script>
+  <script src="asset/js/jquery.min.js"></script>
+  <style type="text/css">
+  .cat-children-p{ padding: 6px 0px;}
+  .hljs{background: none;}
+  </style>
+  <script type="text/javascript">
+  var isAddSildbar = true;
+  </script>
+  <script src="asset/js/octopress.js" type="text/javascript"></script>
+</head>
+<script type="text/javascript">
+//链接新开窗口
+function addBlankTargetForLinks () {
+  $('a[href^="http"]').each(function(){
+      $(this).attr('target', '_blank');
+  });
+}
+$(document).ready(function(event) {
+  addBlankTargetForLinks();
+});
+</script>
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="index.html">李小争</a></h1>
+  
+    <h2></h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+
+  <li id=""><a target="_self" href="index.html">Home</a></li>
+
+  <li id=""><a target="_self" href="archives.html">Archives</a></li>
+
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content"> 
+<div>
+	<article class="hentry" role="article">
+	<header>
+			  	<h1 class="entry-title">引用类型用法总结</h1>
+				<p class="meta"><time datetime="2022-07-25T17:11:35+08:00" pubdate data-updated="true">2022/07/25</time></p>
+			 </header>
+		  	<div class="entry-content">
+			  	<p>实际的开发中，引用类型的使用非常重要，也是非常普遍的。我们可以在理解基本类型的使用方式基础上，进一步 去掌握引用类型的使用方式。基本类型可以作为成员变量、作为方法的参数、作为方法的返回值，那么当然引用类 型也是可以的。</p>
+<h2><a id="4-1-class%E4%BD%9C%E4%B8%BA%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>4.1 class作为成员变量</h2>
+<p>在定义一个类Role（游戏角色）时，代码如下：</p>
+<pre><code class="language-plain_text">class Role {
+     int id; // 角色id 
+     int blood; // 生命值 
+     String name; // 角色名称 
+}
+</code></pre>
+<p>使用 <code>int</code> 类型表示 角色id和生命值，使用 <code>String</code> 类型表示姓名。此时， <code>String</code> 本身就是引用类型，由于使用 的方式类似常量，所以往往忽略了它是引用类型的存在。如果我们继续丰富这个类的定义，给 <code>Role</code> 增加武器，穿 戴装备等属性，我们将如何编写呢？</p>
+<p>定义武器类，将增加攻击能力：</p>
+<pre><code class="language-plain_text">class Weapon {
+     String name； // 武器名称 
+     int hurt； // 伤害值 
+}
+</code></pre>
+<p>定义穿戴盔甲类，将增加防御能力，也就是提升生命值：</p>
+<pre><code class="language-plain_text">class Armour {
+     String name；// 装备名称 
+     int protect；// 防御值 
+}
+</code></pre>
+<p>定义角色类：</p>
+<pre><code class="language-plain_text">class Role {
+    
+    int id； 
+    int blood； 
+    String name； // 添加武器属性 
+    Weapon wp； // 添加盔甲属性 
+    Armour ar；
+    
+    // 提供get/set方法
+    public Weapon getWp() {
+        return wp; 
+    } 
+    public void setWeapon(Weapon wp) {
+        this.wp = wp;
+    } 
+    public Armour getArmour() {
+        return ar; 
+    } 
+    public void setArmour(Armour ar) {
+        this.ar = ar; 
+    }
+    
+    // 攻击方法 
+    public void attack(){ 
+        System.out.println(&quot;使用&quot;+ wp.getName() +&quot;, 造成&quot;+wp.getHurt()+&quot;点伤害&quot;); 
+    }
+    
+    // 穿戴盔甲 
+    public void wear(){
+        // 增加防御,就是增加blood值
+        this.blood += ar.getProtect();
+        System.out.println(&quot;穿上&quot;+ar.getName()+&quot;, 生命值增加&quot;+ar.getProtect()); 
+    }
+}
+</code></pre>
+<p>测试类：</p>
+<pre><code class="language-plain_text">public class Test {
+
+    public static void main(String[] args) {
+         // 创建Weapon 对象 
+         Weapon wp = new Weapon(&quot;屠龙刀&quot; , 999999); 
+         // 创建Armour 对象 
+         Armour ar = new Armour(&quot;麒麟甲&quot;,10000); 
+         // 创建Role 对象 
+         Role r = new Role();
+        
+        // 设置武器属性 
+        r.setWeapon(wp);
+        // 设置盔甲属性 
+        r.setArmour(ar);
+        
+        // 攻击 
+        r.attack(); 
+        // 穿戴盔甲 
+        r.wear();
+    }
+
+} 
+
+输出结果: 使用屠龙刀,造成999999点伤害 穿上麒麟甲 ,生命值增加10000
+</code></pre>
+<blockquote>
+<p>类作为成员变量时，对它进行赋值的操作，实际上，是赋给它该类的一个对象。</p>
+</blockquote>
+<h2><a id="4-2-interface%E4%BD%9C%E4%B8%BA%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>4.2 interface作为成员变量</h2>
+<p>接口是对方法的封装，对应游戏当中，可以看作是扩展游戏角色的技能。所以，如果想扩展更强大技能，我们在 <code>Role</code> 中，可以增加接口作为成员变量，来设置不同的技能。</p>
+<p>定义接口：</p>
+<pre><code class="language-plain_text">// 法术攻击 
+public interface FaShuSkill { 
+    public abstract void faShuAttack();
+}
+</code></pre>
+<p>定义角色类：</p>
+<pre><code class="language-plain_text">public class Role { 
+    FaShuSkill fs;
+    
+    public void setFaShuSkill(FaShuSkill fs) {
+        this.fs = fs; 
+    } 
+    // 法术攻击 public 
+    void faShuSkillAttack(){
+        System.out.print(&quot;发动法术攻击:&quot;);
+        fs.faShuAttack();
+        System.out.println(&quot;攻击完毕&quot;); 
+    }
+}
+</code></pre>
+<p>定义测试类：</p>
+<pre><code class="language-plain_text">public class Test {
+    
+    public static void main(String[] args) { 
+        // 创建游戏角色 
+        Role role = new Role(); 
+        // 设置角色法术技能 
+        role.setFaShuSkill(new FaShuSkill() {
+            @Override
+            public void faShuAttack() { 
+                System.out.println(&quot;纵横天下&quot;); 
+            }
+        });
+        
+        // 发动法术攻击 
+        role.faShuSkillAttack();
+        
+        // 更换技能 
+        role.setFaShuSkill(new FaShuSkill() {
+            @Override
+            public void faShuAttack() {
+            System.out.println(&quot;逆转乾坤&quot;);
+            } 
+        }); 
+        // 发动法术攻击 
+        role.faShuSkillAttack();
+    }
+} 
+
+输出结果: 发动法术攻击:纵横天下 攻击完毕
+
+发动法术攻击:逆转乾坤 攻击完毕
+</code></pre>
+<blockquote>
+<p>我们使用一个接口，作为成员变量，以便随时更换技能，这样的设计更为灵活，增强了程序的扩展性。 接口作为成员变量时，对它进行赋值的操作，实际上，是赋给它该接口的一个子类对象。</p>
+</blockquote>
+<h2><a id="4-3-interface%E4%BD%9C%E4%B8%BA%E6%96%B9%E6%B3%95%E5%8F%82%E6%95%B0%E5%92%8C%E8%BF%94%E5%9B%9E%E5%80%BC%E7%B1%BB%E5%9E%8B" class="anchor" aria-hidden="true"><span class="octicon octicon-link"></span></a>4.3 interface作为方法参数和返回值类型</h2>
+<p>当接口作为方法的参数时,需要传递什么呢？当接口作为方法的返回值类型时，需要返回什么呢？对，其实都是它的 子类对象。<code>ArrayList</code> 类我们并不陌生，查看API我们发现，实际上，它是 <code>java.util.List</code> 接口的实现类。所以，当我们看见 <code>List</code> 接口作为参数或者返回值类型时，当然可以将 <code>ArrayList</code> 的对象进行传递或返回。 请观察如下方法：<strong>获取某集合中所有的偶数。</strong><br />
+定义方法：</p>
+<pre><code class="language-plain_text">public static List&lt;Integer&gt; getEvenNum(List&lt;Integer&gt; list) { 
+    // 创建保存偶数的集合 
+    ArrayList&lt;Integer&gt; evenList = new ArrayList&lt;&gt;(); 
+    // 遍历集合list,判断元素为偶数,就添加到evenList中 
+    for (int i = 0; i &lt; list.size(); i++) {
+        Integer integer = list.get(i);
+        if (integer % 2 == 0) { 
+            evenList.add(integer); 
+        }
+    } 
+    /*
+    返回偶数集合 因为getEvenNum方法的返回值类型是List,而ArrayList是List的子类,
+    因为getEvenNum方法的返回值类型是List,而ArrayList是List的子类, 所以evenList可以返回 
+    */ 
+    return evenList;
+}
+</code></pre>
+<p>调用方法：</p>
+<pre><code class="language-plain_text">public class Test {
+    
+    public static void main(String[] args) { 
+        // 创建ArrayList集合,并添加数字 
+        ArrayList&lt;Integer&gt; srcList = new ArrayList&lt;&gt;();
+        for (int i = 0; i &lt; 10; i++) {
+            srcList.add(i); 
+        }
+        /* 
+        获取偶数集合 因为getEvenNum方法的参数是List,而ArrayList是List的子类, 所以srcList可以传递 
+        */ 
+        List list = getEvenNum(srcList);
+        System.out.println(list);
+    }
+}
+</code></pre>
+<blockquote>
+<p>接口作为参数时，传递它的子类对象。 接口作为返回值类型时，返回它的子类对象。</p>
+</blockquote>
+
+			</div>
+
+		
+	  
+		<footer>
+		 <p class="meta">
+
+			
+			<span class="categories">
+			 
+			</span>
+		    </p>
+		    <p class="meta">
+		      
+		 </p>
+	    
+		<div class="sharing">
+		  
+          
+
+          
+
+		</div>
+
+	    <p class="meta">
+	    
+	        <a class="basic-alignment left" href="16587402970428.html" 
+	        title="Previous Post: CAGradientLayer">&laquo; CAGradientLayer</a>
+	    
+	    
+	        <a class="basic-alignment right" href="16587402950578.html" 
+	        title="Next Post: "> &raquo;</a>
+	    
+	    </p>
+	  </footer>
+	</article>
+</div>
+ <aside class="sidebar"> 
+
+	<section>
+	  <h1>Categories</h1>
+	  <ul id="recent_posts">
+	  
+	        
+	      </li>
+	   
+	  </ul>
+	</section>
+	<section>
+	  <h1>Recent Posts</h1>
+	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16623668836941.html">git 远程分支回滚</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16619340520854.html">CSS 排版</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16613374889545.html">前端开发环境配置</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16607216444595.html">网站SEO</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16587402963682.html">Vue3设计思想与理念</a>
+		      </li>
+	     
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	   
+	  </ul>
+	</section>
+	
+</aside> </div></div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 -  -
+  <span class="credit">Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a> &nbsp;&nbsp; Theme by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="asset/prism.js"></script>
+
+
+<style type="text/css">
+  
+/* PrismJS 1.14.0
+https://prismjs.com/download.html#themes=prism-solarizedlight&languages=markup+css+clike+javascript */
+/*
+ Solarized Color Schemes originally by Ethan Schoonover
+ http://ethanschoonover.com/solarized
+
+ Ported for PrismJS by Hector Matos
+ Website: https://krakendev.io
+ Twitter Handle: https://twitter.com/allonsykraken)
+*/
+
+/*
+SOLARIZED HEX
+--------- -------
+base03    #002b36
+base02    #073642
+base01    #586e75
+base00    #657b83
+base0     #839496
+base1     #93a1a1
+base2     #eee8d5
+base3     #fdf6e3
+yellow    #b58900
+orange    #cb4b16
+red       #dc322f
+magenta   #d33682
+violet    #6c71c4
+blue      #268bd2
+cyan      #2aa198
+green     #859900
+*/
+
+code[class*="language-"],
+pre[class*="language-"] {
+  color: #657b83; /* base00 */
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,
+code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection {
+  background: #073642; /* base02 */
+}
+
+pre[class*="language-"]::selection, pre[class*="language-"] ::selection,
+code[class*="language-"]::selection, code[class*="language-"] ::selection {
+  background: #073642; /* base02 */
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+  padding: 1em;
+  margin: .5em 0;
+  overflow: auto;
+  border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+  background-color: #fdf6e3; /* base3 */
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+  padding: .1em;
+  border-radius: .3em;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: #93a1a1; /* base1 */
+}
+
+.token.punctuation {
+  color: #586e75; /* base01 */
+}
+
+.namespace {
+  opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+  color: #268bd2; /* blue */
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.url,
+.token.inserted {
+  color: #2aa198; /* cyan */
+}
+
+.token.entity {
+  color: #657b83; /* base00 */
+  background: #eee8d5; /* base2 */
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+  color: #859900; /* green */
+}
+
+.token.function,
+.token.class-name {
+  color: #b58900; /* yellow */
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+  color: #cb4b16; /* orange */
+}
+
+.token.important,
+.token.bold {
+  font-weight: bold;
+}
+.token.italic {
+  font-style: italic;
+}
+
+.token.entity {
+  cursor: help;
+}
+
+
+pre[class*="language-"].line-numbers {
+    position: relative;
+    padding-left: 3.8em;
+    counter-reset: linenumber;
+}
+
+pre[class*="language-"].line-numbers > code {
+    position: relative;
+    white-space: inherit;
+}
+
+.line-numbers .line-numbers-rows {
+    position: absolute;
+    pointer-events: none;
+    top: 0;
+    font-size: 100%;
+    left: -3.8em;
+    width: 3em; /* works for line-numbers below 1000 lines */
+    letter-spacing: -1px;
+    border-right: 1px solid #999;
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+}
+
+    .line-numbers-rows > span {
+        pointer-events: none;
+        display: block;
+        counter-increment: linenumber;
+    }
+
+        .line-numbers-rows > span:before {
+            content: counter(linenumber);
+            color: #999;
+            display: block;
+            padding-right: 0.8em;
+            text-align: right;
+        }
+
+</style>
+  
+    
+
+
+</body>
+</html>

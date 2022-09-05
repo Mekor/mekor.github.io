@@ -1,0 +1,682 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>
+    
+  Custom UIViews from XIB files - 李小争
+  
+
+  </title>
+  <meta name="author" content="">
+  <meta name="description" content="">
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link href="asset/css/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="atom.xml" rel="alternate" title="李小争" type="application/atom+xml">
+  <script src="asset/js/modernizr-2.0.js"></script>
+  <script src="asset/js/jquery.min.js"></script>
+  <style type="text/css">
+  .cat-children-p{ padding: 6px 0px;}
+  .hljs{background: none;}
+  </style>
+  <script type="text/javascript">
+  var isAddSildbar = true;
+  </script>
+  <script src="asset/js/octopress.js" type="text/javascript"></script>
+</head>
+<script type="text/javascript">
+//链接新开窗口
+function addBlankTargetForLinks () {
+  $('a[href^="http"]').each(function(){
+      $(this).attr('target', '_blank');
+  });
+}
+$(document).ready(function(event) {
+  addBlankTargetForLinks();
+});
+</script>
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="index.html">李小争</a></h1>
+  
+    <h2></h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+
+  <li id=""><a target="_self" href="index.html">Home</a></li>
+
+  <li id=""><a target="_self" href="archives.html">Archives</a></li>
+
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content"> 
+<div>
+	<article class="hentry" role="article">
+	<header>
+			  	<h1 class="entry-title">Custom UIViews from XIB files</h1>
+				<p class="meta"><time datetime="2022-07-25T17:11:36+08:00" pubdate data-updated="true">2022/07/25</time></p>
+			 </header>
+		  	<div class="entry-content">
+			  	<p>##<a href="https://stackoverflow.com/documentation/ios/1362/custom-uiviews-from-xib-files/4443/wiring-elements">Wiring elements</a></p>
+<ul>
+<li></li>
+</ul>
+<pre><code class="language-plain_text">&gt; Create a XIB file
+
+Xcode Menu Bar &gt; File &gt; New &gt; File.
+Select iOS, User Interface and then &quot;View&quot;:
+
+[![First step](media/16587402968315/RSkzu.png)](media/15036540820094/RSkzu.png)
+
+Give your XIB a name (yes, we are doing a Pokemon example 👾).
+**Remember to check your target** and hit &quot;Create&quot;.
+
+[![Second step](media/16587402968315/oJ1s1.png)](media/15036540820094/oJ1s1.png)
+
+&gt; Design your view
+
+To make things easier, set:
+
+* Size: Freeform
+* Status Bar: None
+* Top Bar: None
+* Bottom Bar: None
+
+[![Third step](media/16587402968315/Gy0KD.png)](media/15036540820094/Gy0KD.png)
+
+Click on the Size Inspector and resize the view.
+For this example we'll be using width 321 and height 256.
+
+[![Fourth step](media/16587402968315/PNIek.png)](media/15036540820094/PNIek.png)
+
+Drop some elements into your XIB file like shown below.
+Here we'll be adding an **Image View** (256x256) and a **Switch**.
+
+[![Fifth step](media/16587402968315/6u3pd.png)](media/15036540820094/6u3pd.png)
+
+Add Auto-Layout constraints by clicking on &quot;Resolve Auto Layout Issues&quot; (bottom-right) and selecting &quot;Add Missing Constraints&quot; under &quot;All Views&quot;.
+
+[![Sixth step](media/16587402968315/esZhQ.png)](media/15036540820094/esZhQ.png)
+
+Preview the changes you made by clicking on &quot;Show the Assistant Editor&quot; (top-right), then &quot;Preview&quot;.
+You can add iPhone screens by clicking on the &quot;Plus&quot; button.
+The preview should look like this:
+
+[![Seventh step](media/16587402968315/D3rac.png)](media/15036540820094/D3rac.png)
+
+&gt; Subclass UIView
+
+Create the class that is going to manage the XIB file.
+Xcode Menu Bar &gt; File &gt; New &gt; File.
+Select iOS / Source / Cocoa Touch Class. Hit &quot;Next&quot;.
+
+[![Eighth step](media/16587402968315/0EyHy.png)](media/15036540820094/0EyHy.png)
+
+Give the class a name, which must be the same name as the XIB file (Pokemon).
+Select UIView as the subclass type, then hit &quot;Next&quot;.
+
+[![Nineth step](media/16587402968315/qbo3s.png)](media/15036540820094/qbo3s.png)
+
+On the next window, select your target and hit &quot;Create&quot;.
+
+[![Tenth step](media/16587402968315/Ks9Tu.png)](media/15036540820094/Ks9Tu.png)
+
+&gt; Connect Pokemon.xib to Pokemon.swift via &quot;File’s Owner&quot; attribute
+
+Click on the Pokemon.xib file in Xcode.
+Click on the &quot;File's Owner&quot; outlet.
+On the &quot;Identity inspector&quot; (top-right), set the Class to our recently created Pokemon.swift file.
+
+[![Eleventh step](media/16587402968315/4YT3i.png)](media/15036540820094/4YT3i.png)
+
+&gt; POKEMONS!!!
+
+Yes! Drag and drop some Pokemons into your project to finish up our &quot;infrastructure&quot;.
+Here we are adding two PGN files, 256x256, transparent.
+
+[![Twelfth step](media/16587402968315/ibqxZ.png)](media/15036540820094/ibqxZ.png)
+
+&gt; Show me code already.
+
+All right, all right.
+Time to add some code to our Pokemon.swift class.
+
+It's actually pretty simple:
+
+1. Implement required initializers
+2. Load the XIB file
+3. Configure the view that will display the XIB file
+4. Show the above view
+
+Add the following code to the Pokemon.swift class:
+
+```
+import UIKit
+
+class Pokemon: UIView {
+
+    // MARK: - Initializers
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupView()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setupView()
+    }
+
+    // MARK: - Private Helper Methods
+
+    // Performs the initial setup.
+    private func setupView() {
+        let view = viewFromNibForClass()
+        view.frame = bounds
+
+        // Auto-layout stuff.
+        view.autoresizingMask = [
+            UIViewAutoresizing.flexibleWidth,
+            UIViewAutoresizing.flexibleHeight
+        ]
+
+        // Show the view.
+        addSubview(view)
+    }
+
+    // Loads a XIB file into a view and returns this view.
+    private func viewFromNibForClass() -&gt; UIView {
+
+        let bundle = Bundle(for: type(of: self))
+        let nib = UINib(nibName: String(describing: type(of: self)), bundle: bundle)
+        let view = nib.instantiate(withOwner: self, options: nil).first as! UIView
+
+        /* Usage for swift &lt; 3.x
+        let bundle = NSBundle(forClass: self.dynamicType)
+        let nib = UINib(nibName: String(self.dynamicType), bundle: bundle)
+        let view = nib.instantiateWithOwner(self, options: nil)[0] as! UIView
+        */
+
+        return view
+    }
+}
+
+```
+
+&gt; @IBDesignable and @IBInspectable
+
+By adding `@IBDesignable` to your class, you make possible for it to live-render in Interface Builder.
+By adding `@IBInspectable` to the properties of your class, you can see your custom views changing in Interface Builder as soon as you modify those properties.
+
+Let's make the `Image View` of our custom view &quot;Inspectable&quot;.
+
+First, hook up the `Image View` from the Pokemon.xib file to the Pokemon.swift class.
+
+[![Thirteenth step](media/16587402968315/Dxyv2.png)](media/15036540820094/Dxyv2.png)
+
+Call the outlet `imageView` and then add the following code (notice the `@IBDesignable` before the class name):
+
+```
+@IBDesignable class Pokemon: UIView {
+
+    // MARK: - Properties
+
+    @IBOutlet weak var imageView: UIImageView!
+
+    @IBInspectable var image: UIImage? {
+        get {
+            return imageView.image
+        }
+        set(image) {
+            imageView.image = image
+        }
+    }
+
+    // MARK: - Initializers
+    ...
+
+```
+
+&gt; Using your Custom Views
+
+Got to your Main storyboard file, drag a UIView into it.
+Resize the view to, say 200x200\. Centralize.
+Go to the Identity inspector (top-right) and set the Class to Pokemon.
+
+[![Fourteenth steps](media/16587402968315/Iah3Y.png)](media/15036540820094/Iah3Y.png)
+
+To select a Pokemon, go to the Attribute Inspector (top-right) and select one of the Pokemon images you previously added using the awesome `@IBInspectable` image property.
+
+[![Fifteenth step](media/16587402968315/727mm.png)](media/15036540820094/727mm.png)
+
+Now duplicate your custom Pokemon view.
+Give it a different size, say 150x150.
+Choose another Pokemon image, observe:
+
+[![Sixteenth step](media/16587402968315/xrTXw.png)](media/15036540820094/xrTXw.png)
+
+Now we are going to add more logic to that self-containing custom UI element.
+The button will allow Pokemons to be enabled/disabled.
+
+Create an `IBAction` from the Switch button to the Pokemon.swift class.
+Call the action something like `switchTapped`.
+Add the following code to it:
+
+```
+// MARK: - Actions
+
+@IBAction func switchTapped(sender: UISwitch) {
+    imageView.alpha = sender.on ? 1.0 : 0.2
+}
+
+// MARK: - Initializers
+...
+
+```
+
+Final result:
+
+[![Final](media/16587402968315/DQJvO.gif)](media/15036540820094/DQJvO.gif)
+
+You are done!
+Now you can create complex custom views and reuse them anywhere you want.
+This will increase productivity while isolating code into self-contained UI elements.
+
+[The final project can be cloned in Github.](https://github.com/singledev/custom-uiviews-from-xib)
+(**Updated to Swift 3.1**)
+</code></pre>
+<p>##<a href="https://stackoverflow.com/documentation/ios/1362/custom-uiviews-from-xib-files/11599/how-to-make-custom-reusable-uiview-using-xib">How to make custom reusable UIView using XIB</a></p>
+<p>Following example shows steps involved in initializing a view from XIB.</p>
+<p>This is not a complex operation but exact steps need to be followed in order to do it right way first time, avoiding exceptions.</p>
+<p><a href="http://stackoverflow.com/questions/20323393/how-does-loadnibnamed-work-uiview-outlets-not-initializing-using-loadnibnamed">How does loadNibNamed Works</a></p>
+<p>Main steps are:</p>
+<ol>
+<li>
+<p>Create XIB</p>
+</li>
+<li>
+<p>Create class .h and .m</p>
+</li>
+<li>
+<p>Define outlets in .h</p>
+</li>
+<li>
+<p>Connect outlets between .h and XIB</p>
+<p>See attached screenshot:</p>
+<p><a href="media/15036540820094/rSBw6.png"><img src="media/16587402968315/rSBw6.png" alt="Label Object connected to myLabel IBOutlet UILabel variable" /></a></p>
+</li>
+<li>
+<p>Invoke loadNibNamed inside initWithCoder function of .m file. This is needed to ensure you can directly place UIView object into storyboard / Parent UIView XIB file and define it as your custom view. No other initialization code is needed once you load the storyboard / parent XIB. Your custom view can be added to other views just like other built-in Objective C view objects given in XCode.</p>
+</li>
+</ol>
+
+			</div>
+
+		
+	  
+		<footer>
+		 <p class="meta">
+
+			
+			<span class="categories">
+			 
+			</span>
+		    </p>
+		    <p class="meta">
+		      
+		 </p>
+	    
+		<div class="sharing">
+		  
+          
+
+          
+
+		</div>
+
+	    <p class="meta">
+	    
+	        <a class="basic-alignment left" href="16587402968058.html" 
+	        title="Previous Post: Flutter中Row中的子控件左右两端对齐">&laquo; Flutter中Row中的子控件左右两端对齐</a>
+	    
+	    
+	        <a class="basic-alignment right" href="16587402968609.html" 
+	        title="Next Post: "> &raquo;</a>
+	    
+	    </p>
+	  </footer>
+	</article>
+</div>
+ <aside class="sidebar"> 
+
+	<section>
+	  <h1>Categories</h1>
+	  <ul id="recent_posts">
+	  
+	        
+	      </li>
+	   
+	  </ul>
+	</section>
+	<section>
+	  <h1>Recent Posts</h1>
+	  <ul id="recent_posts">
+	  
+	      
+		      <li class="post">
+		        <a href="16623668836941.html">git 远程分支回滚</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16619340520854.html">CSS 排版</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16613374889545.html">前端开发环境配置</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16607216444595.html">网站SEO</a>
+		      </li>
+	     
+	  
+	      
+		      <li class="post">
+		        <a href="16587402963682.html">Vue3设计思想与理念</a>
+		      </li>
+	     
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	  
+	      
+	   
+	  </ul>
+	</section>
+	
+</aside> </div></div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 -  -
+  <span class="credit">Powered by <a target="_blank" href="http://www.mweb.im">MWeb</a> &nbsp;&nbsp; Theme by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="asset/prism.js"></script>
+
+
+<style type="text/css">
+  
+/* PrismJS 1.14.0
+https://prismjs.com/download.html#themes=prism-solarizedlight&languages=markup+css+clike+javascript */
+/*
+ Solarized Color Schemes originally by Ethan Schoonover
+ http://ethanschoonover.com/solarized
+
+ Ported for PrismJS by Hector Matos
+ Website: https://krakendev.io
+ Twitter Handle: https://twitter.com/allonsykraken)
+*/
+
+/*
+SOLARIZED HEX
+--------- -------
+base03    #002b36
+base02    #073642
+base01    #586e75
+base00    #657b83
+base0     #839496
+base1     #93a1a1
+base2     #eee8d5
+base3     #fdf6e3
+yellow    #b58900
+orange    #cb4b16
+red       #dc322f
+magenta   #d33682
+violet    #6c71c4
+blue      #268bd2
+cyan      #2aa198
+green     #859900
+*/
+
+code[class*="language-"],
+pre[class*="language-"] {
+  color: #657b83; /* base00 */
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,
+code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection {
+  background: #073642; /* base02 */
+}
+
+pre[class*="language-"]::selection, pre[class*="language-"] ::selection,
+code[class*="language-"]::selection, code[class*="language-"] ::selection {
+  background: #073642; /* base02 */
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+  padding: 1em;
+  margin: .5em 0;
+  overflow: auto;
+  border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+  background-color: #fdf6e3; /* base3 */
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+  padding: .1em;
+  border-radius: .3em;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: #93a1a1; /* base1 */
+}
+
+.token.punctuation {
+  color: #586e75; /* base01 */
+}
+
+.namespace {
+  opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+  color: #268bd2; /* blue */
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.url,
+.token.inserted {
+  color: #2aa198; /* cyan */
+}
+
+.token.entity {
+  color: #657b83; /* base00 */
+  background: #eee8d5; /* base2 */
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+  color: #859900; /* green */
+}
+
+.token.function,
+.token.class-name {
+  color: #b58900; /* yellow */
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+  color: #cb4b16; /* orange */
+}
+
+.token.important,
+.token.bold {
+  font-weight: bold;
+}
+.token.italic {
+  font-style: italic;
+}
+
+.token.entity {
+  cursor: help;
+}
+
+
+pre[class*="language-"].line-numbers {
+    position: relative;
+    padding-left: 3.8em;
+    counter-reset: linenumber;
+}
+
+pre[class*="language-"].line-numbers > code {
+    position: relative;
+    white-space: inherit;
+}
+
+.line-numbers .line-numbers-rows {
+    position: absolute;
+    pointer-events: none;
+    top: 0;
+    font-size: 100%;
+    left: -3.8em;
+    width: 3em; /* works for line-numbers below 1000 lines */
+    letter-spacing: -1px;
+    border-right: 1px solid #999;
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+}
+
+    .line-numbers-rows > span {
+        pointer-events: none;
+        display: block;
+        counter-increment: linenumber;
+    }
+
+        .line-numbers-rows > span:before {
+            content: counter(linenumber);
+            color: #999;
+            display: block;
+            padding-right: 0.8em;
+            text-align: right;
+        }
+
+</style>
+  
+    
+
+
+</body>
+</html>
